@@ -5,8 +5,8 @@ import org.bukkit.plugin.java.JavaPlugin;
 
 import com.github.rolecraftdev.data.DataManager;
 import com.github.rolecraftdev.data.storage.DataStore;
-import com.github.rolecraftdev.data.storage.mysql.MySQLDataStore;
-import com.github.rolecraftdev.data.storage.sqlite.SQLiteDataStore;
+import com.github.rolecraftdev.data.storage.MySQLDataStore;
+import com.github.rolecraftdev.data.storage.SQLiteDataStore;
 
 public final class RolecraftCore extends JavaPlugin {
 	private DataStore dataStore;
