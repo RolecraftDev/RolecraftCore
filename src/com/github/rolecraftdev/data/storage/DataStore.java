@@ -20,7 +20,11 @@ public abstract class DataStore {
 
     protected abstract Connection getConnection();
 
+<<<<<<< HEAD
     protected void close(final PreparedStatement ps, final ResultSet rs) {
+=======
+    protected void close(PreparedStatement ps, ResultSet rs) {
+>>>>>>> e974701262d7bc31076c506c8e9169981b8ff10d
         try {
             if (ps != null)
                 ps.close();
@@ -30,7 +34,10 @@ public abstract class DataStore {
             // swallow exception
         }
     }
+<<<<<<< HEAD
 
     public abstract String getStoreTypeName();
+=======
+>>>>>>> e974701262d7bc31076c506c8e9169981b8ff10d
 
 }
