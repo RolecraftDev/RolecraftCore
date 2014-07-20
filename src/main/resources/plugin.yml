@@ -1,0 +1,12 @@
+name: RolecraftCore
+version: 0.1
+
+main: com.github.rolecraftdev.RolecraftCore
+
+commands:
+    guild:
+        description: Guild-related commands
+
+permissions:
+    rolecraft.guild.show:
+        description: Allows viewing information about a guild
