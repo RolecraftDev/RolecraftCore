@@ -9,10 +9,11 @@ import com.github.rolecraftdev.data.PlayerData;
 
 public final class MySQLDataStore extends DataStore {
 
-    private static final String createPlayerTable = "CREATE TABLE IF NOT EXISTS " + pt + " ("
+    private static final String createPlayerTable = "CREATE TABLE IF NOT EXISTS "
+            + pt
+            + " ("
             + "uuid VARCHAR(40) PRIMARY KEY,"
-            + "lastname VARCHAR(16) NOT NULL" 
-            + ")";
+            + "lastname VARCHAR(16) NOT NULL" + ")";
 
     @Override
     public void intialise() {
@@ -20,13 +21,13 @@ public final class MySQLDataStore extends DataStore {
         PreparedStatement ps = null;
         ResultSet rs = null;
         try {
-            //TODO: Method skeleton
-            
+            // TODO: Method skeleton
+
             throw new SQLException();
         } catch (SQLException ex) {
             ex.printStackTrace();
         } finally {
-            close (ps,rs);
+            close(ps, rs);
         }
     }
 
@@ -36,13 +37,13 @@ public final class MySQLDataStore extends DataStore {
         PreparedStatement ps = null;
         ResultSet rs = null;
         try {
-            //TODO: Method skeleton
-            
+            // TODO: Method skeleton
+
             throw new SQLException();
         } catch (SQLException ex) {
             ex.printStackTrace();
         } finally {
-            close (ps,rs);
+            close(ps, rs);
         }
     }
 
@@ -52,13 +53,13 @@ public final class MySQLDataStore extends DataStore {
         PreparedStatement ps = null;
         ResultSet rs = null;
         try {
-            //TODO: Method skeleton
-            
+            // TODO: Method skeleton
+
             throw new SQLException();
         } catch (SQLException ex) {
             ex.printStackTrace();
         } finally {
-            close (ps,rs);
+            close(ps, rs);
         }
 
     }
