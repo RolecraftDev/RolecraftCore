@@ -16,6 +16,10 @@ import com.github.rolecraftdev.command.RCSubCommand;
 public final class GuildCommand extends RCCommand {
     private final Set<GuildSubCommand> subCommands = new HashSet<GuildSubCommand>();
 
+    public GuildCommand() {
+        subCommands.add(new GuildShowCommand());
+    }
+
     @Override
     public boolean onCommand(final CommandSender sender, final Command cmd,
             final String label, final String[] args) {
@@ -59,5 +63,9 @@ public final class GuildCommand extends RCCommand {
     @Override
     public String[] getNames() {
         return new String[] { "guild" };
+    }
+
+    public void registerSubCommand(GuildSubCommand subCommand) {
+        subCommands.add(subCommand);
     }
 }
