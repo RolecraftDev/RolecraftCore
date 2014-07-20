@@ -1,32 +1,43 @@
 package com.github.rolecraftdev.guild;
 
-import java.util.Collections;
-import java.util.List;
+import java.util.HashSet;
+import java.util.Set;
 import java.util.UUID;
 
 import org.bukkit.Location;
 import org.bukkit.entity.Entity;
 
+import com.github.rolecraftdev.data.dataobjects.ChunkLocation;
+
 public final class Guild {
     private UUID leader;
-    private List<UUID> officers;
-    private List<UUID> members;
+    private Set<UUID> officers;
+    private Set<UUID> members;
     private Location home;
+    private Set<ChunkLocation> claimedChunks;
 
     public UUID getLeader() {
         return leader;
     }
 
-    public List<UUID> getOfficers() {
-        return Collections.unmodifiableList(officers);
+    public Set<UUID> getOfficers() {
+        return new HashSet<UUID>(officers);
     }
 
-    public List<UUID> getMembers() {
-        return Collections.unmodifiableList(members);
+    public Set<UUID> getMembers() {
+        return new HashSet<UUID>(members);
+    }
+
+    public Set<ChunkLocation> getClaimedChunks() {
+        return new HashSet<ChunkLocation>(claimedChunks);
     }
 
     public boolean can(final UUID player, final GuildAction action) {
         return action.can(player, this);
+    }
+
+    public boolean isClaimed(final ChunkLocation location) {
+        return claimedChunks.contains(location);
     }
 
     public GuildRole getRole(final UUID player) {
