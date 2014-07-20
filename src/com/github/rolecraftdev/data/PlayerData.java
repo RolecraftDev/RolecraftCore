@@ -15,13 +15,17 @@ public final class PlayerData {
         return playerId;
     }
 
+    public String getPlayerName() {
+        return name;
+    }
+
     /**
      * Called when loaded in SQL
      * 
      * @deprecated DO NOT CALL
      */
     @Deprecated
-    public void intialize() {
+    public void initialize() {
 
     }
 }
