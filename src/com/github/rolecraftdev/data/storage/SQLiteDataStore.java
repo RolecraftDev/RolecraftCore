@@ -30,4 +30,9 @@ public final class SQLiteDataStore extends DataStore {
         return null;
     }
 
+    @Override
+    public String getStoreTypeName() {
+        return "SQLite";
+    }
+
 }

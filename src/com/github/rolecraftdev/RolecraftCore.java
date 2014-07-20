@@ -1,5 +1,7 @@
 package com.github.rolecraftdev;
 
+import java.util.logging.Logger;
+
 import org.bukkit.configuration.file.FileConfiguration;
 import org.bukkit.plugin.java.JavaPlugin;
 
@@ -12,11 +14,14 @@ import com.github.rolecraftdev.data.storage.SQLiteDataStore;
  * Main class for the core of Rolecraft, the Bukkit RPG plugin
  */
 public final class RolecraftCore extends JavaPlugin {
+    private Logger logger;
     private DataStore dataStore;
     private DataManager dataManager;
 
     @Override
     public void onEnable() {
+        logger = getLogger();
+
         final FileConfiguration config = getConfig();
         final String dbType = config.getString("data-storage-solution",
                 "sqlite").toLowerCase();
@@ -26,6 +31,9 @@ public final class RolecraftCore extends JavaPlugin {
         } else if (dbType.equals("mysql")) {
             dataStore = new MySQLDataStore();
         }
+
+        logger.info("Using " + dataStore.getStoreTypeName()
+                + " for Rolecraft data!");
 
         dataManager = new DataManager(this, dataStore);
     }

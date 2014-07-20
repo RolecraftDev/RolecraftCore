@@ -33,4 +33,9 @@ public final class MySQLDataStore extends DataStore {
         return null;
     }
 
+    @Override
+    public String getStoreTypeName() {
+        return "MySQL";
+    }
+
 }

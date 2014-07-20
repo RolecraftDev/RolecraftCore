@@ -25,7 +25,7 @@ public final class PlayerData {
      * @deprecated DO NOT CALL
      */
     @Deprecated
-    public void initialize() {
+    public void initialise() {
 
     }
 }

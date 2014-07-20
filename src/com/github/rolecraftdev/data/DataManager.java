@@ -10,12 +10,13 @@ import java.util.UUID;
 public final class DataManager {
     private final RolecraftCore plugin;
     private final DataStore store;
-
-    private Map<UUID, PlayerData> loadedPlayerData = new HashMap<UUID, PlayerData>();
+    private final Map<UUID, PlayerData> loadedPlayerData;
 
     public DataManager(final RolecraftCore plugin, final DataStore store) {
         this.plugin = plugin;
         this.store = store;
+
+        loadedPlayerData = new HashMap<UUID, PlayerData>();
     }
 
     public void loadOrCreateData(final UUID player) {
