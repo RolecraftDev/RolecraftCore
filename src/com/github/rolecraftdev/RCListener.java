@@ -14,11 +14,13 @@ public final class RCListener implements Listener {
 
     @EventHandler
     public void onPlayerJoin(final PlayerJoinEvent event) {
-        plugin.getDataManager().loadOrCreateData(event.getPlayer().getUniqueId());
+        plugin.getDataManager().loadOrCreateData(
+                event.getPlayer().getUniqueId());
     }
 
     @EventHandler
     public void onPlayerQuit(final PlayerQuitEvent event) {
-        plugin.getDataManager().unloadAndSaveData(event.getPlayer().getUniqueId());
+        plugin.getDataManager().unloadAndSaveData(
+                event.getPlayer().getUniqueId());
     }
 }
