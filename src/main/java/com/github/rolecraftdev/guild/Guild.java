@@ -9,7 +9,7 @@ import java.util.HashSet;
 import java.util.Set;
 import java.util.UUID;
 
-public class Guild {
+public final class Guild {
     private final GuildManager guildManager;
 
     private String name;
@@ -68,7 +68,7 @@ public class Guild {
     }
 
     public void teleportToHome(final Entity entity) {
-        entity.teleport(getHomeLocation());
+        entity.teleport(home);
     }
 
     /**
@@ -105,5 +105,21 @@ public class Guild {
 
     public Set<UUID> getMembers() {
         return new HashSet<UUID>(members);
+    }
+
+    @Override
+    public boolean equals(Object o) {
+        if (!(o instanceof Guild)) {
+            return false;
+        }
+        final Guild other = (Guild) o;
+        return other.name.equals(name) && other.leader.equals(leader);
+    }
+
+    @Override
+    public int hashCode() {
+        int result = name != null ? name.hashCode() : 0;
+        result = 31 * result + (leader != null ? leader.hashCode() : 0);
+        return result;
     }
 }

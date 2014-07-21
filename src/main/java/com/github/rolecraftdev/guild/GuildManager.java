@@ -19,6 +19,9 @@ public final class GuildManager {
         this.plugin = plugin;
 
         guilds = new HashMap<String, Guild>();
+
+        plugin.getServer().getPluginManager()
+                .registerEvents(new GuildListener(this), plugin);
     }
 
     public Guild getGuild(final String name) {
