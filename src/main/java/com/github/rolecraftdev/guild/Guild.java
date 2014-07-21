@@ -8,7 +8,13 @@ import java.util.HashSet;
 import java.util.Set;
 import java.util.UUID;
 
+/**
+ * Represents a guild in Rolecraft
+ */
 public final class Guild {
+    /**
+     * The GuildManager object this guild is registered to
+     */
     private final GuildManager guildManager;
 
     /**
@@ -43,14 +49,38 @@ public final class Guild {
         this.guildManager = guildManager;
     }
 
+    /**
+     * Checks whether the player with the given unique identifier is allowed to
+     * perform the given action within this guild
+     *
+     * @param player The player to check the ability to perform the given action
+     * @param action The action to check whether the given player can perform
+     * @return Whether the given player is allowed to perform the given action
+     */
     public boolean can(final UUID player, final GuildAction action) {
         return action.can(player, this);
     }
 
+    /**
+     * Checks whether the player with the given unique identifier is a member of
+     * this guild
+     *
+     * @param player The player whose membership of this guild will be checked
+     * @return Whether the player with the given id is a member of this guild
+     */
     public boolean isMember(final UUID player) {
         return members.contains(player);
     }
 
+    /**
+     * Gets the role within the guild of the player with the given unique
+     * identifier, or null if the player with the given identifier isn't a
+     * member of this guild
+     *
+     * @param player The player to check the guild role in this guild for
+     * @return The GuildRole object representing the given player's role in this
+     * guild
+     */
     public GuildRole getRole(final UUID player) {
         if (!members.contains(player)) {
             return null;
@@ -68,6 +98,12 @@ public final class Guild {
         return influence;
     }
 
+    /**
+     * Calculates and returns a new influence value for this guild based on the
+     * influence values of the individual players within this guild
+     *
+     * @return The newly calculated influence value for this guild
+     */
     public int calculateInfluence() {
         int influence = 0;
         for (final UUID playerId : members) {
@@ -78,30 +114,64 @@ public final class Guild {
         return this.influence = influence;
     }
 
+    /**
+     * Teleports the given entity to the home location of this guild
+     *
+     * @param entity The Entity to teleport to this guild's home
+     */
     public void teleportToHome(final Entity entity) {
         entity.teleport(home);
     }
 
+    /**
+     * Gets the name of this guild, which should be unique
+     *
+     * @return The unique name of this guild
+     */
     public String getName() {
         return name;
     }
 
+    /**
+     * Gets the home location for this guild, or null if the guild doesn't have
+     * a home location set
+     *
+     * @return This guild's home location, or null if it doesn't exist
+     */
     public Location getHomeLocation() {
         return home;
     }
 
+    /**
+     * Gets the unique identifier of the player who is the leader of this guild
+     *
+     * @return The leader of this guild's unique identifier
+     */
     public UUID getLeader() {
         return leader;
     }
 
+    /**
+     * Gets a copy of the set used to hold the officers of this guild
+     *
+     * @return A copy of the Set of this guild's officers
+     */
     public Set<UUID> getOfficers() {
         return new HashSet<UUID>(officers);
     }
 
+    /**
+     * Gets a copy of the set used to hold the members of this guild
+     *
+     * @return A copy of the Set of this guild's members
+     */
     public Set<UUID> getMembers() {
         return new HashSet<UUID>(members);
     }
 
+    /**
+     * {@inheritDoc}
+     */
     @Override
     public boolean equals(Object o) {
         if (!(o instanceof Guild)) {
@@ -111,6 +181,9 @@ public final class Guild {
         return other.name.equals(name) && other.leader.equals(leader);
     }
 
+    /**
+     * {@inheritDoc}
+     */
     @Override
     public int hashCode() {
         int result = name != null ? name.hashCode() : 0;
