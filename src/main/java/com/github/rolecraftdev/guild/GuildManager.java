@@ -1,7 +1,9 @@
 package com.github.rolecraftdev.guild;
 
 import com.github.rolecraftdev.RolecraftCore;
+import org.bukkit.configuration.file.YamlConfiguration;
 
+import java.io.File;
 import java.util.HashMap;
 import java.util.Map;
 import java.util.UUID;
@@ -15,6 +17,8 @@ public final class GuildManager {
     private final RolecraftCore plugin;
     private final Map<String, Guild> guilds;
 
+    private YamlConfiguration guildConfig;
+
     /**
      * Creates a new GuildManager instance using the given RolecraftCore object
      * as the plugin to register things with
@@ -26,10 +30,25 @@ public final class GuildManager {
 
         guilds = new HashMap<String, Guild>();
 
+        guildConfig = YamlConfiguration.loadConfiguration(
+                new File(plugin.getDataFolder(), "guildconfig.yml"));
+
+        for (final GuildAction action : GuildAction.values()) {
+            action.setAccessLevel(guildConfig.getInt(
+                    "access-levels." + action.getConfigPath(),
+                    action.getDefaultAccessLevel()));
+        }
+
         plugin.getServer().getPluginManager()
                 .registerEvents(new GuildListener(this), plugin);
     }
 
+    /**
+     * Gets the Guild object for the guild with the given name
+     *
+     * @param name The name of the guild to get the Guild object for
+     * @return The Guild object for the guild with the given name
+     */
     public Guild getGuild(final String name) {
         return guilds.get(name);
     }
