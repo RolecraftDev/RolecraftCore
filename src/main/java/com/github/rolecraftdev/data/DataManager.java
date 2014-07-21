@@ -20,15 +20,25 @@ public final class DataManager {
     }
 
     public void loadOrCreateData(final UUID player) {
-        // TODO
+        final PlayerData data = new PlayerData(player);
+        loadedPlayerData.put(player, data);
+        store.requestPlayerData(data);
     }
 
     public void unloadAndSaveData(final UUID player) {
-        // TODO
+        final PlayerData data = loadedPlayerData.remove(player);
+        if (data != null) {
+            store.commitPlayerData(data);
+        }
     }
 
     public PlayerData getPlayerData(final UUID player) {
-        return loadedPlayerData.get(player);
+        PlayerData result = loadedPlayerData.get(player);
+        if (result != null) {
+            return result;
+        }
+        loadOrCreateData(player);
+        return getPlayerData(player);
     }
 
     public RolecraftCore getPlugin() {

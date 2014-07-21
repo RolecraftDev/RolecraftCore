@@ -28,12 +28,11 @@ public final class GuildCommand extends RCCommand {
             final String label, final String[] args) {
         if (args.length == 0) {
             CommandHelper.displayCommandList(sender,
-                    new ArrayList<RCSubCommand>(subCommands), null, "guild", 0);
+                    new ArrayList<RCSubCommand>(subCommands), null, 0);
         } else {
             if (args[0].equalsIgnoreCase("help")) {
                 CommandHelper.displayCommandList(sender,
-                        new ArrayList<RCSubCommand>(subCommands), args,
-                        "guild", 1);
+                        new ArrayList<RCSubCommand>(subCommands), args, 1);
             } else {
                 GuildSubCommand subCommand = null;
                 for (final GuildSubCommand sub : subCommands) {

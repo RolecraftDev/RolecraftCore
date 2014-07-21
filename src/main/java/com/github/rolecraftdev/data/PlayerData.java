@@ -2,10 +2,18 @@ package com.github.rolecraftdev.data;
 
 import java.util.UUID;
 
+/**
+ * Holds Rolecraft data for a specific player. Stored in SQL
+ */
 public final class PlayerData {
     private final UUID playerId;
+
     private String name;
     private int influence;
+
+    public PlayerData(final UUID playerId) {
+        this(playerId, null);
+    }
 
     public PlayerData(final UUID playerId, final String name) {
         this.playerId = playerId;
@@ -20,11 +28,15 @@ public final class PlayerData {
         return name;
     }
 
+    public void setPlayerName(final String name) {
+        this.name = name;
+    }
+
     public int getInfluence() {
         return influence;
     }
 
-    public void setInfluence(int influence) {
+    public void setInfluence(final int influence) {
         this.influence = influence;
     }
 
