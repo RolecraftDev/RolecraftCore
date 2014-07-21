@@ -7,6 +7,11 @@ import java.util.Map;
 import java.util.UUID;
 
 public final class GuildManager {
+    /**
+     * The amount of influence required to claim a single chunk of land
+     */
+    public static final int INFLUENCE_PER_CHUNK = 100;
+
     private final RolecraftCore plugin;
     private final Map<String, Guild> guilds;
 

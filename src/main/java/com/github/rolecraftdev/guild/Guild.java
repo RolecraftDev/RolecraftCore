@@ -71,8 +71,20 @@ public final class Guild {
         entity.teleport(home);
     }
 
-    public void claimChunk(final ChunkLocation chunkLocation) {
-        claimedChunks.add(chunkLocation);
+    /**
+     * Attempts to claim the given chunk, if the guild has enough spare influence
+     *
+     * @param chunkLocation The location of the chunk to claim
+     * @return Whether the chunk was successfully claimed
+     */
+    public boolean claimChunk(final ChunkLocation chunkLocation) {
+        int usedInfluence =
+                claimedChunks.size() * GuildManager.INFLUENCE_PER_CHUNK;
+        if (usedInfluence > influence - GuildManager.INFLUENCE_PER_CHUNK) {
+            return false;
+        } else {
+            return claimedChunks.add(chunkLocation);
+        }
     }
 
     public String getName() {
