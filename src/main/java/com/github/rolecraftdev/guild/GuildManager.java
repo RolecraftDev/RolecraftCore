@@ -28,4 +28,8 @@ public final class GuildManager {
         }
         return null;
     }
+
+    public RolecraftCore getPlugin() {
+        return plugin;
+    }
 }

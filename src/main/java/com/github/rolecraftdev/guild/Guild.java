@@ -1,5 +1,6 @@
 package com.github.rolecraftdev.guild;
 
+import com.github.rolecraftdev.data.PlayerData;
 import com.github.rolecraftdev.data.dataobjects.ChunkLocation;
 import org.bukkit.Location;
 import org.bukkit.entity.Entity;
@@ -9,12 +10,19 @@ import java.util.Set;
 import java.util.UUID;
 
 public final class Guild {
+    private final GuildManager guildManager;
+
     private String name;
     private UUID leader;
     private Set<UUID> officers;
     private Set<UUID> members;
     private Location home;
     private Set<ChunkLocation> claimedChunks;
+    private int influence;
+
+    public Guild(final GuildManager guildManager) {
+        this.guildManager = guildManager;
+    }
 
     public Set<ChunkLocation> getClaimedChunks() {
         return new HashSet<ChunkLocation>(claimedChunks);
@@ -43,6 +51,20 @@ public final class Guild {
             return GuildRole.OFFICER;
         }
         return GuildRole.MEMBER;
+    }
+
+    public int getInfluence() {
+        return influence;
+    }
+
+    public int calculateInfluence() {
+        int influence = 0;
+        for (final UUID playerId : members) {
+            final PlayerData data = guildManager.getPlugin().getDataManager()
+                    .getPlayerData(playerId);
+            influence += data.getInfluence();
+        }
+        return this.influence = influence;
     }
 
     public void teleportToHome(final Entity entity) {

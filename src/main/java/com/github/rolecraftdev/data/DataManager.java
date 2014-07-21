@@ -27,6 +27,10 @@ public final class DataManager {
         // TODO
     }
 
+    public PlayerData getPlayerData(final UUID player) {
+        return loadedPlayerData.get(player);
+    }
+
     public RolecraftCore getPlugin() {
         return plugin;
     }
