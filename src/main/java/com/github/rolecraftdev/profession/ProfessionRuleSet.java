@@ -6,19 +6,23 @@ import java.util.HashMap;
 import java.util.Map;
 
 public class ProfessionRuleSet {
-    private static final Map<String, ProfessionRuleSet> defaultRuleSets = new HashMap<String, ProfessionRuleSet>();
-
-    static {
-        final ProfessionRuleSet warriorDefault = new ProfessionRuleSet(
-                "Warrior");
-        // TODO: Set settings
-        defaultRuleSets.put("Warrior", warriorDefault);
-    }
-
     private final String professionName;
 
     public ProfessionRuleSet(final String professionName) {
         this.professionName = professionName;
+    }
+
+    public void loadRules(final File directory) {
+        final File file = new File(directory, professionName + ".yml");
+        if (!file.exists()) {
+            writeDefaults(professionName, file);
+        }
+
+        // TODO: Load settings from file
+    }
+
+    public void saveRules(final File file) {
+        // TODO
     }
 
     public static void writeDefaults(final String profession, final File file) {
@@ -35,16 +39,12 @@ public class ProfessionRuleSet {
         }
     }
 
-    public void loadRules(final File directory) {
-        final File file = new File(directory, professionName + ".yml");
-        if (!file.exists()) {
-            writeDefaults(professionName, file);
-        }
+    private static final Map<String, ProfessionRuleSet> defaultRuleSets = new HashMap<String, ProfessionRuleSet>();
 
-        // TODO: Load settings from file
-    }
-
-    public void saveRules(final File file) {
-        // TODO
+    static {
+        final ProfessionRuleSet warriorDefault = new ProfessionRuleSet(
+                "Warrior");
+        // TODO: Set settings
+        defaultRuleSets.put("Warrior", warriorDefault);
     }
 }
