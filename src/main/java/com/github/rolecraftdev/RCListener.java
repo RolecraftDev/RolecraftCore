@@ -5,6 +5,10 @@ import org.bukkit.event.Listener;
 import org.bukkit.event.player.PlayerJoinEvent;
 import org.bukkit.event.player.PlayerQuitEvent;
 
+/**
+ * The base listener for Rolecraft which saves and loads player data when a
+ * player quits or joins, respectively
+ */
 public final class RCListener implements Listener {
     private final RolecraftCore plugin;
 
