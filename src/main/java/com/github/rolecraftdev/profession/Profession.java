@@ -17,4 +17,8 @@ public class Profession {
     public String getName() {
         return name;
     }
+
+    public ProfessionRuleSet getRuleSet() {
+        return rules;
+    }
 }

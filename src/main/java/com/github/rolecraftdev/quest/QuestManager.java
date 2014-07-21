@@ -1,5 +1,14 @@
 package com.github.rolecraftdev.quest;
 
-public class QuestManager {
+import com.github.rolecraftdev.RolecraftCore;
 
+/**
+ * Handles all aspects of questing in Rolecraft
+ */
+public final class QuestManager {
+    private final RolecraftCore plugin;
+
+    public QuestManager(final RolecraftCore plugin) {
+        this.plugin = plugin;
+    }
 }

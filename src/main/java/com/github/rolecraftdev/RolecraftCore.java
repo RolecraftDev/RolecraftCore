@@ -6,6 +6,7 @@ import com.github.rolecraftdev.data.storage.DataStore;
 import com.github.rolecraftdev.data.storage.MySQLDataStore;
 import com.github.rolecraftdev.data.storage.SQLiteDataStore;
 import com.github.rolecraftdev.guild.GuildManager;
+import com.github.rolecraftdev.quest.QuestManager;
 import org.bukkit.configuration.file.FileConfiguration;
 import org.bukkit.plugin.PluginManager;
 import org.bukkit.plugin.java.JavaPlugin;
@@ -32,6 +33,10 @@ public final class RolecraftCore extends JavaPlugin {
      * Manages Rolecraft guilds
      */
     private GuildManager guildManager;
+    /**
+     * Manages all aspects of questing
+     */
+    private QuestManager questManager;
 
     @Override
     public void onEnable() {
@@ -55,6 +60,7 @@ public final class RolecraftCore extends JavaPlugin {
 
         dataManager = new DataManager(this, dataStore);
         guildManager = new GuildManager(this);
+        questManager = new QuestManager(this);
 
         final PluginManager pm = getServer().getPluginManager();
 
