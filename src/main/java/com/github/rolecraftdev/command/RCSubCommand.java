@@ -1,9 +1,17 @@
 package com.github.rolecraftdev.command;
 
+import com.github.rolecraftdev.RolecraftCore;
 import org.bukkit.command.CommandSender;
 
 public abstract class RCSubCommand {
-    public abstract void execute(final CommandSender sender, final String[] args);
+    protected final RolecraftCore plugin;
+
+    protected RCSubCommand(final RolecraftCore plugin) {
+        this.plugin = plugin;
+    }
+
+    public abstract void execute(final CommandSender sender,
+            final String[] args);
 
     public abstract String[] getNames();
 

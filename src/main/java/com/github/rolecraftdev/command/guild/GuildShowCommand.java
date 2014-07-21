@@ -1,8 +1,13 @@
 package com.github.rolecraftdev.command.guild;
 
+import com.github.rolecraftdev.RolecraftCore;
 import org.bukkit.command.CommandSender;
 
 public final class GuildShowCommand extends GuildSubCommand {
+    public GuildShowCommand(final RolecraftCore plugin) {
+        super(plugin);
+    }
+
     @Override
     public void execute(final CommandSender sender, final String[] args) {
         // TODO

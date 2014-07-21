@@ -1,13 +1,12 @@
 package com.github.rolecraftdev.guild;
 
-import java.util.HashSet;
-import java.util.Set;
-import java.util.UUID;
-
+import com.github.rolecraftdev.data.dataobjects.ChunkLocation;
 import org.bukkit.Location;
 import org.bukkit.entity.Entity;
 
-import com.github.rolecraftdev.data.dataobjects.ChunkLocation;
+import java.util.HashSet;
+import java.util.Set;
+import java.util.UUID;
 
 public final class Guild {
     private UUID leader;
@@ -15,18 +14,6 @@ public final class Guild {
     private Set<UUID> members;
     private Location home;
     private Set<ChunkLocation> claimedChunks;
-
-    public UUID getLeader() {
-        return leader;
-    }
-
-    public Set<UUID> getOfficers() {
-        return new HashSet<UUID>(officers);
-    }
-
-    public Set<UUID> getMembers() {
-        return new HashSet<UUID>(members);
-    }
 
     public Set<ChunkLocation> getClaimedChunks() {
         return new HashSet<ChunkLocation>(claimedChunks);
@@ -38,6 +25,10 @@ public final class Guild {
 
     public boolean isClaimed(final ChunkLocation location) {
         return claimedChunks.contains(location);
+    }
+
+    public boolean isMember(final UUID player) {
+        return members.contains(player);
     }
 
     public GuildRole getRole(final UUID player) {
@@ -53,11 +44,23 @@ public final class Guild {
         return GuildRole.MEMBER;
     }
 
+    public void teleportToHome(final Entity entity) {
+        entity.teleport(home);
+    }
+
     public Location getHomeLocation() {
         return home;
     }
 
-    public void teleportToHome(final Entity entity) {
-        entity.teleport(home);
+    public UUID getLeader() {
+        return leader;
+    }
+
+    public Set<UUID> getOfficers() {
+        return new HashSet<UUID>(officers);
+    }
+
+    public Set<UUID> getMembers() {
+        return new HashSet<UUID>(members);
     }
 }

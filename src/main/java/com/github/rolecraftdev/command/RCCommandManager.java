@@ -11,6 +11,6 @@ public final class RCCommandManager {
     }
 
     public void registerCommands() {
-        plugin.getCommand("guild").setExecutor(new GuildCommand());
+        plugin.getCommand("guild").setExecutor(new GuildCommand(plugin));
     }
 }

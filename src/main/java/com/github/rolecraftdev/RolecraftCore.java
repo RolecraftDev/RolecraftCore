@@ -1,14 +1,14 @@
 package com.github.rolecraftdev;
 
-import java.util.logging.Logger;
-
-import org.bukkit.configuration.file.FileConfiguration;
-import org.bukkit.plugin.java.JavaPlugin;
-
 import com.github.rolecraftdev.data.DataManager;
 import com.github.rolecraftdev.data.storage.DataStore;
 import com.github.rolecraftdev.data.storage.MySQLDataStore;
 import com.github.rolecraftdev.data.storage.SQLiteDataStore;
+import com.github.rolecraftdev.guild.GuildManager;
+import org.bukkit.configuration.file.FileConfiguration;
+import org.bukkit.plugin.java.JavaPlugin;
+
+import java.util.logging.Logger;
 
 /**
  * Main class for the core of Rolecraft, the Bukkit RPG plugin
@@ -17,6 +17,7 @@ public final class RolecraftCore extends JavaPlugin {
     private Logger logger;
     private DataStore dataStore;
     private DataManager dataManager;
+    private GuildManager guildManager;
 
     @Override
     public void onEnable() {
@@ -36,6 +37,7 @@ public final class RolecraftCore extends JavaPlugin {
                 + " for Rolecraft data!");
 
         dataManager = new DataManager(this, dataStore);
+        guildManager = new GuildManager(this);
     }
 
     @Override
@@ -48,5 +50,9 @@ public final class RolecraftCore extends JavaPlugin {
 
     public DataManager getDataManager() {
         return dataManager;
+    }
+
+    public GuildManager getGuildManager() {
+        return guildManager;
     }
 }

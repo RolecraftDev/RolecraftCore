@@ -1,23 +1,26 @@
 package com.github.rolecraftdev.command.guild;
 
-import java.util.ArrayList;
-import java.util.HashSet;
-import java.util.Set;
-
+import com.github.rolecraftdev.RolecraftCore;
+import com.github.rolecraftdev.command.CommandHelper;
+import com.github.rolecraftdev.command.RCCommand;
+import com.github.rolecraftdev.command.RCSubCommand;
 import org.bukkit.ChatColor;
 import org.bukkit.command.Command;
 import org.bukkit.command.CommandSender;
 import org.bukkit.command.ConsoleCommandSender;
 
-import com.github.rolecraftdev.command.CommandHelper;
-import com.github.rolecraftdev.command.RCCommand;
-import com.github.rolecraftdev.command.RCSubCommand;
+import java.util.ArrayList;
+import java.util.HashSet;
+import java.util.Set;
 
 public final class GuildCommand extends RCCommand {
     private final Set<GuildSubCommand> subCommands = new HashSet<GuildSubCommand>();
 
-    public GuildCommand() {
-        subCommands.add(new GuildShowCommand());
+    public GuildCommand(final RolecraftCore plugin) {
+        super(plugin);
+
+        subCommands.add(new GuildHomeCommand(plugin));
+        subCommands.add(new GuildShowCommand(plugin));
     }
 
     @Override
