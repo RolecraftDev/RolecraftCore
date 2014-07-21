@@ -9,7 +9,7 @@ import java.util.HashSet;
 import java.util.Set;
 import java.util.UUID;
 
-public final class Guild {
+public class Guild {
     private final GuildManager guildManager;
 
     private String name;
@@ -68,7 +68,7 @@ public final class Guild {
     }
 
     public void teleportToHome(final Entity entity) {
-        entity.teleport(home);
+        entity.teleport(getHomeLocation());
     }
 
     /**

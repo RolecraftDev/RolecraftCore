@@ -47,6 +47,9 @@ public final class ChunkLocation {
 
     @Override
     public int hashCode() {
-        return x * z * world.hashCode();
+        int result = world != null ? world.hashCode() : 0;
+        result = 31 * result + x;
+        result = 31 * result + z;
+        return result;
     }
 }
