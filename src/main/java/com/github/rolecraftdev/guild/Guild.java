@@ -9,6 +9,7 @@ import java.util.Set;
 import java.util.UUID;
 
 public final class Guild {
+    private String name;
     private UUID leader;
     private Set<UUID> officers;
     private Set<UUID> members;
@@ -46,6 +47,14 @@ public final class Guild {
 
     public void teleportToHome(final Entity entity) {
         entity.teleport(home);
+    }
+
+    public void claimChunk(final ChunkLocation chunkLocation) {
+        claimedChunks.add(chunkLocation);
+    }
+
+    public String getName() {
+        return name;
     }
 
     public Location getHomeLocation() {
