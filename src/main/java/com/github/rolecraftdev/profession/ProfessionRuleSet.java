@@ -44,7 +44,9 @@ public class ProfessionRuleSet {
     static {
         final ProfessionRuleSet warriorDefault = new ProfessionRuleSet(
                 "Warrior");
+        final ProfessionRuleSet archerDefault = new ProfessionRuleSet("Archer");
         // TODO: Set settings
         defaultRuleSets.put("Warrior", warriorDefault);
+        defaultRuleSets.put("Archer", archerDefault);
     }
 }

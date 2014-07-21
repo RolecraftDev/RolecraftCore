@@ -3,6 +3,8 @@ package com.github.rolecraftdev.profession;
 public class Profession {
     public static final Profession WARRIOR = new Profession("Warrior",
             new ProfessionRuleSet("Warrior"));
+    public static final Profession ARCHER = new Profession("Archer",
+            new ProfessionRuleSet("Archer"));
 
     private final String name;
     private final ProfessionRuleSet rules;
