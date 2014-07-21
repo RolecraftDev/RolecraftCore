@@ -1,7 +1,6 @@
 package com.github.rolecraftdev.guild;
 
 import com.github.rolecraftdev.data.PlayerData;
-import com.github.rolecraftdev.data.dataobjects.ChunkLocation;
 import org.bukkit.Location;
 import org.bukkit.entity.Entity;
 
@@ -12,28 +11,40 @@ import java.util.UUID;
 public final class Guild {
     private final GuildManager guildManager;
 
+    /**
+     * The name of this guild
+     */
     private String name;
+    /**
+     * The unique identifier of the player who leads this guild
+     */
     private UUID leader;
+    /**
+     * A Set containing all of this guild's officers' unique identifiers. This
+     * does not contain the guild leader's unique identifier
+     */
     private Set<UUID> officers;
+    /**
+     * A Set containing all of this guild's members' unique identifiers,
+     * including officers and the leader
+     */
     private Set<UUID> members;
+    /**
+     * The home point of this guild, used for teleporting to the guild home
+     */
     private Location home;
-    private Set<ChunkLocation> claimedChunks;
+    /**
+     * The current influence level of the guild, which depends on the individual
+     * influence levels of the members of the guild
+     */
     private int influence;
 
     public Guild(final GuildManager guildManager) {
         this.guildManager = guildManager;
     }
 
-    public Set<ChunkLocation> getClaimedChunks() {
-        return new HashSet<ChunkLocation>(claimedChunks);
-    }
-
     public boolean can(final UUID player, final GuildAction action) {
         return action.can(player, this);
-    }
-
-    public boolean isClaimed(final ChunkLocation location) {
-        return claimedChunks.contains(location);
     }
 
     public boolean isMember(final UUID player) {
@@ -69,22 +80,6 @@ public final class Guild {
 
     public void teleportToHome(final Entity entity) {
         entity.teleport(home);
-    }
-
-    /**
-     * Attempts to claim the given chunk, if the guild has enough spare influence
-     *
-     * @param chunkLocation The location of the chunk to claim
-     * @return Whether the chunk was successfully claimed
-     */
-    public boolean claimChunk(final ChunkLocation chunkLocation) {
-        int usedInfluence =
-                claimedChunks.size() * GuildManager.INFLUENCE_PER_CHUNK;
-        if (usedInfluence > influence - GuildManager.INFLUENCE_PER_CHUNK) {
-            return false;
-        } else {
-            return claimedChunks.add(chunkLocation);
-        }
     }
 
     public String getName() {
