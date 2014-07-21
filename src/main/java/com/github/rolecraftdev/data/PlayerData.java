@@ -9,6 +9,7 @@ public final class PlayerData {
     private final UUID playerId;
 
     private String name;
+    private String guild;
     private int influence;
 
     public PlayerData(final UUID playerId) {
@@ -28,12 +29,20 @@ public final class PlayerData {
         return name;
     }
 
-    public void setPlayerName(final String name) {
-        this.name = name;
+    public String getGuild() {
+        return guild;
     }
 
     public int getInfluence() {
         return influence;
+    }
+
+    public void setPlayerName(final String name) {
+        this.name = name;
+    }
+
+    public void setGuild(final String guild) {
+        this.guild = guild;
     }
 
     public void setInfluence(final int influence) {
