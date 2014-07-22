@@ -58,6 +58,12 @@ public final class DataManager {
         }
     }
 
+    public void unloadAllPlayerData() {
+        for (final UUID id : loadedPlayerData.keySet()) {
+            unloadAndSaveData(id);
+        }
+    }
+
     public PlayerData getPlayerData(final UUID player) {
         PlayerData result = loadedPlayerData.get(player);
         if (result != null) {
