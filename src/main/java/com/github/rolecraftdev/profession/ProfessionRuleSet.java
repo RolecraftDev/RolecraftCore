@@ -26,53 +26,44 @@
  */
 package com.github.rolecraftdev.profession;
 
+import org.bukkit.configuration.ConfigurationSection;
+import org.bukkit.configuration.file.YamlConfiguration;
+
 import java.io.File;
 import java.io.IOException;
-import java.util.HashMap;
-import java.util.Map;
+import java.util.Set;
 
 public class ProfessionRuleSet {
     private final String professionName;
+
+    private Set<ProfessionRule> rules;
 
     public ProfessionRuleSet(final String professionName) {
         this.professionName = professionName;
     }
 
-    public void loadRules(final File directory) {
-        final File file = new File(directory, professionName + ".yml");
-        if (!file.exists()) {
-            writeDefaults(professionName, file);
-        }
-
-        // TODO: Load settings from file
+    public String getProfessionName() {
+        return professionName;
     }
 
-    public void saveRules(final File file) {
-        // TODO
-    }
-
-    public static void writeDefaults(final String profession, final File file) {
+    public static ProfessionRuleSet load(final File file) {
         if (!file.exists()) {
             try {
                 file.createNewFile();
             } catch (IOException e) {
+                e.printStackTrace();
             }
         }
 
-        final ProfessionRuleSet rules = defaultRuleSets.get(profession);
-        if (rules != null) {
-            rules.saveRules(file);
+        final YamlConfiguration config = YamlConfiguration
+                .loadConfiguration(file);
+        ConfigurationSection rulesSection = config.getConfigurationSection(
+                "rules");
+
+        if (rulesSection == null) {
+            rulesSection = config.createSection("rules");
         }
-    }
 
-    private static final Map<String, ProfessionRuleSet> defaultRuleSets = new HashMap<String, ProfessionRuleSet>();
-
-    static {
-        final ProfessionRuleSet warriorDefault = new ProfessionRuleSet(
-                "Warrior");
-        final ProfessionRuleSet archerDefault = new ProfessionRuleSet("Archer");
-        // TODO: Set settings
-        defaultRuleSets.put("Warrior", warriorDefault);
-        defaultRuleSets.put("Archer", archerDefault);
+        return null;
     }
 }

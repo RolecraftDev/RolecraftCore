@@ -32,6 +32,7 @@ import com.github.rolecraftdev.data.storage.DataStore;
 import com.github.rolecraftdev.data.storage.MySQLDataStore;
 import com.github.rolecraftdev.data.storage.SQLiteDataStore;
 import com.github.rolecraftdev.guild.GuildManager;
+import com.github.rolecraftdev.profession.ProfessionManager;
 import com.github.rolecraftdev.quest.QuestManager;
 import org.bukkit.configuration.file.FileConfiguration;
 import org.bukkit.plugin.PluginManager;
@@ -63,6 +64,10 @@ public final class RolecraftCore extends JavaPlugin {
      * Manages all aspects of questing
      */
     private QuestManager questManager;
+    /**
+     * Manages all professions
+     */
+    private ProfessionManager professionManager;
 
     @Override
     public void onEnable() {
@@ -87,6 +92,9 @@ public final class RolecraftCore extends JavaPlugin {
         dataManager = new DataManager(this, dataStore);
         guildManager = new GuildManager(this);
         questManager = new QuestManager(this);
+        professionManager = new ProfessionManager(this);
+
+        professionManager.loadProfessions();
 
         final PluginManager pm = getServer().getPluginManager();
 

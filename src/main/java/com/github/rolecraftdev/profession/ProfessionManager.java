@@ -26,20 +26,29 @@
  */
 package com.github.rolecraftdev.profession;
 
-public class Profession {
-    private final String name;
-    private final ProfessionRuleSet rules;
+import com.github.rolecraftdev.RolecraftCore;
 
-    public Profession(final String name, final ProfessionRuleSet rules) {
-        this.name = name;
-        this.rules = rules;
+import java.io.File;
+import java.util.HashSet;
+import java.util.Set;
+
+public final class ProfessionManager {
+    private final RolecraftCore plugin;
+
+    private Set<Profession> professions;
+
+    public ProfessionManager(final RolecraftCore plugin) {
+        this.plugin = plugin;
+
+        professions = new HashSet<Profession>();
     }
 
-    public String getName() {
-        return name;
-    }
-
-    public ProfessionRuleSet getRuleSet() {
-        return rules;
+    public void loadProfessions() {
+        final File directory = new File(plugin.getDataFolder(), "professions");
+        for (final File professionFile : directory.listFiles()) {
+            final ProfessionRuleSet rules = ProfessionRuleSet
+                    .load(professionFile);
+            professions.add(new Profession(rules.getProfessionName(), rules));
+        }
     }
 }
