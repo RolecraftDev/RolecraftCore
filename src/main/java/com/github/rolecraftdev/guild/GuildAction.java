@@ -30,7 +30,7 @@ import java.util.UUID;
 
 public enum GuildAction {
     KICK_MEMBER(2), KICK_OFFICER(3), INVITE(2), LEAVE(1), SET_LEADER(
-            3), SET_HOME(3);
+            3), SET_HOME(3), CHANGE_BLOCK(2);
 
     private final int defaultAccessLevel;
 

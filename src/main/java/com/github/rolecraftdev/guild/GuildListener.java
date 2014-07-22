@@ -26,12 +26,17 @@
  */
 package com.github.rolecraftdev.guild;
 
+import com.github.rolecraftdev.data.Region2D;
+import org.bukkit.Location;
 import org.bukkit.entity.Player;
 import org.bukkit.event.EventHandler;
 import org.bukkit.event.EventPriority;
 import org.bukkit.event.Listener;
+import org.bukkit.event.block.BlockBreakEvent;
+import org.bukkit.event.block.BlockPlaceEvent;
 import org.bukkit.event.entity.EntityDamageByEntityEvent;
 
+import java.util.Set;
 import java.util.UUID;
 
 public final class GuildListener implements Listener {
@@ -41,8 +46,8 @@ public final class GuildListener implements Listener {
         this.guildManager = guildManager;
     }
 
-    @EventHandler(priority = EventPriority.HIGH)
-    public void onEntityDamageByEntity(EntityDamageByEntityEvent event) {
+    @EventHandler(priority = EventPriority.HIGHEST)
+    public void onEntityDamageByEntity(final EntityDamageByEntityEvent event) {
         if (event.getDamager() instanceof Player && event
                 .getEntity() instanceof Player) {
             final UUID playerId = ((Player) event.getEntity()).getUniqueId();
@@ -53,5 +58,30 @@ public final class GuildListener implements Listener {
                 event.setCancelled(true);
             }
         }
+    }
+
+    @EventHandler(priority = EventPriority.HIGHEST)
+    public void onBlockBreak(final BlockBreakEvent event) {
+        event.setCancelled(cancel(event.getBlock().getLocation(),
+                event.getPlayer().getUniqueId()));
+    }
+
+    @EventHandler(priority = EventPriority.HIGHEST)
+    public void onBlockPlace(final BlockPlaceEvent event) {
+        event.setCancelled(cancel(event.getBlock().getLocation(),
+                event.getPlayer().getUniqueId()));
+    }
+
+    private boolean cancel(final Location loc, final UUID player) {
+        final Set<Guild> guilds = guildManager.getGuilds();
+        for (final Guild guild : guilds) {
+            final Region2D hall = guild.getGuildHallRegion();
+            if (hall.containsLocation(loc)) {
+                return !(guild.isMember(player) && guild
+                        .can(player, GuildAction.CHANGE_BLOCK));
+            }
+        }
+
+        return false;
     }
 }

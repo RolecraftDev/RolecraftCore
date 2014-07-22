@@ -30,13 +30,13 @@ import com.github.rolecraftdev.RolecraftCore;
 import org.bukkit.configuration.file.YamlConfiguration;
 
 import java.io.File;
-import java.util.HashMap;
-import java.util.Map;
+import java.util.HashSet;
+import java.util.Set;
 import java.util.UUID;
 
 public final class GuildManager {
     private final RolecraftCore plugin;
-    private final Map<String, Guild> guilds;
+    private final Set<Guild> guilds;
 
     private YamlConfiguration guildConfig;
 
@@ -49,7 +49,7 @@ public final class GuildManager {
     public GuildManager(final RolecraftCore plugin) {
         this.plugin = plugin;
 
-        guilds = new HashMap<String, Guild>();
+        guilds = new HashSet<Guild>();
 
         guildConfig = YamlConfiguration.loadConfiguration(
                 new File(plugin.getDataFolder(), "guildconfig.yml"));
@@ -64,12 +64,16 @@ public final class GuildManager {
                 .registerEvents(new GuildListener(this), plugin);
     }
 
-    public void addGuild(final Guild guild) {
-        guilds.put(guild.getName(), guild);
+    public boolean addGuild(final Guild guild) {
+        if (guilds.contains(guild)) {
+            return false;
+        }
+        guilds.add(guild);
+        return true;
     }
 
-    public void removeGuild(final Guild guild) {
-        guilds.remove(guild.getName());
+    public boolean removeGuild(final Guild guild) {
+        return guilds.remove(guild);
     }
 
     /**
@@ -79,7 +83,12 @@ public final class GuildManager {
      * @return The Guild object for the guild with the given name
      */
     public Guild getGuild(final String name) {
-        return guilds.get(name);
+        for (final Guild guild : guilds) {
+            if (guild.getName().equalsIgnoreCase(name)) {
+                return guild;
+            }
+        }
+        return null;
     }
 
     /**
@@ -90,12 +99,16 @@ public final class GuildManager {
      * @return The given player's guild, or null if they don't have one
      */
     public Guild getPlayerGuild(final UUID player) {
-        for (final Guild guild : guilds.values()) {
+        for (final Guild guild : guilds) {
             if (guild.isMember(player)) {
                 return guild;
             }
         }
         return null;
+    }
+
+    public Set<Guild> getGuilds() {
+        return new HashSet<Guild>(guilds);
     }
 
     public RolecraftCore getPlugin() {

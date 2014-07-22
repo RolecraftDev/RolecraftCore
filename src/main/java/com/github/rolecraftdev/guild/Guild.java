@@ -27,6 +27,7 @@
 package com.github.rolecraftdev.guild;
 
 import com.github.rolecraftdev.data.PlayerData;
+import com.github.rolecraftdev.data.Region2D;
 import org.bukkit.Location;
 import org.bukkit.entity.Entity;
 
@@ -70,7 +71,17 @@ public final class Guild {
      * influence levels of the members of the guild
      */
     private int influence;
+    /**
+     * The 2D region containing this guild's guild hall
+     */
+    private Region2D hallRegion;
 
+    /**
+     * Creates a new Guild object linked to the given GuildManager object, which
+     * is used for interaction with the rest of the plugin
+     *
+     * @param guildManager The GuildManager object this Guild belongs to
+     */
     public Guild(final GuildManager guildManager) {
         this.guildManager = guildManager;
     }
@@ -120,6 +131,13 @@ public final class Guild {
         return GuildRole.MEMBER;
     }
 
+    /**
+     * Gets the current influence of this guild without calculating a new value.
+     * If an up-to-date influence value is required, use calculateInfluence()
+     * instead (which is slower but always accurate)
+     *
+     * @return The guild's last calculated influence value
+     */
     public int getInfluence() {
         return influence;
     }
@@ -196,6 +214,16 @@ public final class Guild {
     }
 
     /**
+     * Gets the 2D region containing the guild hall this guild owns, or null if
+     * this guild doesn't currently own a guild hall
+     *
+     * @return The Region2D object representing the region of this guild's hall
+     */
+    public Region2D getGuildHallRegion() {
+        return hallRegion;
+    }
+
+    /**
      * {@inheritDoc}
      */
     @Override
@@ -215,5 +243,16 @@ public final class Guild {
         int result = name != null ? name.hashCode() : 0;
         result = 31 * result + (leader != null ? leader.hashCode() : 0);
         return result;
+    }
+
+    /**
+     * Sets the given Region2D object as this guild's guild hall region. Should
+     * only ever be called from GuildManager when a guild hall is claimed, hence
+     * the method is package private
+     *
+     * @param hallRegion The Region2D to become this guild's new guild hall
+     */
+    void claimAsGuildHall(final Region2D hallRegion) {
+        this.hallRegion = hallRegion;
     }
 }
