@@ -10,10 +10,6 @@
       <url>http://rolecraftdev.github.com</url>
   </organization>
 
-  <properties>
-      <project.root>.</project.root>
-  </properties>
-
   <dependencies>
       <dependency>
           <groupId>org.bukkit</groupId>
@@ -56,7 +52,7 @@
                         <quiet>true</quiet>
                         <encoding>UTF-8</encoding>
                         <strictCheck>true</strictCheck>
-                        <header>${project.root}/HEADER.txt</header>
+                        <header>./HEADER.txt</header>
                         <mapping>
                             <java>SLASHSTAR_STYLE</java>
                         </mapping>
