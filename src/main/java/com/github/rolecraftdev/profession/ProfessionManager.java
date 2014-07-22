@@ -45,6 +45,12 @@ public final class ProfessionManager {
 
     public void loadProfessions() {
         final File directory = new File(plugin.getDataFolder(), "professions");
+
+        if (directory.isFile())
+            directory.delete();
+        if (!directory.exists())
+            directory.mkdirs();
+
         for (final File professionFile : directory.listFiles()) {
             final ProfessionRuleSet rules = ProfessionRuleSet
                     .load(professionFile);
