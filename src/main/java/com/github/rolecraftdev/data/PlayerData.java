@@ -38,6 +38,11 @@ public final class PlayerData {
     private String guild;
     private int influence;
 
+    /**
+     * @deprecated There is no reason not to have the player's name
+     * @param playerId
+     */
+    @Deprecated
     public PlayerData(final UUID playerId) {
         this(playerId, null);
     }

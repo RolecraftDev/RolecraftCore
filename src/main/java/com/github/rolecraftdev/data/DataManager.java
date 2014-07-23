@@ -46,7 +46,8 @@ public final class DataManager {
     }
 
     public void loadOrCreateData(final UUID player) {
-        final PlayerData data = new PlayerData(player);
+        final PlayerData data = new PlayerData(player,
+                plugin.getServer().getPlayer(player).getName());
         loadedPlayerData.put(player, data);
         store.requestPlayerData(data);
     }
