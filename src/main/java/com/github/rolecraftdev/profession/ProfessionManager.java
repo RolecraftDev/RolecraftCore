@@ -29,21 +29,18 @@ package com.github.rolecraftdev.profession;
 import com.github.rolecraftdev.RolecraftCore;
 
 import java.io.File;
-import java.util.Collections;
 import java.util.HashSet;
 import java.util.Set;
 
 public final class ProfessionManager {
     private final RolecraftCore plugin;
-    private final Set<Profession> professions = new HashSet<Profession>();
-    private final Set<Profession> unmodifiable = Collections.unmodifiableSet(professions);
+
+    private Set<Profession> professions;
 
     public ProfessionManager(final RolecraftCore plugin) {
         this.plugin = plugin;
-    }
 
-    public Set<Profession> getProfessions() {
-        return unmodifiable;
+        professions = new HashSet<Profession>();
     }
 
     public void loadProfessions() {
