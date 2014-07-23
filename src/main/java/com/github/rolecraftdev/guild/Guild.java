@@ -43,6 +43,11 @@ public final class Guild {
      * The GuildManager object this guild is registered to
      */
     private final GuildManager guildManager;
+    
+    /**
+     * A UUID that refers to this guild
+     */
+    private final UUID guildId;
 
     /**
      * The name of this guild
@@ -79,11 +84,14 @@ public final class Guild {
     /**
      * Creates a new Guild object linked to the given GuildManager object, which
      * is used for interaction with the rest of the plugin
+     * 
+     * 
      *
      * @param guildManager The GuildManager object this Guild belongs to
      */
     public Guild(final GuildManager guildManager) {
         this.guildManager = guildManager;
+        guildId = UUID.randomUUID();
     }
 
     /**
