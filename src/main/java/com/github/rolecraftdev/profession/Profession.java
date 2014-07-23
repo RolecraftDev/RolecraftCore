@@ -28,9 +28,9 @@ package com.github.rolecraftdev.profession;
 
 public class Profession {
     private final String name;
-    private final ProfessionRuleSet rules;
+    private final ProfessionRuleMap rules;
 
-    public Profession(final String name, final ProfessionRuleSet rules) {
+    public Profession(final String name, final ProfessionRuleMap rules) {
         this.name = name;
         this.rules = rules;
     }
@@ -39,7 +39,7 @@ public class Profession {
         return name;
     }
 
-    public ProfessionRuleSet getRuleSet() {
+    public ProfessionRuleMap getRuleMap() {
         return rules;
     }
 }

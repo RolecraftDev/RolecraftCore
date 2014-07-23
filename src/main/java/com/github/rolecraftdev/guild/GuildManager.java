@@ -30,13 +30,15 @@ import com.github.rolecraftdev.RolecraftCore;
 import org.bukkit.configuration.file.YamlConfiguration;
 
 import java.io.File;
+import java.util.Collections;
 import java.util.HashSet;
 import java.util.Set;
 import java.util.UUID;
 
 public final class GuildManager {
     private final RolecraftCore plugin;
-    private final Set<Guild> guilds;
+    private final Set<Guild> guilds = new HashSet<Guild>();
+    private final Set<Guild> unmodifiable = Collections.unmodifiableSet(guilds);
 
     private YamlConfiguration guildConfig;
 
@@ -49,8 +51,6 @@ public final class GuildManager {
     public GuildManager(final RolecraftCore plugin) {
         this.plugin = plugin;
 
-        guilds = new HashSet<Guild>();
-
         guildConfig = YamlConfiguration.loadConfiguration(
                 new File(plugin.getDataFolder(), "guildconfig.yml"));
 
@@ -61,7 +61,7 @@ public final class GuildManager {
         }
 
         plugin.getServer().getPluginManager()
-                .registerEvents(new GuildListener(this), plugin);
+        .registerEvents(new GuildListener(this), plugin);
     }
 
     public boolean addGuild(final Guild guild) {
@@ -108,7 +108,7 @@ public final class GuildManager {
     }
 
     public Set<Guild> getGuilds() {
-        return new HashSet<Guild>(guilds);
+        return unmodifiable;
     }
 
     public RolecraftCore getPlugin() {

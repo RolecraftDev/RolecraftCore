@@ -31,14 +31,15 @@ import org.bukkit.configuration.file.YamlConfiguration;
 
 import java.io.File;
 import java.io.IOException;
-import java.util.Set;
+import java.util.HashMap;
+import java.util.Map;
+import java.util.Map.Entry;
 
-public class ProfessionRuleSet {
+public class ProfessionRuleMap {
     private final String professionName;
+    private final Map<ProfessionRule<?>, Object> rules = new HashMap<ProfessionRule<?>, Object>();
 
-    private Set<ProfessionRule> rules;
-
-    public ProfessionRuleSet(final String professionName) {
+    public ProfessionRuleMap(final String professionName) {
         this.professionName = professionName;
     }
 
@@ -46,7 +47,19 @@ public class ProfessionRuleSet {
         return professionName;
     }
 
-    public static ProfessionRuleSet load(final File file) {
+    public <T> T get(ProfessionRule<T> key) {
+        return key.cast(rules.get(key));
+    }
+
+    public boolean set(ProfessionRule<?> key, Object value) {
+        if (key == null || !key.validate(value))
+            return false;
+
+        rules.put(key, value);
+        return true;
+    }
+
+    public static ProfessionRuleMap load(final File file) {
         if (!file.exists()) {
             try {
                 file.createNewFile();
@@ -55,15 +68,21 @@ public class ProfessionRuleSet {
             }
         }
 
-        final YamlConfiguration config = YamlConfiguration
-                .loadConfiguration(file);
-        ConfigurationSection rulesSection = config.getConfigurationSection(
-                "rules");
+        final YamlConfiguration config = YamlConfiguration.loadConfiguration(file);
+        ConfigurationSection rulesSection = config.getConfigurationSection("rules");
 
-        if (rulesSection == null) {
+        if (rulesSection == null)
             rulesSection = config.createSection("rules");
-        }
 
-        return null;
+        // Remove file name's extension
+        final String name = file.getName().replaceAll("\\..*", "");
+        final ProfessionRuleMap ruleMap = new ProfessionRuleMap(name);
+
+        for (Entry<String, Object> element : rulesSection.getValues(true).entrySet()) {
+            // TODO: If false -> inform user something is wrong (?)
+            // Validation is done by #set
+            ruleMap.set(ProfessionRule.getRule(element.getKey()), element.getValue());
+        }
+        return ruleMap;
     }
 }

@@ -29,24 +29,33 @@ package com.github.rolecraftdev.profession;
 import com.github.rolecraftdev.RolecraftCore;
 
 import java.io.File;
+import java.util.Collections;
 import java.util.HashSet;
 import java.util.Set;
 
 public final class ProfessionManager {
     private final RolecraftCore plugin;
-
-    private Set<Profession> professions;
+    private final Set<Profession> professions = new HashSet<Profession>();
+    private final Set<Profession> unmodifiable = Collections.unmodifiableSet(professions);
 
     public ProfessionManager(final RolecraftCore plugin) {
         this.plugin = plugin;
+    }
 
-        professions = new HashSet<Profession>();
+    public Set<Profession> getProfessions() {
+        return unmodifiable;
     }
 
     public void loadProfessions() {
         final File directory = new File(plugin.getDataFolder(), "professions");
+
+        if (directory.isFile())
+            directory.delete();
+        if (!directory.exists())
+            directory.mkdirs();
+
         for (final File professionFile : directory.listFiles()) {
-            final ProfessionRuleSet rules = ProfessionRuleSet
+            final ProfessionRuleMap rules = ProfessionRuleMap
                     .load(professionFile);
             professions.add(new Profession(rules.getProfessionName(), rules));
         }
