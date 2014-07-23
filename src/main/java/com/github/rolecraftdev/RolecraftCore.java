@@ -34,8 +34,10 @@ import com.github.rolecraftdev.data.storage.SQLiteDataStore;
 import com.github.rolecraftdev.guild.GuildManager;
 import com.github.rolecraftdev.profession.ProfessionManager;
 import com.github.rolecraftdev.quest.QuestManager;
+import net.milkbowl.vault.economy.Economy;
 import org.bukkit.configuration.file.FileConfiguration;
 import org.bukkit.plugin.PluginManager;
+import org.bukkit.plugin.RegisteredServiceProvider;
 import org.bukkit.plugin.java.JavaPlugin;
 
 import java.util.logging.Logger;
@@ -68,10 +70,34 @@ public final class RolecraftCore extends JavaPlugin {
      * Manages all professions
      */
     private ProfessionManager professionManager;
+    /**
+     * Whether to use economy
+     */
+    private boolean useEconomy = false;
+    /**
+     * The Vault Economy instance
+     */
+    private Economy economy;
 
     @Override
     public void onEnable() {
         logger = getLogger();
+
+        // Check for Vault to decide whether to enable economy support
+        if (getServer().getPluginManager().isPluginEnabled("Vault")) {
+            final RegisteredServiceProvider<Economy> rsp = getServer()
+                    .getServicesManager().getRegistration(Economy.class);
+            if (rsp == null) {
+                useEconomy = false;
+            } else {
+                economy = rsp.getProvider();
+                useEconomy = economy != null;
+            }
+        }
+
+        if (!useEconomy) {
+            logger.warning("Couldn't find Vault, disabling economy support");
+        }
 
         // Get options from the config
         final FileConfiguration config = getConfig();
@@ -89,6 +115,7 @@ public final class RolecraftCore extends JavaPlugin {
         logger.info("Using " + dataStore.getStoreTypeName()
                 + " for Rolecraft data!");
 
+        // Create all the manager objects
         dataManager = new DataManager(this, dataStore);
         guildManager = new GuildManager(this);
         questManager = new QuestManager(this);
@@ -140,6 +167,12 @@ public final class RolecraftCore extends JavaPlugin {
         return guildManager;
     }
 
+    /**
+     * Gets the Rolecraft profession manager, which has various methods for
+     * manipulation of professions
+     *
+     * @return Rolecraft's ProfessionManager object
+     */
     public ProfessionManager getProfessionManager() {
         return professionManager;
     }

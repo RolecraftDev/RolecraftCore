@@ -29,19 +29,43 @@ package com.github.rolecraftdev.guild;
 import com.github.rolecraftdev.RolecraftCore;
 import com.github.rolecraftdev.data.storage.ConfigAccessor;
 
-import org.bukkit.configuration.file.YamlConfiguration;
-
-import java.io.File;
 import java.util.HashSet;
 import java.util.Set;
 import java.util.UUID;
 
 public final class GuildManager {
+    /**
+     * The RolecraftCore plugin object
+     */
     private final RolecraftCore plugin;
+    /**
+     * A Set of all currently loaded Guild objects
+     */
     private final Set<Guild> guilds;
-    
+
+    /**
+     * Whether the guild manager has finished loading
+     */
     private boolean loaded;
+    /**
+     * A configuration holding options related to guilds
+     */
     private ConfigAccessor guildConfig;
+
+    // Config options
+
+    /**
+     * The amount of money required to create a guild
+     */
+    private int creationCost;
+    /**
+     * The amount of money required to invite somebody to a guild
+     */
+    private int inviteCost;
+    /**
+     * The amount of money required to purchase a guild hall
+     */
+    private int hallCost;
 
     /**
      * Creates a new GuildManager instance using the given RolecraftCore object
@@ -55,6 +79,10 @@ public final class GuildManager {
         guilds = new HashSet<Guild>();
 
         guildConfig = new ConfigAccessor(plugin, "guildconfig.yml");
+        creationCost = guildConfig.getConfig()
+                .getInt("economy.creation-cost", 0);
+        inviteCost = guildConfig.getConfig().getInt("economy.invite-cost", 0);
+        hallCost = guildConfig.getConfig().getInt("economy.guild-hall-cost", 0);
 
         loaded = false;
 
@@ -63,12 +91,16 @@ public final class GuildManager {
     }
 
     /**
-     * @param guild The guild to load
+     * Adds the given Guild object to the Set of loaded guilds if it is valid -
+     * i.e if it is loaded from the database or it doesn't clash with another
+     * guild's name
+     *
+     * @param guild        The guild to load
      * @param fromDatabase Used internally for loading from database, always use false
      * @return true for success, false if the guild already exists
      */
     public boolean addGuild(final Guild guild, boolean fromDatabase) {
-        if(fromDatabase) {
+        if (fromDatabase) {
             guilds.add(guild);
             return true;
         }
@@ -79,20 +111,20 @@ public final class GuildManager {
         plugin.getDataStore().createGuild(guild);
         return true;
     }
-    
-    /**
-     * Called when the database is finished populating guilds from SQL
-     */
-    public void completeLoad() {
-        loaded = true;
-    }
 
+    /**
+     * Deletes the given guild, both from memory and from the database
+     *
+     * @param guild The guild to remove
+     * @return true if the guild was removed, false if it wasn't
+     */
     public boolean removeGuild(final Guild guild) {
-        if(loaded) {
+        if (loaded) {
             plugin.getDataStore().deleteGuild(guild);
             return guilds.remove(guild);
+        } else {
+            return false;
         }
-        else return false;
     }
 
     /**
@@ -102,15 +134,16 @@ public final class GuildManager {
      * @return The Guild object for the guild with the given name
      */
     public Guild getGuild(final String name) {
-        if(loaded) {
+        if (loaded) {
             for (final Guild guild : guilds) {
                 if (guild.getName().equalsIgnoreCase(name)) {
                     return guild;
                 }
             }
             return null;
+        } else {
+            return null;
         }
-        else return null;
     }
 
     /**
@@ -122,31 +155,71 @@ public final class GuildManager {
      * finished loading yet
      */
     public Guild getPlayerGuild(final UUID player) {
-        if(loaded) {
+        if (loaded) {
             for (final Guild guild : guilds) {
                 if (guild.isMember(player)) {
                     return guild;
                 }
             }
             return null;
+        } else {
+            return null;
         }
-        else return null;
     }
 
     /**
-     * @return A copy of all loaded guilds, or null if the guildManager hasn't finished loading
+     * Gets a copy of the set used to store all loaded guilds
+     *
+     * @return A copy of the Set used to store loaded guilds, or null if the
+     * guilds haven't been loaded
      */
     public Set<Guild> getGuilds() {
-        if(loaded)
+        if (loaded) {
             return new HashSet<Guild>(guilds);
-        else return null;
+        } else {
+            return null;
+        }
+    }
+
+    /**
+     * Gets the amount of money required to create a guild
+     *
+     * @return The amount of money required to create a guild
+     */
+    public int getCreationCost() {
+        return creationCost;
+    }
+
+    /**
+     * Gets the amount of money required to invite somebody to a guild
+     *
+     * @return The amount of money required to invite somebody to a guild
+     */
+    public int getInvitationCost() {
+        return inviteCost;
+    }
+
+    /**
+     * Gets the amount of money required to buy a guild hall
+     *
+     * @return The amount of money required to buy a guild hall
+     */
+    public int getGuildHallCost() {
+        return hallCost;
     }
 
     public RolecraftCore getPlugin() {
         return plugin;
     }
-    
+
     public boolean isLoaded() {
         return loaded;
+    }
+
+    /**
+     * Called when the database is finished populating guilds from SQL
+     */
+    public void completeLoad() {
+        loaded = true;
     }
 }
