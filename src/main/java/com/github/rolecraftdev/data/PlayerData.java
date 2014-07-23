@@ -34,7 +34,7 @@ import java.util.UUID;
 public final class PlayerData {
     private final UUID playerId;
 
-    private String name;
+    private final String name;
     private String guild;
     private int influence;
 
@@ -63,9 +63,9 @@ public final class PlayerData {
         return influence;
     }
 
-    public void setPlayerName(final String name) {
+    /*public void setPlayerName(final String name) {
         this.name = name;
-    }
+    }*/
 
     public void setGuild(final String guild) {
         this.guild = guild;
