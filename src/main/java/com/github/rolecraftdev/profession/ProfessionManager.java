@@ -52,7 +52,7 @@ public final class ProfessionManager {
             directory.mkdirs();
 
         for (final File professionFile : directory.listFiles()) {
-            final ProfessionRuleSet rules = ProfessionRuleSet
+            final ProfessionRuleMap rules = ProfessionRuleMap
                     .load(professionFile);
             professions.add(new Profession(rules.getProfessionName(), rules));
         }
