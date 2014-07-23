@@ -28,6 +28,7 @@ package com.github.rolecraftdev.guild;
 
 import com.github.rolecraftdev.data.PlayerData;
 import com.github.rolecraftdev.data.Region2D;
+
 import org.bukkit.Location;
 import org.bukkit.entity.Entity;
 
@@ -240,7 +241,11 @@ public final class Guild {
             return false;
         }
         final Guild other = (Guild) o;
-        return other.name.equals(name) && other.leader.equals(leader);
+        return this.guildId.equals(other.getId());
+    }
+
+    public UUID getId() {
+        return guildId;
     }
 
     /**

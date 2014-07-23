@@ -30,8 +30,11 @@ import java.sql.Connection;
 import java.sql.PreparedStatement;
 import java.sql.ResultSet;
 import java.sql.SQLException;
+import java.util.UUID;
 
 import com.github.rolecraftdev.data.PlayerData;
+import com.github.rolecraftdev.guild.Guild;
+import com.github.rolecraftdev.guild.GuildManager;
 
 public abstract class DataStore {
 
@@ -43,6 +46,14 @@ public abstract class DataStore {
     public abstract void requestPlayerData(final PlayerData callback);
 
     public abstract void commitPlayerData(final PlayerData commit);
+    
+    public abstract void createGuild (final Guild guild);
+    
+    public abstract void loadGuilds (final GuildManager callback);
+    
+    public abstract void deleteGuild (final Guild guild);
+    
+    public abstract void clearPlayerData (final UUID uuid);
 
     protected abstract Connection getConnection();
 

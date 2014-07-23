@@ -64,11 +64,12 @@ public final class GuildManager {
                 .registerEvents(new GuildListener(this), plugin);
     }
 
-    public boolean addGuild(final Guild guild) {
+    public boolean addGuild(final Guild guild, boolean fromDatabase) {
         if (guilds.contains(guild)) {
             return false;
         }
         guilds.add(guild);
+        plugin.getDataStore().createGuild(guild);
         return true;
     }
 
