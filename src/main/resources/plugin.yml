@@ -1,14 +1,22 @@
 name: RolecraftCore
 version: 0.1
 
+description: Roleplaying plugin for Bukkit
 authors: [PandazNWafflez, mythbusterma, TraksAG]
 
 main: com.github.rolecraftdev.RolecraftCore
+softdepend: [Vault]
 
 commands:
     guild:
         description: Guild-related commands
+    profession:
+        description: Profession-related commands
 
 permissions:
     rolecraft.guild.show:
         description: Allows viewing information about a guild
+    rolecraft.guild.create:
+        description: Allows creation of a new guild
+    rolecraft.guild.home:
+        description: Allows teleporting to the guild home
