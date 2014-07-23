@@ -30,8 +30,11 @@ import java.sql.Connection;
 import java.sql.PreparedStatement;
 import java.sql.ResultSet;
 import java.sql.SQLException;
+import java.util.UUID;
 
 import com.github.rolecraftdev.data.PlayerData;
+import com.github.rolecraftdev.guild.Guild;
+import com.github.rolecraftdev.guild.GuildManager;
 
 public final class MySQLDataStore extends DataStore {
 
@@ -99,6 +102,30 @@ public final class MySQLDataStore extends DataStore {
     @Override
     public String getStoreTypeName() {
         return "MySQL";
+    }
+
+    @Override
+    public void createGuild(Guild guild) {
+        // TODO Auto-generated method stub
+        
+    }
+
+    @Override
+    public void loadGuilds(GuildManager callback) {
+        // TODO Auto-generated method stub
+        
+    }
+
+    @Override
+    public void deleteGuild(Guild guild) {
+        // TODO Auto-generated method stub
+        
+    }
+
+    @Override
+    public void clearPlayerData(UUID uuid) {
+        // TODO Auto-generated method stub
+        
     }
 
 }

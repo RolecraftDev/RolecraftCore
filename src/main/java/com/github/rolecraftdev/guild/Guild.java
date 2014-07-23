@@ -253,9 +253,7 @@ public final class Guild {
      */
     @Override
     public int hashCode() {
-        int result = name != null ? name.hashCode() : 0;
-        result = 31 * result + (leader != null ? leader.hashCode() : 0);
-        return result;
+        return guildId.hashCode();
     }
 
     /**
