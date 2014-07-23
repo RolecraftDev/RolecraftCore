@@ -38,11 +38,21 @@ import com.github.rolecraftdev.guild.GuildManager;
 
 public final class SQLiteDataStore extends DataStore {
 
-    private static final String createPlayerTable = "CREATE TABLE IF NOT EXISTS "
-            + pt
-            + " ("
-            + "uuid VARCHAR(40) PRIMARY KEY ON CONFLICT REPLACE,"
-            + "lastname VARCHAR(16) NOT NULL ON CONFLICT FAIL" + ")";
+    private static final String createPlayerTable = "CREATE TABLE IF NOT EXISTS "  + pt  + " ("
+            + "uuid VARCHAR(37) PRIMARY KEY ON CONFLICT REPLACE,"
+            + "lastname VARCHAR(16) NOT NULL ON CONFLICT FAIL,"
+            + "guild REFERENCES " + gt + "(uuid) ON DELETE SET NULL"
+            + ")";
+    
+    private static final String createGuildTable = "CREATE TABLE IF NOT EXISTS " + gt + " ("
+            + "uuid VARCHAR(37) PRIMARY KEY ON CONFLICT FAIL,"
+            + "name VARCHAR (50),"
+            + "leader VARCHAR(37) NOT NULL,"
+            + "members TEXT,"
+            + "ranks TEXT,"
+            + "home VARCHAR(150),"
+            + "hall VARCHAR(100)"
+            + ")";
 
     @Override
     public void intialise() {
@@ -108,25 +118,69 @@ public final class SQLiteDataStore extends DataStore {
 
     @Override
     public void createGuild(Guild guild) {
-        // TODO Auto-generated method stub
+        Connection connection = getConnection();
+        PreparedStatement ps = null;
+        ResultSet rs = null;
+        try {
+            // TODO: Method skeleton
+
+            throw new SQLException();
+        } catch (SQLException ex) {
+            ex.printStackTrace();
+        } finally {
+            close(ps, rs);
+        }
         
     }
 
     @Override
     public void loadGuilds(GuildManager callback) {
-        // TODO Auto-generated method stub
+        Connection connection = getConnection();
+        PreparedStatement ps = null;
+        ResultSet rs = null;
+        try {
+            // TODO: Method skeleton
+
+            throw new SQLException();
+        } catch (SQLException ex) {
+            ex.printStackTrace();
+        } finally {
+            close(ps, rs);
+        }
         
     }
 
     @Override
     public void deleteGuild(Guild guild) {
-        // TODO Auto-generated method stub
+        Connection connection = getConnection();
+        PreparedStatement ps = null;
+        ResultSet rs = null;
+        try {
+            // TODO: Method skeleton
+    
+            throw new SQLException();
+        } catch (SQLException ex) {
+            ex.printStackTrace();
+        } finally {
+            close(ps, rs);
+        }
         
     }
 
     @Override
     public void clearPlayerData(UUID uuid) {
-        // TODO Auto-generated method stub
+        Connection connection = getConnection();
+        PreparedStatement ps = null;
+        ResultSet rs = null;
+        try {
+            // TODO: Method skeleton
+    
+            throw new SQLException();
+        } catch (SQLException ex) {
+            ex.printStackTrace();
+        } finally {
+            close(ps, rs);
+        }
         
     }
 

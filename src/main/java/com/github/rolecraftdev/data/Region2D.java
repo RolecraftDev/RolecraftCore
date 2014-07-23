@@ -68,7 +68,7 @@ public class Region2D {
         return "R2D:" + minX + ";" + minZ + ";" + maxX + ";" + maxZ;
     }
 
-    public Region2D fromString(final String string) {
+    public static Region2D fromString(final String string) {
         final String[] split = string.split(":")[1].split(";");
         return new Region2D(Integer.parseInt(split[0]),
                 Integer.parseInt(split[1]), Integer.parseInt(split[2]),
