@@ -1,30 +1,4 @@
-/*
- * This file is part of RolecraftCore.
- *
- * Copyright (c) 2014 RolecraftDev <http://rolecraftdev.github.com>
- * RolecraftCore is licensed under the Creative Commons
- * Attribution-NonCommercial-NoDerivs 3.0 Unported License. To view a copy of this
- * license, visit http://creativecommons.org/licenses/by-nc-nd/3.0
- *
- * As long as you follow the following terms, you are free to copy and redistribute
- * the material in any medium or format.
- *
- * You must give appropriate credit, provide a link to the license, and indicate
- * whether any changes were made to the material. You may do so in any reasonable
- * manner, but not in any way which suggests the licensor endorses you or your use.
- *
- * You may not use the material for commercial purposes.
- *
- * If you remix, transform, or build upon the material, you may not distribute the
- * modified material.
- *
- * You may not apply legal terms or technological measures that legally restrict
- * others from doing anything the license permits.
- *
- * DISCLAIMER: This is a human-readable summary of (and not a substitute for) the
- * license.
- */
-package com.github.rolecraftdev.command.guild;
+package com.github.rolecraftdev.command.profession;
 
 import com.github.rolecraftdev.RolecraftCore;
 import com.github.rolecraftdev.command.CommandHelper;
@@ -39,15 +13,13 @@ import java.util.ArrayList;
 import java.util.HashSet;
 import java.util.Set;
 
-public final class GuildCommand extends RCCommand {
-    private final Set<GuildSubCommand> subCommands = new HashSet<GuildSubCommand>();
+public final class ProfessionCommand extends RCCommand {
+    private final Set<ProfessionSubCommand> subCommands = new HashSet<ProfessionSubCommand>();
 
-    public GuildCommand(final RolecraftCore plugin) {
+    public ProfessionCommand(final RolecraftCore plugin) {
         super(plugin);
 
-        subCommands.add(new GuildHomeCommand(plugin));
-        subCommands.add(new GuildShowCommand(plugin));
-        // TODO: Add more subcommands
+        // TODO: Add subcommands
     }
 
     @Override
@@ -61,8 +33,8 @@ public final class GuildCommand extends RCCommand {
                 CommandHelper.displayCommandList(sender,
                         new ArrayList<RCSubCommand>(subCommands), args, 1);
             } else {
-                GuildSubCommand subCommand = null;
-                for (final GuildSubCommand sub : subCommands) {
+                ProfessionSubCommand subCommand = null;
+                for (final ProfessionSubCommand sub : subCommands) {
                     for (final String name : sub.getNames()) {
                         if (name.equalsIgnoreCase(args[0])) {
                             subCommand = sub;
@@ -91,10 +63,10 @@ public final class GuildCommand extends RCCommand {
 
     @Override
     public String[] getNames() {
-        return new String[] { "guild" };
+        return new String[] { "profession", "prof" };
     }
 
-    public void registerSubCommand(GuildSubCommand subCommand) {
-        subCommands.add(subCommand);
+    public void registerSubCommand(final ProfessionSubCommand command) {
+        subCommands.add(command);
     }
 }
