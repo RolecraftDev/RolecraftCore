@@ -40,6 +40,7 @@ public abstract class DataStore {
 
     public static final String pt = "playertable";
     public static final String mdt = "metadatatable";
+    public static final String gt = "guildtable";
 
     public abstract void intialise();
 

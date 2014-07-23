@@ -27,6 +27,8 @@
 package com.github.rolecraftdev.guild;
 
 import com.github.rolecraftdev.RolecraftCore;
+import com.github.rolecraftdev.data.storage.ConfigAccessor;
+
 import org.bukkit.configuration.file.YamlConfiguration;
 
 import java.io.File;
@@ -37,8 +39,10 @@ import java.util.UUID;
 public final class GuildManager {
     private final RolecraftCore plugin;
     private final Set<Guild> guilds;
+    
+    private boolean loaded;
 
-    private YamlConfiguration guildConfig;
+    private ConfigAccessor guildConfig;
 
     /**
      * Creates a new GuildManager instance using the given RolecraftCore object
@@ -51,20 +55,30 @@ public final class GuildManager {
 
         guilds = new HashSet<Guild>();
 
-        guildConfig = YamlConfiguration.loadConfiguration(
-                new File(plugin.getDataFolder(), "guildconfig.yml"));
+        guildConfig = new ConfigAccessor(plugin, "guildconfig.yml");
 
         for (final GuildAction action : GuildAction.values()) {
-            action.setAccessLevel(guildConfig.getInt(
+            action.setAccessLevel(guildConfig.getConfig().getInt(
                     "access-levels." + action.getConfigPath(),
                     action.getDefaultAccessLevel()));
         }
+        loaded = false;
+        
 
         plugin.getServer().getPluginManager()
                 .registerEvents(new GuildListener(this), plugin);
     }
 
+    /**
+     * @param guild The guild to load
+     * @param fromDatabase Used internally for loading from database, always use false
+     * @return true for success, false if the guild already exists
+     */
     public boolean addGuild(final Guild guild, boolean fromDatabase) {
+        if(fromDatabase) {
+            guilds.add(guild);
+            return true;
+        }
         if (guilds.contains(guild)) {
             return false;
         }
@@ -72,9 +86,20 @@ public final class GuildManager {
         plugin.getDataStore().createGuild(guild);
         return true;
     }
+    
+    /**
+     * Called when the database is finished populating guilds from SQL
+     */
+    public void completeLoad() {
+        loaded = true;
+    }
 
     public boolean removeGuild(final Guild guild) {
-        return guilds.remove(guild);
+        if(loaded) {
+            plugin.getDataStore().deleteGuild(guild);
+            return guilds.remove(guild);
+        }
+        else return false;
     }
 
     /**
@@ -84,12 +109,15 @@ public final class GuildManager {
      * @return The Guild object for the guild with the given name
      */
     public Guild getGuild(final String name) {
-        for (final Guild guild : guilds) {
-            if (guild.getName().equalsIgnoreCase(name)) {
-                return guild;
+        if(loaded) {
+            for (final Guild guild : guilds) {
+                if (guild.getName().equalsIgnoreCase(name)) {
+                    return guild;
+                }
             }
+            return null;
         }
-        return null;
+        else return null;
     }
 
     /**
@@ -97,22 +125,35 @@ public final class GuildManager {
      * player doesn't have a guild
      *
      * @param player The unique identifier of the player to get the guild of
-     * @return The given player's guild, or null if they don't have one
+     * @return The given player's guild, or null if they don't have one, or null if the guildmanager hasn't
+     * finished loading yet
      */
     public Guild getPlayerGuild(final UUID player) {
-        for (final Guild guild : guilds) {
-            if (guild.isMember(player)) {
-                return guild;
+        if(loaded) {
+            for (final Guild guild : guilds) {
+                if (guild.isMember(player)) {
+                    return guild;
+                }
             }
+            return null;
         }
-        return null;
+        else return null;
     }
 
+    /**
+     * @return A copy of all loaded guilds, or null if the guildManager hasn't finished loading
+     */
     public Set<Guild> getGuilds() {
-        return new HashSet<Guild>(guilds);
+        if(loaded)
+            return new HashSet<Guild>(guilds);
+        else return null;
     }
 
     public RolecraftCore getPlugin() {
         return plugin;
+    }
+    
+    public boolean isLoaded() {
+        return loaded;
     }
 }
