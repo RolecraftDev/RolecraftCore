@@ -68,4 +68,12 @@ public final class GuildRank {
     public Set<UUID> getMembers() {
         return new HashSet<UUID>(members);
     }
+
+    public void addMember(final UUID member) {
+        members.add(member);
+    }
+
+    public void removeMember(final UUID member) {
+        members.remove(member);
+    }
 }

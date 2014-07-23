@@ -176,4 +176,13 @@ public final class RolecraftCore extends JavaPlugin {
     public ProfessionManager getProfessionManager() {
         return professionManager;
     }
+
+    /**
+     * Gets the Vault Economy object
+     *
+     * @return The Vault Economy object
+     */
+    public Economy getEconomy() {
+        return economy;
+    }
 }

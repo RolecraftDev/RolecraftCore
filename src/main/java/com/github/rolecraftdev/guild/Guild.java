@@ -31,6 +31,7 @@ import com.github.rolecraftdev.data.Region2D;
 import org.bukkit.Location;
 import org.bukkit.entity.Entity;
 
+import java.util.Arrays;
 import java.util.HashSet;
 import java.util.Set;
 import java.util.UUID;
@@ -90,6 +91,11 @@ public final class Guild {
     public Guild(final GuildManager guildManager) {
         this.guildManager = guildManager;
         guildId = UUID.randomUUID();
+        members = new HashSet<UUID>();
+        ranks = new HashSet<GuildRank>();
+
+        ranks.add(LEADER);
+        ranks.add(DEFAULT);
     }
 
     /**
@@ -227,6 +233,15 @@ public final class Guild {
         return new HashSet<GuildRank>(ranks);
     }
 
+    public GuildRank getRank(final String name) {
+        for (final GuildRank rank : ranks) {
+            if (rank.getName().equalsIgnoreCase(name)) {
+                return rank;
+            }
+        }
+        return null;
+    }
+
     /**
      * Gets the 2D region containing the guild hall this guild owns, or null if
      * this guild doesn't currently own a guild hall
@@ -235,6 +250,35 @@ public final class Guild {
      */
     public Region2D getGuildHallRegion() {
         return hallRegion;
+    }
+
+    public void setName(final String name) {
+        this.name = name;
+    }
+
+    public void setLeader(final UUID leader) {
+        if (this.leader != null) {
+            LEADER.removeMember(this.leader);
+        }
+        if (!members.contains(leader)) {
+            members.add(leader);
+        }
+
+        this.leader = leader;
+        LEADER.addMember(leader);
+    }
+
+    public void addMember(final UUID member, final GuildRank rank) {
+        members.add(member);
+        rank.addMember(member);
+    }
+
+    public void addRank(final GuildRank rank) {
+        ranks.add(rank);
+    }
+
+    public void setHomeLocation(final Location home) {
+        this.home = home;
     }
 
     /**
@@ -271,4 +315,18 @@ public final class Guild {
     void claimAsGuildHall(final Region2D hallRegion) {
         this.hallRegion = hallRegion;
     }
+
+    /**
+     * The Leader rank, which is present whenever a new guild is created, and
+     * cannot be removed
+     */
+    private final GuildRank LEADER = new GuildRank("Leader",
+            new HashSet<GuildAction>(
+                    Arrays.asList(GuildAction.values())), new HashSet<UUID>());
+    /**
+     * The Default rank, which is present whenever a new guild is created, but
+     * can be removed
+     */
+    private final GuildRank DEFAULT = new GuildRank("Default",
+            new HashSet<GuildAction>(), new HashSet<UUID>());
 }
