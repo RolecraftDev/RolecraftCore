@@ -139,4 +139,8 @@ public final class RolecraftCore extends JavaPlugin {
     public GuildManager getGuildManager() {
         return guildManager;
     }
+
+    public ProfessionManager getProfessionManager() {
+        return professionManager;
+    }
 }
