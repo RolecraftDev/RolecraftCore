@@ -98,7 +98,9 @@ public final class CommandHelper {
         }
 
         final int orig = COMMANDS_PER_PAGE * (page - 1);
-        for (int cmdNo = orig; cmdNo < orig + COMMANDS_PER_PAGE; cmdNo++) {
+        final int amount = Math.min(COMMANDS_PER_PAGE,
+                subCommands.subList(orig, subCommands.size() - 1).size());
+        for (int cmdNo = orig; cmdNo < orig + amount; cmdNo++) {
             final RCSubCommand sub = subCommands.get(cmdNo);
             if (sender.hasPermission(sub.getPermission())) {
                 sender.sendMessage(ChatColor.GOLD + sub.getUsage() + " - "
