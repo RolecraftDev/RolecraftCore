@@ -1,6 +1,8 @@
 name: RolecraftCore
 version: 0.1
 
+authors: [PandazNWafflez, mythbusterma, TraksAG]
+
 main: com.github.rolecraftdev.RolecraftCore
 
 commands:
