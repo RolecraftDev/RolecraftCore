@@ -41,7 +41,6 @@ public final class GuildManager {
     private final Set<Guild> guilds;
     
     private boolean loaded;
-
     private ConfigAccessor guildConfig;
 
     /**
@@ -57,13 +56,7 @@ public final class GuildManager {
 
         guildConfig = new ConfigAccessor(plugin, "guildconfig.yml");
 
-        for (final GuildAction action : GuildAction.values()) {
-            action.setAccessLevel(guildConfig.getConfig().getInt(
-                    "access-levels." + action.getConfigPath(),
-                    action.getDefaultAccessLevel()));
-        }
         loaded = false;
-        
 
         plugin.getServer().getPluginManager()
                 .registerEvents(new GuildListener(this), plugin);

@@ -29,35 +29,22 @@ package com.github.rolecraftdev.guild;
 import java.util.UUID;
 
 public enum GuildAction {
-    KICK_MEMBER(2), KICK_OFFICER(3), INVITE(2), LEAVE(1), SET_LEADER(
-            3), SET_HOME(3), CHANGE_BLOCK(2);
+    // TODO: More things might be added here
+    KICK_MEMBER("kick"), INVITE("invite"), SET_HOME("sethome"), CHANGE_BLOCK(
+            "modifyhall");
 
-    private final int defaultAccessLevel;
+    private final String playerReadable;
 
-    private int accessLevel;
-
-    private GuildAction(final int defaultAccessLevel) {
-        this.defaultAccessLevel = defaultAccessLevel;
+    GuildAction(final String playerReadable) {
+        this.playerReadable = playerReadable;
     }
 
-    public int getDefaultAccessLevel() {
-        return defaultAccessLevel;
-    }
-
-    public int getAccessLevel() {
-        return accessLevel;
-    }
-
-    public void setAccessLevel(int accessLevel) {
-        this.accessLevel = accessLevel;
+    public String getPlayerReadableName() {
+        return playerReadable;
     }
 
     public boolean can(final UUID player, final Guild guild) {
-        final GuildRole role = guild.getRole(player);
-        if (role != null) {
-            return role.getAccessLevel() >= accessLevel;
-        }
-        return false;
+        return false; // TODO
     }
 
     public String getConfigPath() {

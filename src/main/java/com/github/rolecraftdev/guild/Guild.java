@@ -28,7 +28,6 @@ package com.github.rolecraftdev.guild;
 
 import com.github.rolecraftdev.data.PlayerData;
 import com.github.rolecraftdev.data.Region2D;
-
 import org.bukkit.Location;
 import org.bukkit.entity.Entity;
 
@@ -37,14 +36,14 @@ import java.util.Set;
 import java.util.UUID;
 
 /**
- * Represents a guild in Rolecraft
+ * Represents a guild in Rolecraft. Guilds are player-creatable and provide
+ * lots of functionality
  */
 public final class Guild {
     /**
      * The GuildManager object this guild is registered to
      */
     private final GuildManager guildManager;
-    
     /**
      * A UUID that refers to this guild
      */
@@ -59,15 +58,15 @@ public final class Guild {
      */
     private UUID leader;
     /**
-     * A Set containing all of this guild's officers' unique identifiers. This
-     * does not contain the guild leader's unique identifier
-     */
-    private Set<UUID> officers;
-    /**
      * A Set containing all of this guild's members' unique identifiers,
      * including officers and the leader
      */
     private Set<UUID> members;
+    /**
+     * A Set containing all of the ranks available in this guild, as configured
+     * by the guild leader
+     */
+    private Set<GuildRank> ranks;
     /**
      * The home point of this guild, used for teleporting to the guild home
      */
@@ -85,14 +84,41 @@ public final class Guild {
     /**
      * Creates a new Guild object linked to the given GuildManager object, which
      * is used for interaction with the rest of the plugin
-     * 
-     * 
      *
      * @param guildManager The GuildManager object this Guild belongs to
      */
     public Guild(final GuildManager guildManager) {
         this.guildManager = guildManager;
         guildId = UUID.randomUUID();
+    }
+
+    /**
+     * Creates a new Guild object linked to the given GuildManager object, which
+     * is based on the given data
+     *
+     * @param guildManager The GuildManager object this Guild belongs to
+     * @param guildId      The unique identifier of this Guild
+     * @param name         The unique name of this Guild
+     * @param leader       The unique identifier of this Guild's leader
+     * @param members      A Set of all of the members of this Guild
+     * @param ranks        A Set of all of the ranks within this Guild
+     * @param home         The Location this Guild's home is located at
+     * @param influence    The current influence of this Guild
+     * @param hallRegion   The Region containing this Guild's guild hall
+     */
+    public Guild(final GuildManager guildManager, final UUID guildId,
+            final String name, final UUID leader, final Set<UUID> members,
+            final Set<GuildRank> ranks, final Location home,
+            final int influence, final Region2D hallRegion) {
+        this.guildManager = guildManager;
+        this.guildId = guildId;
+        this.name = name;
+        this.leader = leader;
+        this.members = members;
+        this.ranks = ranks;
+        this.home = home;
+        this.influence = influence;
+        this.hallRegion = hallRegion;
     }
 
     /**
@@ -116,28 +142,6 @@ public final class Guild {
      */
     public boolean isMember(final UUID player) {
         return members.contains(player);
-    }
-
-    /**
-     * Gets the role within the guild of the player with the given unique
-     * identifier, or null if the player with the given identifier isn't a
-     * member of this guild
-     *
-     * @param player The player to check the guild role in this guild for
-     * @return The GuildRole object representing the given player's role in this
-     * guild
-     */
-    public GuildRole getRole(final UUID player) {
-        if (!members.contains(player)) {
-            return null;
-        }
-        if (leader.equals(player)) {
-            return GuildRole.LEADER;
-        }
-        if (officers.contains(player)) {
-            return GuildRole.OFFICER;
-        }
-        return GuildRole.MEMBER;
     }
 
     /**
@@ -205,21 +209,22 @@ public final class Guild {
     }
 
     /**
-     * Gets a copy of the set used to hold the officers of this guild
-     *
-     * @return A copy of the Set of this guild's officers
-     */
-    public Set<UUID> getOfficers() {
-        return new HashSet<UUID>(officers);
-    }
-
-    /**
      * Gets a copy of the set used to hold the members of this guild
      *
      * @return A copy of the Set of this guild's members
      */
     public Set<UUID> getMembers() {
         return new HashSet<UUID>(members);
+    }
+
+    /**
+     * Gets a copy of the set used to hold the player ranks available in this
+     * guild
+     *
+     * @return A copy of the Set of this guild's available ranks
+     */
+    public Set<GuildRank> getRanks() {
+        return new HashSet<GuildRank>(ranks);
     }
 
     /**

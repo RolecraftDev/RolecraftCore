@@ -63,13 +63,7 @@ public final class GuildShowCommand extends GuildSubCommand {
         }
 
         if (guild != null) {
-            sender.sendMessage(ChatColor.GOLD + guild.getName());
-            sender.sendMessage(
-                    ChatColor.GOLD + "Members: " + guild.getMembers().size());
-            sender.sendMessage(
-                    ChatColor.GOLD + "Officers: " + guild.getOfficers().size());
-            sender.sendMessage(ChatColor.GOLD + "Leader: " + plugin.getServer()
-                    .getPlayer(guild.getLeader()).getName());
+            // TODO
         }
     }
 
