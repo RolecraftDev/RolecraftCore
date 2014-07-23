@@ -30,17 +30,24 @@ import java.util.UUID;
 
 public enum GuildAction {
     // TODO: More things might be added here
-    KICK_MEMBER("kick"), INVITE("invite"), SET_HOME("sethome"), CHANGE_BLOCK(
+    KICK_MEMBER(0, "kick"), INVITE(1, "invite"), SET_HOME(2,
+            "sethome"), CHANGE_BLOCK(3,
             "modifyhall");
 
+    private final int id;
     private final String playerReadable;
 
-    GuildAction(final String playerReadable) {
+    GuildAction(final int id, final String playerReadable) {
+        this.id = id;
         this.playerReadable = playerReadable;
     }
 
     public String getPlayerReadableName() {
         return playerReadable;
+    }
+
+    public int getId() {
+        return id;
     }
 
     public boolean can(final UUID player, final Guild guild) {
