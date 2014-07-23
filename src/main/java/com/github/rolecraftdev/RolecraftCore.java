@@ -106,9 +106,9 @@ public final class RolecraftCore extends JavaPlugin {
 
         // Set up the plugin's data store
         if (dbType.equals("sqlite")) {
-            dataStore = new SQLiteDataStore();
+            dataStore = new SQLiteDataStore(this);
         } else if (dbType.equals("mysql")) {
-            dataStore = new MySQLDataStore();
+            dataStore = new MySQLDataStore(this);
         }
 
         // Log the data store we are using

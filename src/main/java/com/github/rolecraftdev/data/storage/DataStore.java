@@ -32,12 +32,26 @@ import java.sql.ResultSet;
 import java.sql.SQLException;
 import java.util.UUID;
 
+import org.bukkit.scheduler.BukkitRunnable;
+
+import com.github.rolecraftdev.RolecraftCore;
 import com.github.rolecraftdev.data.PlayerData;
 import com.github.rolecraftdev.guild.Guild;
 import com.github.rolecraftdev.guild.GuildManager;
+import com.github.rolecraftdev.guild.GuildRank;
 
 public abstract class DataStore {
 
+    private RolecraftCore parent;
+    
+    public DataStore(RolecraftCore parent) {
+        this.parent = parent;
+    }
+    
+    public RolecraftCore getParent () {
+        return parent;
+    }
+    
     public static final String pt = "playertable";
     public static final String mdt = "metadatatable";
     public static final String gt = "guildtable";
@@ -53,6 +67,10 @@ public abstract class DataStore {
     public abstract void loadGuilds (final GuildManager callback);
     
     public abstract void deleteGuild (final Guild guild);
+    
+    public abstract void addPlayerToGuild (final UUID uuid, final Guild guild);
+    
+    public abstract void removePlayerFromGuild (final UUID uuid, final Guild guild);
     
     public abstract void clearPlayerData (final UUID uuid);
 
@@ -70,5 +88,58 @@ public abstract class DataStore {
     }
 
     public abstract String getStoreTypeName();
+
+    public void updateGuildData(final Guild guild) {
+        final String home = LocationSerializer.serialize(guild.getHomeLocation());
+        final String name = guild.getName();
+        final String leader = guild.getLeader().toString();
+        StringBuilder sb = new StringBuilder ();
+        for (UUID id: guild.getMembers()) {
+            sb.append(id.toString());
+            sb.append(",");
+        }
+        final String members = sb.substring(0,sb.length() -2);
+        sb = new StringBuilder();
+        for (GuildRank rank: guild.getRanks()) {
+            sb.append(rank.serialize());
+            sb.append(",");
+        }
+        final String ranks = sb.substring(0,sb.length() -2);
+        final String hall = guild.getGuildHallRegion().toString();
+        final String id = guild.getId().toString();
+        
+        new BukkitRunnable () {
+    
+            @Override
+            public void run() {
+                Connection connection = getConnection();
+                PreparedStatement ps = null;
+                ResultSet rs = null;
+                try {
+                    // TODO: Method skeleton
+                    ps = connection.prepareStatement("UPDATE " + gt + " SET "
+                            + "name = ?, "
+                            + "leader = ?,"
+                            + "members = ?,"
+                            + "ranks = ?,"
+                            + "home = ?,"
+                            + "hall = ? "
+                            + "WHERE uuid = ?");
+                    ps.setString(1, name);
+                    ps.setString(2, leader);
+                    ps.setString(3, members);
+                    ps.setString(4, ranks);
+                    ps.setString(5, home);
+                    ps.setString(6, hall);
+                    ps.setString(7, id);
+                } catch (SQLException ex) {
+                    ex.printStackTrace();
+                } finally {
+                    close(ps, rs);
+                }
+            }
+            
+        }.runTaskAsynchronously(getParent());
+    }
 
 }

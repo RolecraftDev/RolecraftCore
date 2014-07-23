@@ -32,11 +32,16 @@ import java.sql.ResultSet;
 import java.sql.SQLException;
 import java.util.UUID;
 
+import com.github.rolecraftdev.RolecraftCore;
 import com.github.rolecraftdev.data.PlayerData;
 import com.github.rolecraftdev.guild.Guild;
 import com.github.rolecraftdev.guild.GuildManager;
 
 public final class SQLiteDataStore extends DataStore {
+
+    public SQLiteDataStore(RolecraftCore parent) {
+        super(parent);
+    }
 
     private static final String createPlayerTable = "CREATE TABLE IF NOT EXISTS "  + pt  + " ("
             + "uuid VARCHAR(37) PRIMARY KEY ON CONFLICT REPLACE,"
@@ -181,6 +186,24 @@ public final class SQLiteDataStore extends DataStore {
         } finally {
             close(ps, rs);
         }
+        
+    }
+
+    @Override
+    public void addPlayerToGuild(UUID uuid, Guild guild) {
+        // TODO Auto-generated method stub
+        
+    }
+
+    @Override
+    public void removePlayerFromGuild(UUID uuid, Guild guild) {
+        // TODO Auto-generated method stub
+        
+    }
+
+    @Override
+    public void updateGuildData(Guild guild) {
+        // TODO Auto-generated method stub
         
     }
 

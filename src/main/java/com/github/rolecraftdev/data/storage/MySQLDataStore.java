@@ -32,11 +32,16 @@ import java.sql.ResultSet;
 import java.sql.SQLException;
 import java.util.UUID;
 
+import com.github.rolecraftdev.RolecraftCore;
 import com.github.rolecraftdev.data.PlayerData;
 import com.github.rolecraftdev.guild.Guild;
 import com.github.rolecraftdev.guild.GuildManager;
 
 public final class MySQLDataStore extends DataStore {
+
+    public MySQLDataStore(RolecraftCore parent) {
+        super(parent);
+    }
 
     private static final String createPlayerTable = "CREATE TABLE IF NOT EXISTS " + pt + " ("
             + "uuid VARCHAR(40) PRIMARY KEY,"
@@ -116,7 +121,7 @@ public final class MySQLDataStore extends DataStore {
     }
 
     @Override
-    public void createGuild(Guild guild) {
+    public void createGuild(final Guild guild) {
         Connection connection = getConnection();
         PreparedStatement ps = null;
         ResultSet rs = null;
@@ -150,7 +155,7 @@ public final class MySQLDataStore extends DataStore {
     }
 
     @Override
-    public void deleteGuild(Guild guild) {
+    public void deleteGuild(final Guild guild) {
         Connection connection = getConnection();
         PreparedStatement ps = null;
         ResultSet rs = null;
@@ -180,6 +185,18 @@ public final class MySQLDataStore extends DataStore {
         } finally {
             close(ps, rs);
         }
+        
+    }
+
+    @Override
+    public void addPlayerToGuild(final UUID uuid, final Guild guild) {
+        // TODO Auto-generated method stub
+        
+    }
+
+    @Override
+    public void removePlayerFromGuild(final UUID uuid, final Guild guild) {
+        // TODO Auto-generated method stub
         
     }
 
