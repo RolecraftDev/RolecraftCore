@@ -185,4 +185,8 @@ public final class RolecraftCore extends JavaPlugin {
     public Economy getEconomy() {
         return economy;
     }
+
+    public boolean useEconomy() {
+        return useEconomy;
+    }
 }

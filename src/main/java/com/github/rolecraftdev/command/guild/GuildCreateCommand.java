@@ -2,7 +2,6 @@ package com.github.rolecraftdev.command.guild;
 
 import com.github.rolecraftdev.RolecraftCore;
 import com.github.rolecraftdev.guild.Guild;
-import net.milkbowl.vault.economy.Economy;
 import net.milkbowl.vault.economy.EconomyResponse;
 import org.bukkit.ChatColor;
 import org.bukkit.command.CommandSender;
@@ -34,14 +33,15 @@ public class GuildCreateCommand extends GuildSubCommand {
                     ChatColor.DARK_RED + "You are already in a guild!");
             return;
         }
-
-        final Economy econ = plugin.getEconomy();
-        final EconomyResponse response = econ.bankHas(thePlayer.getName(),
-                guildManager.getCreationCost());
-        if (!response.transactionSuccess()) {
-            sender.sendMessage(
-                    ChatColor.DARK_RED + "You can't afford to do that!");
-            return;
+        if (plugin.useEconomy()) {
+            final EconomyResponse response = plugin.getEconomy().bankHas(
+                    thePlayer.getName(),
+                    guildManager.getCreationCost());
+            if (!response.transactionSuccess()) {
+                sender.sendMessage(
+                        ChatColor.DARK_RED + "You can't afford to do that!");
+                return;
+            }
         }
 
         final String name = args[1];
@@ -50,8 +50,10 @@ public class GuildCreateCommand extends GuildSubCommand {
         guild.setName(name);
         guild.setLeader(player);
         if (guildManager.addGuild(guild, false)) {
-            econ.bankWithdraw(thePlayer.getName(),
-                    guildManager.getCreationCost());
+            if (plugin.useEconomy()) {
+                plugin.getEconomy().bankWithdraw(thePlayer.getName(),
+                        guildManager.getCreationCost());
+            }
             sender.sendMessage(ChatColor.GRAY
                     + "You created a guild named '" + name + "'!");
         } else {
