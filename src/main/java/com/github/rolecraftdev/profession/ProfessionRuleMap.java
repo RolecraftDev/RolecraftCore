@@ -35,8 +35,19 @@ import java.util.HashMap;
 import java.util.Map;
 import java.util.Map.Entry;
 
-public class ProfessionRuleMap {
+/**
+ * A wrapper around a Map of ProfessionRules to Objects, used for storing rules
+ * about a profession and their values
+ */
+public final class ProfessionRuleMap {
+    /**
+     * The name of the profession this rule map contains rules for
+     */
     private final String professionName;
+    /**
+     * A Map of ProfessionRules to Objects holding all of the loaded rules for
+     * the profession this rule map holds rules for
+     */
     private final Map<ProfessionRule<?>, Object> rules = new HashMap<ProfessionRule<?>, Object>();
 
     public ProfessionRuleMap(final String professionName) {
@@ -47,18 +58,40 @@ public class ProfessionRuleMap {
         return professionName;
     }
 
-    public <T> T get(ProfessionRule<T> key) {
+    /**
+     * Gets the value of the given ProfessionRule in this rulemap, or null if
+     * the given rule isn't set
+     *
+     * @param key The rule to get the value of in this rule map
+     * @param <T> The type which will be returned as the rule's value
+     * @return The value for the given rule, cast to T
+     */
+    public <T> T get(final ProfessionRule<T> key) {
         return key.cast(rules.get(key));
     }
 
-    public boolean set(ProfessionRule<?> key, Object value) {
-        if (key == null || !key.validate(value))
+    /**
+     * Sets the given rule to the given value
+     *
+     * @param key   The rule to set
+     * @param value The value to set the given rule to
+     * @return Whether the value was successfully set to the rule
+     */
+    public boolean set(final ProfessionRule<?> key, final Object value) {
+        if (key == null || !key.validate(value)) {
             return false;
+        }
 
         rules.put(key, value);
         return true;
     }
 
+    /**
+     * Loads a new ProfessionRuleMap from the given file
+     *
+     * @param file The file to load the map of rules to values from
+     * @return The ProfessionRuleMap object created from the file's contents
+     */
     public static ProfessionRuleMap load(final File file) {
         if (!file.exists()) {
             try {
@@ -68,20 +101,28 @@ public class ProfessionRuleMap {
             }
         }
 
-        final YamlConfiguration config = YamlConfiguration.loadConfiguration(file);
-        ConfigurationSection rulesSection = config.getConfigurationSection("rules");
+        final YamlConfiguration config = YamlConfiguration
+                .loadConfiguration(file);
+        ConfigurationSection rulesSection = config
+                .getConfigurationSection("rules");
 
-        if (rulesSection == null)
+        if (rulesSection == null) {
             rulesSection = config.createSection("rules");
+        }
 
         // Remove file name's extension
         final String name = file.getName().replaceAll("\\..*", "");
         final ProfessionRuleMap ruleMap = new ProfessionRuleMap(name);
 
-        for (Entry<String, Object> element : rulesSection.getValues(true).entrySet()) {
-            // TODO: If false -> inform user something is wrong (?)
+        for (final Entry<String, Object> element : rulesSection.getValues(true)
+                .entrySet()) {
             // Validation is done by #set
-            ruleMap.set(ProfessionRule.getRule(element.getKey()), element.getValue());
+            if (!ruleMap.set(ProfessionRule.getRule(element.getKey()),
+                    element.getValue())) {
+                System.out.println(
+                        "[WARNING] [Rolecraft] Couldn't set rule " + element
+                                .getKey() + " for profession " + name);
+            }
         }
         return ruleMap;
     }

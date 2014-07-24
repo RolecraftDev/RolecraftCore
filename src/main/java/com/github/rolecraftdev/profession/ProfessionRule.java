@@ -29,26 +29,32 @@ package com.github.rolecraftdev.profession;
 import java.util.HashSet;
 import java.util.Set;
 
-public class ProfessionRule<T> {
-
+public final class ProfessionRule<T> {
     // Constant pool for easy lookups
     private static final Set<ProfessionRule<?>> pool = new HashSet<ProfessionRule<?>>();
 
     // Constants
     // here
 
-    public static ProfessionRule<?> getRule(String name) {
-        for (ProfessionRule<?> element : pool) {
-            if (element.getName().equals(name))
+    public static ProfessionRule<?> getRule(final String name) {
+        for (final ProfessionRule<?> element : pool) {
+            if (element.getName().equals(name)) {
                 return element;
+            }
         }
         return null;
     }
 
+    /**
+     * The name of this rule
+     */
     private final String name;
+    /**
+     * The type of object this rule should be set to
+     */
     private final Class<T> type;
 
-    private ProfessionRule(String name, Class<T> type) {
+    private ProfessionRule(final String name, final Class<T> type) {
         this.name = name;
         this.type = type;
 
@@ -63,11 +69,24 @@ public class ProfessionRule<T> {
         return type;
     }
 
-    public boolean validate(Object object) {
+    /**
+     * Checks whether the given object is valid to be cast to this rule's value
+     * type
+     *
+     * @param object The object to check the validity to cast of
+     * @return true if the given object is of the correct type, false otherwise
+     */
+    public boolean validate(final Object object) {
         return object != null && getType().isAssignableFrom(object.getClass());
     }
 
-    public T cast(Object object) {
+    /**
+     * Casts the given object to the type used for this rule's values
+     *
+     * @param object The object to cast to this rule's value type
+     * @return The instance of the given object cast to this rule's value type
+     */
+    public T cast(final Object object) {
         return getType().cast(object);
     }
 
@@ -78,11 +97,12 @@ public class ProfessionRule<T> {
 
     // ProfessionRules are equal when their names are
     @Override
-    public boolean equals(Object object) {
-        if (!(object instanceof ProfessionRule))
+    public boolean equals(final Object object) {
+        if (!(object instanceof ProfessionRule)) {
             return false;
+        }
 
-        ProfessionRule<?> other = (ProfessionRule<?>) object;
+        final ProfessionRule<?> other = (ProfessionRule<?>) object;
         return getName().equals(other.getName());
     }
 }
