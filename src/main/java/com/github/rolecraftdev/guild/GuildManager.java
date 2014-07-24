@@ -33,6 +33,10 @@ import java.util.HashSet;
 import java.util.Set;
 import java.util.UUID;
 
+/**
+ * Stores guild data and guild-related configuration options and manages guilds
+ * in Rolecraft
+ */
 public final class GuildManager {
     /**
      * The RolecraftCore plugin object
@@ -78,6 +82,7 @@ public final class GuildManager {
 
         guilds = new HashSet<Guild>();
 
+        // Get guild configuration options
         guildConfig = new ConfigAccessor(plugin, "guildconfig.yml");
         creationCost = guildConfig.getConfig()
                 .getInt("economy.creation-cost", 0);
@@ -86,6 +91,7 @@ public final class GuildManager {
 
         loaded = false;
 
+        // Register the guild listener with Bukkit
         plugin.getServer().getPluginManager()
                 .registerEvents(new GuildListener(this), plugin);
     }
@@ -96,7 +102,8 @@ public final class GuildManager {
      * guild's name
      *
      * @param guild        The guild to load
-     * @param fromDatabase Used internally for loading from database, always use false
+     * @param fromDatabase Used internally for loading from database, always use
+     *                     false
      * @return true for success, false if the guild already exists
      */
     public boolean addGuild(final Guild guild, boolean fromDatabase) {
@@ -113,7 +120,8 @@ public final class GuildManager {
     }
 
     /**
-     * Deletes the given guild, both from memory and from the database
+     * Attempts to delete the given guild, both from memory and from the SQL
+     * database. Will fail if this guild manager hasn't loaded yet
      *
      * @param guild The guild to remove
      * @return true if the guild was removed, false if it wasn't

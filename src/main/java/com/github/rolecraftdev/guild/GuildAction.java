@@ -28,26 +28,43 @@ package com.github.rolecraftdev.guild;
 
 import java.util.UUID;
 
+/**
+ * A representation of all of the actions which can be performed and are related
+ * to guilds in one way or another
+ */
 public enum GuildAction {
     // TODO: More things might be added here
     KICK_MEMBER("kick"), INVITE("invite"), SET_HOME("sethome"), CHANGE_BLOCK(
             "modifyhall");
 
+    /**
+     * A player-readable version of the name of this action
+     */
     private final String playerReadable;
 
     GuildAction(final String playerReadable) {
         this.playerReadable = playerReadable;
     }
 
+    /**
+     * Gets a player-readable version of the name of this guild action
+     *
+     * @return A player-readable version of this action's name
+     */
     public String getPlayerReadableName() {
         return playerReadable;
     }
 
+    /**
+     * Checks whether the given player is permitted to perform this action
+     * within the given guild - false will always be returned if the given
+     * player is not a member of the given guild
+     *
+     * @param player The player to check the permissions of
+     * @param guild  The guild to check the permissions of the given player in
+     * @return true if the given player can perform this action, false otherwise
+     */
     public boolean can(final UUID player, final Guild guild) {
-        return false; // TODO
-    }
-
-    public String getConfigPath() {
-        return name().toLowerCase().replace('_', '-');
+        return guild.can(player, this);
     }
 }

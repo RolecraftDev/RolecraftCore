@@ -131,12 +131,17 @@ public final class Guild {
      * Checks whether the player with the given unique identifier is allowed to
      * perform the given action within this guild
      *
-     * @param player The player to check the ability to perform the given action
+     * @param player The player to check the permissions of
      * @param action The action to check whether the given player can perform
      * @return Whether the given player is allowed to perform the given action
      */
     public boolean can(final UUID player, final GuildAction action) {
-        return action.can(player, this);
+        for (final GuildRank rank : ranks) {
+            if (rank.hasPlayer(player) && rank.can(action)) {
+                return true;
+            }
+        }
+        return false;
     }
 
     /**
@@ -148,6 +153,25 @@ public final class Guild {
      */
     public boolean isMember(final UUID player) {
         return members.contains(player);
+    }
+
+    /**
+     * Gets a set of all of the ranks the given player has within this guild. If
+     * the player has no ranks within this guild (i.e isn't a member), then this
+     * method will return null, and NOT an empty set
+     *
+     * @param player The player to get the ranks within this guild for
+     * @return A Set of ranks the player has in this guild, or null if (s)he
+     * isn't a member
+     */
+    public Set<GuildRank> getPlayerRanks(final UUID player) {
+        final Set<GuildRank> result = new HashSet<GuildRank>();
+        for (final GuildRank rank : ranks) {
+            if (rank.hasPlayer(player)) {
+                result.add(rank);
+            }
+        }
+        return result.isEmpty() ? null : result;
     }
 
     /**
