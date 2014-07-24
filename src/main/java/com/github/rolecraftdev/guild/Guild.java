@@ -187,7 +187,19 @@ public final class Guild {
     }
 
     /**
-     * Gets the name of this guild, which should be unique
+     * Gets the unique identifier for this guild
+     *
+     * @return This guild's unique identifier
+     */
+    public UUID getId() {
+        return guildId;
+    }
+
+    /**
+     * Gets the name of this guild, which should be unique. Despite the fact
+     * that guild names should be unique, they can change, and thus should not
+     * be used for comparison of guilds (the guild's unique identifier should
+     * be used instead)
      *
      * @return The unique name of this guild
      */
@@ -233,6 +245,12 @@ public final class Guild {
         return new HashSet<GuildRank>(ranks);
     }
 
+    /**
+     * Gets the player rank within this guild with the provided name
+     *
+     * @param name The name to get the GuildRank object for
+     * @return The GuildRank associated with the given name
+     */
     public GuildRank getRank(final String name) {
         for (final GuildRank rank : ranks) {
             if (rank.getName().equalsIgnoreCase(name)) {
@@ -252,13 +270,26 @@ public final class Guild {
         return hallRegion;
     }
 
+    /**
+     * Sets the name of this guild
+     *
+     * @param name The new name of the guild
+     */
     public void setName(final String name) {
         this.name = name;
     }
 
+    /**
+     * Sets the leader of this guild. If the guild already has a leader, the
+     * current leader is demoted to a member. If the given new leader isn't
+     * already a member of this guild, (s)he is added to the guild
+     *
+     * @param leader The unique identifier of player who will be the leader
+     */
     public void setLeader(final UUID leader) {
         if (this.leader != null) {
             LEADER.removeMember(this.leader);
+            LEADER.addMember(this.leader);
         }
         if (!members.contains(leader)) {
             members.add(leader);
@@ -268,15 +299,31 @@ public final class Guild {
         LEADER.addMember(leader);
     }
 
+    /**
+     * Adds the given member into the guild, with the specified player rank
+     *
+     * @param member The unique identifier of the player to add to the guild
+     * @param rank   The rank to add the new player into the guild as
+     */
     public void addMember(final UUID member, final GuildRank rank) {
         members.add(member);
         rank.addMember(member);
     }
 
+    /**
+     * Adds the given player rank to this guild
+     *
+     * @param rank The player rank to add to this guild
+     */
     public void addRank(final GuildRank rank) {
         ranks.add(rank);
     }
 
+    /**
+     * Sets the home location of this guild to the given location
+     *
+     * @param home The Location this Guild's home will be set to
+     */
     public void setHomeLocation(final Location home) {
         this.home = home;
     }
@@ -291,10 +338,6 @@ public final class Guild {
         }
         final Guild other = (Guild) o;
         return this.guildId.equals(other.getId());
-    }
-
-    public UUID getId() {
-        return guildId;
     }
 
     /**
@@ -324,8 +367,8 @@ public final class Guild {
             new HashSet<GuildAction>(
                     Arrays.asList(GuildAction.values())), new HashSet<UUID>());
     /**
-     * The Default rank, which is present whenever a new guild is created, but
-     * can be removed
+     * The Default rank, which is present whenever a new guild is created, and
+     * cannot be removed
      */
     private final GuildRank DEFAULT = new GuildRank("Default",
             new HashSet<GuildAction>(), new HashSet<UUID>());
