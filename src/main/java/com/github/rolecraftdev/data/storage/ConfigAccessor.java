@@ -47,14 +47,15 @@ package com.github.rolecraftdev.data.storage;
  * OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN THE 
  * SOFTWARE.
  */
-import java.io.File;
-import java.io.IOException;
-import java.io.InputStream;
-import java.util.logging.Level;
 
 import org.bukkit.configuration.file.FileConfiguration;
 import org.bukkit.configuration.file.YamlConfiguration;
 import org.bukkit.plugin.java.JavaPlugin;
+
+import java.io.File;
+import java.io.IOException;
+import java.io.InputStream;
+import java.util.logging.Level;
 
 public class ConfigAccessor {
 
@@ -65,8 +66,8 @@ public class ConfigAccessor {
 	private final JavaPlugin plugin;
 
 	@SuppressWarnings("deprecation")
-	public ConfigAccessor(JavaPlugin plugin, String fileName) {
-		if (plugin == null) {
+    public ConfigAccessor(final JavaPlugin plugin, final String fileName) {
+        if (plugin == null) {
 			throw new IllegalArgumentException("plugin cannot be null");
 		}
 		if (!plugin.isInitialized()) {
@@ -74,8 +75,8 @@ public class ConfigAccessor {
 		}
 		this.plugin = plugin;
 		this.fileName = fileName;
-		File dataFolder = plugin.getDataFolder();
-		if (dataFolder == null) {
+        final File dataFolder = plugin.getDataFolder();
+        if (dataFolder == null) {
 			throw new IllegalStateException();
 		}
 		configFile = new File(plugin.getDataFolder(), fileName);
@@ -93,22 +94,20 @@ public class ConfigAccessor {
 		fileConfiguration = YamlConfiguration.loadConfiguration(configFile);
 
 		// Look for defaults in the jar
-		InputStream defConfigStream = plugin.getResource(fileName);
-		if (defConfigStream != null) {
-			YamlConfiguration defConfig = YamlConfiguration
-					.loadConfiguration(defConfigStream);
+        final InputStream defConfigStream = plugin.getResource(fileName);
+        if (defConfigStream != null) {
+            final YamlConfiguration defConfig = YamlConfiguration
+                    .loadConfiguration(defConfigStream);
 			fileConfiguration.setDefaults(defConfig);
 		}
 	}
 
 	public void saveConfig() {
-		if (fileConfiguration == null || configFile == null) {
-			return;
-		} else {
-			try {
+        if (fileConfiguration != null && configFile != null) {
+            try {
 				getConfig().save(configFile);
-			} catch (IOException ex) {
-				plugin.getLogger().log(Level.SEVERE,
+            } catch (final IOException ex) {
+                plugin.getLogger().log(Level.SEVERE,
 						"Could not save config to " + configFile, ex);
 			}
 		}
