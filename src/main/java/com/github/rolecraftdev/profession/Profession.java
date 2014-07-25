@@ -26,14 +26,11 @@
  */
 package com.github.rolecraftdev.profession;
 
-import java.util.HashSet;
-import java.util.Set;
 import java.util.UUID;
 
 public class Profession {
     private final ProfessionManager professionManager;
     private final UUID professionId;
-    private final Set<UUID> members;
 
     private String name;
     private ProfessionRuleMap rules;
@@ -41,33 +38,19 @@ public class Profession {
     public Profession(final ProfessionManager professionManager) {
         this.professionManager = professionManager;
         professionId = UUID.randomUUID();
-        members = new HashSet<UUID>();
     }
 
     public Profession(final ProfessionManager professionManager,
-            final UUID professionId, final Set<UUID> members,
-            final String name, final ProfessionRuleMap rules) {
+            final UUID professionId, final String name,
+            final ProfessionRuleMap rules) {
         this.professionManager = professionManager;
         this.professionId = professionId;
-        this.members = members;
         this.name = name;
         this.rules = rules;
     }
 
     public ProfessionManager getManager() {
         return professionManager;
-    }
-
-    public Set<UUID> getMembers() {
-        return new HashSet<UUID>(members);
-    }
-
-    public boolean isMember(final UUID member) {
-        return members.contains(member);
-    }
-
-    public void addMember(final UUID member) {
-        members.add(member);
     }
 
     public String getName() {

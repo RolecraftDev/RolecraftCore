@@ -31,7 +31,6 @@ import com.github.rolecraftdev.RolecraftCore;
 import java.io.File;
 import java.util.HashSet;
 import java.util.Set;
-import java.util.UUID;
 
 public final class ProfessionManager {
     private final RolecraftCore plugin;
@@ -53,14 +52,6 @@ public final class ProfessionManager {
     public Profession getProfession(final String name) {
         for (final Profession profession : professions) {
             if (profession.getName().equalsIgnoreCase(name))
-                return profession;
-        }
-        return null;
-    }
-
-    public Profession getPlayerProfession(final UUID player) {
-        for (final Profession profession : professions) {
-            if (profession.isMember(player))
                 return profession;
         }
         return null;
