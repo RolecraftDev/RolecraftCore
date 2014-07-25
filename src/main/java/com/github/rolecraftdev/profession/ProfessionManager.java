@@ -27,6 +27,7 @@
 package com.github.rolecraftdev.profession;
 
 import com.github.rolecraftdev.RolecraftCore;
+import com.github.rolecraftdev.data.storage.YamlFile;
 
 import java.io.File;
 import java.util.HashSet;
@@ -83,9 +84,10 @@ public final class ProfessionManager {
         }
 
         for (final File professionFile : directory.listFiles()) {
-            final ProfessionRuleMap rules = ProfessionRuleMap
-                    .load(professionFile);
-            // TODO: Create Profession and add it to professions
+            final ProfessionDeserializer deserializer =
+                    new ProfessionDeserializer(new YamlFile(professionFile));
+
+            professions.add(deserializer.getProfession(this));
         }
     }
 }
