@@ -31,31 +31,33 @@ import java.util.Set;
 import java.util.UUID;
 
 /**
- * Represents a player rank within a specific guild. Ranks can be created by the
- * guild leader and can have different permissions
+ * Represents a player rank within a specific {@link Guild}. {@link GuildRank}s
+ * can be created by the {@link Guild}'s leader and can have different
+ * permissions.
  */
 public final class GuildRank {
     /**
-     * The name of this guild rank
+     * The name of this {@link GuildRank}.
      */
     private final String name;
     /**
-     * The actions within the guild which members of this guild rank are allowed
-     * to perform
+     * The actions within the {@link Guild}, which members of this
+     * {@link GuildRank} are allowed to perform.
      */
     private final Set<GuildAction> permitted;
     /**
-     * All of the members of the guild this guild rank is included in who are
-     * in this rank
+     * All of the members of the {@link Guild} this {@link GuildRank} is
+     * included in who are in this {@link GuildRank}.
      */
     private final Set<UUID> members;
 
     /**
-     * Creates a new guild rank using the given parameters
-     *
-     * @param name      The name of the new guild rank
-     * @param permitted The actions the new rank's members can perform
-     * @param members   The members of the new guild rank
+     * Creates a new {@link GuildRank} using the given parameters.
+     * 
+     * @param name - The name of the new {@link GuildRank}
+     * @param permitted - The {@link GuildAction}s, the {@link GuildRank}'s
+     *            members can perform
+     * @param members - The members of the new {@link GuildRank}
      */
     public GuildRank(final String name, final Set<GuildAction> permitted,
             final Set<UUID> members) {
@@ -65,82 +67,86 @@ public final class GuildRank {
     }
 
     /**
-     * Gets the name of this guild rank
-     *
-     * @return The name of this guild rank
+     * Get the name of this {@link GuildRank}.
+     * 
+     * @return The name of this {@link GuildRank}
      */
     public String getName() {
         return name;
     }
 
     /**
-     * Gets a copy of the set used to hold the guild actions members of this
-     * guild rank are allowed to perform
-     *
-     * @return A copy of the Set containing guild actions members of this rank
-     * can perform
+     * Get a copy of the {@link Set} used to hold the {@link GuildAction}s, that
+     * members of this {@link GuildRank} are allowed to perform.
+     * 
+     * @return A copy of the {@link Set} containing {@link GuildAction}s, that
+     *         members of this {@link GuildRank} can perform
      */
     public Set<GuildAction> getPermittedActions() {
         return new HashSet<GuildAction>(permitted);
     }
 
     /**
-     * Gets a copy of the set used to hold the members of the guild who are a
-     * part of this guild rank
-     *
-     * @return A copy of the Set of members of the guild who are part of this
-     * guild rank
+     * Get a copy of the {@link Set} used to hold the members of the
+     * {@link Guild} who are a part of this {@link GuildRank}.
+     * 
+     * @return A copy of the {@link Set} of members of the {@link Guild} who are
+     *         part of this {@link GuildRank}
      */
     public Set<UUID> getMembers() {
         return new HashSet<UUID>(members);
     }
 
     /**
-     * Checks whether the given player is a part of this guild rank
-     *
-     * @param player The player whose membership of this rank is in question
-     * @return true if this rank contains the given player, otherwise false
+     * Checks whether the given player is a part of this {@link GuildRank}.
+     * 
+     * @param player - The player whose membership of this {@link GuildRank} is
+     *            in question
+     * @return True if this {@link GuildRank} contains the given player,
+     *         otherwise false
      */
     public boolean hasPlayer(final UUID player) {
         return members.contains(player);
     }
 
     /**
-     * Checks whether the given guild action can be performed by a member of
-     * this rank - i.e whether it is included in this rank's set of permitted
-     * guild actions
-     *
-     * @param action The action whose inclusion in the permitted actions of this
-     *               rank is being checked
-     * @return Whether the given action can be performed by members of this rank
+     * Checks whether the given {@link GuildAction} can be performed by a member
+     * of this {@link GuildRank} - i.e whether it is included in the {@link Set}
+     * returned by {@link #getPermittedActions()}.
+     * 
+     * @param action - The {@link GuildAction} whose inclusion in the permitted
+     *            {@link GuildAction}s of this {@link GuildRank} is being
+     *            checked
+     * @return True if it is included, else false
      */
     public boolean can(final GuildAction action) {
         return permitted.contains(action);
     }
 
     /**
-     * Adds the given player as a member of this guild rank
-     *
-     * @param member The unique identifier of the player to add to this rank
+     * Adds the given player as a member of this {@link GuildRank}.
+     * 
+     * @param member - The unique identifier of the player to add to this
+     *            {@link GuildRank}
      */
     public void addMember(final UUID member) {
         members.add(member);
     }
 
     /**
-     * Removes the given player from being a member of this guild rank
-     *
-     * @param member The unique identifier of the player to remove from this
-     *               rank
+     * Removes the given player from being a member of this {@link GuildRank}.
+     * 
+     * @param member - The unique identifier of the player to remove from this
+     *            {@link GuildRank}
      */
     public void removeMember(final UUID member) {
         members.remove(member);
     }
 
     /**
-     * Creates a String for storage in SQL, does not use commas
-     *
-     * @return
+     * Creates a {@link String} for storage in SQL, which does not use commas.
+     * 
+     * @return A serialized version of this {@link GuildRank}
      */
     public String serialize() {
         StringBuilder sb = new StringBuilder();
@@ -160,12 +166,13 @@ public final class GuildRank {
     }
 
     /**
-     * Deserializes the given String into a GuildRank object, assuming it is
-     * a valid serialized GuildRank. Can be built in a separate thread and
-     * passed into main, assuming the other thread destroys all references
-     *
-     * @param s The String to deserialize into a GuildRank object
-     * @return
+     * Deserializes the given {@link String} into a {@link GuildRank} object,
+     * assuming it is a valid serialized {@link GuildRank}. It can be built in a
+     * separate thread and passed into the main one, assuming the other thread
+     * destroys all references.
+     * 
+     * @param s - The String to deserialize into a {@link GuildRank} object
+     * @return The final deserialized {@link GuildRank}
      */
     public static GuildRank deserialize(String s) {
         String[] data = s.split(":");

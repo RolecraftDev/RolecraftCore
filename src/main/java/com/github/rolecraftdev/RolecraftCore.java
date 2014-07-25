@@ -31,7 +31,9 @@ import com.github.rolecraftdev.data.DataManager;
 import com.github.rolecraftdev.data.storage.DataStore;
 import com.github.rolecraftdev.data.storage.MySQLDataStore;
 import com.github.rolecraftdev.data.storage.SQLiteDataStore;
+import com.github.rolecraftdev.guild.Guild;
 import com.github.rolecraftdev.guild.GuildManager;
+import com.github.rolecraftdev.profession.Profession;
 import com.github.rolecraftdev.profession.ProfessionManager;
 import com.github.rolecraftdev.quest.QuestManager;
 import net.milkbowl.vault.economy.Economy;
@@ -43,39 +45,39 @@ import org.bukkit.plugin.java.JavaPlugin;
 import java.util.logging.Logger;
 
 /**
- * Main class for the core of Rolecraft, the Bukkit RPG plugin
+ * Main class for the core of Rolecraft, the Bukkit RPG plugin.
  */
 public final class RolecraftCore extends JavaPlugin {
     /**
-     * The plugin logger
+     * The plugin {@link Logger}.
      */
     private Logger logger;
     /**
-     * The data storage solution used by Rolecraft
+     * The data storage solution used by Rolecraft.
      */
     private DataStore dataStore;
     /**
-     * Manages most data in Rolecraft with SQL
+     * Manages most data in Rolecraft with SQL.
      */
     private DataManager dataManager;
     /**
-     * Manages Rolecraft guilds
+     * Manages Rolecraft {@link Guild}s.
      */
     private GuildManager guildManager;
     /**
-     * Manages all aspects of questing
+     * Manages all aspects of questing.
      */
     private QuestManager questManager;
     /**
-     * Manages all professions
+     * Manages all {@link Profession}s.
      */
     private ProfessionManager professionManager;
     /**
-     * Whether to use economy
+     * Whether to use economy.
      */
     private boolean useEconomy = false;
     /**
-     * The Vault Economy instance
+     * The Vault Economy instance.
      */
     private Economy economy;
 
@@ -138,54 +140,59 @@ public final class RolecraftCore extends JavaPlugin {
     }
 
     /**
-     * Gets the DataStore implementation which is currently in use by Rolecraft,
-     * i.e either the SQLiteDataStore or the MySQLDataStore depending on the
-     * configuration
-     *
-     * @return The plugin DataStore
+     * Get the {@link DataStore} implementation that is in use by Rolecraft,
+     * which is either {@link SQLiteDataStore} or {@link MySQLDataStore},
+     * depending on the configuration.
+     * 
+     * @return The used {@link DataStore}
      */
     public DataStore getDataStore() {
         return dataStore;
     }
 
     /**
-     * Gets the Rolecraft data manager
-     *
-     * @return Rolecraft's DataManager object
+     * Gets the Rolecraft {@link DataManager}.
+     * 
+     * @return The used {@link DataManager}
      */
     public DataManager getDataManager() {
         return dataManager;
     }
 
     /**
-     * Gets the Rolecraft guild manager, which has various methods for
-     * manipulation of guilds
-     *
-     * @return Rolecraft's GuildManager object
+     * Gets the Rolecraft {@link GuildManager}, which provides various methods
+     * for {@link Guild} manipulation.
+     * 
+     * @return The used {@link GuildManager}
      */
     public GuildManager getGuildManager() {
         return guildManager;
     }
 
     /**
-     * Gets the Rolecraft profession manager, which has various methods for
-     * manipulation of professions
-     *
-     * @return Rolecraft's ProfessionManager object
+     * Gets the Rolecraft {@link ProfessionManager}, which provides various
+     * methods for {@link Profession} manipulation.
+     * 
+     * @return The used {@link ProfessionManager}
      */
     public ProfessionManager getProfessionManager() {
         return professionManager;
     }
 
     /**
-     * Gets the Vault Economy object
-     *
-     * @return The Vault Economy object
+     * Gets the Vault Economy object.
+     * 
+     * @return The used Vault Economy object
      */
     public Economy getEconomy() {
         return economy;
     }
 
+    /**
+     * Check whether the use of economy is enabled.
+     * 
+     * @return True if economy is enabled and false if it isn't
+     */
     public boolean useEconomy() {
         return useEconomy;
     }

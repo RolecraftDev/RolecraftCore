@@ -37,56 +37,57 @@ import java.util.Set;
 import java.util.UUID;
 
 /**
- * Represents a guild in Rolecraft. Guilds are player-creatable and provide
- * lots of functionality
+ * Represents a {@link Guild} in Rolecraft. {@link Guild}s are player-creatable
+ * and provide lots of functionality.
  */
 public final class Guild {
     /**
-     * The GuildManager object this guild is registered to
+     * The {@link GuildManager} object this {@link Guild} is registered to.
      */
     private final GuildManager guildManager;
     /**
-     * A UUID that refers to this guild
+     * A unique identifier that refers to this {@link Guild}.
      */
     private final UUID guildId;
 
     /**
-     * The name of this guild
+     * The unique name of this {@link Guild}.
      */
     private String name;
     /**
-     * The unique identifier of the player who leads this guild
+     * The unique identifier of the player who leads this {@link Guild}.
      */
     private UUID leader;
     /**
-     * A Set containing all of this guild's members' unique identifiers,
-     * including officers and the leader
+     * A {@link Set} containing all of this {@link Guild}'s members' unique
+     * identifiers, which includes its leader.
      */
     private final Set<UUID> members;
     /**
-     * A Set containing all of the ranks available in this guild, as configured
-     * by the guild leader
+     * A {@link Set} containing all of the {@link GuildRank}s available in this
+     * {@link Guild}, as configured by the leader.
      */
     private final Set<GuildRank> ranks;
     /**
-     * The home point of this guild, used for teleporting to the guild home
+     * The home point of this {@link Guild}. Used for teleporting.
      */
     private Location home;
     /**
-     * The current influence level of the guild, which depends on the individual
-     * influence levels of the members of the guild
+     * The current influence level of this {@link Guild}, which depends on the
+     * influence levels of all the members combined.
      */
     private int influence;
     /**
-     * The 2D region containing this guild's guild hall
+     * A {@link Region2D} object containing the hall of this {@link Guild}.
      */
     private Region2D hallRegion;
 
     /**
-     * Creates a new Guild object linked to the given GuildManager object, which
-     * is used for interaction with the rest of the plugin
-     *
-     * @param guildManager The GuildManager object this Guild belongs to
+     * Creates a new {@link Guild} object linked to the given
+     * {@link GuildManager}.
+     * 
+     * @param guildManager - The {@link GuildManager}, this {@link Guild} is
+     *            contained by.
      */
     public Guild(final GuildManager guildManager) {
         this.guildManager = guildManager;
@@ -99,18 +100,19 @@ public final class Guild {
     }
 
     /**
-     * Creates a new Guild object linked to the given GuildManager object, which
-     * is based on the given data
-     *
-     * @param guildManager The GuildManager object this Guild belongs to
-     * @param guildId      The unique identifier of this Guild
-     * @param name         The unique name of this Guild
-     * @param leader       The unique identifier of this Guild's leader
-     * @param members      A Set of all of the members of this Guild
-     * @param ranks        A Set of all of the ranks within this Guild
-     * @param home         The Location this Guild's home is located at
-     * @param influence    The current influence of this Guild
-     * @param hallRegion   The Region containing this Guild's guild hall
+     * Creates a new {@link Guild} object linked to the given
+     * {@link GuildManager}, which is based on the given data.
+     * 
+     * @param guildManager - The {@link GuildManager} this {@link Guild} belongs
+     *            to
+     * @param guildId - The unique identifier
+     * @param name - The unique name
+     * @param leader - The unique identifier of the leader
+     * @param members - A {@link Set} of all of the members
+     * @param ranks - A {@link Set} of all of the available {@link GuildRank}s
+     * @param home - The {@link Location} the home point
+     * @param influence - The current influence
+     * @param hallRegion - The {@link Region2D} that resembles the hall
      */
     public Guild(final GuildManager guildManager, final UUID guildId,
             final String name, final UUID leader, final Set<UUID> members,
@@ -129,11 +131,13 @@ public final class Guild {
 
     /**
      * Checks whether the player with the given unique identifier is allowed to
-     * perform the given action within this guild
-     *
-     * @param player The player to check the permissions of
-     * @param action The action to check whether the given player can perform
-     * @return Whether the given player is allowed to perform the given action
+     * perform the given {@link GuildAction} within this {@link Guild}.
+     * 
+     * @param player - The player to check the permissions of
+     * @param action - The {@link GuildAction} to check whether the given player
+     *            can perform
+     * @return True if the specified player can perform the given
+     *         {@link GuildAction} and false otherwise
      */
     public boolean can(final UUID player, final GuildAction action) {
         for (final GuildRank rank : ranks) {
@@ -146,23 +150,26 @@ public final class Guild {
 
     /**
      * Checks whether the player with the given unique identifier is a member of
-     * this guild
-     *
-     * @param player The player whose membership of this guild will be checked
-     * @return Whether the player with the given id is a member of this guild
+     * this {@link Guild}.
+     * 
+     * @param player - The player whose membership of this {@link Guild} will be
+     *            checked
+     * @return True if {@link #getMembers()} contains the given unique
+     *         identifier, else false
      */
     public boolean isMember(final UUID player) {
         return members.contains(player);
     }
 
     /**
-     * Gets a set of all of the ranks the given player has within this guild. If
-     * the player has no ranks within this guild (i.e isn't a member), then this
-     * method will return null, and NOT an empty set
-     *
-     * @param player The player to get the ranks within this guild for
-     * @return A Set of ranks the player has in this guild, or null if (s)he
-     * isn't a member
+     * Get a {@link Set} of all of the {@link GuildRank}s the given player has
+     * within this {@link Guild}. Note that this method will return null if the
+     * specified player has no {@link GuildRank}s in this {@link Guild}.
+     * 
+     * @param player - The player to get the {@link GuildRank}s within this
+     *            {@link Guild} for
+     * @return A {@link Set} of ranks the player has in this {@link Guild}, or
+     *         null if no {@link GuildRank}s are found
      */
     public Set<GuildRank> getPlayerRanks(final UUID player) {
         final Set<GuildRank> result = new HashSet<GuildRank>();
@@ -175,21 +182,25 @@ public final class Guild {
     }
 
     /**
-     * Gets the current influence of this guild without calculating a new value.
-     * If an up-to-date influence value is required, use calculateInfluence()
-     * instead (which is slower but always accurate)
-     *
-     * @return The guild's last calculated influence value
+     * Get the current influence of this {@link Guild} without calculating the
+     * up-to-date value. If the real influence value is required, use
+     * {@link #calculateInfluence()} instead.
+     * 
+     * @return The {@link Guild}'s last calculated influence value
+     * @see #calculateInfluence()
      */
     public int getInfluence() {
         return influence;
     }
 
     /**
-     * Calculates and returns a new influence value for this guild based on the
-     * influence values of the individual players within this guild
-     *
-     * @return The newly calculated influence value for this guild
+     * Calculates and returns the most up-to-date influence value for this
+     * {@link Guild}, based on the influence values of this {@link Guild}'s
+     * members combined. If an estimate value is also fine, utilise
+     * {@link #getInfluence()}, for performance reasons.
+     * 
+     * @return The up-to-date influence value for this {@link Guild}
+     * @see #getInfluence()
      */
     public int calculateInfluence() {
         int influence = 0;
@@ -202,78 +213,86 @@ public final class Guild {
     }
 
     /**
-     * Teleports the given entity to the home location of this guild
-     *
-     * @param entity The Entity to teleport to this guild's home
+     * Teleport the given {@link Entity} to the home {@link Location} of this
+     * {@link Guild}.
+     * 
+     * @param entity - The {@link Entity} to teleport
      */
     public void teleportToHome(final Entity entity) {
         entity.teleport(home);
     }
 
     /**
-     * Gets the unique identifier for this guild
-     *
-     * @return This guild's unique identifier
+     * Get the unique identifier for this {@link Guild}.
+     * 
+     * @return Its unique identifier
      */
     public UUID getId() {
         return guildId;
     }
 
     /**
-     * Gets the name of this guild, which should be unique. Despite the fact
+     * Get the name of this {@link Guild}, which should be unique. Despite the
+     * fact
      * that guild names should be unique, they can change, and thus should not
-     * be used for comparison of guilds (the guild's unique identifier should
-     * be used instead)
-     *
-     * @return The unique name of this guild
+     * be used for comparisons of guilds. For correct equivalence checks, simply
+     * use the overridden {@link #equals(Object)} method.
+     * 
+     * @return Its unique name
+     * @see #equals(Object)
      */
     public String getName() {
         return name;
     }
 
     /**
-     * Gets the home location for this guild, or null if the guild doesn't have
-     * a home location set
-     *
-     * @return This guild's home location, or null if it doesn't exist
+     * Gets the home {@link Location} for this {@link Guild}, or null if it
+     * hasn't been set.
+     * 
+     * @return This {@link Guild}'s home {@link Location}, which can be unset
+     *         and thus null
      */
     public Location getHomeLocation() {
         return home;
     }
 
     /**
-     * Gets the unique identifier of the player who is the leader of this guild
-     *
-     * @return The leader of this guild's unique identifier
+     * Get the unique identifier of the leader of this {@link Guild}.
+     * 
+     * @return The leader's unique identifier
      */
     public UUID getLeader() {
         return leader;
     }
 
     /**
-     * Gets a copy of the set used to hold the members of this guild
-     *
-     * @return A copy of the Set of this guild's members
+     * Get a copy of the {@link Set} used to hold the members of this
+     * {@link Guild}.
+     * 
+     * @return A copy of the original {@link Set} that contains the members of
+     *         this {@link Guild}
      */
     public Set<UUID> getMembers() {
         return new HashSet<UUID>(members);
     }
 
     /**
-     * Gets a copy of the set used to hold the player ranks available in this
-     * guild
-     *
-     * @return A copy of the Set of this guild's available ranks
+     * Gets a copy of the {@link Set} used to hold the {@link GuildRank}s
+     * available in this {@link Guild}.
+     * 
+     * @return A copy of the original {@link Set} that contains the obtainable
+     *         {@link GuildRank}s in this {@link Guild}
      */
     public Set<GuildRank> getRanks() {
         return new HashSet<GuildRank>(ranks);
     }
 
     /**
-     * Gets the player rank within this guild with the provided name
-     *
-     * @param name The name to get the GuildRank object for
-     * @return The GuildRank associated with the given name
+     * Gets the {@link GuildRank} within this {@link Guild} with the provided
+     * name.
+     * 
+     * @param name - The name of the wanted {@link GuildRank}
+     * @return The applicable {@link GuildRank}, or null if none is found
      */
     public GuildRank getRank(final String name) {
         for (final GuildRank rank : ranks) {
@@ -285,30 +304,32 @@ public final class Guild {
     }
 
     /**
-     * Gets the 2D region containing the guild hall this guild owns, or null if
-     * this guild doesn't currently own a guild hall
-     *
-     * @return The Region2D object representing the region of this guild's hall
+     * Gets the {@link Region2D} containing the hall of this {@link Guild}, or
+     * null if this {@link Guild} doesn't have one registered.
+     * 
+     * @return The {@link Region2D} that represents its hall, which could be
+     *         null
      */
     public Region2D getGuildHallRegion() {
         return hallRegion;
     }
 
     /**
-     * Sets the name of this guild
-     *
-     * @param name The new name of the guild
+     * Set the unique name of this {@link Guild}.
+     * 
+     * @param name - The new unique name
      */
     public void setName(final String name) {
         this.name = name;
     }
 
     /**
-     * Sets the leader of this guild. If the guild already has a leader, the
-     * current leader is demoted to a member. If the given new leader isn't
-     * already a member of this guild, (s)he is added to the guild
-     *
-     * @param leader The unique identifier of player who will be the leader
+     * Set the leader of this {@link Guild}. If this {@link Guild} already has a
+     * leader, the current leader is demoted to a member. If the given new
+     * leader isn't already a member of this {@link Guild}, (s)he is added
+     * automatically.
+     * 
+     * @param leader - The unique identifier of the new leader
      */
     public void setLeader(final UUID leader) {
         if (this.leader != null) {
@@ -324,10 +345,11 @@ public final class Guild {
     }
 
     /**
-     * Adds the given member into the guild, with the specified player rank
-     *
-     * @param member The unique identifier of the player to add to the guild
-     * @param rank   The rank to add the new player into the guild as
+     * Adds the given member to this {@link Guild}, with the specified
+     * {@link GuildRank}.
+     * 
+     * @param member - The unique identifier of the player to add
+     * @param rank - The rank the specified player will have
      */
     public void addMember(final UUID member, final GuildRank rank) {
         members.add(member);
@@ -335,26 +357,24 @@ public final class Guild {
     }
 
     /**
-     * Adds the given player rank to this guild
-     *
-     * @param rank The player rank to add to this guild
+     * Adds the given {@link GuildRank} to this {@link Guild}.
+     * 
+     * @param rank - The {@link GuildRank} to add
      */
     public void addRank(final GuildRank rank) {
         ranks.add(rank);
     }
 
     /**
-     * Sets the home location of this guild to the given location
-     *
-     * @param home The Location this Guild's home will be set to
+     * Set the home {@link Location} of this {@link Guild} to the stated
+     * {@link Location}.
+     * 
+     * @param home - The new home {@link Location}
      */
     public void setHomeLocation(final Location home) {
         this.home = home;
     }
 
-    /**
-     * {@inheritDoc}
-     */
     @Override
     public boolean equals(Object o) {
         if (!(o instanceof Guild)) {
@@ -364,35 +384,32 @@ public final class Guild {
         return guildId.equals(other.getId());
     }
 
-    /**
-     * {@inheritDoc}
-     */
     @Override
     public int hashCode() {
         return guildId.hashCode();
     }
 
     /**
-     * Sets the given Region2D object as this guild's guild hall region. Should
-     * only ever be called from GuildManager when a guild hall is claimed, hence
-     * the method is package private
-     *
-     * @param hallRegion The Region2D to become this guild's new guild hall
+     * Set the given {@link Region2D} as the hall of this {@link Guild}. This
+     * method should only ever be called from {@link GuildManager} when hall is
+     * claimed, hence the package-private access modifier is utilised.
+     * 
+     * @param hallRegion - The new hall
      */
     void claimAsGuildHall(final Region2D hallRegion) {
         this.hallRegion = hallRegion;
     }
 
     /**
-     * The Leader rank, which is present whenever a new guild is created, and
-     * cannot be removed
+     * The Leader {@link GuildRank}, which is present whenever a new
+     * {@link Guild} is created, and thus cannot be removed.
      */
     private final GuildRank LEADER = new GuildRank("Leader",
             new HashSet<GuildAction>(
                     Arrays.asList(GuildAction.values())), new HashSet<UUID>());
     /**
-     * The Default rank, which is present whenever a new guild is created, and
-     * cannot be removed
+     * The Default {@link GuildRank}, which is present whenever a new
+     * {@link Guild} is created, and thus cannot be removed.
      */
     private final GuildRank DEFAULT = new GuildRank("Default",
             new HashSet<GuildAction>(), new HashSet<UUID>());

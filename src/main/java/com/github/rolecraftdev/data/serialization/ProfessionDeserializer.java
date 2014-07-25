@@ -36,26 +36,69 @@ import org.bukkit.configuration.ConfigurationSection;
 import java.util.Map.Entry;
 import java.util.UUID;
 
+/**
+ * A class which can be used to extract a {@link Profession} and all its related
+ * classes (except for {@link ProfessionManager}) from a YAML file by using
+ * appropriate deserialization.
+ */
 public class ProfessionDeserializer {
+    /**
+     * The path to the {@link Profession}'s unique identifier.
+     */
     private static final String ID = "id";
+    /**
+     * The path to the {@link Profession}'s unique name.
+     */
     private static final String NAME = "name";
+    /**
+     * The path to the {@link Profession}'s {@link ProfessionRule}s.
+     */
     private static final String RULES = "rules";
 
+    /**
+     * The configuration file that contains a serialized {@link Profession}.
+     */
     private final YamlFile professionConfig;
 
+    /**
+     * Create a new {@link ProfessionDeserializer}.
+     * 
+     * @param professionConfig - Serialized {@link Profession} file
+     */
     public ProfessionDeserializer(final YamlFile professionConfig) {
         this.professionConfig = professionConfig;
     }
 
+    /**
+     * Get the configuration file that contains the serialized
+     * {@link Profession}.
+     * 
+     * @return The serialized {@link Profession} file
+     */
     public YamlFile getConfig() {
         return professionConfig;
     }
 
+    /**
+     * Deserialize the contents of the file, to return a {@link Profession}
+     * object. Note that this simply uses most other methods in this
+     * {@link ProfessionDeserializer} to construct a {@link Profession}.
+     * 
+     * @param professionManager - The {@link ProfessionManager}, the
+     *            {@link Profession} will be assigned to
+     * @return The deserialized {@link Profession}
+     */
     public Profession getProfession(final ProfessionManager professionManager) {
         return new Profession(professionManager, getProfessionId(),
                 getProfessionName(), getProfessionRuleMap());
     }
 
+    /**
+     * Deserialize the unique identifier in the file, which is defined at the
+     * path {@link #ID}.
+     * 
+     * @return The deserialized unique identifier
+     */
     public UUID getProfessionId() {
         String id = professionConfig.getString(ID);
         // So we don't have to catch NullPointerException
@@ -66,8 +109,8 @@ public class ProfessionDeserializer {
             return UUID.fromString(professionConfig.getString(ID));
         } catch (IllegalArgumentException e) {
             System.out
-                    .println("[WARNING] [Rolecraft] Invalid ID for profession "
-                            + getProfessionName() + ", generating a new one");
+            .println("[WARNING] [Rolecraft] Invalid ID for profession "
+                    + getProfessionName() + ", generating a new one");
             professionConfig.set(ID, UUID.randomUUID().toString());
             // Update file
             professionConfig.save();
@@ -75,10 +118,22 @@ public class ProfessionDeserializer {
         }
     }
 
+    /**
+     * Deserialize the unique name in the file, which is defined at the path
+     * {@link #NAME}.
+     * 
+     * @return The deserialized unique name
+     */
     public String getProfessionName() {
         return professionConfig.getString(NAME, "unset");
     }
 
+    /**
+     * Deserialize the {@link ProfessionRule}s in the file, which are defined at
+     * the path {@link #RULES}.
+     * 
+     * @return The deserialized {@link ProfessionRule}s.
+     */
     public ProfessionRuleMap getProfessionRuleMap() {
         final ProfessionRuleMap ruleMap = new ProfessionRuleMap(
                 getProfessionName());

@@ -29,13 +29,28 @@ package com.github.rolecraftdev.profession;
 import java.util.HashSet;
 import java.util.Set;
 
+/**
+ * A rule that a {@link Profession} should be dominated by. These are contained
+ * by a {@link ProfessionRuleMap}.
+ * 
+ * @param <T> - Type of its values in a {@link ProfessionRuleMap}
+ */
 public final class ProfessionRule<T> {
-    // Constant pool for easy lookups
+    /**
+     * Constants pool for easy lookups.
+     */
     private static final Set<ProfessionRule<?>> pool = new HashSet<ProfessionRule<?>>();
 
     // Constants
     // here
 
+    /**
+     * Get a unique {@link ProfessionRule} by its name.
+     * 
+     * @param name - Its unique name
+     * @return The {@link ProfessionRule} if it can be found in {@link #pool},
+     *         else null
+     */
     public static ProfessionRule<?> getRule(final String name) {
         for (final ProfessionRule<?> element : pool) {
             if (element.getName().equals(name)) {
@@ -46,14 +61,21 @@ public final class ProfessionRule<T> {
     }
 
     /**
-     * The name of this rule
+     * The name of this rule.
      */
     private final String name;
     /**
-     * The type of object this rule should be set to
+     * The type of object this rule should be set to.
      */
     private final Class<T> type;
 
+    /**
+     * Create a new, unique {@link ProfessionRule}.
+     * 
+     * @param name - The unique name
+     * @param type - The type of the values it will hold in a
+     *            {@link ProfessionRuleMap}.
+     */
     private ProfessionRule(final String name, final Class<T> type) {
         this.name = name;
         this.type = type;
@@ -61,29 +83,41 @@ public final class ProfessionRule<T> {
         pool.add(this);
     }
 
+    /**
+     * Get the unique name of this {@link ProfessionRule}.
+     * 
+     * @return Its unique name
+     */
     public String getName() {
         return name;
     }
 
+    /**
+     * Get the type, the values of this {@link ProfessionRule} should be in a
+     * {@link ProfessionRuleMap}.
+     * 
+     * @return Its value type
+     */
     public Class<T> getType() {
         return type;
     }
 
     /**
-     * Checks whether the given object is valid to be cast to this rule's value
-     * type
-     *
-     * @param object The object to check the validity to cast of
-     * @return true if the given object is of the correct type, false otherwise
+     * Checks whether the given object is valid to be cast to this
+     * {@link ProfessionRule}'s value type.
+     * 
+     * @param object - The object to check the validity to cast of
+     * @return True if the given object is of the correct type, false otherwise
      */
     public boolean validate(final Object object) {
         return object != null && getType().isAssignableFrom(object.getClass());
     }
 
     /**
-     * Casts the given object to the type used for this rule's values
-     *
-     * @param object The object to cast to this rule's value type
+     * Casts the given object to the type used for this {@link ProfessionRule}'s
+     * values.
+     * 
+     * @param object - The object to cast to this rule's value type
      * @return The instance of the given object cast to this rule's value type
      */
     public T cast(final Object object) {

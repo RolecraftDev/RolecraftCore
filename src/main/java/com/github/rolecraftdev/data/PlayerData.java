@@ -29,7 +29,7 @@ package com.github.rolecraftdev.data;
 import java.util.UUID;
 
 /**
- * Holds Rolecraft data for a specific player. Stored in SQL
+ * Holds Rolecraft data for a specific player, which is stored in SQL.
  */
 public final class PlayerData {
     private final UUID playerId;
@@ -40,8 +40,7 @@ public final class PlayerData {
     private int influence;
 
     /**
-     * @param playerId
-     * @deprecated There is no reason not to have the player's name
+     * @deprecated There is no reason to exclude the player's name
      */
     @Deprecated
     public PlayerData(final UUID playerId) {
@@ -94,9 +93,9 @@ public final class PlayerData {
     }
 
     /**
-     * For internal use only - called when loaded in SQL
-     *
-     * @deprecated DO NOT CALL
+     * For internal use only - called when loaded in SQL.
+     * 
+     * @deprecated Do not call
      */
     @Deprecated
     public void initialise() {

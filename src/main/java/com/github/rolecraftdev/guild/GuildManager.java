@@ -34,48 +34,49 @@ import java.util.Set;
 import java.util.UUID;
 
 /**
- * Stores guild data and guild-related configuration options and manages guilds
- * in Rolecraft
+ * Stores {@link Guild} data and {@link Guild}-related configuration options and
+ * manages {@link Guild}s in Rolecraft.
  */
 public final class GuildManager {
     /**
-     * The RolecraftCore plugin object
+     * The {@link RolecraftCore} plugin object.
      */
     private final RolecraftCore plugin;
     /**
-     * A Set of all currently loaded Guild objects
+     * A {@link Set} of all currently loaded {@link Guild} objects.
      */
     private final Set<Guild> guilds;
 
     /**
-     * Whether the guild manager has finished loading
+     * Whether the {@link GuildManager} has finished loading.
      */
     private boolean loaded;
     /**
-     * A configuration holding options related to guilds
+     * A configuration holding options related to {@link Guild}s.
      */
     private YamlFile guildConfig;
 
     // Config options
 
     /**
-     * The amount of money required to create a guild
+     * The amount of money required to create a {@link Guild}.
      */
     private int creationCost;
     /**
-     * The amount of money required to invite somebody to a guild
+     * The amount of money required to invite somebody to a {@link Guild}.
      */
     private int inviteCost;
     /**
-     * The amount of money required to purchase a guild hall
+     * The amount of money required to purchase a hall for a {@link Guild}. Or
+     * simply, a protected area.
      */
     private int hallCost;
 
     /**
-     * Creates a new GuildManager instance using the given RolecraftCore object
-     * as the plugin to register things with
-     *
-     * @param plugin The RolecraftCore plugin
+     * Creates a new {@link GuildManager} instance using the given
+     * {@link RolecraftCore} object as the plugin to register events with.
+     * 
+     * @param plugin - The {@link RolecraftCore} plugin
      */
     public GuildManager(final RolecraftCore plugin) {
         this.plugin = plugin;
@@ -92,18 +93,18 @@ public final class GuildManager {
 
         // Register the guild listener with Bukkit
         plugin.getServer().getPluginManager()
-              .registerEvents(new GuildListener(this), plugin);
+        .registerEvents(new GuildListener(this), plugin);
     }
 
     /**
-     * Adds the given Guild object to the Set of loaded guilds if it is valid -
-     * i.e if it is loaded from the database or it doesn't clash with another
-     * guild's name
-     *
-     * @param guild        The guild to load
-     * @param fromDatabase Used internally for loading from database, always use
-     *                     false
-     * @return true for success, false if the guild already exists
+     * Adds the given {@link Guild} object to the {@link Set} of loaded
+     * {@link Guild}s if it is valid - i.e if it is loaded from the database or
+     * doesn't clash with another {@link Guild}. (being logically equal)
+     * 
+     * @param guild - The {@link Guild} to load
+     * @param fromDatabase - Used internally for loading from database, always
+     *            use false
+     * @return True for success, false if the {@link Guild} already exists
      */
     public boolean addGuild(final Guild guild, boolean fromDatabase) {
         if (fromDatabase) {
@@ -119,11 +120,12 @@ public final class GuildManager {
     }
 
     /**
-     * Attempts to delete the given guild, both from memory and from the SQL
-     * database. Will fail if this guild manager hasn't loaded yet
-     *
-     * @param guild The guild to remove
-     * @return true if the guild was removed, false if it wasn't
+     * Attempts to delete the given {@link Guild}, both from memory and from the
+     * SQL database. This method will fail if this {@link GuildManager} hasn't
+     * loaded yet.
+     * 
+     * @param guild - The {@link Guild} to remove
+     * @return True if the {@link Guild} was removed, false if it wasn't
      */
     public boolean removeGuild(final Guild guild) {
         if (loaded) {
@@ -135,10 +137,11 @@ public final class GuildManager {
     }
 
     /**
-     * Gets the Guild object for the guild with the given name
-     *
-     * @param name The name of the guild to get the Guild object for
-     * @return The Guild object for the guild with the given name
+     * Gets the {@link Guild} object that has the specified name.
+     * 
+     * @param name - The name of the wanted {@link Guild}
+     * @return The {@link Guild} with the given name if it is contained by this
+     *         {@link GuildManager}, or null if none is found
      */
     public Guild getGuild(final String name) {
         if (loaded) {
@@ -154,12 +157,13 @@ public final class GuildManager {
     }
 
     /**
-     * Gets the guild the given player belongs to, returning null if the given
-     * player doesn't have a guild
-     *
-     * @param player The unique identifier of the player to get the guild of
-     * @return The given player's guild, or null if they don't have one, or null if the guildmanager hasn't
-     * finished loading yet
+     * Gets the {@link Guild} the given player belongs to.
+     * 
+     * @param player - The unique identifier of the player to get the
+     *            {@link Guild} of
+     * @return The given player's {@link Guild}, or null if they don't have one.
+     *         Note that this will also return null if this {@link GuildManager}
+     *         hasn't been fully loaded yet
      */
     public Guild getPlayerGuild(final UUID player) {
         if (loaded) {
@@ -175,10 +179,10 @@ public final class GuildManager {
     }
 
     /**
-     * Gets a copy of the set used to store all loaded guilds
-     *
-     * @return A copy of the Set used to store loaded guilds, or null if the
-     * guilds haven't been loaded
+     * Get a copy of the {@link Set} used to store all loaded {@link Guild}s.
+     * 
+     * @return A copy of the {@link Set} used to store loaded {@link Guild}s, or
+     *         null if this {@link GuildManager} remains unloaded.
      */
     public Set<Guild> getGuilds() {
         if (loaded) {
@@ -189,42 +193,55 @@ public final class GuildManager {
     }
 
     /**
-     * Gets the amount of money required to create a guild
-     *
-     * @return The amount of money required to create a guild
+     * Get the amount of money required to create a {@link Guild}.
+     * 
+     * @return The amount of money required to create a {@link Guild}
      */
     public int getCreationCost() {
         return creationCost;
     }
 
     /**
-     * Gets the amount of money required to invite somebody to a guild
-     *
-     * @return The amount of money required to invite somebody to a guild
+     * Get the amount of money required to invite somebody to a {@link Guild}.
+     * 
+     * @return The amount of money required to invite somebody to a
+     *         {@link Guild}
      */
     public int getInvitationCost() {
         return inviteCost;
     }
 
     /**
-     * Gets the amount of money required to buy a guild hall
-     *
-     * @return The amount of money required to buy a guild hall
+     * Get the amount of money required to buy a hall for a {@link Guild}.
+     * 
+     * @return The amount of money required to buy a hall for a {@link Guild}
      */
     public int getGuildHallCost() {
         return hallCost;
     }
 
+    /**
+     * Get the {@link RolecraftCore} plugin object this {@link GuildManager} is
+     * attached to.
+     * 
+     * @return Its {@link RolecraftCore} object
+     */
     public RolecraftCore getPlugin() {
         return plugin;
     }
 
+    /**
+     * Check whether this {@link GuildManager} has been fully loaded.
+     * 
+     * @return True if it has been completely loaded, else false
+     */
     public boolean isLoaded() {
         return loaded;
     }
 
     /**
-     * Called when the database is finished populating guilds from SQL
+     * This should be called when the database is finished populating
+     * {@link Guild}s on this {@link GuildManager} from SQL.
      */
     public void completeLoad() {
         loaded = true;

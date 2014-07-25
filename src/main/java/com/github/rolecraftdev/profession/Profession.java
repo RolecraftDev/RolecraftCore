@@ -28,18 +28,54 @@ package com.github.rolecraftdev.profession;
 
 import java.util.UUID;
 
+/**
+ * Represents a profession that can be chosen by players. After a player has
+ * chosen a profession, events affecting that player will be handled according
+ * to the profession's {@link ProfessionRule}s.
+ */
 public class Profession {
+    /**
+     * The {@link ProfessionManager} object this {@link Profession} is
+     * registered to.
+     */
     private final ProfessionManager professionManager;
+    /**
+     * A {@link UUID} that refers to this {@link Profession}.
+     */
     private final UUID professionId;
 
+    /**
+     * The name of this {@link Profession}.
+     */
     private String name;
+    /**
+     * A container for the {@link ProfessionRule}s this {@link Profession}
+     * should be regulated by.
+     */
     private ProfessionRuleMap rules;
 
+    /**
+     * Create a new {@link Profession} from scratch.
+     * 
+     * @param professionManager - The {@link ProfessionManager} this
+     *            {@link Profession} belongs to
+     */
     public Profession(final ProfessionManager professionManager) {
         this.professionManager = professionManager;
         professionId = UUID.randomUUID();
     }
 
+    /**
+     * Create a {@link Profession} from predefined settings. Note that some of
+     * the fields are {@code final} and can thus not be modified later on.
+     * 
+     * @param professionManager - The {@link ProfessionManager} this
+     *            {@link Profession} belongs to
+     * @param professionId - The unique identifier
+     * @param name - The unique name
+     * @param rules - A map of {@link ProfessionRule}s that handles events in
+     *            this {@link Profession}.
+     */
     public Profession(final ProfessionManager professionManager,
             final UUID professionId, final String name,
             final ProfessionRuleMap rules) {
@@ -49,26 +85,58 @@ public class Profession {
         this.rules = rules;
     }
 
+    /**
+     * Get the {@link ProfessionManager} this {@link Profession} belongs to.
+     * 
+     * @return Its manager
+     */
     public ProfessionManager getManager() {
         return professionManager;
     }
 
+    /**
+     * Returns the unique name of this {@link Profession}.
+     * 
+     * @return Its unique name
+     */
     public String getName() {
         return name;
     }
 
+    /**
+     * Set the unique name of this {@link Profession}.
+     * 
+     * @param name - The new unique name
+     */
     public void setName(final String name) {
         this.name = name;
     }
 
+    /**
+     * Get the map of {@link ProfessionRule}s this {@link Profession} is
+     * dictated by.
+     * 
+     * @return Its {@link ProfessionRuleMap}
+     */
     public ProfessionRuleMap getRuleMap() {
         return rules;
     }
 
+    /**
+     * Set the map of {@link ProfessionRule}s that will regulate events that
+     * affect this {@link Profession}.
+     * 
+     * @param rules - The new {@link ProfessionRuleMap}
+     */
     public void setRuleMap(final ProfessionRuleMap rules) {
         this.rules = rules;
     }
 
+    /**
+     * Get the unique identifier of this {@link Profession}.
+     * 
+     * @return Its unique identifier
+     */
     public UUID getId() {
         return professionId;
     }

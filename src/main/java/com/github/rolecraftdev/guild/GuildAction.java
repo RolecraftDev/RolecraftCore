@@ -29,8 +29,8 @@ package com.github.rolecraftdev.guild;
 import java.util.UUID;
 
 /**
- * A representation of all of the actions which can be performed and are related
- * to guilds in one way or another
+ * A representation of all of the {@link GuildAction}s which can be performed
+ * and are related to {@link Guild}s in one way or another.
  */
 public enum GuildAction {
     // TODO: More things might be added here
@@ -38,7 +38,7 @@ public enum GuildAction {
             "modifyhall");
 
     /**
-     * A player-readable version of the name of this action
+     * A player-readable version of the name of this {@link GuildAction}.
      */
     private final String playerReadable;
 
@@ -47,22 +47,24 @@ public enum GuildAction {
     }
 
     /**
-     * Gets a player-readable version of the name of this guild action
-     *
-     * @return A player-readable version of this action's name
+     * Get a player-readable version of the name of this {@link GuildAction}.
+     * 
+     * @return The player-readable version of this {@link GuildAction}'s name
      */
     public String getPlayerReadableName() {
         return playerReadable;
     }
 
     /**
-     * Checks whether the given player is permitted to perform this action
-     * within the given guild - false will always be returned if the given
-     * player is not a member of the given guild
-     *
-     * @param player The player to check the permissions of
-     * @param guild  The guild to check the permissions of the given player in
-     * @return true if the given player can perform this action, false otherwise
+     * Checks whether the given player is permitted to perform this
+     * {@link GuildAction} within the given {@link Guild}. This invokes
+     * {@link Guild#can(UUID, GuildAction)} and passes this {@link GuildAction}.
+     * 
+     * @param player - The player to check the permissions of
+     * @param guild - The {@link Guild} to check the permissions of the given
+     *            player in
+     * @return True if the given player can perform this action and false in any
+     *         other case
      */
     public boolean can(final UUID player, final Guild guild) {
         return guild.can(player, this);

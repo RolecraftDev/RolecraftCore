@@ -36,46 +36,59 @@ import java.util.Map;
 import java.util.Map.Entry;
 
 /**
- * A wrapper around a Map of ProfessionRules to Objects, used for storing rules
- * about a profession and their values
+ * A wrapper around a {@link Map} of a {@link ProfessionRule}s - {@link Object}s
+ * pair. This is used for storing rules that govern events, that affect a
+ * {@link Profession}.
  */
 public final class ProfessionRuleMap {
     /**
-     * The name of the profession this rule map contains rules for
+     * The name of the {@link Profession} it regulates.
      */
     private final String professionName;
     /**
-     * A Map of ProfessionRules to Objects holding all of the loaded rules for
-     * the profession this rule map holds rules for
+     * A {@link Map} that links values to {@link ProfessionRule}s, to dictate
+     * its linked {@link Profession} accordingly.
      */
     private final Map<ProfessionRule<?>, Object> rules = new HashMap<ProfessionRule<?>, Object>();
 
+    /**
+     * Create a new {@link ProfessionRuleMap}.
+     * 
+     * @param professionName - The name of its linked {@link Profession}
+     */
     public ProfessionRuleMap(final String professionName) {
         this.professionName = professionName;
     }
 
+    /**
+     * Get the name of the {@link Profession} that is linked to this
+     * {@link ProfessionRuleMap}.
+     * 
+     * @return Its linked {@link Profession}'s name
+     */
     public String getProfessionName() {
         return professionName;
     }
 
     /**
-     * Gets the value of the given ProfessionRule in this rulemap, or null if
-     * the given rule isn't set
-     *
-     * @param key The rule to get the value of in this rule map
-     * @param <T> The type which will be returned as the rule's value
-     * @return The value for the given rule, cast to T
+     * Gets the value of the given {@link ProfessionRule} in this
+     * {@link ProfessionRuleMap}.
+     * 
+     * @param key - The {@link ProfessionRule} the value should be returned of
+     * @param <T> - The return type
+     * @return The value of the specified {@link ProfessionRule}, which could be
+     *         null
      */
     public <T> T get(final ProfessionRule<T> key) {
         return key.cast(rules.get(key));
     }
 
     /**
-     * Sets the given rule to the given value
-     *
-     * @param key   The rule to set
-     * @param value The value to set the given rule to
-     * @return Whether the value was successfully set to the rule
+     * Sets the given {@link ProfessionRule} to the given value.
+     * 
+     * @param key - The {@link ProfessionRule} to set
+     * @param value - The value to set the given {@link ProfessionRule} to
+     * @return True if the value has been set, else false
      */
     public boolean set(final ProfessionRule<?> key, final Object value) {
         if (key == null || !key.validate(value)) {
@@ -87,10 +100,12 @@ public final class ProfessionRuleMap {
     }
 
     /**
-     * Loads a new ProfessionRuleMap from the given file
-     *
-     * @param file The file to load the map of rules to values from
-     * @return The ProfessionRuleMap object created from the file's contents
+     * Loads a new {@link ProfessionRuleMap} from the given file.
+     * 
+     * @param file - The file to load the map of {@link ProfessionRule}s to
+     *            values from.
+     * @return The {@link ProfessionRuleMap} object created from the file's
+     *         contents
      */
     public static ProfessionRuleMap load(final File file) {
         if (!file.exists()) {
@@ -121,7 +136,7 @@ public final class ProfessionRuleMap {
                     element.getValue())) {
                 System.out.println(
                         "[WARNING] [Rolecraft] Couldn't set rule " + element
-                                .getKey() + " for profession " + name);
+                        .getKey() + " for profession " + name);
             }
         }
         return ruleMap;
