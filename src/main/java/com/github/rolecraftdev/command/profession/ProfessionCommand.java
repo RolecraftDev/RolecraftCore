@@ -45,7 +45,7 @@ public final class ProfessionCommand extends RCCommand {
     public ProfessionCommand(final RolecraftCore plugin) {
         super(plugin);
 
-        // TODO: Add subcommands
+        subCommands.add(new ProfessionListCommand(plugin));
     }
 
     @Override
