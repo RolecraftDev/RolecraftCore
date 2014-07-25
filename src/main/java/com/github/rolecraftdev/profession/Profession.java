@@ -26,20 +26,81 @@
  */
 package com.github.rolecraftdev.profession;
 
-public class Profession {
-    private final String name;
-    private final ProfessionRuleMap rules;
+import java.util.HashSet;
+import java.util.Set;
+import java.util.UUID;
 
-    public Profession(final String name, final ProfessionRuleMap rules) {
+public class Profession {
+    private final ProfessionManager professionManager;
+    private final UUID professionId;
+    private final Set<UUID> members;
+
+    private String name;
+    private ProfessionRuleMap rules;
+
+    public Profession(final ProfessionManager professionManager) {
+        this.professionManager = professionManager;
+        professionId = UUID.randomUUID();
+        members = new HashSet<UUID>();
+    }
+
+    public Profession(final ProfessionManager professionManager,
+            final UUID professionId, final Set<UUID> members,
+            final String name, final ProfessionRuleMap rules) {
+        this.professionManager = professionManager;
+        this.professionId = professionId;
+        this.members = members;
         this.name = name;
         this.rules = rules;
+    }
+
+    public ProfessionManager getManager() {
+        return professionManager;
+    }
+
+    public Set<UUID> getMembers() {
+        return new HashSet<UUID>(members);
+    }
+
+    public boolean isMember(final UUID member) {
+        return members.contains(member);
+    }
+
+    public void addMember(final UUID member) {
+        members.add(member);
     }
 
     public String getName() {
         return name;
     }
 
+    public void setName(final String name) {
+        this.name = name;
+    }
+
     public ProfessionRuleMap getRuleMap() {
         return rules;
+    }
+
+    public void setRuleMap(final ProfessionRuleMap rules) {
+        this.rules = rules;
+    }
+
+    public UUID getId() {
+        return professionId;
+    }
+
+    @Override
+    public int hashCode() {
+        return professionId.hashCode();
+    }
+
+    @Override
+    public boolean equals(Object object) {
+        if (!(object instanceof Profession))
+            return false;
+
+        final Profession other = (Profession) object;
+        return professionId.equals(other.getId());
     }
 }

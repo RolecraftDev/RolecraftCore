@@ -31,16 +31,43 @@ import com.github.rolecraftdev.RolecraftCore;
 import java.io.File;
 import java.util.HashSet;
 import java.util.Set;
+import java.util.UUID;
 
 public final class ProfessionManager {
     private final RolecraftCore plugin;
-
     private final Set<Profession> professions;
 
     public ProfessionManager(final RolecraftCore plugin) {
         this.plugin = plugin;
-
         professions = new HashSet<Profession>();
+    }
+
+    public RolecraftCore getPlugin() {
+        return plugin;
+    }
+
+    public Set<Profession> getProfessions() {
+        return new HashSet<Profession>(professions);
+    }
+
+    public Profession getProfession(final String name) {
+        for (final Profession profession : professions) {
+            if (profession.getName().equalsIgnoreCase(name))
+                return profession;
+        }
+        return null;
+    }
+
+    public Profession getPlayerProfession(final UUID player) {
+        for (final Profession profession : professions) {
+            if (profession.isMember(player))
+                return profession;
+        }
+        return null;
+    }
+
+    public boolean addProfession(final Profession profession) {
+        return professions.add(profession);
     }
 
     public void loadProfessions() {
@@ -54,7 +81,7 @@ public final class ProfessionManager {
         for (final File professionFile : directory.listFiles()) {
             final ProfessionRuleMap rules = ProfessionRuleMap
                     .load(professionFile);
-            professions.add(new Profession(rules.getProfessionName(), rules));
+            // TODO: Create Profession and add it to professions
         }
     }
 }
