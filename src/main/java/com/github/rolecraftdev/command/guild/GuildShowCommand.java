@@ -27,10 +27,9 @@
 package com.github.rolecraftdev.command.guild;
 
 import com.github.rolecraftdev.RolecraftCore;
+import com.github.rolecraftdev.command.CommandHelper;
 import com.github.rolecraftdev.guild.Guild;
-import org.bukkit.ChatColor;
 import org.bukkit.command.CommandSender;
-import org.bukkit.entity.Player;
 
 public final class GuildShowCommand extends GuildSubCommand {
     public GuildShowCommand(final RolecraftCore plugin) {
@@ -39,28 +38,8 @@ public final class GuildShowCommand extends GuildSubCommand {
 
     @Override
     public void execute(final CommandSender sender, final String[] args) {
-        final Guild guild;
-        if (args.length > 1) {
-            final String name = args[1];
-            guild = guildManager.getGuild(name);
-            if (guild == null) {
-                sender.sendMessage(
-                        ChatColor.DARK_RED + "That guild doesn't exist!");
-            }
-        } else {
-            if (sender instanceof Player) {
-                guild = guildManager
-                        .getPlayerGuild(((Player) sender).getUniqueId());
-                if (guild == null) {
-                    sender.sendMessage(
-                            ChatColor.DARK_RED + "You don't have a guild!");
-                }
-            } else {
-                guild = null;
-                sender.sendMessage(ChatColor.DARK_RED
-                        + "Invalid syntax, /guild show <name>");
-            }
-        }
+        final Guild guild = CommandHelper.getGuildFromArgs(guildManager, sender,
+                args.length > 1 ? args[1] : null);
 
         if (guild != null) {
             // TODO

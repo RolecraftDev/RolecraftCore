@@ -26,8 +26,11 @@
  */
 package com.github.rolecraftdev.command;
 
+import com.github.rolecraftdev.guild.Guild;
+import com.github.rolecraftdev.guild.GuildManager;
 import org.bukkit.ChatColor;
 import org.bukkit.command.CommandSender;
+import org.bukkit.entity.Player;
 
 import java.util.List;
 
@@ -41,7 +44,48 @@ public final class CommandHelper {
      * The amount of commands to display on a single page in a help message sent
      * to a user
      */
-    private static final int COMMANDS_PER_PAGE = 6;
+    public static final int COMMANDS_PER_PAGE = 6;
+
+    /**
+     * Gets a guild from the given argument. If there is no argument given, the
+     * method will attempt to get the guild of the sender of the command, if
+     * said sender is a player. Otherwise, the sender is alerted that they must
+     * specify a guild name. The sender is also alerted if they specify a guild
+     * which doesn't exist. Null is returned if the sender specifies a guild
+     * which doesn't exist, or if they do not enter a guild name
+     *
+     * @param mgr      The GuildManager object to work with
+     * @param sender   The CommandSender object to send error messages to
+     * @param guildArg The argument which contains the guild name, or null if
+     *                 there isn't one
+     * @return A guild specified by the argument, or the sender's guild if there
+     * is no argument. If both of the former are null, null is returned
+     */
+    public static Guild getGuildFromArgs(final GuildManager mgr,
+            final CommandSender sender, final String guildArg) {
+        final Guild result;
+        if (guildArg != null) {
+            result = mgr.getGuild(guildArg);
+            if (result == null) {
+                sender.sendMessage(
+                        ChatColor.DARK_RED + "That guild doesn't exist!");
+            }
+        } else {
+            if (sender instanceof Player) {
+                result = mgr.getPlayerGuild(((Player) sender).getUniqueId());
+                if (result == null) {
+                    sender.sendMessage(
+                            ChatColor.DARK_RED + "You don't have a guild!");
+                }
+            } else {
+                result = null;
+                sender.sendMessage(
+                        ChatColor.DARK_RED + "You must specify a guild name!");
+            }
+        }
+
+        return result;
+    }
 
     /**
      * Gets a sublist of a specific page within the given list, using a page
