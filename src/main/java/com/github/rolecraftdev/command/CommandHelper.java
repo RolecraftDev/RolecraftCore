@@ -44,9 +44,41 @@ public final class CommandHelper {
     private static final int COMMANDS_PER_PAGE = 6;
 
     /**
-     * Should never be called
+     * Gets a sublist of a specific page within the given list, using a page
+     * number provided in the arguments array and using the given amount of
+     * elements per page to decide the cut-off point for a page
+     *
+     * @param sender          The CommandSender object to send error messages to
+     * @param list            The list to get a specific page of elements from
+     * @param pageArg         The page number argument as a string
+     * @param elementsPerPage The amount of elements to display on each page
+     * @param <T>             The type of list being paginated
+     * @return A list containing a page of elements from the given list
      */
-    private CommandHelper() {
+    public static <T> List<T> getPageFromArgs(final CommandSender sender,
+            final List<T> list, final String pageArg,
+            final int elementsPerPage) {
+        final int amount = list.size();
+        final int pages = (int) Math.ceil(amount / elementsPerPage);
+
+        int page = 1;
+        if (pageArg != null) {
+            try {
+                page = Integer.parseInt(pageArg);
+            } catch (NumberFormatException e) {
+                sender.sendMessage(
+                        ChatColor.DARK_RED + "Invalid page number specified!");
+                return null;
+            }
+
+            if (page > pages || page < 1) {
+                sender.sendMessage(
+                        ChatColor.DARK_RED + "That page doesn't exist!");
+                return null;
+            }
+        }
+
+        return list.subList(elementsPerPage * (page - 1), list.size() - 1);
     }
 
     /**
@@ -73,39 +105,19 @@ public final class CommandHelper {
     public static void displayCommandList(final CommandSender sender,
             final List<RCSubCommand> subCommands, final String[] args,
             final int startIndex) {
-        // Get the number of available pages
-        final int numCommands = subCommands.size();
-        final int pages = (int) Math.ceil(numCommands / COMMANDS_PER_PAGE);
-        int page = 1;
-
-        if (args != null && args.length > startIndex) {
-            try {
-                page = Integer.parseInt(args[startIndex]);
-                if (page > pages || page < 1) {
-                    sender.sendMessage(ChatColor.DARK_RED
-                            + "Invalid page number!");
-                }
-            } catch (final NumberFormatException e) {
-                sender.sendMessage(ChatColor.DARK_RED + "Invalid page number!");
-            }
-        }
-
-        if (pages > 1) {
-            sender.sendMessage(
-                    ChatColor.GOLD + "[Commands - Page 1/" + pages + "]");
-        } else {
-            sender.sendMessage(ChatColor.GOLD + "[Commands]");
-        }
-
-        final int orig = COMMANDS_PER_PAGE * (page - 1);
-        final int amount = Math.min(COMMANDS_PER_PAGE,
-                subCommands.subList(orig, subCommands.size() - 1).size());
-        for (int cmdNo = orig; cmdNo < orig + amount; cmdNo++) {
-            final RCSubCommand sub = subCommands.get(cmdNo);
+        sender.sendMessage(ChatColor.GOLD + "[Commands]");
+        for (final RCSubCommand sub : getPageFromArgs(sender, subCommands,
+                args[startIndex], COMMANDS_PER_PAGE)) {
             if (sender.hasPermission(sub.getPermission())) {
                 sender.sendMessage(ChatColor.GOLD + sub.getUsage() + " - "
                         + sub.getDescription());
             }
         }
+    }
+
+    /**
+     * Should never be called
+     */
+    private CommandHelper() {
     }
 }
