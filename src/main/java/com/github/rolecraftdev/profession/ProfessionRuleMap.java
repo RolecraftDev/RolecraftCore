@@ -26,14 +26,8 @@
  */
 package com.github.rolecraftdev.profession;
 
-import org.bukkit.configuration.ConfigurationSection;
-import org.bukkit.configuration.file.YamlConfiguration;
-
-import java.io.File;
-import java.io.IOException;
 import java.util.HashMap;
 import java.util.Map;
-import java.util.Map.Entry;
 
 /**
  * A wrapper around a {@link Map} of a {@link ProfessionRule}s - {@link Object}s
@@ -97,48 +91,5 @@ public final class ProfessionRuleMap {
 
         rules.put(key, value);
         return true;
-    }
-
-    /**
-     * Loads a new {@link ProfessionRuleMap} from the given file.
-     * 
-     * @param file - The file to load the map of {@link ProfessionRule}s to
-     *            values from.
-     * @return The {@link ProfessionRuleMap} object created from the file's
-     *         contents
-     */
-    public static ProfessionRuleMap load(final File file) {
-        if (!file.exists()) {
-            try {
-                file.createNewFile();
-            } catch (IOException e) {
-                e.printStackTrace();
-            }
-        }
-
-        final YamlConfiguration config = YamlConfiguration
-                .loadConfiguration(file);
-        ConfigurationSection rulesSection = config
-                .getConfigurationSection("rules");
-
-        if (rulesSection == null) {
-            rulesSection = config.createSection("rules");
-        }
-
-        // Remove file name's extension
-        final String name = file.getName().replaceAll("\\..*", "");
-        final ProfessionRuleMap ruleMap = new ProfessionRuleMap(name);
-
-        for (final Entry<String, Object> element : rulesSection.getValues(true)
-                .entrySet()) {
-            // Validation is done by #set
-            if (!ruleMap.set(ProfessionRule.getRule(element.getKey()),
-                    element.getValue())) {
-                System.out.println(
-                        "[WARNING] [Rolecraft] Couldn't set rule " + element
-                        .getKey() + " for profession " + name);
-            }
-        }
-        return ruleMap;
     }
 }
