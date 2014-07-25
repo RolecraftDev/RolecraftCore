@@ -26,32 +26,32 @@
  */
 package com.github.rolecraftdev.data.storage;
 
+import com.github.rolecraftdev.RolecraftCore;
+import com.github.rolecraftdev.data.PlayerData;
+import com.github.rolecraftdev.data.serialization.LocationSerializer;
+import com.github.rolecraftdev.guild.Guild;
+import com.github.rolecraftdev.guild.GuildManager;
+import com.github.rolecraftdev.guild.GuildRank;
+import org.bukkit.scheduler.BukkitRunnable;
+
 import java.sql.Connection;
 import java.sql.PreparedStatement;
 import java.sql.ResultSet;
 import java.sql.SQLException;
 import java.util.UUID;
 
-import org.bukkit.scheduler.BukkitRunnable;
-
-import com.github.rolecraftdev.RolecraftCore;
-import com.github.rolecraftdev.data.PlayerData;
-import com.github.rolecraftdev.guild.Guild;
-import com.github.rolecraftdev.guild.GuildManager;
-import com.github.rolecraftdev.guild.GuildRank;
-
 public abstract class DataStore {
 
     private final RolecraftCore parent;
-    
+
     public DataStore(RolecraftCore parent) {
         this.parent = parent;
     }
-    
-    public RolecraftCore getParent () {
+
+    public RolecraftCore getParent() {
         return parent;
     }
-    
+
     public static final String pt = "playertable";
     public static final String mdt = "metadatatable";
     public static final String gt = "guildtable";
@@ -61,18 +61,19 @@ public abstract class DataStore {
     public abstract void requestPlayerData(final PlayerData callback);
 
     public abstract void commitPlayerData(final PlayerData commit);
-    
-    public abstract void createGuild (final Guild guild);
-    
-    public abstract void loadGuilds (final GuildManager callback);
-    
-    public abstract void deleteGuild (final Guild guild);
-    
-    public abstract void addPlayerToGuild (final UUID uuid, final Guild guild);
-    
-    public abstract void removePlayerFromGuild (final UUID uuid, final Guild guild);
-    
-    public abstract void clearPlayerData (final UUID uuid);
+
+    public abstract void createGuild(final Guild guild);
+
+    public abstract void loadGuilds(final GuildManager callback);
+
+    public abstract void deleteGuild(final Guild guild);
+
+    public abstract void addPlayerToGuild(final UUID uuid, final Guild guild);
+
+    public abstract void removePlayerFromGuild(final UUID uuid,
+            final Guild guild);
+
+    public abstract void clearPlayerData(final UUID uuid);
 
     protected abstract Connection getConnection();
 
@@ -90,26 +91,27 @@ public abstract class DataStore {
     public abstract String getStoreTypeName();
 
     public void updateGuildData(final Guild guild) {
-        final String home = LocationSerializer.serialize(guild.getHomeLocation());
+        final String home = LocationSerializer
+                .serialize(guild.getHomeLocation());
         final String name = guild.getName();
         final String leader = guild.getLeader().toString();
-        StringBuilder sb = new StringBuilder ();
-        for (UUID id: guild.getMembers()) {
+        StringBuilder sb = new StringBuilder();
+        for (UUID id : guild.getMembers()) {
             sb.append(id.toString());
             sb.append(",");
         }
-        final String members = sb.substring(0,sb.length() -2);
+        final String members = sb.substring(0, sb.length() - 2);
         sb = new StringBuilder();
-        for (GuildRank rank: guild.getRanks()) {
+        for (GuildRank rank : guild.getRanks()) {
             sb.append(rank.serialize());
             sb.append(",");
         }
-        final String ranks = sb.substring(0,sb.length() -2);
+        final String ranks = sb.substring(0, sb.length() - 2);
         final String hall = guild.getGuildHallRegion().toString();
         final String id = guild.getId().toString();
-        
-        new BukkitRunnable () {
-    
+
+        new BukkitRunnable() {
+
             @Override
             public void run() {
                 Connection connection = getConnection();
@@ -138,7 +140,7 @@ public abstract class DataStore {
                     close(ps, rs);
                 }
             }
-            
+
         }.runTaskAsynchronously(getParent());
     }
 

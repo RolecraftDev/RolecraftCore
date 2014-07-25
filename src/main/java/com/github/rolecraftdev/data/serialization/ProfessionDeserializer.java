@@ -24,14 +24,17 @@
  * DISCLAIMER: This is a human-readable summary of (and not a substitute for) the
  * license.
  */
-package com.github.rolecraftdev.profession;
+package com.github.rolecraftdev.data.serialization;
+
+import com.github.rolecraftdev.data.storage.YamlFile;
+import com.github.rolecraftdev.profession.Profession;
+import com.github.rolecraftdev.profession.ProfessionManager;
+import com.github.rolecraftdev.profession.ProfessionRule;
+import com.github.rolecraftdev.profession.ProfessionRuleMap;
+import org.bukkit.configuration.ConfigurationSection;
 
 import java.util.Map.Entry;
 import java.util.UUID;
-
-import org.bukkit.configuration.ConfigurationSection;
-
-import com.github.rolecraftdev.data.storage.YamlFile;
 
 public class ProfessionDeserializer {
     private static final String ID = "id";
@@ -61,10 +64,10 @@ public class ProfessionDeserializer {
 
         try {
             return UUID.fromString(professionConfig.getString(ID));
-        }
-        catch(IllegalArgumentException e) {
-            System.out.println("[WARNING] [Rolecraft] Invalid ID for profession "
-                    + getProfessionName() + ", generating a new one");
+        } catch (IllegalArgumentException e) {
+            System.out
+                    .println("[WARNING] [Rolecraft] Invalid ID for profession "
+                            + getProfessionName() + ", generating a new one");
             professionConfig.set(ID, UUID.randomUUID().toString());
             // Update file
             professionConfig.save();
@@ -77,7 +80,8 @@ public class ProfessionDeserializer {
     }
 
     public ProfessionRuleMap getProfessionRuleMap() {
-        final ProfessionRuleMap ruleMap = new ProfessionRuleMap(getProfessionName());
+        final ProfessionRuleMap ruleMap = new ProfessionRuleMap(
+                getProfessionName());
         ConfigurationSection rulesSection =
                 professionConfig.getConfigurationSection(RULES);
 
