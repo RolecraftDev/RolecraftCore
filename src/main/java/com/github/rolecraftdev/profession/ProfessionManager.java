@@ -31,6 +31,7 @@ import com.github.rolecraftdev.RolecraftCore;
 import java.io.File;
 import java.util.HashSet;
 import java.util.Set;
+import java.util.UUID;
 
 public final class ProfessionManager {
     private final RolecraftCore plugin;
@@ -51,8 +52,18 @@ public final class ProfessionManager {
 
     public Profession getProfession(final String name) {
         for (final Profession profession : professions) {
-            if (profession.getName().equalsIgnoreCase(name))
+            if (profession.getName().equalsIgnoreCase(name)) {
                 return profession;
+            }
+        }
+        return null;
+    }
+
+    public Profession getProfession(final UUID id) {
+        for (final Profession profession : professions) {
+            if (profession.getId().equals(id)) {
+                return profession;
+            }
         }
         return null;
     }
@@ -64,10 +75,12 @@ public final class ProfessionManager {
     public void loadProfessions() {
         final File directory = new File(plugin.getDataFolder(), "professions");
 
-        if (directory.isFile())
+        if (directory.isFile()) {
             directory.delete();
-        if (!directory.exists())
+        }
+        if (!directory.exists()) {
             directory.mkdirs();
+        }
 
         for (final File professionFile : directory.listFiles()) {
             final ProfessionRuleMap rules = ProfessionRuleMap

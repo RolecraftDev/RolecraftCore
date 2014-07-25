@@ -33,14 +33,15 @@ import java.util.UUID;
  */
 public final class PlayerData {
     private final UUID playerId;
-
     private final String name;
-    private String guild;
+
+    private UUID guild;
+    private UUID profession;
     private int influence;
 
     /**
-     * @deprecated There is no reason not to have the player's name
      * @param playerId
+     * @deprecated There is no reason not to have the player's name
      */
     @Deprecated
     public PlayerData(final UUID playerId) {
@@ -60,8 +61,12 @@ public final class PlayerData {
         return name;
     }
 
-    public String getGuild() {
+    public UUID getGuild() {
         return guild;
+    }
+
+    public UUID getProfession() {
+        return profession;
     }
 
     public int getInfluence() {
@@ -72,7 +77,7 @@ public final class PlayerData {
         this.name = name;
     }*/
 
-    public void setGuild(final String guild) {
+    public void setGuild(final UUID guild) {
         this.guild = guild;
     }
 
@@ -80,8 +85,16 @@ public final class PlayerData {
         this.influence = influence;
     }
 
+    public void addInfluence(final int influence) {
+        this.influence += influence;
+    }
+
+    public void subtractInfluence(final int influence) {
+        this.influence -= influence;
+    }
+
     /**
-     * Called when loaded in SQL
+     * For internal use only - called when loaded in SQL
      *
      * @deprecated DO NOT CALL
      */
