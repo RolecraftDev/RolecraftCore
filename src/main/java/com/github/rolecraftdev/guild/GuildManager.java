@@ -27,7 +27,7 @@
 package com.github.rolecraftdev.guild;
 
 import com.github.rolecraftdev.RolecraftCore;
-import com.github.rolecraftdev.data.storage.ConfigAccessor;
+import com.github.rolecraftdev.data.storage.YamlFile;
 
 import java.util.HashSet;
 import java.util.Set;
@@ -54,7 +54,7 @@ public final class GuildManager {
     /**
      * A configuration holding options related to guilds
      */
-    private ConfigAccessor guildConfig;
+    private YamlFile guildConfig;
 
     // Config options
 
@@ -83,17 +83,16 @@ public final class GuildManager {
         guilds = new HashSet<Guild>();
 
         // Get guild configuration options
-        guildConfig = new ConfigAccessor(plugin, "guildconfig.yml");
-        creationCost = guildConfig.getConfig()
-                .getInt("economy.creation-cost", 0);
-        inviteCost = guildConfig.getConfig().getInt("economy.invite-cost", 0);
-        hallCost = guildConfig.getConfig().getInt("economy.guild-hall-cost", 0);
+        guildConfig = new YamlFile(plugin, "guildconfig.yml", false);
+        creationCost = guildConfig.getInt("economy.creation-cost", 0);
+        inviteCost = guildConfig.getInt("economy.invite-cost", 0);
+        hallCost = guildConfig.getInt("economy.guild-hall-cost", 0);
 
         loaded = false;
 
         // Register the guild listener with Bukkit
         plugin.getServer().getPluginManager()
-                .registerEvents(new GuildListener(this), plugin);
+              .registerEvents(new GuildListener(this), plugin);
     }
 
     /**
