@@ -62,12 +62,12 @@ public final class Guild {
      * A Set containing all of this guild's members' unique identifiers,
      * including officers and the leader
      */
-    private Set<UUID> members;
+    private final Set<UUID> members;
     /**
      * A Set containing all of the ranks available in this guild, as configured
      * by the guild leader
      */
-    private Set<GuildRank> ranks;
+    private final Set<GuildRank> ranks;
     /**
      * The home point of this guild, used for teleporting to the guild home
      */
@@ -361,7 +361,7 @@ public final class Guild {
             return false;
         }
         final Guild other = (Guild) o;
-        return this.guildId.equals(other.getId());
+        return guildId.equals(other.getId());
     }
 
     /**

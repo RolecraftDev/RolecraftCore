@@ -35,7 +35,7 @@ import java.util.Set;
 public final class ProfessionManager {
     private final RolecraftCore plugin;
 
-    private Set<Profession> professions;
+    private final Set<Profession> professions;
 
     public ProfessionManager(final RolecraftCore plugin) {
         this.plugin = plugin;

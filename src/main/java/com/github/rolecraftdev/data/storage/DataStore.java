@@ -42,7 +42,7 @@ import com.github.rolecraftdev.guild.GuildRank;
 
 public abstract class DataStore {
 
-    private RolecraftCore parent;
+    private final RolecraftCore parent;
     
     public DataStore(RolecraftCore parent) {
         this.parent = parent;
