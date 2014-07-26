@@ -28,6 +28,11 @@ package com.github.rolecraftdev.command;
 
 import com.github.rolecraftdev.RolecraftCore;
 import com.github.rolecraftdev.command.guild.GuildCommand;
+import com.github.rolecraftdev.command.other.GCCommand;
+import com.github.rolecraftdev.command.profession.ProfessionCommand;
+import org.bukkit.command.PluginCommand;
+
+import java.util.Arrays;
 
 public final class RCCommandManager {
     private final RolecraftCore plugin;
@@ -37,6 +42,23 @@ public final class RCCommandManager {
     }
 
     public void registerCommands() {
-        plugin.getCommand("guild").setExecutor(new GuildCommand(plugin));
+        // Set up guild command
+        final PluginCommand guildCommand = plugin.getCommand("guild");
+        final GuildCommand guildCommandExec = new GuildCommand(plugin);
+        guildCommand.setAliases(Arrays.asList(guildCommandExec.getNames()));
+
+        // Set up profession command
+        final PluginCommand professionCommand = plugin.getCommand("profession");
+        final ProfessionCommand professionExec = new ProfessionCommand(plugin);
+        professionCommand.setAliases(Arrays.asList(professionExec.getNames()));
+
+        // Set up guild chat command
+        final PluginCommand gcCommand = plugin.getCommand("gc");
+        final GCCommand gcCommandExec = new GCCommand(plugin);
+        gcCommand.setAliases(Arrays.asList(gcCommandExec.getNames()));
+
+        // Set executors
+        guildCommand.setExecutor(guildCommandExec);
+        professionCommand.setExecutor(professionExec);
     }
 }
