@@ -48,6 +48,7 @@ public final class GuildCommand extends RCCommand {
         subCommands.add(new GuildHomeCommand(plugin));
         subCommands.add(new GuildShowCommand(plugin));
         subCommands.add(new GuildCreateCommand(plugin));
+        subCommands.add(new GuildDisbandCommand(plugin));
         // TODO: Add more subcommands
     }
 

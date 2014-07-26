@@ -29,6 +29,7 @@ package com.github.rolecraftdev.command;
 import com.github.rolecraftdev.RolecraftCore;
 import com.github.rolecraftdev.command.guild.GuildCommand;
 import com.github.rolecraftdev.command.other.GCCommand;
+import com.github.rolecraftdev.command.other.RCConfirmCommand;
 import com.github.rolecraftdev.command.profession.ProfessionCommand;
 import org.bukkit.command.PluginCommand;
 
@@ -57,8 +58,15 @@ public final class RCCommandManager {
         final GCCommand gcCommandExec = new GCCommand(plugin);
         gcCommand.setAliases(Arrays.asList(gcCommandExec.getNames()));
 
+        // Set up confirm command
+        final PluginCommand confirmCommand = plugin.getCommand("rcconfirm");
+        final RCConfirmCommand confirmExec = new RCConfirmCommand(plugin);
+        confirmCommand.setAliases(Arrays.asList(confirmExec.getNames()));
+
         // Set executors
         guildCommand.setExecutor(guildCommandExec);
         professionCommand.setExecutor(professionExec);
+        gcCommand.setExecutor(gcCommandExec);
+        confirmCommand.setExecutor(confirmExec);
     }
 }
