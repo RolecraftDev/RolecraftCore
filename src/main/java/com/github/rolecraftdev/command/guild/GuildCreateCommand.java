@@ -27,8 +27,10 @@
 package com.github.rolecraftdev.command.guild;
 
 import com.github.rolecraftdev.RolecraftCore;
+import com.github.rolecraftdev.event.guild.GuildCreateEvent;
 import com.github.rolecraftdev.guild.Guild;
 import net.milkbowl.vault.economy.EconomyResponse;
+import org.bukkit.Bukkit;
 import org.bukkit.ChatColor;
 import org.bukkit.command.CommandSender;
 import org.bukkit.entity.Player;
@@ -76,12 +78,22 @@ public class GuildCreateCommand extends GuildSubCommand {
         guild.setName(name);
         guild.setLeader(player);
         if (guildManager.addGuild(guild, false)) {
-            if (plugin.useEconomy()) {
-                plugin.getEconomy().bankWithdraw(thePlayer.getName(),
-                        guildManager.getCreationCost());
+            GuildCreateEvent event = new GuildCreateEvent(plugin, guild);
+            Bukkit.getPluginManager().callEvent(event);
+
+            if (event.isCancelled()) {
+                sender.sendMessage(ChatColor.DARK_RED
+                        + event.getCancelMessage());
+                guildManager.removeGuild(guild);
+            } else {
+                sender.sendMessage(ChatColor.GRAY
+                        + "You created a guild named '" + name + "'!");
+
+                if (plugin.useEconomy()) {
+                    plugin.getEconomy().bankWithdraw(thePlayer.getName(),
+                            guildManager.getCreationCost());
+                }
             }
-            sender.sendMessage(ChatColor.GRAY
-                    + "You created a guild named '" + name + "'!");
         } else {
             sender.sendMessage(ChatColor.DARK_RED
                     + "Couldn't create guild! The name may have already been taken!");
