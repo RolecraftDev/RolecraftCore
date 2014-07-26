@@ -1,0 +1,12 @@
+com.github.rolecraftdev
+com.github.rolecraftdev.command
+com.github.rolecraftdev.command.guild
+com.github.rolecraftdev.command.profession
+com.github.rolecraftdev.data
+com.github.rolecraftdev.data.serialization
+com.github.rolecraftdev.data.storage
+com.github.rolecraftdev.event
+com.github.rolecraftdev.event.guild
+com.github.rolecraftdev.guild
+com.github.rolecraftdev.profession
+com.github.rolecraftdev.quest
