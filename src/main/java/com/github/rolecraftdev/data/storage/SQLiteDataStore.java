@@ -26,16 +26,16 @@
  */
 package com.github.rolecraftdev.data.storage;
 
+import com.github.rolecraftdev.RolecraftCore;
+import com.github.rolecraftdev.data.PlayerData;
+import com.github.rolecraftdev.guild.Guild;
+import com.github.rolecraftdev.guild.GuildManager;
+
 import java.sql.Connection;
 import java.sql.PreparedStatement;
 import java.sql.ResultSet;
 import java.sql.SQLException;
 import java.util.UUID;
-
-import com.github.rolecraftdev.RolecraftCore;
-import com.github.rolecraftdev.data.PlayerData;
-import com.github.rolecraftdev.guild.Guild;
-import com.github.rolecraftdev.guild.GuildManager;
 
 public final class SQLiteDataStore extends DataStore {
 
@@ -43,12 +43,12 @@ public final class SQLiteDataStore extends DataStore {
         super(parent);
     }
 
-    private static final String createPlayerTable = "CREATE TABLE IF NOT EXISTS "  + pt  + " ("
+    private static final String createPlayerTable = "CREATE TABLE IF NOT EXISTS " + pt + " ("
             + "uuid VARCHAR(37) PRIMARY KEY ON CONFLICT REPLACE,"
             + "lastname VARCHAR(16) NOT NULL ON CONFLICT FAIL,"
             + "guild REFERENCES " + gt + "(uuid) ON DELETE SET NULL"
             + ")";
-    
+
     private static final String createGuildTable = "CREATE TABLE IF NOT EXISTS " + gt + " ("
             + "uuid VARCHAR(37) PRIMARY KEY ON CONFLICT FAIL,"
             + "name VARCHAR (50),"
@@ -135,7 +135,7 @@ public final class SQLiteDataStore extends DataStore {
         } finally {
             close(ps, rs);
         }
-        
+
     }
 
     @Override
@@ -152,7 +152,7 @@ public final class SQLiteDataStore extends DataStore {
         } finally {
             close(ps, rs);
         }
-        
+
     }
 
     @Override
@@ -162,14 +162,14 @@ public final class SQLiteDataStore extends DataStore {
         ResultSet rs = null;
         try {
             // TODO: Method skeleton
-    
+
             throw new SQLException();
         } catch (SQLException ex) {
             ex.printStackTrace();
         } finally {
             close(ps, rs);
         }
-        
+
     }
 
     @Override
@@ -179,32 +179,32 @@ public final class SQLiteDataStore extends DataStore {
         ResultSet rs = null;
         try {
             // TODO: Method skeleton
-    
+
             throw new SQLException();
         } catch (SQLException ex) {
             ex.printStackTrace();
         } finally {
             close(ps, rs);
         }
-        
+
     }
 
     @Override
     public void addPlayerToGuild(UUID uuid, Guild guild) {
         // TODO Auto-generated method stub
-        
+
     }
 
     @Override
     public void removePlayerFromGuild(UUID uuid, Guild guild) {
         // TODO Auto-generated method stub
-        
+
     }
 
     @Override
     public void updateGuildData(Guild guild) {
         // TODO Auto-generated method stub
-        
+
     }
 
 }

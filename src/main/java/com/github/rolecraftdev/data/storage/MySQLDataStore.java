@@ -26,16 +26,16 @@
  */
 package com.github.rolecraftdev.data.storage;
 
+import com.github.rolecraftdev.RolecraftCore;
+import com.github.rolecraftdev.data.PlayerData;
+import com.github.rolecraftdev.guild.Guild;
+import com.github.rolecraftdev.guild.GuildManager;
+
 import java.sql.Connection;
 import java.sql.PreparedStatement;
 import java.sql.ResultSet;
 import java.sql.SQLException;
 import java.util.UUID;
-
-import com.github.rolecraftdev.RolecraftCore;
-import com.github.rolecraftdev.data.PlayerData;
-import com.github.rolecraftdev.guild.Guild;
-import com.github.rolecraftdev.guild.GuildManager;
 
 public final class MySQLDataStore extends DataStore {
 
@@ -47,9 +47,9 @@ public final class MySQLDataStore extends DataStore {
             + "uuid VARCHAR(40) PRIMARY KEY,"
             + "lastname VARCHAR(16) NOT NULL,"
             + "FOREIGN KEY (guild) REFERENCES " + gt + "(uuid) ON DELETE SET NULL,"
-            + "" 
+            + ""
             + ")";
-    
+
     private static final String createGuildTable = "CREATE TABLE IF NOT EXISTS " + gt + " ("
             + "uuid VARCHAR(37) PRIMARY KEY ON CONFLICT FAIL,"
             + "name VARCHAR (50),"
@@ -134,7 +134,7 @@ public final class MySQLDataStore extends DataStore {
         } finally {
             close(ps, rs);
         }
-        
+
     }
 
     @Override
@@ -151,7 +151,7 @@ public final class MySQLDataStore extends DataStore {
         } finally {
             close(ps, rs);
         }
-        
+
     }
 
     @Override
@@ -168,7 +168,7 @@ public final class MySQLDataStore extends DataStore {
         } finally {
             close(ps, rs);
         }
-        
+
     }
 
     @Override
@@ -185,19 +185,19 @@ public final class MySQLDataStore extends DataStore {
         } finally {
             close(ps, rs);
         }
-        
+
     }
 
     @Override
     public void addPlayerToGuild(final UUID uuid, final Guild guild) {
         // TODO Auto-generated method stub
-        
+
     }
 
     @Override
     public void removePlayerFromGuild(final UUID uuid, final Guild guild) {
         // TODO Auto-generated method stub
-        
+
     }
 
 }
