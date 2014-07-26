@@ -71,11 +71,20 @@ public final class GuildManager {
      * simply, a protected area.
      */
     private int hallCost;
+    /**
+     * Whether to protect guild halls from natural Minecraft damage, such as
+     * creepers or lava / fire spread
+     */
+    private boolean protectFromEnvironment;
+    /**
+     * Whether to disallow PvP in guild halls
+     */
+    private boolean disallowHallPvp;
 
     /**
      * Creates a new {@link GuildManager} instance using the given
      * {@link RolecraftCore} object as the plugin to register events with.
-     * 
+     *
      * @param plugin - The {@link RolecraftCore} plugin
      */
     public GuildManager(final RolecraftCore plugin) {
@@ -88,19 +97,22 @@ public final class GuildManager {
         creationCost = guildConfig.getInt("economy.creation-cost", 0);
         inviteCost = guildConfig.getInt("economy.invite-cost", 0);
         hallCost = guildConfig.getInt("economy.guild-hall-cost", 0);
+        protectFromEnvironment = guildConfig
+                .getBoolean("hall.protect-from-environment", true);
+        disallowHallPvp = guildConfig.getBoolean("hall.disallow-pvp", true);
 
         loaded = false;
 
         // Register the guild listener with Bukkit
         plugin.getServer().getPluginManager()
-        .registerEvents(new GuildListener(this), plugin);
+                .registerEvents(new GuildListener(this), plugin);
     }
 
     /**
      * Adds the given {@link Guild} object to the {@link Set} of loaded
      * {@link Guild}s if it is valid - i.e if it is loaded from the database or
      * doesn't clash with another {@link Guild}. (being logically equal)
-     * 
+     *
      * @param guild - The {@link Guild} to load
      * @param fromDatabase - Used internally for loading from database, always
      *            use false
@@ -123,7 +135,7 @@ public final class GuildManager {
      * Attempts to delete the given {@link Guild}, both from memory and from the
      * SQL database. This method will fail if this {@link GuildManager} hasn't
      * loaded yet.
-     * 
+     *
      * @param guild - The {@link Guild} to remove
      * @return True if the {@link Guild} was removed, false if it wasn't
      */
@@ -138,7 +150,7 @@ public final class GuildManager {
 
     /**
      * Gets the {@link Guild} object that has the specified name.
-     * 
+     *
      * @param name - The name of the wanted {@link Guild}
      * @return The {@link Guild} with the given name if it is contained by this
      *         {@link GuildManager}, or null if none is found
@@ -158,7 +170,7 @@ public final class GuildManager {
 
     /**
      * Gets the {@link Guild} the given player belongs to.
-     * 
+     *
      * @param player - The unique identifier of the player to get the
      *            {@link Guild} of
      * @return The given player's {@link Guild}, or null if they don't have one.
@@ -180,7 +192,7 @@ public final class GuildManager {
 
     /**
      * Get a copy of the {@link Set} used to store all loaded {@link Guild}s.
-     * 
+     *
      * @return A copy of the {@link Set} used to store loaded {@link Guild}s, or
      *         null if this {@link GuildManager} remains unloaded.
      */
@@ -194,7 +206,7 @@ public final class GuildManager {
 
     /**
      * Get the amount of money required to create a {@link Guild}.
-     * 
+     *
      * @return The amount of money required to create a {@link Guild}
      */
     public int getCreationCost() {
@@ -203,7 +215,7 @@ public final class GuildManager {
 
     /**
      * Get the amount of money required to invite somebody to a {@link Guild}.
-     * 
+     *
      * @return The amount of money required to invite somebody to a
      *         {@link Guild}
      */
@@ -213,7 +225,7 @@ public final class GuildManager {
 
     /**
      * Get the amount of money required to buy a hall for a {@link Guild}.
-     * 
+     *
      * @return The amount of money required to buy a hall for a {@link Guild}
      */
     public int getGuildHallCost() {
@@ -221,9 +233,28 @@ public final class GuildManager {
     }
 
     /**
+     * Checks whether to protect guild hall's from the environment. Environment
+     * -related causes include creepers and lava spread
+     *
+     * @return Whether to protect guild halls from natural causes
+     */
+    public boolean protectFromEnvironment() {
+        return protectFromEnvironment;
+    }
+
+    /**
+     * Checks whether to disallow PvP in guild halls
+     *
+     * @return Whether to disallow PvP in guild halls
+     */
+    public boolean disallowHallPvp() {
+        return disallowHallPvp;
+    }
+
+    /**
      * Get the {@link RolecraftCore} plugin object this {@link GuildManager} is
      * attached to.
-     * 
+     *
      * @return Its {@link RolecraftCore} object
      */
     public RolecraftCore getPlugin() {
@@ -232,7 +263,7 @@ public final class GuildManager {
 
     /**
      * Check whether this {@link GuildManager} has been fully loaded.
-     * 
+     *
      * @return True if it has been completely loaded, else false
      */
     public boolean isLoaded() {

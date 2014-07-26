@@ -35,7 +35,7 @@ import java.util.UUID;
 public enum GuildAction {
     // TODO: More things might be added here
     KICK_MEMBER("kick"), INVITE("invite"), SET_HOME("sethome"), CHANGE_BLOCK(
-            "modifyhall");
+            "modifyhall"), IGNITE_BLOCK("ignitehallblock");
 
     /**
      * A player-readable version of the name of this {@link GuildAction}.
