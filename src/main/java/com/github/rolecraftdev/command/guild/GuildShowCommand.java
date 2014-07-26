@@ -42,7 +42,7 @@ public final class GuildShowCommand extends GuildSubCommand {
                 args.length > 1 ? args[1] : null);
 
         if (guild != null) {
-            // TODO
+            // TODO: Show information about the guild
         }
     }
 

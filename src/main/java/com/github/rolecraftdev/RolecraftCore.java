@@ -27,6 +27,7 @@
 package com.github.rolecraftdev;
 
 import com.github.rolecraftdev.command.guild.GuildCommand;
+import com.github.rolecraftdev.command.other.RCConfirmCommand;
 import com.github.rolecraftdev.data.DataManager;
 import com.github.rolecraftdev.data.storage.DataStore;
 import com.github.rolecraftdev.data.storage.MySQLDataStore;
@@ -80,6 +81,11 @@ public final class RolecraftCore extends JavaPlugin {
      * The Vault Economy instance.
      */
     private Economy economy;
+    /**
+     * The confirm command instance, used for guild disbanding and anything else
+     * which needs confirming
+     */
+    private RCConfirmCommand confirmCommand;
 
     @Override
     public void onEnable() {
@@ -195,5 +201,20 @@ public final class RolecraftCore extends JavaPlugin {
      */
     public boolean useEconomy() {
         return useEconomy;
+    }
+
+    public RCConfirmCommand getConfirmCommand() {
+        return confirmCommand;
+    }
+
+    public void setConfirmCommand(final RCConfirmCommand confirmCommand) {
+        if (!isEnabled()) {
+            throw new IllegalStateException();
+        }
+        if (this.confirmCommand != null) {
+            throw new IllegalStateException();
+        }
+
+        this.confirmCommand = confirmCommand;
     }
 }
