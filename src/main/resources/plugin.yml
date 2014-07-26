@@ -12,6 +12,8 @@ commands:
         description: Guild-related commands
     profession:
         description: Profession-related commands
+    gc:
+        description: Switch between guild and normal chat, or send a one time guild chat message
 
 permissions:
     rolecraft.guild.show:
