@@ -118,7 +118,7 @@ public final class RolecraftCore extends JavaPlugin {
                 + " for Rolecraft data!");
 
         // Create all the manager objects
-        dataManager = new DataManager(this, dataStore);
+        dataManager = new DataManager(this);
         guildManager = new GuildManager(this);
         questManager = new QuestManager(this);
         professionManager = new ProfessionManager(this);

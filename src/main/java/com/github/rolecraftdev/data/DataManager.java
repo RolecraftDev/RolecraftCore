@@ -33,14 +33,34 @@ import java.util.HashMap;
 import java.util.Map;
 import java.util.UUID;
 
+/**
+ * Manages data objects, such as {@link PlayerData} objects, in Rolecraft
+ */
 public final class DataManager {
+    /**
+     * The Rolecraft plugin
+     */
     private final RolecraftCore plugin;
+    /**
+     * The {@link DataStore} that data is being stored in and loaded from by
+     * this DataManager
+     */
     private final DataStore store;
+    /**
+     * A Map of player unique identifiers to loaded {@link PlayerData} objects -
+     * {@link PlayerData} objects are loaded when a player joins the server and
+     * unloaded when the player quits
+     */
     private final Map<UUID, PlayerData> loadedPlayerData;
 
-    public DataManager(final RolecraftCore plugin, final DataStore store) {
+    /**
+     * Creates a new DataManager object
+     *
+     * @param plugin The Rolecraft plugin this DataManager is storing data for
+     */
+    public DataManager(final RolecraftCore plugin) {
         this.plugin = plugin;
-        this.store = store;
+        this.store = plugin.getDataStore();
 
         loadedPlayerData = new HashMap<UUID, PlayerData>();
     }
@@ -59,12 +79,23 @@ public final class DataManager {
         }
     }
 
+    /**
+     * Unloads all currently loaded {@link PlayerData} objects which are stored
+     * by this DataManager
+     */
     public void unloadAllPlayerData() {
         for (final UUID id : loadedPlayerData.keySet()) {
             unloadAndSaveData(id);
         }
     }
 
+    /**
+     * Gets the {@link PlayerData} object for the player with the given unique
+     * identifier ({@link UUID})
+     *
+     * @param player The unique identifier of the player to get data for
+     * @return The {@link PlayerData} for the player with the given identifier
+     */
     public PlayerData getPlayerData(final UUID player) {
         PlayerData result = loadedPlayerData.get(player);
         if (result != null) {
@@ -78,6 +109,12 @@ public final class DataManager {
         return plugin;
     }
 
+    /**
+     * Gets the {@link DataStore} being used to store and retrieve data for
+     * this DataManager
+     *
+     * @return This DataManager's {@link DataStore} object
+     */
     public DataStore getStore() {
         return store;
     }

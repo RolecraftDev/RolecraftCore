@@ -32,7 +32,21 @@ import org.bukkit.World;
 
 import java.util.UUID;
 
+/**
+ * A class used for transforming a {@link Location} to a serialized
+ * {@link String} and back again. Used for storing data
+ */
 public class LocationSerializer {
+    /**
+     * Transforms the given {@link String} into a {@link Location}, assuming
+     * the given {@link String} is a valid serialized {@link Location}, as can
+     * be obtained via the {@link #serialize(Location)} method
+     *
+     * @param serial The serialized {@link String} to deserialize
+     * @return A {@link Location} deserialized from the given {@link String}
+     * @throws IllegalArgumentException If the provided serialized
+     *                                  {@link String} isn't valid
+     */
     public static Location deserialize(final String serial)
             throws IllegalArgumentException {
         if (serial == null) {
@@ -73,6 +87,13 @@ public class LocationSerializer {
         return new Location(world, x, y, z, yaw, pitch);
     }
 
+    /**
+     * Transforms the given {@link Location} into a serialized {@link String}
+     * for storage
+     *
+     * @param loc The {@link Location} to turn into a serialized {@link String}
+     * @return A serialized String representing the given {@link Location}
+     */
     public static String serialize(Location loc) {
         if (loc == null) {
             return null;
@@ -93,6 +114,9 @@ public class LocationSerializer {
         return sb.toString();
     }
 
+    /**
+     * Should never be called
+     */
     private LocationSerializer() {
     }
 }
