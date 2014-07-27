@@ -28,10 +28,11 @@ package com.github.rolecraftdev.data.storage;
 
 import com.github.rolecraftdev.RolecraftCore;
 import com.github.rolecraftdev.data.PlayerData;
-import com.github.rolecraftdev.data.serialization.LocationSerializer;
 import com.github.rolecraftdev.guild.Guild;
 import com.github.rolecraftdev.guild.GuildManager;
 import com.github.rolecraftdev.guild.GuildRank;
+import com.github.rolecraftdev.util.LocationSerializer;
+
 import org.bukkit.scheduler.BukkitRunnable;
 
 import java.sql.Connection;

@@ -27,8 +27,8 @@
 package com.github.rolecraftdev.profession;
 
 import com.github.rolecraftdev.RolecraftCore;
-import com.github.rolecraftdev.data.serialization.ProfessionDeserializer;
 import com.github.rolecraftdev.data.storage.YamlFile;
+import com.github.rolecraftdev.util.ProfessionDeserializer;
 
 import java.io.File;
 import java.util.HashSet;

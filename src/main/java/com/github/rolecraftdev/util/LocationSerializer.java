@@ -24,7 +24,7 @@
  * DISCLAIMER: This is a human-readable summary of (and not a substitute for) the
  * license.
  */
-package com.github.rolecraftdev.data.serialization;
+package com.github.rolecraftdev.util;
 
 import org.bukkit.Bukkit;
 import org.bukkit.Location;

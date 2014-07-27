@@ -37,6 +37,8 @@ import java.sql.ResultSet;
 import java.sql.SQLException;
 import java.util.UUID;
 
+import org.bukkit.scheduler.BukkitRunnable;
+
 public final class SQLiteDataStore extends DataStore {
 
     public SQLiteDataStore(RolecraftCore parent) {
@@ -46,7 +48,10 @@ public final class SQLiteDataStore extends DataStore {
     private static final String createPlayerTable = "CREATE TABLE IF NOT EXISTS " + pt + " ("
             + "uuid VARCHAR(37) PRIMARY KEY ON CONFLICT REPLACE,"
             + "lastname VARCHAR(16) NOT NULL ON CONFLICT FAIL,"
-            + "guild REFERENCES " + gt + "(uuid) ON DELETE SET NULL"
+            + "guild REFERENCES " + gt + "(uuid) ON DELETE SET NULL,"
+            + "exp REAL DEFAULT 0,"
+            + "profession VARCHAR (37) DEFAULT NULL,"
+            + "influence INTEGER DEFAULT 0"
             + ")";
 
     private static final String createGuildTable = "CREATE TABLE IF NOT EXISTS " + gt + " ("
@@ -65,9 +70,12 @@ public final class SQLiteDataStore extends DataStore {
         PreparedStatement ps = null;
         ResultSet rs = null;
         try {
-            // TODO: Method skeleton
-
-            throw new SQLException();
+            ps = connection.prepareStatement(createPlayerTable);
+            ps.execute();
+            ps.close();
+            ps = connection.prepareStatement(createGuildTable);
+            ps.execute();
+            ps.close();
         } catch (SQLException ex) {
             ex.printStackTrace();
         } finally {
@@ -77,36 +85,71 @@ public final class SQLiteDataStore extends DataStore {
     }
 
     @Override
-    public void requestPlayerData(PlayerData callback) {
-        Connection connection = getConnection();
-        PreparedStatement ps = null;
-        ResultSet rs = null;
-        try {
-            // TODO: Method skeleton
-
-            throw new SQLException();
-        } catch (SQLException ex) {
-            ex.printStackTrace();
-        } finally {
-            close(ps, rs);
-        }
-
+    public void requestPlayerData(final PlayerData callback) {
+    	
+    	final String uuid = callback.getPlayerId().toString();
+    	final String name = callback.getPlayerName();
+    	new BukkitRunnable () {
+    		@SuppressWarnings("deprecation")
+			@Override
+    		public void run () {
+    			Connection connection = getConnection();
+    	        PreparedStatement ps = null;
+    	        ResultSet rs = null;
+    	        try {
+    	        	ps = connection.prepareStatement("SELECT * FROM " + pt + " WHERE uuid = ?");
+    	        	ps.setString(1, uuid);
+    	        	rs = ps.executeQuery();
+    	        	
+    	        	if(rs.next()) {
+    	        		callback.initialise(
+    	        				UUID.fromString(rs.getString("guild")),
+    	        				UUID.fromString(rs.getString("profession")), 
+    	        				rs.getInt("influence"), rs.getFloat("exp"));
+    	        	}
+    	        	else {
+    	        		ps.close();
+    	        		ps = connection.prepareStatement("INSERT INTO " + pt + " (uuid, name) VALUES (?,?)");
+    	        		ps.setString(1, uuid);
+    	        		ps.setString(2, name);
+    	        		callback.initialise(null, null, 0, 0);
+    	        	}
+    	        	
+    	        } catch (SQLException ex) {
+    	            ex.printStackTrace();
+    	        } finally {
+    	            close(ps, rs);
+    	        }
+    		}
+    	}.runTaskAsynchronously(getParent());
     }
 
     @Override
-    public void commitPlayerData(PlayerData commit) {
-        Connection connection = getConnection();
-        PreparedStatement ps = null;
-        ResultSet rs = null;
-        try {
-            // TODO: Method skeleton
-
-            throw new SQLException();
-        } catch (SQLException ex) {
-            ex.printStackTrace();
-        } finally {
-            close(ps, rs);
-        }
+    public void commitPlayerData(final PlayerData commit) {
+    	
+    	commit.setUnloading(true);
+    	
+    	new BukkitRunnable () {
+    		@Override
+    		public void run () {
+    			Connection connection = getConnection();
+    	        PreparedStatement ps = null;
+    	        ResultSet rs = null;
+    	        try {
+    	        	ps = connection.prepareStatement("UPDATE " + pt + " SET name = ?, guild = ?, exp = ?, profession = ?, influence = ? WHERE uuid = ?");
+    	        	ps.setString(1, commit.getPlayerName());
+    	        	ps.setString(2, commit.getGuild().toString());
+    	        	ps.setFloat(3, commit.getExp());
+    	        	ps.setString(4, commit.getProfession().toString());
+    	        	ps.setInt(5, commit.getInfluence());
+    	        	ps.setString(6, commit.getPlayerId().toString());
+    	        } catch (SQLException ex) {
+    	            ex.printStackTrace();
+    	        } finally {
+    	            close(ps, rs);
+    	        }
+    		}
+    	}.runTaskAsynchronously(getParent());
 
     }
 
@@ -123,87 +166,141 @@ public final class SQLiteDataStore extends DataStore {
 
     @Override
     public void createGuild(Guild guild) {
-        Connection connection = getConnection();
-        PreparedStatement ps = null;
-        ResultSet rs = null;
-        try {
-            // TODO: Method skeleton
-
-            throw new SQLException();
-        } catch (SQLException ex) {
-            ex.printStackTrace();
-        } finally {
-            close(ps, rs);
-        }
+    	new BukkitRunnable () {
+    		@Override
+    		public void run () {
+    			Connection connection = getConnection();
+    	        PreparedStatement ps = null;
+    	        ResultSet rs = null;
+    	        try {
+    	        	throw new SQLException();
+    	        } catch (SQLException ex) {
+    	            ex.printStackTrace();
+    	        } finally {
+    	            close(ps, rs);
+    	        }
+    		}
+    	}.runTaskAsynchronously(getParent());
 
     }
 
     @Override
     public void loadGuilds(GuildManager callback) {
-        Connection connection = getConnection();
-        PreparedStatement ps = null;
-        ResultSet rs = null;
-        try {
-            // TODO: Method skeleton
-
-            throw new SQLException();
-        } catch (SQLException ex) {
-            ex.printStackTrace();
-        } finally {
-            close(ps, rs);
-        }
+    	new BukkitRunnable () {
+    		@Override
+    		public void run () {
+    			Connection connection = getConnection();
+    	        PreparedStatement ps = null;
+    	        ResultSet rs = null;
+    	        try {
+    	        	throw new SQLException();
+    	        } catch (SQLException ex) {
+    	            ex.printStackTrace();
+    	        } finally {
+    	            close(ps, rs);
+    	        }
+    		}
+    	}.runTaskAsynchronously(getParent());
 
     }
 
     @Override
     public void deleteGuild(Guild guild) {
-        Connection connection = getConnection();
-        PreparedStatement ps = null;
-        ResultSet rs = null;
-        try {
-            // TODO: Method skeleton
-
-            throw new SQLException();
-        } catch (SQLException ex) {
-            ex.printStackTrace();
-        } finally {
-            close(ps, rs);
-        }
+    	new BukkitRunnable () {
+    		@Override
+    		public void run () {
+    			Connection connection = getConnection();
+    	        PreparedStatement ps = null;
+    	        ResultSet rs = null;
+    	        try {
+    	        	throw new SQLException();
+    	        } catch (SQLException ex) {
+    	            ex.printStackTrace();
+    	        } finally {
+    	            close(ps, rs);
+    	        }
+    		}
+    	}.runTaskAsynchronously(getParent());
 
     }
 
     @Override
     public void clearPlayerData(UUID uuid) {
-        Connection connection = getConnection();
-        PreparedStatement ps = null;
-        ResultSet rs = null;
-        try {
-            // TODO: Method skeleton
-
-            throw new SQLException();
-        } catch (SQLException ex) {
-            ex.printStackTrace();
-        } finally {
-            close(ps, rs);
-        }
+    	new BukkitRunnable () {
+    		@Override
+    		public void run () {
+    			Connection connection = getConnection();
+    	        PreparedStatement ps = null;
+    	        ResultSet rs = null;
+    	        try {
+    	        	throw new SQLException();
+    	        } catch (SQLException ex) {
+    	            ex.printStackTrace();
+    	        } finally {
+    	            close(ps, rs);
+    	        }
+    		}
+    	}.runTaskAsynchronously(getParent());
 
     }
 
     @Override
     public void addPlayerToGuild(UUID uuid, Guild guild) {
-        // TODO Auto-generated method stub
+    	new BukkitRunnable () {
+    		@Override
+    		public void run () {
+    			Connection connection = getConnection();
+    	        PreparedStatement ps = null;
+    	        ResultSet rs = null;
+    	        try {
+    	        	throw new SQLException();
+    	        } catch (SQLException ex) {
+    	            ex.printStackTrace();
+    	        } finally {
+    	            close(ps, rs);
+    	        }
+    		}
+    	}.runTaskAsynchronously(getParent());
 
     }
 
     @Override
     public void removePlayerFromGuild(UUID uuid, Guild guild) {
-        // TODO Auto-generated method stub
+    	new BukkitRunnable () {
+    		@Override
+    		public void run () {
+    			Connection connection = getConnection();
+    	        PreparedStatement ps = null;
+    	        ResultSet rs = null;
+    	        try {
+    	        	throw new SQLException();
+    	        } catch (SQLException ex) {
+    	            ex.printStackTrace();
+    	        } finally {
+    	            close(ps, rs);
+    	        }
+    		}
+    	}.runTaskAsynchronously(getParent());
 
     }
 
     @Override
     public void updateGuildData(Guild guild) {
-        // TODO Auto-generated method stub
+    	new BukkitRunnable () {
+    		@Override
+    		public void run () {
+    			Connection connection = getConnection();
+    	        PreparedStatement ps = null;
+    	        ResultSet rs = null;
+    	        try {
+    	        	throw new SQLException();
+    	        } catch (SQLException ex) {
+    	            ex.printStackTrace();
+    	        } finally {
+    	            close(ps, rs);
+    	        }
+    		}
+    	}.runTaskAsynchronously(getParent());
 
     }
 

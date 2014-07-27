@@ -47,7 +47,9 @@ public final class MySQLDataStore extends DataStore {
             + "uuid VARCHAR(40) PRIMARY KEY,"
             + "lastname VARCHAR(16) NOT NULL,"
             + "FOREIGN KEY (guild) REFERENCES " + gt + "(uuid) ON DELETE SET NULL,"
-            + ""
+            + "exp REAL DEFAULT 0,"
+            + "profession VARCHAR (37) DEFAULT NULL,"
+            + "influence INTEGER DEFAULT 0"
             + ")";
 
     private static final String createGuildTable = "CREATE TABLE IF NOT EXISTS " + gt + " ("
