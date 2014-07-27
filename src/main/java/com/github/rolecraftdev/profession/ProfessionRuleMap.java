@@ -47,7 +47,7 @@ public final class ProfessionRuleMap {
 
     /**
      * Create a new {@link ProfessionRuleMap}.
-     * 
+     *
      * @param professionName - The name of its linked {@link Profession}
      */
     public ProfessionRuleMap(final String professionName) {
@@ -57,7 +57,7 @@ public final class ProfessionRuleMap {
     /**
      * Get the name of the {@link Profession} that is linked to this
      * {@link ProfessionRuleMap}.
-     * 
+     *
      * @return Its linked {@link Profession}'s name
      */
     public String getProfessionName() {
@@ -67,11 +67,11 @@ public final class ProfessionRuleMap {
     /**
      * Gets the value of the given {@link ProfessionRule} in this
      * {@link ProfessionRuleMap}.
-     * 
+     *
      * @param key - The {@link ProfessionRule} the value should be returned of
      * @param <T> - The return type
      * @return The value of the specified {@link ProfessionRule}, which could be
-     *         null
+     * null
      */
     public <T> T get(final ProfessionRule<T> key) {
         return key.cast(rules.get(key));
@@ -79,8 +79,8 @@ public final class ProfessionRuleMap {
 
     /**
      * Sets the given {@link ProfessionRule} to the given value.
-     * 
-     * @param key - The {@link ProfessionRule} to set
+     *
+     * @param key   - The {@link ProfessionRule} to set
      * @param value - The value to set the given {@link ProfessionRule} to
      * @return True if the value has been set, else false
      */

@@ -53,11 +53,11 @@ public final class GuildRank {
 
     /**
      * Creates a new {@link GuildRank} using the given parameters.
-     * 
-     * @param name - The name of the new {@link GuildRank}
+     *
+     * @param name      - The name of the new {@link GuildRank}
      * @param permitted - The {@link GuildAction}s, the {@link GuildRank}'s
-     *            members can perform
-     * @param members - The members of the new {@link GuildRank}
+     *                  members can perform
+     * @param members   - The members of the new {@link GuildRank}
      */
     public GuildRank(final String name, final Set<GuildAction> permitted,
             final Set<UUID> members) {
@@ -68,7 +68,7 @@ public final class GuildRank {
 
     /**
      * Get the name of this {@link GuildRank}.
-     * 
+     *
      * @return The name of this {@link GuildRank}
      */
     public String getName() {
@@ -78,9 +78,9 @@ public final class GuildRank {
     /**
      * Get a copy of the {@link Set} used to hold the {@link GuildAction}s, that
      * members of this {@link GuildRank} are allowed to perform.
-     * 
+     *
      * @return A copy of the {@link Set} containing {@link GuildAction}s, that
-     *         members of this {@link GuildRank} can perform
+     * members of this {@link GuildRank} can perform
      */
     public Set<GuildAction> getPermittedActions() {
         return new HashSet<GuildAction>(permitted);
@@ -89,9 +89,9 @@ public final class GuildRank {
     /**
      * Get a copy of the {@link Set} used to hold the members of the
      * {@link Guild} who are a part of this {@link GuildRank}.
-     * 
+     *
      * @return A copy of the {@link Set} of members of the {@link Guild} who are
-     *         part of this {@link GuildRank}
+     * part of this {@link GuildRank}
      */
     public Set<UUID> getMembers() {
         return new HashSet<UUID>(members);
@@ -99,11 +99,11 @@ public final class GuildRank {
 
     /**
      * Checks whether the given player is a part of this {@link GuildRank}.
-     * 
+     *
      * @param player - The player whose membership of this {@link GuildRank} is
-     *            in question
+     *               in question
      * @return True if this {@link GuildRank} contains the given player,
-     *         otherwise false
+     * otherwise false
      */
     public boolean hasPlayer(final UUID player) {
         return members.contains(player);
@@ -113,10 +113,10 @@ public final class GuildRank {
      * Checks whether the given {@link GuildAction} can be performed by a member
      * of this {@link GuildRank} - i.e whether it is included in the {@link Set}
      * returned by {@link #getPermittedActions()}.
-     * 
+     *
      * @param action - The {@link GuildAction} whose inclusion in the permitted
-     *            {@link GuildAction}s of this {@link GuildRank} is being
-     *            checked
+     *               {@link GuildAction}s of this {@link GuildRank} is being
+     *               checked
      * @return True if it is included, else false
      */
     public boolean can(final GuildAction action) {
@@ -125,9 +125,9 @@ public final class GuildRank {
 
     /**
      * Adds the given player as a member of this {@link GuildRank}.
-     * 
+     *
      * @param member - The unique identifier of the player to add to this
-     *            {@link GuildRank}
+     *               {@link GuildRank}
      */
     public void addMember(final UUID member) {
         members.add(member);
@@ -135,9 +135,9 @@ public final class GuildRank {
 
     /**
      * Removes the given player from being a member of this {@link GuildRank}.
-     * 
+     *
      * @param member - The unique identifier of the player to remove from this
-     *            {@link GuildRank}
+     *               {@link GuildRank}
      */
     public void removeMember(final UUID member) {
         members.remove(member);
@@ -145,7 +145,7 @@ public final class GuildRank {
 
     /**
      * Creates a {@link String} for storage in SQL, which does not use commas.
-     * 
+     *
      * @return A serialized version of this {@link GuildRank}
      */
     public String serialize() {
@@ -170,7 +170,7 @@ public final class GuildRank {
      * assuming it is a valid serialized {@link GuildRank}. It can be built in a
      * separate thread and passed into the main one, assuming the other thread
      * destroys all references.
-     * 
+     *
      * @param s - The String to deserialize into a {@link GuildRank} object
      * @return The final deserialized {@link GuildRank}
      */

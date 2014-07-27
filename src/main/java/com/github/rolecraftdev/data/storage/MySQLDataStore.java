@@ -43,24 +43,27 @@ public final class MySQLDataStore extends DataStore {
         super(parent);
     }
 
-    private static final String createPlayerTable = "CREATE TABLE IF NOT EXISTS " + pt + " ("
-            + "uuid VARCHAR(40) PRIMARY KEY,"
-            + "lastname VARCHAR(16) NOT NULL,"
-            + "FOREIGN KEY (guild) REFERENCES " + gt + "(uuid) ON DELETE SET NULL,"
-            + "exp REAL DEFAULT 0,"
-            + "profession VARCHAR (37) DEFAULT NULL,"
-            + "influence INTEGER DEFAULT 0"
-            + ")";
+    private static final String createPlayerTable =
+            "CREATE TABLE IF NOT EXISTS " + pt + " ("
+                    + "uuid VARCHAR(40) PRIMARY KEY,"
+                    + "lastname VARCHAR(16) NOT NULL,"
+                    + "FOREIGN KEY (guild) REFERENCES " + gt
+                    + "(uuid) ON DELETE SET NULL,"
+                    + "exp REAL DEFAULT 0,"
+                    + "profession VARCHAR (37) DEFAULT NULL,"
+                    + "influence INTEGER DEFAULT 0"
+                    + ")";
 
-    private static final String createGuildTable = "CREATE TABLE IF NOT EXISTS " + gt + " ("
-            + "uuid VARCHAR(37) PRIMARY KEY ON CONFLICT FAIL,"
-            + "name VARCHAR (50),"
-            + "leader VARCHAR(37) NOT NULL,"
-            + "members MEDIUMTEXT,"
-            + "ranks MEDIUMTEXT,"
-            + "home VARCHAR(150),"
-            + "hall VARCHAR(100)"
-            + ")";
+    private static final String createGuildTable =
+            "CREATE TABLE IF NOT EXISTS " + gt + " ("
+                    + "uuid VARCHAR(37) PRIMARY KEY ON CONFLICT FAIL,"
+                    + "name VARCHAR (50),"
+                    + "leader VARCHAR(37) NOT NULL,"
+                    + "members MEDIUMTEXT,"
+                    + "ranks MEDIUMTEXT,"
+                    + "home VARCHAR(150),"
+                    + "hall VARCHAR(100)"
+                    + ")";
 
     @Override
     public void intialise() {

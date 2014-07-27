@@ -54,7 +54,7 @@ public final class ProfessionManager {
     /**
      * Create a new {@link ProfessionManager} and immediately attach it to a
      * {@link RolecraftCore} object.
-     * 
+     *
      * @param plugin - The {@link RolecraftCore} plugin
      */
     public ProfessionManager(final RolecraftCore plugin) {
@@ -65,7 +65,7 @@ public final class ProfessionManager {
     /**
      * Get the {@link RolecraftCore} plugin object this
      * {@link ProfessionManager} is attached to.
-     * 
+     *
      * @return Its {@link RolecraftCore} object
      */
     public RolecraftCore getPlugin() {
@@ -75,9 +75,9 @@ public final class ProfessionManager {
     /**
      * Get the {@link Profession}s that are grouped by this
      * {@link ProfessionManager}.
-     * 
+     *
      * @return A copy of the original {@link Set}, which isn't updated when the
-     *         original version is
+     * original version is
      */
     public Set<Profession> getProfessions() {
         return new HashSet<Profession>(professions);
@@ -86,11 +86,11 @@ public final class ProfessionManager {
     /**
      * Get a {@link Profession} that is contained by this
      * {@link ProfessionManager}, by its unique name.
-     * 
+     *
      * @param name - The unique name of the wanted {@link Profession}
      * @return Null if no {@link Profession} is found in this
-     *         {@link ProfessionManager} with the given name. Otherwise, the
-     *         first {@link Profession} with the specified name.
+     * {@link ProfessionManager} with the given name. Otherwise, the
+     * first {@link Profession} with the specified name.
      */
     public Profession getProfession(final String name) {
         for (final Profession profession : professions) {
@@ -104,11 +104,11 @@ public final class ProfessionManager {
     /**
      * Get a {@link Profession} that is contained by this
      * {@link ProfessionManager}, by its unique identifier.
-     * 
+     *
      * @param id - The unique identifier of the wanted {@link Profession}
      * @return Null if no {@link Profession} is found in this
-     *         {@link ProfessionManager} with the given identifier. Otherwise,
-     *         the first {@link Profession} with the specified identifier.
+     * {@link ProfessionManager} with the given identifier. Otherwise,
+     * the first {@link Profession} with the specified identifier.
      */
     public Profession getProfession(final UUID id) {
         for (final Profession profession : professions) {
@@ -123,10 +123,10 @@ public final class ProfessionManager {
      * Add a {@link Profession} to this {@link ProfessionManager}. Make sure its
      * {@link ProfessionManager} is equivalent to the one it is added to, before
      * doing so.
-     * 
+     *
      * @param profession - The {@link Profession} that should be added
      * @return False if the given {@link Profession} is already contained by
-     *         this {@link Profession} and thus, isn't added. True otherwise.
+     * this {@link Profession} and thus, isn't added. True otherwise.
      */
     public boolean addProfession(final Profession profession) {
         return professions.add(profession);

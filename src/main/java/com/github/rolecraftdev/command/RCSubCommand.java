@@ -27,6 +27,7 @@
 package com.github.rolecraftdev.command;
 
 import com.github.rolecraftdev.RolecraftCore;
+
 import org.bukkit.command.CommandSender;
 
 public abstract class RCSubCommand {

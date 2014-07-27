@@ -28,6 +28,7 @@ package com.github.rolecraftdev.command;
 
 import com.github.rolecraftdev.guild.Guild;
 import com.github.rolecraftdev.guild.GuildManager;
+
 import org.bukkit.ChatColor;
 import org.bukkit.command.CommandExecutor;
 import org.bukkit.command.CommandSender;
@@ -52,13 +53,13 @@ public final class CommandHelper {
      * the command, if said sender is a player. Otherwise, the sender is alerted
      * that they must specify a {@link Guild}'s name. The sender is also alerted
      * if they specify a {@link Guild} that doesn't exist.
-     * 
-     * @param mgr - The {@link GuildManager} to work with
-     * @param sender - The {@link CommandSender} to send error messages to
+     *
+     * @param mgr      - The {@link GuildManager} to work with
+     * @param sender   - The {@link CommandSender} to send error messages to
      * @param guildArg - The argument which contains the {@link Guild}'s name,
-     *            or null if there isn't one
+     *                 or null if there isn't one
      * @return The {@link Guild} specified by the argument, or the sender's
-     *         {@link Guild} if {@code guildArg} is null, and else null
+     * {@link Guild} if {@code guildArg} is null, and else null
      */
     public static Guild getGuildFromArgs(final GuildManager mgr,
             final CommandSender sender, final String guildArg) {
@@ -90,12 +91,12 @@ public final class CommandHelper {
      * Gets a sublist of a specific page within the given list, using a page
      * number provided in the arguments array and using the given amount of
      * elements per page to decide the cut-off point for a page.
-     * 
-     * @param sender - The {@link CommandSender} to send error messages to
-     * @param list - The {@link List} to get a specific page of elements from
-     * @param pageArg - The page number argument as a string
+     *
+     * @param sender          - The {@link CommandSender} to send error messages to
+     * @param list            - The {@link List} to get a specific page of elements from
+     * @param pageArg         - The page number argument as a string
      * @param elementsPerPage - The amount of elements on each page
-     * @param <T> - The type of the given {@link List}
+     * @param <T>             - The type of the given {@link List}
      * @return The page
      */
     public static <T> List<T> getPageFromArgs(final CommandSender sender,
@@ -129,17 +130,17 @@ public final class CommandHelper {
      * a list of commands, containing their usage as well as a brief description
      * as to each command's functionality. The page of subcommands is taken from
      * the arguments if any are provided.
-     * 
-     * @param sender - The {@link CommandSender} to send the help messages to
+     *
+     * @param sender      - The {@link CommandSender} to send the help messages to
      * @param subCommands - A {@link List} of sub-commands, used for sending
-     *            help to the {@link CommandSender}
-     * @param args - The arguments provided by the user to request for help. For
-     *            example, if the user would've typed /command help 1, the
-     *            arguments would be { "help", "1" }
-     * @param startIndex - The first index in {@code args} which can be
-     *            used as a page number for this method. For example, in
-     *            the array { "help", "1" }, this would be 1, as "help" is an
-     *            argument which was parsed by the {@link CommandExecutor}
+     *                    help to the {@link CommandSender}
+     * @param args        - The arguments provided by the user to request for help. For
+     *                    example, if the user would've typed /command help 1, the
+     *                    arguments would be { "help", "1" }
+     * @param startIndex  - The first index in {@code args} which can be
+     *                    used as a page number for this method. For example, in
+     *                    the array { "help", "1" }, this would be 1, as "help" is an
+     *                    argument which was parsed by the {@link CommandExecutor}
      */
     public static void displayCommandList(final CommandSender sender,
             final List<RCSubCommand> subCommands, final String[] args,

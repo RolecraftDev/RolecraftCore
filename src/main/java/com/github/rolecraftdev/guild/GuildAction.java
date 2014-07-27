@@ -48,7 +48,7 @@ public enum GuildAction {
 
     /**
      * Get a player-readable version of the name of this {@link GuildAction}.
-     * 
+     *
      * @return The player-readable version of this {@link GuildAction}'s name
      */
     public String getPlayerReadableName() {
@@ -59,12 +59,12 @@ public enum GuildAction {
      * Checks whether the given player is permitted to perform this
      * {@link GuildAction} within the given {@link Guild}. This invokes
      * {@link Guild#can(UUID, GuildAction)} and passes this {@link GuildAction}.
-     * 
+     *
      * @param player - The player to check the permissions of
-     * @param guild - The {@link Guild} to check the permissions of the given
-     *            player in
+     * @param guild  - The {@link Guild} to check the permissions of the given
+     *               player in
      * @return True if the given player can perform this action and false in any
-     *         other case
+     * other case
      */
     public boolean can(final UUID player, final Guild guild) {
         return guild.can(player, this);

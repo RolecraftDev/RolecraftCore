@@ -32,7 +32,7 @@ import java.util.Set;
 /**
  * A rule that a {@link Profession} should be dominated by. These are contained
  * by a {@link ProfessionRuleMap}.
- * 
+ *
  * @param <T> - Type of its values in a {@link ProfessionRuleMap}
  */
 public final class ProfessionRule<T> {
@@ -46,10 +46,10 @@ public final class ProfessionRule<T> {
 
     /**
      * Get a unique {@link ProfessionRule} by its name.
-     * 
+     *
      * @param name - Its unique name
      * @return The {@link ProfessionRule} if it can be found in {@link #pool},
-     *         else null
+     * else null
      */
     public static ProfessionRule<?> getRule(final String name) {
         for (final ProfessionRule<?> element : pool) {
@@ -71,10 +71,10 @@ public final class ProfessionRule<T> {
 
     /**
      * Create a new, unique {@link ProfessionRule}.
-     * 
+     *
      * @param name - The unique name
      * @param type - The type of the values it will hold in a
-     *            {@link ProfessionRuleMap}.
+     *             {@link ProfessionRuleMap}.
      */
     private ProfessionRule(final String name, final Class<T> type) {
         this.name = name;
@@ -85,7 +85,7 @@ public final class ProfessionRule<T> {
 
     /**
      * Get the unique name of this {@link ProfessionRule}.
-     * 
+     *
      * @return Its unique name
      */
     public String getName() {
@@ -95,7 +95,7 @@ public final class ProfessionRule<T> {
     /**
      * Get the type, the values of this {@link ProfessionRule} should be in a
      * {@link ProfessionRuleMap}.
-     * 
+     *
      * @return Its value type
      */
     public Class<T> getType() {
@@ -105,7 +105,7 @@ public final class ProfessionRule<T> {
     /**
      * Checks whether the given object is valid to be cast to this
      * {@link ProfessionRule}'s value type.
-     * 
+     *
      * @param object - The object to check the validity to cast of
      * @return True if the given object is of the correct type, false otherwise
      */
@@ -116,7 +116,7 @@ public final class ProfessionRule<T> {
     /**
      * Casts the given object to the type used for this {@link ProfessionRule}'s
      * values.
-     * 
+     *
      * @param object - The object to cast to this rule's value type
      * @return The instance of the given object cast to this rule's value type
      */

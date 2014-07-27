@@ -80,10 +80,12 @@ public abstract class DataStore {
 
     protected void close(final PreparedStatement ps, final ResultSet rs) {
         try {
-            if (ps != null)
+            if (ps != null) {
                 ps.close();
-            if (rs != null)
+            }
+            if (rs != null) {
                 rs.close();
+            }
         } catch (SQLException e) {
             // swallow exception
         }

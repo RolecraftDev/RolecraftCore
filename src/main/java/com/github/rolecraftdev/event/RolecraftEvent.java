@@ -27,6 +27,7 @@
 package com.github.rolecraftdev.event;
 
 import com.github.rolecraftdev.RolecraftCore;
+
 import org.bukkit.event.Event;
 
 public abstract class RolecraftEvent extends Event {

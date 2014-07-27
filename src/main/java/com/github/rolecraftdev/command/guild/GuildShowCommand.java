@@ -29,6 +29,7 @@ package com.github.rolecraftdev.command.guild;
 import com.github.rolecraftdev.RolecraftCore;
 import com.github.rolecraftdev.command.CommandHelper;
 import com.github.rolecraftdev.guild.Guild;
+
 import org.bukkit.command.CommandSender;
 
 public final class GuildShowCommand extends GuildSubCommand {
