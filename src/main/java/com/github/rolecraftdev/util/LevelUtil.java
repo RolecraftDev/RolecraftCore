@@ -26,8 +26,12 @@
  */
 package com.github.rolecraftdev.util;
 
-public class LevelUtil {
+import org.bukkit.entity.EntityType;
 
+/**
+ * Utilities related to player levelling and experience
+ */
+public class LevelUtil {
     public static final int getLevel(float experience) {
         // TODO: make this return a level given experience
         return -1;
@@ -38,4 +42,8 @@ public class LevelUtil {
         return -1;
     }
 
+    public static final float expFromKill(final EntityType entityType) {
+        // TODO: make this return exp gain from killing the given entity type
+        return 0;
+    }
 }
