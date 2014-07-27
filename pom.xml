@@ -12,29 +12,6 @@
         <url>http://rolecraftdev.github.com</url>
     </organization>
 
-    <dependencies>
-        <dependency>
-            <groupId>org.bukkit</groupId>
-            <artifactId>bukkit</artifactId>
-            <version>1.7.9-R0.2</version>
-            <type>jar</type>
-            <scope>provided</scope>
-        </dependency>
-        <dependency>
-            <groupId>net.milkbowl.vault</groupId>
-            <artifactId>VaultAPI</artifactId>
-            <version>1.4</version>
-            <scope>provided</scope>
-        </dependency>
-        <dependency>
-            <groupId>com.traksag</groupId>
-            <artifactId>channels</artifactId>
-            <version>0.0.1-SNAPSHOT</version>
-            <type>jar</type>
-            <scope>provided</scope>
-        </dependency>
-    </dependencies>
-
     <repositories>
         <repository>
             <id>bukkit-repo</id>
@@ -42,9 +19,7 @@
         </repository>
         <repository>
             <id>vault-repo</id>
-            <url>
-                http://nexus.theyeticave.net/content/repositories/pub_releases
-            </url>
+            <url>http://nexus.theyeticave.net/content/repositories/pub_releases</url>
         </repository>
         <repository>
             <id>channels-repo</id>
@@ -52,57 +27,54 @@
         </repository>
     </repositories>
 
+    <dependencies>
+        <dependency>
+            <groupId>org.bukkit</groupId>
+            <artifactId>bukkit</artifactId>
+            <version>1.7.9-R0.2</version>
+        </dependency>
+        <dependency>
+            <groupId>net.milkbowl.vault</groupId>
+            <artifactId>VaultAPI</artifactId>
+            <version>1.4</version>
+        </dependency>
+        <dependency>
+            <groupId>com.traksag</groupId>
+            <artifactId>channels</artifactId>
+            <version>0.0.1-SNAPSHOT</version>
+        </dependency>
+    </dependencies>
+
     <build>
         <plugins>
             <plugin>
-                <groupId>org.apache.maven.plugins</groupId>
                 <artifactId>maven-compiler-plugin</artifactId>
-                <version>3.1</version>
                 <configuration>
                     <source>1.6</source>
                     <target>1.6</target>
                 </configuration>
             </plugin>
             <plugin>
-                <groupId>org.apache.maven.plugins</groupId>
                 <artifactId>maven-shade-plugin</artifactId>
-                <version>2.3</version>
                 <executions>
                     <execution>
                         <phase>package</phase>
                         <goals>
                             <goal>shade</goal>
                         </goals>
-                        <configuration>
-                            <filters>
-                                <filter>
-                                    <artifact>*:*</artifact>
-                                    <excludes>
-                                        <exclude>lib/**</exclude>
-                                        <exclude>templates/**</exclude>
-                                        <exclude>META-INF/*.xml</exclude>
-                                        <exclude>META-INF/*.txt</exclude>
-                                        <exclude>**/LICENSE</exclude>
-                                        <exclude>**/NOTICE</exclude>
-                                        <exclude>**/DEPENDENCIES</exclude>
-                                        <exclude>**/*.java</exclude>
-                                    </excludes>
-                                </filter>
-                            </filters>
-                            <artifactSet>
-                                <excludes>
-                                    <exclude>org.bukkit.bukkit</exclude>
-                                    <exclude>net.milkbowl.vault.VaultAPI</exclude>
-                                </excludes>
-                            </artifactSet>
-                        </configuration>
                     </execution>
                 </executions>
+                <configuration>
+                    <artifactSet>
+                        <includes>
+                            <include>com.traksag:channels</include>
+                        </includes>
+                    </artifactSet>
+                </configuration>
             </plugin>
             <plugin>
                 <groupId>com.mycila.maven-license-plugin</groupId>
                 <artifactId>maven-license-plugin</artifactId>
-                <version>1.10.b1</version>
                 <executions>
                     <execution>
                         <configuration>
@@ -136,9 +108,7 @@
                 </executions>
             </plugin>
             <plugin>
-                <groupId>org.apache.maven.plugins</groupId>
                 <artifactId>maven-javadoc-plugin</artifactId>
-                <version>2.9.1</version>
                 <configuration>
                     <outputDirectory>bin/apidocs</outputDirectory>
                     <reportOutputDirectory>bin/apidocs</reportOutputDirectory>
