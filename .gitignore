@@ -6,12 +6,12 @@ bin/
 
 # Maven
 target/
+dependency-reduced-pom.xml
 
 # OS X
 .DS_Store
 
 # IntelliJ
-
 .idea/
 RolecraftCore.iml
 out/
