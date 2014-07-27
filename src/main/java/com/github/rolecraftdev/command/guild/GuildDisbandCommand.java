@@ -102,7 +102,7 @@ public class GuildDisbandCommand extends GuildSubCommand {
 
     @Override
     public String getPermission() {
-        return "rolecraft.guild.disband";
+        return "rolecraft.guild.create";
     }
 
     @Override

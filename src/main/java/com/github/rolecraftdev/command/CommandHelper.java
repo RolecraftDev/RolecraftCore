@@ -27,7 +27,9 @@
 package com.github.rolecraftdev.command;
 
 import com.github.rolecraftdev.guild.Guild;
+import com.github.rolecraftdev.guild.GuildAction;
 import com.github.rolecraftdev.guild.GuildManager;
+import com.github.rolecraftdev.guild.GuildRank;
 
 import org.bukkit.ChatColor;
 import org.bukkit.command.CommandExecutor;
@@ -123,6 +125,32 @@ public final class CommandHelper {
         }
 
         return list.subList(elementsPerPage * (page - 1), list.size() - 1);
+    }
+
+    /**
+     * Sends the given {@link CommandSender} a basic overview of the given
+     * {@link GuildRank} within the given {@link Guild}
+     *
+     * @param sender - The {@link CommandSender} to send messages to
+     * @param guild  - The {@link Guild} the {@link GuildRank} is part of
+     * @param rank   - The {@link GuildRank} to send information about
+     */
+    public static void sendRankInfo(final CommandSender sender,
+            final Guild guild, final GuildRank rank) {
+        sender.sendMessage(ChatColor.GOLD +
+                "Rank " + rank.getName() + " in guild " + guild.getName());
+        sender.sendMessage(ChatColor.GRAY +
+                "Members: " + rank.getMembers().size());
+
+        // Create a human readable version of the permitted actions Set
+        final StringBuilder permitted = new StringBuilder();
+        for (final GuildAction action : rank.getPermittedActions()) {
+            permitted.append(action.getPlayerReadableName()).append(", ");
+        }
+        permitted.setLength(permitted.length() - 2);
+
+        sender.sendMessage(ChatColor.GRAY +
+                "Permitted Actions: " + permitted.toString());
     }
 
     /**

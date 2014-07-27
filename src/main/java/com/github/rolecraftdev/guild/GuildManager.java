@@ -29,9 +29,7 @@ package com.github.rolecraftdev.guild;
 import com.github.rolecraftdev.RolecraftCore;
 import com.github.rolecraftdev.data.storage.YamlFile;
 
-import java.util.HashSet;
-import java.util.Set;
-import java.util.UUID;
+import java.util.*;
 
 /**
  * Stores {@link Guild} data and {@link Guild}-related configuration options and
@@ -276,5 +274,15 @@ public final class GuildManager {
      */
     public void completeLoad() {
         loaded = true;
+    }
+
+    // Has to go here because you can't access static members in an enum constructor
+    /**
+     * A {@link Map} of human readable strings to GuildAction enum values
+     */
+    static final Map<String, GuildAction> actionMap = new HashMap<String, GuildAction>();
+
+    public static GuildAction fromHumanReadable(final String humanReadable) {
+        return actionMap.get(humanReadable);
     }
 }

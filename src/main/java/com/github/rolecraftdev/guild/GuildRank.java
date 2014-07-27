@@ -144,6 +144,26 @@ public final class GuildRank {
     }
 
     /**
+     * Adds the given {@link GuildAction} to this {@link GuildRank}'s permitted
+     * actions
+     *
+     * @param perm - The permission to grant this {@link GuildRank}
+     */
+    public void allowAction(final GuildAction perm) {
+        permitted.add(perm);
+    }
+
+    /**
+     * Removes the given {@link GuildAction} from this {@link GuildRank}'s
+     * permitted actions
+     *
+     * @param perm - The permission to disallow this {@link GuildRank}
+     */
+    public void disallowAction(final GuildAction perm) {
+        permitted.remove(perm);
+    }
+
+    /**
      * Creates a {@link String} for storage in SQL, which does not use commas.
      *
      * @return A serialized version of this {@link GuildRank}

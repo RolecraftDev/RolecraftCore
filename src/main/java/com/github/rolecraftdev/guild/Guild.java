@@ -43,6 +43,20 @@ import java.util.UUID;
  */
 public final class Guild {
     /**
+     * The Leader {@link GuildRank}, which is present whenever a new
+     * {@link Guild} is created, and thus cannot be removed.
+     */
+    private final GuildRank LEADER = new GuildRank("Leader",
+            new HashSet<GuildAction>(
+                    Arrays.asList(GuildAction.values())), new HashSet<UUID>());
+    /**
+     * The Default {@link GuildRank}, which is present whenever a new
+     * {@link Guild} is created, and thus cannot be removed.
+     */
+    private final GuildRank DEFAULT = new GuildRank("Default",
+            new HashSet<GuildAction>(), new HashSet<UUID>());
+
+    /**
      * The {@link GuildManager} object this {@link Guild} is registered to.
      */
     private final GuildManager guildManager;
@@ -50,15 +64,6 @@ public final class Guild {
      * A unique identifier that refers to this {@link Guild}.
      */
     private final UUID guildId;
-
-    /**
-     * The unique name of this {@link Guild}.
-     */
-    private String name;
-    /**
-     * The unique identifier of the player who leads this {@link Guild}.
-     */
-    private UUID leader;
     /**
      * A {@link Set} containing all of this {@link Guild}'s members' unique
      * identifiers, which includes its leader.
@@ -69,6 +74,15 @@ public final class Guild {
      * {@link Guild}, as configured by the leader.
      */
     private final Set<GuildRank> ranks;
+
+    /**
+     * The unique name of this {@link Guild}.
+     */
+    private String name;
+    /**
+     * The unique identifier of the player who leads this {@link Guild}.
+     */
+    private UUID leader;
     /**
      * The home point of this {@link Guild}. Used for teleporting.
      */
@@ -362,8 +376,20 @@ public final class Guild {
      *
      * @param rank - The {@link GuildRank} to add
      */
-    public void addRank(final GuildRank rank) {
-        ranks.add(rank);
+    public boolean addRank(final GuildRank rank) {
+        return getRank(rank.getName()) == null && ranks.add(rank);
+    }
+
+    /**
+     * Attempts to remove the given {@link GuildRank} from this {@link Guild}
+     *
+     * @param rank - The {@link GuildRank} to remove
+     * @return True if the rank was removed, false otherwise
+     */
+    public boolean removeRank(final GuildRank rank) {
+        final String name = rank.getName().toLowerCase();
+        return !(name.equals("leader") || name.equals("default")) && ranks
+                .remove(rank);
     }
 
     /**
@@ -400,18 +426,4 @@ public final class Guild {
     void claimAsGuildHall(final Region2D hallRegion) {
         this.hallRegion = hallRegion;
     }
-
-    /**
-     * The Leader {@link GuildRank}, which is present whenever a new
-     * {@link Guild} is created, and thus cannot be removed.
-     */
-    private final GuildRank LEADER = new GuildRank("Leader",
-            new HashSet<GuildAction>(
-                    Arrays.asList(GuildAction.values())), new HashSet<UUID>());
-    /**
-     * The Default {@link GuildRank}, which is present whenever a new
-     * {@link Guild} is created, and thus cannot be removed.
-     */
-    private final GuildRank DEFAULT = new GuildRank("Default",
-            new HashSet<GuildAction>(), new HashSet<UUID>());
 }

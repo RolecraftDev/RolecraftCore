@@ -34,8 +34,8 @@ import java.util.UUID;
  */
 public enum GuildAction {
     // TODO: More things might be added here
-    KICK_MEMBER("kick"), INVITE("invite"), SET_HOME("sethome"), CHANGE_BLOCK(
-            "modifyhall"), IGNITE_BLOCK("ignitehallblock");
+    KICK_MEMBER("kick"), INVITE("invite"), SET_HOME("set-home"), CHANGE_BLOCK(
+            "modify-hall"), IGNITE_BLOCK("ignite-hall-block");
 
     /**
      * A player-readable version of the name of this {@link GuildAction}.
@@ -44,6 +44,7 @@ public enum GuildAction {
 
     GuildAction(final String playerReadable) {
         this.playerReadable = playerReadable;
+        GuildManager.actionMap.put(playerReadable, this);
     }
 
     /**
@@ -68,5 +69,9 @@ public enum GuildAction {
      */
     public boolean can(final UUID player, final Guild guild) {
         return guild.can(player, this);
+    }
+
+    public static GuildAction fromHumanReadable(final String humanReadable) {
+        return GuildManager.fromHumanReadable(humanReadable);
     }
 }
