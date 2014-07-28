@@ -1,0 +1,11 @@
+#Rolecraft
+
+sqlserver: sqlite
+
+#Configuration for MySQL, can be ignored if using SQLite
+mysql:
+  username: 'user'
+  password: 'password'
+  address: 'localhost'
+  port: 3306
+  
