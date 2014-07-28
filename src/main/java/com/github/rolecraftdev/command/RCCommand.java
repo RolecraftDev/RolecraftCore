@@ -27,6 +27,7 @@
 package com.github.rolecraftdev.command;
 
 import com.github.rolecraftdev.RolecraftCore;
+
 import org.bukkit.command.CommandExecutor;
 
 public abstract class RCCommand implements CommandExecutor {

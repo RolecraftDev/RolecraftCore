@@ -56,9 +56,9 @@ public class Profession {
 
     /**
      * Create a new {@link Profession} from scratch.
-     * 
+     *
      * @param professionManager - The {@link ProfessionManager} this
-     *            {@link Profession} belongs to
+     *                          {@link Profession} belongs to
      */
     public Profession(final ProfessionManager professionManager) {
         this.professionManager = professionManager;
@@ -68,13 +68,13 @@ public class Profession {
     /**
      * Create a {@link Profession} from predefined settings. Note that some of
      * the fields are {@code final} and can thus not be modified later on.
-     * 
+     *
      * @param professionManager - The {@link ProfessionManager} this
-     *            {@link Profession} belongs to
-     * @param professionId - The unique identifier
-     * @param name - The unique name
-     * @param rules - A map of {@link ProfessionRule}s that handles events in
-     *            this {@link Profession}.
+     *                          {@link Profession} belongs to
+     * @param professionId      - The unique identifier
+     * @param name              - The unique name
+     * @param rules             - A map of {@link ProfessionRule}s that handles events in
+     *                          this {@link Profession}.
      */
     public Profession(final ProfessionManager professionManager,
             final UUID professionId, final String name,
@@ -87,7 +87,7 @@ public class Profession {
 
     /**
      * Get the {@link ProfessionManager} this {@link Profession} belongs to.
-     * 
+     *
      * @return Its manager
      */
     public ProfessionManager getManager() {
@@ -96,7 +96,7 @@ public class Profession {
 
     /**
      * Returns the unique name of this {@link Profession}.
-     * 
+     *
      * @return Its unique name
      */
     public String getName() {
@@ -105,7 +105,7 @@ public class Profession {
 
     /**
      * Set the unique name of this {@link Profession}.
-     * 
+     *
      * @param name - The new unique name
      */
     public void setName(final String name) {
@@ -115,7 +115,7 @@ public class Profession {
     /**
      * Get the map of {@link ProfessionRule}s this {@link Profession} is
      * dictated by.
-     * 
+     *
      * @return Its {@link ProfessionRuleMap}
      */
     public ProfessionRuleMap getRuleMap() {
@@ -125,7 +125,7 @@ public class Profession {
     /**
      * Set the map of {@link ProfessionRule}s that will regulate events that
      * affect this {@link Profession}.
-     * 
+     *
      * @param rules - The new {@link ProfessionRuleMap}
      */
     public void setRuleMap(final ProfessionRuleMap rules) {
@@ -134,7 +134,7 @@ public class Profession {
 
     /**
      * Get the unique identifier of this {@link Profession}.
-     * 
+     *
      * @return Its unique identifier
      */
     public UUID getId() {
@@ -148,8 +148,9 @@ public class Profession {
 
     @Override
     public boolean equals(Object object) {
-        if (!(object instanceof Profession))
+        if (!(object instanceof Profession)) {
             return false;
+        }
 
         final Profession other = (Profession) object;
         return professionId.equals(other.getId());

@@ -34,10 +34,13 @@ import com.github.rolecraftdev.data.storage.MySQLDataStore;
 import com.github.rolecraftdev.data.storage.SQLiteDataStore;
 import com.github.rolecraftdev.guild.Guild;
 import com.github.rolecraftdev.guild.GuildManager;
+import com.github.rolecraftdev.listener.PlayerListener;
 import com.github.rolecraftdev.profession.Profession;
 import com.github.rolecraftdev.profession.ProfessionManager;
 import com.github.rolecraftdev.quest.QuestManager;
+
 import net.milkbowl.vault.economy.Economy;
+
 import org.bukkit.configuration.file.FileConfiguration;
 import org.bukkit.plugin.PluginManager;
 import org.bukkit.plugin.RegisteredServiceProvider;
@@ -140,6 +143,7 @@ public final class RolecraftCore extends JavaPlugin {
 
         // Register listeners
         pm.registerEvents(new RCListener(this), this);
+        pm.registerEvents(new PlayerListener(this), this);
 
         // Register commands
         getCommand("guild").setExecutor(new GuildCommand(this));
@@ -154,7 +158,7 @@ public final class RolecraftCore extends JavaPlugin {
      * Get the {@link DataStore} implementation that is in use by Rolecraft,
      * which is either {@link SQLiteDataStore} or {@link MySQLDataStore},
      * depending on the configuration.
-     * 
+     *
      * @return The used {@link DataStore}
      */
     public DataStore getDataStore() {
@@ -163,7 +167,7 @@ public final class RolecraftCore extends JavaPlugin {
 
     /**
      * Gets the Rolecraft {@link DataManager}.
-     * 
+     *
      * @return The used {@link DataManager}
      */
     public DataManager getDataManager() {
@@ -173,7 +177,7 @@ public final class RolecraftCore extends JavaPlugin {
     /**
      * Gets the Rolecraft {@link GuildManager}, which provides various methods
      * for {@link Guild} manipulation.
-     * 
+     *
      * @return The used {@link GuildManager}
      */
     public GuildManager getGuildManager() {
@@ -183,7 +187,7 @@ public final class RolecraftCore extends JavaPlugin {
     /**
      * Gets the Rolecraft {@link ProfessionManager}, which provides various
      * methods for {@link Profession} manipulation.
-     * 
+     *
      * @return The used {@link ProfessionManager}
      */
     public ProfessionManager getProfessionManager() {
@@ -192,7 +196,7 @@ public final class RolecraftCore extends JavaPlugin {
 
     /**
      * Gets the Vault Economy object.
-     * 
+     *
      * @return The used Vault Economy object
      */
     public Economy getEconomy() {
@@ -201,7 +205,7 @@ public final class RolecraftCore extends JavaPlugin {
 
     /**
      * Check whether the use of economy is enabled.
-     * 
+     *
      * @return True if economy is enabled and false if it isn't
      */
     public boolean useEconomy() {

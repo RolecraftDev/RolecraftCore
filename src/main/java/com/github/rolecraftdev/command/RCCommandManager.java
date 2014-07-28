@@ -31,6 +31,7 @@ import com.github.rolecraftdev.command.guild.GuildCommand;
 import com.github.rolecraftdev.command.other.GCCommand;
 import com.github.rolecraftdev.command.other.RCConfirmCommand;
 import com.github.rolecraftdev.command.profession.ProfessionCommand;
+
 import org.bukkit.command.PluginCommand;
 
 import java.util.Arrays;

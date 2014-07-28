@@ -29,6 +29,7 @@ package com.github.rolecraftdev.command.profession;
 import com.github.rolecraftdev.RolecraftCore;
 import com.github.rolecraftdev.command.CommandHelper;
 import com.github.rolecraftdev.profession.Profession;
+
 import org.bukkit.ChatColor;
 import org.bukkit.command.CommandSender;
 

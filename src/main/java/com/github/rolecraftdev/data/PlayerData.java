@@ -26,170 +26,174 @@
  */
 package com.github.rolecraftdev.data;
 
-import java.util.UUID;
-
 import com.github.rolecraftdev.util.LevelUtil;
+
+import java.util.UUID;
 
 /**
  * Holds Rolecraft data for a specific player, which is stored in SQL.
  */
 public final class PlayerData {
-	private final UUID playerId;
-	private final String name;
+    private final UUID playerId;
+    private final String name;
 
-	private UUID guild;
-	private UUID profession;
-	private int influence;
-	private float experience;
+    private UUID guild;
+    private UUID profession;
+    private int influence;
+    private float experience;
 
-	private volatile boolean loaded;
-	private volatile boolean unloading;
+    private volatile boolean loaded;
+    private volatile boolean unloading;
 
-	/**
-	 * @deprecated There is no reason to exclude the player's name
-	 */
-	@Deprecated
-	public PlayerData(final UUID playerId) {
-		this(playerId, null);
-	}
+    /**
+     * @deprecated There is no reason to exclude the player's name
+     */
+    @Deprecated
+    public PlayerData(final UUID playerId) {
+        this(playerId, null);
+    }
 
-	public PlayerData(final UUID playerId, final String name) {
-		this.playerId = playerId;
-		this.name = name;
-	}
+    public PlayerData(final UUID playerId, final String name) {
+        this.playerId = playerId;
+        this.name = name;
+    }
 
-	public UUID getPlayerId() {
-		return playerId;
-	}
+    public UUID getPlayerId() {
+        return playerId;
+    }
 
-	public boolean isLoaded() {
-		return loaded;
-	}
+    public boolean isLoaded() {
+        return loaded;
+    }
 
-	public boolean isUnloading() {
-		return unloading;
-	}
+    public boolean isUnloading() {
+        return unloading;
+    }
 
-	public void setUnloading(boolean unload) {
-		this.unloading = unload;
-	}
+    public void setUnloading(boolean unload) {
+        this.unloading = unload;
+    }
 
-	/**
-	 * DO NOT CALL UNLESS UNLOADING VIA DATABASE
-	 * 
-	 * @param loaded
-	 */
-	public void setLoaded(boolean loaded) {
-		this.loaded = loaded;
-	}
+    /**
+     * DO NOT CALL UNLESS UNLOADING VIA DATABASE
+     *
+     * @param loaded
+     */
+    public void setLoaded(boolean loaded) {
+        this.loaded = loaded;
+    }
 
-	public String getPlayerName() {
-		return name;
-	}
+    public String getPlayerName() {
+        return name;
+    }
 
-	public UUID getGuild() {
-		if (loaded)
-			return guild;
-		return null;
-	}
+    public UUID getGuild() {
+        if (loaded) {
+            return guild;
+        }
+        return null;
+    }
 
-	public UUID getProfession() {
-		if (loaded)
-			return profession;
-		else
-			return null;
-	}
+    public UUID getProfession() {
+        if (loaded) {
+            return profession;
+        } else {
+            return null;
+        }
+    }
 
-	public void setProfession(final UUID profession) {
-		if (loaded)
-			if (!unloading)
-				this.profession = profession;
-	}
+    public void setProfession(final UUID profession) {
+        if (loaded) {
+            if (!unloading) {
+                this.profession = profession;
+            }
+        }
+    }
 
-	public int getInfluence() {
-		if (loaded)
-			return influence;
-		else
-			return -1;
-	}
+    public int getInfluence() {
+        if (loaded) {
+            return influence;
+        } else {
+            return -1;
+        }
+    }
 
 	/*
-	 * public void setPlayerName(final String name) { this.name = name; }
+     * public void setPlayerName(final String name) { this.name = name; }
 	 */
 
-	public void setGuild(final UUID guild) {
-		if (loaded)
-			if (!unloading)
-				this.guild = guild;
-	}
+    public void setGuild(final UUID guild) {
+        if (loaded) {
+            if (!unloading) {
+                this.guild = guild;
+            }
+        }
+    }
 
-	public void setInfluence(final int influence) {
-		if (loaded)
-			if (!unloading)
-				this.influence = influence;
-	}
+    public void setInfluence(final int influence) {
+        if (loaded) {
+            if (!unloading) {
+                this.influence = influence;
+            }
+        }
+    }
 
-	public void addInfluence(final int influence) {
-		if (loaded)
-			if (!unloading)
-				this.influence += influence;
-	}
+    public void addInfluence(final int influence) {
+        if (loaded) {
+            if (!unloading) {
+                this.influence += influence;
+            }
+        }
+    }
 
-	public void subtractInfluence(final int influence) {
-		if (loaded)
-			if (!unloading)
-				this.influence -= influence;
-	}
+    public void subtractInfluence(final int influence) {
+        if (loaded) {
+            if (!unloading) {
+                this.influence -= influence;
+            }
+        }
+    }
 
-	public void addExperience(final float amount) {
-		if (loaded)
-			if (!unloading)
-				experience += amount;
-	}
+    public void addExperience(final float amount) {
+        if (loaded) {
+            if (!unloading) {
+                experience += amount;
+            }
+        }
+    }
 
-	public void subtractExperience(final float amount) {
-		if (loaded)
-			if (!unloading)
-				experience -= amount;
-	}
+    public void subtractExperience(final float amount) {
+        if (loaded) {
+            if (!unloading) {
+                experience -= amount;
+            }
+        }
+    }
 
-	public int getLevel() {
-		if (loaded)
-			return LevelUtil.getLevel(experience);
-		else
-			return -1;
-	}
+    public int getLevel() {
+        if (loaded) {
+            return LevelUtil.getLevel(experience);
+        } else {
+            return -1;
+        }
+    }
 
-	public float getExpToNextLevel() {
-		if (loaded)
-			return LevelUtil.expToNextLevel(experience);
-		else
-			return -1;
-	}
-	
-	public float getExp () {
-		if(loaded) 
-			return experience;
-		else 
-			return -1;
-	}
+    public float getExpToNextLevel() {
+        if (loaded) {
+            return LevelUtil.expToNextLevel(experience);
+        } else {
+            return -1;
+        }
+    }
 
-	/**
-	 * For internal use only - called when loaded in SQL.
-	 * 
-	 * @deprecated Do not call
-	 */
-	@Deprecated
-	public void initialise(final UUID guild, final UUID profession,
-			final int influence, final float exp) {
-		this.guild = guild;
-		this.profession = profession;
-		this.influence = influence;
-		this.experience = exp;
+    public float getExp() {
+        if (loaded) {
+            return experience;
+        } else {
+            return -1;
+        }
+    }
 
-		loaded = true;
-	}
-	
 	/**
 	 * For internal use only - called when reset via SQL
 	 */
@@ -202,4 +206,21 @@ public final class PlayerData {
 		
 		unloading = false;
 	}
+
+    /**
+     * For internal use only - called when loaded in SQL.
+     *
+     * @deprecated Do not call
+     */
+    @Deprecated
+    public void initialise(final UUID guild, final UUID profession,
+            final int influence, final float exp) {
+        this.guild = guild;
+        this.profession = profession;
+        this.influence = influence;
+        this.experience = exp;
+
+        loaded = true;
+    }
+
 }

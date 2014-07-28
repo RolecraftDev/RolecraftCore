@@ -34,8 +34,8 @@ import java.util.UUID;
  */
 public enum GuildAction {
     // TODO: More things might be added here
-    KICK_MEMBER("kick"), INVITE("invite"), SET_HOME("sethome"), CHANGE_BLOCK(
-            "modifyhall"), IGNITE_BLOCK("ignitehallblock");
+    KICK_MEMBER("kick"), INVITE("invite"), SET_HOME("set-home"), CHANGE_BLOCK(
+            "modify-hall"), IGNITE_BLOCK("ignite-hall-block");
 
     /**
      * A player-readable version of the name of this {@link GuildAction}.
@@ -44,11 +44,12 @@ public enum GuildAction {
 
     GuildAction(final String playerReadable) {
         this.playerReadable = playerReadable;
+        GuildManager.actionMap.put(playerReadable, this);
     }
 
     /**
      * Get a player-readable version of the name of this {@link GuildAction}.
-     * 
+     *
      * @return The player-readable version of this {@link GuildAction}'s name
      */
     public String getPlayerReadableName() {
@@ -59,14 +60,18 @@ public enum GuildAction {
      * Checks whether the given player is permitted to perform this
      * {@link GuildAction} within the given {@link Guild}. This invokes
      * {@link Guild#can(UUID, GuildAction)} and passes this {@link GuildAction}.
-     * 
+     *
      * @param player - The player to check the permissions of
-     * @param guild - The {@link Guild} to check the permissions of the given
-     *            player in
+     * @param guild  - The {@link Guild} to check the permissions of the given
+     *               player in
      * @return True if the given player can perform this action and false in any
-     *         other case
+     * other case
      */
     public boolean can(final UUID player, final Guild guild) {
         return guild.can(player, this);
+    }
+
+    public static GuildAction fromHumanReadable(final String humanReadable) {
+        return GuildManager.fromHumanReadable(humanReadable);
     }
 }
