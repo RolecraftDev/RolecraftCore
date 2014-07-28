@@ -176,13 +176,13 @@ public final class GuildRank {
             sb.append(action.ordinal());
             sb.append("#");
         }
-        sb = new StringBuilder(sb.substring(0, sb.length() - 2));
+        sb = new StringBuilder(sb.substring(0, sb.length() - 1));
         sb.append(":");
         for (UUID id : members) {
             sb.append(id.toString());
             sb.append("#");
         }
-        return sb.substring(0, sb.length() - 2);
+        return sb.substring(0, sb.length() - 1);
     }
 
     /**
@@ -203,7 +203,8 @@ public final class GuildRank {
             actions.add(GuildAction.values()[actionValue]);
         }
         for (String member : data[2].split("#")) {
-            members.add(UUID.fromString(member));
+            if(!member.equals("") && member != null)
+                members.add(UUID.fromString(member));
         }
 
         return new GuildRank(data[0], actions, members);

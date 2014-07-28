@@ -41,11 +41,16 @@ import com.github.rolecraftdev.quest.QuestManager;
 
 import net.milkbowl.vault.economy.Economy;
 
+import org.bukkit.Bukkit;
 import org.bukkit.configuration.file.FileConfiguration;
 import org.bukkit.plugin.PluginManager;
 import org.bukkit.plugin.RegisteredServiceProvider;
 import org.bukkit.plugin.java.JavaPlugin;
 
+import java.io.File;
+import java.io.FileOutputStream;
+import java.io.IOException;
+import java.io.InputStream;
 import java.util.logging.Logger;
 
 /**
@@ -68,6 +73,8 @@ public final class RolecraftCore extends JavaPlugin {
      * Manages Rolecraft {@link Guild}s.
      */
     private GuildManager guildManager;
+
+
     /**
      * Manages all aspects of questing.
      */
@@ -116,15 +123,19 @@ public final class RolecraftCore extends JavaPlugin {
         }
 
         // Get options from the config
+        
+        createDefaultConfiguration("config.yml");
         final FileConfiguration config = getConfig();
-        final String dbType = config.getString("data-storage-solution",
-                "sqlite").toLowerCase();
+        final String dbType = config.getString("sqlserver").toLowerCase();
 
         // Set up the plugin's data store
         if (dbType.equals("sqlite")) {
             dataStore = new SQLiteDataStore(this);
         } else if (dbType.equals("mysql")) {
             dataStore = new MySQLDataStore(this);
+        } else {
+            getLogger().warning("SQLServer in config was not one of: \"sqlite\" or \"mysql,\" defaulting to sqlite");
+            dataStore = new SQLiteDataStore(this);
         }
 
         // Log the data store we are using
@@ -216,6 +227,10 @@ public final class RolecraftCore extends JavaPlugin {
         return confirmCommand;
     }
     
+    public QuestManager getQuestManager() {
+        return questManager;
+    }
+    
     public boolean isSqlLoaded () {
     	return sqlLoaded;
     }
@@ -233,5 +248,46 @@ public final class RolecraftCore extends JavaPlugin {
         }
 
         this.confirmCommand = confirmCommand;
+    }
+    
+    /**
+     * Used instead of {@link JavaPlugin#saveDefaultConfig()} as it will copy comments as well
+     * 
+     * @param name
+     */
+    public void createDefaultConfiguration(String name) {
+        File actual = new File(getDataFolder(), name);
+        if (!actual.exists()) {
+
+            InputStream input =
+                    this.getClass().getResourceAsStream("/" + name);
+            if (input != null) {
+                FileOutputStream output = null;
+
+                try {
+                    output = new FileOutputStream(actual);
+                    byte[] buf = new byte[8192];
+                    int length = 0;
+                    while ((length = input.read(buf)) > 0) {
+                        output.write(buf, 0, length);
+                    }
+
+                    System.out.println(getDescription().getName()
+                            + ": Default configuration file written: " + name);
+                } catch (IOException e) {
+                    e.printStackTrace();
+                } finally {
+                    try {
+                        if (input != null)
+                            input.close();
+                    } catch (IOException e) {}
+
+                    try {
+                        if (output != null)
+                            output.close();
+                    } catch (IOException e) {}
+                }
+            }
+        }
     }
 }

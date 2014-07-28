@@ -48,7 +48,7 @@ public final class GuildManager {
     /**
      * Whether the {@link GuildManager} has finished loading.
      */
-    private boolean loaded;
+    private volatile boolean loaded;
     /**
      * A configuration holding options related to {@link Guild}s.
      */
@@ -78,6 +78,7 @@ public final class GuildManager {
      * Whether to disallow PvP in guild halls
      */
     private boolean disallowHallPvp;
+
 
     /**
      * Creates a new {@link GuildManager} instance using the given
