@@ -189,4 +189,17 @@ public final class PlayerData {
 
 		loaded = true;
 	}
+	
+	/**
+	 * For internal use only - called when reset via SQL
+	 */
+	@Deprecated
+	public void clear () {
+		this.guild = null;
+		this.profession = null;
+		this.influence = 0;
+		this.experience = 0;
+		
+		unloading = false;
+	}
 }

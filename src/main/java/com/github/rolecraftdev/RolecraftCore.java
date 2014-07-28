@@ -86,6 +86,11 @@ public final class RolecraftCore extends JavaPlugin {
      * which needs confirming
      */
     private RCConfirmCommand confirmCommand;
+    
+    /**
+     * Whether the SQL has finished loading
+     */
+    private volatile boolean sqlLoaded;
 
     @Override
     public void onEnable() {
@@ -205,6 +210,14 @@ public final class RolecraftCore extends JavaPlugin {
 
     public RCConfirmCommand getConfirmCommand() {
         return confirmCommand;
+    }
+    
+    public boolean isSqlLoaded () {
+    	return sqlLoaded;
+    }
+    
+    public void setSqlLoaded(boolean loaded) {
+    	this.sqlLoaded = loaded;
     }
 
     public void setConfirmCommand(final RCConfirmCommand confirmCommand) {

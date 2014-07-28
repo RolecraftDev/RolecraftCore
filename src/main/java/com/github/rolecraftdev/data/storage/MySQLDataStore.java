@@ -37,6 +37,8 @@ import java.sql.ResultSet;
 import java.sql.SQLException;
 import java.util.UUID;
 
+import org.bukkit.scheduler.BukkitRunnable;
+
 public final class MySQLDataStore extends DataStore {
 
     public MySQLDataStore(RolecraftCore parent) {
@@ -64,18 +66,28 @@ public final class MySQLDataStore extends DataStore {
 
     @Override
     public void intialise() {
-        Connection connection = getConnection();
-        PreparedStatement ps = null;
-        ResultSet rs = null;
-        try {
-            // TODO: Method skeleton
-
-            throw new SQLException();
-        } catch (SQLException ex) {
-            ex.printStackTrace();
-        } finally {
-            close(ps, rs);
-        }
+    	final RolecraftCore parent = this.getParent();
+    	new BukkitRunnable () {
+    		@Override
+    		public void run () {
+				Connection connection = getConnection();
+		        PreparedStatement ps = null;
+		        ResultSet rs = null;
+		        try {
+		            ps = connection.prepareStatement(createPlayerTable);
+		            ps.execute();
+		            ps.close();
+		            ps = connection.prepareStatement(createGuildTable);
+		            ps.execute();
+		            ps.close();
+		            parent.setSqlLoaded(true);
+		        } catch (SQLException ex) {
+		            ex.printStackTrace();
+		        } finally {
+		            close(ps, rs);
+			    }
+    		}
+    	}.runTaskAsynchronously(getParent());
     }
 
     @Override
@@ -201,5 +213,35 @@ public final class MySQLDataStore extends DataStore {
         // TODO Auto-generated method stub
 
     }
+
+	@Override
+	public void clearPlayerData(final PlayerData data) {
+		data.setUnloading(true);
+    	new BukkitRunnable () {
+    		@SuppressWarnings("deprecation")
+			@Override
+    		public void run () {
+    			Connection connection = getConnection();
+    	        PreparedStatement ps = null;
+    	        ResultSet rs = null;
+    	        try {
+	        		ps = connection.prepareStatement("DELETE FROM " + pt + " WHERE uuid = ?");
+	        		ps.setString(1, data.getPlayerId().toString());
+	        		ps.execute();
+	        		ps.close();
+	        		ps = connection.prepareStatement("INSERT INTO " + pt + " (uuid, name) VALUES (?,?)");
+	        		ps.setString(1,data.getPlayerId().toString());
+	        		ps.setString(2, data.getPlayerName());
+	        		ps.execute();
+	        		data.clear();
+    	        } catch (SQLException ex) {
+    	            ex.printStackTrace();
+    	        } finally {
+    	            close(ps, rs);
+    	        }
+    		}
+    	}.runTaskAsynchronously(getParent());
+		
+	}
 
 }
