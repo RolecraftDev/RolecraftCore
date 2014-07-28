@@ -67,6 +67,8 @@ public abstract class DataStore {
     protected abstract Connection getConnection();
     
     public abstract String getStoreTypeName();
+    
+    public abstract void freeConnection(Connection connection);
 
     /**
      * For use with online players 
@@ -136,6 +138,7 @@ public abstract class DataStore {
                     ex.printStackTrace();
                 } finally {
                     close(ps, rs);
+                    freeConnection(connection);
                 }
             }
 
@@ -158,6 +161,7 @@ public abstract class DataStore {
 		            ex.printStackTrace();
 		        } finally {
 		            close(ps, rs);
+		            freeConnection(connection);
 		        }
 			}
 		}.runTaskAsynchronously(getParent());
@@ -185,6 +189,7 @@ public abstract class DataStore {
 		            ex.printStackTrace();
 		        } finally {
 		            close(ps, rs);
+		            freeConnection(connection);
 		        }
 			}
 		}.runTaskAsynchronously(getParent());
@@ -218,6 +223,7 @@ public abstract class DataStore {
 		            ex.printStackTrace();
 		        } finally {
 		            close(ps, rs);
+		            freeConnection(connection);
 		        }
 			}
 		}.runTaskAsynchronously(getParent());
@@ -262,6 +268,7 @@ public abstract class DataStore {
                     ex.printStackTrace();
                 } finally {
                     close(ps, rs);
+                    freeConnection(connection);
                 }
             }
         }.runTaskAsynchronously(getParent());
@@ -304,6 +311,7 @@ public abstract class DataStore {
                     ex.printStackTrace();
                 } finally {
                     close(ps, rs);
+                    freeConnection(connection);
                 }
             }
         }.runTaskAsynchronously(getParent());
@@ -350,6 +358,7 @@ public abstract class DataStore {
                     ex.printStackTrace();
                 } finally {
                     close(ps, rs);
+                    freeConnection(connection);
                 }
             }
         }.runTaskAsynchronously(getParent());
@@ -381,6 +390,7 @@ public abstract class DataStore {
                     ex.printStackTrace();
                 } finally {
                     close(ps, rs);
+                    freeConnection(connection);
                 }
             }
         }.runTaskAsynchronously(getParent());
@@ -410,6 +420,7 @@ public abstract class DataStore {
             ex.printStackTrace();
         } finally {
             close(ps, rs);
+            freeConnection(connection);
         }
     }
 
@@ -447,6 +458,7 @@ public abstract class DataStore {
                     ex.printStackTrace();
                 } finally {
                     close(ps, rs);
+                    freeConnection(connection);
                 }
             }
         }.runTaskAsynchronously(getParent());

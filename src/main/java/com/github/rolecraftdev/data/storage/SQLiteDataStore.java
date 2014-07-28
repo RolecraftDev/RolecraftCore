@@ -156,4 +156,9 @@ public final class SQLiteDataStore extends DataStore {
         }.runTaskAsynchronously(getParent());
     }
 
+    @Override
+    public void freeConnection(Connection connection) {
+        // Method left intentionally blank
+    }
+
 }

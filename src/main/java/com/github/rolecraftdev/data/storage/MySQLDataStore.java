@@ -30,13 +30,31 @@ import com.github.rolecraftdev.RolecraftCore;
 import com.github.rolecraftdev.data.PlayerData;
 
 import java.sql.Connection;
+import java.sql.DriverManager;
 import java.sql.PreparedStatement;
 import java.sql.ResultSet;
 import java.sql.SQLException;
+import java.util.AbstractMap.SimpleEntry;
+import java.util.Iterator;
+import java.util.Map.Entry;
+import java.util.concurrent.ConcurrentHashMap;
 
 import org.bukkit.scheduler.BukkitRunnable;
 
 public final class MySQLDataStore extends DataStore {
+    
+    private final String password;
+    private final String user;
+    private final int port;
+    private final String uri;
+    private final String databaseName;
+    
+    //                               minutes
+    private static final int killTime = 5 
+            * 60000;
+    
+    //                        connection      in use? last use
+    private ConcurrentHashMap<Connection,Entry<Boolean,Long>> connections;
     
     private static final String createPlayerTable = "CREATE TABLE IF NOT EXISTS "+ pt + " ("
             + "uuid VARCHAR(40) PRIMARY KEY,"
@@ -59,10 +77,46 @@ public final class MySQLDataStore extends DataStore {
     public MySQLDataStore(RolecraftCore parent) {
         super(parent);
         
+        password = parent.getConfig().getString("mysql.password");
+        user = parent.getConfig().getString("mysql.username");
+        uri = parent.getConfig().getString("mysql.address");
+        port = parent.getConfig().getInt("mysql.port", 3306);
+        databaseName = parent.getConfig().getString("mysql.databasename");
+        
+        connections = new ConcurrentHashMap<Connection,Entry<Boolean,Long>> ();
+        
         new BukkitRunnable () {
             @Override
             public void run () {
-                
+                Iterator<Entry<Connection, Entry<Boolean, Long>>> iter = connections.entrySet().iterator();
+                while (iter.hasNext()) {
+                    Entry<Connection,Entry<Boolean,Long>> conn = iter.next();
+                    try {
+                        if(conn.getKey() == null || conn.getKey().isClosed()) {
+                            // if in use, reset timer
+                            if(conn.getValue().getKey() == true) {
+                                conn.getValue().setValue(System.currentTimeMillis());
+                            }
+                            // else check for age and close and remove/keepalive
+                            else {
+                                if(conn.getValue().getValue() + killTime < System.currentTimeMillis()) {
+                                    if (connections.size() > 0){
+                                        conn.getKey().close();
+                                        iter.remove();
+                                    } else {
+                                        // keepalive
+                                        conn.getKey().prepareCall("SELECT 1").execute();
+                                    }
+                                } else {
+                                    // keepalive
+                                    conn.getKey().prepareCall("SELECT 1").execute();
+                                }
+                            }
+                        }
+                    } catch (SQLException e) {
+                        e.printStackTrace();
+                    }
+                }
             }
         }.runTaskTimerAsynchronously(getParent(), 20 * 20, 20 * 20);
     }
@@ -126,19 +180,28 @@ public final class MySQLDataStore extends DataStore {
                     ex.printStackTrace();
                 } finally {
                     close(ps, rs);
+                    freeConnection(connection);
                 }
             }
         }.runTaskAsynchronously(getParent());
 
     }
 
-
-
     @Override
     protected Connection getConnection() {
         try {
             Class.forName("com.mysql.jdbc.Driver");
-            
+            Iterator<Entry<Connection, Entry<Boolean, Long>>> iter = connections.entrySet().iterator();
+            while (iter.hasNext()) {
+                Entry<Connection,Entry<Boolean,Long>> conn = iter.next();
+                if(!conn.getValue().getKey()) {
+                    conn.setValue(new SimpleEntry<Boolean,Long>(true, System.currentTimeMillis()));
+                    return conn.getKey();
+                }
+            }
+            Connection conn = DriverManager.getConnection("jdbc:mysql://" + uri + ":" + port + "/" + databaseName + "?user=" + user + "&password=" + password);
+            connections.put(conn, new SimpleEntry<Boolean,Long>(true,System.currentTimeMillis()));
+            return conn;
         } catch (SQLException ex) {
             ex.printStackTrace();
         } catch (ClassNotFoundException e) {
@@ -147,11 +210,14 @@ public final class MySQLDataStore extends DataStore {
         return null;
     }
 
-
-
     @Override
     public String getStoreTypeName() {
         return "MySQL";
+    }
+
+    @Override
+    public void freeConnection(Connection connection) {
+        connections.put(connection, new SimpleEntry<Boolean,Long>(false,System.currentTimeMillis()));
     }
 
 }
