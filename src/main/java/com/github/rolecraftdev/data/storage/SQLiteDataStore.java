@@ -45,51 +45,47 @@ public final class SQLiteDataStore extends DataStore {
         super(parent);
     }
 
-    private static final String createPlayerTable =
-            "CREATE TABLE IF NOT EXISTS " + pt + " ("
-                    + "uuid VARCHAR(37) PRIMARY KEY ON CONFLICT REPLACE,"
-                    + "lastname VARCHAR(16) NOT NULL ON CONFLICT FAIL,"
-                    + "guild REFERENCES " + gt + "(uuid) ON DELETE SET NULL,"
-                    + "exp REAL DEFAULT 0,"
-                    + "profession VARCHAR (37) DEFAULT NULL,"
-                    + "influence INTEGER DEFAULT 0"
-                    + ")";
+    private static final String createPlayerTable = "CREATE TABLE IF NOT EXISTS " + pt + " ("
+            + "uuid VARCHAR(37) PRIMARY KEY ON CONFLICT REPLACE,"
+            + "lastname VARCHAR(16) NOT NULL ON CONFLICT FAIL,"
+            + "guild REFERENCES "+ gt + "(uuid) ON DELETE SET NULL,"
+            + "exp REAL DEFAULT 0,"
+            + "profession VARCHAR (37) DEFAULT NULL,"
+            + "influence INTEGER DEFAULT 0" + ")";
 
-    private static final String createGuildTable =
-            "CREATE TABLE IF NOT EXISTS " + gt + " ("
-                    + "uuid VARCHAR(37) PRIMARY KEY ON CONFLICT FAIL,"
-                    + "name VARCHAR (50),"
-                    + "leader VARCHAR(37) NOT NULL,"
-                    + "members TEXT,"
-                    + "ranks TEXT,"
-                    + "home VARCHAR(150),"
-                    + "hall VARCHAR(100)"
-                    + ")";
+    private static final String createGuildTable = "CREATE TABLE IF NOT EXISTS "+ gt + " ("
+            + "uuid VARCHAR(37) PRIMARY KEY ON CONFLICT FAIL,"
+            + "name VARCHAR (50),"
+            + "leader VARCHAR(37) NOT NULL,"
+            + "members TEXT,"
+            + "ranks TEXT,"
+            + "home VARCHAR(150),"
+            + "hall VARCHAR(100)" + ")";
 
     @Override
     public void intialise() {
-    	final RolecraftCore parent = this.getParent();
-    	new BukkitRunnable () {
-    		@Override
-    		public void run () {
-				Connection connection = getConnection();
-		        PreparedStatement ps = null;
-		        ResultSet rs = null;
-		        try {
-		            ps = connection.prepareStatement(createPlayerTable);
-		            ps.execute();
-		            ps.close();
-		            ps = connection.prepareStatement(createGuildTable);
-		            ps.execute();
-		            ps.close();
-		            parent.setSqlLoaded(true);
-		        } catch (SQLException ex) {
-		            ex.printStackTrace();
-		        } finally {
-		            close(ps, rs);
-			    }
-    		}
-    	}.runTaskAsynchronously(getParent());
+        final RolecraftCore parent = this.getParent();
+        new BukkitRunnable() {
+            @Override
+            public void run() {
+                Connection connection = getConnection();
+                PreparedStatement ps = null;
+                ResultSet rs = null;
+                try {
+                    ps = connection.prepareStatement(createPlayerTable);
+                    ps.execute();
+                    ps.close();
+                    ps = connection.prepareStatement(createGuildTable);
+                    ps.execute();
+                    ps.close();
+                    parent.setSqlLoaded(true);
+                } catch (SQLException ex) {
+                    ex.printStackTrace();
+                } finally {
+                    close(ps, rs);
+                }
+            }
+        }.runTaskAsynchronously(getParent());
 
     }
 
@@ -106,8 +102,8 @@ public final class SQLiteDataStore extends DataStore {
                 PreparedStatement ps = null;
                 ResultSet rs = null;
                 try {
-                    ps = connection.prepareStatement(
-                            "SELECT * FROM " + pt + " WHERE uuid = ?");
+                    ps = connection.prepareStatement("SELECT * FROM " + pt
+                            + " WHERE uuid = ?");
                     ps.setString(1, uuid);
                     rs = ps.executeQuery();
 
@@ -146,8 +142,10 @@ public final class SQLiteDataStore extends DataStore {
                 PreparedStatement ps = null;
                 ResultSet rs = null;
                 try {
-                    ps = connection.prepareStatement("UPDATE " + pt
-                            + " SET name = ?, guild = ?, exp = ?, profession = ?, influence = ? WHERE uuid = ?");
+                    ps = connection
+                            .prepareStatement("UPDATE "
+                                    + pt
+                                    + " SET name = ?, guild = ?, exp = ?, profession = ?, influence = ? WHERE uuid = ?");
                     ps.setString(1, commit.getPlayerName());
                     ps.setString(2, commit.getGuild().toString());
                     ps.setFloat(3, commit.getExp());
@@ -174,7 +172,6 @@ public final class SQLiteDataStore extends DataStore {
     public String getStoreTypeName() {
         return "SQLite";
 
-
     }
 
     @Override
@@ -200,49 +197,51 @@ public final class SQLiteDataStore extends DataStore {
     @Override
     public void loadGuilds(GuildManager callback) {
 
-    	new BukkitRunnable () {
-    		@Override
-    		public void run () {
-    			Connection connection = getConnection();
-    	        PreparedStatement ps = null;
-    	        ResultSet rs = null;
-    	        try {
-    	        	throw new SQLException();
-    	        } catch (SQLException ex) {
-    	            ex.printStackTrace();
-    	        } finally {
-    	            close(ps, rs);
-    	        }
-    		}
-    	}.runTaskAsynchronously(getParent());
+        new BukkitRunnable() {
+            @Override
+            public void run() {
+                Connection connection = getConnection();
+                PreparedStatement ps = null;
+                ResultSet rs = null;
+                try {
+                    throw new SQLException();
+                } catch (SQLException ex) {
+                    ex.printStackTrace();
+                } finally {
+                    close(ps, rs);
+                }
+            }
+        }.runTaskAsynchronously(getParent());
 
     }
 
     /**
      * Do not pull up
+     * 
      * @see com.github.rolecraftdev.data.storage.DataStore#clearPlayerData(com.github.rolecraftdev.data.PlayerData)
      */
     @Override
     public void clearPlayerData(final PlayerData data) {
-    	data.setUnloading(true);
-    	new BukkitRunnable () {
-    		@Override
-    		public void run () {
-    			Connection connection = getConnection();
-    	        PreparedStatement ps = null;
-    	        ResultSet rs = null;
-    	        try {
-	        		ps = connection.prepareStatement("INSERT INTO " + pt + " (uuid, name) VALUES (?,?)");
-	        		ps.setString(1, data.getPlayerId().toString());
-	        		ps.setString(2, data.getPlayerName());
-	        		ps.execute();
-    	        } catch (SQLException ex) {
-    	            ex.printStackTrace();
-    	        } finally {
-    	            close(ps, rs);
-    	        }
-    		}
-    	}.runTaskAsynchronously(getParent());
+        data.setUnloading(true);
+        new BukkitRunnable() {
+            @Override
+            public void run() {
+                Connection connection = getConnection();
+                PreparedStatement ps = null;
+                ResultSet rs = null;
+                try {
+                    ps = connection.prepareStatement("INSERT INTO " + pt
+                            + " (uuid, name) VALUES (?,?)");
+                    ps.setString(1, data.getPlayerId().toString());
+                    ps.setString(2, data.getPlayerName());
+                    ps.execute();
+                } catch (SQLException ex) {
+                    ex.printStackTrace();
+                } finally {
+                    close(ps, rs);
+                }
+            }
+        }.runTaskAsynchronously(getParent());
     }
 
     @Override
@@ -274,7 +273,7 @@ public final class SQLiteDataStore extends DataStore {
                 PreparedStatement ps = null;
                 ResultSet rs = null;
                 try {
-                    throw new SQLException();
+                    ps = connection.prepareStatement("");
                 } catch (SQLException ex) {
                     ex.printStackTrace();
                 } finally {

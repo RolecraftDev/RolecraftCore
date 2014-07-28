@@ -45,52 +45,47 @@ public final class MySQLDataStore extends DataStore {
         super(parent);
     }
 
-    private static final String createPlayerTable =
-            "CREATE TABLE IF NOT EXISTS " + pt + " ("
-                    + "uuid VARCHAR(40) PRIMARY KEY,"
-                    + "lastname VARCHAR(16) NOT NULL,"
-                    + "FOREIGN KEY (guild) REFERENCES " + gt
-                    + "(uuid) ON DELETE SET NULL,"
-                    + "exp REAL DEFAULT 0,"
-                    + "profession VARCHAR (37) DEFAULT NULL,"
-                    + "influence INTEGER DEFAULT 0"
-                    + ")";
+    private static final String createPlayerTable = "CREATE TABLE IF NOT EXISTS "+ pt + " ("
+            + "uuid VARCHAR(40) PRIMARY KEY,"
+            + "lastname VARCHAR(16) NOT NULL,"
+            + "FOREIGN KEY (guild) REFERENCES "+ gt + "(uuid) ON DELETE SET NULL,"
+            + "exp REAL DEFAULT 0,"
+            + "profession VARCHAR (37) DEFAULT NULL,"
+            + "influence INTEGER DEFAULT 0" + ")";
 
-    private static final String createGuildTable =
-            "CREATE TABLE IF NOT EXISTS " + gt + " ("
-                    + "uuid VARCHAR(37) PRIMARY KEY ON CONFLICT FAIL,"
-                    + "name VARCHAR (50),"
-                    + "leader VARCHAR(37) NOT NULL,"
-                    + "members MEDIUMTEXT,"
-                    + "ranks MEDIUMTEXT,"
-                    + "home VARCHAR(150),"
-                    + "hall VARCHAR(100)"
-                    + ")";
+    private static final String createGuildTable = "CREATE TABLE IF NOT EXISTS "+ gt+ " ("
+            + "uuid VARCHAR(37) PRIMARY KEY ON CONFLICT FAIL,"
+            + "name VARCHAR (50),"
+            + "leader VARCHAR(37) NOT NULL,"
+            + "members MEDIUMTEXT,"
+            + "ranks MEDIUMTEXT,"
+            + "home VARCHAR(150)," 
+            + "hall VARCHAR(100)" + ")";
 
     @Override
     public void intialise() {
-    	final RolecraftCore parent = this.getParent();
-    	new BukkitRunnable () {
-    		@Override
-    		public void run () {
-				Connection connection = getConnection();
-		        PreparedStatement ps = null;
-		        ResultSet rs = null;
-		        try {
-		            ps = connection.prepareStatement(createPlayerTable);
-		            ps.execute();
-		            ps.close();
-		            ps = connection.prepareStatement(createGuildTable);
-		            ps.execute();
-		            ps.close();
-		            parent.setSqlLoaded(true);
-		        } catch (SQLException ex) {
-		            ex.printStackTrace();
-		        } finally {
-		            close(ps, rs);
-			    }
-    		}
-    	}.runTaskAsynchronously(getParent());
+        final RolecraftCore parent = this.getParent();
+        new BukkitRunnable() {
+            @Override
+            public void run() {
+                Connection connection = getConnection();
+                PreparedStatement ps = null;
+                ResultSet rs = null;
+                try {
+                    ps = connection.prepareStatement(createPlayerTable);
+                    ps.execute();
+                    ps.close();
+                    ps = connection.prepareStatement(createGuildTable);
+                    ps.execute();
+                    ps.close();
+                    parent.setSqlLoaded(true);
+                } catch (SQLException ex) {
+                    ex.printStackTrace();
+                } finally {
+                    close(ps, rs);
+                }
+            }
+        }.runTaskAsynchronously(getParent());
     }
 
     @Override
@@ -217,34 +212,36 @@ public final class MySQLDataStore extends DataStore {
 
     }
 
-	@Override
-	public void clearPlayerData(final PlayerData data) {
-		data.setUnloading(true);
-    	new BukkitRunnable () {
-    		@SuppressWarnings("deprecation")
-			@Override
-    		public void run () {
-    			Connection connection = getConnection();
-    	        PreparedStatement ps = null;
-    	        ResultSet rs = null;
-    	        try {
-	        		ps = connection.prepareStatement("DELETE FROM " + pt + " WHERE uuid = ?");
-	        		ps.setString(1, data.getPlayerId().toString());
-	        		ps.execute();
-	        		ps.close();
-	        		ps = connection.prepareStatement("INSERT INTO " + pt + " (uuid, name) VALUES (?,?)");
-	        		ps.setString(1,data.getPlayerId().toString());
-	        		ps.setString(2, data.getPlayerName());
-	        		ps.execute();
-	        		data.clear();
-    	        } catch (SQLException ex) {
-    	            ex.printStackTrace();
-    	        } finally {
-    	            close(ps, rs);
-    	        }
-    		}
-    	}.runTaskAsynchronously(getParent());
-		
-	}
+    @Override
+    public void clearPlayerData(final PlayerData data) {
+        data.setUnloading(true);
+        new BukkitRunnable() {
+            @SuppressWarnings("deprecation")
+            @Override
+            public void run() {
+                Connection connection = getConnection();
+                PreparedStatement ps = null;
+                ResultSet rs = null;
+                try {
+                    ps = connection.prepareStatement("DELETE FROM " + pt
+                            + " WHERE uuid = ?");
+                    ps.setString(1, data.getPlayerId().toString());
+                    ps.execute();
+                    ps.close();
+                    ps = connection.prepareStatement("INSERT INTO " + pt
+                            + " (uuid, name) VALUES (?,?)");
+                    ps.setString(1, data.getPlayerId().toString());
+                    ps.setString(2, data.getPlayerName());
+                    ps.execute();
+                    data.clear();
+                } catch (SQLException ex) {
+                    ex.printStackTrace();
+                } finally {
+                    close(ps, rs);
+                }
+            }
+        }.runTaskAsynchronously(getParent());
+
+    }
 
 }
