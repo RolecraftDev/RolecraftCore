@@ -76,7 +76,37 @@ public abstract class DataStore {
      * @param data
      */
     public abstract void clearPlayerData(PlayerData data);
+    
 
+    public void updateGuildRanks (final Guild guild) {
+        StringBuilder sb = new StringBuilder();
+        for (GuildRank rank : guild.getRanks()) {
+            sb.append(rank.serialize());
+            sb.append(",");
+        }
+        final String ranks = sb.substring(0, sb.length() - 1);
+        
+        new BukkitRunnable () {
+            @Override
+            public void run () {
+                Connection connection = getConnection();
+                PreparedStatement ps = null;
+                ResultSet rs = null;
+                try {
+                    ps = connection.prepareStatement("UPDATE " +gt + " SET ranks =? WHERE uuid = ?");
+                    ps.setString(1, ranks);
+                    ps.setString(2, guild.getId().toString());
+                    ps.execute();
+                } catch (SQLException ex) {
+                    ex.printStackTrace();
+                } finally {
+                    close(ps, rs);
+                    freeConnection(connection);
+                }
+            }
+        }.runTaskAsynchronously(getParent());
+    }
+    
     protected void close(final PreparedStatement ps, final ResultSet rs) {
         try {
             if (ps != null) {
@@ -100,13 +130,13 @@ public abstract class DataStore {
             sb.append(id.toString());
             sb.append(",");
         }
-        final String members = sb.substring(0, sb.length() - 2);
+        final String members = sb.substring(0, sb.length() - 1);
         sb = new StringBuilder();
         for (GuildRank rank : guild.getRanks()) {
             sb.append(rank.serialize());
             sb.append(",");
         }
-        final String ranks = sb.substring(0, sb.length() - 2);
+        final String ranks = sb.substring(0, sb.length() - 1);
         final String hall = guild.getGuildHallRegion().toString();
         final String id = guild.getId().toString();
 
@@ -205,7 +235,7 @@ public abstract class DataStore {
 			sb.append(rank.serialize());
 			sb.append(",");
 		}
-		final String ranks = sb.substring(0,sb.length() -2);
+		final String ranks = sb.substring(0,sb.length() -1);
 	 	new BukkitRunnable () {
 			@Override
 			public void run () {
