@@ -31,6 +31,8 @@ import com.github.rolecraftdev.data.storage.YamlFile;
 
 import java.util.*;
 
+import org.bukkit.scheduler.BukkitRunnable;
+
 /**
  * Stores {@link Guild} data and {@link Guild}-related configuration options and
  * manages {@link Guild}s in Rolecraft.
@@ -101,6 +103,24 @@ public final class GuildManager {
         disallowHallPvp = guildConfig.getBoolean("hall.disallow-pvp", true);
 
         loaded = false;
+        
+        /*
+         * Load all guilds, protection from SQL errors by not querying a table that does not exist
+         */
+        if(plugin.isSqlLoaded())
+            plugin.getDataStore().loadGuilds(this);
+        else {
+            final GuildManager callback = this;
+            new BukkitRunnable () {
+                @Override
+                public void run () {
+                    if(plugin.isSqlLoaded()) {
+                        this.cancel();
+                        plugin.getDataStore().loadGuilds(callback);
+                    } 
+                }
+            }.runTaskTimer(plugin, 1, 5);
+        }
 
         // Register the guild listener with Bukkit
         plugin.getServer().getPluginManager()
@@ -152,7 +172,7 @@ public final class GuildManager {
      *
      * @param name - The name of the wanted {@link Guild}
      * @return The {@link Guild} with the given name if it is contained by this
-     * {@link GuildManager}, or null if none is found
+     * {@link GuildManager}, or null if none is found, or this manager has not finished loading
      */
     public Guild getGuild(final String name) {
         if (loaded) {

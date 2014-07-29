@@ -213,10 +213,13 @@ public final class Guild {
      * {@link Guild}, based on the influence values of this {@link Guild}'s
      * members combined. If an estimate value is also fine, utilise
      * {@link #getInfluence()}, for performance reasons.
+     * 
+     * @deprecated Does not take into account offline players
      *
      * @return The up-to-date influence value for this {@link Guild}
      * @see #getInfluence()
      */
+    @Deprecated
     public int calculateInfluence() {
         int influence = 0;
         for (final UUID playerId : members) {
@@ -336,6 +339,7 @@ public final class Guild {
      */
     public void setName(final String name) {
         this.name = name;
+        guildManager.getPlugin().getDataStore().updateGuildData(this);
     }
 
     /**
@@ -354,9 +358,10 @@ public final class Guild {
         if (!members.contains(leader)) {
             members.add(leader);
         }
-
+        
         this.leader = leader;
         LEADER.addMember(leader);
+        guildManager.getPlugin().getDataStore().updateGuildData(this);
     }
 
     /**
@@ -369,6 +374,8 @@ public final class Guild {
     public void addMember(final UUID member, final GuildRank rank) {
         members.add(member);
         rank.addMember(member);
+        guildManager.getPlugin().getDataStore().addPlayerToGuild(member, this);
+        guildManager.getPlugin().getDataStore().updateGuildRanks(this);
     }
 
     /**
@@ -377,7 +384,9 @@ public final class Guild {
      * @param rank - The {@link GuildRank} to add
      */
     public boolean addRank(final GuildRank rank) {
-        return getRank(rank.getName()) == null && ranks.add(rank);
+        boolean retVal = getRank(rank.getName()) == null && ranks.add(rank);
+        guildManager.getPlugin().getDataStore().updateGuildRanks(this);
+        return retVal;
     }
 
     /**
@@ -388,8 +397,10 @@ public final class Guild {
      */
     public boolean removeRank(final GuildRank rank) {
         final String name = rank.getName().toLowerCase();
-        return !(name.equals("leader") || name.equals("default")) && ranks
+        boolean retVal = !(name.equals("leader") || name.equals("default")) && ranks
                 .remove(rank);
+        guildManager.getPlugin().getDataStore().updateGuildRanks(this);
+        return retVal;
     }
 
     /**
@@ -400,6 +411,7 @@ public final class Guild {
      */
     public void setHomeLocation(final Location home) {
         this.home = home;
+        guildManager.getPlugin().getDataStore().updateGuildData(this);
     }
 
     @Override
@@ -425,5 +437,6 @@ public final class Guild {
      */
     void claimAsGuildHall(final Region2D hallRegion) {
         this.hallRegion = hallRegion;
+        guildManager.getPlugin().getDataStore().updateGuildData(this);
     }
 }

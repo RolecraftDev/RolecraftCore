@@ -93,7 +93,7 @@ public abstract class DataStore {
                 PreparedStatement ps = null;
                 ResultSet rs = null;
                 try {
-                    ps = connection.prepareStatement("UPDATE " +gt + " SET ranks =? WHERE uuid = ?");
+                    ps = connection.prepareStatement("UPDATE " +gt + " SET ranks = ? WHERE uuid = ?");
                     ps.setString(1, ranks);
                     ps.setString(2, guild.getId().toString());
                     ps.execute();
