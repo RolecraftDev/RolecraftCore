@@ -41,6 +41,7 @@ public final class PlayerData {
     private UUID profession;
     private int influence;
     private float experience;
+    private float karma;
 
     private volatile boolean loaded;
     private volatile boolean unloading;
@@ -214,13 +215,30 @@ public final class PlayerData {
      */
     @Deprecated
     public void initialise(final UUID guild, final UUID profession,
-            final int influence, final float exp) {
+            final int influence, final float exp, final float karma) {
         this.guild = guild;
         this.profession = profession;
         this.influence = influence;
         this.experience = exp;
+        this.karma = karma;
 
         loaded = true;
+    }
+
+    public void addKarma(float amount) {
+        karma += amount;
+    }
+    
+    public void deductKarma (float amount) {
+        karma -= amount;
+    }
+
+    public float getKarma() {
+        return karma;
+    }
+
+    public void setKarma(float karma) {
+        this.karma = karma;
     }
 
 }
