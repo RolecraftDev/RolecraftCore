@@ -25,6 +25,10 @@
             <id>channels-repo</id>
             <url>http://maven.traksag.com/</url>
         </repository>
+        <repository>
+            <id>sonatype-snapshots</id>
+            <url>https://oss.sonatype.org/content/repositories/snapshots/</url>
+        </repository>
     </repositories>
 
     <dependencies>
@@ -42,6 +46,11 @@
             <groupId>com.traksag</groupId>
             <artifactId>channels</artifactId>
             <version>0.0.1-SNAPSHOT</version>
+        </dependency>
+        <dependency>
+            <groupId>pw.ian</groupId>
+            <artifactId>albkit</artifactId>
+            <version>0.2.0-SNAPSHOT</version>
         </dependency>
     </dependencies>
 

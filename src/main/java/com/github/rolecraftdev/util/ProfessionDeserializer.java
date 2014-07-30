@@ -82,7 +82,7 @@ public class ProfessionDeserializer {
 
     /**
      * Deserialize the contents of the file, to return a {@link Profession}
-     * object. Note that this simply uses most other methods in this
+     * object. Note that this simply uses most otherold methods in this
      * {@link ProfessionDeserializer} to construct a {@link Profession}.
      *
      * @param professionManager - The {@link ProfessionManager}, the

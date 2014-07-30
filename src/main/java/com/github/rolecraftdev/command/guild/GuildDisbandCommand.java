@@ -1,30 +1,7 @@
-/*
- * This file is part of RolecraftCore.
- *
- * Copyright (c) 2014 RolecraftDev <http://rolecraftdev.github.com>
- * RolecraftCore is licensed under the Creative Commons
- * Attribution-NonCommercial-NoDerivs 3.0 Unported License. To view a copy of this
- * license, visit http://creativecommons.org/licenses/by-nc-nd/3.0
- *
- * As long as you follow the following terms, you are free to copy and redistribute
- * the material in any medium or format.
- *
- * You must give appropriate credit, provide a link to the license, and indicate
- * whether any changes were made to the material. You may do so in any reasonable
- * manner, but not in any way which suggests the licensor endorses you or your use.
- *
- * You may not use the material for commercial purposes.
- *
- * If you remix, transform, or build upon the material, you may not distribute the
- * modified material.
- *
- * You may not apply legal terms or technological measures that legally restrict
- * others from doing anything the license permits.
- *
- * DISCLAIMER: This is a human-readable summary of (and not a substitute for) the
- * license.
- */
 package com.github.rolecraftdev.command.guild;
+
+import pw.ian.albkit.command.CommandHandler;
+import pw.ian.albkit.command.parser.Arguments;
 
 import com.github.rolecraftdev.RolecraftCore;
 import com.github.rolecraftdev.guild.Guild;
@@ -36,15 +13,24 @@ import org.bukkit.entity.Player;
 
 import java.util.UUID;
 
-public class GuildDisbandCommand extends GuildSubCommand {
+public class GuildDisbandCommand extends CommandHandler {
+    private final RolecraftCore plugin;
+    private final GuildManager guildManager;
+
     public GuildDisbandCommand(final RolecraftCore plugin) {
-        super(plugin);
+        super(plugin, "disband");
+        this.plugin = plugin;
+        guildManager = plugin.getGuildManager();
+
+        setUsage("/guild disband [name]");
+        setDescription("Disbands a guild");
+        setPermission("rolecraft.guild.create");
     }
 
     @Override
-    public void execute(final CommandSender sender, final String[] args) {
+    public void onCommand(final CommandSender sender, final Arguments args) {
         final Guild guild;
-        if (args.length > 1) {
+        if (args.length() > 1) {
             if (sender instanceof Player && !sender
                     .hasPermission("rolecraft.guild.disband.other")) {
                 sender.sendMessage(ChatColor.DARK_RED
@@ -52,7 +38,7 @@ public class GuildDisbandCommand extends GuildSubCommand {
                 return;
             }
 
-            guild = guildManager.getGuild(args[1]);
+            guild = guildManager.getGuild(args.getArgument(1).rawString());
             if (guild == null) {
                 sender.sendMessage(
                         ChatColor.DARK_RED + "That guild doesn't exist!");
@@ -95,28 +81,8 @@ public class GuildDisbandCommand extends GuildSubCommand {
         }
     }
 
-    @Override
-    public String[] getNames() {
-        return new String[] { "disband", "delete" };
-    }
-
-    @Override
-    public String getPermission() {
-        return "rolecraft.guild.create";
-    }
-
-    @Override
-    public String getUsage() {
-        return "/guild disband";
-    }
-
-    @Override
-    public String getDescription() {
-        return "Disbands the given guild";
-    }
-
     /**
-     * A Runnable implementation which disbands a specific guild and sends a
+     * A Runnable implementation which disbands a specific guildold and sends a
      * message notifying the command sender. For use with RCConfirmCommand
      */
     public static final class GuildDisbandTask implements Runnable {

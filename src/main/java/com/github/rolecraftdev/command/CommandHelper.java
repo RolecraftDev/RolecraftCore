@@ -26,6 +26,8 @@
  */
 package com.github.rolecraftdev.command;
 
+import pw.ian.albkit.command.CommandHandler;
+
 import com.github.rolecraftdev.guild.Guild;
 import com.github.rolecraftdev.guild.GuildAction;
 import com.github.rolecraftdev.guild.GuildManager;
@@ -160,7 +162,7 @@ public final class CommandHelper {
      * the arguments if any are provided.
      *
      * @param sender      - The {@link CommandSender} to send the help messages to
-     * @param subCommands - A {@link List} of sub-commands, used for sending
+     * @param commands    - A {@link List} of sub-commands, used for sending
      *                    help to the {@link CommandSender}
      * @param args        - The arguments provided by the user to request for help. For
      *                    example, if the user would've typed /command help 1, the
@@ -171,10 +173,10 @@ public final class CommandHelper {
      *                    argument which was parsed by the {@link CommandExecutor}
      */
     public static void displayCommandList(final CommandSender sender,
-            final List<RCSubCommand> subCommands, final String[] args,
+            final List<CommandHandler> commands, final String[] args,
             final int startIndex) {
         sender.sendMessage(ChatColor.GOLD + "[Commands]");
-        for (final RCSubCommand sub : getPageFromArgs(sender, subCommands,
+        for (final CommandHandler sub : getPageFromArgs(sender, commands,
                 args[startIndex], COMMANDS_PER_PAGE)) {
             if (sender.hasPermission(sub.getPermission())) {
                 sender.sendMessage(ChatColor.GOLD + sub.getUsage() + " - "

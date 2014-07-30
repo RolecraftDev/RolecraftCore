@@ -14,11 +14,19 @@ commands:
         description: Profession-related commands
     gc:
         description: Switch between guild and normal chat, or send a one time guild chat message
+        aliases: [guildchat, gchat]
+    rcconfirm:
+        description: Used for confirmation of sensitive actions
+        aliases: [rconfirm]
 
 permissions:
     rolecraft.guild.show:
         description: Allows viewing information about a guild
     rolecraft.guild.create:
         description: Allows creation of a new guild
+    rolecraft.guild.disband.other:
+        description: Allows disbanding someone else's guild
     rolecraft.guild.home:
         description: Allows teleporting to the guild home
+    rolecraft.profession.list:
+        description: Allows viewing the profession list

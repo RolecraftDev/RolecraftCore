@@ -26,7 +26,10 @@
  */
 package com.github.rolecraftdev;
 
-import com.github.rolecraftdev.command.guild.GuildCommand;
+import pw.ian.albkit.AlbPlugin;
+import pw.ian.albkit.command.Commands;
+
+import com.github.rolecraftdev.command.other.GCCommand;
 import com.github.rolecraftdev.command.other.RCConfirmCommand;
 import com.github.rolecraftdev.data.DataManager;
 import com.github.rolecraftdev.data.storage.DataStore;
@@ -41,9 +44,7 @@ import com.github.rolecraftdev.quest.QuestManager;
 
 import net.milkbowl.vault.economy.Economy;
 
-import org.bukkit.Bukkit;
 import org.bukkit.configuration.file.FileConfiguration;
-import org.bukkit.plugin.PluginManager;
 import org.bukkit.plugin.RegisteredServiceProvider;
 import org.bukkit.plugin.java.JavaPlugin;
 
@@ -56,7 +57,7 @@ import java.util.logging.Logger;
 /**
  * Main class for the core of Rolecraft, the Bukkit RPG plugin.
  */
-public final class RolecraftCore extends JavaPlugin {
+public final class RolecraftCore extends AlbPlugin {
     /**
      * The plugin {@link Logger}.
      */
@@ -73,8 +74,6 @@ public final class RolecraftCore extends JavaPlugin {
      * Manages Rolecraft {@link Guild}s.
      */
     private GuildManager guildManager;
-
-
     /**
      * Manages all aspects of questing.
      */
@@ -104,6 +103,8 @@ public final class RolecraftCore extends JavaPlugin {
 
     @Override
     public void onEnable() {
+        super.init();
+
         logger = getLogger();
 
         // Check for Vault to decide whether to enable economy support
@@ -150,14 +151,13 @@ public final class RolecraftCore extends JavaPlugin {
 
         professionManager.loadProfessions();
 
-        final PluginManager pm = getServer().getPluginManager();
-
         // Register listeners
-        pm.registerEvents(new RCListener(this), this);
-        pm.registerEvents(new PlayerListener(this), this);
+        register(new RCListener(this));
+        register(new PlayerListener(this));
 
         // Register commands
-        getCommand("guild").setExecutor(new GuildCommand(this));
+        Commands.registerCommand(this, new GCCommand(this));
+        Commands.registerCommand(this, new RCConfirmCommand(this));
     }
 
     @Override

@@ -65,7 +65,7 @@ public enum GuildAction {
      * @param guild  - The {@link Guild} to check the permissions of the given
      *               player in
      * @return True if the given player can perform this action and false in any
-     * other case
+     * otherold case
      */
     public boolean can(final UUID player, final Guild guild) {
         return guild.can(player, this);
