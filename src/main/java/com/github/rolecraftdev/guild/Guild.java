@@ -33,6 +33,7 @@ import org.bukkit.Location;
 import org.bukkit.entity.Entity;
 
 import java.util.Arrays;
+import java.util.EnumSet;
 import java.util.HashSet;
 import java.util.Set;
 import java.util.UUID;
@@ -47,8 +48,7 @@ public final class Guild {
      * {@link Guild} is created, and thus cannot be removed.
      */
     private final GuildRank LEADER = new GuildRank("Leader",
-            new HashSet<GuildAction>(
-                    Arrays.asList(GuildAction.values())), new HashSet<UUID>());
+            EnumSet.allOf(GuildAction.class), new HashSet<UUID>());
     /**
      * The Default {@link GuildRank}, which is present whenever a new
      * {@link Guild} is created, and thus cannot be removed.
