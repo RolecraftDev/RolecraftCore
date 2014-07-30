@@ -439,13 +439,14 @@ public abstract class DataStore {
             ps = connection
                     .prepareStatement("UPDATE "
                             + pt
-                            + " SET name = ?, guild = ?, exp = ?, profession = ?, influence = ? WHERE uuid = ?");
+                            + " SET name = ?, guild = ?, exp = ?, profession = ?, influence = ?, karma = ? WHERE uuid = ?");
             ps.setString(1, commit.getPlayerName());
             ps.setString(2, commit.getGuild().toString());
             ps.setFloat(3, commit.getExp());
             ps.setString(4, commit.getProfession().toString());
             ps.setInt(5, commit.getInfluence());
-            ps.setString(6, commit.getPlayerId().toString());
+            ps.setFloat(6, commit.getKarma());
+            ps.setString(7, commit.getPlayerId().toString());
         } catch (SQLException ex) {
             ex.printStackTrace();
         } finally {
@@ -474,14 +475,15 @@ public abstract class DataStore {
                         callback.initialise(
                                 UUID.fromString(rs.getString("guild")),
                                 UUID.fromString(rs.getString("profession")),
-                                rs.getInt("influence"), rs.getFloat("exp"));
+                                rs.getInt("influence"), rs.getFloat("exp"),
+                                rs.getFloat("karma"));
                     } else {
                         ps.close();
                         ps = connection.prepareStatement("INSERT INTO " + pt
                                 + " (uuid, name) VALUES (?,?)");
                         ps.setString(1, uuid);
                         ps.setString(2, name);
-                        callback.initialise(null, null, 0, 0);
+                        callback.initialise(null, null, 0, 0f, 0f);
                     }
     
                 } catch (SQLException ex) {
