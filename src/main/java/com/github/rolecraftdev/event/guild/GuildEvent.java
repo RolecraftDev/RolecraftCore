@@ -30,7 +30,13 @@ import com.github.rolecraftdev.RolecraftCore;
 import com.github.rolecraftdev.event.RolecraftEvent;
 import com.github.rolecraftdev.guild.Guild;
 
+/**
+ * A {@link RolecraftEvent} related to a {@link Guild}
+ */
 public abstract class GuildEvent extends RolecraftEvent {
+    /**
+     * The guild which this GuildEvent is related to
+     */
     private final Guild guild;
 
     public GuildEvent(final RolecraftCore plugin, final Guild guild) {
@@ -38,6 +44,11 @@ public abstract class GuildEvent extends RolecraftEvent {
         this.guild = guild;
     }
 
+    /**
+     * Gets the {@link Guild} involved in this GuildEvent
+     *
+     * @return The {@link Guild} involved in this GuildEvent
+     */
     public final Guild getGuild() {
         return guild;
     }

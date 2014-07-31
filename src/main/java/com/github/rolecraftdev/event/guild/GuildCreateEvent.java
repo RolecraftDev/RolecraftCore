@@ -34,18 +34,29 @@ import org.bukkit.event.Cancellable;
 import org.bukkit.event.HandlerList;
 
 /**
- * An event representing the creation of a new guild in Rolecraft
+ * An event called upon the creation of a new {@link Guild} in Rolecraft
  */
 public class GuildCreateEvent extends GuildEvent implements Cancellable {
     private static final HandlerList handlers = new HandlerList();
 
+    /**
+     * Whether the creation of the guild is cancelled
+     */
     private boolean cancelled;
+    /**
+     * The message to send to the founder if the event is cancelled
+     */
     private String cancelMessage = "You can't create a guild right now!";
 
     public GuildCreateEvent(final RolecraftCore plugin, final Guild guild) {
         super(plugin, guild);
     }
 
+    /**
+     * Gets the {@link Player} who founded the new {@link Guild}
+     *
+     * @return The {@link Player} who founded the new {@link Guild}
+     */
     public Player getFounder() {
         return getPlugin().getServer().getPlayer(getGuild().getLeader());
     }
@@ -55,6 +66,12 @@ public class GuildCreateEvent extends GuildEvent implements Cancellable {
         return cancelled;
     }
 
+    /**
+     * Gets the message which will be sent to the founder if the event is
+     * cancelled
+     *
+     * @return The message to send to the founder if the event is cancelled
+     */
     public String getCancelMessage() {
         return cancelMessage;
     }
@@ -64,6 +81,13 @@ public class GuildCreateEvent extends GuildEvent implements Cancellable {
         this.cancelled = cancelled;
     }
 
+    /**
+     * Sets the message to send to the founder of the new {@link Guild} if the
+     * event is cancelled
+     *
+     * @param cancelMessage The new message to send to the founder if the event
+     *                      is cancelled
+     */
     public void setCancelMessage(final String cancelMessage) {
         this.cancelMessage = cancelMessage;
     }

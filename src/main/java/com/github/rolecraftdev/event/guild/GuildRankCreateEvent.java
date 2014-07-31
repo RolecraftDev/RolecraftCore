@@ -6,9 +6,15 @@ import com.github.rolecraftdev.guild.GuildRank;
 
 import org.bukkit.event.HandlerList;
 
+/**
+ * A {@link GuildEvent} called when a new {@link GuildRank} is created
+ */
 public class GuildRankCreateEvent extends GuildEvent {
     private static final HandlerList handlers = new HandlerList();
 
+    /**
+     * The newly created {@link GuildRank}
+     */
     private final GuildRank rank;
 
     public GuildRankCreateEvent(final RolecraftCore plugin, final Guild guild,
@@ -17,6 +23,11 @@ public class GuildRankCreateEvent extends GuildEvent {
         this.rank = rank;
     }
 
+    /**
+     * Gets the {@link GuildRank} which has been newly created
+     *
+     * @return The newly created {@link GuildRank}
+     */
     public GuildRank getRank() {
         return rank;
     }

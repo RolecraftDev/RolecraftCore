@@ -30,6 +30,9 @@ import com.github.rolecraftdev.RolecraftCore;
 
 import org.bukkit.event.Event;
 
+/**
+ * Represents an Event called in Rolecraft
+ */
 public abstract class RolecraftEvent extends Event {
     private final RolecraftCore plugin;
 
