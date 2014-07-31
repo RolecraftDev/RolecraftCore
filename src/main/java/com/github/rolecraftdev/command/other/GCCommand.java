@@ -40,10 +40,12 @@ import java.util.UUID;
 
 public class GCCommand extends PlayerCommandHandler {
     private final RolecraftCore plugin;
+    private final GuildManager guildManager;
 
     public GCCommand(final RolecraftCore plugin) {
         super(plugin, "gc");
         this.plugin = plugin;
+        guildManager = plugin.getGuildManager();
 
         setUsage("/gc [message]");
         setDescription("Allows communicating in Guild chat");
@@ -53,8 +55,7 @@ public class GCCommand extends PlayerCommandHandler {
     @Override
     public void onCommand(final Player player, final Arguments args) {
         final UUID playerId = player.getUniqueId();
-        final GuildManager manager = plugin.getGuildManager();
-        final Guild guild = manager.getPlayerGuild(playerId);
+        final Guild guild = guildManager.getPlayerGuild(playerId);
 
         if (guild == null) {
             player.sendMessage(ChatColor.DARK_RED + "You don't have a guild!");

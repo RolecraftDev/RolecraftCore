@@ -33,8 +33,8 @@ import com.github.rolecraftdev.RolecraftCore;
 public class ProfessionCommand extends TreeCommandHandler {
     private final RolecraftCore plugin;
 
-    public ProfessionCommand(final RolecraftCore plugin, final String name) {
-        super(plugin, name);
+    public ProfessionCommand(final RolecraftCore plugin) {
+        super(plugin, "profession");
         this.plugin = plugin;
 
         setUsage("/profession list [page]");

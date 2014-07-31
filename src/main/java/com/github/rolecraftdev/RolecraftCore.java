@@ -29,8 +29,10 @@ package com.github.rolecraftdev;
 import pw.ian.albkit.AlbPlugin;
 import pw.ian.albkit.command.Commands;
 
+import com.github.rolecraftdev.command.guild.GuildCommand;
 import com.github.rolecraftdev.command.other.GCCommand;
 import com.github.rolecraftdev.command.other.RCConfirmCommand;
+import com.github.rolecraftdev.command.profession.ProfessionCommand;
 import com.github.rolecraftdev.data.DataManager;
 import com.github.rolecraftdev.data.storage.DataStore;
 import com.github.rolecraftdev.data.storage.MySQLDataStore;
@@ -156,6 +158,8 @@ public final class RolecraftCore extends AlbPlugin {
         register(new PlayerListener(this));
 
         // Register commands
+        Commands.registerCommand(this, new GuildCommand(this));
+        Commands.registerCommand(this, new ProfessionCommand(this));
         Commands.registerCommand(this, new GCCommand(this));
         Commands.registerCommand(this, new RCConfirmCommand(this));
     }
