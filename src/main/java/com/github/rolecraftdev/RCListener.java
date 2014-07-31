@@ -27,11 +27,21 @@
 package com.github.rolecraftdev;
 
 import com.github.rolecraftdev.data.PlayerData;
+import com.github.rolecraftdev.util.LevelUtil;
 
+import org.bukkit.entity.Entity;
+import org.bukkit.entity.EntityType;
+import org.bukkit.entity.Player;
 import org.bukkit.event.EventHandler;
+import org.bukkit.event.EventPriority;
 import org.bukkit.event.Listener;
+import org.bukkit.event.entity.EntityDamageByEntityEvent;
+import org.bukkit.event.entity.EntityDamageEvent;
+import org.bukkit.event.entity.EntityDeathEvent;
 import org.bukkit.event.player.PlayerJoinEvent;
 import org.bukkit.event.player.PlayerQuitEvent;
+
+import java.util.UUID;
 
 /**
  * The base listener for Rolecraft which saves and loads {@link PlayerData}
@@ -54,5 +64,22 @@ public final class RCListener implements Listener {
     public void onPlayerQuit(final PlayerQuitEvent event) {
         plugin.getDataManager().unloadAndSaveData(
                 event.getPlayer().getUniqueId());
+    }
+
+    @EventHandler(priority = EventPriority.MONITOR)
+    public void onEntityDeath(final EntityDeathEvent event) {
+        final Entity deadEntity = event.getEntity();
+        final EntityDamageEvent dmg = deadEntity.getLastDamageCause();
+
+        if (dmg instanceof EntityDamageByEntityEvent) {
+            final EntityDamageByEntityEvent e = (EntityDamageByEntityEvent) dmg;
+            if (e.getDamager() instanceof Player) {
+                final UUID id = ((Player) e.getDamager()).getUniqueId();
+                final EntityType entityType = deadEntity.getType();
+                final PlayerData pd = plugin.getDataManager().getPlayerData(id);
+
+                pd.addExperience(LevelUtil.expFromKill(entityType));
+            }
+        }
     }
 }

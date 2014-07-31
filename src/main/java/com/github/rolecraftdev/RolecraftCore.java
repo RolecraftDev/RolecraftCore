@@ -39,7 +39,6 @@ import com.github.rolecraftdev.data.storage.MySQLDataStore;
 import com.github.rolecraftdev.data.storage.SQLiteDataStore;
 import com.github.rolecraftdev.guild.Guild;
 import com.github.rolecraftdev.guild.GuildManager;
-import com.github.rolecraftdev.listener.PlayerListener;
 import com.github.rolecraftdev.profession.Profession;
 import com.github.rolecraftdev.profession.ProfessionManager;
 import com.github.rolecraftdev.quest.QuestManager;
@@ -155,7 +154,6 @@ public final class RolecraftCore extends AlbPlugin {
 
         // Register listeners
         register(new RCListener(this));
-        register(new PlayerListener(this));
 
         // Register commands
         Commands.registerCommand(this, new GuildCommand(this));
