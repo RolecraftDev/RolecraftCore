@@ -28,10 +28,14 @@ package com.github.rolecraftdev.guild;
 
 import com.github.rolecraftdev.RolecraftCore;
 import com.github.rolecraftdev.data.storage.YamlFile;
+import com.github.rolecraftdev.event.guild.GuildCreateEvent;
+import com.github.rolecraftdev.event.guild.GuildDisbandEvent;
+
+import org.bukkit.Bukkit;
+import org.bukkit.ChatColor;
+import org.bukkit.scheduler.BukkitRunnable;
 
 import java.util.*;
-
-import org.bukkit.scheduler.BukkitRunnable;
 
 /**
  * Stores {@link Guild} data and {@link Guild}-related configuration options and
@@ -81,7 +85,6 @@ public final class GuildManager {
      */
     private boolean disallowHallPvp;
 
-
     /**
      * Creates a new {@link GuildManager} instance using the given
      * {@link RolecraftCore} object as the plugin to register events with.
@@ -107,17 +110,17 @@ public final class GuildManager {
         /*
          * Load all guilds, protection from SQL errors by not querying a table that does not exist
          */
-        if(plugin.isSqlLoaded())
+        if (plugin.isSqlLoaded()) {
             plugin.getDataStore().loadGuilds(this);
-        else {
+        } else {
             final GuildManager callback = this;
-            new BukkitRunnable () {
+            new BukkitRunnable() {
                 @Override
-                public void run () {
-                    if(plugin.isSqlLoaded()) {
+                public void run() {
+                    if (plugin.isSqlLoaded()) {
                         this.cancel();
                         plugin.getDataStore().loadGuilds(callback);
-                    } 
+                    }
                 }
             }.runTaskTimer(plugin, 1, 5);
         }
@@ -142,12 +145,27 @@ public final class GuildManager {
             guilds.add(guild);
             return true;
         }
-        if (guilds.contains(guild)) {
-            return false;
+        for (final Guild cur : guilds) {
+            if (cur.getName().equalsIgnoreCase(guild.getName())) {
+                Bukkit.getPlayer(guild.getLeader())
+                        .sendMessage(ChatColor.DARK_RED
+                                + "A guild by that name already exists!");
+                return false;
+            }
         }
-        guilds.add(guild);
-        plugin.getDataStore().createGuild(guild);
-        return true;
+
+        final GuildCreateEvent event = new GuildCreateEvent(plugin, guild);
+        plugin.getServer().getPluginManager().callEvent(event);
+
+        if (event.isCancelled()) {
+            event.getFounder()
+                    .sendMessage(ChatColor.DARK_RED + event.getCancelMessage());
+            return false;
+        } else {
+            guilds.add(guild);
+            plugin.getDataStore().createGuild(guild);
+            return true;
+        }
     }
 
     /**
@@ -160,6 +178,8 @@ public final class GuildManager {
      */
     public boolean removeGuild(final Guild guild) {
         if (loaded) {
+            plugin.getServer().getPluginManager()
+                    .callEvent(new GuildDisbandEvent(plugin, guild));
             plugin.getDataStore().deleteGuild(guild);
             return guilds.remove(guild);
         } else {

@@ -30,13 +30,11 @@ import pw.ian.albkit.command.PlayerCommandHandler;
 import pw.ian.albkit.command.parser.Arguments;
 
 import com.github.rolecraftdev.RolecraftCore;
-import com.github.rolecraftdev.event.guild.GuildCreateEvent;
 import com.github.rolecraftdev.guild.Guild;
 import com.github.rolecraftdev.guild.GuildManager;
 
 import net.milkbowl.vault.economy.EconomyResponse;
 
-import org.bukkit.Bukkit;
 import org.bukkit.ChatColor;
 import org.bukkit.entity.Player;
 
@@ -86,25 +84,13 @@ public class GuildCreateCommand extends PlayerCommandHandler {
         guild.setName(name);
         guild.setLeader(playerId);
         if (guildManager.addGuild(guild, false)) {
-            GuildCreateEvent event = new GuildCreateEvent(plugin, guild);
-            Bukkit.getPluginManager().callEvent(event);
+            player.sendMessage(ChatColor.GRAY
+                    + "You created a guild named '" + name + "'!");
 
-            if (event.isCancelled()) {
-                player.sendMessage(ChatColor.DARK_RED
-                        + event.getCancelMessage());
-                guildManager.removeGuild(guild);
-            } else {
-                player.sendMessage(ChatColor.GRAY
-                        + "You created a guild named '" + name + "'!");
-
-                if (plugin.useEconomy()) {
-                    plugin.getEconomy().bankWithdraw(player.getName(),
-                            guildManager.getCreationCost());
-                }
+            if (plugin.useEconomy()) {
+                plugin.getEconomy().bankWithdraw(player.getName(),
+                        guildManager.getCreationCost());
             }
-        } else {
-            player.sendMessage(ChatColor.DARK_RED
-                    + "Couldn't create guild! The name may have already been taken!");
         }
     }
 }
