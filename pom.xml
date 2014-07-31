@@ -90,6 +90,7 @@
                     <artifactSet>
                         <includes>
                             <include>com.traksag:channels</include>
+                            <include>pw.ian:albkit</include>
                         </includes>
                     </artifactSet>
                 </configuration>
