@@ -207,6 +207,15 @@ public final class PlayerData {
     }
 
     /**
+     * Gets the player's current karma value
+     *
+     * @return The player's current karma value
+     */
+    public float getKarma() {
+        return karma;
+    }
+
+    /**
      * DO NOT CALL UNLESS UNLOADING VIA DATABASE
      *
      * @param unload Whether the data is currently being unloaded
@@ -315,6 +324,37 @@ public final class PlayerData {
     }
 
     /**
+     * Sets the player's karma value
+     *
+     * @param karma The new value for the player's karma
+     */
+    public void setKarma(float karma) {
+        if (loaded) {
+            if (!unloading) {
+                this.karma = karma;
+            }
+        }
+    }
+
+    /**
+     * Adds the given amount to the player's karma
+     *
+     * @param amount The amount to add to the player's karma
+     */
+    public void addKarma(float amount) {
+        setKarma(getKarma() + amount);
+    }
+
+    /**
+     * Subtracts the given amount from the player's karma
+     *
+     * @param amount The amount to subtract from the player's karma
+     */
+    public void subtractKarma(float amount) {
+        setKarma(getKarma() - amount);
+    }
+
+    /**
      * For internal use only - called when reset via SQL
      *
      * @deprecated Do not call
@@ -345,21 +385,5 @@ public final class PlayerData {
         this.karma = karma;
 
         loaded = true;
-    }
-
-    public void addKarma(float amount) {
-        karma += amount;
-    }
-
-    public void deductKarma(float amount) {
-        karma -= amount;
-    }
-
-    public float getKarma() {
-        return karma;
-    }
-
-    public void setKarma(float karma) {
-        this.karma = karma;
     }
 }
