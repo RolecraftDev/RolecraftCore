@@ -32,6 +32,7 @@ import pw.ian.albkit.command.parser.Arguments;
 import com.github.rolecraftdev.RolecraftCore;
 import com.github.rolecraftdev.command.CommandHelper;
 import com.github.rolecraftdev.event.guild.GuildRankCreateEvent;
+import com.github.rolecraftdev.event.guild.GuildRankRemoveEvent;
 import com.github.rolecraftdev.guild.Guild;
 import com.github.rolecraftdev.guild.GuildAction;
 import com.github.rolecraftdev.guild.GuildManager;
@@ -118,6 +119,8 @@ public class GuildRankCommand extends PlayerCommandHandler {
         if (isDeleteAlias(command)) {
             // Returns false if the rank is leader or default
             if (guild.removeRank(rank)) {
+                plugin.getServer().getPluginManager().callEvent(
+                        new GuildRankRemoveEvent(plugin, guild, rank));
                 // Alert the sender that the rank was removed
                 player.sendMessage(ChatColor.GRAY +
                         "Removed the rank: " + rankArg);
