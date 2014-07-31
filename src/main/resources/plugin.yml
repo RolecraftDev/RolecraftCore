@@ -30,3 +30,5 @@ permissions:
         description: Allows teleporting to the guild home
     rolecraft.profession.list:
         description: Allows viewing the profession list
+    rolecraft.profession.use:
+        description: Allows having a profession and using profession features

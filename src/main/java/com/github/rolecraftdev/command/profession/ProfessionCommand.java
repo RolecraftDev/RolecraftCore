@@ -45,6 +45,7 @@ public class ProfessionCommand extends TreeCommandHandler {
     @Override
     public void setupSubcommands() {
         addSubcommand("list", new ProfessionListCommand(plugin));
+        addSubcommand("select", new ProfessionSelectCommand(plugin));
         // TODO more
     }
 }
