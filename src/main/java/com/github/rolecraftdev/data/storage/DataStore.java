@@ -412,7 +412,7 @@ public abstract class DataStore {
                                     + " SET name = ?, guild = ?, exp = ?, profession = ?, influence = ? WHERE uuid = ?");
                     ps.setString(1, commit.getPlayerName());
                     ps.setString(2, commit.getGuild().toString());
-                    ps.setFloat(3, commit.getExp());
+                    ps.setFloat(3, commit.getExperience());
                     ps.setString(4, commit.getProfession().toString());
                     ps.setInt(5, commit.getInfluence());
                     ps.setString(6, commit.getPlayerId().toString());
@@ -442,7 +442,7 @@ public abstract class DataStore {
                             + " SET name = ?, guild = ?, exp = ?, profession = ?, influence = ?, karma = ? WHERE uuid = ?");
             ps.setString(1, commit.getPlayerName());
             ps.setString(2, commit.getGuild().toString());
-            ps.setFloat(3, commit.getExp());
+            ps.setFloat(3, commit.getExperience());
             ps.setString(4, commit.getProfession().toString());
             ps.setInt(5, commit.getInfluence());
             ps.setFloat(6, commit.getKarma());
