@@ -255,10 +255,9 @@ public final class RolecraftCore extends AlbPlugin {
      * @param name
      */
     public void createDefaultConfiguration(String name) {
-        File actual = new File(getDataFolder(), name);
+        final File actual = new File(getDataFolder(), name);
         if (!actual.exists()) {
-
-            InputStream input =
+            final InputStream input =
                     this.getClass().getResourceAsStream("/" + name);
             if (input != null) {
                 FileOutputStream output = null;
@@ -271,23 +270,22 @@ public final class RolecraftCore extends AlbPlugin {
                         output.write(buf, 0, length);
                     }
 
-                    System.out.println(getDescription().getName()
-                            + ": Default configuration file written: " + name);
-                } catch (IOException e) {
+                    getLogger().info(
+                            "Default configuration file written: " + name);
+                } catch (final IOException e) {
                     e.printStackTrace();
                 } finally {
                     try {
                         if (input != null) {
                             input.close();
                         }
-                    } catch (IOException e) {
+                    } catch (final IOException e) {
                     }
-
                     try {
                         if (output != null) {
                             output.close();
                         }
-                    } catch (IOException e) {
+                    } catch (final IOException e) {
                     }
                 }
             }
