@@ -31,6 +31,7 @@ import pw.ian.albkit.command.parser.Arguments;
 
 import com.github.rolecraftdev.RolecraftCore;
 import com.github.rolecraftdev.command.CommandHelper;
+import com.github.rolecraftdev.event.guild.GuildRankCreateEvent;
 import com.github.rolecraftdev.guild.Guild;
 import com.github.rolecraftdev.guild.GuildAction;
 import com.github.rolecraftdev.guild.GuildManager;
@@ -89,8 +90,11 @@ public class GuildRankCommand extends PlayerCommandHandler {
                         ChatColor.DARK_RED + "That rank doesn't exist!");
             } else { // There are 3+ args & the next is an alias of 'create'
                 // Only returns false if the rank already exists
-                if (guild.addRank(new GuildRank(rankArg,
-                        new HashSet<GuildAction>(), new HashSet<UUID>()))) {
+                final GuildRank newRank = new GuildRank(rankArg,
+                        new HashSet<GuildAction>(), new HashSet<UUID>());
+                if (guild.addRank(newRank)) {
+                    plugin.getServer().getPluginManager().callEvent(
+                            new GuildRankCreateEvent(plugin, guild, newRank));
                     // Notify the sender that the rank was created
                     player.sendMessage(
                             ChatColor.GRAY + "Created the rank: " + rankArg);
