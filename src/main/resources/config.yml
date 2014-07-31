@@ -3,7 +3,8 @@
 #The SQL driver to use, must either be SQLite or MySQL (cannot be changed without server restart)
 sqlserver: sqlite
 
-
+#Only needed if you're using RolecraftAfterlife (cannot be changed without server restart)
+originalsin: 1000
 
 #Configuration for MySQL, can be ignored if using SQLite (cannot be changed without server restart)
 mysql:

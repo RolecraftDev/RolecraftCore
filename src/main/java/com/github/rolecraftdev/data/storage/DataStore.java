@@ -458,6 +458,7 @@ public abstract class DataStore {
     public void requestPlayerData(final PlayerData callback) {
         final String uuid = callback.getPlayerId().toString();
         final String name = callback.getPlayerName();
+        final float originalSin = parent.getOriginalSin();
         new BukkitRunnable() {
             @SuppressWarnings("deprecation")
             @Override
@@ -483,7 +484,7 @@ public abstract class DataStore {
                                 + " (uuid, name) VALUES (?,?)");
                         ps.setString(1, uuid);
                         ps.setString(2, name);
-                        callback.initialise(null, null, 0, 0f, 0f);
+                        callback.initialise(null, null, 0, 0f, -originalSin);
                     }
     
                 } catch (SQLException ex) {

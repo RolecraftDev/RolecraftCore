@@ -101,6 +101,11 @@ public final class RolecraftCore extends AlbPlugin {
      * Whether the SQL has finished loading
      */
     private volatile boolean sqlLoaded;
+    
+    /**
+     * The amount of negative karma a player starts with
+     */
+    private float originalSin;
 
     @Override
     public void onEnable() {
@@ -139,6 +144,8 @@ public final class RolecraftCore extends AlbPlugin {
                     "SQLServer in config was not one of: \"sqlite\" or \"mysql,\" defaulting to sqlite");
             dataStore = new SQLiteDataStore(this);
         }
+        
+        originalSin = (float) getConfig().getDouble("originalsin");
 
         // Log the data store we are using
         logger.info("Using " + dataStore.getStoreTypeName()
@@ -262,6 +269,10 @@ public final class RolecraftCore extends AlbPlugin {
      */
     public void setSqlLoaded(boolean loaded) {
         this.sqlLoaded = loaded;
+    }
+    
+    public float getOriginalSin() {
+        return originalSin;
     }
 
     /**
