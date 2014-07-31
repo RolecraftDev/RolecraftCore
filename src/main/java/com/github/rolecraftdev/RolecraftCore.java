@@ -95,7 +95,7 @@ public final class RolecraftCore extends AlbPlugin {
      * which needs confirming
      */
     private RCConfirmCommand confirmCommand;
-    
+
     /**
      * Whether the SQL has finished loading
      */
@@ -108,12 +108,10 @@ public final class RolecraftCore extends AlbPlugin {
         logger = getLogger();
 
         // Check for Vault to decide whether to enable economy support
-        if (getServer().getPluginManager().isPluginEnabled("Vault")) {
-            final RegisteredServiceProvider<Economy> rsp = getServer()
-                    .getServicesManager().getRegistration(Economy.class);
-            if (rsp == null) {
-                useEconomy = false;
-            } else {
+        if (pluginMgr.isPluginEnabled("Vault")) {
+            final RegisteredServiceProvider<Economy> rsp = servicesMgr
+                    .getRegistration(Economy.class);
+            if (rsp != null) {
                 economy = rsp.getProvider();
                 useEconomy = economy != null;
             }
@@ -124,7 +122,7 @@ public final class RolecraftCore extends AlbPlugin {
         }
 
         // Get options from the config
-        
+
         createDefaultConfiguration("config.yml");
         final FileConfiguration config = getConfig();
         final String dbType = config.getString("sqlserver").toLowerCase();
@@ -135,7 +133,8 @@ public final class RolecraftCore extends AlbPlugin {
         } else if (dbType.equals("mysql")) {
             dataStore = new MySQLDataStore(this);
         } else {
-            getLogger().warning("SQLServer in config was not one of: \"sqlite\" or \"mysql,\" defaulting to sqlite");
+            getLogger().warning(
+                    "SQLServer in config was not one of: \"sqlite\" or \"mysql,\" defaulting to sqlite");
             dataStore = new SQLiteDataStore(this);
         }
 
@@ -226,17 +225,17 @@ public final class RolecraftCore extends AlbPlugin {
     public RCConfirmCommand getConfirmCommand() {
         return confirmCommand;
     }
-    
+
     public QuestManager getQuestManager() {
         return questManager;
     }
-    
-    public boolean isSqlLoaded () {
-    	return sqlLoaded;
+
+    public boolean isSqlLoaded() {
+        return sqlLoaded;
     }
-    
+
     public void setSqlLoaded(boolean loaded) {
-    	this.sqlLoaded = loaded;
+        this.sqlLoaded = loaded;
     }
 
     public void setConfirmCommand(final RCConfirmCommand confirmCommand) {
@@ -249,10 +248,10 @@ public final class RolecraftCore extends AlbPlugin {
 
         this.confirmCommand = confirmCommand;
     }
-    
+
     /**
      * Used instead of {@link JavaPlugin#saveDefaultConfig()} as it will copy comments as well
-     * 
+     *
      * @param name
      */
     public void createDefaultConfiguration(String name) {
@@ -278,14 +277,18 @@ public final class RolecraftCore extends AlbPlugin {
                     e.printStackTrace();
                 } finally {
                     try {
-                        if (input != null)
+                        if (input != null) {
                             input.close();
-                    } catch (IOException e) {}
+                        }
+                    } catch (IOException e) {
+                    }
 
                     try {
-                        if (output != null)
+                        if (output != null) {
                             output.close();
-                    } catch (IOException e) {}
+                        }
+                    } catch (IOException e) {
+                    }
                 }
             }
         }
