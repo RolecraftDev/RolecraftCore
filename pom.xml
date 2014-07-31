@@ -58,16 +58,16 @@
         <sourceDirectory>src/main/java</sourceDirectory>
         <resources>
             <resource>
-             <targetPath>.</targetPath>
-             <filtering>true</filtering>
-             <directory>${basedir}/src/main/resources/</directory>
-             <includes>
-                 <include>config.yml</include>
-                 <include>plugin.yml</include>
-                 <include>guildconfig.yml</include>
-             </includes>
+                <targetPath>.</targetPath>
+                <filtering>true</filtering>
+                <directory>${basedir}/src/main/resources/</directory>
+                <includes>
+                    <include>config.yml</include>
+                    <include>plugin.yml</include>
+                    <include>guildconfig.yml</include>
+                </includes>
             </resource>
-        </resources>  
+        </resources>
         <plugins>
             <plugin>
                 <artifactId>maven-compiler-plugin</artifactId>
@@ -84,6 +84,14 @@
                         <goals>
                             <goal>shade</goal>
                         </goals>
+                        <configuration>
+                            <relocations>
+                                <relocation>
+                                    <pattern>pw.ian.albkit</pattern>
+                                    <shadedPattern>com.github.rolecraftdev.albkit</shadedPattern>
+                                </relocation>
+                            </relocations>
+                        </configuration>
                     </execution>
                 </executions>
                 <configuration>
@@ -103,10 +111,8 @@
                         <configuration>
                             <properties>
                                 <url>${project.organization.url}</url>
-                                <inceptionYear>${project.inceptionYear}
-                                </inceptionYear>
-                                <organization>${project.organization.name}
-                                </organization>
+                                <inceptionYear>${project.inceptionYear}</inceptionYear>
+                                <organization>${project.organization.name}</organization>
                             </properties>
                             <quiet>true</quiet>
                             <encoding>UTF-8</encoding>
