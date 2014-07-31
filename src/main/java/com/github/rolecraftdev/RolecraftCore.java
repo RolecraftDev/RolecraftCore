@@ -118,6 +118,7 @@ public final class RolecraftCore extends AlbPlugin {
         }
 
         if (!useEconomy) {
+            // Warn the admin that no economy was found
             logger.warning("Couldn't find Vault, disabling economy support");
         }
 
@@ -133,7 +134,7 @@ public final class RolecraftCore extends AlbPlugin {
         } else if (dbType.equals("mysql")) {
             dataStore = new MySQLDataStore(this);
         } else {
-            getLogger().warning(
+            logger.warning(
                     "SQLServer in config was not one of: \"sqlite\" or \"mysql,\" defaulting to sqlite");
             dataStore = new SQLiteDataStore(this);
         }
@@ -142,7 +143,7 @@ public final class RolecraftCore extends AlbPlugin {
         logger.info("Using " + dataStore.getStoreTypeName()
                 + " for Rolecraft data!");
 
-        // Create all the manager objects
+        // Create all the manager objects / load data
         dataManager = new DataManager(this);
         guildManager = new GuildManager(this);
         questManager = new QuestManager(this);
@@ -205,9 +206,9 @@ public final class RolecraftCore extends AlbPlugin {
     }
 
     /**
-     * Gets the Vault Economy object.
+     * Gets the Vault {@link Economy} object in use.
      *
-     * @return The used Vault Economy object
+     * @return The used Vault {@link Economy} object used by Rolecraft
      */
     public Economy getEconomy() {
         return economy;
@@ -222,22 +223,51 @@ public final class RolecraftCore extends AlbPlugin {
         return useEconomy;
     }
 
+    /**
+     * Gets the instance of the {@link RCConfirmCommand} object used for
+     * confirmation of sensitive actions, such as disbanding a guild
+     *
+     * @return The instance of the {@link RCConfirmCommand}
+     */
     public RCConfirmCommand getConfirmCommand() {
         return confirmCommand;
     }
 
+    /**
+     * Gets the Rolecraft {@link QuestManager}, which keeps track of all loaded
+     * quests
+     *
+     * @return The instance of Rolecraft's {@link QuestManager}
+     */
     public QuestManager getQuestManager() {
         return questManager;
     }
 
+    /**
+     * Checks whether SQL is fully loaded
+     *
+     * @return True if SQL is fully loaded, otherwise false
+     */
     public boolean isSqlLoaded() {
         return sqlLoaded;
     }
 
+    /**
+     * Sets whether SQL has finished loading. Should only be called in
+     * {@link DataStore} implementations
+     *
+     * @param loaded Whether SQL has finished loading
+     */
     public void setSqlLoaded(boolean loaded) {
         this.sqlLoaded = loaded;
     }
 
+    /**
+     * Sets the {@link RCConfirmCommand} instance used for confirming sensitive
+     * actions
+     *
+     * @param confirmCommand The {@link RCConfirmCommand} instance to use
+     */
     public void setConfirmCommand(final RCConfirmCommand confirmCommand) {
         if (!isEnabled()) {
             throw new IllegalStateException();
@@ -250,9 +280,10 @@ public final class RolecraftCore extends AlbPlugin {
     }
 
     /**
-     * Used instead of {@link JavaPlugin#saveDefaultConfig()} as it will copy comments as well
+     * Used instead of {@link JavaPlugin#saveDefaultConfig()} as it will copy
+     * comments as well
      *
-     * @param name
+     * @param name The name of the config file to create the default for
      */
     public void createDefaultConfiguration(String name) {
         final File actual = new File(getDataFolder(), name);
