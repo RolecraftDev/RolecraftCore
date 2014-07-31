@@ -32,6 +32,7 @@ import pw.ian.albkit.command.parser.Arguments;
 import com.github.rolecraftdev.RolecraftCore;
 import com.github.rolecraftdev.command.CommandHelper;
 import com.github.rolecraftdev.event.guild.GuildRankCreateEvent;
+import com.github.rolecraftdev.event.guild.GuildRankModifyEvent;
 import com.github.rolecraftdev.event.guild.GuildRankRemoveEvent;
 import com.github.rolecraftdev.guild.Guild;
 import com.github.rolecraftdev.guild.GuildAction;
@@ -143,8 +144,9 @@ public class GuildRankCommand extends PlayerCommandHandler {
 
             final String permission = args.getArgument(3).rawString()
                     .toLowerCase();
-            final String value = args.getArgument(4).rawString().toLowerCase();
             final GuildAction perm = GuildAction.fromHumanReadable(permission);
+
+            String value = args.getArgument(4).rawString().toLowerCase();
 
             if (perm == null) { // The entered permission doesn't exist
                 player.sendMessage(ChatColor.DARK_RED +
@@ -152,15 +154,28 @@ public class GuildRankCommand extends PlayerCommandHandler {
                 return;
             }
 
-            if (value.equals("yes") || value.equals("y") || value
-                    .equals("true")) {
+            final boolean allow = value.equals("yes") || value.equals("y")
+                    || value.equals("true");
+            final boolean disallow = value.equals("no") || value.equals("n")
+                    || value.equals("false");
+            final boolean valid = allow || disallow;
+
+            if (!valid) {
+                // Value isn't valid
+                player.sendMessage(ChatColor.DARK_RED + value +
+                        " isn't a valid value!");
+                return;
+            }
+
+            if (allow) {
+                value = "true";
                 // Set the value of the permission to true
                 rank.allowAction(perm);
                 player.sendMessage(ChatColor.GRAY +
                         "Set value for permission " + permission
                         + " to yes for rank" + rank.getName());
-            } else if (value.equals("no") || value.equals("n") || value
-                    .equals("false")) {
+            } else if (disallow) {
+                value = "false";
                 // Leader must always have all permissions
                 if (rank.getName().equals("Leader")) {
                     player.sendMessage(ChatColor.DARK_RED
@@ -173,11 +188,11 @@ public class GuildRankCommand extends PlayerCommandHandler {
                 player.sendMessage(ChatColor.GRAY +
                         "Set value for permission " + permission
                         + " to no for rank " + rank.getName());
-            } else {
-                // Value isn't valid
-                player.sendMessage(ChatColor.DARK_RED + value +
-                        " isn't a valid value!");
             }
+
+            plugin.getServer().getPluginManager().callEvent(
+                    new GuildRankModifyEvent(plugin, guild, rank, perm,
+                            Boolean.parseBoolean(value)));
 
             return;
         }
