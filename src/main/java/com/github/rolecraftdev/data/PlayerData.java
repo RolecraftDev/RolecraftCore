@@ -36,7 +36,7 @@ import java.util.UUID;
 public final class PlayerData {
     /**
      * The unique ID of the player this object holds data for
-     */    
+     */
     private final UUID playerId;
     /**
      * The username of the player this object holds data for
