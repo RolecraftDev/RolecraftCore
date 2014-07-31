@@ -325,6 +325,7 @@ public final class PlayerData {
         this.profession = null;
         this.influence = 0;
         this.experience = 0;
+        this.karma = 0;
 
         unloading = false;
     }
