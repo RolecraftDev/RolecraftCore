@@ -271,11 +271,7 @@ public final class PlayerData {
      * @param influence The amount of influence to add
      */
     public void addInfluence(final int influence) {
-        if (loaded) {
-            if (!unloading) {
-                this.influence += influence;
-            }
-        }
+        setInfluence(getInfluence() + influence);
     }
 
     /**
@@ -284,11 +280,7 @@ public final class PlayerData {
      * @param influence The amount of influence to subtract
      */
     public void subtractInfluence(final int influence) {
-        if (loaded) {
-            if (!unloading) {
-                this.influence -= influence;
-            }
-        }
+        setInfluence(getInfluence() - influence);
     }
 
     /**
@@ -310,11 +302,7 @@ public final class PlayerData {
      * @param amount The amount of experience to add
      */
     public void addExperience(final float amount) {
-        if (loaded) {
-            if (!unloading) {
-                experience += amount;
-            }
-        }
+        setExperience(getExperience() + amount);
     }
 
     /**
@@ -323,11 +311,7 @@ public final class PlayerData {
      * @param amount The amount of experience to subtract
      */
     public void subtractExperience(final float amount) {
-        if (loaded) {
-            if (!unloading) {
-                experience -= amount;
-            }
-        }
+        setExperience(getExperience() - amount);
     }
 
     /**
