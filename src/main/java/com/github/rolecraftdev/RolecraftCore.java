@@ -270,8 +270,7 @@ public final class RolecraftCore extends AlbPlugin {
                         output.write(buf, 0, length);
                     }
 
-                    getLogger().info(
-                            "Default configuration file written: " + name);
+                    logger.info("Default configuration file written: " + name);
                 } catch (final IOException e) {
                     e.printStackTrace();
                 } finally {
