@@ -26,7 +26,10 @@
  */
 package com.github.rolecraftdev.data;
 
+import com.github.rolecraftdev.RolecraftCore;
 import com.github.rolecraftdev.util.LevelUtil;
+
+import org.bukkit.Bukkit;
 
 import java.util.HashMap;
 import java.util.Map;
@@ -398,15 +401,17 @@ public final class PlayerData {
     @Deprecated
     public void initialise(final UUID guild, final UUID profession,
             final int influence, final float exp, final float karma,
-            Map<UUID, String> progression) {
+            final Map<UUID, String> progression) {
         this.guild = guild;
         this.profession = profession;
         this.influence = influence;
         this.experience = exp;
         this.karma = karma;
-
-        //TODO: something with progression
+        this.questProgression = progression;
 
         loaded = true;
+
+        ((RolecraftCore) Bukkit.getPluginManager().getPlugin("RolecraftCore"))
+                .getQuestManager().loadPlayerQuests(this);
     }
 }

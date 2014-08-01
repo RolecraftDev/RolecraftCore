@@ -58,14 +58,15 @@ public final class Quest {
         currentObjectiveIds = new ArrayList<Integer>();
     }
 
-    public Quest(final QuestOutline outline, final UUID questId,
-            final UUID quester, final List<QuestObjective> objectives,
+    public Quest(final QuestOutline outline, final UUID quester,
+            final List<QuestObjective> objectives,
             final List<Integer> currentObjectiveIds) {
         this.outline = outline;
-        this.questId = questId;
         this.quester = quester;
         this.objectives = objectives;
         this.currentObjectiveIds = currentObjectiveIds;
+
+        questId = UUID.randomUUID();
     }
 
     public void objectiveComplete(final QuestObjective objective,

@@ -27,7 +27,17 @@
 package com.github.rolecraftdev.util;
 
 import com.github.rolecraftdev.quest.Quest;
+import com.github.rolecraftdev.quest.QuestManager;
+import com.github.rolecraftdev.quest.loading.outline.ObjectiveResultOutline;
+import com.github.rolecraftdev.quest.loading.outline.QuestObjectiveOutline;
+import com.github.rolecraftdev.quest.loading.outline.QuestOutline;
+import com.github.rolecraftdev.quest.objective.ObjectiveResult;
+import com.github.rolecraftdev.quest.objective.ObjectiveType;
 import com.github.rolecraftdev.quest.objective.QuestObjective;
+
+import java.util.ArrayList;
+import java.util.List;
+import java.util.UUID;
 
 public class QuestProgressionSerializer {
     public static String serializeProgression(final Quest quest) {
@@ -40,5 +50,51 @@ public class QuestProgressionSerializer {
             builder.setLength(builder.length() - 1);
         }
         return builder.toString();
+    }
+
+    public static Quest getQuest(final QuestManager questMgr,
+            final String serializedProgression, final String quest,
+            final UUID player) {
+        final String[] split = serializedProgression.split(",");
+        final int[][] data = new int[split.length][2];
+        for (int i = 0; i < split.length; i++) {
+            final String objective = split[i];
+            final String[] split2 = objective.split(":");
+            data[i][0] = Integer.parseInt(split2[0]);
+            data[i][1] = Integer.parseInt(split2[1]);
+        }
+
+        final QuestOutline outline = questMgr.getLoader()
+                .getQuestOutline(quest);
+        final List<QuestObjective> objectives = new ArrayList<QuestObjective>();
+        for (int i = 0; i < outline.getObjectives().size(); i++) {
+            final QuestObjectiveOutline objectiveOutline = outline
+                    .getObjectives().get(i);
+            final ObjectiveType objectiveType = questMgr.getObjectiveType(
+                    objectiveOutline.getTypeName());
+            final List<ObjectiveResult> results = new ArrayList<ObjectiveResult>();
+            for (final ObjectiveResultOutline resultOutline : objectiveOutline
+                    .getResults()) {
+                results.add(new ObjectiveResult(resultOutline, objectiveType));
+            }
+            objectives.add(new QuestObjective(objectiveOutline, objectiveType,
+                    results.toArray(new ObjectiveResult[results.size()]),
+                    data[i][1]));
+        }
+
+        final List<Integer> curObjectives = new ArrayList<Integer>();
+        for (final int[] curObjective : data) {
+            curObjectives.add(curObjective[0]);
+        }
+
+        final Quest retVal = new Quest(outline, player, objectives,
+                curObjectives);
+        for (final QuestObjective objective : objectives) {
+            for (final ObjectiveResult result : objective.getResults()) {
+                result.setQuest(retVal);
+            }
+        }
+
+        return retVal;
     }
 }

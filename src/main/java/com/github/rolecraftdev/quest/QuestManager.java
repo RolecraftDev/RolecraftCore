@@ -27,6 +27,7 @@
 package com.github.rolecraftdev.quest;
 
 import com.github.rolecraftdev.RolecraftCore;
+import com.github.rolecraftdev.data.PlayerData;
 import com.github.rolecraftdev.quest.loading.QuestLoader;
 import com.github.rolecraftdev.quest.loading.exception.InvalidObjectiveException;
 import com.github.rolecraftdev.quest.loading.exception.InvalidQuestException;
@@ -71,6 +72,10 @@ public final class QuestManager {
                 .registerEvents(new QuestListener(plugin), plugin);
     }
 
+    public QuestLoader getLoader() {
+        return loader;
+    }
+
     public void addQuest(final Quest quest) {
         currentQuests.put(quest.getQuestId(), quest);
     }
@@ -99,6 +104,10 @@ public final class QuestManager {
 
     public Set<UUID> getIds() {
         return currentQuests.keySet();
+    }
+
+    public void loadPlayerQuests(final PlayerData data) {
+
     }
 
     public Quest createQuest(final String quest, final UUID player) {
