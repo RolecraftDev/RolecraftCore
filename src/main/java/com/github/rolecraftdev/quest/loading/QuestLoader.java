@@ -20,8 +20,21 @@ public final class QuestLoader {
     private final Set<QuestOutline> questOutlines;
 
     public QuestLoader(final File directory) {
+        if (directory == null) {
+            throw new IllegalArgumentException();
+        }
+
         this.directory = directory;
         questOutlines = new HashSet<QuestOutline>();
+    }
+
+    public QuestOutline getQuestOutline(final String name) {
+        for (final QuestOutline outline : questOutlines) {
+            if (outline.getName().equalsIgnoreCase(name)) {
+                return outline;
+            }
+        }
+        return null;
     }
 
     public void loadQuestOutlines()

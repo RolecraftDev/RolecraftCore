@@ -27,7 +27,11 @@
 package com.github.rolecraftdev.quest;
 
 import com.github.rolecraftdev.RolecraftCore;
+import com.github.rolecraftdev.quest.loading.QuestLoader;
+import com.github.rolecraftdev.quest.loading.exception.InvalidObjectiveException;
+import com.github.rolecraftdev.quest.loading.exception.InvalidQuestException;
 
+import java.io.File;
 import java.util.HashMap;
 import java.util.Map;
 import java.util.UUID;
@@ -38,10 +42,20 @@ import java.util.UUID;
 public final class QuestManager {
     private final RolecraftCore plugin;
     private final Map<UUID, Quest> currentQuests;
+    private final QuestLoader loader;
 
     public QuestManager(final RolecraftCore plugin) {
         this.plugin = plugin;
         currentQuests = new HashMap<UUID, Quest>();
+        loader = new QuestLoader(new File(plugin.getDataFolder(), "quests"));
+
+        try {
+            loader.loadQuestOutlines();
+        } catch (InvalidQuestException e) {
+            e.printStackTrace();
+        } catch (InvalidObjectiveException e) {
+            e.printStackTrace();
+        }
 
         plugin.getServer().getPluginManager()
                 .registerEvents(new QuestListener(plugin), plugin);
