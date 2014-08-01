@@ -97,7 +97,7 @@ public final class Quest implements Serializable {
     public List<QuestObjective> getCurrentObjectives() {
         final List<QuestObjective> results = new ArrayList<QuestObjective>();
         for (final QuestObjective objective : objectives) {
-            if (currentObjectiveIds.contains(objective.getId())) {
+            if (currentObjectiveIds.contains(objective.getOutline().getId())) {
                 results.add(objective);
             }
         }
