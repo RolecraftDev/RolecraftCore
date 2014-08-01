@@ -30,6 +30,10 @@ import com.github.rolecraftdev.quest.loading.outline.QuestOutline;
 import com.github.rolecraftdev.quest.objective.ObjectiveResult;
 import com.github.rolecraftdev.quest.objective.QuestObjective;
 
+import org.bukkit.Bukkit;
+import org.bukkit.ChatColor;
+import org.bukkit.entity.Player;
+
 import java.io.Serializable;
 import java.util.ArrayList;
 import java.util.List;
@@ -67,11 +71,24 @@ public final class Quest implements Serializable {
 
     public void objectiveComplete(final QuestObjective objective,
             final ObjectiveResult result) {
-        // TODO: Here, we need to update the current objectives based on the
-        // result, as well as check whether the quest has finished (if so, we
-        // need to end the quest and reward the player) and notify the player
-        // that they finished the objective. We also need to tell them their
-        // next objective, if applicable
+        final Player player = Bukkit.getPlayer(quester);
+        player.sendMessage(ChatColor.GOLD + "You completed your objective: "
+                + objective.getOutline().getDescription().get(0));
+        currentObjectiveIds.remove(objective.getOutline().getId());
+
+        final int outcome = result.getOutline().getOutcome();
+        if (outcome == -1) {
+            player.sendMessage(ChatColor.GOLD + "Quest complete: " +
+                    objective.getQuest().getOutline().getName());
+        } else {
+            for (final QuestObjective next : objectives) {
+                if (next.getOutline().getId() == outcome) {
+                    currentObjectiveIds.add(next.getOutline().getId());
+                    player.sendMessage(ChatColor.GOLD + "New objective: " + next
+                            .getOutline().getDescription().get(0));
+                }
+            }
+        }
     }
 
     public QuestOutline getOutline() {
