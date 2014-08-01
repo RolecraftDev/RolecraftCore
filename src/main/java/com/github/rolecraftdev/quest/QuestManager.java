@@ -32,10 +32,14 @@ import com.github.rolecraftdev.quest.loading.exception.InvalidObjectiveException
 import com.github.rolecraftdev.quest.loading.exception.InvalidQuestException;
 
 import java.io.File;
+
 import java.util.HashMap;
 import java.util.Map;
 import java.util.Set;
 import java.util.UUID;
+
+import java.util.*;
+
 
 /**
  * Handles quests in Rolecraft.
@@ -68,6 +72,16 @@ public final class QuestManager {
 
     public Quest getQuest(final UUID id) {
         return currentQuests.get(id);
+    }
+
+    public Set<Quest> getPlayerQuests(final UUID playerId) {
+        final Set<Quest> quests = new HashSet<Quest>();
+        for (final Quest quest : currentQuests.values()) {
+            if (quest.getQuester().equals(playerId)) {
+                quests.add(quest);
+            }
+        }
+        return quests;
     }
 
     public void removeQuest(final UUID id) {
