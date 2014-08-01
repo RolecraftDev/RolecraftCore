@@ -161,16 +161,16 @@ public final class CommandHelper {
      * as to each command's functionality. The page of subcommands is taken from
      * the arguments if any are provided.
      *
-     * @param sender      - The {@link CommandSender} to send the help messages to
-     * @param commands    - A {@link List} of sub-commands, used for sending
-     *                    help to the {@link CommandSender}
-     * @param args        - The arguments provided by the user to request for help. For
-     *                    example, if the user would've typed /command help 1, the
-     *                    arguments would be { "help", "1" }
-     * @param startIndex  - The first index in {@code args} which can be
-     *                    used as a page number for this method. For example, in
-     *                    the array { "help", "1" }, this would be 1, as "help" is an
-     *                    argument which was parsed by the {@link CommandExecutor}
+     * @param sender     - The {@link CommandSender} to send the help messages to
+     * @param commands   - A {@link List} of sub-commands, used for sending
+     *                   help to the {@link CommandSender}
+     * @param args       - The arguments provided by the user to request for help. For
+     *                   example, if the user would've typed /command help 1, the
+     *                   arguments would be { "help", "1" }
+     * @param startIndex - The first index in {@code args} which can be
+     *                   used as a page number for this method. For example, in
+     *                   the array { "help", "1" }, this would be 1, as "help" is an
+     *                   argument which was parsed by the {@link CommandExecutor}
      */
     public static void displayCommandList(final CommandSender sender,
             final List<CommandHandler> commands, final String[] args,

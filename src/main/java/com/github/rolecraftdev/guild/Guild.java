@@ -332,7 +332,7 @@ public final class Guild {
         if (!members.contains(leader)) {
             members.add(leader);
         }
-        
+
         this.leader = leader;
         LEADER.addMember(leader);
         guildManager.getPlugin().getDataStore().updateGuildData(this);
@@ -371,8 +371,9 @@ public final class Guild {
      */
     public boolean removeRank(final GuildRank rank) {
         final String name = rank.getName().toLowerCase();
-        boolean retVal = !(name.equals("leader") || name.equals("default")) && ranks
-                .remove(rank);
+        boolean retVal =
+                !(name.equals("leader") || name.equals("default")) && ranks
+                        .remove(rank);
         guildManager.getPlugin().getDataStore().updateGuildRanks(this);
         return retVal;
     }

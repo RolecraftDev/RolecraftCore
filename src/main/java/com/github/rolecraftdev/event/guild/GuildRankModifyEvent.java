@@ -85,7 +85,7 @@ public class GuildRankModifyEvent extends GuildEvent {
      * Gets whether the {@link GuildAction} is being allowed or disallowed
      *
      * @return True if the action is being allowed, false if it is being
-     *         disallowed
+     * disallowed
      */
     public boolean getValue() {
         return value;

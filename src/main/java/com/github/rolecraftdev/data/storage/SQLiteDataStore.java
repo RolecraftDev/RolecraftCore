@@ -28,17 +28,12 @@ package com.github.rolecraftdev.data.storage;
 
 import com.github.rolecraftdev.RolecraftCore;
 import com.github.rolecraftdev.data.PlayerData;
-import com.github.rolecraftdev.guild.Guild;
 
 import org.bukkit.scheduler.BukkitRunnable;
 
 import java.io.File;
 import java.io.IOException;
-import java.sql.Connection;
-import java.sql.DriverManager;
-import java.sql.PreparedStatement;
-import java.sql.ResultSet;
-import java.sql.SQLException;
+import java.sql.*;
 import java.util.logging.Level;
 
 public final class SQLiteDataStore extends DataStore {
@@ -48,27 +43,29 @@ public final class SQLiteDataStore extends DataStore {
     public SQLiteDataStore(RolecraftCore parent) {
         super(parent);
     }
-    
+
     public static final String dbname = "rolecraft";
 
-    private static final String createPlayerTable = "CREATE TABLE IF NOT EXISTS " + pt + " ("
-            + "uuid VARCHAR(37) PRIMARY KEY ON CONFLICT REPLACE,"
-            + "lastname VARCHAR(16) NOT NULL ON CONFLICT FAIL,"
-            + "guild REFERENCES "+ gt + "(uuid) ON DELETE SET NULL,"
-            + "exp REAL DEFAULT 0,"
-            + "profession VARCHAR (37) DEFAULT NULL,"
-            + "influence INTEGER DEFAULT 0,"
-            + "karma REAL DEFAULT 0" + ")";
+    private static final String createPlayerTable =
+            "CREATE TABLE IF NOT EXISTS " + pt + " ("
+                    + "uuid VARCHAR(37) PRIMARY KEY ON CONFLICT REPLACE,"
+                    + "lastname VARCHAR(16) NOT NULL ON CONFLICT FAIL,"
+                    + "guild REFERENCES " + gt + "(uuid) ON DELETE SET NULL,"
+                    + "exp REAL DEFAULT 0,"
+                    + "profession VARCHAR (37) DEFAULT NULL,"
+                    + "influence INTEGER DEFAULT 0,"
+                    + "karma REAL DEFAULT 0" + ")";
 
-    private static final String createGuildTable = "CREATE TABLE IF NOT EXISTS "+ gt + " ("
-            + "uuid VARCHAR(37) PRIMARY KEY ON CONFLICT FAIL,"
-            + "name VARCHAR (50),"
-            + "leader VARCHAR(37),"
-            + "members TEXT,"
-            + "ranks TEXT,"
-            + "home VARCHAR(150),"
-            + "hall VARCHAR(100),"
-            + "influence INTEGER DEFAULT 0" + ")";
+    private static final String createGuildTable =
+            "CREATE TABLE IF NOT EXISTS " + gt + " ("
+                    + "uuid VARCHAR(37) PRIMARY KEY ON CONFLICT FAIL,"
+                    + "name VARCHAR (50),"
+                    + "leader VARCHAR(37),"
+                    + "members TEXT,"
+                    + "ranks TEXT,"
+                    + "home VARCHAR(150),"
+                    + "hall VARCHAR(100),"
+                    + "influence INTEGER DEFAULT 0" + ")";
 
     @Override
     public void intialise() {
@@ -99,25 +96,28 @@ public final class SQLiteDataStore extends DataStore {
 
     @Override
     protected Connection getConnection() {
-        File dataFile = new File(getParent().getDataFolder(), dbname+".db");
-        if (!dataFile.exists()){
+        File dataFile = new File(getParent().getDataFolder(), dbname + ".db");
+        if (!dataFile.exists()) {
             try {
                 dataFile.createNewFile();
             } catch (IOException e) {
-                getParent().getLogger().log(Level.SEVERE, "File write error: "+dbname+".db");
+                getParent().getLogger().log(Level.SEVERE,
+                        "File write error: " + dbname + ".db");
             }
         }
         try {
-            if(connection!=null&&!connection.isClosed()){
+            if (connection != null && !connection.isClosed()) {
                 return connection;
             }
-            Class.forName("org.sqlite.JDBC");            
+            Class.forName("org.sqlite.JDBC");
             connection = DriverManager.getConnection("jdbc:sqlite:" + dataFile);
             return connection;
         } catch (SQLException ex) {
-            getParent().getLogger().log(Level.SEVERE,"SQLite exception on initialize", ex);
+            getParent().getLogger()
+                    .log(Level.SEVERE, "SQLite exception on initialize", ex);
         } catch (ClassNotFoundException ex) {
-            getParent().getLogger().log(Level.SEVERE, "CraftBukkit build error");
+            getParent().getLogger()
+                    .log(Level.SEVERE, "CraftBukkit build error");
         }
         return null;
     }
@@ -130,7 +130,7 @@ public final class SQLiteDataStore extends DataStore {
 
     /**
      * Do not pull up
-     * 
+     *
      * @see com.github.rolecraftdev.data.storage.DataStore#clearPlayerData(com.github.rolecraftdev.data.PlayerData)
      */
     @Override

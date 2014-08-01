@@ -203,8 +203,9 @@ public final class GuildRank {
             actions.add(GuildAction.values()[actionValue]);
         }
         for (String member : data[2].split("#")) {
-            if(!member.equals("") && member != null)
+            if (!member.equals("") && member != null) {
                 members.add(UUID.fromString(member));
+            }
         }
 
         return new GuildRank(data[0], actions, members);
