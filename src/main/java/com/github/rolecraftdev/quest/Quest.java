@@ -29,6 +29,7 @@ package com.github.rolecraftdev.quest;
 import com.github.rolecraftdev.quest.objective.ObjectiveResult;
 import com.github.rolecraftdev.quest.objective.QuestObjective;
 
+import java.io.Serializable;
 import java.util.ArrayList;
 import java.util.List;
 import java.util.UUID;
@@ -36,7 +37,7 @@ import java.util.UUID;
 /**
  * Represents a quest in Rolecraft.
  */
-public final class Quest {
+public final class Quest implements Serializable {
     private final UUID questId;
     private final UUID quester;
     private final String name;

@@ -1,7 +1,9 @@
 package com.github.rolecraftdev.quest.objective;
 
-public interface ObjectiveType {
-    ObjectiveResult getCompleted(ObjectiveResult[] results, Object value);
+import java.io.Serializable;
+
+public interface ObjectiveType extends Serializable {
+    ObjectiveResult getCompleted(ObjectiveResult[] results, Serializable value);
 
     String getTypeName();
 }

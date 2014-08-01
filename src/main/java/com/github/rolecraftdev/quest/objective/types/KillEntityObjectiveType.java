@@ -3,6 +3,8 @@ package com.github.rolecraftdev.quest.objective.types;
 import com.github.rolecraftdev.quest.objective.ObjectiveResult;
 import com.github.rolecraftdev.quest.objective.ObjectiveType;
 
+import java.io.Serializable;
+
 /**
  * A type of quest objective which requires killing a certain amount of
  * entities
@@ -10,7 +12,7 @@ import com.github.rolecraftdev.quest.objective.ObjectiveType;
 public class KillEntityObjectiveType implements ObjectiveType {
     @Override
     public ObjectiveResult getCompleted(final ObjectiveResult[] results,
-            final Object value) {
+            final Serializable value) {
         if (!(value instanceof Number)) {
             throw new IllegalArgumentException();
         }

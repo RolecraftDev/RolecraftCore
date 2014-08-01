@@ -2,10 +2,11 @@ package com.github.rolecraftdev.quest.objective;
 
 import com.github.rolecraftdev.quest.Quest;
 
+import java.io.Serializable;
 import java.util.Arrays;
 import java.util.List;
 
-public class QuestObjective {
+public class QuestObjective implements Serializable {
     /**
      * The identifier of this objective. Should be unique within the quest the
      * objective is a part of

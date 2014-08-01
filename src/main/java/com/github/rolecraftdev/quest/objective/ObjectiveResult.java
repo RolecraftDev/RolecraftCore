@@ -2,7 +2,9 @@ package com.github.rolecraftdev.quest.objective;
 
 import com.github.rolecraftdev.quest.Quest;
 
-public class ObjectiveResult {
+import java.io.Serializable;
+
+public class ObjectiveResult implements Serializable {
     /**
      * The quest this result's objective is part of
      */
