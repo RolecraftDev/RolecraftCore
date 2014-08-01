@@ -96,6 +96,13 @@ public final class RolecraftCore extends AlbPlugin {
      * which needs confirming
      */
     private RCConfirmCommand confirmCommand;
+
+    // Configuration options
+
+    /**
+     * The name of the data store type being used
+     */
+    private String dbType;
     /**
      * The amount of negative karma a player starts with
      */
@@ -131,7 +138,9 @@ public final class RolecraftCore extends AlbPlugin {
 
         createDefaultConfiguration("config.yml");
         final FileConfiguration config = getConfig();
-        final String dbType = config.getString("sqlserver").toLowerCase();
+
+        dbType = config.getString("sqlserver").toLowerCase();
+        originalSin = (float) config.getDouble("originalsin");
 
         // Set up the plugin's data store
         if (dbType.equals("sqlite")) {
@@ -140,15 +149,13 @@ public final class RolecraftCore extends AlbPlugin {
             dataStore = new MySQLDataStore(this);
         } else {
             logger.warning(
-                    "SQLServer in config was not one of: \"sqlite\" or \"mysql,\" defaulting to sqlite");
+                    "SQLServer in config was not one of: \"sqlite\" or \"mysql\", defaulting to sqlite");
             dataStore = new SQLiteDataStore(this);
         }
 
         // Log the data store we are using
         logger.info("Using " + dataStore.getStoreTypeName()
                 + " for Rolecraft data!");
-
-        originalSin = (float) getConfig().getDouble("originalsin");
 
         // Create all the manager objects / load data
         dataManager = new DataManager(this);
@@ -303,11 +310,11 @@ public final class RolecraftCore extends AlbPlugin {
      *
      * @param name The name of the config file to create the default for
      */
-    public void createDefaultConfiguration(String name) {
+    public void createDefaultConfiguration(final String name) {
         final File actual = new File(getDataFolder(), name);
         if (!actual.exists()) {
-            final InputStream input =
-                    this.getClass().getResourceAsStream("/" + name);
+            final InputStream input = getClass()
+                    .getResourceAsStream("/" + name);
             if (input != null) {
                 FileOutputStream output = null;
 

@@ -33,7 +33,14 @@ import org.bukkit.plugin.Plugin;
 import java.io.File;
 import java.io.IOException;
 
+/**
+ * A utility class for manipulation of a yaml file. Provides all the funcionality
+ * of {@link YamlConfiguration} but also makes usage of the file easier
+ */
 public class YamlFile extends YamlConfiguration {
+    /**
+     * The YML file for this YamlFile object
+     */
     private final File file;
 
     public YamlFile(final Plugin plugin, final String fileName,
@@ -54,6 +61,10 @@ public class YamlFile extends YamlConfiguration {
         return file;
     }
 
+    /**
+     * Reloads the yaml file without throwing an exception (any stack traces are
+     * printed)
+     */
     public void reload() {
         try {
             load(getFile());
@@ -64,6 +75,10 @@ public class YamlFile extends YamlConfiguration {
         }
     }
 
+    /**
+     * Saves the yaml file without throwing an exception (any stack traces are
+     * printed)
+     */
     public void save() {
         try {
             save(getFile());

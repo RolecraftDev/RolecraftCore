@@ -1,16 +1,15 @@
-#Rolecraft
+# Rolecraft - NO SETTINGS CAN BE CHANGED WITHOUT SERVER RESTART
 
-#The SQL driver to use, must either be SQLite or MySQL (cannot be changed without server restart)
+# The SQL driver to use, must either be SQLite or MySQL
 sqlserver: sqlite
 
-#Only needed if you're using RolecraftAfterlife (cannot be changed without server restart)
+# Only needed if you're using RolecraftAfterlife
 originalsin: 1000
 
-#Configuration for MySQL, can be ignored if using SQLite (cannot be changed without server restart)
+# Configuration for MySQL, can be ignored if using SQLite
 mysql:
-  username: 'user'
-  password: 'password'
-  address: 'localhost'
-  databasename: 'rolecraft'
-  port: 3306
-  
+    username: 'user'
+    password: 'password'
+    address: 'localhost'
+    databasename: 'rolecraft'
+    port: 3306

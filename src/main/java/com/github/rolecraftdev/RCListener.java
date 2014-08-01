@@ -48,6 +48,9 @@ import java.util.UUID;
  * objects when a player quits or joins, respectively.
  */
 public final class RCListener implements Listener {
+    /**
+     * The {@link RolecraftCore} plugin object
+     */
     private final RolecraftCore plugin;
 
     public RCListener(final RolecraftCore plugin) {
@@ -66,7 +69,7 @@ public final class RCListener implements Listener {
                 event.getPlayer().getUniqueId());
     }
 
-    @EventHandler(priority = EventPriority.MONITOR)
+    @EventHandler(priority = EventPriority.MONITOR, ignoreCancelled = true)
     public void onEntityDeath(final EntityDeathEvent event) {
         final Entity deadEntity = event.getEntity();
         final EntityDamageEvent dmg = deadEntity.getLastDamageCause();

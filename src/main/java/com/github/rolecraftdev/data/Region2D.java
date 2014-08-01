@@ -28,6 +28,9 @@ package com.github.rolecraftdev.data;
 
 import org.bukkit.Location;
 
+/**
+ * Represents a 2D region, used for storing data in SQL
+ */
 public class Region2D {
     private final int minX, minZ;
     private final int maxX, maxZ;

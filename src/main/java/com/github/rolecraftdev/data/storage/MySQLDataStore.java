@@ -29,92 +29,116 @@ package com.github.rolecraftdev.data.storage;
 import com.github.rolecraftdev.RolecraftCore;
 import com.github.rolecraftdev.data.PlayerData;
 
-import java.sql.Connection;
-import java.sql.DriverManager;
-import java.sql.PreparedStatement;
-import java.sql.ResultSet;
-import java.sql.SQLException;
+import org.bukkit.scheduler.BukkitRunnable;
+
+import java.sql.*;
 import java.util.AbstractMap.SimpleEntry;
 import java.util.Iterator;
 import java.util.Map.Entry;
 import java.util.concurrent.ConcurrentHashMap;
 
-import org.bukkit.scheduler.BukkitRunnable;
-
 public final class MySQLDataStore extends DataStore {
-    
-    private final String password;
+    /**
+     * The username for the MySQL database
+     */
     private final String user;
+    /**
+     * The password for the MySQL database
+     */
+    private final String password;
+    /**
+     * The port used for connections to the MySQL database
+     */
     private final int port;
+    /**
+     * The URI of the MySQL database
+     */
     private final String uri;
+    /**
+     * The name of the database which holds Rolecraft data
+     */
     private final String databaseName;
-    
+
     //                               minutes
-    private static final int killTime = 5 
+    private static final int killTime = 5
             * 60000;
-    
+
     //                        connection      in use? last use
-    private ConcurrentHashMap<Connection,Entry<Boolean,Long>> connections;
-    
-    private static final String createPlayerTable = "CREATE TABLE IF NOT EXISTS "+ pt + " ("
-            + "uuid VARCHAR(40) PRIMARY KEY,"
-            + "lastname VARCHAR(16) NOT NULL,"
-            + "FOREIGN KEY (guild) REFERENCES "+ gt + "(uuid) ON DELETE SET NULL,"
-            + "exp REAL DEFAULT 0,"
-            + "profession VARCHAR (37) DEFAULT NULL,"
-            + "influence INTEGER DEFAULT 0,"
-            + "karma REAL DEFAULT 0" + ")";
+    private ConcurrentHashMap<Connection, Entry<Boolean, Long>> connections;
 
-    private static final String createGuildTable = "CREATE TABLE IF NOT EXISTS "+ gt+ " ("
-            + "uuid VARCHAR(37) PRIMARY KEY ON CONFLICT FAIL,"
-            + "name VARCHAR (50),"
-            + "leader VARCHAR(37),"
-            + "members MEDIUMTEXT,"
-            + "ranks MEDIUMTEXT,"
-            + "home VARCHAR(150)," 
-            + "hall VARCHAR(100),"
-            + "influence INTEGER DEFAULT 0" + ")";
+    /**
+     * The query used for creating the player table
+     */
+    private static final String createPlayerTable =
+            "CREATE TABLE IF NOT EXISTS " + pt + " ("
+                    + "uuid VARCHAR(40) PRIMARY KEY,"
+                    + "lastname VARCHAR(16) NOT NULL,"
+                    + "FOREIGN KEY (guild) REFERENCES " + gt
+                    + "(uuid) ON DELETE SET NULL,"
+                    + "exp REAL DEFAULT 0,"
+                    + "profession VARCHAR (37) DEFAULT NULL,"
+                    + "influence INTEGER DEFAULT 0,"
+                    + "karma REAL DEFAULT 0" + ")";
 
-    public MySQLDataStore(RolecraftCore parent) {
+    /**
+     * The query used for creating the guild table
+     */
+    private static final String createGuildTable =
+            "CREATE TABLE IF NOT EXISTS " + gt + " ("
+                    + "uuid VARCHAR(37) PRIMARY KEY ON CONFLICT FAIL,"
+                    + "name VARCHAR (50),"
+                    + "leader VARCHAR(37),"
+                    + "members MEDIUMTEXT,"
+                    + "ranks MEDIUMTEXT,"
+                    + "home VARCHAR(150),"
+                    + "hall VARCHAR(100),"
+                    + "influence INTEGER DEFAULT 0" + ")";
+
+    public MySQLDataStore(final RolecraftCore parent) {
         super(parent);
-        
-        password = parent.getConfig().getString("mysql.password");
+
         user = parent.getConfig().getString("mysql.username");
+        password = parent.getConfig().getString("mysql.password");
         uri = parent.getConfig().getString("mysql.address");
         port = parent.getConfig().getInt("mysql.port", 3306);
         databaseName = parent.getConfig().getString("mysql.databasename");
-        
-        connections = new ConcurrentHashMap<Connection,Entry<Boolean,Long>> ();
-        
-        new BukkitRunnable () {
+
+        connections = new ConcurrentHashMap<Connection, Entry<Boolean, Long>>();
+
+        new BukkitRunnable() {
             @Override
-            public void run () {
-                Iterator<Entry<Connection, Entry<Boolean, Long>>> iter = connections.entrySet().iterator();
+            public void run() {
+                Iterator<Entry<Connection, Entry<Boolean, Long>>> iter = connections
+                        .entrySet().iterator();
                 while (iter.hasNext()) {
-                    Entry<Connection,Entry<Boolean,Long>> conn = iter.next();
+                    Entry<Connection, Entry<Boolean, Long>> conn = iter.next();
                     try {
-                        if(conn.getKey() == null || conn.getKey().isClosed()) {
+                        if (conn.getKey() == null || conn.getKey().isClosed()) {
                             // if in use, reset timer
-                            if(conn.getValue().getKey() == true) {
-                                conn.getValue().setValue(System.currentTimeMillis());
+                            if (conn.getValue().getKey() == true) {
+                                conn.getValue()
+                                        .setValue(System.currentTimeMillis());
                             }
                             // else check for age and close and remove/keepalive
                             else {
-                                if(conn.getValue().getValue() + killTime < System.currentTimeMillis()) {
-                                    if (connections.size() > 0){
+                                if (conn.getValue().getValue() + killTime
+                                        < System.currentTimeMillis()) {
+                                    if (connections.size() > 0) {
                                         conn.getKey().close();
                                         iter.remove();
                                     } else {
                                         // keepalive
-                                        conn.getKey().prepareCall("SELECT 1").execute();
+                                        conn.getKey().prepareCall("SELECT 1")
+                                                .execute();
                                     }
                                 } else {
                                     // keepalive
-                                    conn.getKey().prepareCall("SELECT 1").execute();
+                                    conn.getKey().prepareCall("SELECT 1")
+                                            .execute();
                                 }
                             }
                         }
-                    } catch (SQLException e) {
+                    } catch (final SQLException e) {
                         e.printStackTrace();
                     }
                 }
@@ -139,7 +163,7 @@ public final class MySQLDataStore extends DataStore {
                     ps.execute();
                     ps.close();
                     parent.setSqlLoaded(true);
-                } catch (SQLException ex) {
+                } catch (final SQLException ex) {
                     ex.printStackTrace();
                 } finally {
                     close(ps, rs);
@@ -148,12 +172,10 @@ public final class MySQLDataStore extends DataStore {
         }.runTaskAsynchronously(getParent());
     }
 
-   
-
     /**
      * DO NOT PULL UP
-     * 
-     * @see com.github.rolecraftdev.data.storage.DataStore#clearPlayerData(com.github.rolecraftdev.data.PlayerData)
+     *
+     * @see DataStore#clearPlayerData(PlayerData)
      */
     @Override
     public void clearPlayerData(final PlayerData data) {
@@ -192,16 +214,21 @@ public final class MySQLDataStore extends DataStore {
     protected Connection getConnection() {
         try {
             Class.forName("com.mysql.jdbc.Driver");
-            Iterator<Entry<Connection, Entry<Boolean, Long>>> iter = connections.entrySet().iterator();
+            Iterator<Entry<Connection, Entry<Boolean, Long>>> iter = connections
+                    .entrySet().iterator();
             while (iter.hasNext()) {
-                Entry<Connection,Entry<Boolean,Long>> conn = iter.next();
-                if(!conn.getValue().getKey()) {
-                    conn.setValue(new SimpleEntry<Boolean,Long>(true, System.currentTimeMillis()));
+                Entry<Connection, Entry<Boolean, Long>> conn = iter.next();
+                if (!conn.getValue().getKey()) {
+                    conn.setValue(new SimpleEntry<Boolean, Long>(true,
+                            System.currentTimeMillis()));
                     return conn.getKey();
                 }
             }
-            Connection conn = DriverManager.getConnection("jdbc:mysql://" + uri + ":" + port + "/" + databaseName + "?user=" + user + "&password=" + password);
-            connections.put(conn, new SimpleEntry<Boolean,Long>(true,System.currentTimeMillis()));
+            Connection conn = DriverManager.getConnection(
+                    "jdbc:mysql://" + uri + ":" + port + "/" + databaseName
+                            + "?user=" + user + "&password=" + password);
+            connections.put(conn, new SimpleEntry<Boolean, Long>(true,
+                    System.currentTimeMillis()));
             return conn;
         } catch (SQLException ex) {
             ex.printStackTrace();
@@ -218,7 +245,7 @@ public final class MySQLDataStore extends DataStore {
 
     @Override
     public void freeConnection(Connection connection) {
-        connections.put(connection, new SimpleEntry<Boolean,Long>(false,System.currentTimeMillis()));
+        connections.put(connection, new SimpleEntry<Boolean, Long>(false,
+                System.currentTimeMillis()));
     }
-
 }
