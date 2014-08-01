@@ -69,6 +69,16 @@ public abstract class DataStore {
      * The Rolecraft plugin instance
      */
     private final RolecraftCore parent;
+    
+    private volatile boolean questsLoaded;
+    
+    public void setQuestsLoaded(boolean bool) {
+        questsLoaded = bool;
+    }
+    
+    public boolean isQuestsLoaded() {
+        return questsLoaded;
+    }
 
     public DataStore(RolecraftCore parent) {
         this.parent = parent;

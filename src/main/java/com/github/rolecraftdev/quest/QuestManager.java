@@ -34,6 +34,7 @@ import com.github.rolecraftdev.quest.loading.exception.InvalidQuestException;
 import java.io.File;
 import java.util.HashMap;
 import java.util.Map;
+import java.util.Set;
 import java.util.UUID;
 
 /**
@@ -71,5 +72,9 @@ public final class QuestManager {
 
     public void removeQuest(final UUID id) {
         currentQuests.remove(id);
+    }
+    
+    public Set<UUID> getIds () {
+        return currentQuests.keySet();
     }
 }
