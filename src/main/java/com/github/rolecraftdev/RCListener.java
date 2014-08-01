@@ -26,8 +26,11 @@
  */
 package com.github.rolecraftdev;
 
+import com.github.rolecraftdev.data.DataManager;
 import com.github.rolecraftdev.data.PlayerData;
+import com.github.rolecraftdev.quest.Quest;
 import com.github.rolecraftdev.util.LevelUtil;
+import com.github.rolecraftdev.util.QuestProgressionSerializer;
 
 import org.bukkit.entity.Entity;
 import org.bukkit.entity.EntityType;
@@ -52,9 +55,11 @@ public final class RCListener implements Listener {
      * The {@link RolecraftCore} plugin object
      */
     private final RolecraftCore plugin;
+    private final DataManager dataMgr;
 
     public RCListener(final RolecraftCore plugin) {
         this.plugin = plugin;
+        dataMgr = plugin.getDataManager();
     }
 
     @EventHandler
@@ -65,8 +70,15 @@ public final class RCListener implements Listener {
 
     @EventHandler
     public void onPlayerQuit(final PlayerQuitEvent event) {
-        plugin.getDataManager().unloadAndSaveData(
-                event.getPlayer().getUniqueId());
+        final UUID playerId = event.getPlayer().getUniqueId();
+        final PlayerData data = dataMgr.getPlayerData(playerId);
+        for (final Quest quest : plugin.getQuestManager()
+                .getPlayerQuests(playerId)) {
+            data.addQuestProgression(quest.getQuestId(),
+                    QuestProgressionSerializer.serializeProgression(quest));
+        }
+
+        plugin.getDataManager().unloadAndSaveData(playerId);
     }
 
     @EventHandler(priority = EventPriority.MONITOR, ignoreCancelled = true)
