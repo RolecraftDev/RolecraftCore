@@ -158,6 +158,9 @@ public final class RolecraftCore extends AlbPlugin {
         logger.info("Using " + dataStore.getStoreTypeName()
                 + " for Rolecraft data!");
 
+        // Cleanup quests in database
+        dataStore.finalizeQuests(questManager);
+
         // Create all the manager objects / load data
         dataManager = new DataManager(this);
         guildManager = new GuildManager(this);

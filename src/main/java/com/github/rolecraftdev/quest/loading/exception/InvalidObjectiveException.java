@@ -13,7 +13,8 @@ public class InvalidObjectiveException extends Exception {
         super(cause);
     }
 
-    public InvalidObjectiveException(final String reason, final Throwable cause) {
+    public InvalidObjectiveException(final String reason,
+            final Throwable cause) {
         super(reason, cause);
     }
 }

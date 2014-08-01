@@ -171,7 +171,7 @@ public final class SQLiteDataStore extends DataStore {
     @Override
     public void finalizeQuests(final QuestManager manager) {
         final Set<UUID> uuids = manager.getIds();
-        
+
         new BukkitRunnable() {
             @Override
             public void run() {
@@ -179,48 +179,60 @@ public final class SQLiteDataStore extends DataStore {
                 PreparedStatement ps = null;
                 ResultSet rs = null;
                 try {
-                    ps = connection.prepareStatement("SELECT * FROM " + pt + " WHERE uuid = NULL");
+                    ps = connection.prepareStatement(
+                            "SELECT * FROM " + pt + " WHERE uuid = NULL");
                     rs = ps.executeQuery();
                     ResultSetMetaData rsmd = ps.getMetaData();
                     LinkedHashSet<UUID> questIds = new LinkedHashSet<UUID>();
-                    for(int i = 0; i < rsmd.getColumnCount() ; i++) {
-                        if(rsmd.getColumnName(i).startsWith("quest")) {
-                            questIds.add(UUID.fromString(rsmd.getCatalogName(i).substring(6)));
+                    for (int i = 0; i < rsmd.getColumnCount(); i++) {
+                        if (rsmd.getColumnName(i).startsWith("quest")) {
+                            questIds.add(UUID.fromString(
+                                    rsmd.getCatalogName(i).substring(6)));
                         }
                     }
                     ps.close();
                     rs.close();
-                    
-                    int loadedQuests =0;
+
+                    int loadedQuests = 0;
                     Iterator<UUID> iter = uuids.iterator();
-                    while(iter.hasNext()) {
+                    while (iter.hasNext()) {
                         UUID id = iter.next();
-                        if(questIds.contains(id)) {
+                        if (questIds.contains(id)) {
                             iter.remove();
                             questIds.remove(id);
-                            loadedQuests ++;
+                            loadedQuests++;
                         }
                     }
-                    
-                    Bukkit.getLogger().info("[RolecraftCore] Loaded " + loadedQuests + " quests successfully from SQL");
-                    
-                    if(uuids.size() != 0) {
+
+                    Bukkit.getLogger()
+                            .info("[RolecraftCore] Loaded " + loadedQuests
+                                    + " quests successfully from SQL");
+
+                    if (uuids.size() != 0) {
                         int addedQuests = 0;
                         iter = uuids.iterator();
                         while (iter.hasNext()) {
-                            String name = "quest:" + iter.next(); // quest's columns are quest:<UUID>
-                            ps = connection.prepareStatement("ALTER TABLE " + pt + " ADD COLUMN " + name + " VARCHAR");
+                            String name = "quest:" + iter
+                                    .next(); // quest's columns are quest:<UUID>
+                            ps = connection.prepareStatement(
+                                    "ALTER TABLE " + pt + " ADD COLUMN " + name
+                                            + " VARCHAR");
                             ps.execute();
                             addedQuests++;
                             ps.close();
                         }
-                        Bukkit.getLogger().info("[RolecraftCore] Added " + addedQuests + " quests to SQL");
+                        Bukkit.getLogger()
+                                .info("[RolecraftCore] Added " + addedQuests
+                                        + " quests to SQL");
                     }
-                    
-                    if(questIds.size() != 0) {
-                        Bukkit.getLogger().info("[RolecraftCore] Detected " + questIds.size() + " obsolete quests, cannot delete due to database implementation");
+
+                    if (questIds.size() != 0) {
+                        Bukkit.getLogger()
+                                .info("[RolecraftCore] Detected " + questIds
+                                        .size()
+                                        + " obsolete quests, cannot delete due to database implementation");
                     }
-                    
+
                 } catch (SQLException ex) {
                     ex.printStackTrace();
                 } finally {
@@ -228,7 +240,7 @@ public final class SQLiteDataStore extends DataStore {
                 }
             }
         }.runTaskAsynchronously(getParent());
-        
+
     }
 
 }

@@ -69,13 +69,13 @@ public abstract class DataStore {
      * The Rolecraft plugin instance
      */
     private final RolecraftCore parent;
-    
+
     private volatile boolean questsLoaded;
-    
+
     public void setQuestsLoaded(boolean bool) {
         questsLoaded = bool;
     }
-    
+
     public boolean isQuestsLoaded() {
         return questsLoaded;
     }
@@ -93,7 +93,7 @@ public abstract class DataStore {
     protected abstract Connection getConnection();
 
     public abstract String getStoreTypeName();
-    
+
     public abstract void finalizeQuests(QuestManager manager);
 
     public abstract void freeConnection(Connection connection);

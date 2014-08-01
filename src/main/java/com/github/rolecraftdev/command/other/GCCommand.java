@@ -58,7 +58,8 @@ public class GCCommand extends PlayerCommandHandler {
         final Guild guild = guildManager.getPlayerGuild(playerId);
 
         if (guild == null) {
-            player.sendMessage(ChatColor.DARK_RED + "You don't have a guild! Type /guild for instructions on how to get a guild.");
+            player.sendMessage(ChatColor.DARK_RED
+                    + "You don't have a guild! Type /guild for instructions on how to get a guild.");
             return;
         }
 
