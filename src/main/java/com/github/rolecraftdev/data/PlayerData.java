@@ -28,8 +28,7 @@ package com.github.rolecraftdev.data;
 
 import com.github.rolecraftdev.util.LevelUtil;
 
-import java.util.ArrayList;
-import java.util.List;
+import java.util.HashMap;
 import java.util.Map;
 import java.util.UUID;
 
@@ -57,9 +56,9 @@ public final class PlayerData {
      */
     private UUID profession;
     /**
-     * The quests the player is currently embarking on
+     * A Map of quest IDs to progression
      */
-    private List<UUID> quests;
+    private Map<UUID, String> questProgression;
     /**
      * The current influence value for the player, calculated by his or her
      * actions
@@ -93,6 +92,8 @@ public final class PlayerData {
     public PlayerData(final UUID playerId, final String name) {
         this.playerId = playerId;
         this.name = name;
+
+        questProgression = new HashMap<UUID, String>();
     }
 
     /**
@@ -160,8 +161,8 @@ public final class PlayerData {
         }
     }
 
-    public List<UUID> getQuests() {
-        return new ArrayList<UUID>(quests);
+    public Map<UUID, String> getQuestProgression() {
+        return questProgression;
     }
 
     /**
@@ -272,10 +273,6 @@ public final class PlayerData {
         }
     }
 
-    public void setQuests(final List<UUID> quests) {
-        this.quests = quests;
-    }
-
     /**
      * Sets the player's influence level to the given influence
      *
@@ -350,10 +347,6 @@ public final class PlayerData {
             }
         }
     }
-    
-    public Map<UUID,String> getQuestProgression () {
-        return null;
-    }
 
     /**
      * Adds the given amount to the player's karma
@@ -371,6 +364,14 @@ public final class PlayerData {
      */
     public void subtractKarma(float amount) {
         setKarma(getKarma() - amount);
+    }
+
+    public void addQuestProgression(final UUID questId,
+            final String progression) {
+        if (questProgression.containsKey(questId)) {
+            questProgression.remove(questId);
+        }
+        questProgression.put(questId, progression);
     }
 
     /**
@@ -396,13 +397,14 @@ public final class PlayerData {
      */
     @Deprecated
     public void initialise(final UUID guild, final UUID profession,
-            final int influence, final float exp, final float karma, Map<UUID,String> progression) {
+            final int influence, final float exp, final float karma,
+            Map<UUID, String> progression) {
         this.guild = guild;
         this.profession = profession;
         this.influence = influence;
         this.experience = exp;
         this.karma = karma;
-        
+
         //TODO: something with progression
 
         loaded = true;
