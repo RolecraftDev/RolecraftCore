@@ -32,6 +32,7 @@ import com.github.rolecraftdev.data.Region2D;
 import com.github.rolecraftdev.guild.Guild;
 import com.github.rolecraftdev.guild.GuildManager;
 import com.github.rolecraftdev.guild.GuildRank;
+import com.github.rolecraftdev.quest.QuestManager;
 import com.github.rolecraftdev.util.LocationSerializer;
 
 import org.bukkit.Bukkit;
@@ -82,6 +83,8 @@ public abstract class DataStore {
     protected abstract Connection getConnection();
 
     public abstract String getStoreTypeName();
+    
+    public abstract void finalizeQuests(QuestManager manager);
 
     public abstract void freeConnection(Connection connection);
 
