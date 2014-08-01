@@ -30,6 +30,7 @@ import com.github.rolecraftdev.util.LevelUtil;
 
 import java.util.ArrayList;
 import java.util.List;
+import java.util.Map;
 import java.util.UUID;
 
 /**
@@ -349,6 +350,10 @@ public final class PlayerData {
             }
         }
     }
+    
+    public Map<UUID,String> getQuestProgression () {
+        return null;
+    }
 
     /**
      * Adds the given amount to the player's karma
@@ -391,12 +396,14 @@ public final class PlayerData {
      */
     @Deprecated
     public void initialise(final UUID guild, final UUID profession,
-            final int influence, final float exp, final float karma) {
+            final int influence, final float exp, final float karma, Map<UUID,String> progression) {
         this.guild = guild;
         this.profession = profession;
         this.influence = influence;
         this.experience = exp;
         this.karma = karma;
+        
+        //TODO: something with progression
 
         loaded = true;
     }
