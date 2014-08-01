@@ -43,6 +43,7 @@ import org.bukkit.event.entity.EntityDamageEvent;
 import org.bukkit.event.entity.EntityDeathEvent;
 import org.bukkit.event.player.PlayerJoinEvent;
 import org.bukkit.event.player.PlayerQuitEvent;
+import org.bukkit.scheduler.BukkitRunnable;
 
 import java.util.UUID;
 
@@ -66,6 +67,18 @@ public final class RCListener implements Listener {
     public void onPlayerJoin(final PlayerJoinEvent event) {
         plugin.getDataManager().loadOrCreateData(
                 event.getPlayer().getUniqueId());
+
+        final PlayerData data = dataMgr
+                .getPlayerData(event.getPlayer().getUniqueId());
+        new BukkitRunnable() {
+            @Override
+            public void run() {
+                if (data.isLoaded()) {
+                    plugin.getQuestManager().loadPlayerQuests(data);
+                    this.cancel();
+                }
+            }
+        }.runTaskTimerAsynchronously(plugin, 20, 10000);
     }
 
     @EventHandler
