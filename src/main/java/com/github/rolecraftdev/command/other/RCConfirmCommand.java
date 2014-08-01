@@ -48,9 +48,8 @@ public class RCConfirmCommand extends PlayerCommandHandler {
         this.plugin = plugin;
         plugin.setConfirmCommand(this);
 
-        setUsage("/gc [message]");
-        setDescription("Allows communicating in Guild chat");
-        setPermission("rolecraft.guild.chat");
+        setUsage("/rcconfirm [message]");
+        setDescription("Used to confirm sensitive commands");
     }
 
     @Override

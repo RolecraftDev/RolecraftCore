@@ -23,7 +23,7 @@ permissions:
     rolecraft.guild.show:
         description: Allows viewing information about a guild
     rolecraft.guild.create:
-        description: Allows creation of a new guild
+        description: Allows usage of functionality related to guild administration, such as creating a guild
     rolecraft.guild.disband.other:
         description: Allows disbanding someone else's guild
     rolecraft.guild.home:

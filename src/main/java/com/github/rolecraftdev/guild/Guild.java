@@ -26,13 +26,11 @@
  */
 package com.github.rolecraftdev.guild;
 
-import com.github.rolecraftdev.data.PlayerData;
 import com.github.rolecraftdev.data.Region2D;
 
 import org.bukkit.Location;
 import org.bukkit.entity.Entity;
 
-import java.util.Arrays;
 import java.util.EnumSet;
 import java.util.HashSet;
 import java.util.Set;
@@ -198,36 +196,12 @@ public final class Guild {
 
     /**
      * Get the current influence of this {@link Guild} without calculating the
-     * up-to-date value. If the real influence value is required, use
-     * {@link #calculateInfluence()} instead.
+     * up-to-date value.
      *
      * @return The {@link Guild}'s last calculated influence value
-     * @see #calculateInfluence()
      */
     public int getInfluence() {
         return influence;
-    }
-
-    /**
-     * Calculates and returns the most up-to-date influence value for this
-     * {@link Guild}, based on the influence values of this {@link Guild}'s
-     * members combined. If an estimate value is also fine, utilise
-     * {@link #getInfluence()}, for performance reasons.
-     * 
-     * @deprecated Does not take into account offline players
-     *
-     * @return The up-to-date influence value for this {@link Guild}
-     * @see #getInfluence()
-     */
-    @Deprecated
-    public int calculateInfluence() {
-        int influence = 0;
-        for (final UUID playerId : members) {
-            final PlayerData data = guildManager.getPlugin().getDataManager()
-                    .getPlayerData(playerId);
-            influence += data.getInfluence();
-        }
-        return this.influence = influence;
     }
 
     /**
