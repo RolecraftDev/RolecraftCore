@@ -51,7 +51,7 @@ public class YamlFile extends YamlConfiguration {
         reload();
     }
 
-    public YamlFile(File file) {
+    public YamlFile(final File file) {
         this.file = file;
 
         reload();

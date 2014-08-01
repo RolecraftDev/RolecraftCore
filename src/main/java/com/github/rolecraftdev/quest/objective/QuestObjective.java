@@ -118,9 +118,14 @@ public class QuestObjective implements Serializable {
     }
 
     public void setValue(final Object value) {
+        if (!(value instanceof Serializable)) {
+            throw new IllegalArgumentException();
+        }
+
         this.value = value;
 
-        final ObjectiveResult result = type.getCompleted(results, value);
+        final ObjectiveResult result = type
+                .getCompleted(results, (Serializable) value);
         if (result != null) {
             quest.objectiveComplete(this, result);
         }
