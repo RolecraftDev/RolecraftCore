@@ -28,6 +28,8 @@ package com.github.rolecraftdev.data;
 
 import com.github.rolecraftdev.util.LevelUtil;
 
+import java.util.ArrayList;
+import java.util.List;
 import java.util.UUID;
 
 /**
@@ -53,6 +55,10 @@ public final class PlayerData {
      * the player belongs to, or null if the player doesn't have a Profession
      */
     private UUID profession;
+    /**
+     * The quests the player is currently embarking on
+     */
+    private List<UUID> quests;
     /**
      * The current influence value for the player, calculated by his or her
      * actions
@@ -151,6 +157,10 @@ public final class PlayerData {
         } else {
             return null;
         }
+    }
+
+    public List<UUID> getQuests() {
+        return new ArrayList<UUID>(quests);
     }
 
     /**
@@ -259,6 +269,10 @@ public final class PlayerData {
                 this.profession = profession;
             }
         }
+    }
+
+    public void setQuests(final List<UUID> quests) {
+        this.quests = quests;
     }
 
     /**

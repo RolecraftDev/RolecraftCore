@@ -28,13 +28,34 @@ package com.github.rolecraftdev.quest;
 
 import com.github.rolecraftdev.RolecraftCore;
 
+import java.util.HashMap;
+import java.util.Map;
+import java.util.UUID;
+
 /**
- * Handles all aspects of questing in Rolecraft.
+ * Handles quests in Rolecraft.
  */
 public final class QuestManager {
     private final RolecraftCore plugin;
+    private final Map<UUID, Quest> currentQuests;
 
     public QuestManager(final RolecraftCore plugin) {
         this.plugin = plugin;
+        currentQuests = new HashMap<UUID, Quest>();
+
+        plugin.getServer().getPluginManager()
+                .registerEvents(new QuestListener(plugin), plugin);
+    }
+
+    public void addQuest(final Quest quest) {
+        currentQuests.put(quest.getQuestId(), quest);
+    }
+
+    public Quest getQuest(final UUID id) {
+        return currentQuests.get(id);
+    }
+
+    public void removeQuest(final UUID id) {
+        currentQuests.remove(id);
     }
 }

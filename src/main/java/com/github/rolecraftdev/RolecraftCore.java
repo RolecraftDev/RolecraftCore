@@ -134,11 +134,12 @@ public final class RolecraftCore extends AlbPlugin {
             logger.warning("Couldn't find Vault, disabling economy support");
         }
 
-        // Get options from the config
-
+        // Create default config if it doesn't exist already
         createDefaultConfiguration("config.yml");
+        // Get the configuration object
         final FileConfiguration config = getConfig();
 
+        // Get options from the config
         dbType = config.getString("sqlserver").toLowerCase();
         originalSin = (float) config.getDouble("originalsin");
 
