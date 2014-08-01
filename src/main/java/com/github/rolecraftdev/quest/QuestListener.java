@@ -66,10 +66,8 @@ public class QuestListener implements Listener {
             if (byEntity.getDamager() instanceof Player) {
                 final Player player = (Player) byEntity.getDamager();
                 final UUID playerId = player.getUniqueId();
-                final PlayerData data = dataMgr.getPlayerData(playerId);
 
-                for (final UUID questId : data.getQuests()) {
-                    final Quest quest = questMgr.getQuest(questId);
+                for (final Quest quest : questMgr.getPlayerQuests(playerId)) {
                     for (final QuestObjective objective : quest
                             .getCurrentObjectives()) {
                         if (objective.getObjectiveType()

@@ -75,7 +75,7 @@ public final class DataManager {
         final PlayerData data = new PlayerData(player,
                 plugin.getServer().getPlayer(player).getName());
         loadedPlayerData.put(player, data);
-        store.requestPlayerData(data);
+        store.requestPlayerData(data, false);
     }
 
     /**

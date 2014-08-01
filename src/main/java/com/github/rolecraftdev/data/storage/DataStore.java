@@ -441,7 +441,6 @@ public abstract class DataStore {
     }
 
     public void commitPlayerData(final PlayerData commit) {
-
         commit.setUnloading(true);
 
         new BukkitRunnable() {

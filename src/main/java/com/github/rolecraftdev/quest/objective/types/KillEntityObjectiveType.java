@@ -38,16 +38,16 @@ import java.io.Serializable;
 public class KillEntityObjectiveType implements ObjectiveType {
     @Override
     public ObjectiveResult getCompleted(final ObjectiveResult[] results,
-            final Serializable value) {
+            final Object value) {
         if (!(value instanceof Number)) {
             throw new IllegalArgumentException();
         }
 
         for (final ObjectiveResult result : results) {
-            if (!(result.getRequirement() instanceof Number)) {
+            if (!(result.getOutline().getRequirement() instanceof Number)) {
                 throw new IllegalArgumentException();
             }
-            if (((Number) value).intValue() >= ((Number) result
+            if (((Number) value).intValue() >= ((Number) result.getOutline()
                     .getRequirement()).intValue()) {
                 return result;
             }
