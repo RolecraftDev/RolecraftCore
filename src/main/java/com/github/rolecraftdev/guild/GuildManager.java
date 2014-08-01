@@ -238,9 +238,8 @@ public final class GuildManager {
     public Set<Guild> getGuilds() {
         if (loaded) {
             return new HashSet<Guild>(guilds);
-        } else {
-            return null;
         }
+        return null;
     }
 
     /**
@@ -318,6 +317,7 @@ public final class GuildManager {
     }
 
     // Has to go here because you can't access static members in an enum constructor
+
     /**
      * A {@link Map} of human readable strings to GuildAction enum values
      */

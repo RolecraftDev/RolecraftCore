@@ -46,8 +46,27 @@ import java.util.HashSet;
 import java.util.Set;
 import java.util.UUID;
 
+/**
+ * Represents a form of data storage in Rolecraft - implemented in MySQL and
+ * SQLite
+ */
 public abstract class DataStore {
+    /**
+     * The name of the players table in SQL
+     */
+    public static final String pt = "playertable";
+    /**
+     * The name of the metadata table in SQL
+     */
+    public static final String mdt = "metadatatable";
+    /**
+     * The name of the guilds table in SQL
+     */
+    public static final String gt = "guildtable";
 
+    /**
+     * The Rolecraft plugin instance
+     */
     private final RolecraftCore parent;
 
     public DataStore(RolecraftCore parent) {
@@ -58,46 +77,42 @@ public abstract class DataStore {
         return parent;
     }
 
-    public static final String pt = "playertable";
-    public static final String mdt = "metadatatable";
-    public static final String gt = "guildtable";
-
     public abstract void intialise();
 
     protected abstract Connection getConnection();
-    
+
     public abstract String getStoreTypeName();
-    
+
     public abstract void freeConnection(Connection connection);
 
     /**
-     * For use with online players 
-     * 
+     * For use with online players
+     *
      * @param data
      */
     public abstract void clearPlayerData(PlayerData data);
-    
 
-    public void updateGuildRanks (final Guild guild) {
+    public void updateGuildRanks(final Guild guild) {
         StringBuilder sb = new StringBuilder();
         for (GuildRank rank : guild.getRanks()) {
             sb.append(rank.serialize());
             sb.append(",");
         }
         final String ranks = sb.substring(0, sb.length() - 1);
-        
-        new BukkitRunnable () {
+
+        new BukkitRunnable() {
             @Override
-            public void run () {
+            public void run() {
                 Connection connection = getConnection();
                 PreparedStatement ps = null;
                 ResultSet rs = null;
                 try {
-                    ps = connection.prepareStatement("UPDATE " +gt + " SET ranks = ? WHERE uuid = ?");
+                    ps = connection.prepareStatement(
+                            "UPDATE " + gt + " SET ranks = ? WHERE uuid = ?");
                     ps.setString(1, ranks);
                     ps.setString(2, guild.getId().toString());
                     ps.execute();
-                } catch (SQLException ex) {
+                } catch (final SQLException ex) {
                     ex.printStackTrace();
                 } finally {
                     close(ps, rs);
@@ -106,7 +121,7 @@ public abstract class DataStore {
             }
         }.runTaskAsynchronously(getParent());
     }
-    
+
     protected void close(final PreparedStatement ps, final ResultSet rs) {
         try {
             if (ps != null) {
@@ -141,7 +156,6 @@ public abstract class DataStore {
         final String id = guild.getId().toString();
 
         new BukkitRunnable() {
-
             @Override
             public void run() {
                 Connection connection = getConnection();
@@ -164,7 +178,7 @@ public abstract class DataStore {
                     ps.setString(5, home);
                     ps.setString(6, hall);
                     ps.setString(7, id);
-                } catch (SQLException ex) {
+                } catch (final SQLException ex) {
                     ex.printStackTrace();
                 } finally {
                     close(ps, rs);
@@ -175,90 +189,92 @@ public abstract class DataStore {
         }.runTaskAsynchronously(getParent());
     }
 
+    public void deleteGuild(final Guild guild) {
+        new BukkitRunnable() {
+            @Override
+            public void run() {
+                Connection connection = getConnection();
+                PreparedStatement ps = null;
+                ResultSet rs = null;
+                try {
+                    ps = connection.prepareStatement(
+                            "DELETE FROM " + gt + " WHERE uuid = ?");
+                    ps.setString(1, guild.getId().toString());
+                    ps.execute();
+                } catch (final SQLException ex) {
+                    ex.printStackTrace();
+                } finally {
+                    close(ps, rs);
+                    freeConnection(connection);
+                }
+            }
+        }.runTaskAsynchronously(getParent());
 
-	public void deleteGuild(final Guild guild) {
-		new BukkitRunnable () {
-			@Override
-			public void run () {
-				Connection connection = getConnection();
-		        PreparedStatement ps = null;
-		        ResultSet rs = null;
-		        try {
-		        	ps = connection.prepareStatement("DELETE FROM " + gt + " WHERE uuid = ?");
-		        	ps.setString(1, guild.getId().toString());
-		        	ps.execute();
-		        } catch (SQLException ex) {
-		            ex.printStackTrace();
-		        } finally {
-		            close(ps, rs);
-		            freeConnection(connection);
-		        }
-			}
-		}.runTaskAsynchronously(getParent());
-	
-	}
+    }
 
-	/**
-	 *
-	 * For use with <i>offline players ONLY</i>
-     * 
+    /**
+     * For use with <i>offline players ONLY</i>
+     *
      * @param uuid
      * @see com.github.rolecraftdev.data.storage.DataStore#clearPlayerData(java.util.UUID)
-	 */
-	public void clearPlayerData(final UUID uuid) {
-		new BukkitRunnable () {
-			@Override
-			public void run () {
-				Connection connection = getConnection();
-		        PreparedStatement ps = null;
-		        ResultSet rs = null;
-		        try {
-		        	ps = connection.prepareStatement("DELETE FROM " + pt + " WHERE uuid = ?");
-		        	ps.setString(1, uuid.toString());
-		        } catch (SQLException ex) {
-		            ex.printStackTrace();
-		        } finally {
-		            close(ps, rs);
-		            freeConnection(connection);
-		        }
-			}
-		}.runTaskAsynchronously(getParent());
-		
-	}
+     */
+    public void clearPlayerData(final UUID uuid) {
+        new BukkitRunnable() {
+            @Override
+            public void run() {
+                Connection connection = getConnection();
+                PreparedStatement ps = null;
+                ResultSet rs = null;
+                try {
+                    ps = connection.prepareStatement(
+                            "DELETE FROM " + pt + " WHERE uuid = ?");
+                    ps.setString(1, uuid.toString());
+                } catch (final SQLException ex) {
+                    ex.printStackTrace();
+                } finally {
+                    close(ps, rs);
+                    freeConnection(connection);
+                }
+            }
+        }.runTaskAsynchronously(getParent());
 
-	public void createGuild(final Guild guild) {
-		final String id = guild.getId().toString();
-		final String name = guild.getName();
-		final String leader = guild.getLeader().toString();
-		StringBuilder sb = new StringBuilder();
-		for (GuildRank rank: guild.getRanks()) {
-			sb.append(rank.serialize());
-			sb.append(",");
-		}
-		final String ranks = sb.substring(0,sb.length() -1);
-	 	new BukkitRunnable () {
-			@Override
-			public void run () {
-				Connection connection = getConnection();
-		        PreparedStatement ps = null;
-		        ResultSet rs = null;
-		        try {
-		        	ps = connection.prepareStatement("INSERT INTO " + gt + " (uuid, name, leader, members, ranks) VALUES (?,?,?,?,?)");
-		        	ps.setString(1,id);
-		        	ps.setString(2, name);
-		        	ps.setString(3, leader);
-		        	ps.setString(4, leader);
-		        	ps.setString(5, ranks);
-		        } catch (SQLException ex) {
-		            ex.printStackTrace();
-		        } finally {
-		            close(ps, rs);
-		            freeConnection(connection);
-		        }
-			}
-		}.runTaskAsynchronously(getParent());
-	
-	}
+    }
+
+    public void createGuild(final Guild guild) {
+        final String id = guild.getId().toString();
+        final String name = guild.getName();
+        final String leader = guild.getLeader().toString();
+
+        final StringBuilder sb = new StringBuilder();
+        for (final GuildRank rank : guild.getRanks()) {
+            sb.append(rank.serialize());
+            sb.append(",");
+        }
+
+        final String ranks = sb.substring(0, sb.length() - 1);
+        new BukkitRunnable() {
+            @Override
+            public void run() {
+                Connection connection = getConnection();
+                PreparedStatement ps = null;
+                ResultSet rs = null;
+                try {
+                    ps = connection.prepareStatement("INSERT INTO " + gt
+                            + " (uuid, name, leader, members, ranks) VALUES (?,?,?,?,?)");
+                    ps.setString(1, id);
+                    ps.setString(2, name);
+                    ps.setString(3, leader);
+                    ps.setString(4, leader);
+                    ps.setString(5, ranks);
+                } catch (final SQLException ex) {
+                    ex.printStackTrace();
+                } finally {
+                    close(ps, rs);
+                    freeConnection(connection);
+                }
+            }
+        }.runTaskAsynchronously(getParent());
+    }
 
     public void loadGuilds(final GuildManager callback) {
         new BukkitRunnable() {
@@ -273,27 +289,32 @@ public abstract class DataStore {
                     while (rs.next()) {
                         UUID id = UUID.fromString(rs.getString("uuid"));
                         String name = rs.getString("name");
-                        UUID leader = (!(rs.getString("leader" )== null) && !rs.getString("leader").equals("")) ? UUID.fromString(rs.getString("leader")) : null;
-                        Set<UUID> members = new HashSet <UUID> ();
-                        for(String s: rs.getString("members").split(",")) {
-                            if(!s.equals("") && s!= null) {
+                        UUID leader = (!(rs.getString("leader") == null) && !rs
+                                .getString("leader").equals("")) ?
+                                UUID.fromString(rs.getString("leader")) :
+                                null;
+                        Set<UUID> members = new HashSet<UUID>();
+                        for (String s : rs.getString("members").split(",")) {
+                            if (!s.equals("") && s != null) {
                                 members.add(UUID.fromString(s));
                             }
                         }
-                        Set<GuildRank> ranks = new HashSet <GuildRank> ();
-                        for(String s : rs.getString("ranks").split(",")) {
+                        Set<GuildRank> ranks = new HashSet<GuildRank>();
+                        for (String s : rs.getString("ranks").split(",")) {
                             ranks.add(GuildRank.deserialize(s));
                         }
-                        Location home = LocationSerializer.deserialize(rs.getString("home"));
-                        Region2D hall = Region2D.fromString(rs.getString("hall"));
+                        Location home = LocationSerializer
+                                .deserialize(rs.getString("home"));
+                        Region2D hall = Region2D
+                                .fromString(rs.getString("hall"));
                         int influence = rs.getInt("influence");
-                        
-                        Guild guild = new Guild(callback,id, name, leader, members, ranks, home, influence, hall);
+
+                        Guild guild = new Guild(callback, id, name, leader,
+                                members, ranks, home, influence, hall);
                         callback.addGuild(guild, true);
                     }
-                    
+
                     callback.completeLoad();
-                    
                 } catch (SQLException ex) {
                     ex.printStackTrace();
                 } finally {
@@ -302,7 +323,7 @@ public abstract class DataStore {
                 }
             }
         }.runTaskAsynchronously(getParent());
-    
+
     }
 
     public void addPlayerToGuild(final UUID uuid, final Guild guild) {
@@ -313,29 +334,33 @@ public abstract class DataStore {
                 PreparedStatement ps = null;
                 ResultSet rs = null;
                 try {
-                    ps = connection.prepareStatement("SELECT uuid,members FROM " + gt + " WHERE uuid = ? ");
+                    ps = connection.prepareStatement(
+                            "SELECT uuid,members FROM " + gt
+                                    + " WHERE uuid = ? ");
                     ps.setString(1, guild.getId().toString());
                     rs = ps.executeQuery();
-                    
-                    if(rs.next()) {
+
+                    if (rs.next()) {
                         String members = rs.getString("members");
                         members.concat("," + uuid.toString());
                         ps.close();
                         rs.close();
-                        
-                        ps = connection.prepareStatement("UPDATE " + gt + " SET members = ? WHERE uuid = ?");
+
+                        ps = connection.prepareStatement("UPDATE " + gt
+                                + " SET members = ? WHERE uuid = ?");
                         ps.setString(1, members);
                         ps.setString(2, guild.getId().toString());
                         ps.execute();
                         ps.close();
-                        
-                        ps = connection.prepareStatement("UPDATE " + pt + " SET guild = ? WHERE uuid = ?");
+
+                        ps = connection.prepareStatement("UPDATE " + pt
+                                + " SET guild = ? WHERE uuid = ?");
                         ps.setString(1, guild.getId().toString());
                         ps.setString(2, uuid.toString());
                         ps.execute();
-                    }
-                    else {
-                        Bukkit.getLogger().warning("SEVERE ERROR OCCURRED: could not load expected guild from SQL");
+                    } else {
+                        Bukkit.getLogger().warning(
+                                "SEVERE ERROR OCCURRED: could not load expected guild from SQL");
                     }
                 } catch (SQLException ex) {
                     ex.printStackTrace();
@@ -355,11 +380,13 @@ public abstract class DataStore {
                 PreparedStatement ps = null;
                 ResultSet rs = null;
                 try {
-                    ps = connection.prepareStatement("SELECT uuid,members,ranks,leader FROM " + gt + " WHERE uuid = ? ");
+                    ps = connection.prepareStatement(
+                            "SELECT uuid,members,ranks,leader FROM " + gt
+                                    + " WHERE uuid = ? ");
                     ps.setString(1, guild.getId().toString());
                     rs = ps.executeQuery();
-                    
-                    if(rs.next()) {
+
+                    if (rs.next()) {
                         String members = rs.getString("members");
                         String ranks = rs.getString("ranks");
                         String leader = rs.getString("leader");
@@ -368,21 +395,23 @@ public abstract class DataStore {
                         leader = leader.replaceFirst(uuid.toString(), "");
                         ps.close();
                         rs.close();
-                        
-                        ps = connection.prepareStatement("UPDATE " + gt + " SET members = ?, ranks = ?, leader = ? WHERE uuid = ?");
+
+                        ps = connection.prepareStatement("UPDATE " + gt
+                                + " SET members = ?, ranks = ?, leader = ? WHERE uuid = ?");
                         ps.setString(1, members);
                         ps.setString(2, ranks);
                         ps.setString(3, leader);
                         ps.setString(4, guild.getId().toString());
                         ps.execute();
                         ps.close();
-                        
-                        ps = connection.prepareStatement("UPDATE " + pt + " SET guild = null WHERE uuid = ?");
+
+                        ps = connection.prepareStatement("UPDATE " + pt
+                                + " SET guild = null WHERE uuid = ?");
                         ps.setString(1, uuid.toString());
                         ps.execute();
-                    }
-                    else {
-                        Bukkit.getLogger().warning("SEVERE ERROR OCCURRED: could not load expected guild from SQL");
+                    } else {
+                        Bukkit.getLogger().warning(
+                                "SEVERE ERROR OCCURRED: could not load expected guild from SQL");
                     }
                 } catch (SQLException ex) {
                     ex.printStackTrace();
@@ -392,13 +421,13 @@ public abstract class DataStore {
                 }
             }
         }.runTaskAsynchronously(getParent());
-    
+
     }
 
     public void commitPlayerData(final PlayerData commit) {
-    
+
         commit.setUnloading(true);
-    
+
         new BukkitRunnable() {
             @Override
             public void run() {
@@ -428,7 +457,7 @@ public abstract class DataStore {
 
     /**
      * Used during server shutdown, as you cannot schedule a task during shutdown
-     * 
+     *
      * @param commit
      */
     public void commitPlayerDataSync(final PlayerData commit) {
@@ -471,7 +500,7 @@ public abstract class DataStore {
                             + " WHERE uuid = ?");
                     ps.setString(1, uuid);
                     rs = ps.executeQuery();
-    
+
                     if (rs.next()) {
                         callback.initialise(
                                 UUID.fromString(rs.getString("guild")),
@@ -486,7 +515,7 @@ public abstract class DataStore {
                         ps.setString(2, name);
                         callback.initialise(null, null, 0, 0f, -originalSin);
                     }
-    
+
                 } catch (SQLException ex) {
                     ex.printStackTrace();
                 } finally {
