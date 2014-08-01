@@ -65,6 +65,12 @@ public final class DataManager {
         loadedPlayerData = new HashMap<UUID, PlayerData>();
     }
 
+    /**
+     * Loads data for the given player from the database. If no data exists for
+     * the player, a new set of data is created
+     *
+     * @param player The unique identifier of the player to load data for
+     */
     public void loadOrCreateData(final UUID player) {
         final PlayerData data = new PlayerData(player,
                 plugin.getServer().getPlayer(player).getName());
@@ -72,6 +78,11 @@ public final class DataManager {
         store.requestPlayerData(data);
     }
 
+    /**
+     * Unloads data for the given player and saves it to the database
+     *
+     * @param player The unique identifier of the player to save data for
+     */
     public void unloadAndSaveData(final UUID player) {
         final PlayerData data = loadedPlayerData.remove(player);
         if (data != null) {
