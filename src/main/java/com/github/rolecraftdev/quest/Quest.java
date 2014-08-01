@@ -34,7 +34,6 @@ import org.bukkit.Bukkit;
 import org.bukkit.ChatColor;
 import org.bukkit.entity.Player;
 
-import java.io.Serializable;
 import java.util.ArrayList;
 import java.util.List;
 import java.util.UUID;
@@ -42,7 +41,7 @@ import java.util.UUID;
 /**
  * Represents a quest in Rolecraft.
  */
-public final class Quest implements Serializable {
+public final class Quest {
     private final QuestOutline outline;
     private final UUID questId;
     private final UUID quester;
@@ -80,6 +79,7 @@ public final class Quest implements Serializable {
         if (outcome == -1) {
             player.sendMessage(ChatColor.GOLD + "Quest complete: " +
                     objective.getQuest().getOutline().getName());
+            // TODO: Add rewards
         } else {
             for (final QuestObjective next : objectives) {
                 if (next.getOutline().getId() == outcome) {

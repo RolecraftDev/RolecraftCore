@@ -29,9 +29,7 @@ package com.github.rolecraftdev.quest.objective;
 import com.github.rolecraftdev.quest.Quest;
 import com.github.rolecraftdev.quest.loading.outline.QuestObjectiveOutline;
 
-import java.io.Serializable;
-
-public class QuestObjective implements Serializable {
+public class QuestObjective {
     private final QuestObjectiveOutline outline;
     /**
      * The type of objective this objective is
@@ -92,14 +90,9 @@ public class QuestObjective implements Serializable {
     }
 
     public void setValue(final Object value) {
-        if (!(value instanceof Serializable)) {
-            throw new IllegalArgumentException();
-        }
-
         this.value = value;
 
-        final ObjectiveResult result = type
-                .getCompleted(results, (Serializable) value);
+        final ObjectiveResult result = type.getCompleted(results, value);
         if (result != null) {
             quest.objectiveComplete(this, result);
         }

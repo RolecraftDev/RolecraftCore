@@ -29,9 +29,7 @@ package com.github.rolecraftdev.quest.objective;
 import com.github.rolecraftdev.quest.Quest;
 import com.github.rolecraftdev.quest.loading.outline.ObjectiveResultOutline;
 
-import java.io.Serializable;
-
-public class ObjectiveResult implements Serializable {
+public class ObjectiveResult {
     private ObjectiveResultOutline outline;
     /**
      * The quest this result's objective is part of
