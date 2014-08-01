@@ -73,9 +73,13 @@ public final class RCListener implements Listener {
         new BukkitRunnable() {
             @Override
             public void run() {
+                if (data.getQuestProgression() == null) {
+                    cancel();
+                    return;
+                }
                 if (data.isLoaded()) {
                     plugin.getQuestManager().loadPlayerQuests(data);
-                    this.cancel();
+                    cancel();
                 }
             }
         }.runTaskTimerAsynchronously(plugin, 20, 10000);
