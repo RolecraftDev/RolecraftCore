@@ -32,10 +32,6 @@ import com.github.rolecraftdev.quest.loading.outline.ObjectiveResultOutline;
 public class ObjectiveResult {
     private ObjectiveResultOutline outline;
     /**
-     * The quest this result's objective is part of
-     */
-    private final Quest quest;
-    /**
      * The type of objective this result relates to
      */
     private final ObjectiveType type;
@@ -44,11 +40,11 @@ public class ObjectiveResult {
      * The objective this result is for
      */
     private QuestObjective objective;
+    private Quest quest;
 
     public ObjectiveResult(final ObjectiveResultOutline outline,
-            final Quest quest, final ObjectiveType type) {
+            final ObjectiveType type) {
         this.outline = outline;
-        this.quest = quest;
         this.type = type;
     }
 
@@ -60,21 +56,7 @@ public class ObjectiveResult {
         return quest;
     }
 
-    public ObjectiveType getObjectiveType() {
-        return type;
-    }
-
-    public QuestObjective getObjective() {
-        return objective;
-    }
-
-    public void setObjective(final QuestObjective objective) {
-        if (this.objective != null) {
-            throw new IllegalStateException();
-        }
-        if (objective == null) {
-            throw new IllegalArgumentException();
-        }
-        this.objective = objective;
+    public void setQuest(final Quest quest) {
+        this.quest = quest;
     }
 }

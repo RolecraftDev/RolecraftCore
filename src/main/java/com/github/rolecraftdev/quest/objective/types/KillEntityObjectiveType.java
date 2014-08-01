@@ -36,6 +36,8 @@ import java.io.Serializable;
  * entities
  */
 public class KillEntityObjectiveType implements ObjectiveType {
+    public static final String NAME = "kill-entity";
+
     @Override
     public ObjectiveResult getCompleted(final ObjectiveResult[] results,
             final Object value) {
@@ -57,6 +59,6 @@ public class KillEntityObjectiveType implements ObjectiveType {
 
     @Override
     public String getTypeName() {
-        return "kill-entity";
+        return NAME;
     }
 }

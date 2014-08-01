@@ -30,6 +30,13 @@ import com.github.rolecraftdev.RolecraftCore;
 import com.github.rolecraftdev.quest.loading.QuestLoader;
 import com.github.rolecraftdev.quest.loading.exception.InvalidObjectiveException;
 import com.github.rolecraftdev.quest.loading.exception.InvalidQuestException;
+import com.github.rolecraftdev.quest.loading.outline.ObjectiveResultOutline;
+import com.github.rolecraftdev.quest.loading.outline.QuestObjectiveOutline;
+import com.github.rolecraftdev.quest.loading.outline.QuestOutline;
+import com.github.rolecraftdev.quest.objective.ObjectiveResult;
+import com.github.rolecraftdev.quest.objective.ObjectiveType;
+import com.github.rolecraftdev.quest.objective.QuestObjective;
+import com.github.rolecraftdev.quest.objective.types.KillEntityObjectiveType;
 
 import java.io.File;
 import java.util.*;
@@ -41,11 +48,16 @@ public final class QuestManager {
     private final RolecraftCore plugin;
     private final Map<UUID, Quest> currentQuests;
     private final QuestLoader loader;
+    private final Map<String, ObjectiveType> objectiveTypes;
 
     public QuestManager(final RolecraftCore plugin) {
         this.plugin = plugin;
         currentQuests = new HashMap<UUID, Quest>();
         loader = new QuestLoader(new File(plugin.getDataFolder(), "quests"));
+        objectiveTypes = new HashMap<String, ObjectiveType>();
+
+        objectiveTypes.put(KillEntityObjectiveType.NAME,
+                new KillEntityObjectiveType());
 
         try {
             loader.loadQuestOutlines();
@@ -77,11 +89,41 @@ public final class QuestManager {
         return quests;
     }
 
+    public ObjectiveType getObjectiveType(final String name) {
+        return objectiveTypes.get(name);
+    }
+
     public void removeQuest(final UUID id) {
         currentQuests.remove(id);
     }
 
     public Set<UUID> getIds() {
         return currentQuests.keySet();
+    }
+
+    public Quest createQuest(final String quest, final UUID player) {
+        final QuestOutline outline = loader.getQuestOutline(quest);
+        final List<QuestObjective> objectives = new ArrayList<QuestObjective>();
+        for (final QuestObjectiveOutline objectiveOutline : outline
+                .getObjectives()) {
+            final ObjectiveType objectiveType = getObjectiveType(
+                    objectiveOutline.getTypeName());
+            final List<ObjectiveResult> results = new ArrayList<ObjectiveResult>();
+            for (final ObjectiveResultOutline resultOutline : objectiveOutline
+                    .getResults()) {
+                results.add(new ObjectiveResult(resultOutline, objectiveType));
+            }
+            objectives.add(new QuestObjective(objectiveOutline, objectiveType,
+                    results.toArray(new ObjectiveResult[results.size()])));
+        }
+
+        final Quest retVal = new Quest(outline, player, objectives);
+        for (final QuestObjective objective : objectives) {
+            for (final ObjectiveResult result : objective.getResults()) {
+                result.setQuest(retVal);
+            }
+        }
+
+        return retVal;
     }
 }
