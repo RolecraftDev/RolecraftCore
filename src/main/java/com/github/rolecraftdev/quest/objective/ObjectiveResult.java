@@ -27,10 +27,12 @@
 package com.github.rolecraftdev.quest.objective;
 
 import com.github.rolecraftdev.quest.Quest;
+import com.github.rolecraftdev.quest.loading.outline.ObjectiveResultOutline;
 
 import java.io.Serializable;
 
 public class ObjectiveResult implements Serializable {
+    private ObjectiveResultOutline outline;
     /**
      * The quest this result's objective is part of
      */
@@ -39,31 +41,21 @@ public class ObjectiveResult implements Serializable {
      * The type of objective this result relates to
      */
     private final ObjectiveType type;
-    /**
-     * The value required to obtain this result
-     */
-    private final Object requirement;
-    /**
-     * The objective in the quest which will be triggered if this result occurs
-     */
-    private final int outcome;
-    /**
-     * The result identifier
-     */
-    private final int id;
 
     /**
      * The objective this result is for
      */
     private QuestObjective objective;
 
-    public ObjectiveResult(final Quest quest, final ObjectiveType type,
-            final Object requirement, final int outcome, final int id) {
+    public ObjectiveResult(final ObjectiveResultOutline outline,
+            final Quest quest, final ObjectiveType type) {
+        this.outline = outline;
         this.quest = quest;
         this.type = type;
-        this.requirement = requirement;
-        this.outcome = outcome;
-        this.id = id;
+    }
+
+    public ObjectiveResultOutline getOutline() {
+        return outline;
     }
 
     public Quest getQuest() {
@@ -72,18 +64,6 @@ public class ObjectiveResult implements Serializable {
 
     public ObjectiveType getObjectiveType() {
         return type;
-    }
-
-    public Object getRequirement() {
-        return requirement;
-    }
-
-    public int getOutcome() {
-        return outcome;
-    }
-
-    public int getId() {
-        return id;
     }
 
     public QuestObjective getObjective() {

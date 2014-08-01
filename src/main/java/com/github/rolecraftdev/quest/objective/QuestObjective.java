@@ -27,17 +27,12 @@
 package com.github.rolecraftdev.quest.objective;
 
 import com.github.rolecraftdev.quest.Quest;
+import com.github.rolecraftdev.quest.loading.outline.QuestObjectiveOutline;
 
 import java.io.Serializable;
-import java.util.Arrays;
-import java.util.List;
 
 public class QuestObjective implements Serializable {
-    /**
-     * The identifier of this objective. Should be unique within the quest the
-     * objective is a part of
-     */
-    private final int id;
+    private final QuestObjectiveOutline outline;
     /**
      * The type of objective this objective is
      */
@@ -46,14 +41,6 @@ public class QuestObjective implements Serializable {
      * The completion value for the quest objective
      */
     private final ObjectiveResult[] results;
-    /**
-     * Whether this objective is optional
-     */
-    private final boolean optional;
-    /**
-     * A description of the objective, where each element is a new line
-     */
-    private final List<String> description;
 
     /**
      * This objective's quest
@@ -64,29 +51,24 @@ public class QuestObjective implements Serializable {
      */
     private Object value;
 
-    public QuestObjective(final int id, final ObjectiveType type,
-            final ObjectiveResult[] results, final boolean optional,
-            final String... description) {
-        this.id = id;
+    public QuestObjective(final QuestObjectiveOutline outline,
+            final ObjectiveType type, final ObjectiveResult[] results) {
+        this.outline = outline;
         this.type = type;
         this.results = results;
-        this.optional = optional;
-        this.description = Arrays.asList(description);
     }
 
-    public QuestObjective(final int id, final ObjectiveType type,
-            final ObjectiveResult[] results, final boolean optional,
-            final Object value, final String... description) {
-        this.id = id;
+    public QuestObjective(final QuestObjectiveOutline outline,
+            final ObjectiveType type, final ObjectiveResult[] results,
+            final Object value) {
+        this.outline = outline;
         this.type = type;
         this.results = results;
-        this.optional = optional;
         this.value = value;
-        this.description = Arrays.asList(description);
     }
 
-    public int getId() {
-        return id;
+    public QuestObjectiveOutline getOutline() {
+        return outline;
     }
 
     public ObjectiveType getObjectiveType() {
@@ -95,14 +77,6 @@ public class QuestObjective implements Serializable {
 
     public ObjectiveResult[] getResults() {
         return results;
-    }
-
-    public boolean isOptional() {
-        return optional;
-    }
-
-    public List<String> getDescription() {
-        return description;
     }
 
     public Quest getQuest() {

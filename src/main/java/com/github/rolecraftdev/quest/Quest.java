@@ -26,47 +26,42 @@
  */
 package com.github.rolecraftdev.quest;
 
+import com.github.rolecraftdev.quest.loading.outline.QuestOutline;
 import com.github.rolecraftdev.quest.objective.ObjectiveResult;
 import com.github.rolecraftdev.quest.objective.QuestObjective;
 
 import java.io.Serializable;
-import java.util.*;
+import java.util.ArrayList;
+import java.util.List;
+import java.util.UUID;
 
 /**
  * Represents a quest in Rolecraft.
  */
 public final class Quest implements Serializable {
+    private final QuestOutline outline;
     private final UUID questId;
     private final UUID quester;
-    private final String name;
     private final List<QuestObjective> objectives;
-    private final int startingObjective;
-    private final List<String> description;
     private final List<Integer> currentObjectiveIds;
 
-    public Quest(final UUID quester, final String name,
-            final List<QuestObjective> objectives, final int startingObjective,
-            final List<String> description) {
+    public Quest(final QuestOutline outline, final UUID quester,
+            final List<QuestObjective> objectives) {
+        this.outline = outline;
         this.quester = quester;
-        this.name = name;
         this.objectives = objectives;
-        this.startingObjective = startingObjective;
-        this.description = description;
 
         questId = UUID.randomUUID();
         currentObjectiveIds = new ArrayList<Integer>();
     }
 
-    public Quest(final UUID questId, final UUID quester, final String name,
-            final List<QuestObjective> objectives, final int startingObjective,
-            final List<String> description,
+    public Quest(final QuestOutline outline, final UUID questId,
+            final UUID quester, final List<QuestObjective> objectives,
             final List<Integer> currentObjectiveIds) {
+        this.outline = outline;
         this.questId = questId;
         this.quester = quester;
-        this.name = name;
         this.objectives = objectives;
-        this.startingObjective = startingObjective;
-        this.description = description;
         this.currentObjectiveIds = currentObjectiveIds;
     }
 
@@ -79,6 +74,10 @@ public final class Quest implements Serializable {
         // next objective, if applicable
     }
 
+    public QuestOutline getOutline() {
+        return outline;
+    }
+
     public UUID getQuestId() {
         return questId;
     }
@@ -87,20 +86,8 @@ public final class Quest implements Serializable {
         return quester;
     }
 
-    public String getName() {
-        return name;
-    }
-
     public List<QuestObjective> getObjectives() {
         return new ArrayList<QuestObjective>(objectives);
-    }
-
-    public int getStartingObjective() {
-        return startingObjective;
-    }
-
-    public List<String> getDescription() {
-        return new ArrayList<String>(description);
     }
 
     public List<Integer> getCurrentObjectiveIds() {
