@@ -28,7 +28,8 @@ package com.github.rolecraftdev.quest;
 
 import com.github.rolecraftdev.RolecraftCore;
 import com.github.rolecraftdev.data.PlayerData;
-import com.github.rolecraftdev.quest.loading.QuestLoader;
+import com.github.rolecraftdev.quest.loading.JSQuestLoader;
+import com.github.rolecraftdev.quest.loading.RCQQuestLoader;
 import com.github.rolecraftdev.quest.loading.exception.InvalidObjectiveException;
 import com.github.rolecraftdev.quest.loading.exception.InvalidQuestException;
 import com.github.rolecraftdev.quest.loading.outline.ObjectiveResultOutline;
@@ -50,20 +51,24 @@ import java.util.Map.Entry;
 public final class QuestManager {
     private final RolecraftCore plugin;
     private final Map<UUID, Quest> currentQuests;
-    private final QuestLoader loader;
+    private final RCQQuestLoader rcqLoader;
+    private final JSQuestLoader jsLoader;
     private final Map<String, ObjectiveType> objectiveTypes;
 
     public QuestManager(final RolecraftCore plugin) {
         this.plugin = plugin;
         currentQuests = new HashMap<UUID, Quest>();
-        loader = new QuestLoader(new File(plugin.getDataFolder(), "quests"));
+        rcqLoader = new RCQQuestLoader(
+                new File(plugin.getDataFolder(), "quests"));
+        jsLoader = new JSQuestLoader(new File(plugin.getDataFolder(),
+                "quests" + File.separator + "js"));
         objectiveTypes = new HashMap<String, ObjectiveType>();
 
         objectiveTypes.put(KillEntityObjectiveType.NAME,
                 new KillEntityObjectiveType());
 
         try {
-            loader.loadQuestOutlines();
+            rcqLoader.loadQuestOutlines();
         } catch (InvalidQuestException e) {
             e.printStackTrace();
         } catch (InvalidObjectiveException e) {
@@ -74,12 +79,12 @@ public final class QuestManager {
                 .registerEvents(new QuestListener(plugin), plugin);
     }
 
-    public QuestLoader getLoader() {
-        return loader;
-    }
-
-    public void addQuest(final Quest quest) {
-        currentQuests.put(quest.getQuestId(), quest);
+    public QuestOutline getQuestOutline(final String name) {
+        QuestOutline result = rcqLoader.getQuestOutline(name);
+        if (result == null) {
+            result = jsLoader.getQuestOutline(name);
+        }
+        return result;
     }
 
     public Quest getQuest(final UUID id) {
@@ -100,12 +105,16 @@ public final class QuestManager {
         return objectiveTypes.get(name);
     }
 
-    public void removeQuest(final UUID id) {
-        currentQuests.remove(id);
-    }
-
     public Set<UUID> getIds() {
         return currentQuests.keySet();
+    }
+
+    public void addQuest(final Quest quest) {
+        currentQuests.put(quest.getQuestId(), quest);
+    }
+
+    public void removeQuest(final UUID id) {
+        currentQuests.remove(id);
     }
 
     public void loadPlayerQuests(final PlayerData data) {
@@ -121,7 +130,7 @@ public final class QuestManager {
     }
 
     public Quest createQuest(final String quest, final UUID player) {
-        final QuestOutline outline = loader.getQuestOutline(quest);
+        final QuestOutline outline = rcqLoader.getQuestOutline(quest);
         final List<QuestObjective> objectives = new ArrayList<QuestObjective>();
         for (final QuestObjectiveOutline objectiveOutline : outline
                 .getObjectives()) {

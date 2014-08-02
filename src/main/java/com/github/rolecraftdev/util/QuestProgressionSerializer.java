@@ -69,8 +69,7 @@ public class QuestProgressionSerializer {
             data[i][1] = Integer.parseInt(split2[1]);
         }
 
-        final QuestOutline outline = questMgr.getLoader()
-                .getQuestOutline(name);
+        final QuestOutline outline = questMgr.getQuestOutline(name);
         final List<QuestObjective> objectives = new ArrayList<QuestObjective>();
         for (int i = 0; i < outline.getObjectives().size(); i++) {
             final QuestObjectiveOutline objectiveOutline = outline
