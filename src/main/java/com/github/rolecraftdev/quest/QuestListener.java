@@ -30,9 +30,11 @@ import com.github.rolecraftdev.RolecraftCore;
 import com.github.rolecraftdev.data.DataManager;
 import com.github.rolecraftdev.quest.objective.QuestObjective;
 import com.github.rolecraftdev.quest.objective.types.KillEntityObjectiveType;
+import com.github.rolecraftdev.quest.objective.types.KillHostileMobObjectiveType;
 
 import org.bukkit.entity.Entity;
 import org.bukkit.entity.EntityType;
+import org.bukkit.entity.Monster;
 import org.bukkit.entity.Player;
 import org.bukkit.event.EventHandler;
 import org.bukkit.event.EventPriority;
@@ -74,6 +76,13 @@ public class QuestListener implements Listener {
                             objective.setValue(
                                     ((Number) objective.getValue()).intValue()
                                             + 1);
+                        } else if (objective
+                                .getObjectiveType() instanceof KillHostileMobObjectiveType) {
+                            if (event.getEntity() instanceof Monster) {
+                                objective.setValue(
+                                        ((Number) objective.getValue())
+                                                .intValue() + 1);
+                            }
                         }
                     }
                 }

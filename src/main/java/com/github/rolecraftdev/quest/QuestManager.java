@@ -39,6 +39,7 @@ import com.github.rolecraftdev.quest.objective.ObjectiveResult;
 import com.github.rolecraftdev.quest.objective.ObjectiveType;
 import com.github.rolecraftdev.quest.objective.QuestObjective;
 import com.github.rolecraftdev.quest.objective.types.KillEntityObjectiveType;
+import com.github.rolecraftdev.quest.objective.types.KillHostileMobObjectiveType;
 import com.github.rolecraftdev.util.QuestProgressionSerializer;
 
 import java.io.File;
@@ -66,6 +67,9 @@ public final class QuestManager {
 
         objectiveTypes.put(KillEntityObjectiveType.NAME,
                 new KillEntityObjectiveType());
+        objectiveTypes.put(KillHostileMobObjectiveType.NAME,
+                new KillHostileMobObjectiveType());
+        // TODO: More
 
         try {
             rcqLoader.loadQuestOutlines();
