@@ -39,7 +39,18 @@ import java.util.ArrayList;
 import java.util.List;
 import java.util.UUID;
 
+/**
+ * Contains utility methods for serialization and deserialization of quest
+ * progression
+ */
 public class QuestProgressionSerializer {
+    /**
+     * Serialize the progression into the given quest into a string which can
+     * later be deserialized
+     *
+     * @param quest The quest to serialize the progression for
+     * @return A serialized string for the progression into the given quest
+     */
     public static String serializeProgression(final Quest quest) {
         final StringBuilder builder = new StringBuilder();
         builder.append(quest.getOutline().getName()).append(",");
@@ -53,6 +64,16 @@ public class QuestProgressionSerializer {
         return builder.toString();
     }
 
+    /**
+     * Gets a Quest object using the given arguments, used for deserializing
+     * quest progress which is stored in the database
+     *
+     * @param questMgr              The quest manager to get data from
+     * @param id                    The unique identifier of the quest
+     * @param serializedProgression The serialized progression into the quest
+     * @param player                The player embarking on the quest
+     * @return A Quest object created from the given data
+     */
     public static Quest getQuest(final QuestManager questMgr, final UUID id,
             final String serializedProgression, final UUID player) {
         final String[] split = serializedProgression.split(",");
