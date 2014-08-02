@@ -56,6 +56,9 @@ public final class RCListener implements Listener {
      * The {@link RolecraftCore} plugin object
      */
     private final RolecraftCore plugin;
+    /**
+     * The {@link RolecraftCore} {@link DataManager} object
+     */
     private final DataManager dataMgr;
 
     public RCListener(final RolecraftCore plugin) {
@@ -73,11 +76,12 @@ public final class RCListener implements Listener {
         new BukkitRunnable() {
             @Override
             public void run() {
-                if (data.getQuestProgression() == null) {
-                    cancel();
-                    return;
-                }
                 if (data.isLoaded()) {
+                    // If there's no progression we don't need to load anything
+                    if (data.getQuestProgression() == null) {
+                        cancel();
+                        return;
+                    }
                     plugin.getQuestManager().loadPlayerQuests(data);
                     cancel();
                 }
