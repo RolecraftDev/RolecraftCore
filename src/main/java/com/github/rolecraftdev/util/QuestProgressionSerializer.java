@@ -42,6 +42,7 @@ import java.util.UUID;
 public class QuestProgressionSerializer {
     public static String serializeProgression(final Quest quest) {
         final StringBuilder builder = new StringBuilder();
+        builder.append(quest.getOutline().getName()).append(",");
         for (final QuestObjective obj : quest.getObjectives()) {
             builder.append(obj.getOutline().getId()).append(":")
                     .append(obj.getValue()).append(",");
@@ -52,12 +53,16 @@ public class QuestProgressionSerializer {
         return builder.toString();
     }
 
-    public static Quest getQuest(final QuestManager questMgr,
-            final String serializedProgression, final String quest,
-            final UUID player) {
+    public static Quest getQuest(final QuestManager questMgr, final UUID id,
+            final String serializedProgression, final UUID player) {
         final String[] split = serializedProgression.split(",");
+        final String name = split[0];
         final int[][] data = new int[split.length][2];
-        for (int i = 0; i < split.length; i++) {
+        if (data.length < 1) {
+            return null;
+        }
+
+        for (int i = 1; i < split.length; i++) {
             final String objective = split[i];
             final String[] split2 = objective.split(":");
             data[i][0] = Integer.parseInt(split2[0]);
@@ -65,7 +70,7 @@ public class QuestProgressionSerializer {
         }
 
         final QuestOutline outline = questMgr.getLoader()
-                .getQuestOutline(quest);
+                .getQuestOutline(name);
         final List<QuestObjective> objectives = new ArrayList<QuestObjective>();
         for (int i = 0; i < outline.getObjectives().size(); i++) {
             final QuestObjectiveOutline objectiveOutline = outline
@@ -87,7 +92,7 @@ public class QuestProgressionSerializer {
             curObjectives.add(curObjective[0]);
         }
 
-        final Quest retVal = new Quest(outline, player, objectives,
+        final Quest retVal = new Quest(outline, id, player, objectives,
                 curObjectives);
         for (final QuestObjective objective : objectives) {
             for (final ObjectiveResult result : objective.getResults()) {

@@ -38,9 +38,11 @@ import com.github.rolecraftdev.quest.objective.ObjectiveResult;
 import com.github.rolecraftdev.quest.objective.ObjectiveType;
 import com.github.rolecraftdev.quest.objective.QuestObjective;
 import com.github.rolecraftdev.quest.objective.types.KillEntityObjectiveType;
+import com.github.rolecraftdev.util.QuestProgressionSerializer;
 
 import java.io.File;
 import java.util.*;
+import java.util.Map.Entry;
 
 /**
  * Handles quests in Rolecraft.
@@ -107,7 +109,15 @@ public final class QuestManager {
     }
 
     public void loadPlayerQuests(final PlayerData data) {
-
+        if (data.getQuestProgression() == null) {
+            return;
+        }
+        for (final Entry<UUID, String> entry : data.getQuestProgression()
+                .entrySet()) {
+            currentQuests.put(entry.getKey(), QuestProgressionSerializer
+                    .getQuest(this, entry.getKey(), entry.getValue(),
+                            data.getPlayerId()));
+        }
     }
 
     public Quest createQuest(final String quest, final UUID player) {
