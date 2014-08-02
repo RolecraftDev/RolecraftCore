@@ -26,14 +26,13 @@
  */
 package com.github.rolecraftdev.guild;
 
-import com.github.rolecraftdev.RolecraftCore;
 import com.github.rolecraftdev.data.Region2D;
 import com.github.rolecraftdev.event.guild.GuildPlayerJoinEvent;
+import com.github.rolecraftdev.event.guild.GuildPlayerLeaveEvent;
 
 import org.bukkit.Bukkit;
 import org.bukkit.Location;
 import org.bukkit.entity.Entity;
-import org.bukkit.plugin.java.JavaPlugin;
 
 import java.util.EnumSet;
 import java.util.HashSet;
@@ -351,12 +350,33 @@ public final class Guild {
      */
     public void addMember(final UUID member, final GuildRank rank) {
         Bukkit.getPluginManager().callEvent(new GuildPlayerJoinEvent(
-                JavaPlugin.getPlugin(RolecraftCore.class), this,
-                Bukkit.getPlayer(member), rank));
+                guildManager.getPlugin(), this, Bukkit.getPlayer(member),
+                rank));
 
         members.add(member);
         rank.addMember(member);
         guildManager.getPlugin().getDataStore().addPlayerToGuild(member, this);
+        guildManager.getPlugin().getDataStore().updateGuildRanks(this);
+    }
+
+    /**
+     * Removes the given member from this {@link Guild}
+     *
+     * @param member - The unique identifier of the player to remove
+     */
+    public void removeMember(final UUID member) {
+        Bukkit.getPluginManager().callEvent(new GuildPlayerLeaveEvent(
+                guildManager.getPlugin(), this, Bukkit.getPlayer(member)));
+
+        boolean removed = members.remove(member);
+        if (!removed) {
+            throw new IllegalArgumentException();
+        }
+        for (final GuildRank rank : getPlayerRanks(member)) {
+            rank.removeMember(member);
+        }
+        guildManager.getPlugin().getDataStore()
+                .removePlayerFromGuild(member, this);
         guildManager.getPlugin().getDataStore().updateGuildRanks(this);
     }
 
