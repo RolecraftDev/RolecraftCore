@@ -32,16 +32,38 @@ import org.bukkit.entity.EntityType;
  * Utilities related to player levelling and experience
  */
 public class LevelUtil {
+    /**
+     * Gets the level which a player with the given amount of experience would
+     * have
+     *
+     * @param experience - The amount of experience to get the level for
+     * @return The level correlating to the given amount of experience
+     */
     public static final int getLevel(float experience) {
         // TODO: make this return a level given experience
         return -1;
     }
 
+    /**
+     * Gets the amount of experience required to reach the next level from the
+     * given amount of experience
+     *
+     * @param experience The current amount of experience
+     * @return The amount of experience required for a player with the given
+     * amount of experience to level up
+     */
     public static final float expToNextLevel(float experience) {
         // TODO: make this return the experience to the next level
         return -1;
     }
 
+    /**
+     * Gets the amount of experience which is gained from killing an entity of
+     * the given type
+     *
+     * @param entityType The type of entity to get the kill exp for
+     * @return The amount of experience gained from killing the given entity
+     */
     public static final float expFromKill(final EntityType entityType) {
         // TODO: make this return exp gain from killing the given entity type
         return 0;
