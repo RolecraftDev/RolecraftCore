@@ -26,10 +26,14 @@
  */
 package com.github.rolecraftdev.guild;
 
+import com.github.rolecraftdev.RolecraftCore;
 import com.github.rolecraftdev.data.Region2D;
+import com.github.rolecraftdev.event.guild.GuildPlayerJoinEvent;
 
+import org.bukkit.Bukkit;
 import org.bukkit.Location;
 import org.bukkit.entity.Entity;
+import org.bukkit.plugin.java.JavaPlugin;
 
 import java.util.EnumSet;
 import java.util.HashSet;
@@ -346,6 +350,10 @@ public final class Guild {
      * @param rank   - The rank the specified player will have
      */
     public void addMember(final UUID member, final GuildRank rank) {
+        Bukkit.getPluginManager().callEvent(new GuildPlayerJoinEvent(
+                JavaPlugin.getPlugin(RolecraftCore.class), this,
+                Bukkit.getPlayer(member), rank));
+
         members.add(member);
         rank.addMember(member);
         guildManager.getPlugin().getDataStore().addPlayerToGuild(member, this);

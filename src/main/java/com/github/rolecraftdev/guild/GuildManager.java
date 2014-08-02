@@ -106,7 +106,7 @@ public final class GuildManager {
         disallowHallPvp = guildConfig.getBoolean("hall.disallow-pvp", true);
 
         loaded = false;
-        
+
         /*
          * Load all guilds, protection from SQL errors by not querying a table that does not exist
          */
