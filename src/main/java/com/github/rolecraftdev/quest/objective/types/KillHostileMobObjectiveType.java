@@ -43,6 +43,10 @@ public class KillHostileMobObjectiveType implements ObjectiveType {
         }
 
         for (final ObjectiveResult result : results) {
+            if (!(result
+                    .getObjectiveType() instanceof KillHostileMobObjectiveType)) {
+                continue;
+            }
             if (!(result.getOutline().getRequirement() instanceof Number)) {
                 throw new IllegalArgumentException();
             }

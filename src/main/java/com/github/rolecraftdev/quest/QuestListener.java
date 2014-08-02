@@ -45,9 +45,21 @@ import org.bukkit.event.entity.EntityDeathEvent;
 
 import java.util.UUID;
 
+/**
+ * Listens for events and updates quest objectives based on their outcome
+ */
 public class QuestListener implements Listener {
+    /**
+     * The {@link RolecraftCore} plugin object
+     */
     private final RolecraftCore plugin;
+    /**
+     * The {@link RolecraftCore} {@link QuestManager} object
+     */
     private final QuestManager questMgr;
+    /**
+     * The {@link RolecraftCore} {@link DataManager} object
+     */
     private final DataManager dataMgr;
 
     public QuestListener(final RolecraftCore plugin) {

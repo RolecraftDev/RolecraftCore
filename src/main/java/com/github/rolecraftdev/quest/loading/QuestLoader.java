@@ -34,8 +34,17 @@ import java.io.File;
 import java.util.HashSet;
 import java.util.Set;
 
+/**
+ * Loads Rolecraft quests
+ */
 public abstract class QuestLoader {
+    /**
+     * The directory to load quests from
+     */
     protected final File directory;
+    /**
+     * A Set of loaded quest outlines
+     */
     protected final Set<QuestOutline> questOutlines;
 
     public QuestLoader(final File directory) {
@@ -47,6 +56,12 @@ public abstract class QuestLoader {
         questOutlines = new HashSet<QuestOutline>();
     }
 
+    /**
+     * Loads all of the quest outlines for this quest type
+     *
+     * @throws InvalidQuestException     If a quest is invalid
+     * @throws InvalidObjectiveException If a quest objective is invalid
+     */
     public abstract void loadQuestOutlines() throws InvalidQuestException,
             InvalidObjectiveException;
 

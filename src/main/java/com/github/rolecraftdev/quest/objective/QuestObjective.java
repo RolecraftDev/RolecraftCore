@@ -29,6 +29,9 @@ package com.github.rolecraftdev.quest.objective;
 import com.github.rolecraftdev.quest.Quest;
 import com.github.rolecraftdev.quest.loading.outline.QuestObjectiveOutline;
 
+/**
+ * Represents a single objective within a quest
+ */
 public class QuestObjective {
     private final QuestObjectiveOutline outline;
     /**

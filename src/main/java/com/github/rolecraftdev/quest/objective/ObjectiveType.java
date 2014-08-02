@@ -26,8 +26,25 @@
  */
 package com.github.rolecraftdev.quest.objective;
 
+/**
+ * A representation of the type of a quest objective
+ */
 public interface ObjectiveType {
+    /**
+     * Gets the completed ObjectiveResult from the given results for the given
+     * value. If none have been completed, null is returned
+     *
+     * @param results The results to get the completed result from
+     * @param value   The value for which the results are checked
+     * @return The completed ObjectiveResult out of the given results, or null
+     *         if none have been completed
+     */
     ObjectiveResult getCompleted(ObjectiveResult[] results, Object value);
 
+    /**
+     * Gets the name of this objective type
+     *
+     * @return The name of this objective type
+     */
     String getTypeName();
 }

@@ -44,6 +44,10 @@ public class KillEntityObjectiveType implements ObjectiveType {
         }
 
         for (final ObjectiveResult result : results) {
+            if (!(result
+                    .getObjectiveType() instanceof KillEntityObjectiveType)) {
+                continue;
+            }
             if (!(result.getOutline().getRequirement() instanceof Number)) {
                 throw new IllegalArgumentException();
             }

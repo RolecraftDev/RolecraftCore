@@ -42,10 +42,26 @@ import java.util.UUID;
  * Represents a quest in Rolecraft.
  */
 public final class Quest {
+    /**
+     * The quest outline, which contains basic data about this quest which is
+     * the same no matter what the stage of the quest
+     */
     private final QuestOutline outline;
+    /**
+     * The unique identifier of this quest, used for database storage
+     */
     private final UUID questId;
+    /**
+     * The unique identifier of the player embarking on this quest
+     */
     private final UUID quester;
+    /**
+     * The objectives for this quest
+     */
     private final List<QuestObjective> objectives;
+    /**
+     * The ids of the current objectives for this quest
+     */
     private final List<Integer> currentObjectiveIds;
 
     public Quest(final QuestOutline outline, final UUID quester,
@@ -68,6 +84,13 @@ public final class Quest {
         this.currentObjectiveIds = currentObjectiveIds;
     }
 
+    /**
+     * Called when an objective is completed and deals with switching to the
+     * next objective, ending the quest and sending messages to the player
+     *
+     * @param objective The objective which was completed
+     * @param result    The end result of the completed objective
+     */
     public void objectiveComplete(final QuestObjective objective,
             final ObjectiveResult result) {
         final Player player = Bukkit.getPlayer(quester);

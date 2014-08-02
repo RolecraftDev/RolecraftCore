@@ -29,17 +29,22 @@ package com.github.rolecraftdev.quest.objective;
 import com.github.rolecraftdev.quest.Quest;
 import com.github.rolecraftdev.quest.loading.outline.ObjectiveResultOutline;
 
+/**
+ * Represents one outcome for a quest objective - potentially one of many
+ */
 public class ObjectiveResult {
-    private ObjectiveResultOutline outline;
+    /**
+     * The outline for this result
+     */
+    private final ObjectiveResultOutline outline;
     /**
      * The type of objective this result relates to
      */
     private final ObjectiveType type;
 
     /**
-     * The objective this result is for
+     * The Quest this result's objective is a part of
      */
-    private QuestObjective objective;
     private Quest quest;
 
     public ObjectiveResult(final ObjectiveResultOutline outline,
@@ -50,6 +55,10 @@ public class ObjectiveResult {
 
     public ObjectiveResultOutline getOutline() {
         return outline;
+    }
+
+    public ObjectiveType getObjectiveType() {
+        return type;
     }
 
     public Quest getQuest() {
