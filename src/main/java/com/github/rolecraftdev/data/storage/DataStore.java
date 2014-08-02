@@ -39,16 +39,8 @@ import org.bukkit.Bukkit;
 import org.bukkit.Location;
 import org.bukkit.scheduler.BukkitRunnable;
 
-import java.sql.Connection;
-import java.sql.PreparedStatement;
-import java.sql.ResultSet;
-import java.sql.ResultSetMetaData;
-import java.sql.SQLException;
-import java.util.HashMap;
-import java.util.HashSet;
-import java.util.Map;
-import java.util.Set;
-import java.util.UUID;
+import java.sql.*;
+import java.util.*;
 
 /**
  * Represents a form of data storage in Rolecraft - implemented in MySQL and
@@ -504,12 +496,13 @@ public abstract class DataStore {
      * @param recursive only for recursion, call with false
      */
     @SuppressWarnings("deprecation")
-    public void requestPlayerData(final PlayerData callback, boolean recursive) {
-        if(isQuestsLoaded()) {
+    public void requestPlayerData(final PlayerData callback,
+            boolean recursive) {
+        if (isQuestsLoaded()) {
             final String uuid = callback.getPlayerId().toString();
             final String name = callback.getPlayerName();
             final float originalSin = parent.getOriginalSin();
-            if(recursive) {
+            if (recursive) {
                 Connection connection = getConnection();
                 PreparedStatement ps = null;
                 ResultSet rs = null;
@@ -521,10 +514,12 @@ public abstract class DataStore {
 
                     if (rs.next()) {
                         ResultSetMetaData rsmd = rs.getMetaData();
-                        Map<UUID,String> questData = new HashMap<UUID,String>();
-                        for(int i = 0; i <rsmd.getColumnCount(); i++ ) {
-                            if(rsmd.getColumnName(i).startsWith("quest")) {
-                                questData.put(UUID.fromString(rsmd.getColumnName(i).substring(6)), rs.getString(i));
+                        Map<UUID, String> questData = new HashMap<UUID, String>();
+                        for (int i = 0; i < rsmd.getColumnCount(); i++) {
+                            if (rsmd.getColumnName(i).startsWith("quest")) {
+                                questData.put(UUID.fromString(
+                                        rsmd.getColumnName(i).substring(6)),
+                                        rs.getString(i));
                             }
                         }
                         callback.initialise(
@@ -538,7 +533,8 @@ public abstract class DataStore {
                                 + " (uuid, name) VALUES (?,?)");
                         ps.setString(1, uuid);
                         ps.setString(2, name);
-                        callback.initialise(null, null, 0, 0f, -originalSin, null);
+                        callback.initialise(null, null, 0, 0f, -originalSin,
+                                null);
                     }
 
                 } catch (SQLException ex) {
@@ -547,8 +543,7 @@ public abstract class DataStore {
                     close(ps, rs);
                     freeConnection(connection);
                 }
-            }
-            else {
+            } else {
                 new BukkitRunnable() {
                     @SuppressWarnings("deprecation")
                     @Override
@@ -557,33 +552,43 @@ public abstract class DataStore {
                         PreparedStatement ps = null;
                         ResultSet rs = null;
                         try {
-                            ps = connection.prepareStatement("SELECT * FROM " + pt
-                                    + " WHERE uuid = ?");
+                            ps = connection
+                                    .prepareStatement("SELECT * FROM " + pt
+                                            + " WHERE uuid = ?");
                             ps.setString(1, uuid);
                             rs = ps.executeQuery();
-    
+
                             if (rs.next()) {
                                 ResultSetMetaData rsmd = rs.getMetaData();
-                                Map<UUID,String> questData = new HashMap<UUID,String>();
-                                for(int i = 0; i <rsmd.getColumnCount(); i++ ) {
-                                    if(rsmd.getColumnName(i).startsWith("quest")) {
-                                        questData.put(UUID.fromString(rsmd.getColumnName(i).substring(6)), rs.getString(i));
+                                Map<UUID, String> questData = new HashMap<UUID, String>();
+                                for (int i = 0;
+                                     i < rsmd.getColumnCount(); i++) {
+                                    if (rsmd.getColumnName(i)
+                                            .startsWith("quest")) {
+                                        questData.put(UUID.fromString(
+                                                rsmd.getColumnName(i)
+                                                        .substring(6)),
+                                                rs.getString(i));
                                     }
                                 }
                                 callback.initialise(
                                         UUID.fromString(rs.getString("guild")),
-                                        UUID.fromString(rs.getString("profession")),
-                                        rs.getInt("influence"), rs.getFloat("exp"),
-                                        rs.getFloat("karma"),questData);
+                                        UUID.fromString(
+                                                rs.getString("profession")),
+                                        rs.getInt("influence"),
+                                        rs.getFloat("exp"),
+                                        rs.getFloat("karma"), questData);
                             } else {
                                 ps.close();
-                                ps = connection.prepareStatement("INSERT INTO " + pt
-                                        + " (uuid, name) VALUES (?,?)");
+                                ps = connection
+                                        .prepareStatement("INSERT INTO " + pt
+                                                + " (uuid, name) VALUES (?,?)");
                                 ps.setString(1, uuid);
                                 ps.setString(2, name);
-                                callback.initialise(null, null, 0, 0f, -originalSin, null);
+                                callback.initialise(null, null, 0, 0f,
+                                        -originalSin, null);
                             }
-    
+
                         } catch (SQLException ex) {
                             ex.printStackTrace();
                         } finally {
@@ -593,19 +598,18 @@ public abstract class DataStore {
                     }
                 }.runTaskAsynchronously(getParent());
             }
-        }
-        else {
-            new BukkitRunnable () {
+        } else {
+            new BukkitRunnable() {
                 @Override
-                public void run () {
-                    if(isQuestsLoaded()) {
+                public void run() {
+                    if (isQuestsLoaded()) {
                         this.cancel();
                         requestPlayerData(callback, true);
                     }
                 }
             }.runTaskTimerAsynchronously(getParent(), 2, 2);
-            
+
         }
-       
+
     }
 }

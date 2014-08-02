@@ -69,6 +69,7 @@ public final class QuestManager {
 
         try {
             rcqLoader.loadQuestOutlines();
+            jsLoader.loadQuestOutlines();
         } catch (InvalidQuestException e) {
             e.printStackTrace();
         } catch (InvalidObjectiveException e) {

@@ -29,8 +29,6 @@ package com.github.rolecraftdev.quest.objective.types;
 import com.github.rolecraftdev.quest.objective.ObjectiveResult;
 import com.github.rolecraftdev.quest.objective.ObjectiveType;
 
-import java.io.Serializable;
-
 /**
  * A type of quest objective which requires killing a certain amount of
  * entities

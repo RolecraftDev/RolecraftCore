@@ -28,7 +28,6 @@ package com.github.rolecraftdev.quest;
 
 import com.github.rolecraftdev.RolecraftCore;
 import com.github.rolecraftdev.data.DataManager;
-import com.github.rolecraftdev.data.PlayerData;
 import com.github.rolecraftdev.quest.objective.QuestObjective;
 import com.github.rolecraftdev.quest.objective.types.KillEntityObjectiveType;
 
