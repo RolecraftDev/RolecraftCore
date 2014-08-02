@@ -28,6 +28,7 @@ package com.github.rolecraftdev.guild;
 
 import com.github.rolecraftdev.data.Region2D;
 import com.github.rolecraftdev.event.guild.GuildPlayerJoinEvent;
+import com.github.rolecraftdev.event.guild.GuildPlayerKickedEvent;
 import com.github.rolecraftdev.event.guild.GuildPlayerLeaveEvent;
 
 import org.bukkit.Bukkit;
@@ -365,10 +366,25 @@ public final class Guild {
      * @param member - The unique identifier of the player to remove
      */
     public void removeMember(final UUID member) {
-        Bukkit.getPluginManager().callEvent(new GuildPlayerLeaveEvent(
-                guildManager.getPlugin(), this, Bukkit.getPlayer(member)));
+        removeMember(member, false);
+    }
 
-        boolean removed = members.remove(member);
+    /**
+     * Removes the given member from this {@link Guild}
+     *
+     * @param member - The unique identifier of the player to remove
+     * @param kicked - Whether the player is being removed due to being kicked
+     */
+    public void removeMember(final UUID member, final boolean kicked) {
+        if (kicked) {
+            Bukkit.getPluginManager().callEvent(new GuildPlayerKickedEvent(
+                    guildManager.getPlugin(), this, Bukkit.getPlayer(member)));
+        } else {
+            Bukkit.getPluginManager().callEvent(new GuildPlayerLeaveEvent(
+                    guildManager.getPlugin(), this, Bukkit.getPlayer(member)));
+        }
+
+        final boolean removed = members.remove(member);
         if (!removed) {
             throw new IllegalArgumentException();
         }
