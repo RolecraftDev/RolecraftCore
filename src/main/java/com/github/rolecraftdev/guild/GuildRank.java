@@ -26,6 +26,7 @@
  */
 package com.github.rolecraftdev.guild;
 
+import java.util.EnumSet;
 import java.util.HashSet;
 import java.util.Set;
 import java.util.UUID;
@@ -83,7 +84,7 @@ public final class GuildRank {
      * members of this {@link GuildRank} can perform
      */
     public Set<GuildAction> getPermittedActions() {
-        return new HashSet<GuildAction>(permitted);
+        return EnumSet.copyOf(permitted);
     }
 
     /**
