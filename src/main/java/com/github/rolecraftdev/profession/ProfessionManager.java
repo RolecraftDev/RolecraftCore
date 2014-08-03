@@ -29,6 +29,8 @@ package com.github.rolecraftdev.profession;
 import com.github.rolecraftdev.RolecraftCore;
 import com.github.rolecraftdev.data.storage.YamlFile;
 import com.github.rolecraftdev.util.ProfessionDeserializer;
+import org.bukkit.Bukkit;
+import org.bukkit.permissions.Permission;
 
 import java.io.File;
 import java.util.HashSet;
@@ -129,7 +131,13 @@ public final class ProfessionManager {
      * this {@link Profession} and thus, isn't added. True otherwise.
      */
     public boolean addProfession(final Profession profession) {
-        return professions.add(profession);
+        boolean result = professions.add(profession);
+        if (result) {
+            Bukkit.getPluginManager().addPermission(new Permission(
+                    "rolecore.profession." + profession.getName().toLowerCase(),
+                    "Allows access to the '" + profession.getName() + "' profession."));
+        }
+        return result;
     }
 
     /**
@@ -151,7 +159,7 @@ public final class ProfessionManager {
             final ProfessionDeserializer deserializer =
                     new ProfessionDeserializer(new YamlFile(professionFile));
 
-            professions.add(deserializer.getProfession(this));
+            addProfession(deserializer.getProfession(this));
         }
     }
 }
