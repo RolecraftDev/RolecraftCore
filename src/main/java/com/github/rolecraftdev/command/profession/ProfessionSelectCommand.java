@@ -59,7 +59,7 @@ public class ProfessionSelectCommand extends PlayerCommandHandler {
         }
 
         final Profession profession = professionMgr
-                .getProfession(args.getArgument(1).rawString());
+                .getProfession(args.getRaw(1));
         if (profession == null) {
             player.sendMessage(
                     ChatColor.DARK_RED + "That profession doesn't exist!");
@@ -73,6 +73,12 @@ public class ProfessionSelectCommand extends PlayerCommandHandler {
         if (data.getProfession() != null) {
             player.sendMessage(ChatColor.DARK_RED +
                     "You already have a profession!");
+            return;
+        }
+        if (!player.hasPermission("rolecraft.profession." + profession
+                .getName())) {
+            player.sendMessage(ChatColor.DARK_RED
+                    + "You don't have permission to select that profession!");
             return;
         }
 
