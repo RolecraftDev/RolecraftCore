@@ -29,6 +29,7 @@ package com.github.rolecraftdev.profession;
 import com.github.rolecraftdev.RolecraftCore;
 import com.github.rolecraftdev.data.storage.YamlFile;
 import com.github.rolecraftdev.util.ProfessionDeserializer;
+
 import org.bukkit.Bukkit;
 import org.bukkit.permissions.Permission;
 
@@ -134,8 +135,9 @@ public final class ProfessionManager {
         boolean result = professions.add(profession);
         if (result) {
             Bukkit.getPluginManager().addPermission(new Permission(
-                    "rolecore.profession." + profession.getName().toLowerCase(),
-                    "Allows access to the '" + profession.getName() + "' profession."));
+                    "rolecraft.profession." + profession.getName()
+                            .toLowerCase(), "Allows access to the '"
+                    + profession.getName() + "' profession."));
         }
         return result;
     }
