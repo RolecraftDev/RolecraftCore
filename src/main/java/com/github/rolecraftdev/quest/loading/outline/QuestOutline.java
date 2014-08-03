@@ -29,10 +29,25 @@ package com.github.rolecraftdev.quest.loading.outline;
 import java.util.ArrayList;
 import java.util.List;
 
+/**
+ * Represents a basic outline for a Rolecraft quest
+ */
 public final class QuestOutline {
+    /**
+     * The name of the quest
+     */
     private final String name;
+    /**
+     * A description of the quest, where each element is a new line
+     */
     private final List<String> description;
+    /**
+     * A list of outlines for the quest's objectives
+     */
     private final List<QuestObjectiveOutline> objectives;
+    /**
+     * The id of the first objective for the quest
+     */
     private final int startingObjective;
 
     public QuestOutline(final String name, final List<String> description,

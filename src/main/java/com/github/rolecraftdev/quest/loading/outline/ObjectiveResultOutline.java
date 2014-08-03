@@ -26,12 +26,33 @@
  */
 package com.github.rolecraftdev.quest.loading.outline;
 
+/**
+ * Represents the basic outline of a possible result for an objective
+ */
 public class ObjectiveResultOutline {
+    /**
+     * The id for the result
+     */
     private final int id;
+    /**
+     * The type of result this is
+     */
     private final String typeName;
+    /**
+     * Which objective this result leads to
+     */
     private final int outcome;
+    /**
+     * The requirement to complete this result
+     */
     private final Object requirement;
+    /**
+     * The id for this result's objective
+     */
     private final int objectiveId;
+    /**
+     * The name of the quest this result's objective is a part of
+     */
     private final String questName;
 
     public ObjectiveResultOutline(final int id, final String typeName,
