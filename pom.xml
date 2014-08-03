@@ -52,6 +52,11 @@
             <artifactId>albkit</artifactId>
             <version>0.2.0-SNAPSHOT</version>
         </dependency>
+        <dependency>
+            <groupId>org.mozilla</groupId>
+            <artifactId>rhino</artifactId>
+            <version>1.7R4</version>
+        </dependency>
     </dependencies>
 
     <build>
@@ -78,6 +83,15 @@
             </plugin>
             <plugin>
                 <artifactId>maven-shade-plugin</artifactId>
+                <configuration>
+                    <artifactSet>
+                        <includes>
+                            <include>com.traksag:channels</include>
+                            <include>pw.ian:albkit</include>
+                            <include>org.mozilla:rhino</include>
+                        </includes>
+                    </artifactSet>
+                </configuration>
                 <executions>
                     <execution>
                         <phase>package</phase>
@@ -90,18 +104,14 @@
                                     <pattern>pw.ian.albkit</pattern>
                                     <shadedPattern>com.github.rolecraftdev.albkit</shadedPattern>
                                 </relocation>
+                                <relocation>
+                                    <pattern>org.mozilla.rhino</pattern>
+                                    <shadedPattern>com.github.rolecraftdev.rhino</shadedPattern>
+                                </relocation>
                             </relocations>
                         </configuration>
                     </execution>
                 </executions>
-                <configuration>
-                    <artifactSet>
-                        <includes>
-                            <include>com.traksag:channels</include>
-                            <include>pw.ian:albkit</include>
-                        </includes>
-                    </artifactSet>
-                </configuration>
             </plugin>
             <plugin>
                 <groupId>com.mycila.maven-license-plugin</groupId>
