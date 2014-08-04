@@ -37,7 +37,7 @@ import java.util.UUID;
  * Manages data objects, such as {@link PlayerData} objects, in Rolecraft
  */
 public final class DataManager {
-    public static final String CONFIRM_COMMAND_METADATA = "confirm";
+    public static final String CONFIRM_COMMAND_METADATA = "rolecraft-confirm";
 
     /**
      * The Rolecraft plugin
