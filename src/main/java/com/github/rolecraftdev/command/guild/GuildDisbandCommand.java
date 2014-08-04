@@ -30,12 +30,14 @@ import pw.ian.albkit.command.CommandHandler;
 import pw.ian.albkit.command.parser.Arguments;
 
 import com.github.rolecraftdev.RolecraftCore;
+import com.github.rolecraftdev.data.DataManager;
 import com.github.rolecraftdev.guild.Guild;
 import com.github.rolecraftdev.guild.GuildManager;
 
 import org.bukkit.ChatColor;
 import org.bukkit.command.CommandSender;
 import org.bukkit.entity.Player;
+import org.bukkit.metadata.FixedMetadataValue;
 
 import java.util.UUID;
 
@@ -93,17 +95,17 @@ public class GuildDisbandCommand extends CommandHandler {
             }
         }
 
-        if (guild != null) {
-            if (sender instanceof Player) {
-                plugin.getConfirmCommand().addWaiting(
-                        ((Player) sender).getUniqueId(),
-                        new GuildDisbandTask(guildManager, sender, guild));
-            } else {
-                guildManager.removeGuild(guild);
-                sender.sendMessage(
-                        ChatColor.GRAY + "Disbanded the guild: " + guild
-                                .getName());
-            }
+        if (sender instanceof Player) {
+            final Player player = (Player) sender;
+            player.setMetadata(DataManager.CONFIRM_COMMAND_METADATA,
+                    new FixedMetadataValue(plugin,
+                            new GuildDisbandTask(guildManager, player,
+                                    guild)));
+        } else {
+            guildManager.removeGuild(guild);
+            sender.sendMessage(
+                    ChatColor.GRAY + "Disbanded the guild: " + guild
+                            .getName());
         }
     }
 

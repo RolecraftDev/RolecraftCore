@@ -30,23 +30,20 @@ import pw.ian.albkit.command.PlayerCommandHandler;
 import pw.ian.albkit.command.parser.Arguments;
 
 import com.github.rolecraftdev.RolecraftCore;
+import com.github.rolecraftdev.data.DataManager;
 
 import org.bukkit.ChatColor;
 import org.bukkit.entity.Player;
+import org.bukkit.metadata.MetadataValue;
 
-import java.util.HashMap;
-import java.util.Map;
-import java.util.UUID;
+import java.util.List;
 
 public class RCConfirmCommand extends PlayerCommandHandler {
-    private Map<UUID, Runnable> waiting = new HashMap<UUID, Runnable>();
-
     private final RolecraftCore plugin;
 
     public RCConfirmCommand(final RolecraftCore plugin) {
         super(plugin, "rcconfirm");
         this.plugin = plugin;
-        plugin.setConfirmCommand(this);
 
         setUsage("/rcconfirm [message]");
         setDescription("Used to confirm sensitive commands");
@@ -54,19 +51,19 @@ public class RCConfirmCommand extends PlayerCommandHandler {
 
     @Override
     public void onCommand(final Player player, final Arguments args) {
-        final UUID id = player.getUniqueId();
-        if (waiting.containsKey(id)) {
-            waiting.get(id).run();
-        } else {
+        final List<MetadataValue> values = player
+                .getMetadata(DataManager.CONFIRM_COMMAND_METADATA);
+        if (values == null || values.isEmpty()) {
             player.sendMessage(
                     ChatColor.DARK_RED + "You have nothing to confirm!");
+            return;
         }
-    }
 
-    public void addWaiting(final UUID id, final Runnable runnable) {
-        if (waiting.containsKey(id)) {
-            waiting.remove(id);
+        for (final MetadataValue value : values) {
+            if (!(value instanceof Runnable)) {
+                continue;
+            }
+            ((Runnable) value.value()).run();
         }
-        waiting.put(id, runnable);
     }
 }

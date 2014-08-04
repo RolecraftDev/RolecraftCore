@@ -91,11 +91,6 @@ public final class RolecraftCore extends AlbPlugin {
      * The Vault Economy instance.
      */
     private Economy economy;
-    /**
-     * The confirm command instance, used for guild disbanding and anything else
-     * which needs confirming
-     */
-    private RCConfirmCommand confirmCommand;
 
     // Configuration options
 
@@ -243,16 +238,6 @@ public final class RolecraftCore extends AlbPlugin {
     }
 
     /**
-     * Gets the instance of the {@link RCConfirmCommand} object used for
-     * confirmation of sensitive actions, such as disbanding a guild
-     *
-     * @return The instance of the {@link RCConfirmCommand}
-     */
-    public RCConfirmCommand getConfirmCommand() {
-        return confirmCommand;
-    }
-
-    /**
      * Gets the Rolecraft {@link QuestManager}, which keeps track of all loaded
      * quests
      *
@@ -289,23 +274,6 @@ public final class RolecraftCore extends AlbPlugin {
      */
     public void setSqlLoaded(boolean loaded) {
         this.sqlLoaded = loaded;
-    }
-
-    /**
-     * Sets the {@link RCConfirmCommand} instance used for confirming sensitive
-     * actions
-     *
-     * @param confirmCommand The {@link RCConfirmCommand} instance to use
-     */
-    public void setConfirmCommand(final RCConfirmCommand confirmCommand) {
-        if (!isEnabled()) {
-            throw new IllegalStateException();
-        }
-        if (this.confirmCommand != null) {
-            throw new IllegalStateException();
-        }
-
-        this.confirmCommand = confirmCommand;
     }
 
     /**
