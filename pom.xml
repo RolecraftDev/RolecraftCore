@@ -11,6 +11,13 @@
         <name>RolecraftDev</name>
         <url>http://rolecraftdev.github.com</url>
     </organization>
+    
+    <distributionManagement>
+      <repository>
+        <id>ftp-server</id>
+        <url>ftp://0002jgy.wcomhost.com/htdocs/maven2</url>
+      </repository>
+    </distributionManagement>
 
     <repositories>
         <repository>
@@ -161,5 +168,12 @@
                 </goals>
             </plugin>
         </plugins>
+        <extensions>
+         <extension>
+          <groupId>org.apache.maven.wagon</groupId>
+          <artifactId>wagon-ftp</artifactId>
+          <version>1.0-alpha-6</version>
+        </extension>
+      </extensions>
     </build>
 </project>
