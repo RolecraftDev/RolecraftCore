@@ -26,6 +26,7 @@
  */
 package com.github.rolecraftdev.magic;
 
+import org.bukkit.entity.Arrow;
 import org.bukkit.event.EventHandler;
 import org.bukkit.event.EventPriority;
 import org.bukkit.event.Listener;
@@ -35,7 +36,11 @@ public class ProjectileListener implements Listener {
     
     @EventHandler(priority = EventPriority.HIGHEST)
     public void onHit(EntityDamageByEntityEvent e) {
-        
+        if(e.getDamager() instanceof Arrow) {
+            if(e.getDamager().hasMetadata("Multiplier")) {
+                e.setDamage(e.getDamage() * e.getDamager().getMetadata("Multiplier").get(0).asFloat() );
+            }
+        }
     }
 
 }

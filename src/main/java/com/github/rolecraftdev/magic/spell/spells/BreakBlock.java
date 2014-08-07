@@ -64,12 +64,19 @@ public class BreakBlock implements Spell {
 
     @Override
     public float estimateRightClickMana(Player ply, Block block, int modifier) {
-        return 0;
+        return 3;
     }
 
     @Override
     public float rightClick(Player ply, Block block, int modifier) {
-        return 0;
+        if (block != null) {
+            BlockBreakEvent event = new BlockBreakEvent(block, ply);
+            Bukkit.getPluginManager().callEvent(event);
+            if (!event.isCancelled()) {
+                block.setType(Material.AIR);
+            }
+        }
+        return 3;
     }
 
     @Override
@@ -96,9 +103,10 @@ public class BreakBlock implements Spell {
         ItemMeta meta = result.getItemMeta();
         meta.setDisplayName(ChatColor.AQUA + getName());
         meta.addEnchant(Enchantment.LUCK, 10, true);
+        result.setItemMeta(meta);
         ShapedRecipe recipe = new ShapedRecipe(result);
         // custom recipe stuff
-        recipe.shape("IPI", "PBP", "IPI");
+        recipe.shape("IPB", "PBP", "BPI");
         recipe.setIngredient('I', Material.IRON_INGOT);
         recipe.setIngredient('P', Material.DIAMOND_PICKAXE);
         recipe.setIngredient('B', Material.IRON_BLOCK);

@@ -30,6 +30,7 @@ import java.util.HashMap;
 import java.util.Map;
 
 import org.bukkit.entity.Player;
+import org.bukkit.plugin.Plugin;
 
 import com.github.rolecraftdev.RolecraftCore;
 import com.github.rolecraftdev.magic.spell.spells.*;
@@ -51,7 +52,7 @@ public class SpellManager {
         spells.put("Freeze Block", new FreezeBlock(this));
         spells.put("Burn Block", new BurnBlock(this));
         spells.put("Lesser Sword", new LesserSword(this));
-        spells.put("Break Block", new BreakBlock(this));
+        
         spells.put("Weak Bow", new WeakBow(this));
         
         // Tier 2 spells
@@ -59,6 +60,8 @@ public class SpellManager {
         spells.put("Fire Beam", new FireBeam(this));
         spells.put("Farbreak", new Farbreak(this));
         spells.put("Stronger Bow", new StrongerBow(this));
+        spells.put("Stronger Sword", new StrongerSword(this));
+        spells.put("Break Block", new BreakBlock(this));
         
         // Tier 3 spells
         spells.put("Silk Touch", new SilkTouch(this));
@@ -114,5 +117,10 @@ public class SpellManager {
     
     public int getRange () {
         return maxRange;
+    }
+
+
+    public RolecraftCore getParent() {
+        return plugin;
     }
 }

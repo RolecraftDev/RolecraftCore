@@ -32,6 +32,7 @@ import org.bukkit.block.Block;
 import org.bukkit.entity.Entity;
 import org.bukkit.entity.LivingEntity;
 import org.bukkit.entity.Player;
+import org.bukkit.util.Vector;
 
 public class Utils {
 
@@ -61,5 +62,14 @@ public class Utils {
             }
         }
         return null;
+    }
+    
+    public static Vector getUnitVectorFacing (Player ply) {
+        double x = -Math.sin(Math.toRadians(ply.getLocation().getYaw())) * 
+                Math.cos(Math.toRadians(ply.getLocation().getPitch()));
+        double z = Math.cos(Math.toRadians(ply.getLocation().getYaw())) *
+                Math.cos(Math.toRadians(ply.getLocation().getPitch()));
+        double y = -Math.sin(Math.toRadians(ply.getLocation().getPitch()));
+        return new Vector(x,y,z);
     }
 }
