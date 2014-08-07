@@ -30,8 +30,6 @@ import com.github.rolecraftdev.RolecraftCore;
 import com.github.rolecraftdev.data.PlayerData;
 import com.github.rolecraftdev.quest.loading.JSQuestLoader;
 import com.github.rolecraftdev.quest.loading.RCQQuestLoader;
-import com.github.rolecraftdev.quest.loading.exception.InvalidObjectiveException;
-import com.github.rolecraftdev.quest.loading.exception.InvalidQuestException;
 import com.github.rolecraftdev.quest.loading.outline.ObjectiveResultOutline;
 import com.github.rolecraftdev.quest.loading.outline.QuestObjectiveOutline;
 import com.github.rolecraftdev.quest.loading.outline.QuestOutline;
@@ -65,9 +63,9 @@ public final class QuestManager {
     public QuestManager(final RolecraftCore plugin) {
         this.plugin = plugin;
         currentQuests = new HashMap<UUID, Quest>();
-        rcqLoader = new RCQQuestLoader(
+        rcqLoader = new RCQQuestLoader(plugin,
                 new File(plugin.getDataFolder(), "quests"));
-        jsLoader = new JSQuestLoader(new File(plugin.getDataFolder(),
+        jsLoader = new JSQuestLoader(plugin, new File(plugin.getDataFolder(),
                 "quests" + File.separator + "js"));
         objectiveTypes = new HashMap<String, ObjectiveType>();
 
