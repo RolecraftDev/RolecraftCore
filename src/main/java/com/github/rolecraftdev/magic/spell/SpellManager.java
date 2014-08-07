@@ -36,6 +36,20 @@ public class SpellManager {
         // Tier 3 spells
         spells.put("Silk Touch", new SilkTouch(this));
         spells.put("Excellent Bow", new ExcellentBow(this));
+        spells.put("Multi-Arrow", new MultiArrow(this));
+        spells.put("Arrow Shower", new ArrowShower(this));
+        
+        // Tier 4 spells
+        spells.put("Bomb", new Bomb(this));
+        spells.put("Meteor", new Meteor(this));
+        spells.put("Farbreak Silk Touch", new FarbreakSilkTouch(this));
+        spells.put("Mining Hammer", new MiningHammer(this));
+        spells.put("Fly", new Fly(this));
+        spells.put("Hand Cannon", new HandCannon(this));
+        
+        // Tier 5 spells
+        spells.put("Avada Kedavra", new AvadaKedavra(this));
+        
     }
 
     
