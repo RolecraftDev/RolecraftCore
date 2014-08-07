@@ -6,6 +6,9 @@
 	<artifactId>RolecraftCore</artifactId>
 	<version>0.0.1-SNAPSHOT</version>
 	<inceptionYear>2014</inceptionYear>
+	<properties>
+	    <testing>testing</testing>
+	</properties>
 	
 	<organization>
 		<name>RolecraftDev</name>
@@ -13,6 +16,12 @@
 	</organization>
 	
 	<profiles>
+	    <profile>
+	        <id>test-build</id>
+	        <build>
+	            <finalName>${project.artifactId}-${project.version}-${project.properties.testing}</finalName>
+	        </build>
+	    </profile>
 		<profile>
 			<id>snapshot</id>
 			<distributionManagement>
@@ -29,7 +38,7 @@
 		<profile>
 			<id>release</id>
 			<build>
-				<finalName>${project.artifactId}</finalName>
+				<finalName>${project.artifactId}-${project.version}</finalName>
 				<plugins>
 					<plugin>
 						<groupId>org.codehaus.mojo</groupId>
@@ -45,10 +54,8 @@
 								<configuration>
 									<serverId>ftp-server</serverId>
 									<fromDir>./target</fromDir>
-									
-									
-									<include>*.jar</include>
-									
+									<excludes>*original*</excludes>
+									<includes>*.jar</includes>
 									<url>ftp://0002jgy.wcomhost.com/</url>
 									<toDir>/RolecraftRelease/</toDir>
 								</configuration>
