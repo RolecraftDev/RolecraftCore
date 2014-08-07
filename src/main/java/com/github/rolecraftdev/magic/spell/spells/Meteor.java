@@ -24,16 +24,19 @@
  * DISCLAIMER: This is a human-readable summary of (and not a substitute for) the
  * license.
  */
-package com.github.rolecraftdev.magic.spell;
+package com.github.rolecraftdev.magic.spell.spells;
+
+import com.github.rolecraftdev.magic.spell.Spell;
+import com.github.rolecraftdev.magic.spell.SpellManager;
 
 import org.bukkit.block.Block;
 import org.bukkit.entity.LivingEntity;
 import org.bukkit.entity.Player;
 import org.bukkit.inventory.Recipe;
 
-public class FarbreakSilkTouch implements Spell {
+public class Meteor implements Spell {
 
-    public FarbreakSilkTouch(SpellManager spellManager) {
+    public Meteor(SpellManager spellManager) {
         // TODO Auto-generated constructor stub
     }
 

@@ -32,6 +32,7 @@ import java.util.Map;
 import org.bukkit.entity.Player;
 
 import com.github.rolecraftdev.RolecraftCore;
+import com.github.rolecraftdev.magic.spell.spells.*;
 
 public class SpellManager {
     
