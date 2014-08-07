@@ -59,9 +59,6 @@ public abstract class QuestLoader {
 
     /**
      * Loads all of the quest outlines for this quest type
-     *
-     * @throws InvalidQuestException     If a quest is invalid
-     * @throws InvalidObjectiveException If a quest objective is invalid
      */
     public abstract void loadQuestOutlines();
 
