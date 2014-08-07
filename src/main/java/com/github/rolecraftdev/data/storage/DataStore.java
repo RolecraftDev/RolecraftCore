@@ -526,7 +526,7 @@ public abstract class DataStore {
                                 UUID.fromString(rs.getString("guild")),
                                 UUID.fromString(rs.getString("profession")),
                                 rs.getInt("influence"), rs.getFloat("exp"),
-                                rs.getFloat("karma"), questData);
+                                rs.getFloat("karma"),rs.getFloat("mana"), questData);
                     } else {
                         ps.close();
                         ps = connection.prepareStatement("INSERT INTO " + pt
@@ -534,7 +534,7 @@ public abstract class DataStore {
                         ps.setString(1, uuid);
                         ps.setString(2, name);
                         callback.initialise(null, null, 0, 0f, -originalSin,
-                                null);
+                                0,null);
                     }
 
                 } catch (SQLException ex) {
@@ -577,7 +577,8 @@ public abstract class DataStore {
                                                 rs.getString("profession")),
                                         rs.getInt("influence"),
                                         rs.getFloat("exp"),
-                                        rs.getFloat("karma"), questData);
+                                        rs.getFloat("karma"),
+                                        rs.getFloat("mana"), questData);
                             } else {
                                 ps.close();
                                 ps = connection
@@ -586,7 +587,7 @@ public abstract class DataStore {
                                 ps.setString(1, uuid);
                                 ps.setString(2, name);
                                 callback.initialise(null, null, 0, 0f,
-                                        -originalSin, null);
+                                        -originalSin,0, null);
                             }
 
                         } catch (SQLException ex) {

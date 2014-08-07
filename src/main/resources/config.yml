@@ -6,6 +6,8 @@ sqlserver: sqlite
 # Only needed if you're using RolecraftAfterlife
 originalsin: 1000
 
+magicrange: 100
+
 # Configuration for MySQL, can be ignored if using SQLite
 mysql:
     username: 'user'

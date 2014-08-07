@@ -32,3 +32,10 @@ permissions:
         description: Allows viewing the profession list
     rolecraft.profession.use:
         description: Allows having a profession and using profession features
+    rolecraft.spell.*:
+        description: Access to all magical spells
+        children:
+          rolecraft.spell.fireball: true
+    rolecraft.spell.fireball:
+        description: Allows use of standard (non-exploding) fireballs
+        default: true

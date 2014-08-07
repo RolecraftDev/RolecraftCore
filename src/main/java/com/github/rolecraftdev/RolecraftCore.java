@@ -39,6 +39,8 @@ import com.github.rolecraftdev.data.storage.MySQLDataStore;
 import com.github.rolecraftdev.data.storage.SQLiteDataStore;
 import com.github.rolecraftdev.guild.Guild;
 import com.github.rolecraftdev.guild.GuildManager;
+import com.github.rolecraftdev.magic.MagicListener;
+import com.github.rolecraftdev.magic.spell.SpellManager;
 import com.github.rolecraftdev.profession.Profession;
 import com.github.rolecraftdev.profession.ProfessionManager;
 import com.github.rolecraftdev.quest.QuestManager;
@@ -107,6 +109,7 @@ public final class RolecraftCore extends AlbPlugin {
      * Whether the SQL has finished loading
      */
     private volatile boolean sqlLoaded;
+    private SpellManager spellManager;
 
     @Override
     public void onEnable() {
@@ -161,11 +164,13 @@ public final class RolecraftCore extends AlbPlugin {
         guildManager = new GuildManager(this);
         questManager = new QuestManager(this);
         professionManager = new ProfessionManager(this);
+        spellManager = new SpellManager(this);
 
         professionManager.loadProfessions();
 
         // Register listeners
         register(new RCListener(this));
+        register(new MagicListener(this));
 
         // Register commands
         Commands.registerCommand(this, new GuildCommand(this));
@@ -317,5 +322,9 @@ public final class RolecraftCore extends AlbPlugin {
                 }
             }
         }
+    }
+
+    public SpellManager getSpellManager() {
+        return spellManager;
     }
 }

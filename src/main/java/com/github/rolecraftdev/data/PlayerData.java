@@ -85,6 +85,10 @@ public final class PlayerData {
      * Whether the data is currently being unloaded
      */
     private volatile boolean unloading;
+    /**
+     * The player's mana, stored as a float
+     */
+    private float mana;
 
     /**
      * Constructs a new PlayerData object for a player
@@ -227,7 +231,9 @@ public final class PlayerData {
      * @return The player's current karma value
      */
     public float getKarma() {
-        return karma;
+        if(loaded)
+            return karma;
+        else return -1;
     }
 
     /**
@@ -295,7 +301,8 @@ public final class PlayerData {
      * @param influence The amount of influence to add
      */
     public void addInfluence(final int influence) {
-        setInfluence(getInfluence() + influence);
+        if(loaded && !unloading)
+            setInfluence(getInfluence() + influence);
     }
 
     /**
@@ -304,7 +311,8 @@ public final class PlayerData {
      * @param influence The amount of influence to subtract
      */
     public void subtractInfluence(final int influence) {
-        setInfluence(getInfluence() - influence);
+        if(loaded && !unloading)
+            setInfluence(getInfluence() - influence);
     }
 
     /**
@@ -326,7 +334,8 @@ public final class PlayerData {
      * @param amount The amount of experience to add
      */
     public void addExperience(final float amount) {
-        setExperience(getExperience() + amount);
+        if(loaded && !unloading)
+            setExperience(getExperience() + amount);
     }
 
     /**
@@ -335,7 +344,8 @@ public final class PlayerData {
      * @param amount The amount of experience to subtract
      */
     public void subtractExperience(final float amount) {
-        setExperience(getExperience() - amount);
+        if(loaded&&!unloading)
+            setExperience(getExperience() - amount);
     }
 
     /**
@@ -358,6 +368,33 @@ public final class PlayerData {
      */
     public void addKarma(float amount) {
         setKarma(getKarma() + amount);
+    }
+    
+    /**
+     * 
+     * 
+     * @return The player's mana, or -1
+     */
+    public float getMana() {
+        if(loaded) {
+            return mana;
+        }
+        else return -1;
+    }
+    
+    public void setMana(float newMana) {
+        if(loaded && !unloading)
+            this.mana = newMana;
+    }
+    
+    public void addMana(float amount) {
+        if(loaded && !unloading)
+            this.mana += amount;
+    }
+    
+    public void substractMana(float amount) {
+        if(loaded && !unloading)
+            this.mana -= amount;
     }
 
     /**
@@ -389,25 +426,28 @@ public final class PlayerData {
         this.influence = 0;
         this.experience = 0;
         this.karma = 0;
+        this.mana = 0;
 
         unloading = false;
     }
 
     /**
      * For internal use only - called when loaded in SQL.
+     * @param mana 
      *
      * @deprecated Do not call
      */
     @Deprecated
     public void initialise(final UUID guild, final UUID profession,
             final int influence, final float exp, final float karma,
-            final Map<UUID, String> progression) {
+            float mana, final Map<UUID, String> progression) {
         this.guild = guild;
         this.profession = profession;
         this.influence = influence;
         this.experience = exp;
         this.karma = karma;
         this.questProgression = progression;
+        this.mana = mana;
 
         loaded = true;
 
