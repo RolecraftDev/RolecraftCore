@@ -26,19 +26,17 @@
  */
 package com.github.rolecraftdev.quest.loading;
 
-import com.github.rolecraftdev.quest.loading.exception.InvalidObjectiveException;
-import com.github.rolecraftdev.quest.loading.exception.InvalidQuestException;
+import com.github.rolecraftdev.RolecraftCore;
 
 import java.io.File;
 
 public class JSQuestLoader extends QuestLoader {
-    public JSQuestLoader(final File directory) {
-        super(directory);
+    public JSQuestLoader(final RolecraftCore plugin, final File directory) {
+        super(plugin, directory);
     }
 
     @Override
-    public void loadQuestOutlines()
-            throws InvalidQuestException, InvalidObjectiveException {
+    public void loadQuestOutlines() {
         // TODO
     }
 }

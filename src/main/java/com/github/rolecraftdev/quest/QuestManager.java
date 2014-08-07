@@ -78,15 +78,9 @@ public final class QuestManager {
                 new KillHostileMobObjectiveType());
         // TODO: More
 
-        try {
             // Load all quest outlines
-            rcqLoader.loadQuestOutlines();
-            jsLoader.loadQuestOutlines();
-        } catch (InvalidQuestException e) {
-            e.printStackTrace();
-        } catch (InvalidObjectiveException e) {
-            e.printStackTrace();
-        }
+        rcqLoader.loadQuestOutlines();
+        jsLoader.loadQuestOutlines();
 
         plugin.getServer().getPluginManager()
                 .registerEvents(new QuestListener(plugin), plugin);

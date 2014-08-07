@@ -26,9 +26,8 @@
  */
 package com.github.rolecraftdev.quest.loading;
 
+import com.github.rolecraftdev.RolecraftCore;
 import com.github.rolecraftdev.data.storage.YamlFile;
-import com.github.rolecraftdev.quest.loading.exception.InvalidObjectiveException;
-import com.github.rolecraftdev.quest.loading.exception.InvalidQuestException;
 import com.github.rolecraftdev.quest.loading.outline.ObjectiveResultOutline;
 import com.github.rolecraftdev.quest.loading.outline.QuestObjectiveOutline;
 import com.github.rolecraftdev.quest.loading.outline.QuestOutline;
@@ -41,13 +40,12 @@ import java.util.List;
 import java.util.Set;
 
 public final class RCQQuestLoader extends QuestLoader {
-    public RCQQuestLoader(final File directory) {
-        super(directory);
+    public RCQQuestLoader(final RolecraftCore plugin, final File directory) {
+        super(plugin, directory);
     }
 
     @Override
-    public void loadQuestOutlines()
-            throws InvalidQuestException, InvalidObjectiveException {
+    public void loadQuestOutlines() {
         for (final File questFile : directory.listFiles()) {
             if (!questFile.getName().endsWith(".rcq")) {
                 continue;
@@ -61,15 +59,22 @@ public final class RCQQuestLoader extends QuestLoader {
             final int startingObjective = yaml.getInt("first-objective", -1);
 
             if (name == null) {
-                throw new InvalidQuestException("Must specify quest name!");
+                plugin.getLogger().severe(
+                        "No name specified for quest in file: " + questFile
+                                .getName());
+                continue;
             }
             if (description == null) {
-                throw new InvalidQuestException(
-                        "Must give description for quest: " + name + "!");
+                plugin.getLogger().severe(
+                        "No description specified for quest in file: "
+                                + questFile.getName());
+                continue;
             }
             if (startingObjective == -1) {
-                throw new InvalidQuestException(
-                        "Must specify first objective for quest" + name + "!");
+                plugin.getLogger()
+                        .severe("No first objective specified for quest in file: "
+                                + questFile.getName());
+                continue;
             }
 
             // Objectives
@@ -77,8 +82,9 @@ public final class RCQQuestLoader extends QuestLoader {
                     .getConfigurationSection("objectives");
             final Set<String> objectiveKeys = objectives.getKeys(false);
             if (objectiveKeys == null || objectiveKeys.isEmpty()) {
-                throw new InvalidObjectiveException(
-                        "No objectives specified for quest: " + name + "!");
+                plugin.getLogger()
+                        .severe("Quest '" + name + "' has no objectives!");
+                continue;
             }
 
             final List<QuestObjectiveOutline> objectiveOutlines = new ArrayList<QuestObjectiveOutline>();
@@ -96,7 +102,7 @@ public final class RCQQuestLoader extends QuestLoader {
                         .getConfigurationSection("results");
                 final Set<String> resultKeys = results.getKeys(false);
                 if (resultKeys == null || resultKeys.isEmpty()) {
-                    throw new InvalidObjectiveException(
+                    plugin.getLogger().severe(
                             "No results specified for objective with id: "
                                     + objectiveId + " in quest: " + name);
                 }
