@@ -42,18 +42,23 @@ public class MagicListener implements Listener {
                             if(spell.estimateLeftClickMana(e.getPlayer(), e.getClickedBlock(), 
                                     spellManager.getMagicModfier(e.getPlayer())) <
                                     spellManager.getMana(e.getPlayer())) {
+                                
+                                float retVal = spell.leftClick(e.getPlayer(),
+                                        e.getClickedBlock(), spellManager.getMagicModfier(e.getPlayer()));
+                                if(retVal == Float.MIN_VALUE) return;
+                                spellManager.subtractMana(e.getPlayer(), retVal);
                                 e.getPlayer().sendMessage("You have cast " +spell.getName());
-                                spellManager.subtractMana(e.getPlayer(), spell.leftClick(e.getPlayer(),
-                                        e.getClickedBlock(), 0));
                             }
                         }
                         else {
                             if(spell.estimateRightClickMana(e.getPlayer(), e.getClickedBlock(), 
                                     spellManager.getMagicModfier(e.getPlayer())) <
                                     spellManager.getMana(e.getPlayer())) {
+                                float retVal = spell.rightClick(e.getPlayer(),
+                                        e.getClickedBlock(), spellManager.getMagicModfier(e.getPlayer()));
+                                if(retVal == Float.MIN_VALUE) return;
+                                spellManager.subtractMana(e.getPlayer(),retVal);
                                 e.getPlayer().sendMessage("You have cast " +spell.getName());
-                                spellManager.subtractMana(e.getPlayer(), spell.rightClick(e.getPlayer(),
-                                        e.getClickedBlock(), 0));
                             }
                         }
                     }
@@ -73,7 +78,10 @@ public class MagicListener implements Listener {
                     if(spellManager.getMana(player) > 
                             spell.estimateAttackMana(player, (LivingEntity)e.getEntity(),
                                     spellManager.getMagicModfier(player))){
-                        spell.attack(player, (LivingEntity) e.getEntity(), spellManager.getMagicModfier(player));
+                        float retVal = spell.attack(player, (LivingEntity) e.getEntity(), spellManager.getMagicModfier(player));
+                        if(retVal == Float.MIN_VALUE) return;
+                        spellManager.subtractMana(player, retVal);
+                        player.sendMessage("You have cast " + spell.getName());
                     }
                 }
             }
