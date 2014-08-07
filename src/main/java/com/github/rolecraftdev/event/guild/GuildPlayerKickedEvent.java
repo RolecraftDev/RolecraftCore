@@ -32,14 +32,14 @@ import com.github.rolecraftdev.guild.Guild;
 import org.bukkit.entity.Player;
 import org.bukkit.event.HandlerList;
 
-public class GuildPlayerKickedEvent extends GuildEvent {
+public class GuildPlayerKickedEvent extends GuildPlayerLeaveEvent {
     private static final HandlerList handlers = new HandlerList();
 
     private final Player player;
 
     public GuildPlayerKickedEvent(final RolecraftCore plugin, final Guild guild,
             final Player player) {
-        super(plugin, guild);
+        super(plugin, guild, player);
         this.player = player;
     }
 
