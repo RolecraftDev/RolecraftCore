@@ -26,8 +26,7 @@
  */
 package com.github.rolecraftdev.quest.loading;
 
-import com.github.rolecraftdev.quest.loading.exception.InvalidObjectiveException;
-import com.github.rolecraftdev.quest.loading.exception.InvalidQuestException;
+import com.github.rolecraftdev.RolecraftCore;
 import com.github.rolecraftdev.quest.loading.outline.QuestOutline;
 
 import java.io.File;
@@ -38,6 +37,7 @@ import java.util.Set;
  * Loads Rolecraft quests
  */
 public abstract class QuestLoader {
+    protected final RolecraftCore plugin;
     /**
      * The directory to load quests from
      */
@@ -47,23 +47,20 @@ public abstract class QuestLoader {
      */
     protected final Set<QuestOutline> questOutlines;
 
-    public QuestLoader(final File directory) {
-        if (directory == null) {
+    public QuestLoader(final RolecraftCore plugin, final File directory) {
+        if (directory == null || plugin == null) {
             throw new IllegalArgumentException();
         }
 
+        this.plugin = plugin;
         this.directory = directory;
         questOutlines = new HashSet<QuestOutline>();
     }
 
     /**
      * Loads all of the quest outlines for this quest type
-     *
-     * @throws InvalidQuestException     If a quest is invalid
-     * @throws InvalidObjectiveException If a quest objective is invalid
      */
-    public abstract void loadQuestOutlines() throws InvalidQuestException,
-            InvalidObjectiveException;
+    public abstract void loadQuestOutlines();
 
     public QuestOutline getQuestOutline(final String name) {
         for (final QuestOutline outline : questOutlines) {

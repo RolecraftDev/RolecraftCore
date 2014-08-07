@@ -108,7 +108,7 @@ public class ProfessionDeserializer {
         }
 
         try {
-            return UUID.fromString(professionConfig.getString(ID));
+            return UUID.fromString(id);
         } catch (IllegalArgumentException e) {
             System.out
                     .println("[WARNING] [Rolecraft] Invalid ID for profession "
