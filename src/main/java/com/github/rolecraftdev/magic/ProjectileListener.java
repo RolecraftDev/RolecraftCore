@@ -33,7 +33,6 @@ import org.bukkit.event.Listener;
 import org.bukkit.event.entity.EntityDamageByEntityEvent;
 
 public class ProjectileListener implements Listener {
-
     @EventHandler(priority = EventPriority.HIGHEST)
     public void onHit(EntityDamageByEntityEvent e) {
         if (e.getDamager() instanceof Arrow) {
@@ -44,5 +43,4 @@ public class ProjectileListener implements Listener {
             }
         }
     }
-
 }

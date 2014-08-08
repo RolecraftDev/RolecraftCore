@@ -70,13 +70,17 @@ public class BreakBlock implements Spell {
     @Override
     public float rightClick(Player ply, Block block, int modifier) {
         if (block != null) {
+            if (ply.getLocation().distance(block.getLocation()) > 4) {
+                return 0;
+            }
             BlockBreakEvent event = new BlockBreakEvent(block, ply);
             Bukkit.getPluginManager().callEvent(event);
             if (!event.isCancelled()) {
                 block.breakNaturally();
             }
+            return 3;
         }
-        return 3;
+        return 0;
     }
 
     @Override
@@ -87,8 +91,9 @@ public class BreakBlock implements Spell {
             if (!event.isCancelled()) {
                 block.breakNaturally();
             }
+            return 3;
         }
-        return 3;
+        return 0;
     }
 
     @Override

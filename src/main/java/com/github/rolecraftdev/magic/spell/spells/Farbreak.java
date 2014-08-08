@@ -35,7 +35,6 @@ import org.bukkit.entity.Player;
 import org.bukkit.inventory.Recipe;
 
 public class Farbreak implements Spell {
-
     public Farbreak(SpellManager spellManager) {
         // TODO Auto-generated constructor stub
     }
@@ -87,5 +86,4 @@ public class Farbreak implements Spell {
         // TODO Auto-generated method stub
         return null;
     }
-
 }

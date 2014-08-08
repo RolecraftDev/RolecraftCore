@@ -66,7 +66,6 @@ public class Bomb implements Spell {
 
     @Override
     public float estimateRightClickMana(Player ply, Block block, int modifier) {
-
         return 200 - modifier;
     }
 
