@@ -55,17 +55,6 @@ public class Profession {
     private ProfessionRuleMap rules;
 
     /**
-     * Create a new {@link Profession} from scratch.
-     *
-     * @param professionManager - The {@link ProfessionManager} this
-     *                          {@link Profession} belongs to
-     */
-    public Profession(final ProfessionManager professionManager) {
-        this.professionManager = professionManager;
-        professionId = UUID.randomUUID();
-    }
-
-    /**
      * Create a {@link Profession} from predefined settings. Note that some of
      * the fields are {@code final} and can thus not be modified later on.
      *
