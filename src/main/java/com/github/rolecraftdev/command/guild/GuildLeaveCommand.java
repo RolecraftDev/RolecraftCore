@@ -21,6 +21,9 @@ public class GuildLeaveCommand extends PlayerCommandHandler {
         super("leave");
         guildMgr = plugin.getGuildManager();
         dataMgr = plugin.getDataManager();
+
+        setUsage("/guild leave");
+        setDescription("Leave your guild");
     }
 
     @Override
