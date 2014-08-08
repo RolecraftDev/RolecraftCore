@@ -29,56 +29,63 @@ package com.github.rolecraftdev.magic.spell;
 import com.github.rolecraftdev.RolecraftCore;
 import com.github.rolecraftdev.magic.spell.spells.*;
 
+import org.bukkit.Bukkit;
 import org.bukkit.entity.Player;
+import org.bukkit.permissions.Permission;
+import org.bukkit.permissions.PermissionDefault;
 
 import java.util.HashMap;
 import java.util.Map;
 
 public class SpellManager {
-
-    private RolecraftCore plugin;
-
-    private Map<String, Spell> spells;
-
-    private int maxRange;
+    private final RolecraftCore plugin;
+    private final Map<String, Spell> spells;
+    private final int maxRange;
 
     public SpellManager(RolecraftCore parent) {
         this.plugin = parent;
         spells = new HashMap<String, Spell>();
-        this.maxRange = parent.getConfig().getInt("magicrange", 100);
+        maxRange = parent.getConfig().getInt("magicrange", 100);
 
         // Tier 1 spells
-        spells.put("Freeze Block", new FreezeBlock(this));
-        spells.put("Burn Block", new BurnBlock(this));
-        spells.put("Lesser Sword", new LesserSword(this));
-
-        spells.put("Weak Bow", new WeakBow(this));
+        register("Freeze Block", new FreezeBlock(this));
+        register("Burn Block", new BurnBlock(this));
+        register("Lesser Sword", new LesserSword(this));
+        register("Weak Bow", new WeakBow(this));
 
         // Tier 2 spells
-        spells.put("Freeze Ray", new FreezeRay(this));
-        spells.put("Fire Beam", new FireBeam(this));
-        spells.put("Farbreak", new Farbreak(this));
-        spells.put("Stronger Bow", new StrongerBow(this));
-        spells.put("Stronger Sword", new StrongerSword(this));
-        spells.put("Break Block", new BreakBlock(this));
+        register("Freeze Ray", new FreezeRay(this));
+        register("Fire Beam", new FireBeam(this));
+        register("Farbreak", new Farbreak(this));
+        register("Stronger Bow", new StrongerBow(this));
+        register("Stronger Sword", new StrongerSword(this));
+        register("Break Block", new BreakBlock(this));
 
         // Tier 3 spells
-        spells.put("Silk Touch", new SilkTouch(this));
-        spells.put("Excellent Bow", new ExcellentBow(this));
-        spells.put("Multi-Arrow", new MultiArrow(this));
-        spells.put("Arrow Shower", new ArrowShower(this));
+        register("Silk Touch", new SilkTouch(this));
+        register("Excellent Bow", new ExcellentBow(this));
+        register("Multi-Arrow", new MultiArrow(this));
+        register("Arrow Shower", new ArrowShower(this));
 
         // Tier 4 spells
-        spells.put("Bomb", new Bomb(this));
-        spells.put("Meteor", new Meteor(this));
-        spells.put("Farbreak Silk Touch", new FarbreakSilkTouch(this));
-        spells.put("Mining Hammer", new MiningHammer(this));
-        spells.put("Fly", new Fly(this));
-        spells.put("Hand Cannon", new HandCannon(this));
+        register("Bomb", new Bomb(this));
+        register("Meteor", new Meteor(this));
+        register("Silky Farbreak", new FarbreakSilkTouch(this));
+        register("Mining Hammer", new MiningHammer(this));
+        register("Fly", new Fly(this));
+        register("Hand Cannon", new HandCannon(this));
 
         // Tier 5 spells
-        spells.put("Avada Kedavra", new AvadaKedavra(this));
+        register("Avada Kedavra", new AvadaKedavra(this));
+    }
 
+    public void register(String wandName, Spell spell) {
+        spells.put(wandName, spell);
+        String node = wandName.toLowerCase().replaceAll(" ", "");
+        Bukkit.getPluginManager().addPermission(new Permission(
+                "rolecraft.spell." + node,
+                "Allows access to the spell '" + wandName + "'",
+                PermissionDefault.TRUE, new HashMap<String, Boolean>()));
     }
 
     public Spell getSpell(String wandName) {
