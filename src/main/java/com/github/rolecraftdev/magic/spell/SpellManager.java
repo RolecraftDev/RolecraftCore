@@ -41,11 +41,13 @@ public class SpellManager {
     private final RolecraftCore plugin;
     private final Map<String, Spell> spells;
     private final int maxRange;
+    private final Map<String, Boolean> emptyMap;
 
     public SpellManager(RolecraftCore parent) {
         this.plugin = parent;
         spells = new HashMap<String, Spell>();
         maxRange = parent.getConfig().getInt("magicrange", 100);
+        emptyMap = new HashMap<String, Boolean>();
 
         // Tier 1 spells
         register("Freeze Block", new FreezeBlock(this));
@@ -84,7 +86,7 @@ public class SpellManager {
         Bukkit.getPluginManager().addPermission(new Permission(
                 "rolecraft.spell." + wandName.toLowerCase().replaceAll(" ", ""),
                 "Allows access to the spell '" + wandName + "'",
-                PermissionDefault.TRUE, new HashMap<String, Boolean>()));
+                PermissionDefault.TRUE, emptyMap));
     }
 
     public Spell getSpell(String wandName) {
