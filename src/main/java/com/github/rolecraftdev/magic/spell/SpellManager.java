@@ -81,9 +81,8 @@ public class SpellManager {
 
     public void register(String wandName, Spell spell) {
         spells.put(wandName, spell);
-        String node = wandName.toLowerCase().replaceAll(" ", "");
         Bukkit.getPluginManager().addPermission(new Permission(
-                "rolecraft.spell." + node,
+                "rolecraft.spell." + wandName.toLowerCase().replaceAll(" ", ""),
                 "Allows access to the spell '" + wandName + "'",
                 PermissionDefault.TRUE, new HashMap<String, Boolean>()));
     }
