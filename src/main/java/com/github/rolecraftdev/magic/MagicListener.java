@@ -28,9 +28,11 @@ package com.github.rolecraftdev.magic;
 
 import com.github.rolecraftdev.RolecraftCore;
 import com.github.rolecraftdev.data.DataManager;
+import com.github.rolecraftdev.event.spell.SpellCastEvent;
 import com.github.rolecraftdev.magic.spell.Spell;
 import com.github.rolecraftdev.magic.spell.SpellManager;
 
+import org.bukkit.Bukkit;
 import org.bukkit.ChatColor;
 import org.bukkit.Material;
 import org.bukkit.entity.LivingEntity;
@@ -43,7 +45,6 @@ import org.bukkit.event.entity.EntityDamageByEntityEvent;
 import org.bukkit.event.player.PlayerInteractEvent;
 
 public class MagicListener implements Listener {
-
     private RolecraftCore plugin;
     private DataManager dataManager;
     private SpellManager spellManager;
@@ -62,7 +63,6 @@ public class MagicListener implements Listener {
                         || e.getAction() == Action.RIGHT_CLICK_BLOCK
                         || e.getAction() == Action.LEFT_CLICK_AIR
                         || e.getAction() == Action.LEFT_CLICK_BLOCK) {
-
                     Spell spell = spellManager.getSpell(
                             ChatColor.stripColor(e.getItem().getItemMeta()
                                     .getDisplayName()));
@@ -74,10 +74,19 @@ public class MagicListener implements Listener {
                                     spellManager.getMagicModfier(e.getPlayer()))
                                     <
                                     spellManager.getMana(e.getPlayer())) {
+                                SpellCastEvent event = new SpellCastEvent(
+                                        plugin, spell, e.getPlayer());
+                                Bukkit.getPluginManager().callEvent(event);
+                                if (event.isCancelled()) {
+                                    e.getPlayer().sendMessage(
+                                            event.getCancelMessage());
+                                    return;
+                                }
 
                                 float retVal = spell.leftClick(e.getPlayer(),
                                         e.getClickedBlock(), spellManager
-                                        .getMagicModfier(e.getPlayer()));
+                                                .getMagicModfier(
+                                                        e.getPlayer()));
                                 if (retVal == Float.MIN_VALUE) {
                                     return;
                                 }
@@ -94,7 +103,8 @@ public class MagicListener implements Listener {
                                     spellManager.getMana(e.getPlayer())) {
                                 float retVal = spell.rightClick(e.getPlayer(),
                                         e.getClickedBlock(), spellManager
-                                        .getMagicModfier(e.getPlayer()));
+                                                .getMagicModfier(
+                                                        e.getPlayer()));
                                 if (retVal == Float.MIN_VALUE) {
                                     return;
                                 }

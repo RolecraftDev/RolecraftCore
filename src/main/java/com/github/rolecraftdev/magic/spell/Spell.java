@@ -31,8 +31,15 @@ import org.bukkit.entity.LivingEntity;
 import org.bukkit.entity.Player;
 import org.bukkit.inventory.Recipe;
 
+/**
+ * Represents a spell in Rolecraft
+ */
 public interface Spell {
-
+    /**
+     * Gets the name of this spell
+     *
+     * @return The name of this spell
+     */
     public String getName();
 
     /**

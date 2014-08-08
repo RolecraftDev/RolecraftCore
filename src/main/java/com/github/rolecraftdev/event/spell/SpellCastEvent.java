@@ -27,14 +27,53 @@
 package com.github.rolecraftdev.event.spell;
 
 import com.github.rolecraftdev.RolecraftCore;
-import com.github.rolecraftdev.event.RolecraftEvent;
 import com.github.rolecraftdev.magic.spell.Spell;
 
-public abstract class SpellEvent extends RolecraftEvent {
-    private final Spell spell;
+import org.bukkit.ChatColor;
+import org.bukkit.entity.Entity;
+import org.bukkit.event.Cancellable;
+import org.bukkit.event.HandlerList;
 
-    public SpellEvent(final RolecraftCore plugin, final Spell spell) {
-        super(plugin);
-        this.spell = spell;
+public class SpellCastEvent extends SpellEvent implements Cancellable {
+    private static final HandlerList handlers = new HandlerList();
+
+    private final Entity caster;
+
+    private boolean cancelled;
+    private String cancelMessage = ChatColor.DARK_RED + "You can't do that!";
+
+    public SpellCastEvent(final RolecraftCore plugin, final Spell spell,
+            final Entity caster) {
+        super(plugin, spell);
+        this.caster = caster;
+    }
+
+    public Entity getCaster() {
+        return caster;
+    }
+
+    public boolean isCancelled() {
+        return cancelled;
+    }
+
+    public String getCancelMessage() {
+        return cancelMessage;
+    }
+
+    public void setCancelled(final boolean cancelled) {
+        this.cancelled = cancelled;
+    }
+
+    public void setCancelMessage(final String cancelMessage) {
+        this.cancelMessage = cancelMessage;
+    }
+
+    @Override
+    public HandlerList getHandlers() {
+        return handlers;
+    }
+
+    public static HandlerList getHandlerList() {
+        return handlers;
     }
 }
