@@ -87,7 +87,10 @@ public class MagicListener implements Listener {
                                         e.getClickedBlock(), spellManager
                                                 .getMagicModfier(
                                                         e.getPlayer()));
-                                if (retVal == Float.MIN_VALUE) {
+                                // MIN_VALUE indicates error, 0 indicates that
+                                // the spell can't be cast in the current
+                                // situation
+                                if (retVal == Float.MIN_VALUE || retVal == 0) {
                                     return;
                                 }
                                 spellManager
@@ -105,7 +108,10 @@ public class MagicListener implements Listener {
                                         e.getClickedBlock(), spellManager
                                                 .getMagicModfier(
                                                         e.getPlayer()));
-                                if (retVal == Float.MIN_VALUE) {
+                                // MIN_VALUE indicates error, 0 indicates that
+                                // the spell can't be cast in the current
+                                // situation
+                                if (retVal == Float.MIN_VALUE || retVal == 0) {
                                     return;
                                 }
                                 spellManager
