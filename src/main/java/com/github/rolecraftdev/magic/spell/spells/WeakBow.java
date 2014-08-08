@@ -44,7 +44,6 @@ import org.bukkit.inventory.meta.ItemMeta;
 import org.bukkit.metadata.FixedMetadataValue;
 
 public class WeakBow implements Spell {
-    
     private SpellManager parent;
 
     public WeakBow(SpellManager spellManager) {
@@ -53,8 +52,7 @@ public class WeakBow implements Spell {
 
     @Override
     public String getName() {
-        // TODO Auto-generated method stub
-        return null;
+        return "Weak Bow";
     }
 
     @Override
@@ -70,15 +68,20 @@ public class WeakBow implements Spell {
 
     @Override
     public float estimateRightClickMana(Player ply, Block block, int modifier) {
-        return (40f - ((float)modifier)/10f > 0) ? (40f - ((float)modifier)/10f) : 0f;
+        return (40f - ((float) modifier) / 10f > 0) ?
+                (40f - ((float) modifier) / 10f) :
+                0f;
     }
 
     @Override
     public float rightClick(Player ply, Block block, int modifier) {
         Entity ent = ply.launchProjectile(Arrow.class);
         ent.setVelocity(ent.getVelocity().multiply(0.5f));
-        ent.setMetadata("Multiplier", new FixedMetadataValue(parent.getParent(), new Float(0.5f)));
-        return (40f - ((float)modifier)/10f > 0) ? (40f - ((float)modifier)/10f) : 0f;
+        ent.setMetadata("Multiplier",
+                new FixedMetadataValue(parent.getParent(), new Float(0.5f)));
+        return (40f - ((float) modifier) / 10f > 0) ?
+                (40f - ((float) modifier) / 10f) :
+                0f;
     }
 
     @Override

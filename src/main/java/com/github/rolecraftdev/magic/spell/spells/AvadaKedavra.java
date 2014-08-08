@@ -26,6 +26,10 @@
  */
 package com.github.rolecraftdev.magic.spell.spells;
 
+import com.github.rolecraftdev.magic.spell.Spell;
+import com.github.rolecraftdev.magic.spell.SpellManager;
+import com.github.rolecraftdev.util.Utils;
+
 import org.bukkit.Bukkit;
 import org.bukkit.ChatColor;
 import org.bukkit.Material;
@@ -39,10 +43,6 @@ import org.bukkit.inventory.ItemStack;
 import org.bukkit.inventory.Recipe;
 import org.bukkit.inventory.ShapedRecipe;
 import org.bukkit.inventory.meta.ItemMeta;
-
-import com.github.rolecraftdev.magic.spell.Spell;
-import com.github.rolecraftdev.magic.spell.SpellManager;
-import com.github.rolecraftdev.util.Utils;
 
 public class AvadaKedavra implements Spell {
 
@@ -62,11 +62,10 @@ public class AvadaKedavra implements Spell {
             int modifier) {
 
         LivingEntity toKill = entity;
-        if(toKill != null) {
-            if(toKill instanceof Player) {
+        if (toKill != null) {
+            if (toKill instanceof Player) {
                 return 1000;
-            }
-            else {
+            } else {
                 return 600 - modifier;
             }
         }
@@ -81,11 +80,10 @@ public class AvadaKedavra implements Spell {
     @Override
     public float estimateRightClickMana(Player ply, Block block, int modifier) {
         LivingEntity toKill = Utils.getLivingTarget(ply, parent.getRange());
-        if(toKill !=null) {
-            if(toKill instanceof Player) {
+        if (toKill != null) {
+            if (toKill instanceof Player) {
                 return 1500;
-            }
-            else {
+            } else {
                 return 800 - modifier;
             }
         }
@@ -95,21 +93,21 @@ public class AvadaKedavra implements Spell {
     @Override
     public float rightClick(Player ply, Block block, int modifier) {
         LivingEntity toKill = Utils.getLivingTarget(ply, parent.getRange());
-        
-        EntityDamageByEntityEvent edbee = new EntityDamageByEntityEvent (ply, toKill,
+
+        EntityDamageByEntityEvent edbee = new EntityDamageByEntityEvent(ply,
+                toKill,
                 DamageCause.MAGIC, Double.MAX_VALUE);
         Bukkit.getPluginManager().callEvent(edbee);
-        if(!edbee.isCancelled()) {
+        if (!edbee.isCancelled()) {
             toKill.setHealth(0D); // pwnt
-            if(toKill instanceof Player) {
+            if (toKill instanceof Player) {
                 parent.setMana(ply, 0f);
                 ply.sendMessage("Your mana has been drained!");
-            }
-            else {
+            } else {
                 return 800 - modifier;
             }
         }
-        
+
         return 0;
     }
 
@@ -121,21 +119,21 @@ public class AvadaKedavra implements Spell {
     @Override
     public float attack(Player ply, LivingEntity ent, int modifier) {
         LivingEntity toKill = ent;
-        
-        EntityDamageByEntityEvent edbee = new EntityDamageByEntityEvent (ply, toKill,
+
+        EntityDamageByEntityEvent edbee = new EntityDamageByEntityEvent(ply,
+                toKill,
                 DamageCause.MAGIC, Double.MAX_VALUE);
         Bukkit.getPluginManager().callEvent(edbee);
-        if(!edbee.isCancelled()) {
+        if (!edbee.isCancelled()) {
             toKill.setHealth(0D); // pwnt
-            if(toKill instanceof Player) {
+            if (toKill instanceof Player) {
                 parent.setMana(ply, 0f);
                 ply.sendMessage("Your mana has been drained!");
-            }
-            else {
+            } else {
                 return 800 - modifier;
             }
         }
-        
+
         return 0;
     }
 
@@ -148,11 +146,11 @@ public class AvadaKedavra implements Spell {
         result.setItemMeta(meta);
         ShapedRecipe recipe = new ShapedRecipe(result);
         // custom recipe stuff
-        recipe.shape("OOC","OEO","COO");
+        recipe.shape("OOC", "OEO", "COO");
         recipe.setIngredient('O', Material.SKULL);
         recipe.setIngredient('E', Material.EMERALD_BLOCK);
         recipe.setIngredient('C', Material.DIAMOND_BLOCK);
-        
+
         return recipe;
     }
 

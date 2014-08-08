@@ -42,8 +42,7 @@ public class Meteor implements Spell {
 
     @Override
     public String getName() {
-        // TODO Auto-generated method stub
-        return null;
+        return "Meteor";
     }
 
     @Override

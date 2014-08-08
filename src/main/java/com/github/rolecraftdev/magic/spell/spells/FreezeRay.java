@@ -35,15 +35,13 @@ import org.bukkit.entity.Player;
 import org.bukkit.inventory.Recipe;
 
 public class FreezeRay implements Spell {
-
     public FreezeRay(SpellManager spellManager) {
         // TODO Auto-generated constructor stub
     }
 
     @Override
     public String getName() {
-        // TODO Auto-generated method stub
-        return null;
+        return "Freeze Ray";
     }
 
     @Override

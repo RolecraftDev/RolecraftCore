@@ -42,8 +42,7 @@ public class FireBeam implements Spell {
 
     @Override
     public String getName() {
-        // TODO Auto-generated method stub
-        return null;
+        return "Fire Beam";
     }
 
     @Override

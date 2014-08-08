@@ -45,7 +45,7 @@ import org.bukkit.inventory.meta.ItemMeta;
 
 public class Bomb implements Spell {
 
-    public Bomb(SpellManager spellManager) { 
+    public Bomb(SpellManager spellManager) {
     }
 
     @Override
@@ -66,14 +66,16 @@ public class Bomb implements Spell {
 
     @Override
     public float estimateRightClickMana(Player ply, Block block, int modifier) {
-        
-        return 200 - modifier ;
+
+        return 200 - modifier;
     }
 
     @Override
     public float rightClick(Player ply, Block block, int modifier) {
-        Entity tnt = ply.getWorld().spawn(ply.getEyeLocation(), TNTPrimed.class);
-        tnt.setVelocity(Utils.getUnitVectorFacing(ply).multiply(10f * (((float)modifier)/(100f)) + 2f));
+        Entity tnt = ply.getWorld()
+                .spawn(ply.getEyeLocation(), TNTPrimed.class);
+        tnt.setVelocity(Utils.getUnitVectorFacing(ply)
+                .multiply(10f * (((float) modifier) / (100f)) + 2f));
         return 200 - modifier;
     }
 
@@ -89,7 +91,7 @@ public class Bomb implements Spell {
 
     @Override
     public Recipe getWandRecipe() {
-     // same for each
+        // same for each
         ItemStack result = new ItemStack(Material.STICK);
         ItemMeta meta = result.getItemMeta();
         meta.setDisplayName(ChatColor.AQUA + getName());

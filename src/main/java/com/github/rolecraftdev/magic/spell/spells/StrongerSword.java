@@ -1,12 +1,12 @@
 package com.github.rolecraftdev.magic.spell.spells;
 
+import com.github.rolecraftdev.magic.spell.Spell;
+import com.github.rolecraftdev.magic.spell.SpellManager;
+
 import org.bukkit.block.Block;
 import org.bukkit.entity.LivingEntity;
 import org.bukkit.entity.Player;
 import org.bukkit.inventory.Recipe;
-
-import com.github.rolecraftdev.magic.spell.Spell;
-import com.github.rolecraftdev.magic.spell.SpellManager;
 
 public class StrongerSword implements Spell {
 
@@ -16,8 +16,7 @@ public class StrongerSword implements Spell {
 
     @Override
     public String getName() {
-        // TODO Auto-generated method stub
-        return null;
+        return "Strong Sword";
     }
 
     @Override

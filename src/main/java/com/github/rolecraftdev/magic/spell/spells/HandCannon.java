@@ -43,8 +43,7 @@ public class HandCannon implements Spell {
 
     @Override
     public String getName() {
-        // TODO Auto-generated method stub
-        return null;
+        return "Hand Cannon";
     }
 
     @Override

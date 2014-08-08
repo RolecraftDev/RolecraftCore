@@ -73,7 +73,7 @@ public class BreakBlock implements Spell {
             BlockBreakEvent event = new BlockBreakEvent(block, ply);
             Bukkit.getPluginManager().callEvent(event);
             if (!event.isCancelled()) {
-                block.setType(Material.AIR);
+                block.breakNaturally();
             }
         }
         return 3;
@@ -85,7 +85,7 @@ public class BreakBlock implements Spell {
             BlockBreakEvent event = new BlockBreakEvent(block, ply);
             Bukkit.getPluginManager().callEvent(event);
             if (!event.isCancelled()) {
-                block.setType(Material.AIR);
+                block.breakNaturally();
             }
         }
         return 3;
@@ -112,5 +112,4 @@ public class BreakBlock implements Spell {
         recipe.setIngredient('B', Material.IRON_BLOCK);
         return recipe;
     }
-
 }

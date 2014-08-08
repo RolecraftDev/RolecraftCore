@@ -45,7 +45,6 @@ import org.bukkit.inventory.ShapedRecipe;
 import org.bukkit.inventory.meta.ItemMeta;
 
 public class LesserSword implements Spell {
-
     public LesserSword(SpellManager spellManager) {
     }
 
@@ -57,7 +56,9 @@ public class LesserSword implements Spell {
     @Override
     public float estimateAttackMana(Player ply, LivingEntity entity,
             int modifier) {
-        return (20f - ((float)modifier)/10f > 0) ? (20f - ((float)modifier)/10f) : 0f;
+        return (20f - ((float) modifier) / 10f > 0) ?
+                (20f - ((float) modifier) / 10f) :
+                0f;
     }
 
     @Override
@@ -82,17 +83,20 @@ public class LesserSword implements Spell {
 
     @Override
     public float attack(Player ply, LivingEntity ent, int modifier) {
-        EntityDamageEvent edbee = new EntityDamageByEntityEvent(ply, ent, DamageCause.MAGIC, 2.0);
+        EntityDamageEvent edbee = new EntityDamageByEntityEvent(ply, ent,
+                DamageCause.MAGIC, 2.0);
         Bukkit.getPluginManager().callEvent(edbee);
-        if(!edbee.isCancelled()) {
+        if (!edbee.isCancelled()) {
             ent.damage(2.0);
         }
-        return (20f - ((float)modifier)/10f > 0) ? (20f - ((float)modifier)/10f) : 0f;
+        return (20f - ((float) modifier) / 10f > 0) ?
+                (20f - ((float) modifier) / 10f) :
+                0f;
     }
 
     @Override
     public Recipe getWandRecipe() {
-     // same for each
+        // same for each
         ItemStack result = new ItemStack(Material.STICK);
         ItemMeta meta = result.getItemMeta();
         meta.setDisplayName(ChatColor.AQUA + getName());

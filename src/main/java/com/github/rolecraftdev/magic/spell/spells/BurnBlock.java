@@ -47,7 +47,7 @@ public class BurnBlock implements Spell {
     private SpellManager parent;
 
     public BurnBlock(SpellManager spellManager) {
-        this.parent= spellManager;
+        this.parent = spellManager;
     }
 
     @Override
@@ -74,7 +74,8 @@ public class BurnBlock implements Spell {
     @SuppressWarnings("deprecation")
     @Override
     public float rightClick(Player ply, Block block, int modifier) {
-        Block toIgnite = ply.getLastTwoTargetBlocks(null, parent.getRange()).get(0);
+        Block toIgnite = ply.getLastTwoTargetBlocks(null, parent.getRange())
+                .get(0);
         BlockState state = block.getState();
         block.setType(Material.FIRE);
         new BlockPlaceEvent(toIgnite, state, block, null, ply, true);
@@ -93,7 +94,7 @@ public class BurnBlock implements Spell {
 
     @Override
     public Recipe getWandRecipe() {
-     // same for each
+        // same for each
         ItemStack result = new ItemStack(Material.STICK);
         ItemMeta meta = result.getItemMeta();
         meta.setDisplayName(ChatColor.AQUA + getName());
@@ -101,10 +102,10 @@ public class BurnBlock implements Spell {
         result.setItemMeta(meta);
         ShapedRecipe recipe = new ShapedRecipe(result);
         // custom recipe stuff
-        recipe.shape("NNI","NIN","INN");
+        recipe.shape("NNI", "NIN", "INN");
         recipe.setIngredient('N', Material.FLINT_AND_STEEL);
         recipe.setIngredient('I', Material.IRON_INGOT);
-        
+
         return recipe;
     }
 

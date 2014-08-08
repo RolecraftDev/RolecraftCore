@@ -42,8 +42,7 @@ public class StrongerBow implements Spell {
 
     @Override
     public String getName() {
-        // TODO Auto-generated method stub
-        return null;
+        return "Strong Bow";
     }
 
     @Override

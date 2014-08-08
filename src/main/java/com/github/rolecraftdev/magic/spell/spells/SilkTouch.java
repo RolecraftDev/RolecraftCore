@@ -35,15 +35,12 @@ import org.bukkit.entity.Player;
 import org.bukkit.inventory.Recipe;
 
 public class SilkTouch implements Spell {
-
     public SilkTouch(SpellManager spellManager) {
-        // TODO Auto-generated constructor stub
     }
 
     @Override
     public String getName() {
-        // TODO Auto-generated method stub
-        return null;
+        return "Silk Touch";
     }
 
     @Override

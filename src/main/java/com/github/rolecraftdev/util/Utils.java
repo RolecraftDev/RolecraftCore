@@ -26,18 +26,28 @@
  */
 package com.github.rolecraftdev.util;
 
-import java.util.List;
-
 import org.bukkit.block.Block;
 import org.bukkit.entity.Entity;
 import org.bukkit.entity.LivingEntity;
 import org.bukkit.entity.Player;
 import org.bukkit.util.Vector;
 
+import java.util.List;
+
+/**
+ * General utility methods for Rolecraft
+ */
 public class Utils {
-
+    /**
+     * Gets the entity targeted by the given player. If there is no entity
+     * being targeted by the player within the given range, null is returned
+     *
+     * @param player The Player to get the entity target for
+     * @param range  The maximum distance the target can be from the player
+     * @return The entity targeted by the given player, or null if there isn't
+     *         one within the given range
+     */
     public static Entity getTarget(Player player, int range) {
-
         Block[] bs = player.getLineOfSight(null, range).toArray(new Block[0]);
         List<Entity> near = player.getNearbyEntities(range, range, range);
         for (Block b : bs) {
@@ -49,27 +59,37 @@ public class Utils {
         }
         return null;
     }
-    
+    /**
+     * Gets the living entity targeted by the given player. If there is no
+     * living entity being targeted by the player within the given range, null
+     * is returned
+     *
+     * @param player The Player to get the living entity target for
+     * @param range  The maximum distance the target can be from the player
+     * @return The living entity targeted by the given player, or null if there
+     *         isn't one within the given range
+     */
     public static LivingEntity getLivingTarget(Player player, int range) {
         Block[] bs = player.getLineOfSight(null, range).toArray(new Block[0]);
         List<Entity> near = player.getNearbyEntities(range, range, range);
         for (Block b : bs) {
             for (Entity e : near) {
                 if (e.getLocation().distance(b.getLocation()) < 2) {
-                    if(e instanceof LivingEntity)
+                    if (e instanceof LivingEntity) {
                         return (LivingEntity) e;
+                    }
                 }
             }
         }
         return null;
     }
-    
-    public static Vector getUnitVectorFacing (Player ply) {
-        double x = -Math.sin(Math.toRadians(ply.getLocation().getYaw())) * 
+
+    public static Vector getUnitVectorFacing(Player ply) {
+        double x = -Math.sin(Math.toRadians(ply.getLocation().getYaw())) *
                 Math.cos(Math.toRadians(ply.getLocation().getPitch()));
         double z = Math.cos(Math.toRadians(ply.getLocation().getYaw())) *
                 Math.cos(Math.toRadians(ply.getLocation().getPitch()));
         double y = -Math.sin(Math.toRadians(ply.getLocation().getPitch()));
-        return new Vector(x,y,z);
+        return new Vector(x, y, z);
     }
 }

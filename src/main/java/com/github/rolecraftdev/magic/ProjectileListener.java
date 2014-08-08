@@ -33,12 +33,14 @@ import org.bukkit.event.Listener;
 import org.bukkit.event.entity.EntityDamageByEntityEvent;
 
 public class ProjectileListener implements Listener {
-    
+
     @EventHandler(priority = EventPriority.HIGHEST)
     public void onHit(EntityDamageByEntityEvent e) {
-        if(e.getDamager() instanceof Arrow) {
-            if(e.getDamager().hasMetadata("Multiplier")) {
-                e.setDamage(e.getDamage() * e.getDamager().getMetadata("Multiplier").get(0).asFloat() );
+        if (e.getDamager() instanceof Arrow) {
+            if (e.getDamager().hasMetadata("Multiplier")) {
+                e.setDamage(
+                        e.getDamage() * e.getDamager().getMetadata("Multiplier")
+                                .get(0).asFloat());
             }
         }
     }

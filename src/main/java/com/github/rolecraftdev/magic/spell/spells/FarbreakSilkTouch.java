@@ -42,8 +42,8 @@ public class FarbreakSilkTouch implements Spell {
 
     @Override
     public String getName() {
-        // TODO Auto-generated method stub
-        return null;
+        // TODO: IDK but Farbreak Silk Touch is too long
+        return "Silky Farbreak";
     }
 
     @Override

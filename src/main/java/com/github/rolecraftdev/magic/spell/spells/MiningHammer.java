@@ -35,15 +35,13 @@ import org.bukkit.entity.Player;
 import org.bukkit.inventory.Recipe;
 
 public class MiningHammer implements Spell {
-
     public MiningHammer(SpellManager spellManager) {
         // TODO Auto-generated constructor stub
     }
 
     @Override
     public String getName() {
-        // TODO Auto-generated method stub
-        return null;
+        return "Mining Hammer";
     }
 
     @Override
