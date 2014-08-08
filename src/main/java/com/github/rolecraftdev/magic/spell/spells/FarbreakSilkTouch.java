@@ -77,6 +77,9 @@ public class FarbreakSilkTouch implements Spell {
         if (block == null) {
             return Float.MIN_VALUE;
         }
+        // TODO: Event? Might trigger a plugin like NoCheatPlus if we use
+        // BlockBreakEvent because they have a reach check. There is already
+        // a SpellCastEvent fired if plugins need it
         block.breakNaturally(new ItemStack(block.getType(), 1));
         return 5;
     }
