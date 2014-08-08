@@ -218,7 +218,8 @@ public class GuildMemberCommand extends PlayerCommandHandler {
             new BukkitRunnable() {
                 @Override
                 public void run() {
-                    data.setGuild(null);
+                    plugin.getGuildManager().getGuild(data.getGuild())
+                            .removeMember(data.getPlayerId(), true);
 
                     final Player player = Bukkit.getPlayer(data.getPlayerId());
                     if (player != null) {

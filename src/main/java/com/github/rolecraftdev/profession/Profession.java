@@ -84,21 +84,21 @@ public class Profession {
     }
 
     /**
+     * Get the unique identifier of this {@link Profession}.
+     *
+     * @return Its unique identifier
+     */
+    public UUID getId() {
+        return professionId;
+    }
+
+    /**
      * Returns the unique name of this {@link Profession}.
      *
      * @return Its unique name
      */
     public String getName() {
         return name;
-    }
-
-    /**
-     * Set the unique name of this {@link Profession}.
-     *
-     * @param name - The new unique name
-     */
-    public void setName(final String name) {
-        this.name = name;
     }
 
     /**
@@ -112,6 +112,15 @@ public class Profession {
     }
 
     /**
+     * Set the unique name of this {@link Profession}.
+     *
+     * @param name - The new unique name
+     */
+    public void setName(final String name) {
+        this.name = name;
+    }
+
+    /**
      * Set the map of {@link ProfessionRule}s that will regulate events that
      * affect this {@link Profession}.
      *
@@ -119,15 +128,6 @@ public class Profession {
      */
     public void setRuleMap(final ProfessionRuleMap rules) {
         this.rules = rules;
-    }
-
-    /**
-     * Get the unique identifier of this {@link Profession}.
-     *
-     * @return Its unique identifier
-     */
-    public UUID getId() {
-        return professionId;
     }
 
     @Override

@@ -192,12 +192,34 @@ public final class GuildManager {
      *
      * @param name - The name of the wanted {@link Guild}
      * @return The {@link Guild} with the given name if it is contained by this
-     * {@link GuildManager}, or null if none is found, or this manager has not finished loading
+     * {@link GuildManager}, or null if none is found, or this manager has not
+     * finished loading
      */
     public Guild getGuild(final String name) {
         if (loaded) {
             for (final Guild guild : guilds) {
                 if (guild.getName().equalsIgnoreCase(name)) {
+                    return guild;
+                }
+            }
+            return null;
+        } else {
+            return null;
+        }
+    }
+
+    /**
+     * Gets the {@link Guild} object that has the specified UUID.
+     *
+     * @param uuid - The UUID of the wanted {@link Guild}
+     * @return The {@link Guild} with the given name if it is contained by this
+     * {@link GuildManager}, or null if none is found, or this manager has not
+     * finished loading
+     */
+    public Guild getGuild(final UUID uuid) {
+        if (loaded) {
+            for (final Guild guild : guilds) {
+                if (guild.getId().equals(uuid)) {
                     return guild;
                 }
             }
