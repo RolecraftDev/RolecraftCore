@@ -46,6 +46,7 @@ public class GuildCommand extends TreeCommandHandler {
         addSubcommand("rank", new GuildRankCommand(plugin));
         addSubcommand("show", new GuildShowCommand(plugin));
         addSubcommand("member", new GuildMemberCommand(plugin));
+        addSubcommand("leave", new GuildLeaveCommand(plugin));
         // TODO more
     }
 }

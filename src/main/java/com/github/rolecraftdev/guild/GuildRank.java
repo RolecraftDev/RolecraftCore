@@ -189,7 +189,7 @@ public final class GuildRank {
     /**
      * Deserializes the given {@link String} into a {@link GuildRank} object,
      * assuming it is a valid serialized {@link GuildRank}. It can be built in a
-     * separate thread and passed into the main one, assuming the otherold thread
+     * separate thread and passed into the main one, assuming the other thread
      * destroys all references.
      *
      * @param s - The String to deserialize into a {@link GuildRank} object
@@ -204,7 +204,7 @@ public final class GuildRank {
             actions.add(GuildAction.values()[actionValue]);
         }
         for (String member : data[2].split("#")) {
-            if (!member.equals("") && member != null) {
+            if (!member.equals("")) {
                 members.add(UUID.fromString(member));
             }
         }
