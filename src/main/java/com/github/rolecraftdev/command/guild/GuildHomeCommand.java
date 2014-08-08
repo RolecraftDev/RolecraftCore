@@ -56,11 +56,25 @@ public class GuildHomeCommand extends PlayerCommandHandler {
     public void onCommand(final Player player, final Arguments args) {
         final UUID id = player.getUniqueId();
         final Guild guild = guildManager.getPlayerGuild(id);
-        if (guild != null) {
-            guild.teleportToHome(player);
-            player.sendMessage(ChatColor.GRAY + "Teleporting to guild home!");
+        if (args.length() > 1 && args.getRaw(1).equalsIgnoreCase("set")) {
+            if (!player.hasPermission("rolecraft.guild.sethome")) {
+                player.sendMessage(ChatColor.DARK_RED
+                        + "You don't have permission to do that!");
+                return;
+            }
+
+            guild.setHomeLocation(player.getLocation());
+            player.sendMessage(
+                    ChatColor.GRAY + "The guild's home location has been set!");
         } else {
-            player.sendMessage(ChatColor.DARK_RED + "You don't have a guild!");
+            if (guild != null) {
+                guild.teleportToHome(player);
+                player.sendMessage(
+                        ChatColor.GRAY + "Teleporting to guild home!");
+            } else {
+                player.sendMessage(
+                        ChatColor.DARK_RED + "You don't have a guild!");
+            }
         }
     }
 }
