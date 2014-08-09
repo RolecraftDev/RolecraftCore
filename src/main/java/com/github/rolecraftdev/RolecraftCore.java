@@ -278,7 +278,7 @@ public final class RolecraftCore extends AlbPlugin {
      * @param loaded Whether SQL has finished loading
      */
     public void setSqlLoaded(boolean loaded) {
-        this.sqlLoaded = loaded;
+        sqlLoaded = loaded;
     }
 
     /**
@@ -308,9 +308,7 @@ public final class RolecraftCore extends AlbPlugin {
                     e.printStackTrace();
                 } finally {
                     try {
-                        if (input != null) {
-                            input.close();
-                        }
+                        input.close();
                     } catch (final IOException e) {
                     }
                     try {

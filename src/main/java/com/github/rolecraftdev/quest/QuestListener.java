@@ -27,13 +27,11 @@
 package com.github.rolecraftdev.quest;
 
 import com.github.rolecraftdev.RolecraftCore;
-import com.github.rolecraftdev.data.DataManager;
 import com.github.rolecraftdev.quest.objective.QuestObjective;
 import com.github.rolecraftdev.quest.objective.types.KillEntityObjectiveType;
 import com.github.rolecraftdev.quest.objective.types.KillHostileMobObjectiveType;
 
 import org.bukkit.entity.Entity;
-import org.bukkit.entity.EntityType;
 import org.bukkit.entity.Monster;
 import org.bukkit.entity.Player;
 import org.bukkit.event.EventHandler;
@@ -50,28 +48,17 @@ import java.util.UUID;
  */
 public class QuestListener implements Listener {
     /**
-     * The {@link RolecraftCore} plugin object
-     */
-    private final RolecraftCore plugin;
-    /**
      * The {@link RolecraftCore} {@link QuestManager} object
      */
     private final QuestManager questMgr;
-    /**
-     * The {@link RolecraftCore} {@link DataManager} object
-     */
-    private final DataManager dataMgr;
 
     public QuestListener(final RolecraftCore plugin) {
-        this.plugin = plugin;
         questMgr = plugin.getQuestManager();
-        dataMgr = plugin.getDataManager();
     }
 
     @EventHandler(priority = EventPriority.MONITOR, ignoreCancelled = true)
     public void onEntityDeath(final EntityDeathEvent event) {
         final Entity dead = event.getEntity();
-        final EntityType type = dead.getType();
         final EntityDamageEvent last = dead.getLastDamageCause();
 
         if (last instanceof EntityDamageByEntityEvent) {

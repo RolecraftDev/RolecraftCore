@@ -28,7 +28,6 @@ package com.github.rolecraftdev.magic.spell;
 
 import com.github.rolecraftdev.RolecraftCore;
 import com.github.rolecraftdev.magic.spell.spells.*;
-
 import org.bukkit.Bukkit;
 import org.bukkit.entity.Player;
 import org.bukkit.permissions.Permission;
@@ -43,10 +42,10 @@ public class SpellManager {
     private final int maxRange;
     private final Map<String, Boolean> emptyMap;
 
-    public SpellManager(RolecraftCore parent) {
-        this.plugin = parent;
+    public SpellManager(RolecraftCore plugin) {
+        this.plugin = plugin;
         spells = new HashMap<String, Spell>();
-        maxRange = parent.getConfig().getInt("magicrange", 100);
+        maxRange = plugin.getConfig().getInt("magicrange", 100);
         emptyMap = new HashMap<String, Boolean>();
 
         // Tier 1 spells
@@ -81,6 +80,16 @@ public class SpellManager {
         register("Avada Kedavra", new AvadaKedavra(this));
     }
 
+    /**
+     * Get the {@link RolecraftCore} plugin object this {@link SpellManager} is
+     * attached to.
+     * 
+     * @return Its {@link RolecraftCore} object
+     */
+    public RolecraftCore getPlugin() {
+        return plugin;
+    }
+
     public void register(String wandName, Spell spell) {
         spells.put(wandName, spell);
         Bukkit.getPluginManager().addPermission(new Permission(
@@ -111,7 +120,7 @@ public class SpellManager {
      */
     public void subtractMana(Player ply, float amount) {
         plugin.getDataManager().getPlayerData(ply.getUniqueId())
-                .substractMana(amount);
+        .substractMana(amount);
     }
 
     public void setMana(Player ply, float mana) {
@@ -125,9 +134,5 @@ public class SpellManager {
 
     public int getRange() {
         return maxRange;
-    }
-
-    public RolecraftCore getParent() {
-        return plugin;
     }
 }

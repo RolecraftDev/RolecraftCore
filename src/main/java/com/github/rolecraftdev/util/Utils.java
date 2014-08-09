@@ -48,6 +48,7 @@ public class Utils {
      *         one within the given range
      */
     public static Entity getTarget(Player player, int range) {
+        @SuppressWarnings("deprecation")
         Block[] bs = player.getLineOfSight(null, range).toArray(new Block[0]);
         List<Entity> near = player.getNearbyEntities(range, range, range);
         for (Block b : bs) {
@@ -70,6 +71,7 @@ public class Utils {
      *         isn't one within the given range
      */
     public static LivingEntity getLivingTarget(Player player, int range) {
+        @SuppressWarnings("deprecation")
         Block[] bs = player.getLineOfSight(null, range).toArray(new Block[0]);
         List<Entity> near = player.getNearbyEntities(range, range, range);
         for (Block b : bs) {

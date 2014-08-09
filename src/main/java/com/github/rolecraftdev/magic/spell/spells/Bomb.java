@@ -74,7 +74,7 @@ public class Bomb implements Spell {
         Entity tnt = ply.getWorld()
                 .spawn(ply.getEyeLocation(), TNTPrimed.class);
         tnt.setVelocity(Utils.getUnitVectorFacing(ply)
-                .multiply(10f * (((float) modifier) / (100f)) + 2f));
+                .multiply(10f * (modifier / (100f)) + 2f));
         return 200 - modifier;
     }
 

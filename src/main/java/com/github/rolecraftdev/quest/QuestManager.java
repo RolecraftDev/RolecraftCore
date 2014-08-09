@@ -76,12 +76,22 @@ public final class QuestManager {
                 new KillHostileMobObjectiveType());
         // TODO: More
 
-            // Load all quest outlines
+        // Load all quest outlines
         rcqLoader.loadQuestOutlines();
         jsLoader.loadQuestOutlines();
 
         plugin.getServer().getPluginManager()
                 .registerEvents(new QuestListener(plugin), plugin);
+    }
+
+    /**
+     * Get the {@link RolecraftCore} plugin object this {@link QuestManager} is
+     * attached to.
+     * 
+     * @return Its {@link RolecraftCore} object
+     */
+    public RolecraftCore getPlugin() {
+        return plugin;
     }
 
     /**

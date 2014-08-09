@@ -296,14 +296,14 @@ public abstract class DataStore {
                     rs = ps.executeQuery();
                     while (rs.next()) {
                         UUID id = UUID.fromString(rs.getString("uuid"));
-                        String name = rs.getString("name");
+                        String name = rs.getString("name"); 
                         UUID leader = (!(rs.getString("leader") == null) && !rs
                                 .getString("leader").equals("")) ?
                                 UUID.fromString(rs.getString("leader")) :
                                 null;
                         Set<UUID> members = new HashSet<UUID>();
                         for (String s : rs.getString("members").split(",")) {
-                            if (!s.equals("") && s != null) {
+                            if (s != null && !s.equals("")) { 
                                 members.add(UUID.fromString(s));
                             }
                         }
@@ -545,7 +545,6 @@ public abstract class DataStore {
                 }
             } else {
                 new BukkitRunnable() {
-                    @SuppressWarnings("deprecation")
                     @Override
                     public void run() {
                         Connection connection = getConnection();
@@ -604,7 +603,7 @@ public abstract class DataStore {
                 @Override
                 public void run() {
                     if (isQuestsLoaded()) {
-                        this.cancel();
+                        cancel();
                         requestPlayerData(callback, true);
                     }
                 }

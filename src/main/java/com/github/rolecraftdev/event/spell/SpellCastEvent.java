@@ -52,6 +52,7 @@ public class SpellCastEvent extends SpellEvent implements Cancellable {
         return caster;
     }
 
+    @Override
     public boolean isCancelled() {
         return cancelled;
     }
@@ -60,6 +61,7 @@ public class SpellCastEvent extends SpellEvent implements Cancellable {
         return cancelMessage;
     }
 
+    @Override
     public void setCancelled(final boolean cancelled) {
         this.cancelled = cancelled;
     }

@@ -39,12 +39,10 @@ import org.bukkit.entity.Player;
 import java.util.UUID;
 
 public class GuildHomeCommand extends PlayerCommandHandler {
-    private final RolecraftCore plugin;
     private final GuildManager guildManager;
 
     public GuildHomeCommand(final RolecraftCore plugin) {
         super(plugin, "home");
-        this.plugin = plugin;
         guildManager = plugin.getGuildManager();
 
         setUsage("/guild home");
