@@ -47,19 +47,6 @@ import java.util.UUID;
  */
 public final class Guild {
     /**
-     * The Leader {@link GuildRank}, which is present whenever a new
-     * {@link Guild} is created, and thus cannot be removed.
-     */
-    private final GuildRank LEADER = new GuildRank("Leader",
-            EnumSet.allOf(GuildAction.class), new HashSet<UUID>());
-    /**
-     * The Default {@link GuildRank}, which is present whenever a new
-     * {@link Guild} is created, and thus cannot be removed.
-     */
-    private final GuildRank DEFAULT = new GuildRank("Default",
-            new HashSet<GuildAction>(), new HashSet<UUID>());
-
-    /**
      * The {@link GuildManager} object this {@link Guild} is registered to.
      */
     private final GuildManager guildManager;
@@ -113,8 +100,10 @@ public final class Guild {
         members = new HashSet<UUID>();
         ranks = new HashSet<GuildRank>();
 
-        ranks.add(LEADER);
-        ranks.add(DEFAULT);
+        ranks.add(new GuildRank("Leader", EnumSet.allOf(GuildAction.class),
+                new HashSet<UUID>()));
+        ranks.add(new GuildRank("Default", EnumSet.noneOf(GuildAction.class),
+                new HashSet<UUID>()));
     }
 
     /**
@@ -317,7 +306,7 @@ public final class Guild {
      * @return This guild's Leader rank
      */
     public GuildRank getLeaderRank() {
-        return LEADER;
+        return getRank("Leader");
     }
 
     /**
@@ -326,7 +315,7 @@ public final class Guild {
      * @return This guild's Default rank
      */
     public GuildRank getDefaultRank() {
-        return DEFAULT;
+        return getRank("Default");
     }
 
     /**
@@ -363,15 +352,15 @@ public final class Guild {
      */
     public void setLeader(final UUID leader) {
         if (this.leader != null) {
-            LEADER.removeMember(this.leader);
-            LEADER.addMember(this.leader);
+            getLeaderRank().removeMember(this.leader);
+            getLeaderRank().addMember(this.leader);
         }
         if (!members.contains(leader)) {
             members.add(leader);
         }
 
         this.leader = leader;
-        LEADER.addMember(leader);
+        getLeaderRank().addMember(leader);
         guildManager.getPlugin().getDataStore().updateGuildData(this);
     }
 
