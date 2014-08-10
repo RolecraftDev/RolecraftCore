@@ -34,6 +34,7 @@ import com.github.rolecraftdev.event.guild.GuildPlayerLeaveEvent;
 import org.bukkit.Bukkit;
 import org.bukkit.Location;
 import org.bukkit.entity.Entity;
+import org.bukkit.entity.Player;
 
 import java.util.EnumSet;
 import java.util.HashSet;
@@ -308,6 +309,38 @@ public final class Guild {
      */
     public Region2D getGuildHallRegion() {
         return hallRegion;
+    }
+
+    /**
+     * Gets the Leader rank for this guild
+     *
+     * @return This guild's Leader rank
+     */
+    public GuildRank getLeaderRank() {
+        return LEADER;
+    }
+
+    /**
+     * Gets the Default rank for this guild
+     *
+     * @return This guild's Default rank
+     */
+    public GuildRank getDefaultRank() {
+        return DEFAULT;
+    }
+
+    /**
+     * Broadcasts the given message to every member of the guild
+     *
+     * @param message The message to broadcast to the guild
+     */
+    public void broadcastMessage(final String message) {
+        for (final UUID uuid : getMembers()) {
+            final Player player = Bukkit.getPlayer(uuid);
+            if (player != null) {
+                player.sendMessage(message);
+            }
+        }
     }
 
     /**

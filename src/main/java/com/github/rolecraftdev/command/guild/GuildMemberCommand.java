@@ -41,6 +41,7 @@ import org.bukkit.Bukkit;
 import org.bukkit.ChatColor;
 import org.bukkit.OfflinePlayer;
 import org.bukkit.entity.Player;
+import org.bukkit.metadata.FixedMetadataValue;
 import org.bukkit.scheduler.BukkitRunnable;
 
 import java.util.UUID;
@@ -99,8 +100,18 @@ public class GuildMemberCommand extends PlayerCommandHandler {
                 return;
             }
 
-            // TODO: Invite player to guild (no more checks needed)
-            // We need an invitation system first
+            if (target.hasMetadata(GuildManager.GUILD_INVITE_METADATA)) {
+                player.sendMessage(ChatColor.DARK_RED
+                        + "That player is already considering an invitation to a guild!");
+                return;
+            }
+
+            target.setMetadata(GuildManager.GUILD_INVITE_METADATA,
+                    new FixedMetadataValue(plugin, guild.getId()));
+            target.sendMessage(ChatColor.GRAY +
+                    "You have been invited to " + guild.getName());
+            player.sendMessage(ChatColor.GRAY +
+                    "Invited " + target.getName() + " to the guild");
         } else {
             final UUID id = offline.getUniqueId();
             if (!targetGuild.equals(guild)) {

@@ -26,6 +26,8 @@ permissions:
         description: Allows usage of functionality related to guild administration, such as creating a guild
     rolecraft.guild.disband.other:
         description: Allows disbanding someone else's guild
+    rolecraft.guild.join:
+        description: Allows joining a guild
     rolecraft.guild.home:
         description: Allows teleporting to the guild home
     rolecraft.profession.list:

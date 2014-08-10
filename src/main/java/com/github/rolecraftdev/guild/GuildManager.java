@@ -43,6 +43,11 @@ import java.util.*;
  */
 public final class GuildManager {
     /**
+     * The metadata tag used for inviting players to guilds
+     */
+    public static final String GUILD_INVITE_METADATA = "guild-invite";
+
+    /**
      * The {@link RolecraftCore} plugin object.
      */
     private final RolecraftCore plugin;
