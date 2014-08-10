@@ -39,12 +39,10 @@ import org.bukkit.entity.Player;
 import java.util.UUID;
 
 public class GCCommand extends PlayerCommandHandler {
-    private final RolecraftCore plugin;
     private final GuildManager guildManager;
 
     public GCCommand(final RolecraftCore plugin) {
         super(plugin, "gc");
-        this.plugin = plugin;
         guildManager = plugin.getGuildManager();
 
         setUsage("/gc [message]");

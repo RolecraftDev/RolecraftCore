@@ -35,16 +35,9 @@ import org.bukkit.event.HandlerList;
 public class GuildPlayerKickedEvent extends GuildPlayerLeaveEvent {
     private static final HandlerList handlers = new HandlerList();
 
-    private final Player player;
-
     public GuildPlayerKickedEvent(final RolecraftCore plugin, final Guild guild,
             final Player player) {
         super(plugin, guild, player);
-        this.player = player;
-    }
-
-    public Player getPlayer() {
-        return player;
     }
 
     @Override

@@ -37,12 +37,10 @@ import com.github.rolecraftdev.guild.GuildManager;
 import org.bukkit.command.CommandSender;
 
 public class GuildShowCommand extends CommandHandler {
-    private final RolecraftCore plugin;
     private final GuildManager guildManager;
 
     public GuildShowCommand(final RolecraftCore plugin) {
         super(plugin, "show");
-        this.plugin = plugin;
         guildManager = plugin.getGuildManager();
 
         setUsage("/guild show <name>");

@@ -37,4 +37,8 @@ public abstract class SpellEvent extends RolecraftEvent {
         super(plugin);
         this.spell = spell;
     }
+
+    public Spell getSpell() {
+        return spell;
+    }
 }

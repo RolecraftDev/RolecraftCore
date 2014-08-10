@@ -39,11 +39,9 @@ import org.bukkit.metadata.MetadataValue;
 import java.util.List;
 
 public class RCConfirmCommand extends PlayerCommandHandler {
-    private final RolecraftCore plugin;
 
     public RCConfirmCommand(final RolecraftCore plugin) {
         super(plugin, "rcconfirm");
-        this.plugin = plugin;
 
         setUsage("/rcconfirm [message]");
         setDescription("Used to confirm sensitive commands");

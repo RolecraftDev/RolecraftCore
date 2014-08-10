@@ -105,7 +105,7 @@ public class GuildDisbandCommand extends CommandHandler {
             guildManager.removeGuild(guild);
             sender.sendMessage(
                     ChatColor.GRAY + "Disbanded the guild: " + guild
-                            .getName());
+                    .getName());
         }
     }
 

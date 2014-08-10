@@ -27,7 +27,6 @@
 package com.github.rolecraftdev.magic;
 
 import com.github.rolecraftdev.RolecraftCore;
-import com.github.rolecraftdev.data.DataManager;
 import com.github.rolecraftdev.event.spell.SpellCastEvent;
 import com.github.rolecraftdev.magic.spell.Spell;
 import com.github.rolecraftdev.magic.spell.SpellManager;
@@ -46,12 +45,10 @@ import org.bukkit.event.player.PlayerInteractEvent;
 
 public class MagicListener implements Listener {
     private RolecraftCore plugin;
-    private DataManager dataManager;
     private SpellManager spellManager;
 
     public MagicListener(RolecraftCore plugin) {
         this.plugin = plugin;
-        dataManager = plugin.getDataManager();
         spellManager = plugin.getSpellManager();
     }
 
