@@ -110,6 +110,8 @@ public final class RolecraftCore extends AlbPlugin {
      */
     private volatile boolean sqlLoaded;
     private SpellManager spellManager;
+    
+    private static boolean extraEvents;
 
     @Override
     public void onEnable() {
@@ -139,6 +141,7 @@ public final class RolecraftCore extends AlbPlugin {
 
         // Get options from the config
         dbType = config.getString("sqlserver").toLowerCase();
+        extraEvents = config.getBoolean("extraevents");
         originalSin = (float) config.getDouble("originalsin");
 
         // Set up the plugin's data store
@@ -324,5 +327,9 @@ public final class RolecraftCore extends AlbPlugin {
 
     public SpellManager getSpellManager() {
         return spellManager;
+    }
+    
+    public static boolean isExtraEvents() {
+        return extraEvents;
     }
 }

@@ -6,7 +6,15 @@ sqlserver: sqlite
 # Only needed if you're using RolecraftAfterlife
 originalsin: 1000
 
+#The maximum range that spells have
 magicrange: 100
+
+#Leaving this to true will enforce area protection and block protection
+# plugins when players are casting spells, however this may cause problems
+# with certain other plugins like NoCheatPlus that will report a cheater
+# if blocks are broken from too far away, leave "true" unless you know 
+# what you're doing
+extraevents: true
 
 # Configuration for MySQL, can be ignored if using SQLite
 mysql:
