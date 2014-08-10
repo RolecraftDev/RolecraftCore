@@ -36,10 +36,6 @@ public class ProfessionCommand extends TreeCommandHandler {
     public ProfessionCommand(final RolecraftCore plugin) {
         super(plugin, "profession");
         this.plugin = plugin;
-
-        setUsage("/profession list [page]");
-        setDescription("View a list of permissions at the given page");
-        setPermission("rolecraft.profession.list");
     }
 
     @Override
