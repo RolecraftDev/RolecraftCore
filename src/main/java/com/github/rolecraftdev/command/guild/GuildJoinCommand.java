@@ -21,7 +21,7 @@ public class GuildJoinCommand extends PlayerCommandHandler {
 
         setUsage("/guild join <name>");
         setDescription("Joins the given guild if you are invited");
-        setPermission("");
+        setPermission("rolecraft.guild.join");
     }
 
     @Override
