@@ -28,6 +28,7 @@ package com.github.rolecraftdev.magic.spell;
 
 import com.github.rolecraftdev.RolecraftCore;
 import com.github.rolecraftdev.magic.spell.spells.*;
+
 import org.bukkit.Bukkit;
 import org.bukkit.entity.Player;
 import org.bukkit.permissions.Permission;
@@ -83,7 +84,7 @@ public class SpellManager {
     /**
      * Get the {@link RolecraftCore} plugin object this {@link SpellManager} is
      * attached to.
-     * 
+     *
      * @return Its {@link RolecraftCore} object
      */
     public RolecraftCore getPlugin() {
@@ -120,7 +121,7 @@ public class SpellManager {
      */
     public void subtractMana(Player ply, float amount) {
         plugin.getDataManager().getPlayerData(ply.getUniqueId())
-        .substractMana(amount);
+                .substractMana(amount);
     }
 
     public void setMana(Player ply, float mana) {

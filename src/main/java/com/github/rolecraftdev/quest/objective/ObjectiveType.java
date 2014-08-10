@@ -37,7 +37,7 @@ public interface ObjectiveType {
      * @param results The results to get the completed result from
      * @param value   The value for which the results are checked
      * @return The completed ObjectiveResult out of the given results, or null
-     *         if none have been completed
+     * if none have been completed
      */
     ObjectiveResult getCompleted(ObjectiveResult[] results, Object value);
 

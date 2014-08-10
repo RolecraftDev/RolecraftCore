@@ -45,7 +45,7 @@ public class Utils {
      * @param player The Player to get the entity target for
      * @param range  The maximum distance the target can be from the player
      * @return The entity targeted by the given player, or null if there isn't
-     *         one within the given range
+     * one within the given range
      */
     public static Entity getTarget(Player player, int range) {
         @SuppressWarnings("deprecation")
@@ -60,6 +60,7 @@ public class Utils {
         }
         return null;
     }
+
     /**
      * Gets the living entity targeted by the given player. If there is no
      * living entity being targeted by the player within the given range, null
@@ -68,7 +69,7 @@ public class Utils {
      * @param player The Player to get the living entity target for
      * @param range  The maximum distance the target can be from the player
      * @return The living entity targeted by the given player, or null if there
-     *         isn't one within the given range
+     * isn't one within the given range
      */
     public static LivingEntity getLivingTarget(Player player, int range) {
         @SuppressWarnings("deprecation")

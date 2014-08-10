@@ -303,7 +303,7 @@ public final class PlayerData {
      * @param influence The amount of influence to add
      */
     public void addInfluence(final int influence) {
-            setInfluence(getInfluence() + influence);
+        setInfluence(getInfluence() + influence);
     }
 
     /**
@@ -312,7 +312,7 @@ public final class PlayerData {
      * @param influence The amount of influence to subtract
      */
     public void subtractInfluence(final int influence) {
-            setInfluence(getInfluence() - influence);
+        setInfluence(getInfluence() - influence);
     }
 
     /**

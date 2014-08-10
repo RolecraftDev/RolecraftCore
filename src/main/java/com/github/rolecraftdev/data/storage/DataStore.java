@@ -296,14 +296,14 @@ public abstract class DataStore {
                     rs = ps.executeQuery();
                     while (rs.next()) {
                         UUID id = UUID.fromString(rs.getString("uuid"));
-                        String name = rs.getString("name"); 
+                        String name = rs.getString("name");
                         UUID leader = (!(rs.getString("leader") == null) && !rs
                                 .getString("leader").equals("")) ?
                                 UUID.fromString(rs.getString("leader")) :
                                 null;
                         Set<UUID> members = new HashSet<UUID>();
                         for (String s : rs.getString("members").split(",")) {
-                            if (s != null && !s.equals("")) { 
+                            if (s != null && !s.equals("")) {
                                 members.add(UUID.fromString(s));
                             }
                         }
@@ -518,7 +518,8 @@ public abstract class DataStore {
                         for (int i = 0; i < rsmd.getColumnCount(); i++) {
                             if (rsmd.getColumnName(i).startsWith("quest")) {
                                 questData.put(UUID.fromString(
-                                        rsmd.getColumnName(i).substring(6)),
+                                                rsmd.getColumnName(i)
+                                                        .substring(6)),
                                         rs.getString(i));
                             }
                         }
@@ -526,7 +527,8 @@ public abstract class DataStore {
                                 UUID.fromString(rs.getString("guild")),
                                 UUID.fromString(rs.getString("profession")),
                                 rs.getInt("influence"), rs.getFloat("exp"),
-                                rs.getFloat("karma"),rs.getFloat("mana"), questData);
+                                rs.getFloat("karma"), rs.getFloat("mana"),
+                                questData);
                     } else {
                         ps.close();
                         ps = connection.prepareStatement("INSERT INTO " + pt
@@ -534,7 +536,7 @@ public abstract class DataStore {
                         ps.setString(1, uuid);
                         ps.setString(2, name);
                         callback.initialise(null, null, 0, 0f, -originalSin,
-                                0,null);
+                                0, null);
                     }
 
                 } catch (SQLException ex) {
@@ -565,8 +567,8 @@ public abstract class DataStore {
                                     if (rsmd.getColumnName(i)
                                             .startsWith("quest")) {
                                         questData.put(UUID.fromString(
-                                                rsmd.getColumnName(i)
-                                                        .substring(6)),
+                                                        rsmd.getColumnName(i)
+                                                                .substring(6)),
                                                 rs.getString(i));
                                     }
                                 }
@@ -586,7 +588,7 @@ public abstract class DataStore {
                                 ps.setString(1, uuid);
                                 ps.setString(2, name);
                                 callback.initialise(null, null, 0, 0f,
-                                        -originalSin,0, null);
+                                        -originalSin, 0, null);
                             }
 
                         } catch (SQLException ex) {

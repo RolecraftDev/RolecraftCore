@@ -58,7 +58,7 @@ public class LesserSword implements Spell {
             int modifier) {
         return (20f - modifier / 10f > 0) ?
                 (20f - modifier / 10f) :
-                    0f;
+                0f;
     }
 
     @Override
@@ -91,7 +91,7 @@ public class LesserSword implements Spell {
         }
         return (20f - modifier / 10f > 0) ?
                 (20f - modifier / 10f) :
-                    0f;
+                0f;
     }
 
     @Override

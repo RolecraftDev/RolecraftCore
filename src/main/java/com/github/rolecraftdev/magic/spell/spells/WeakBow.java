@@ -70,7 +70,7 @@ public class WeakBow implements Spell {
     public float estimateRightClickMana(Player ply, Block block, int modifier) {
         return (40f - modifier / 10f > 0) ?
                 (40f - modifier / 10f) :
-                    0f;
+                0f;
     }
 
     @Override
@@ -81,7 +81,7 @@ public class WeakBow implements Spell {
                 new FixedMetadataValue(parent.getPlugin(), new Float(0.5f)));
         return (40f - modifier / 10f > 0) ?
                 (40f - modifier / 10f) :
-                    0f;
+                0f;
     }
 
     @Override
