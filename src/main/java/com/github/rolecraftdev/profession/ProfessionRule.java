@@ -27,6 +27,7 @@
 package com.github.rolecraftdev.profession;
 
 import java.util.HashSet;
+import java.util.List;
 import java.util.Set;
 
 /**
@@ -41,8 +42,10 @@ public final class ProfessionRule<T> {
      */
     private static final Set<ProfessionRule<?>> pool = new HashSet<ProfessionRule<?>>();
 
-    // Constants
-    // here
+    /**
+     * A rule which defines the spells usable by a profession
+     */
+    public static final ProfessionRule<List> USABLE_SPELLS = new ProfessionRule<List>("usable-spells", List.class);
 
     /**
      * Get a unique {@link ProfessionRule} by its name.
