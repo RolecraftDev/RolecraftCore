@@ -47,6 +47,7 @@ import org.bukkit.event.player.PlayerInteractEvent;
 import org.bukkit.event.world.StructureGrowEvent;
 
 import java.util.List;
+import java.util.Set;
 import java.util.UUID;
 
 /**
@@ -57,6 +58,9 @@ public final class GuildListener implements Listener {
 
     GuildListener(final GuildManager guildManager) {
         this.guildManager = guildManager;
+
+        // Nasty workaround
+        errorReturn = new Guild(guildManager);
     }
 
     @EventHandler(priority = EventPriority.HIGHEST)
@@ -292,6 +296,11 @@ public final class GuildListener implements Listener {
     private boolean cancel(final Location loc, final UUID player,
             final boolean def, final GuildAction action) {
         final Guild guild = getGuildFromHall(loc);
+        if (guild == errorReturn) {
+            // this happens if SQL hasn't loaded yet. seeing as SQL takes about
+            // 1.5 seconds to load we can just assume that we can cancel it
+            return true;
+        }
         if (guild != null) {
             return !(guild.isMember(player) && guild
                     .can(player, action));
@@ -300,7 +309,12 @@ public final class GuildListener implements Listener {
     }
 
     private Guild getGuildFromHall(final Location loc) {
-        for (final Guild guild : guildManager.getGuilds()) {
+        final Set<Guild> guilds = guildManager.getGuilds();
+        if (guilds == null) {
+            // Awful really
+            return errorReturn;
+        }
+        for (final Guild guild : guilds) {
             if (guild.getGuildHallRegion() != null) {
                 if (guild.getGuildHallRegion().containsLocation(loc)) {
                     return guild;
@@ -309,4 +323,6 @@ public final class GuildListener implements Listener {
         }
         return null;
     }
+
+    private final Guild errorReturn;
 }
