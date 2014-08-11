@@ -185,6 +185,7 @@ public abstract class DataStore {
                     ps.setString(5, home);
                     ps.setString(6, hall);
                     ps.setString(7, id);
+                    ps.execute();
                 } catch (final SQLException ex) {
                     ex.printStackTrace();
                 } finally {
@@ -236,6 +237,7 @@ public abstract class DataStore {
                     ps = connection.prepareStatement(
                             "DELETE FROM " + pt + " WHERE uuid = ?");
                     ps.setString(1, uuid.toString());
+                    ps.execute();
                 } catch (final SQLException ex) {
                     ex.printStackTrace();
                 } finally {
@@ -273,6 +275,7 @@ public abstract class DataStore {
                     ps.setString(3, leader);
                     ps.setString(4, leader);
                     ps.setString(5, ranks);
+                    ps.execute();
                 } catch (final SQLException ex) {
                     ex.printStackTrace();
                 } finally {
@@ -451,6 +454,7 @@ public abstract class DataStore {
                     ps.setString(4, commit.getProfession().toString());
                     ps.setInt(5, commit.getInfluence());
                     ps.setString(6, commit.getPlayerId().toString());
+                    ps.execute();
                 } catch (SQLException ex) {
                     ex.printStackTrace();
                 } finally {
@@ -482,6 +486,7 @@ public abstract class DataStore {
             ps.setInt(5, commit.getInfluence());
             ps.setFloat(6, commit.getKarma());
             ps.setString(7, commit.getPlayerId().toString());
+            ps.execute();
         } catch (SQLException ex) {
             ex.printStackTrace();
         } finally {
@@ -534,6 +539,7 @@ public abstract class DataStore {
                                 + " (uuid, name) VALUES (?,?)");
                         ps.setString(1, uuid);
                         ps.setString(2, name);
+                        ps.execute();
                         callback.initialise(null, null, 0, 0f, -originalSin,
                                 0, null);
                     }
@@ -586,6 +592,7 @@ public abstract class DataStore {
                                                 + " (uuid, name) VALUES (?,?)");
                                 ps.setString(1, uuid);
                                 ps.setString(2, name);
+                                ps.execute();
                                 callback.initialise(null, null, 0, 0f,
                                         -originalSin, 0, null);
                             }
