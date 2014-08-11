@@ -24,26 +24,24 @@
  * DISCLAIMER: This is a human-readable summary of (and not a substitute for) the
  * license.
  */
+package com.github.rolecraftdev.magic.spells;
 
-package com.github.rolecraftdev.magic.spell.spells;
-
-import com.github.rolecraftdev.magic.spell.Spell;
-import com.github.rolecraftdev.magic.spell.SpellManager;
+import com.github.rolecraftdev.magic.Spell;
+import com.github.rolecraftdev.magic.SpellManager;
 
 import org.bukkit.block.Block;
 import org.bukkit.entity.LivingEntity;
 import org.bukkit.entity.Player;
 import org.bukkit.inventory.Recipe;
 
-public class HandCannon implements Spell {
-
-    public HandCannon(SpellManager spellManager) {
+public class FreezeRay implements Spell {
+    public FreezeRay(SpellManager spellManager) {
         // TODO Auto-generated constructor stub
     }
 
     @Override
     public String getName() {
-        return "Hand Cannon";
+        return "Freeze Ray";
     }
 
     @Override

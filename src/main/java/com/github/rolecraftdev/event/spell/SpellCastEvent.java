@@ -27,7 +27,7 @@
 package com.github.rolecraftdev.event.spell;
 
 import com.github.rolecraftdev.RolecraftCore;
-import com.github.rolecraftdev.magic.spell.Spell;
+import com.github.rolecraftdev.magic.Spell;
 
 import org.bukkit.ChatColor;
 import org.bukkit.entity.Entity;

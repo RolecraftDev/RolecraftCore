@@ -24,11 +24,10 @@
  * DISCLAIMER: This is a human-readable summary of (and not a substitute for) the
  * license.
  */
-package com.github.rolecraftdev.magic.spell.spells;
+package com.github.rolecraftdev.magic.spells;
 
-import com.github.rolecraftdev.magic.spell.Spell;
-import com.github.rolecraftdev.magic.spell.SpellManager;
-import com.github.rolecraftdev.util.Utils;
+import com.github.rolecraftdev.magic.Spell;
+import com.github.rolecraftdev.magic.SpellManager;
 
 import org.bukkit.Bukkit;
 import org.bukkit.ChatColor;
@@ -38,38 +37,28 @@ import org.bukkit.enchantments.Enchantment;
 import org.bukkit.entity.LivingEntity;
 import org.bukkit.entity.Player;
 import org.bukkit.event.entity.EntityDamageByEntityEvent;
+import org.bukkit.event.entity.EntityDamageEvent;
 import org.bukkit.event.entity.EntityDamageEvent.DamageCause;
 import org.bukkit.inventory.ItemStack;
 import org.bukkit.inventory.Recipe;
 import org.bukkit.inventory.ShapedRecipe;
 import org.bukkit.inventory.meta.ItemMeta;
 
-public class AvadaKedavra implements Spell {
-
-    private SpellManager parent;
-
-    public AvadaKedavra(SpellManager spellManager) {
-        this.parent = spellManager;
+public class LesserSword implements Spell {
+    public LesserSword(SpellManager spellManager) {
     }
 
     @Override
     public String getName() {
-        return "Avada Kedavra";
+        return "Lesser Sword";
     }
 
     @Override
     public float estimateAttackMana(Player ply, LivingEntity entity,
             int modifier) {
-
-        LivingEntity toKill = entity;
-        if (toKill != null) {
-            if (toKill instanceof Player) {
-                return 1000;
-            } else {
-                return 600 - modifier;
-            }
-        }
-        return 0;
+        return (20f - modifier / 10f > 0) ?
+                (20f - modifier / 10f) :
+                0f;
     }
 
     @Override
@@ -79,66 +68,35 @@ public class AvadaKedavra implements Spell {
 
     @Override
     public float estimateRightClickMana(Player ply, Block block, int modifier) {
-        LivingEntity toKill = Utils.getLivingTarget(ply, parent.getRange());
-        if (toKill != null) {
-            if (toKill instanceof Player) {
-                return 1500;
-            } else {
-                return 800 - modifier;
-            }
-        }
         return 0;
     }
 
     @Override
     public float rightClick(Player ply, Block block, int modifier) {
-        LivingEntity toKill = Utils.getLivingTarget(ply, parent.getRange());
-
-        EntityDamageByEntityEvent edbee = new EntityDamageByEntityEvent(ply,
-                toKill,
-                DamageCause.MAGIC, Double.MAX_VALUE);
-        Bukkit.getPluginManager().callEvent(edbee);
-        if (!edbee.isCancelled()) {
-            toKill.setHealth(0D); // pwnt
-            if (toKill instanceof Player) {
-                parent.setMana(ply, 0f);
-                ply.sendMessage("Your mana has been drained!");
-            } else {
-                return 800 - modifier;
-            }
-        }
-
-        return 0;
+        return Float.MIN_VALUE;
     }
 
     @Override
     public float leftClick(Player ply, Block block, int modifier) {
-        return 0;
+        return Float.MIN_VALUE;
     }
 
     @Override
     public float attack(Player ply, LivingEntity ent, int modifier) {
-        LivingEntity toKill = ent;
-
-        EntityDamageByEntityEvent edbee = new EntityDamageByEntityEvent(ply,
-                toKill,
-                DamageCause.MAGIC, Double.MAX_VALUE);
+        EntityDamageEvent edbee = new EntityDamageByEntityEvent(ply, ent,
+                DamageCause.MAGIC, 2.0);
         Bukkit.getPluginManager().callEvent(edbee);
         if (!edbee.isCancelled()) {
-            toKill.setHealth(0D); // pwnt
-            if (toKill instanceof Player) {
-                parent.setMana(ply, 0f);
-                ply.sendMessage("Your mana has been drained!");
-            } else {
-                return 800 - modifier;
-            }
+            ent.damage(2.0);
         }
-
-        return 0;
+        return (20f - modifier / 10f > 0) ?
+                (20f - modifier / 10f) :
+                0f;
     }
 
     @Override
     public Recipe getWandRecipe() {
+        // same for each
         ItemStack result = new ItemStack(Material.STICK);
         ItemMeta meta = result.getItemMeta();
         meta.setDisplayName(ChatColor.AQUA + getName());
@@ -146,12 +104,10 @@ public class AvadaKedavra implements Spell {
         result.setItemMeta(meta);
         ShapedRecipe recipe = new ShapedRecipe(result);
         // custom recipe stuff
-        recipe.shape("OOC", "OEO", "COO");
-        recipe.setIngredient('O', Material.SKULL);
-        recipe.setIngredient('E', Material.EMERALD_BLOCK);
-        recipe.setIngredient('C', Material.DIAMOND_BLOCK);
+        recipe.shape("SSI", "SIS", "ISS");
+        recipe.setIngredient('S', Material.WOOD_SWORD);
+        recipe.setIngredient('I', Material.IRON_INGOT);
 
         return recipe;
     }
-
 }

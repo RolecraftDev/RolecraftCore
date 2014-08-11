@@ -40,7 +40,7 @@ import com.github.rolecraftdev.data.storage.SQLiteDataStore;
 import com.github.rolecraftdev.guild.Guild;
 import com.github.rolecraftdev.guild.GuildManager;
 import com.github.rolecraftdev.magic.MagicListener;
-import com.github.rolecraftdev.magic.spell.SpellManager;
+import com.github.rolecraftdev.magic.SpellManager;
 import com.github.rolecraftdev.profession.Profession;
 import com.github.rolecraftdev.profession.ProfessionManager;
 import com.github.rolecraftdev.quest.QuestManager;
