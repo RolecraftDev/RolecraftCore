@@ -26,9 +26,6 @@
  */
 package com.github.rolecraftdev.magic.spells;
 
-import java.util.Collection;
-
-import com.github.rolecraftdev.RolecraftCore;
 import com.github.rolecraftdev.magic.Spell;
 import com.github.rolecraftdev.magic.SpellManager;
 
@@ -45,6 +42,8 @@ import org.bukkit.inventory.Recipe;
 import org.bukkit.inventory.ShapedRecipe;
 import org.bukkit.inventory.meta.ItemMeta;
 import org.bukkit.material.MaterialData;
+
+import java.util.Collection;
 
 public class SilkTouch implements Spell {
     private SpellManager manager;
@@ -85,8 +84,9 @@ public class SilkTouch implements Spell {
 
         BlockBreakEvent event = new BlockBreakEvent(block, ply);
         Bukkit.getPluginManager().callEvent(event);
-        if (event.isCancelled())
+        if (event.isCancelled()) {
             return Float.MIN_VALUE;
+        }
 
         MaterialData data = block.getState().getData();
         Collection<ItemStack> drops = block.getDrops(simulate);
@@ -107,8 +107,9 @@ public class SilkTouch implements Spell {
 
         BlockBreakEvent event = new BlockBreakEvent(block, ply);
         Bukkit.getPluginManager().callEvent(event);
-        if (event.isCancelled())
+        if (event.isCancelled()) {
             return Float.MIN_VALUE;
+        }
 
         MaterialData data = block.getState().getData();
         Collection<ItemStack> drops = block.getDrops(simulate);

@@ -110,7 +110,7 @@ public final class RolecraftCore extends AlbPlugin {
      */
     private volatile boolean sqlLoaded;
     private SpellManager spellManager;
-    
+
     private static boolean extraEvents;
 
     @Override
@@ -160,7 +160,7 @@ public final class RolecraftCore extends AlbPlugin {
                 + " for Rolecraft data!");
 
         // Cleanup quests in database
-//        dataStore.finalizeQuests(questManager);
+        //        dataStore.finalizeQuests(questManager);
 
         // Create all the manager objects / load data
         dataManager = new DataManager(this);
@@ -328,7 +328,7 @@ public final class RolecraftCore extends AlbPlugin {
     public SpellManager getSpellManager() {
         return spellManager;
     }
-    
+
     public static boolean isExtraEvents() {
         return extraEvents;
     }

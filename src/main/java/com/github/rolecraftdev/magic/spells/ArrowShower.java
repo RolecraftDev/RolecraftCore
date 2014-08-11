@@ -26,8 +26,6 @@
  */
 package com.github.rolecraftdev.magic.spells;
 
-import java.util.HashSet;
-
 import com.github.rolecraftdev.magic.Spell;
 import com.github.rolecraftdev.magic.SpellManager;
 
@@ -46,13 +44,15 @@ import org.bukkit.inventory.ShapedRecipe;
 import org.bukkit.inventory.meta.ItemMeta;
 import org.bukkit.util.Vector;
 
+import java.util.HashSet;
+
 @SuppressWarnings("deprecation")
 public class ArrowShower implements Spell {
-    
+
     private static HashSet<Byte> transparency;
-    
+
     private SpellManager manager;
-    
+
     static {
         transparency.add((byte) Material.GLASS.getId());
         transparency.add((byte) Material.STATIONARY_WATER.getId());
@@ -81,49 +81,51 @@ public class ArrowShower implements Spell {
 
     @Override
     public float estimateRightClickMana(Player ply, Block block, int modifier) {
-        return (200f - ((float) modifier) / 100f > 0) ? 
-                200f - ((float) modifier) / 100f : 0 ;
+        return (200f - ((float) modifier) / 100f > 0) ?
+                200f - ((float) modifier) / 100f : 0;
     }
 
     @Override
     public float rightClick(Player ply, Block block, int modifier) {
-        
+
         Block target = null;
-        if(block != null) {
+        if (block != null) {
             target = block;
-        }
-        else {
+        } else {
             Block temp = ply.getTargetBlock(transparency, manager.getRange());
-            if(temp != null) {
+            if (temp != null) {
                 target = temp;
-            }
-            else {
+            } else {
                 return Float.MIN_VALUE;
             }
         }
-        
-        if(target.getWorld().getHighestBlockAt(target.getLocation())!=target) {
+
+        if (target.getWorld().getHighestBlockAt(target.getLocation())
+                != target) {
             ply.sendMessage("You must aim above ground to rain arrows!");
             return Float.MIN_VALUE;
         }
-        
-        Location center = new Location (target.getWorld(), 
+
+        Location center = new Location(target.getWorld(),
                 target.getX(), target.getY() + 20, target.getZ());
-        
-        Vector velocity = target.getLocation().toVector().subtract(center.toVector())
+
+        Vector velocity = target.getLocation().toVector()
+                .subtract(center.toVector())
                 .normalize().multiply(0.2d);
         World world = target.getWorld();
-        
-        for(int x = -5; x <= 5; x++) {
+
+        for (int x = -5; x <= 5; x++) {
             for (int z = -5; z < 5; z++) {
-                Arrow arrow = (Arrow) world.spawn(new Location (world, center.getX() + x
-                        , center.getY(),center.getZ()+z), Arrow.class);
+                Arrow arrow = (Arrow) world
+                        .spawn(new Location(world, center.getX() + x
+                                , center.getY(), center.getZ() + z),
+                                Arrow.class);
                 arrow.setVelocity(velocity);
             }
         }
-        
-        return (200f - ((float) modifier) / 100f > 0) ? 
-                200f - ((float) modifier) / 100f : 0 ;
+
+        return (200f - ((float) modifier) / 100f > 0) ?
+                200f - ((float) modifier) / 100f : 0;
     }
 
     @Override

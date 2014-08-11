@@ -26,8 +26,6 @@
  */
 package com.github.rolecraftdev.magic.spells;
 
-import java.util.Collection;
-
 import com.github.rolecraftdev.RolecraftCore;
 import com.github.rolecraftdev.magic.Spell;
 import com.github.rolecraftdev.magic.SpellManager;
@@ -46,14 +44,16 @@ import org.bukkit.inventory.ShapedRecipe;
 import org.bukkit.inventory.meta.ItemMeta;
 import org.bukkit.material.MaterialData;
 
+import java.util.Collection;
+
 public class FarbreakSilkTouch implements Spell {
-    
+
     private SpellManager manager;
     private ItemStack simulate;
-    
+
     public FarbreakSilkTouch(SpellManager spellManager) {
         manager = spellManager;
-        simulate = new ItemStack(Material.DIAMOND_PICKAXE,1);
+        simulate = new ItemStack(Material.DIAMOND_PICKAXE, 1);
         simulate.addEnchantment(Enchantment.SILK_TOUCH, 0);
     }
 
@@ -72,7 +72,7 @@ public class FarbreakSilkTouch implements Spell {
     @Override
     public float estimateLeftClickMana(Player ply, Block block, int modifier) {
         // 5 if the block is close, 10 for ranged
-        if(block != null) {
+        if (block != null) {
             return 5;
         }
         return 10;
@@ -80,7 +80,7 @@ public class FarbreakSilkTouch implements Spell {
 
     @Override
     public float estimateRightClickMana(Player ply, Block block, int modifier) {
-        if(block != null) {
+        if (block != null) {
             return 5;
         }
         return 10;
@@ -88,70 +88,68 @@ public class FarbreakSilkTouch implements Spell {
 
     @Override
     public float rightClick(Player ply, Block block, int modifier) {
-        
-        float retVal = 0 ;
+
+        float retVal = 0;
         Block toBreak = null;
         if (block == null) {
             toBreak = ply.getTargetBlock(null, manager.getRange());
-            if(toBreak == null) {
+            if (toBreak == null) {
                 return Float.MIN_VALUE;
             }
             retVal = 10;
-        }
-        else {
+        } else {
             toBreak = block;
             retVal = 5;
         }
-        
-        if(RolecraftCore.isExtraEvents()) {
+
+        if (RolecraftCore.isExtraEvents()) {
             BlockBreakEvent event = new BlockBreakEvent(block, ply);
             Bukkit.getServer().getPluginManager().callEvent(event);
-            if(event.isCancelled()){ 
+            if (event.isCancelled()) {
                 return Float.MIN_VALUE;
             }
         }
         MaterialData data = block.getState().getData();
         Collection<ItemStack> drops = block.getDrops(simulate);
-        
+
         block.setType(Material.AIR);
-        for (ItemStack i: drops) {
+        for (ItemStack i : drops) {
             block.getWorld().dropItemNaturally(block.getLocation(), i);
         }
-        
+
         return retVal;
     }
 
     @Override
     public float leftClick(Player ply, Block block, int modifier) {
-        float retVal = 0 ;
+        float retVal = 0;
         Block toBreak = null;
         if (block == null) {
             toBreak = ply.getTargetBlock(null, manager.getRange());
-            if(toBreak == null) {
+            if (toBreak == null) {
                 return Float.MIN_VALUE;
             }
             retVal = 10;
-        }
-        else {
+        } else {
             toBreak = block;
             retVal = 5;
         }
-        
-        if(RolecraftCore.isExtraEvents()) {
+
+        if (RolecraftCore.isExtraEvents()) {
             BlockBreakEvent event = new BlockBreakEvent(block, ply);
             Bukkit.getServer().getPluginManager().callEvent(event);
-            if(event.isCancelled()){ 
+            if (event.isCancelled()) {
                 return Float.MIN_VALUE;
             }
         }
         MaterialData data = block.getState().getData();
         Collection<ItemStack> drops = block.getDrops(simulate);
-        
+
         block.setType(Material.AIR);
-        for (ItemStack i: drops) {
+        for (ItemStack i : drops) {
             block.getWorld().dropItemNaturally(block.getLocation(), i);
         }
-        
+
         return retVal;
     }
 

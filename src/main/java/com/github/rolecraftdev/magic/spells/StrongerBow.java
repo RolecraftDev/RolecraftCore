@@ -68,23 +68,23 @@ public class StrongerBow implements Spell {
 
     @Override
     public float estimateRightClickMana(Player ply, Block block, int modifier) {
-        return (50f - ((float) modifier) / 100f > 0) ? 
-                50f - ((float) modifier) / 100f : 0 ;
+        return (50f - ((float) modifier) / 100f > 0) ?
+                50f - ((float) modifier) / 100f : 0;
     }
 
     @Override
     public float rightClick(Player ply, Block block, int modifier) {
-        if(block!= null) {
+        if (block != null) {
             return Float.MIN_VALUE;
         }
-        
+
         Arrow arrow = ply.launchProjectile(Arrow.class);
         arrow.setVelocity(arrow.getVelocity().multiply(2d));
         arrow.setMetadata("Multiplier", new FixedMetadataValue(
-                manager.getPlugin(),new Float(2f)));
-        
-        return (50f - ((float) modifier) / 100f > 0) ? 
-                50f - ((float) modifier) / 100f : 0 ;
+                manager.getPlugin(), new Float(2f)));
+
+        return (50f - ((float) modifier) / 100f > 0) ?
+                50f - ((float) modifier) / 100f : 0;
     }
 
     @Override
@@ -106,9 +106,9 @@ public class StrongerBow implements Spell {
         result.setItemMeta(meta);
         ShapedRecipe recipe = new ShapedRecipe(result);
         // custom recipe stuff
-        recipe.shape("APB", 
-                     "PBP", 
-                     "BPA");
+        recipe.shape("APB",
+                "PBP",
+                "BPA");
         recipe.setIngredient('A', Material.ARROW);
         recipe.setIngredient('P', Material.BOW);
         recipe.setIngredient('B', Material.IRON_BLOCK);

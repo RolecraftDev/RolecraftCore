@@ -45,7 +45,8 @@ public final class ProfessionRule<T> {
     /**
      * A rule which defines the spells usable by a profession
      */
-    public static final ProfessionRule<List> USABLE_SPELLS = new ProfessionRule<List>("usable-spells", List.class);
+    public static final ProfessionRule<List> USABLE_SPELLS = new ProfessionRule<List>(
+            "usable-spells", List.class);
 
     /**
      * Get a unique {@link ProfessionRule} by its name.

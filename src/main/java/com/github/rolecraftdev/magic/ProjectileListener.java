@@ -44,18 +44,22 @@ public class ProjectileListener implements Listener {
                         e.getDamage() * e.getDamager().getMetadata("Multiplier")
                                 .get(0).asFloat());
             }
-            if(e.getDamager().hasMetadata("Knockback")) {
+            if (e.getDamager().hasMetadata("Knockback")) {
                 e.getEntity().setVelocity(e.getDamager().getVelocity().multiply(
-                        e.getDamager().getMetadata("Knockback").get(0).asFloat()));
+                        e.getDamager().getMetadata("Knockback").get(0)
+                                .asFloat()));
             }
         }
     }
-    
+
     public void onHit(ProjectileHitEvent e) {
         if (e.getEntity() instanceof Arrow) {
             if (e.getEntity().hasMetadata("Explosion")) {
-                e.getEntity().getWorld().playEffect(e.getEntity().getLocation(), Effect.SMOKE, null);
-                e.getEntity().getWorld().playSound(e.getEntity().getLocation(), Sound.EXPLODE, 1.0f, 0.0f);
+                e.getEntity().getWorld()
+                        .playEffect(e.getEntity().getLocation(), Effect.SMOKE,
+                                null);
+                e.getEntity().getWorld().playSound(e.getEntity().getLocation(),
+                        Sound.EXPLODE, 1.0f, 0.0f);
             }
         }
     }

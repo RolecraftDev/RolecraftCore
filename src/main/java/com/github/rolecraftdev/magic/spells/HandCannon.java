@@ -70,8 +70,8 @@ public class HandCannon implements Spell {
 
     @Override
     public float estimateRightClickMana(Player ply, Block block, int modifier) {
-        return (300f - ((float) modifier) / 100f > 0) ? 
-                300f - ((float) modifier) / 100f : 0 ;
+        return (300f - ((float) modifier) / 100f > 0) ?
+                300f - ((float) modifier) / 100f : 0;
     }
 
     @Override
@@ -89,8 +89,8 @@ public class HandCannon implements Spell {
         // Make a loud bang when used
         ply.getWorld().playSound(ply.getLocation(), Sound.EXPLODE, 0.8f, 1.0f);
 
-        return (300f - ((float) modifier) / 100f > 0) ? 
-                300f - ((float) modifier) / 100f : 0 ;
+        return (300f - ((float) modifier) / 100f > 0) ?
+                300f - ((float) modifier) / 100f : 0;
     }
 
     @Override
@@ -113,9 +113,9 @@ public class HandCannon implements Spell {
         result.setItemMeta(meta);
         ShapedRecipe recipe = new ShapedRecipe(result);
         // custom recipe stuff
-        recipe.shape("WPB", 
-                     "PBP", 
-                     "BPW");
+        recipe.shape("WPB",
+                "PBP",
+                "BPW");
         recipe.setIngredient('W', Material.EMERALD);
         recipe.setIngredient('P', Material.BOW);
         recipe.setIngredient('B', Material.DIAMOND_BLOCK);

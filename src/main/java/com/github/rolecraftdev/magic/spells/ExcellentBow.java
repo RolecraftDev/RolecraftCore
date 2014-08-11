@@ -43,7 +43,7 @@ import org.bukkit.inventory.meta.ItemMeta;
 import org.bukkit.metadata.FixedMetadataValue;
 
 public class ExcellentBow implements Spell {
-    
+
     public SpellManager manager;
 
     public ExcellentBow(SpellManager spellManager) {
@@ -68,23 +68,23 @@ public class ExcellentBow implements Spell {
 
     @Override
     public float estimateRightClickMana(Player ply, Block block, int modifier) {
-        return (100f - ((float) modifier) / 100f > 0) ? 
-                100f - ((float) modifier) / 100f : 0 ;
+        return (100f - ((float) modifier) / 100f > 0) ?
+                100f - ((float) modifier) / 100f : 0;
     }
 
     @Override
     public float rightClick(Player ply, Block block, int modifier) {
-        if(block!= null) {
+        if (block != null) {
             return Float.MIN_VALUE;
         }
-        
+
         Arrow arrow = ply.launchProjectile(Arrow.class);
         arrow.setVelocity(arrow.getVelocity().multiply(2d));
         arrow.setMetadata("Multiplier", new FixedMetadataValue(
-                manager.getPlugin(),new Float(2f)));
-        
-        return (100f - ((float) modifier) / 100f > 0) ? 
-                100f - ((float) modifier) / 100f : 0 ;
+                manager.getPlugin(), new Float(2f)));
+
+        return (100f - ((float) modifier) / 100f > 0) ?
+                100f - ((float) modifier) / 100f : 0;
     }
 
     @Override
@@ -106,9 +106,9 @@ public class ExcellentBow implements Spell {
         result.setItemMeta(meta);
         ShapedRecipe recipe = new ShapedRecipe(result);
         // custom recipe stuff
-        recipe.shape("PPB", 
-                     "PBP", 
-                     "BPP");
+        recipe.shape("PPB",
+                "PBP",
+                "BPP");
         recipe.setIngredient('P', Material.BOW);
         recipe.setIngredient('B', Material.EMERALD);
         return recipe;

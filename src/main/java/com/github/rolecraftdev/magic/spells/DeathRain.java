@@ -1,7 +1,7 @@
 package com.github.rolecraftdev.magic.spells;
 
-import java.util.Arrays;
-import java.util.HashSet;
+import com.github.rolecraftdev.magic.Spell;
+import com.github.rolecraftdev.magic.SpellManager;
 
 import org.bukkit.ChatColor;
 import org.bukkit.Location;
@@ -19,8 +19,8 @@ import org.bukkit.inventory.meta.ItemMeta;
 import org.bukkit.metadata.FixedMetadataValue;
 import org.bukkit.util.Vector;
 
-import com.github.rolecraftdev.magic.Spell;
-import com.github.rolecraftdev.magic.SpellManager;
+import java.util.Arrays;
+import java.util.HashSet;
 
 public class DeathRain implements Spell {
 
@@ -58,8 +58,10 @@ public class DeathRain implements Spell {
 
     @Override
     public float estimateRightClickMana(Player ply, Block block, int modifier) {
-        return (800f - ((float) modifier) / 200f > 0) ? 800f - ((float) modifier) / 200f
-                : 0;
+        return (800f - ((float) modifier) / 200f > 0) ?
+                800f - ((float) modifier) / 200f
+                :
+                0;
     }
 
     @Override
@@ -67,18 +69,17 @@ public class DeathRain implements Spell {
         Block target = null;
         if (block != null) {
             target = block;
-        }
-        else {
+        } else {
             Block temp = ply.getTargetBlock(transparency, manager.getRange());
             if (temp != null) {
                 target = temp;
-            }
-            else {
+            } else {
                 return Float.MIN_VALUE;
             }
         }
 
-        if (target.getWorld().getHighestBlockAt(target.getLocation()) != target) {
+        if (target.getWorld().getHighestBlockAt(target.getLocation())
+                != target) {
             ply.sendMessage("You must aim above ground to rain arrows!");
             return Float.MIN_VALUE;
         }
@@ -95,8 +96,12 @@ public class DeathRain implements Spell {
                 Arrow arrow = (Arrow) world.spawn(
                         new Location(world, center.getX() + x, center.getY(),
                                 center.getZ() + z), Arrow.class);
-                arrow.setMetadata("Multiplier", new FixedMetadataValue(manager.getPlugin(),new Float(4)));
-                arrow.setMetadata("Explosion", new FixedMetadataValue(manager.getPlugin(), new Boolean(true)));
+                arrow.setMetadata("Multiplier",
+                        new FixedMetadataValue(manager.getPlugin(),
+                                new Float(4)));
+                arrow.setMetadata("Explosion",
+                        new FixedMetadataValue(manager.getPlugin(),
+                                new Boolean(true)));
                 arrow.setVelocity(velocity);
             }
         }
