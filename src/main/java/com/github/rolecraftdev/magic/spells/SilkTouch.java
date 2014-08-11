@@ -52,7 +52,7 @@ public class SilkTouch implements Spell {
     public SilkTouch(SpellManager spellManager) {
         manager = spellManager;
         simulate = new ItemStack(Material.DIAMOND_PICKAXE, 1);
-        simulate.addEnchantment(Enchantment.SILK_TOUCH, 0);
+        simulate.addEnchantment(Enchantment.SILK_TOUCH, 1);
     }
 
     @Override
