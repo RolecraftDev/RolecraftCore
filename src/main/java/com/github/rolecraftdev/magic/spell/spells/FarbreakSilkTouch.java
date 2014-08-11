@@ -24,31 +24,30 @@
  * DISCLAIMER: This is a human-readable summary of (and not a substitute for) the
  * license.
  */
-package com.github.rolecraftdev.magic.spells;
+package com.github.rolecraftdev.magic.spell.spells;
 
-import com.github.rolecraftdev.magic.Spell;
-import com.github.rolecraftdev.magic.SpellManager;
+import com.github.rolecraftdev.magic.spell.Spell;
+import com.github.rolecraftdev.magic.spell.SpellManager;
 
-import org.bukkit.Bukkit;
 import org.bukkit.ChatColor;
 import org.bukkit.Material;
 import org.bukkit.block.Block;
 import org.bukkit.enchantments.Enchantment;
 import org.bukkit.entity.LivingEntity;
 import org.bukkit.entity.Player;
-import org.bukkit.event.block.BlockBreakEvent;
 import org.bukkit.inventory.ItemStack;
 import org.bukkit.inventory.Recipe;
 import org.bukkit.inventory.ShapedRecipe;
 import org.bukkit.inventory.meta.ItemMeta;
 
-public class BreakBlock implements Spell {
-    public BreakBlock(SpellManager spellManager) {
+public class FarbreakSilkTouch implements Spell {
+    public FarbreakSilkTouch(SpellManager spellManager) {
     }
 
     @Override
     public String getName() {
-        return "Break Block";
+        // TODO: IDK but Farbreak Silk Touch is too long
+        return "Silky Farbreak";
     }
 
     @Override
@@ -59,41 +58,42 @@ public class BreakBlock implements Spell {
 
     @Override
     public float estimateLeftClickMana(Player ply, Block block, int modifier) {
-        return 3;
+        if (block == null) {
+            return Float.MIN_VALUE;
+        }
+        return 5;
     }
 
     @Override
     public float estimateRightClickMana(Player ply, Block block, int modifier) {
-        return 3;
+        if (block == null) {
+            return Float.MIN_VALUE;
+        }
+        return 5;
     }
 
     @Override
     public float rightClick(Player ply, Block block, int modifier) {
-        if (block != null) {
-            if (ply.getLocation().distance(block.getLocation()) > 4) {
-                return 0;
-            }
-            BlockBreakEvent event = new BlockBreakEvent(block, ply);
-            Bukkit.getPluginManager().callEvent(event);
-            if (!event.isCancelled()) {
-                block.breakNaturally();
-            }
-            return 3;
+        if (block == null) {
+            return Float.MIN_VALUE;
         }
-        return 0;
+        // TODO: Event? Might trigger a plugin like NoCheatPlus if we use
+        // BlockBreakEvent because they have a reach check. There is already
+        // a SpellCastEvent fired if plugins need it
+        block.breakNaturally(new ItemStack(block.getType(), 1));
+        return 5;
     }
 
     @Override
     public float leftClick(Player ply, Block block, int modifier) {
-        if (block != null) {
-            BlockBreakEvent event = new BlockBreakEvent(block, ply);
-            Bukkit.getPluginManager().callEvent(event);
-            if (!event.isCancelled()) {
-                block.breakNaturally();
-            }
-            return 3;
+        if (block == null) {
+            return Float.MIN_VALUE;
         }
-        return 0;
+        // TODO: Event? Might trigger a plugin like NoCheatPlus if we use
+        // BlockBreakEvent because they have a reach check. There is already
+        // a SpellCastEvent fired if plugins need it
+        block.breakNaturally(new ItemStack(block.getType(), 1));
+        return 5;
     }
 
     @Override
@@ -111,10 +111,10 @@ public class BreakBlock implements Spell {
         result.setItemMeta(meta);
         ShapedRecipe recipe = new ShapedRecipe(result);
         // custom recipe stuff
-        recipe.shape("IPB", "PBP", "BPI");
-        recipe.setIngredient('I', Material.IRON_INGOT);
+        recipe.shape("WPB", "PBP", "BPW");
+        recipe.setIngredient('I', Material.BOW);
         recipe.setIngredient('P', Material.DIAMOND_PICKAXE);
-        recipe.setIngredient('B', Material.IRON_BLOCK);
+        recipe.setIngredient('B', Material.EMERALD_BLOCK);
         return recipe;
     }
 }

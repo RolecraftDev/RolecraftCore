@@ -24,81 +24,74 @@
  * DISCLAIMER: This is a human-readable summary of (and not a substitute for) the
  * license.
  */
-package com.github.rolecraftdev.magic.spells;
+package com.github.rolecraftdev.magic.spell.spells;
 
-import com.github.rolecraftdev.magic.Spell;
-import com.github.rolecraftdev.magic.SpellManager;
+import com.github.rolecraftdev.magic.spell.Spell;
+import com.github.rolecraftdev.magic.spell.SpellManager;
 
+import org.bukkit.Bukkit;
 import org.bukkit.ChatColor;
 import org.bukkit.Material;
 import org.bukkit.block.Block;
 import org.bukkit.enchantments.Enchantment;
 import org.bukkit.entity.LivingEntity;
 import org.bukkit.entity.Player;
+import org.bukkit.event.entity.EntityDamageByEntityEvent;
+import org.bukkit.event.entity.EntityDamageEvent;
+import org.bukkit.event.entity.EntityDamageEvent.DamageCause;
 import org.bukkit.inventory.ItemStack;
 import org.bukkit.inventory.Recipe;
 import org.bukkit.inventory.ShapedRecipe;
 import org.bukkit.inventory.meta.ItemMeta;
 
-public class FarbreakSilkTouch implements Spell {
-    public FarbreakSilkTouch(SpellManager spellManager) {
+public class LesserSword implements Spell {
+    public LesserSword(SpellManager spellManager) {
     }
 
     @Override
     public String getName() {
-        // TODO: IDK but Farbreak Silk Touch is too long
-        return "Silky Farbreak";
+        return "Lesser Sword";
     }
 
     @Override
     public float estimateAttackMana(Player ply, LivingEntity entity,
             int modifier) {
-        return 0;
+        return (20f - modifier / 10f > 0) ?
+                (20f - modifier / 10f) :
+                0f;
     }
 
     @Override
     public float estimateLeftClickMana(Player ply, Block block, int modifier) {
-        if (block == null) {
-            return Float.MIN_VALUE;
-        }
-        return 5;
+        return 0;
     }
 
     @Override
     public float estimateRightClickMana(Player ply, Block block, int modifier) {
-        if (block == null) {
-            return Float.MIN_VALUE;
-        }
-        return 5;
+        return 0;
     }
 
     @Override
     public float rightClick(Player ply, Block block, int modifier) {
-        if (block == null) {
-            return Float.MIN_VALUE;
-        }
-        // TODO: Event? Might trigger a plugin like NoCheatPlus if we use
-        // BlockBreakEvent because they have a reach check. There is already
-        // a SpellCastEvent fired if plugins need it
-        block.breakNaturally(new ItemStack(block.getType(), 1));
-        return 5;
+        return Float.MIN_VALUE;
     }
 
     @Override
     public float leftClick(Player ply, Block block, int modifier) {
-        if (block == null) {
-            return Float.MIN_VALUE;
-        }
-        // TODO: Event? Might trigger a plugin like NoCheatPlus if we use
-        // BlockBreakEvent because they have a reach check. There is already
-        // a SpellCastEvent fired if plugins need it
-        block.breakNaturally(new ItemStack(block.getType(), 1));
-        return 5;
+        return Float.MIN_VALUE;
     }
 
     @Override
     public float attack(Player ply, LivingEntity ent, int modifier) {
-        return 0;
+        EntityDamageEvent edbee = new EntityDamageByEntityEvent(ply, ent,
+                DamageCause.MAGIC, 2.0);
+        Bukkit.getPluginManager().callEvent(edbee);
+        if (!edbee.isCancelled()) {
+            ent.damage(2.0);
+        }
+        return (20f - modifier / 10f > 0) ?
+                (20f - modifier / 10f) :
+                0f;
     }
 
     @Override
@@ -111,10 +104,10 @@ public class FarbreakSilkTouch implements Spell {
         result.setItemMeta(meta);
         ShapedRecipe recipe = new ShapedRecipe(result);
         // custom recipe stuff
-        recipe.shape("WPB", "PBP", "BPW");
-        recipe.setIngredient('I', Material.BOW);
-        recipe.setIngredient('P', Material.DIAMOND_PICKAXE);
-        recipe.setIngredient('B', Material.EMERALD_BLOCK);
+        recipe.shape("SSI", "SIS", "ISS");
+        recipe.setIngredient('S', Material.WOOD_SWORD);
+        recipe.setIngredient('I', Material.IRON_INGOT);
+
         return recipe;
     }
 }

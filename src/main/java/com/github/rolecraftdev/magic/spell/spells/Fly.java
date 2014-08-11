@@ -24,25 +24,25 @@
  * DISCLAIMER: This is a human-readable summary of (and not a substitute for) the
  * license.
  */
-package com.github.rolecraftdev.magic.spells;
+package com.github.rolecraftdev.magic.spell.spells;
 
-import com.github.rolecraftdev.magic.Spell;
-import com.github.rolecraftdev.magic.SpellManager;
+import com.github.rolecraftdev.magic.spell.Spell;
+import com.github.rolecraftdev.magic.spell.SpellManager;
 
 import org.bukkit.block.Block;
 import org.bukkit.entity.LivingEntity;
 import org.bukkit.entity.Player;
 import org.bukkit.inventory.Recipe;
 
-public class ExcellentBow implements Spell {
+public class Fly implements Spell {
 
-    public ExcellentBow(SpellManager spellManager) {
+    public Fly(SpellManager spellManager) {
         // TODO Auto-generated constructor stub
     }
 
     @Override
     public String getName() {
-        return "Excellent Bow";
+        return "Fly";
     }
 
     @Override

@@ -24,10 +24,10 @@
  * DISCLAIMER: This is a human-readable summary of (and not a substitute for) the
  * license.
  */
-package com.github.rolecraftdev.magic;
+package com.github.rolecraftdev.magic.spell;
 
 import com.github.rolecraftdev.RolecraftCore;
-import com.github.rolecraftdev.magic.spells.*;
+import com.github.rolecraftdev.magic.spell.spells.*;
 import com.github.rolecraftdev.profession.Profession;
 import com.github.rolecraftdev.profession.ProfessionRule;
 
