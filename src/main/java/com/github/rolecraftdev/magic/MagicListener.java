@@ -86,6 +86,7 @@ public class MagicListener implements Listener {
                     mana.setDisplayName("Mana");
                     mana.getScore(String.valueOf(data.getMana()));
                     e.getPlayer().setScoreboard(board);
+                    scoreboards.put(e.getPlayer().getUniqueId(), board);
                 }
                 shown = true;
             }
