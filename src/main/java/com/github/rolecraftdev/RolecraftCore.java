@@ -155,6 +155,9 @@ public final class RolecraftCore extends AlbPlugin {
             dataStore = new SQLiteDataStore(this);
         }
 
+        // Initialise DataStore
+        dataStore.initialise();
+
         // Log the data store we are using
         logger.info("Using " + dataStore.getStoreTypeName()
                 + " for Rolecraft data!");

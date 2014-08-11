@@ -148,7 +148,7 @@ public final class MySQLDataStore extends DataStore {
     }
 
     @Override
-    public void intialise() {
+    public void initialise() {
         final RolecraftCore parent = this.getParent();
         new BukkitRunnable() {
             @Override

@@ -47,7 +47,6 @@ import org.bukkit.event.player.PlayerInteractEvent;
 import org.bukkit.event.world.StructureGrowEvent;
 
 import java.util.List;
-import java.util.Set;
 import java.util.UUID;
 
 /**
@@ -301,15 +300,13 @@ public final class GuildListener implements Listener {
     }
 
     private Guild getGuildFromHall(final Location loc) {
-        
-        // code is broken
-        /*for (final Guild guild : guildManager.getGuilds()) {
-            if(guild.getGuildHallRegion() != null) {
+        for (final Guild guild : guildManager.getGuilds()) {
+            if (guild.getGuildHallRegion() != null) {
                 if (guild.getGuildHallRegion().containsLocation(loc)) {
                     return guild;
                 }
             }
-        }*/
+        }
         return null;
     }
 }

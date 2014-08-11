@@ -82,7 +82,7 @@ public abstract class DataStore {
         return parent;
     }
 
-    public abstract void intialise();
+    public abstract void initialise();
 
     protected abstract Connection getConnection();
 
