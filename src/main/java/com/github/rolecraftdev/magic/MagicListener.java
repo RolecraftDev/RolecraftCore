@@ -28,8 +28,6 @@ package com.github.rolecraftdev.magic;
 
 import com.github.rolecraftdev.RolecraftCore;
 import com.github.rolecraftdev.event.spell.SpellCastEvent;
-import com.github.rolecraftdev.magic.spell.Spell;
-import com.github.rolecraftdev.magic.spell.SpellManager;
 
 import org.bukkit.Bukkit;
 import org.bukkit.ChatColor;
