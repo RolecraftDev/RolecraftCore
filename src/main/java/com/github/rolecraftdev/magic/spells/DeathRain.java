@@ -1,4 +1,4 @@
-package com.github.rolecraftdev.magic.spell.spells;
+package com.github.rolecraftdev.magic.spells;
 
 import java.util.Arrays;
 import java.util.HashSet;
@@ -19,8 +19,8 @@ import org.bukkit.inventory.meta.ItemMeta;
 import org.bukkit.metadata.FixedMetadataValue;
 import org.bukkit.util.Vector;
 
-import com.github.rolecraftdev.magic.spell.Spell;
-import com.github.rolecraftdev.magic.spell.SpellManager;
+import com.github.rolecraftdev.magic.Spell;
+import com.github.rolecraftdev.magic.SpellManager;
 
 public class DeathRain implements Spell {
 

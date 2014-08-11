@@ -123,6 +123,19 @@ public final class ProfessionManager {
     }
 
     /**
+     * Gets the {@link Profession} for the player with the given unique
+     * identifier, if this ProfessionManager holds a profession with the ID of
+     * the player's profession
+     *
+     * @param player The unique identifier of the player
+     * @return The {@link Profession} of the player with the given {@link UUID}
+     */
+    public Profession getPlayerProfession(final UUID player) {
+        return getProfession(
+                plugin.getDataManager().getPlayerData(player).getProfession());
+    }
+
+    /**
      * Add a {@link Profession} to this {@link ProfessionManager}. Make sure its
      * {@link ProfessionManager} is equivalent to the one it is added to, before
      * doing so.

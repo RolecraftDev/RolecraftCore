@@ -47,6 +47,10 @@ public final class ProfessionListCommand extends CommandHandler {
     public ProfessionListCommand(final RolecraftCore plugin) {
         super("list");
         profMgr = plugin.getProfessionManager();
+
+        setUsage("/profession list [page]");
+        setDescription("View a list of permissions at the given page");
+        setPermission("rolecraft.profession.list");
     }
 
     @Override
