@@ -27,6 +27,7 @@
 package com.github.rolecraftdev.magic;
 
 import com.github.rolecraftdev.RolecraftCore;
+import com.github.rolecraftdev.data.PlayerData;
 import com.github.rolecraftdev.event.spell.SpellCastEvent;
 
 import org.bukkit.Bukkit;
@@ -41,14 +42,51 @@ import org.bukkit.event.Listener;
 import org.bukkit.event.block.Action;
 import org.bukkit.event.entity.EntityDamageByEntityEvent;
 import org.bukkit.event.player.PlayerInteractEvent;
+import org.bukkit.inventory.ItemStack;
+import org.bukkit.scoreboard.Objective;
+import org.bukkit.scoreboard.Scoreboard;
+import org.bukkit.scoreboard.ScoreboardManager;
+
+import java.util.HashMap;
+import java.util.Map;
+import java.util.UUID;
 
 public class MagicListener implements Listener {
     private RolecraftCore plugin;
     private SpellManager spellManager;
+    private Map<UUID, Scoreboard> scoreboards;
+    private ScoreboardManager scoreboardMgr;
 
     public MagicListener(RolecraftCore plugin) {
         this.plugin = plugin;
         spellManager = plugin.getSpellManager();
+        scoreboards = new HashMap<UUID, Scoreboard>();
+        scoreboardMgr = Bukkit.getScoreboardManager();
+    }
+
+    @EventHandler(priority = EventPriority.HIGHEST)
+    public void handleManaScoreboard(PlayerInteractEvent e) {
+        ItemStack stack = e.getItem();
+        boolean shown = false;
+        if (stack != null && stack.getType() == Material.STICK) {
+            Spell spell = spellManager.getSpell(
+                    ChatColor.stripColor(stack.getItemMeta().getDisplayName()));
+            if (spell != null) {
+                PlayerData data = plugin.getDataManager()
+                        .getPlayerData(e.getPlayer().getUniqueId());
+                Scoreboard board = scoreboardMgr.getNewScoreboard();
+                Objective mana = board.registerNewObjective("Mana",
+                        String.valueOf(data.getMana()));
+                mana.setDisplayName("Mana");
+                mana.getScore(String.valueOf(data.getMana()));
+                e.getPlayer().setScoreboard(board);
+                shown = true;
+            }
+        }
+
+        if (!shown) {
+            e.getPlayer().setScoreboard(null);
+        }
     }
 
     @EventHandler(priority = EventPriority.HIGHEST)
