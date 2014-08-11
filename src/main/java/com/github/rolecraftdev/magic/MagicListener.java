@@ -74,12 +74,19 @@ public class MagicListener implements Listener {
             if (spell != null) {
                 PlayerData data = plugin.getDataManager()
                         .getPlayerData(e.getPlayer().getUniqueId());
-                Scoreboard board = scoreboardMgr.getNewScoreboard();
-                Objective mana = board.registerNewObjective("Mana",
-                        String.valueOf(data.getMana()));
-                mana.setDisplayName("Mana");
-                mana.getScore(String.valueOf(data.getMana()));
-                e.getPlayer().setScoreboard(board);
+                if (scoreboards.containsKey(e.getPlayer().getUniqueId())) {
+                    scoreboards.get(e.getPlayer().getUniqueId())
+                            .getObjective("Mana").getScore("Mana")
+                            .setScore((int) data.getMana());
+                } else {
+                    Scoreboard board = scoreboardMgr.getNewScoreboard();
+                    Objective mana = board.registerNewObjective("Mana",
+                            String.valueOf(data.getMana()));
+                    mana.getScore("Mana").setScore((int) data.getMana());
+                    mana.setDisplayName("Mana");
+                    mana.getScore(String.valueOf(data.getMana()));
+                    e.getPlayer().setScoreboard(board);
+                }
                 shown = true;
             }
         }
