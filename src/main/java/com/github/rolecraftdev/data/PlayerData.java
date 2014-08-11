@@ -26,10 +26,7 @@
  */
 package com.github.rolecraftdev.data;
 
-import com.github.rolecraftdev.RolecraftCore;
 import com.github.rolecraftdev.util.LevelUtil;
-
-import org.bukkit.Bukkit;
 
 import java.util.HashMap;
 import java.util.Map;
@@ -449,8 +446,5 @@ public final class PlayerData {
         this.mana = mana;
 
         loaded = true;
-
-        ((RolecraftCore) Bukkit.getPluginManager().getPlugin("RolecraftCore"))
-                .getQuestManager().loadPlayerQuests(this);
     }
 }

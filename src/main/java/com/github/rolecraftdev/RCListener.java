@@ -28,9 +28,7 @@ package com.github.rolecraftdev;
 
 import com.github.rolecraftdev.data.DataManager;
 import com.github.rolecraftdev.data.PlayerData;
-import com.github.rolecraftdev.quest.Quest;
 import com.github.rolecraftdev.util.LevelUtil;
-import com.github.rolecraftdev.util.QuestProgressionSerializer;
 
 import org.bukkit.entity.Entity;
 import org.bukkit.entity.EntityType;
@@ -43,7 +41,6 @@ import org.bukkit.event.entity.EntityDamageEvent;
 import org.bukkit.event.entity.EntityDeathEvent;
 import org.bukkit.event.player.PlayerJoinEvent;
 import org.bukkit.event.player.PlayerQuitEvent;
-import org.bukkit.scheduler.BukkitRunnable;
 
 import java.util.UUID;
 
@@ -70,35 +67,11 @@ public final class RCListener implements Listener {
     public void onPlayerJoin(final PlayerJoinEvent event) {
         plugin.getDataManager().loadOrCreateData(
                 event.getPlayer().getUniqueId());
-
-        final PlayerData data = dataMgr
-                .getPlayerData(event.getPlayer().getUniqueId());
-        new BukkitRunnable() {
-            @Override
-            public void run() {
-                if (data.isLoaded()) {
-                    // If there's no progression we don't need to load anything
-                    if (data.getQuestProgression() == null) {
-                        cancel();
-                        return;
-                    }
-                    plugin.getQuestManager().loadPlayerQuests(data);
-                    cancel();
-                }
-            }
-        }.runTaskTimerAsynchronously(plugin, 20, 10000);
     }
 
     @EventHandler
     public void onPlayerQuit(final PlayerQuitEvent event) {
         final UUID playerId = event.getPlayer().getUniqueId();
-        final PlayerData data = dataMgr.getPlayerData(playerId);
-        for (final Quest quest : plugin.getQuestManager()
-                .getPlayerQuests(playerId)) {
-            data.addQuestProgression(quest.getQuestId(),
-                    QuestProgressionSerializer.serializeProgression(quest));
-        }
-
         plugin.getDataManager().unloadAndSaveData(playerId);
     }
 

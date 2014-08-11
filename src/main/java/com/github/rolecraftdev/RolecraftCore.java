@@ -111,6 +111,8 @@ public final class RolecraftCore extends AlbPlugin {
     private volatile boolean sqlLoaded;
     private SpellManager spellManager;
 
+    private static boolean extraEvents;
+
     @Override
     public void onEnable() {
         super.init();
@@ -139,6 +141,7 @@ public final class RolecraftCore extends AlbPlugin {
 
         // Get options from the config
         dbType = config.getString("sqlserver").toLowerCase();
+        extraEvents = config.getBoolean("extraevents");
         originalSin = (float) config.getDouble("originalsin");
 
         // Set up the plugin's data store
@@ -157,7 +160,7 @@ public final class RolecraftCore extends AlbPlugin {
                 + " for Rolecraft data!");
 
         // Cleanup quests in database
-        dataStore.finalizeQuests(questManager);
+        //        dataStore.finalizeQuests(questManager);
 
         // Create all the manager objects / load data
         dataManager = new DataManager(this);
@@ -324,5 +327,9 @@ public final class RolecraftCore extends AlbPlugin {
 
     public SpellManager getSpellManager() {
         return spellManager;
+    }
+
+    public static boolean isExtraEvents() {
+        return extraEvents;
     }
 }
