@@ -28,6 +28,8 @@ package com.github.rolecraftdev.magic.spell;
 
 import com.github.rolecraftdev.RolecraftCore;
 import com.github.rolecraftdev.magic.spell.spells.*;
+import com.github.rolecraftdev.profession.Profession;
+import com.github.rolecraftdev.profession.ProfessionRule;
 
 import org.bukkit.Bukkit;
 import org.bukkit.entity.Player;
@@ -35,6 +37,7 @@ import org.bukkit.permissions.Permission;
 import org.bukkit.permissions.PermissionDefault;
 
 import java.util.HashMap;
+import java.util.List;
 import java.util.Map;
 
 public class SpellManager {
@@ -97,6 +100,29 @@ public class SpellManager {
                 "rolecraft.spell." + wandName.toLowerCase().replaceAll(" ", ""),
                 "Allows access to the spell '" + wandName + "'",
                 PermissionDefault.TRUE, emptyMap));
+    }
+
+    /**
+     * Checks whether the given {@link Player} can cast the given {@link Spell},
+     * checking their profession's ability to cast the spell (and therefore
+     * returning null if they don't have a profession) and their server
+     * permissions
+     *
+     * @param player The {@link Player} to check the permissions for
+     * @param spell  The {@link Spell} to check for the given {@link Player}
+     * @return Whether the given {@link Player} can cast the given {@link Spell}
+     */
+    public boolean canCast(Player player, Spell spell) {
+        final Profession profession = plugin.getProfessionManager()
+                .getPlayerProfession(player.getUniqueId());
+        if (profession == null) {
+            return false;
+        }
+        final List usable = profession
+                .getRuleValue(ProfessionRule.USABLE_SPELLS);
+        return usable.contains(spell.getName()) && player.hasPermission(
+                "rolecraft.spell." + spell.getName().toLowerCase().replaceAll(
+                        " ", ""));
     }
 
     public Spell getSpell(String wandName) {

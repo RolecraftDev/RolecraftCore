@@ -112,6 +112,18 @@ public class Profession {
     }
 
     /**
+     * Gets the value of the given {@link ProfessionRule} in this Profession's
+     * {@link ProfessionRuleMap} object
+     *
+     * @param rule The rule to get the value for
+     * @param <T>  The type of the rule to get the value for
+     * @return The value of the given rule for this Profession
+     */
+    public <T> T getRuleValue(final ProfessionRule<T> rule) {
+        return getRuleMap().get(rule);
+    }
+
+    /**
      * Set the unique name of this {@link Profession}.
      *
      * @param name - The new unique name

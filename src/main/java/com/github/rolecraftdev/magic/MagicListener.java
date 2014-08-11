@@ -34,6 +34,7 @@ import com.github.rolecraftdev.magic.spell.SpellManager;
 import org.bukkit.Bukkit;
 import org.bukkit.ChatColor;
 import org.bukkit.Material;
+import org.bukkit.block.Block;
 import org.bukkit.entity.LivingEntity;
 import org.bukkit.entity.Player;
 import org.bukkit.event.EventHandler;
@@ -56,64 +57,77 @@ public class MagicListener implements Listener {
     public void onInteract(PlayerInteractEvent e) {
         if (e.getItem() != null) {
             if (e.getItem().getType() == Material.STICK) {
-                if (e.getAction() == Action.RIGHT_CLICK_AIR
-                        || e.getAction() == Action.RIGHT_CLICK_BLOCK
-                        || e.getAction() == Action.LEFT_CLICK_AIR
-                        || e.getAction() == Action.LEFT_CLICK_BLOCK) {
+                Action action = e.getAction();
+                if (action == Action.RIGHT_CLICK_AIR
+                        || action == Action.RIGHT_CLICK_BLOCK
+                        || action == Action.LEFT_CLICK_AIR
+                        || action == Action.LEFT_CLICK_BLOCK) {
                     Spell spell = spellManager.getSpell(
                             ChatColor.stripColor(e.getItem().getItemMeta()
                                     .getDisplayName()));
                     if (spell != null) {
-                        if (e.getAction() == Action.LEFT_CLICK_AIR
-                                || e.getAction() == Action.LEFT_CLICK_BLOCK) {
-                            if (spell.estimateLeftClickMana(e.getPlayer(),
-                                    e.getClickedBlock(),
-                                    spellManager.getMagicModfier(e.getPlayer()))
+                        Player player = e.getPlayer();
+                        Block clicked = e.getClickedBlock();
+                        if (!(spellManager.canCast(player, spell))) {
+                            player.sendMessage(ChatColor.DARK_RED
+                                    + "You can't cast that spell!");
+                            return;
+                        }
+                        if (action == Action.LEFT_CLICK_AIR
+                                || action == Action.LEFT_CLICK_BLOCK) {
+                            if (spell.estimateLeftClickMana(player,
+                                    clicked,
+                                    spellManager.getMagicModfier(player))
                                     <
                                     spellManager.getMana(e.getPlayer())) {
                                 SpellCastEvent event = new SpellCastEvent(
-                                        plugin, spell, e.getPlayer());
+                                        plugin, spell, player);
                                 Bukkit.getPluginManager().callEvent(event);
                                 if (event.isCancelled()) {
-                                    e.getPlayer().sendMessage(
+                                    player.sendMessage(
                                             event.getCancelMessage());
                                     return;
                                 }
 
-                                float retVal = spell.leftClick(e.getPlayer(),
-                                        e.getClickedBlock(), spellManager
-                                                .getMagicModfier(
-                                                        e.getPlayer()));
+                                float retVal = spell.leftClick(player,
+                                        clicked, spellManager
+                                                .getMagicModfier(player));
                                 // MIN_VALUE indicates error, 0 indicates that
                                 // the spell can't be cast in the current
                                 // situation
                                 if (retVal == Float.MIN_VALUE || retVal == 0) {
                                     return;
                                 }
-                                spellManager
-                                        .subtractMana(e.getPlayer(), retVal);
-                                e.getPlayer().sendMessage(
+                                spellManager.subtractMana(player, retVal);
+                                player.sendMessage(
                                         "You have cast " + spell.getName());
                             }
                         } else {
-                            if (spell.estimateRightClickMana(e.getPlayer(),
-                                    e.getClickedBlock(),
-                                    spellManager.getMagicModfier(e.getPlayer()))
+                            if (spell.estimateRightClickMana(player,
+                                    clicked,
+                                    spellManager.getMagicModfier(player))
                                     <
-                                    spellManager.getMana(e.getPlayer())) {
-                                float retVal = spell.rightClick(e.getPlayer(),
-                                        e.getClickedBlock(), spellManager
-                                                .getMagicModfier(
-                                                        e.getPlayer()));
+                                    spellManager.getMana(player)) {
+                                SpellCastEvent event = new SpellCastEvent(
+                                        plugin, spell, player);
+                                Bukkit.getPluginManager().callEvent(event);
+                                if (event.isCancelled()) {
+                                    player.sendMessage(
+                                            event.getCancelMessage());
+                                    return;
+                                }
+
+                                float retVal = spell.rightClick(player,
+                                        clicked, spellManager
+                                                .getMagicModfier(player));
                                 // MIN_VALUE indicates error, 0 indicates that
                                 // the spell can't be cast in the current
                                 // situation
                                 if (retVal == Float.MIN_VALUE || retVal == 0) {
                                     return;
                                 }
-                                spellManager
-                                        .subtractMana(e.getPlayer(), retVal);
-                                e.getPlayer().sendMessage(
+                                spellManager.subtractMana(player, retVal);
+                                player.sendMessage(
                                         "You have cast " + spell.getName());
                             }
                         }
