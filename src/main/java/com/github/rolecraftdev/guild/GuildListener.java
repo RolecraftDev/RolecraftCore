@@ -97,6 +97,9 @@ public final class GuildListener implements Listener {
 
     @EventHandler(priority = EventPriority.HIGHEST)
     public void onBucketEmpty(final PlayerBucketEmptyEvent event) {
+        if (event.getBlockClicked() == null) {
+            return;
+        }
         final BlockFace face = event.getBlockFace();
         event.setCancelled(cancel(event.getBlockClicked().getLocation().add(
                         face.getModX(), face.getModY(), face.getModZ()),
@@ -106,6 +109,9 @@ public final class GuildListener implements Listener {
 
     @EventHandler(priority = EventPriority.HIGHEST)
     public void onBucketFill(final PlayerBucketFillEvent event) {
+        if (event.getBlockClicked() == null) {
+            return;
+        }
         event.setCancelled(cancel(event.getBlockClicked().getLocation(),
                 event.getPlayer().getUniqueId(), event.isCancelled(),
                 GuildAction.CHANGE_BLOCK));
@@ -113,6 +119,9 @@ public final class GuildListener implements Listener {
 
     @EventHandler(priority = EventPriority.HIGHEST)
     public void onPlayerInteract(final PlayerInteractEvent event) {
+        if (event.getClickedBlock() == null) {
+            return;
+        }
         event.setCancelled(cancel(event.getClickedBlock().getLocation(),
                 event.getPlayer().getUniqueId(), event.isCancelled(),
                 GuildAction.CHANGE_BLOCK));
