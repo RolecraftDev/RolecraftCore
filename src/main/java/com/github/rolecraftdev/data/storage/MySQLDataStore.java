@@ -255,86 +255,86 @@ public final class MySQLDataStore extends DataStore {
                 System.currentTimeMillis()));
     }
 
-    @Override
-    public void finalizeQuests(final QuestManager manager) {
-        final Set<UUID> uuids = manager.getIds();
-
-        new BukkitRunnable() {
-            @Override
-            public void run() {
-                Connection connection = getConnection();
-                PreparedStatement ps = null;
-                ResultSet rs = null;
-                try {
-                    ps = connection.prepareStatement(
-                            "SELECT * FROM " + pt + " WHERE uuid = NULL");
-                    rs = ps.executeQuery();
-                    ResultSetMetaData rsmd = ps.getMetaData();
-                    LinkedHashSet<UUID> questIds = new LinkedHashSet<UUID>();
-                    for (int i = 0; i < rsmd.getColumnCount(); i++) {
-                        if (rsmd.getColumnName(i).startsWith("quest")) {
-                            questIds.add(UUID.fromString(
-                                    rsmd.getCatalogName(i).substring(6)));
-                        }
-                    }
-                    ps.close();
-                    rs.close();
-
-                    int loadedQuests = 0;
-                    Iterator<UUID> iter = uuids.iterator();
-                    while (iter.hasNext()) {
-                        UUID id = iter.next();
-                        if (questIds.contains(id)) {
-                            iter.remove();
-                            questIds.remove(id);
-                            loadedQuests++;
-                        }
-                    }
-
-                    Bukkit.getLogger()
-                            .info("[RolecraftCore] Loaded " + loadedQuests
-                                    + " quests successfully from SQL");
-                    if (uuids.size() != 0) {
-                        int addedQuests = 0;
-                        iter = uuids.iterator();
-                        StringBuilder sb = new StringBuilder(
-                                "ALTER TABLE " + pt + " ");
-                        while (iter.hasNext()) {
-                            sb.append("ADD COLUMN quest:" + iter.next()
-                                    + " VARCHAR(255) DEFAULT NULL,"); // quest's columns are quest:<UUID>
-                            addedQuests++;
-                        }
-                        ps = connection.prepareStatement(
-                                sb.substring(0, sb.length() - 1));
-                        ps.execute();
-                        Bukkit.getLogger().info("[RolecraftCore] Added " +
-                                addedQuests + " quests to SQL");
-                    }
-
-                    if (questIds.size() != 0) {
-                        int deletedQuests = 0;
-                        iter = questIds.iterator();
-                        StringBuilder sb = new StringBuilder(
-                                "ALTER TABLE " + pt + " ");
-                        while (iter.hasNext()) {
-                            sb.append("DROP COLUMN quest:" + iter.next()
-                                    + ","); // quest's columns are quest:<UUID>
-                            deletedQuests++;
-                        }
-                        ps = connection.prepareStatement(
-                                sb.substring(0, sb.length() - 1));
-                        ps.execute();
-                        Bukkit.getLogger().info("[RolecraftCore] Deleted " +
-                                deletedQuests + " obsolete quests");
-                    }
-
-                    setQuestsLoaded(true);
-                } catch (SQLException ex) {
-                    ex.printStackTrace();
-                } finally {
-                    close(ps, rs);
-                }
-            }
-        }.runTaskAsynchronously(getParent());
-    }
+//    @Override
+//    public void finalizeQuests(final QuestManager manager) {
+//        final Set<UUID> uuids = manager.getIds();
+//
+//        new BukkitRunnable() {
+//            @Override
+//            public void run() {
+//                Connection connection = getConnection();
+//                PreparedStatement ps = null;
+//                ResultSet rs = null;
+//                try {
+//                    ps = connection.prepareStatement(
+//                            "SELECT * FROM " + pt + " WHERE uuid = NULL");
+//                    rs = ps.executeQuery();
+//                    ResultSetMetaData rsmd = ps.getMetaData();
+//                    LinkedHashSet<UUID> questIds = new LinkedHashSet<UUID>();
+//                    for (int i = 0; i < rsmd.getColumnCount(); i++) {
+//                        if (rsmd.getColumnName(i).startsWith("quest")) {
+//                            questIds.add(UUID.fromString(
+//                                    rsmd.getCatalogName(i).substring(6)));
+//                        }
+//                    }
+//                    ps.close();
+//                    rs.close();
+//
+//                    int loadedQuests = 0;
+//                    Iterator<UUID> iter = uuids.iterator();
+//                    while (iter.hasNext()) {
+//                        UUID id = iter.next();
+//                        if (questIds.contains(id)) {
+//                            iter.remove();
+//                            questIds.remove(id);
+//                            loadedQuests++;
+//                        }
+//                    }
+//
+//                    Bukkit.getLogger()
+//                            .info("[RolecraftCore] Loaded " + loadedQuests
+//                                    + " quests successfully from SQL");
+//                    if (uuids.size() != 0) {
+//                        int addedQuests = 0;
+//                        iter = uuids.iterator();
+//                        StringBuilder sb = new StringBuilder(
+//                                "ALTER TABLE " + pt + " ");
+//                        while (iter.hasNext()) {
+//                            sb.append("ADD COLUMN quest:" + iter.next()
+//                                    + " VARCHAR(255) DEFAULT NULL,"); // quest's columns are quest:<UUID>
+//                            addedQuests++;
+//                        }
+//                        ps = connection.prepareStatement(
+//                                sb.substring(0, sb.length() - 1));
+//                        ps.execute();
+//                        Bukkit.getLogger().info("[RolecraftCore] Added " +
+//                                addedQuests + " quests to SQL");
+//                    }
+//
+//                    if (questIds.size() != 0) {
+//                        int deletedQuests = 0;
+//                        iter = questIds.iterator();
+//                        StringBuilder sb = new StringBuilder(
+//                                "ALTER TABLE " + pt + " ");
+//                        while (iter.hasNext()) {
+//                            sb.append("DROP COLUMN quest:" + iter.next()
+//                                    + ","); // quest's columns are quest:<UUID>
+//                            deletedQuests++;
+//                        }
+//                        ps = connection.prepareStatement(
+//                                sb.substring(0, sb.length() - 1));
+//                        ps.execute();
+//                        Bukkit.getLogger().info("[RolecraftCore] Deleted " +
+//                                deletedQuests + " obsolete quests");
+//                    }
+//
+//                    setQuestsLoaded(true);
+//                } catch (SQLException ex) {
+//                    ex.printStackTrace();
+//                } finally {
+//                    close(ps, rs);
+//                }
+//            }
+//        }.runTaskAsynchronously(getParent());
+//    }
 }

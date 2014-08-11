@@ -89,7 +89,7 @@ public abstract class DataStore {
 
     public abstract String getStoreTypeName();
 
-    public abstract void finalizeQuests(QuestManager manager);
+//    public abstract void finalizeQuests(QuestManager manager);
 
     public abstract void freeConnection(Connection connection);
 

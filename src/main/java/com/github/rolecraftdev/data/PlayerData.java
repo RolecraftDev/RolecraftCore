@@ -445,8 +445,5 @@ public final class PlayerData {
         this.mana = mana;
 
         loaded = true;
-
-        ((RolecraftCore) Bukkit.getPluginManager().getPlugin("RolecraftCore"))
-                .getQuestManager().loadPlayerQuests(this);
     }
 }

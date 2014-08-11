@@ -157,7 +157,7 @@ public final class RolecraftCore extends AlbPlugin {
                 + " for Rolecraft data!");
 
         // Cleanup quests in database
-        dataStore.finalizeQuests(questManager);
+//        dataStore.finalizeQuests(questManager);
 
         // Create all the manager objects / load data
         dataManager = new DataManager(this);
