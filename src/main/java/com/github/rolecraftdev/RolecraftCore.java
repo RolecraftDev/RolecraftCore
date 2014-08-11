@@ -293,6 +293,11 @@ public final class RolecraftCore extends AlbPlugin {
     public void createDefaultConfiguration(final String name) {
         final File actual = new File(getDataFolder(), name);
         if (!actual.exists()) {
+            try {
+                actual.createNewFile();
+            } catch (IOException e) {
+            }
+
             final InputStream input = getClass()
                     .getResourceAsStream("/" + name);
             if (input != null) {
