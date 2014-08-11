@@ -93,7 +93,11 @@ public class MagicListener implements Listener {
                                 // MIN_VALUE indicates error, 0 indicates that
                                 // the spell can't be cast in the current
                                 // situation
-                                if (retVal == Float.MIN_VALUE || retVal == 0) {
+                                
+                                // no, 0 indicates a free cast for some spells
+                                // in high level players, use MIN_NORMAL for 
+                                // can't be cast
+                                if (retVal == Float.MIN_VALUE || retVal == Float.MIN_NORMAL) {
                                     return;
                                 }
                                 spellManager.subtractMana(player, retVal);
@@ -121,7 +125,10 @@ public class MagicListener implements Listener {
                                 // MIN_VALUE indicates error, 0 indicates that
                                 // the spell can't be cast in the current
                                 // situation
-                                if (retVal == Float.MIN_VALUE || retVal == 0) {
+                                // no, 0 indicates a free cast for some spells
+                                // in high level players, use MIN_NORMAL for 
+                                // can't be cast
+                                if (retVal == Float.MIN_VALUE || retVal == Float.MIN_NORMAL) {
                                     return;
                                 }
                                 spellManager.subtractMana(player, retVal);
@@ -151,9 +158,18 @@ public class MagicListener implements Listener {
                         float retVal = spell
                                 .attack(player, (LivingEntity) e.getEntity(),
                                         spellManager.getMagicModfier(player));
-                        if (retVal == Float.MIN_VALUE) {
+                        if (retVal == Float.MIN_VALUE || retVal == Float.MIN_NORMAL) {
                             return;
                         }
+                        SpellCastEvent event = new SpellCastEvent(
+                                plugin, spell, e.getDamager());
+                        Bukkit.getPluginManager().callEvent(event);
+                        if (event.isCancelled()) {
+                            player.sendMessage(
+                                    event.getCancelMessage());
+                            return;
+                        }
+                        
                         spellManager.subtractMana(player, retVal);
                         player.sendMessage("You have cast " + spell.getName());
                     }

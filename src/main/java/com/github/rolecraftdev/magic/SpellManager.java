@@ -124,7 +124,6 @@ public class SpellManager {
                 "rolecraft.spell." + spell.getName().toLowerCase().replaceAll(
                         " ", ""));
     }
-
     public Spell getSpell(String wandName) {
         return spells.get(wandName);
     }
