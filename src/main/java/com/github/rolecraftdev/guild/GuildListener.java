@@ -58,9 +58,6 @@ public final class GuildListener implements Listener {
 
     GuildListener(final GuildManager guildManager) {
         this.guildManager = guildManager;
-
-        // Nasty workaround
-        errorReturn = new Guild(guildManager);
     }
 
     @EventHandler(priority = EventPriority.HIGHEST)
@@ -324,5 +321,5 @@ public final class GuildListener implements Listener {
         return null;
     }
 
-    private final Guild errorReturn;
+    private static final Guild errorReturn = new Guild(null);
 }
