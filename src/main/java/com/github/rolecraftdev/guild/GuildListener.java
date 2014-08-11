@@ -301,12 +301,15 @@ public final class GuildListener implements Listener {
     }
 
     private Guild getGuildFromHall(final Location loc) {
-        final Set<Guild> guilds = guildManager.getGuilds();
-        for (final Guild guild : guilds) {
-            if (guild.getGuildHallRegion().containsLocation(loc)) {
-                return guild;
+        
+        // code is broken
+        /*for (final Guild guild : guildManager.getGuilds()) {
+            if(guild.getGuildHallRegion() != null) {
+                if (guild.getGuildHallRegion().containsLocation(loc)) {
+                    return guild;
+                }
             }
-        }
+        }*/
         return null;
     }
 }

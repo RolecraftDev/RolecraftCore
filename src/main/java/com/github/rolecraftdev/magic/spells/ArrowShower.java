@@ -54,6 +54,7 @@ public class ArrowShower implements Spell {
     private SpellManager manager;
 
     static {
+        transparency = new HashSet<Byte>();
         transparency.add((byte) Material.GLASS.getId());
         transparency.add((byte) Material.STATIONARY_WATER.getId());
         transparency.add((byte) Material.WATER.getId());
