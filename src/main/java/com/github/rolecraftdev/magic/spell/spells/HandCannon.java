@@ -30,15 +30,26 @@ package com.github.rolecraftdev.magic.spell.spells;
 import com.github.rolecraftdev.magic.spell.Spell;
 import com.github.rolecraftdev.magic.spell.SpellManager;
 
+import org.bukkit.ChatColor;
+import org.bukkit.Material;
+import org.bukkit.Sound;
 import org.bukkit.block.Block;
+import org.bukkit.enchantments.Enchantment;
+import org.bukkit.entity.Arrow;
 import org.bukkit.entity.LivingEntity;
 import org.bukkit.entity.Player;
+import org.bukkit.inventory.ItemStack;
 import org.bukkit.inventory.Recipe;
+import org.bukkit.inventory.ShapedRecipe;
+import org.bukkit.inventory.meta.ItemMeta;
+import org.bukkit.metadata.FixedMetadataValue;
 
 public class HandCannon implements Spell {
 
+    private SpellManager manager;
+
     public HandCannon(SpellManager spellManager) {
-        // TODO Auto-generated constructor stub
+        manager = spellManager;
     }
 
     @Override
@@ -49,44 +60,66 @@ public class HandCannon implements Spell {
     @Override
     public float estimateAttackMana(Player ply, LivingEntity entity,
             int modifier) {
-        // TODO Auto-generated method stub
         return 0;
     }
 
     @Override
     public float estimateLeftClickMana(Player ply, Block block, int modifier) {
-        // TODO Auto-generated method stub
         return 0;
     }
 
     @Override
     public float estimateRightClickMana(Player ply, Block block, int modifier) {
-        // TODO Auto-generated method stub
-        return 0;
+        return (300f - ((float) modifier) / 100f > 0) ? 
+                300f - ((float) modifier) / 100f : 0 ;
     }
 
     @Override
     public float rightClick(Player ply, Block block, int modifier) {
-        // TODO Auto-generated method stub
-        return 0;
+        if (block != null) {
+            return Float.MIN_VALUE;
+        }
+
+        Arrow arrow = ply.launchProjectile(Arrow.class);
+        arrow.setVelocity(arrow.getVelocity().multiply(4d));
+        arrow.setMetadata("Multiplier",
+                new FixedMetadataValue(manager.getPlugin(), new Float(4)));
+        arrow.setMetadata("Knockback",
+                new FixedMetadataValue(manager.getPlugin(), new Float(0.2)));
+        // Make a loud bang when used
+        ply.getWorld().playSound(ply.getLocation(), Sound.EXPLODE, 0.8f, 1.0f);
+
+        return (300f - ((float) modifier) / 100f > 0) ? 
+                300f - ((float) modifier) / 100f : 0 ;
     }
 
     @Override
     public float leftClick(Player ply, Block block, int modifier) {
-        // TODO Auto-generated method stub
         return 0;
     }
 
     @Override
     public float attack(Player ply, LivingEntity ent, int modifier) {
-        // TODO Auto-generated method stub
         return 0;
     }
 
     @Override
     public Recipe getWandRecipe() {
-        // TODO Auto-generated method stub
-        return null;
+        // same for each
+        ItemStack result = new ItemStack(Material.STICK);
+        ItemMeta meta = result.getItemMeta();
+        meta.setDisplayName(ChatColor.AQUA + getName());
+        meta.addEnchant(Enchantment.LUCK, 10, true);
+        result.setItemMeta(meta);
+        ShapedRecipe recipe = new ShapedRecipe(result);
+        // custom recipe stuff
+        recipe.shape("WPB", 
+                     "PBP", 
+                     "BPW");
+        recipe.setIngredient('W', Material.EMERALD);
+        recipe.setIngredient('P', Material.BOW);
+        recipe.setIngredient('B', Material.DIAMOND_BLOCK);
+        return recipe;
     }
 
 }

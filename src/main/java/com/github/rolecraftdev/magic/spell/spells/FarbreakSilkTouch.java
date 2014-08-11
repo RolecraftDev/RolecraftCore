@@ -93,6 +93,9 @@ public class FarbreakSilkTouch implements Spell {
         Block toBreak = null;
         if (block == null) {
             toBreak = ply.getTargetBlock(null, manager.getRange());
+            if(toBreak == null) {
+                return Float.MIN_VALUE;
+            }
             retVal = 10;
         }
         else {
@@ -124,6 +127,9 @@ public class FarbreakSilkTouch implements Spell {
         Block toBreak = null;
         if (block == null) {
             toBreak = ply.getTargetBlock(null, manager.getRange());
+            if(toBreak == null) {
+                return Float.MIN_VALUE;
+            }
             retVal = 10;
         }
         else {
@@ -165,9 +171,9 @@ public class FarbreakSilkTouch implements Spell {
         ShapedRecipe recipe = new ShapedRecipe(result);
         // custom recipe stuff
         recipe.shape("WPB", "PBP", "BPW");
-        recipe.setIngredient('I', Material.BOW);
+        recipe.setIngredient('W', Material.BOW);
         recipe.setIngredient('P', Material.DIAMOND_PICKAXE);
-        recipe.setIngredient('B', Material.EMERALD_BLOCK);
+        recipe.setIngredient('B', Material.EMERALD);
         return recipe;
     }
 }

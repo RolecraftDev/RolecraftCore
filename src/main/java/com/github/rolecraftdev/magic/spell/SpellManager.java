@@ -49,13 +49,13 @@ public class SpellManager {
         maxRange = plugin.getConfig().getInt("magicrange", 100);
         emptyMap = new HashMap<String, Boolean>();
 
-        // Tier 1 spells
+        // Tier 1 spells -- iron core
         register("Freeze Block", new FreezeBlock(this));
         register("Burn Block", new BurnBlock(this));
         register("Lesser Sword", new LesserSword(this));
         register("Weak Bow", new WeakBow(this));
 
-        // Tier 2 spells
+        // Tier 2 spells -- iron block core
         register("Freeze Ray", new FreezeRay(this));
         register("Fire Beam", new FireBeam(this));
         register("Farbreak", new Farbreak(this));
@@ -63,13 +63,13 @@ public class SpellManager {
         register("Stronger Sword", new StrongerSword(this));
         register("Break Block", new BreakBlock(this));
 
-        // Tier 3 spells
+        // Tier 3 spells -- emerald core
         register("Silk Touch", new SilkTouch(this));
         register("Excellent Bow", new ExcellentBow(this));
         register("Multi-Arrow", new MultiArrow(this));
         register("Arrow Shower", new ArrowShower(this));
 
-        // Tier 4 spells
+        // Tier 4 spells -- Diamond block core
         register("Bomb", new Bomb(this));
         register("Meteor", new Meteor(this));
         register("Silky Farbreak", new FarbreakSilkTouch(this));
@@ -77,14 +77,16 @@ public class SpellManager {
         register("Fly", new Fly(this));
         register("Hand Cannon", new HandCannon(this));
 
-        // Tier 5 spells
+        // Tier 5 spells -- Emerald/diamond block core
         register("Avada Kedavra", new AvadaKedavra(this));
+        register("Death Rain", new DeathRain(this));
+
     }
 
     /**
      * Get the {@link RolecraftCore} plugin object this {@link SpellManager} is
      * attached to.
-     *
+     * 
      * @return Its {@link RolecraftCore} object
      */
     public RolecraftCore getPlugin() {
@@ -93,10 +95,14 @@ public class SpellManager {
 
     public void register(String wandName, Spell spell) {
         spells.put(wandName, spell);
-        Bukkit.getPluginManager().addPermission(new Permission(
-                "rolecraft.spell." + wandName.toLowerCase().replaceAll(" ", ""),
-                "Allows access to the spell '" + wandName + "'",
-                PermissionDefault.TRUE, emptyMap));
+        Bukkit.getPluginManager().addPermission(
+                new Permission("rolecraft.spell."
+                        + wandName.toLowerCase().replaceAll(" ", ""),
+                        "Allows access to the spell '" + wandName + "'",
+                        PermissionDefault.TRUE, emptyMap));
+        if(spell.getWandRecipe() != null) {
+            Bukkit.addRecipe(spell.getWandRecipe());
+        }
     }
 
     public Spell getSpell(String wandName) {
@@ -108,14 +114,15 @@ public class SpellManager {
                 .getMana();
         if (mana == -1) {
             return 0;
-        } else {
+        }
+        else {
             return mana;
         }
     }
 
     /**
      * Convience method
-     *
+     * 
      * @param ply
      * @param amount
      */
