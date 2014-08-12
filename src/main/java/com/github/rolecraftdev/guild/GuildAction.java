@@ -36,7 +36,7 @@ public enum GuildAction {
     // TODO: More things might be added here
     KICK_MEMBER("kick"), INVITE("invite"), SET_HOME("set-home"), CHANGE_BLOCK(
             "modify-hall"), IGNITE_BLOCK("ignite-hall-block"), MODIFY_RANKS(
-            "modify-ranks");
+            "modify-ranks"), BROADCAST_MESSAGE("broadcast-message");
 
     /**
      * A player-readable version of the name of this {@link GuildAction}.

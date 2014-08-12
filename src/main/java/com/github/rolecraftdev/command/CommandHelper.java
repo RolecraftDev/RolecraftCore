@@ -26,7 +26,9 @@
  */
 package com.github.rolecraftdev.command;
 
+import org.apache.commons.lang.StringUtils;
 import pw.ian.albkit.command.CommandHandler;
+import pw.ian.albkit.command.parser.Arguments;
 
 import com.github.rolecraftdev.guild.Guild;
 import com.github.rolecraftdev.guild.GuildAction;
@@ -50,6 +52,27 @@ public final class CommandHelper {
      * to a user.
      */
     public static final int COMMANDS_PER_PAGE = 6;
+
+    /**
+     * Joins all of the arguments in the given {@link Arguments} object starting
+     * from the given start index
+     *
+     * @param start The index to start joining arguments from
+     * @param args  The {@link Arguments} to join into one string
+     * @return A joined {@link String} of arguments from the given start index
+     */
+    public static String joinFrom(final int start, final Arguments args) {
+        if (args.length() <= start) {
+            return null;
+        }
+        final StringBuilder builder = new StringBuilder();
+        for (int i = start; i < args.length(); i++) {
+            builder.append(args.getRaw(i)).append(" ");
+        }
+        // Use StringUtils#strip because String#trim also removes ASCII control
+        // characters and not just unicode whitespace
+        return StringUtils.strip(builder.toString());
+    }
 
     /**
      * Gets a {@link Guild} from the given argument. If there is no argument

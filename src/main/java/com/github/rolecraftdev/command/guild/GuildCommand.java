@@ -40,6 +40,7 @@ public class GuildCommand extends TreeCommandHandler {
 
     @Override
     public void setupSubcommands() {
+        addSubcommand("broadcast", new GuildBroadcastCommand(plugin));
         addSubcommand("create", new GuildCreateCommand(plugin));
         addSubcommand("disband", new GuildDisbandCommand(plugin));
         addSubcommand("home", new GuildHomeCommand(plugin));
