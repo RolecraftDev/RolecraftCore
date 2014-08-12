@@ -39,12 +39,10 @@ import org.bukkit.metadata.MetadataValue;
 
 public class GuildRejectCommand extends PlayerCommandHandler {
     private final RolecraftCore plugin;
-    private final GuildManager guildMgr;
 
     public GuildRejectCommand(final RolecraftCore plugin) {
         super("reject");
         this.plugin = plugin;
-        guildMgr = plugin.getGuildManager();
 
         setPermission("rolecraft.guild.join");
         setDescription("Rejects an invitation to a guild");

@@ -31,7 +31,6 @@ import com.github.rolecraftdev.data.Region2D;
 import com.github.rolecraftdev.event.guild.GuildPlayerJoinEvent;
 import com.github.rolecraftdev.event.guild.GuildPlayerKickedEvent;
 import com.github.rolecraftdev.event.guild.GuildPlayerLeaveEvent;
-
 import org.bukkit.Bukkit;
 import org.bukkit.Location;
 import org.bukkit.entity.Entity;
@@ -132,7 +131,7 @@ public final class Guild {
             final Set<GuildRank> ranks, final Location home,
             final int influence, final Region2D hallRegion) {
         this.guildManager = guildManager;
-        this.plugin = guildManager.getPlugin();
+        plugin = guildManager.getPlugin();
         this.guildId = guildId;
         this.name = name;
         this.leader = leader;
@@ -141,6 +140,15 @@ public final class Guild {
         this.home = home;
         this.influence = influence;
         this.hallRegion = hallRegion;
+    }
+
+    /**
+     * Get the {@link GuildManager} this {@link Guild} belongs to.
+     *
+     * @return Its manager
+     */
+    public GuildManager getManager() {
+        return guildManager;
     }
 
     /**
@@ -460,7 +468,7 @@ public final class Guild {
         final String name = rank.getName().toLowerCase();
         boolean retVal =
                 !(name.equals("leader") || name.equals("default")) && ranks
-                        .remove(rank);
+                .remove(rank);
         plugin.getDataStore().updateGuildRanks(this);
         return retVal;
     }

@@ -213,8 +213,7 @@ public class GuildMemberCommand extends PlayerCommandHandler {
          */
         private final PlayerData data;
 
-        public KickPlayerTask(final RolecraftCore plugin,
-                final PlayerData data) {
+        public KickPlayerTask(final RolecraftCore plugin, final PlayerData data) {
             this.plugin = plugin;
             this.data = data;
         }

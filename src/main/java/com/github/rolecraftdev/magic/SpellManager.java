@@ -125,7 +125,7 @@ public class SpellManager {
         if (profession == null) {
             return false;
         }
-        final List usable = profession
+        final List<?> usable = profession
                 .getRuleValue(ProfessionRule.USABLE_SPELLS);
         return usable.contains(spell.getName()) && player.hasPermission(
                 "rolecraft.spell." + spell.getName().toLowerCase().replaceAll(

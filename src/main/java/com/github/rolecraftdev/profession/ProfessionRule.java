@@ -45,6 +45,7 @@ public final class ProfessionRule<T> {
     /**
      * A rule which defines the spells usable by a profession
      */
+    @SuppressWarnings("rawtypes")
     public static final ProfessionRule<List> USABLE_SPELLS = new ProfessionRule<List>(
             "usable-spells", List.class);
 

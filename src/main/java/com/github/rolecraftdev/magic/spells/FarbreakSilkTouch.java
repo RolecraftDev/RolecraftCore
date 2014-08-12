@@ -42,8 +42,6 @@ import org.bukkit.inventory.ItemStack;
 import org.bukkit.inventory.Recipe;
 import org.bukkit.inventory.ShapedRecipe;
 import org.bukkit.inventory.meta.ItemMeta;
-import org.bukkit.material.MaterialData;
-
 import java.util.Collection;
 
 public class FarbreakSilkTouch implements Spell {
@@ -86,9 +84,9 @@ public class FarbreakSilkTouch implements Spell {
         return 10;
     }
 
+    @SuppressWarnings("deprecation")
     @Override
     public float rightClick(Player ply, Block block, int modifier) {
-
         float retVal = 0;
         Block toBreak = null;
         if (block == null) {
@@ -109,7 +107,6 @@ public class FarbreakSilkTouch implements Spell {
                 return Float.MIN_VALUE;
             }
         }
-        MaterialData data = block.getState().getData();
         Collection<ItemStack> drops = block.getDrops(simulate);
 
         block.setType(Material.AIR);
@@ -120,6 +117,7 @@ public class FarbreakSilkTouch implements Spell {
         return retVal;
     }
 
+    @SuppressWarnings("deprecation")
     @Override
     public float leftClick(Player ply, Block block, int modifier) {
         float retVal = 0;
@@ -142,7 +140,7 @@ public class FarbreakSilkTouch implements Spell {
                 return Float.MIN_VALUE;
             }
         }
-        MaterialData data = block.getState().getData();
+        block.getState().getData();
         Collection<ItemStack> drops = block.getDrops(simulate);
 
         block.setType(Material.AIR);
