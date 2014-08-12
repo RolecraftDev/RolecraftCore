@@ -69,7 +69,7 @@ public final class SQLiteDataStore extends DataStore {
                     + "influence INTEGER DEFAULT 0" + ")";
 
     @Override
-    public void intialise() {
+    public void initialise() {
         final RolecraftCore parent = this.getParent();
         new BukkitRunnable() {
             @Override

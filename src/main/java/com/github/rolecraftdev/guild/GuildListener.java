@@ -97,6 +97,9 @@ public final class GuildListener implements Listener {
 
     @EventHandler(priority = EventPriority.HIGHEST)
     public void onBucketEmpty(final PlayerBucketEmptyEvent event) {
+        if (event.getBlockClicked() == null) {
+            return;
+        }
         final BlockFace face = event.getBlockFace();
         event.setCancelled(cancel(event.getBlockClicked().getLocation().add(
                         face.getModX(), face.getModY(), face.getModZ()),
@@ -106,6 +109,9 @@ public final class GuildListener implements Listener {
 
     @EventHandler(priority = EventPriority.HIGHEST)
     public void onBucketFill(final PlayerBucketFillEvent event) {
+        if (event.getBlockClicked() == null) {
+            return;
+        }
         event.setCancelled(cancel(event.getBlockClicked().getLocation(),
                 event.getPlayer().getUniqueId(), event.isCancelled(),
                 GuildAction.CHANGE_BLOCK));
@@ -113,6 +119,9 @@ public final class GuildListener implements Listener {
 
     @EventHandler(priority = EventPriority.HIGHEST)
     public void onPlayerInteract(final PlayerInteractEvent event) {
+        if (event.getClickedBlock() == null) {
+            return;
+        }
         event.setCancelled(cancel(event.getClickedBlock().getLocation(),
                 event.getPlayer().getUniqueId(), event.isCancelled(),
                 GuildAction.CHANGE_BLOCK));
@@ -284,6 +293,11 @@ public final class GuildListener implements Listener {
     private boolean cancel(final Location loc, final UUID player,
             final boolean def, final GuildAction action) {
         final Guild guild = getGuildFromHall(loc);
+        if (guild == errorReturn) {
+            // this happens if SQL hasn't loaded yet. seeing as SQL takes about
+            // 1.5 seconds to load we can just assume that we can cancel it
+            return true;
+        }
         if (guild != null) {
             return !(guild.isMember(player) && guild
                     .can(player, action));
@@ -292,15 +306,26 @@ public final class GuildListener implements Listener {
     }
 
     private Guild getGuildFromHall(final Location loc) {
+
         
         // code is broken
         /*for (final Guild guild : guildManager.getGuilds()) { /// this line generates NPEs
-            if(guild.getGuildHallRegion() != null) {
+            if(guild.getGuildHallRegion() != null) {*/
+
+        final Set<Guild> guilds = guildManager.getGuilds();
+        if (guilds == null) {
+            // Awful really
+            return errorReturn;
+        }
+        for (final Guild guild : guilds) {
+            if (guild.getGuildHallRegion() != null) {
                 if (guild.getGuildHallRegion().containsLocation(loc)) {
                     return guild;
                 }
             }
-        }*/
+        }
         return null;
     }
+
+    private static final Guild errorReturn = new Guild(null);
 }
