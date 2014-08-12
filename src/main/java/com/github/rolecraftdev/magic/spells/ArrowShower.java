@@ -82,8 +82,7 @@ public class ArrowShower implements Spell {
 
     @Override
     public float estimateRightClickMana(Player ply, Block block, int modifier) {
-        return (200f - ((float) modifier) / 100f > 0) ?
-                200f - ((float) modifier) / 100f : 0;
+        return (200f - modifier / 100f > 0) ? 200f - modifier / 100f : 0;
     }
 
     @Override
@@ -117,7 +116,7 @@ public class ArrowShower implements Spell {
 
         for (int x = -5; x <= 5; x++) {
             for (int z = -5; z < 5; z++) {
-                Arrow arrow = (Arrow) world
+                Arrow arrow = world
                         .spawn(new Location(world, center.getX() + x
                                 , center.getY(), center.getZ() + z),
                                 Arrow.class);
@@ -125,8 +124,7 @@ public class ArrowShower implements Spell {
             }
         }
 
-        return (200f - ((float) modifier) / 100f > 0) ?
-                200f - ((float) modifier) / 100f : 0;
+        return (200f - modifier / 100f > 0) ? 200f - modifier / 100f : 0;
     }
 
     @Override

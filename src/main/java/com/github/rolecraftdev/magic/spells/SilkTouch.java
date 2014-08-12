@@ -41,16 +41,13 @@ import org.bukkit.inventory.ItemStack;
 import org.bukkit.inventory.Recipe;
 import org.bukkit.inventory.ShapedRecipe;
 import org.bukkit.inventory.meta.ItemMeta;
-import org.bukkit.material.MaterialData;
 
 import java.util.Collection;
 
 public class SilkTouch implements Spell {
-    private SpellManager manager;
     private ItemStack simulate;
 
     public SilkTouch(SpellManager spellManager) {
-        manager = spellManager;
         simulate = new ItemStack(Material.DIAMOND_PICKAXE, 1);
         simulate.addEnchantment(Enchantment.SILK_TOUCH, 1);
     }
@@ -88,7 +85,6 @@ public class SilkTouch implements Spell {
             return Float.MIN_VALUE;
         }
 
-        MaterialData data = block.getState().getData();
         Collection<ItemStack> drops = block.getDrops(simulate);
 
         block.setType(Material.AIR);
@@ -111,7 +107,7 @@ public class SilkTouch implements Spell {
             return Float.MIN_VALUE;
         }
 
-        MaterialData data = block.getState().getData();
+        block.getState().getData();
         Collection<ItemStack> drops = block.getDrops(simulate);
 
         block.setType(Material.AIR);

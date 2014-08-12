@@ -70,8 +70,7 @@ public class HandCannon implements Spell {
 
     @Override
     public float estimateRightClickMana(Player ply, Block block, int modifier) {
-        return (300f - ((float) modifier) / 100f > 0) ?
-                300f - ((float) modifier) / 100f : 0;
+        return (300f - modifier / 100f > 0) ? 300f - modifier / 100f : 0;
     }
 
     @Override
@@ -89,8 +88,7 @@ public class HandCannon implements Spell {
         // Make a loud bang when used
         ply.getWorld().playSound(ply.getLocation(), Sound.EXPLODE, 0.8f, 1.0f);
 
-        return (300f - ((float) modifier) / 100f > 0) ?
-                300f - ((float) modifier) / 100f : 0;
+        return (300f - modifier / 100f > 0) ? 300f - modifier / 100f : 0;
     }
 
     @Override

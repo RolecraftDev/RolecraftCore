@@ -37,4 +37,14 @@ public final class QuestManager {
     public QuestManager(final RolecraftCore plugin) {
         this.plugin = plugin;
     }
+
+    /**
+     * Get the {@link RolecraftCore} plugin object this {@link QuestManager} is
+     * attached to.
+     * 
+     * @return Its {@link RolecraftCore} object
+     */
+    public RolecraftCore getPlugin() {
+        return plugin;
+    }
 }

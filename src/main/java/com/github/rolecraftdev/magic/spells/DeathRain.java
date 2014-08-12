@@ -49,6 +49,8 @@ import org.bukkit.util.Vector;
 import java.util.Arrays;
 import java.util.HashSet;
 
+//Material.getId()
+@SuppressWarnings("deprecation")
 public class DeathRain implements Spell {
 
     private static HashSet<Byte> transparency;
@@ -86,10 +88,7 @@ public class DeathRain implements Spell {
 
     @Override
     public float estimateRightClickMana(Player ply, Block block, int modifier) {
-        return (800f - ((float) modifier) / 200f > 0) ?
-                800f - ((float) modifier) / 200f
-                :
-                0;
+        return (800f - modifier / 200f > 0) ? 800f - modifier / 200f : 0;
     }
 
     @Override
@@ -121,7 +120,7 @@ public class DeathRain implements Spell {
 
         for (int x = -5; x <= 5; x++) {
             for (int z = -5; z < 5; z++) {
-                Arrow arrow = (Arrow) world.spawn(
+                Arrow arrow = world.spawn(
                         new Location(world, center.getX() + x, center.getY(),
                                 center.getZ() + z), Arrow.class);
                 arrow.setMetadata("Multiplier",
@@ -134,8 +133,7 @@ public class DeathRain implements Spell {
             }
         }
 
-        return (800f - ((float) modifier) / 200f > 0) ?
-                800f - ((float) modifier) / 200f : 0;
+        return (800f - modifier / 200f > 0) ? 800f - modifier / 200f : 0;
     }
 
     @Override
@@ -159,14 +157,14 @@ public class DeathRain implements Spell {
         meta.addEnchant(Enchantment.LUCK, 10, true);
         String[] lore = {
                 "A virtual airstrike, this wand is capabale of bringing an",
-                "army to their knees with one cast" };
+        "army to their knees with one cast" };
         meta.setLore(Arrays.asList(lore));
         result.setItemMeta(meta);
         ShapedRecipe recipe = new ShapedRecipe(result);
         // custom recipe stuff
-        recipe.shape("WPB", 
-                     "PEP",
-                     "BPW");
+        recipe.shape("WPB",
+                "PEP",
+                "BPW");
         recipe.setIngredient('W', Material.BOW);
         recipe.setIngredient('P', Material.EMERALD);
         recipe.setIngredient('E', Material.EMERALD_BLOCK);

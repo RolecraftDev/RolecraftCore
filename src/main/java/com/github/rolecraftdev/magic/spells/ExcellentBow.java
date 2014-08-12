@@ -68,8 +68,7 @@ public class ExcellentBow implements Spell {
 
     @Override
     public float estimateRightClickMana(Player ply, Block block, int modifier) {
-        return (100f - ((float) modifier) / 100f > 0) ?
-                100f - ((float) modifier) / 100f : 0;
+        return (100f - modifier / 100f > 0) ? 100f - modifier / 100f : 0;
     }
 
     @Override
@@ -83,8 +82,7 @@ public class ExcellentBow implements Spell {
         arrow.setMetadata("Multiplier", new FixedMetadataValue(
                 manager.getPlugin(), new Float(2f)));
 
-        return (100f - ((float) modifier) / 100f > 0) ?
-                100f - ((float) modifier) / 100f : 0;
+        return (100f - modifier / 100f > 0) ? 100f - modifier / 100f : 0;
     }
 
     @Override

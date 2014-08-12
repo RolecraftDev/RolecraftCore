@@ -68,8 +68,7 @@ public class StrongerBow implements Spell {
 
     @Override
     public float estimateRightClickMana(Player ply, Block block, int modifier) {
-        return (50f - ((float) modifier) / 100f > 0) ?
-                50f - ((float) modifier) / 100f : 0;
+        return (50f - modifier / 100f > 0) ? 50f - modifier / 100f : 0;
     }
 
     @Override
@@ -83,8 +82,7 @@ public class StrongerBow implements Spell {
         arrow.setMetadata("Multiplier", new FixedMetadataValue(
                 manager.getPlugin(), new Float(2f)));
 
-        return (50f - ((float) modifier) / 100f > 0) ?
-                50f - ((float) modifier) / 100f : 0;
+        return (50f - modifier / 100f > 0) ? 50f - modifier / 100f : 0;
     }
 
     @Override

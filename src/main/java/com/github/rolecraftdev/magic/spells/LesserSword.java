@@ -56,9 +56,7 @@ public class LesserSword implements Spell {
     @Override
     public float estimateAttackMana(Player ply, LivingEntity entity,
             int modifier) {
-        return (20f - modifier / 10f > 0) ?
-                (20f - modifier / 10f) :
-                0f;
+        return (20f - modifier / 10f > 0) ? (20f - modifier / 10f) : 0f;
     }
 
     @Override
@@ -89,9 +87,7 @@ public class LesserSword implements Spell {
         if (!edbee.isCancelled()) {
             ent.damage(2.0);
         }
-        return (20f - modifier / 10f > 0) ?
-                (20f - modifier / 10f) :
-                0f;
+        return (20f - modifier / 10f > 0) ? (20f - modifier / 10f) : 0f;
     }
 
     @Override
