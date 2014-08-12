@@ -292,10 +292,10 @@ public final class GuildListener implements Listener {
 
     private boolean cancel(final Location loc, final UUID player,
             final boolean def, final GuildAction action) {
-        final Guild guild = getGuildFromHall(loc);
-        if (guild == errorReturn) {
-            // this happens if SQL hasn't loaded yet. seeing as SQL takes about
-            // 1.5 seconds to load we can just assume that we can cancel it
+        final Guild guild;
+        try {
+            guild = getGuildFromHall(loc);
+        } catch (IllegalStateException e) {
             return true;
         }
         if (guild != null) {
@@ -306,16 +306,9 @@ public final class GuildListener implements Listener {
     }
 
     private Guild getGuildFromHall(final Location loc) {
-
-        
-        // code is broken
-        /*for (final Guild guild : guildManager.getGuilds()) { /// this line generates NPEs
-            if(guild.getGuildHallRegion() != null) {*/
-
         final Set<Guild> guilds = guildManager.getGuilds();
         if (guilds == null) {
-            // Awful really
-            return errorReturn;
+            throw new IllegalStateException("SQL not yet loaded");
         }
         for (final Guild guild : guilds) {
             if (guild.getGuildHallRegion() != null) {
@@ -326,6 +319,4 @@ public final class GuildListener implements Listener {
         }
         return null;
     }
-
-    private static final Guild errorReturn = new Guild(null);
 }
