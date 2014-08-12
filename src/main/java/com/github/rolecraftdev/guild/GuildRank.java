@@ -26,6 +26,9 @@
  */
 package com.github.rolecraftdev.guild;
 
+import org.bukkit.Bukkit;
+import org.bukkit.entity.Player;
+
 import java.util.EnumSet;
 import java.util.HashSet;
 import java.util.Set;
@@ -122,6 +125,21 @@ public final class GuildRank {
      */
     public boolean can(final GuildAction action) {
         return permitted.contains(action);
+    }
+
+    /**
+     * Sends the given message to every currently online {@link Player} who is
+     * part of this GuildRank
+     *
+     * @param message The message to broadcast within this GuildRank
+     */
+    public void broadcastMessage(final String message) {
+        for (final UUID playerId : members) {
+            final Player player = Bukkit.getPlayer(playerId);
+            if (player != null) {
+                player.sendMessage(message);
+            }
+        }
     }
 
     /**

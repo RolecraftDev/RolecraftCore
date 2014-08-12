@@ -26,6 +26,7 @@
  */
 package com.github.rolecraftdev.guild;
 
+import com.github.rolecraftdev.RolecraftCore;
 import com.github.rolecraftdev.data.Region2D;
 import com.github.rolecraftdev.event.guild.GuildPlayerJoinEvent;
 import com.github.rolecraftdev.event.guild.GuildPlayerKickedEvent;
@@ -46,6 +47,10 @@ import java.util.UUID;
  * and provide lots of functionality.
  */
 public final class Guild {
+    /**
+     * The {@link RolecraftCore} plugin instance.
+     */
+    private final RolecraftCore plugin;
     /**
      * The {@link GuildManager} object this {@link Guild} is registered to.
      */
@@ -96,6 +101,7 @@ public final class Guild {
      */
     public Guild(final GuildManager guildManager) {
         this.guildManager = guildManager;
+        plugin = guildManager.getPlugin();
         guildId = UUID.randomUUID();
         members = new HashSet<UUID>();
         ranks = new HashSet<GuildRank>();
@@ -126,6 +132,7 @@ public final class Guild {
             final Set<GuildRank> ranks, final Location home,
             final int influence, final Region2D hallRegion) {
         this.guildManager = guildManager;
+        this.plugin = guildManager.getPlugin();
         this.guildId = guildId;
         this.name = name;
         this.leader = leader;
@@ -319,7 +326,7 @@ public final class Guild {
     }
 
     /**
-     * Broadcasts the given message to every member of the guild
+     * Broadcasts the given message to every online member of the guild
      *
      * @param message The message to broadcast to the guild
      */
@@ -333,13 +340,28 @@ public final class Guild {
     }
 
     /**
+     * Broadcasts the given message to all online {@link Player}s who are part
+     * of the given {@link GuildRank}(s), assuming that said
+     * {@link GuildRank}(s) are part of this Guild.
+     *
+     * @param message The message to broadcast to members of the given rank(s)
+     * @param ranks   The rank(s) to broadcast the message to
+     */
+    public void broadcastMessage(final String message,
+            final GuildRank... ranks) {
+        for (final GuildRank rank : ranks) {
+            rank.broadcastMessage(message);
+        }
+    }
+
+    /**
      * Set the unique name of this {@link Guild}.
      *
      * @param name - The new unique name
      */
     public void setName(final String name) {
         this.name = name;
-        guildManager.getPlugin().getDataStore().updateGuildData(this);
+        plugin.getDataStore().updateGuildData(this);
     }
 
     /**
@@ -361,7 +383,7 @@ public final class Guild {
 
         this.leader = leader;
         getLeaderRank().addMember(leader);
-        guildManager.getPlugin().getDataStore().updateGuildData(this);
+        plugin.getDataStore().updateGuildData(this);
     }
 
     /**
@@ -373,13 +395,12 @@ public final class Guild {
      */
     public void addMember(final UUID member, final GuildRank rank) {
         Bukkit.getPluginManager().callEvent(new GuildPlayerJoinEvent(
-                guildManager.getPlugin(), this, Bukkit.getPlayer(member),
-                rank));
+                plugin, this, Bukkit.getPlayer(member), rank));
 
         members.add(member);
         rank.addMember(member);
-        guildManager.getPlugin().getDataStore().addPlayerToGuild(member, this);
-        guildManager.getPlugin().getDataStore().updateGuildRanks(this);
+        plugin.getDataStore().addPlayerToGuild(member, this);
+        plugin.getDataStore().updateGuildRanks(this);
     }
 
     /**
@@ -400,22 +421,22 @@ public final class Guild {
     public void removeMember(final UUID member, final boolean kicked) {
         if (kicked) {
             Bukkit.getPluginManager().callEvent(new GuildPlayerKickedEvent(
-                    guildManager.getPlugin(), this, Bukkit.getPlayer(member)));
+                    plugin, this, Bukkit.getPlayer(member)));
         } else {
             Bukkit.getPluginManager().callEvent(new GuildPlayerLeaveEvent(
-                    guildManager.getPlugin(), this, Bukkit.getPlayer(member)));
+                    plugin, this, Bukkit.getPlayer(member)));
         }
 
         final boolean removed = members.remove(member);
         if (!removed) {
-            throw new IllegalArgumentException();
+            throw new IllegalArgumentException(
+                    "The given member isn't part of this Guild!");
         }
         for (final GuildRank rank : getPlayerRanks(member)) {
             rank.removeMember(member);
         }
-        guildManager.getPlugin().getDataStore()
-                .removePlayerFromGuild(member, this);
-        guildManager.getPlugin().getDataStore().updateGuildRanks(this);
+        plugin.getDataStore().removePlayerFromGuild(member, this);
+        plugin.getDataStore().updateGuildRanks(this);
     }
 
     /**
@@ -425,7 +446,7 @@ public final class Guild {
      */
     public boolean addRank(final GuildRank rank) {
         boolean retVal = getRank(rank.getName()) == null && ranks.add(rank);
-        guildManager.getPlugin().getDataStore().updateGuildRanks(this);
+        plugin.getDataStore().updateGuildRanks(this);
         return retVal;
     }
 
@@ -440,7 +461,7 @@ public final class Guild {
         boolean retVal =
                 !(name.equals("leader") || name.equals("default")) && ranks
                         .remove(rank);
-        guildManager.getPlugin().getDataStore().updateGuildRanks(this);
+        plugin.getDataStore().updateGuildRanks(this);
         return retVal;
     }
 
@@ -452,7 +473,7 @@ public final class Guild {
      */
     public void setHomeLocation(final Location home) {
         this.home = home;
-        guildManager.getPlugin().getDataStore().updateGuildData(this);
+        plugin.getDataStore().updateGuildData(this);
     }
 
     @Override
@@ -478,6 +499,6 @@ public final class Guild {
      */
     void claimAsGuildHall(final Region2D hallRegion) {
         this.hallRegion = hallRegion;
-        guildManager.getPlugin().getDataStore().updateGuildData(this);
+        plugin.getDataStore().updateGuildData(this);
     }
 }
