@@ -294,7 +294,7 @@ public final class GuildListener implements Listener {
     private Guild getGuildFromHall(final Location loc) {
         
         // code is broken
-        /*for (final Guild guild : guildManager.getGuilds()) {
+        /*for (final Guild guild : guildManager.getGuilds()) { /// this line generates NPEs
             if(guild.getGuildHallRegion() != null) {
                 if (guild.getGuildHallRegion().containsLocation(loc)) {
                     return guild;

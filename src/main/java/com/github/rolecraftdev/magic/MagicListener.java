@@ -93,7 +93,7 @@ public class MagicListener implements Listener {
         }
 
         if (!shown) {
-            e.getPlayer().setScoreboard(null);
+            e.getPlayer().setScoreboard(scoreboardMgr.getNewScoreboard());
         }
     }
 
