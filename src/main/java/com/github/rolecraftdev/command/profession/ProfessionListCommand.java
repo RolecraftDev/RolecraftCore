@@ -57,7 +57,7 @@ public final class ProfessionListCommand extends CommandHandler {
     public void onCommand(final CommandSender sender, final Arguments args) {
         String pageArg = "1";
         if (args.length() >= 1) {
-            pageArg = args.getRaw(1);
+            pageArg = args.getRaw(0);
         }
 
         sender.sendMessage(ChatColor.GOLD + "[Professions]");
