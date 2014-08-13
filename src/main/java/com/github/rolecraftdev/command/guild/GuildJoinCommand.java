@@ -52,7 +52,7 @@ public class GuildJoinCommand extends PlayerCommandHandler {
 
     @Override
     public void onCommand(final Player player, final Arguments args) {
-        if (args.length() == 1) {
+        if (args.length() == 0) {
             sendUsageMessage(player);
             return;
         }
@@ -70,7 +70,7 @@ public class GuildJoinCommand extends PlayerCommandHandler {
         }
 
         final FixedMetadataValue fixed = (FixedMetadataValue) val;
-        final String name = args.getRaw(1);
+        final String name = args.getRaw(0);
         final Guild guild = guildMgr.getGuild(name);
         if (fixed.asString().equalsIgnoreCase(guild.getId().toString())) {
             guild.addMember(player.getUniqueId(), guild.getDefaultRank());

@@ -43,6 +43,7 @@ public class GuildCommand extends TreeCommandHandler {
         addSubcommand("broadcast", new GuildBroadcastCommand(plugin));
         addSubcommand("create", new GuildCreateCommand(plugin));
         addSubcommand("disband", new GuildDisbandCommand(plugin));
+        addSubcommand("help", new GuildHelpCommand(plugin));
         addSubcommand("home", new GuildHomeCommand(plugin));
         addSubcommand("join", new GuildJoinCommand(plugin));
         addSubcommand("leave", new GuildLeaveCommand(plugin));

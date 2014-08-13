@@ -58,7 +58,7 @@ public class GuildDisbandCommand extends CommandHandler {
     @Override
     public void onCommand(final CommandSender sender, final Arguments args) {
         final Guild guild;
-        if (args.length() > 1) {
+        if (args.length() > 0) {
             if (sender instanceof Player && !sender
                     .hasPermission("rolecraft.guild.disband.other")) {
                 sender.sendMessage(ChatColor.DARK_RED
@@ -66,7 +66,7 @@ public class GuildDisbandCommand extends CommandHandler {
                 return;
             }
 
-            guild = guildManager.getGuild(args.getArgument(1).rawString());
+            guild = guildManager.getGuild(args.getArgument(0).rawString());
             if (guild == null) {
                 sender.sendMessage(
                         ChatColor.DARK_RED + "That guild doesn't exist!");

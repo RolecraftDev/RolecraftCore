@@ -54,7 +54,7 @@ public class GuildRankCommand extends PlayerCommandHandler {
         this.plugin = plugin;
         guildManager = plugin.getGuildManager();
 
-        setUsage("/guild rank <rank> <new/delete/set> <args>");
+        setUsage("/guild rank <rank> <new/delete/set> [args]");
         setDescription("Allows modification of guild ranks");
         setPermission("rolecraft.guild.create");
     }
@@ -76,20 +76,20 @@ public class GuildRankCommand extends PlayerCommandHandler {
                     + "You must be guild leader to do that!");
             return;
         }
-        if (args.length() == 1) {
+        if (args.length() == 0) {
             // Send usage string
-            player.sendMessage(ChatColor.DARK_RED + getUsage());
+            sendUsageMessage(player);
             return;
         }
 
-        final String rankArg = args.getArgument(1).rawString();
+        final String rankArg = args.getArgument(0).rawString();
         final GuildRank rank = guild.getRank(rankArg);
         if (rank == null) { // The rank doesn't exist
-            if (args.length() < 3 || !isCreateAlias(
-                    args.getArgument(2).rawString().toLowerCase())) {
+            if (args.length() < 2 || !isCreateAlias(
+                    args.getRaw(1).toLowerCase())) {
                 // The sender has entered a non-existent rank within their guild
-                player.sendMessage(
-                        ChatColor.DARK_RED + "That rank doesn't exist!");
+                player.sendMessage(ChatColor.DARK_RED +
+                        "That rank doesn't exist!");
             } else { // There are 3+ args & the next is an alias of 'create'
                 // Only returns false if the rank already exists
                 final GuildRank newRank = new GuildRank(rankArg,
@@ -110,13 +110,13 @@ public class GuildRankCommand extends PlayerCommandHandler {
             return;
         }
 
-        if (args.length() == 2) { // I.E the input is '/guild rank <name>'
+        if (args.length() == 1) { // I.E the input is '/guild rank <name>'
             // Send information about the given rank
             CommandHelper.sendRankInfo(player, guild, rank);
             return;
         }
 
-        final String command = args.getArgument(2).rawString().toLowerCase();
+        final String command = args.getArgument(1).rawString().toLowerCase();
         if (isDeleteAlias(command)) {
             // Returns false if the rank is leader or default
             if (guild.removeRank(rank)) {
@@ -135,18 +135,18 @@ public class GuildRankCommand extends PlayerCommandHandler {
         }
 
         if (command.equals("set") || command.equals("modify")) {
-            if (args.length() < 5) {
+            if (args.length() < 4) {
                 // Invalid syntax
                 player.sendMessage(ChatColor.DARK_RED +
                         "Usage: /guild rank <rank> set <permission> <yes/no>");
                 return;
             }
 
-            final String permission = args.getArgument(3).rawString()
+            final String permission = args.getArgument(2).rawString()
                     .toLowerCase();
             final GuildAction perm = GuildAction.fromHumanReadable(permission);
 
-            String value = args.getArgument(4).rawString().toLowerCase();
+            String value = args.getArgument(3).rawString().toLowerCase();
 
             if (perm == null) { // The entered permission doesn't exist
                 player.sendMessage(ChatColor.DARK_RED +

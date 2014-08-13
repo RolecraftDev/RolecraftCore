@@ -56,7 +56,7 @@ public class GuildCreateCommand extends PlayerCommandHandler {
 
     @Override
     public void onCommand(final Player player, final Arguments args) {
-        if (args.length() == 1) {
+        if (args.length() == 0) {
             player.sendMessage(ChatColor.DARK_RED
                     + "Invalid syntax, /guild create <name>");
             return;
@@ -78,7 +78,7 @@ public class GuildCreateCommand extends PlayerCommandHandler {
             }
         }
 
-        final String name = args.getArgument(1).rawString();
+        final String name = args.getArgument(0).rawString();
         final Guild guild = new Guild(guildManager);
 
         guild.setName(name);

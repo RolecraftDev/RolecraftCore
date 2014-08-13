@@ -55,7 +55,7 @@ public class GuildMemberCommand extends PlayerCommandHandler {
         this.plugin = plugin;
         guildMgr = plugin.getGuildManager();
 
-        setUsage("/guild member <member> <invite/kick/rank> <args>");
+        setUsage("/guild member <member> <invite/kick/rank> [args]");
         setDescription("Invite, kick, promote or demote guild members");
         setPermission("rolecraft.guild.create");
     }
@@ -67,13 +67,13 @@ public class GuildMemberCommand extends PlayerCommandHandler {
             player.sendMessage(ChatColor.DARK_RED + "You don't have a guild!");
             return;
         }
-        if (args.length() < 3) {
+        if (args.length() < 2) {
             sendUsageMessage(player);
             return;
         }
 
-        final String command = args.getArgument(2).rawString();
-        final ChatSection targetArg = args.getArgument(1);
+        final String command = args.getArgument(1).rawString();
+        final ChatSection targetArg = args.getArgument(0);
         final OfflinePlayer offline = targetArg.asOfflinePlayer();
 
         if (!offline.hasPlayedBefore()) {
@@ -146,14 +146,14 @@ public class GuildMemberCommand extends PlayerCommandHandler {
                             "You can't do that!");
                     return;
                 }
-                if (args.length() < 5) {
+                if (args.length() < 4) {
                     player.sendMessage(ChatColor.DARK_RED
                             + "You must specify an action and a value for it!");
                     return;
                 }
 
-                final String action = args.getArgument(3).rawString();
-                final String rankArg = args.getArgument(4).rawString();
+                final String action = args.getArgument(2).rawString();
+                final String rankArg = args.getArgument(3).rawString();
                 final GuildRank rank = guild.getRank(rankArg);
 
                 if (rank == null) {

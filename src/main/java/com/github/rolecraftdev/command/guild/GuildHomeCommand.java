@@ -31,6 +31,7 @@ import pw.ian.albkit.command.parser.Arguments;
 
 import com.github.rolecraftdev.RolecraftCore;
 import com.github.rolecraftdev.guild.Guild;
+import com.github.rolecraftdev.guild.GuildAction;
 import com.github.rolecraftdev.guild.GuildManager;
 
 import org.bukkit.ChatColor;
@@ -54,8 +55,9 @@ public class GuildHomeCommand extends PlayerCommandHandler {
     public void onCommand(final Player player, final Arguments args) {
         final UUID id = player.getUniqueId();
         final Guild guild = guildManager.getPlayerGuild(id);
-        if (args.length() > 1 && args.getRaw(1).equalsIgnoreCase("set")) {
-            if (!player.hasPermission("rolecraft.guild.sethome")) {
+        if (args.length() > 0 && args.getRaw(0).equalsIgnoreCase("set")) {
+            if (!player.hasPermission("rolecraft.guild.sethome") || !guild.can(id,
+                    GuildAction.SET_HOME)) {
                 player.sendMessage(ChatColor.DARK_RED
                         + "You don't have permission to do that!");
                 return;

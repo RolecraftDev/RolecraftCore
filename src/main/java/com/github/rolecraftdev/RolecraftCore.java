@@ -28,6 +28,7 @@ package com.github.rolecraftdev;
 
 import pw.ian.albkit.AlbPlugin;
 import pw.ian.albkit.command.Commands;
+import pw.ian.albkit.util.ColorScheme;
 
 import com.github.rolecraftdev.command.guild.GuildCommand;
 import com.github.rolecraftdev.command.other.GCCommand;
@@ -65,6 +66,11 @@ public final class RolecraftCore extends AlbPlugin {
      * The plugin {@link Logger}.
      */
     private Logger logger;
+    /**
+     * Rolecraft's messaging color (colour) scheme
+     */
+    // TODO: Make configurable
+    private ColorScheme colorScheme = ColorScheme.DEFAULT;
     /**
      * The data storage solution used by Rolecraft.
      */
@@ -191,6 +197,15 @@ public final class RolecraftCore extends AlbPlugin {
     }
 
     /**
+     * Gets the colour scheme used by Rolecraft for messages
+     *
+     * @return Rolecraft's color scheme
+     */
+    public ColorScheme getColorScheme() {
+        return colorScheme;
+    }
+
+    /**
      * Get the {@link DataStore} implementation that is in use by Rolecraft,
      * which is either {@link SQLiteDataStore} or {@link MySQLDataStore},
      * depending on the configuration.
@@ -275,6 +290,15 @@ public final class RolecraftCore extends AlbPlugin {
      */
     public boolean isSqlLoaded() {
         return sqlLoaded;
+    }
+
+    /**
+     * Sets the {@link ColorScheme} object used by Rolecraft for messages
+     *
+     * @param colorScheme The new {@link ColorScheme}
+     */
+    public void setColorScheme(final ColorScheme colorScheme) {
+        this.colorScheme = colorScheme;
     }
 
     /**

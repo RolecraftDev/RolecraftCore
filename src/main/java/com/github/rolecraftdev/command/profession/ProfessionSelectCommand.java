@@ -53,13 +53,13 @@ public class ProfessionSelectCommand extends PlayerCommandHandler {
 
     @Override
     public void onCommand(final Player player, final Arguments args) {
-        if (args.length() < 2) {
+        if (args.length() < 1) {
             sendUsageMessage(player);
             return;
         }
 
         final Profession profession = professionMgr
-                .getProfession(args.getRaw(1));
+                .getProfession(args.getRaw(0));
         if (profession == null) {
             player.sendMessage(
                     ChatColor.DARK_RED + "That profession doesn't exist!");
