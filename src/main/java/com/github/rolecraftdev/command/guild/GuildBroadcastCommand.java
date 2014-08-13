@@ -48,6 +48,7 @@ public class GuildBroadcastCommand extends PlayerCommandHandler {
         setUsage("/guild broadcast [-r rank] <message>");
         setDescription("Broadcast a message to the guild");
         setPermission("rolecraft.guild.join");
+        setValidateUsage(false);
     }
 
     @Override
