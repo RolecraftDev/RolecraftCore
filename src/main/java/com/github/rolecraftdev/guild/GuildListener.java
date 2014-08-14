@@ -299,7 +299,7 @@ public final class GuildListener implements Listener {
      * @param player The {@link UUID} of the player causing the event
      * @param def    The value to return if we have no preference
      * @param action The {@link GuildAction} which is taking place
-     * @return
+     * @return Whether the action should be cancelled
      */
     private boolean cancel(final Location loc, final UUID player,
             final boolean def, final GuildAction action) {
