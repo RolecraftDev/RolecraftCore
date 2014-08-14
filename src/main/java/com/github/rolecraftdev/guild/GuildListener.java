@@ -337,5 +337,5 @@ public final class GuildListener implements Listener {
         return null;
     }
 
-    private Guild nullGuild = new Guild(null);
+    private final Guild nullGuild = new Guild(null);
 }
