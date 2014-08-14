@@ -39,11 +39,11 @@ import java.util.Random;
  * General utility methods for Rolecraft
  */
 public class Utils {
-    
+
     private static Random rand = new Random();
     private static final float velocityFactor = 0.2f;
     private static final float smallVelocityFactor = 0.05f;
-    
+
     /**
      * Gets the entity targeted by the given player. If there is no entity
      * being targeted by the player within the given range, null is returned
@@ -101,50 +101,54 @@ public class Utils {
         double y = -Math.sin(Math.toRadians(ply.getLocation().getPitch()));
         return new Vector(x, y, z);
     }
-    
+
     /**
-     * Changes float values slightly to create the effect of randomness, 
+     * Changes float values slightly to create the effect of randomness,
      * based on velocityFactor
+     *
      * @param original
      * @return
      */
-    public static float velocityRandomiser (float original) {        
+    public static float velocityRandomiser(float original) {
         float velocity = original - velocityFactor;
-        velocity += (2*velocityFactor)*rand.nextFloat();
+        velocity += (2 * velocityFactor) * rand.nextFloat();
         return velocity;
     }
-    
+
     /**
      * Convenience method for {@link Utils#velocityRandomiser(float)}, applies to
      * X,Y, and Z
+     *
      * @param original
      * @return
      */
     public static Vector velocityRandomiser(Vector original) {
-        return new Vector(velocityRandomiser((float) original.getX()), 
-                velocityRandomiser((float) original.getY()), 
+        return new Vector(velocityRandomiser((float) original.getX()),
+                velocityRandomiser((float) original.getY()),
                 velocityRandomiser((float) original.getZ()));
     }
-    
+
     /**
      * Same as {@link Utils#velocityRandomiser(float)}, except with 1/4 of the effect
+     *
      * @param original
      * @return
      */
     public static float smallVelocityRandomiser(float original) {
         float velocity = original - smallVelocityFactor;
-        velocity += (2*smallVelocityFactor)*rand.nextFloat();
+        velocity += (2 * smallVelocityFactor) * rand.nextFloat();
         return velocity;
     }
-    
+
     /**
      * Same as {@link Utils#velocityRandomiser(Vector)}, except with 1/4 of the effect
+     *
      * @param original
      * @return
      */
     public static Vector smallVelocityRandomiser(Vector original) {
-        return new Vector(smallVelocityRandomiser((float) original.getX()), 
-                smallVelocityRandomiser((float) original.getY()), 
+        return new Vector(smallVelocityRandomiser((float) original.getX()),
+                smallVelocityRandomiser((float) original.getY()),
                 smallVelocityRandomiser((float) original.getZ()));
     }
 }

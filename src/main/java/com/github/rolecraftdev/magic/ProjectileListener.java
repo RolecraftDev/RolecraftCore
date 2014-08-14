@@ -26,6 +26,8 @@
  */
 package com.github.rolecraftdev.magic;
 
+import com.github.rolecraftdev.RolecraftCore;
+
 import org.bukkit.Effect;
 import org.bukkit.Sound;
 import org.bukkit.entity.Arrow;
@@ -35,16 +37,13 @@ import org.bukkit.event.Listener;
 import org.bukkit.event.entity.EntityDamageByEntityEvent;
 import org.bukkit.event.entity.ProjectileHitEvent;
 
-import com.github.rolecraftdev.RolecraftCore;
-
 public class ProjectileListener implements Listener {
-    
-    private RolecraftCore parent;
-    
-    public ProjectileListener(RolecraftCore plugin) {
+    private final RolecraftCore parent;
+
+    ProjectileListener(final RolecraftCore plugin) {
         parent = plugin;
     }
-    
+
     @EventHandler(priority = EventPriority.HIGHEST)
     public void onDamage(EntityDamageByEntityEvent e) {
         if (e.getDamager() instanceof Arrow) {

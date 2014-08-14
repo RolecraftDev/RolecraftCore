@@ -41,14 +41,14 @@ import org.bukkit.entity.Player;
 public class GuildBroadcastCommand extends PlayerCommandHandler {
     private final RolecraftCore plugin;
 
-    public GuildBroadcastCommand(final RolecraftCore plugin) {
+    GuildBroadcastCommand(final RolecraftCore plugin) {
         super("broadcast");
         this.plugin = plugin;
 
         setUsage("/guild broadcast [-r rank] <message>");
         setDescription("Broadcast a message to the guild");
         setPermission("rolecraft.guild.join");
-       // setValidateUsage(false);
+        // setValidateUsage(false);
     }
 
     @Override

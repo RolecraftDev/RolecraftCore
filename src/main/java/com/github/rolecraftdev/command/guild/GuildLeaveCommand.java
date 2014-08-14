@@ -43,7 +43,7 @@ public class GuildLeaveCommand extends PlayerCommandHandler {
     private final GuildManager guildMgr;
     private final DataManager dataMgr;
 
-    public GuildLeaveCommand(final RolecraftCore plugin) {
+    GuildLeaveCommand(final RolecraftCore plugin) {
         super("leave");
         guildMgr = plugin.getGuildManager();
         dataMgr = plugin.getDataManager();

@@ -32,7 +32,6 @@ import com.github.rolecraftdev.magic.SpellManager;
 import com.github.rolecraftdev.util.Utils;
 
 import org.bukkit.ChatColor;
-import org.bukkit.Chunk;
 import org.bukkit.Location;
 import org.bukkit.Material;
 import org.bukkit.World;
@@ -109,22 +108,22 @@ public class DeathRain implements Spell {
             }
         }
         Block index = target;
-        
+
         boolean isTop = true;
-        
+
         loop:
-        for(int i = 0; i < 40; i++) {
-            index  = index.getRelative(BlockFace.UP);
+        for (int i = 0; i < 40; i++) {
+            index = index.getRelative(BlockFace.UP);
             switch (index.getType()) {
-            case AIR:
-                continue;
-            case LEAVES:
-                continue;
-            case DEAD_BUSH:
-                continue;
-            default:
-                isTop = false;
-                break loop;
+                case AIR:
+                    continue;
+                case LEAVES:
+                    continue;
+                case DEAD_BUSH:
+                    continue;
+                default:
+                    isTop = false;
+                    break loop;
             }
         }
 
@@ -177,7 +176,7 @@ public class DeathRain implements Spell {
         meta.addEnchant(Enchantment.LUCK, 10, true);
         String[] lore = {
                 "A virtual airstrike, this wand is capabale of bringing an",
-        "army to their knees with one cast" };
+                "army to their knees with one cast" };
         meta.setLore(Arrays.asList(lore));
         result.setItemMeta(meta);
         ShapedRecipe recipe = new ShapedRecipe(result);

@@ -31,6 +31,7 @@ import com.github.rolecraftdev.data.Region2D;
 import com.github.rolecraftdev.event.guild.GuildPlayerJoinEvent;
 import com.github.rolecraftdev.event.guild.GuildPlayerKickedEvent;
 import com.github.rolecraftdev.event.guild.GuildPlayerLeaveEvent;
+
 import org.bukkit.Bukkit;
 import org.bukkit.Location;
 import org.bukkit.entity.Entity;
@@ -99,14 +100,15 @@ public final class Guild {
      *                     contained by.
      */
     public Guild(final GuildManager guildManager) {
-        if(guildManager == null) {
+        if (guildManager == null) {
             plugin = null;
             members = null;
             ranks = null;
             guildId = null;
-            this.guildManager= null;
+            this.guildManager = null;
             return;
         }
+
         this.guildManager = guildManager;
         plugin = guildManager.getPlugin();
         guildId = UUID.randomUUID();
@@ -476,7 +478,7 @@ public final class Guild {
         final String name = rank.getName().toLowerCase();
         boolean retVal =
                 !(name.equals("leader") || name.equals("default")) && ranks
-                .remove(rank);
+                        .remove(rank);
         plugin.getDataStore().updateGuildRanks(this);
         return retVal;
     }

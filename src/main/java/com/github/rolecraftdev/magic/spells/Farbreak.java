@@ -73,8 +73,8 @@ public class Farbreak implements Spell {
 
     @Override
     public float rightClick(Player ply, Block block, int modifier) {
-        float retVal = 0;
-        Block toBreak = null;
+        float retVal;
+        Block toBreak;
         if (block == null) {
             toBreak = ply.getTargetBlock(null, manager.getRange());
             if (toBreak == null) {
@@ -86,15 +86,15 @@ public class Farbreak implements Spell {
             retVal = 2;
         }
 
-        if (RolecraftCore.isExtraEvents()) {
+        if (manager.getPlugin().isExtraEvents()) {
             BlockBreakEvent event = new BlockBreakEvent(toBreak, ply);
             Bukkit.getServer().getPluginManager().callEvent(event);
             if (event.isCancelled()) {
                 return Float.MIN_VALUE;
             }
         }
-        
-        block.breakNaturally();
+
+        toBreak.breakNaturally();
         return retVal;
     }
 

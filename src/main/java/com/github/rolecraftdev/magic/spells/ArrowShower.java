@@ -103,25 +103,25 @@ public class ArrowShower implements Spell {
             }
         }
         Block index = target;
-        
+
         boolean isTop = true;
-        
+
         loop:
-        for(int i = 0; i < 40; i++) {
-            index  = index.getRelative(BlockFace.UP);
+        for (int i = 0; i < 40; i++) {
+            index = index.getRelative(BlockFace.UP);
             switch (index.getType()) {
-            case AIR:
-                continue;
-            case LEAVES:
-                continue;
-            case DEAD_BUSH:
-                continue;
-            default:
-                isTop = false;
-                break loop;
+                case AIR:
+                    continue;
+                case LEAVES:
+                    continue;
+                case DEAD_BUSH:
+                    continue;
+                default:
+                    isTop = false;
+                    break loop;
             }
         }
-        
+
         if (!isTop) {
             ply.sendMessage("You must aim above ground to rain arrows!");
             return Float.MIN_VALUE;
@@ -139,7 +139,7 @@ public class ArrowShower implements Spell {
             for (int z = -5; z < 5; z++) {
                 Arrow arrow = world
                         .spawn(new Location(world, center.getX() + x
-                                , center.getY(), center.getZ() + z),
+                                        , center.getY(), center.getZ() + z),
                                 Arrow.class);
                 arrow.setVelocity(Utils.velocityRandomiser(velocity));
             }

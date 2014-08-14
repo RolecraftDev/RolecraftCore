@@ -50,7 +50,7 @@ public class GuildMemberCommand extends PlayerCommandHandler {
     private final RolecraftCore plugin;
     private final GuildManager guildMgr;
 
-    public GuildMemberCommand(final RolecraftCore plugin) {
+    GuildMemberCommand(final RolecraftCore plugin) {
         super(plugin, "member");
         this.plugin = plugin;
         guildMgr = plugin.getGuildManager();
@@ -213,7 +213,7 @@ public class GuildMemberCommand extends PlayerCommandHandler {
          */
         private final PlayerData data;
 
-        public KickPlayerTask(final RolecraftCore plugin, final PlayerData data) {
+        KickPlayerTask(final RolecraftCore plugin, final PlayerData data) {
             this.plugin = plugin;
             this.data = data;
         }

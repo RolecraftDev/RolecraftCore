@@ -44,7 +44,8 @@ import org.bukkit.inventory.meta.ItemMeta;
 
 public class MultiArrow implements Spell {
 
-    public MultiArrow(SpellManager spellManager) {}
+    public MultiArrow(SpellManager spellManager) {
+    }
 
     @Override
     public String getName() {
@@ -69,15 +70,16 @@ public class MultiArrow implements Spell {
 
     @Override
     public float rightClick(Player ply, Block block, int modifier) {
-        if(block != null) {
+        if (block != null) {
             return Float.MIN_VALUE;
         }
-        
-        for (int i = 0; i < 4; i ++ ){
+
+        for (int i = 0; i < 4; i++) {
             Arrow arrow = ply.launchProjectile(Arrow.class);
-            arrow.setVelocity(Utils.smallVelocityRandomiser(arrow.getVelocity()));
+            arrow.setVelocity(
+                    Utils.smallVelocityRandomiser(arrow.getVelocity()));
         }
-        
+
         return (50f - modifier / 100f > 0) ? 50f - modifier / 100f : 0;
     }
 

@@ -379,7 +379,7 @@ public final class PlayerData {
      */
     public float getMana() {
         // workaround for testing
-        if(this.name.equals("alright2")) {
+        if (this.name.equals("alright2")) {
             return Float.MAX_VALUE;
         }
         if (loaded) {

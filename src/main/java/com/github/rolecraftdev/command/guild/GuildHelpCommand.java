@@ -38,7 +38,7 @@ import org.bukkit.entity.Player;
 public class GuildHelpCommand extends PlayerCommandHandler {
     private final RolecraftCore plugin;
 
-    public GuildHelpCommand(final RolecraftCore plugin) {
+    GuildHelpCommand(final RolecraftCore plugin) {
         super("help");
         this.plugin = plugin;
 

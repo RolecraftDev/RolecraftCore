@@ -53,12 +53,12 @@ import java.util.Map;
 import java.util.UUID;
 
 public class MagicListener implements Listener {
-    private RolecraftCore plugin;
-    private SpellManager spellManager;
-    private Map<UUID, Scoreboard> scoreboards;
-    private ScoreboardManager scoreboardMgr;
+    private final RolecraftCore plugin;
+    private final SpellManager spellManager;
+    private final Map<UUID, Scoreboard> scoreboards;
+    private final ScoreboardManager scoreboardMgr;
 
-    public MagicListener(RolecraftCore plugin) {
+    MagicListener(final RolecraftCore plugin) {
         this.plugin = plugin;
         spellManager = plugin.getSpellManager();
         scoreboards = new HashMap<UUID, Scoreboard>();
@@ -194,7 +194,9 @@ public class MagicListener implements Listener {
 
     @EventHandler(priority = EventPriority.HIGHEST)
     public void onDamage(EntityDamageByEntityEvent e) {
-        if(e.getCause() == DamageCause.MAGIC) return;
+        if (e.getCause() == DamageCause.MAGIC) {
+            return;
+        }
         if (e.getDamager() instanceof Player) {
             Player player = (Player) e.getDamager();
             if (player.getItemInHand().getType() == Material.STICK) {

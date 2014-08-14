@@ -44,7 +44,7 @@ public class GuildCreateCommand extends PlayerCommandHandler {
     private final RolecraftCore plugin;
     private final GuildManager guildManager;
 
-    public GuildCreateCommand(final RolecraftCore plugin) {
+    GuildCreateCommand(final RolecraftCore plugin) {
         super(plugin, "create");
         this.plugin = plugin;
         guildManager = plugin.getGuildManager();

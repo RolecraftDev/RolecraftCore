@@ -41,7 +41,7 @@ import org.bukkit.metadata.MetadataValue;
 public class GuildJoinCommand extends PlayerCommandHandler {
     private final GuildManager guildMgr;
 
-    public GuildJoinCommand(final RolecraftCore plugin) {
+    GuildJoinCommand(final RolecraftCore plugin) {
         super("join");
         guildMgr = plugin.getGuildManager();
 

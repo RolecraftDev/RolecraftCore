@@ -31,7 +31,7 @@ import pw.ian.albkit.command.Commands;
 import pw.ian.albkit.util.ColorScheme;
 
 import com.github.rolecraftdev.command.guild.GuildCommand;
-import com.github.rolecraftdev.command.other.DebugCommands;
+import com.github.rolecraftdev.command.other.DebugCommand;
 import com.github.rolecraftdev.command.other.GCCommand;
 import com.github.rolecraftdev.command.other.RCConfirmCommand;
 import com.github.rolecraftdev.command.profession.ProfessionCommand;
@@ -41,8 +41,6 @@ import com.github.rolecraftdev.data.storage.MySQLDataStore;
 import com.github.rolecraftdev.data.storage.SQLiteDataStore;
 import com.github.rolecraftdev.guild.Guild;
 import com.github.rolecraftdev.guild.GuildManager;
-import com.github.rolecraftdev.magic.MagicListener;
-import com.github.rolecraftdev.magic.ProjectileListener;
 import com.github.rolecraftdev.magic.SpellManager;
 import com.github.rolecraftdev.profession.Profession;
 import com.github.rolecraftdev.profession.ProfessionManager;
@@ -94,6 +92,10 @@ public final class RolecraftCore extends AlbPlugin {
      */
     private ProfessionManager professionManager;
     /**
+     * Manages Rolecraft {@link com.github.rolecraftdev.magic.Spell}s
+     */
+    private SpellManager spellManager;
+    /**
      * Whether to use economy.
      */
     private boolean useEconomy = false;
@@ -112,14 +114,15 @@ public final class RolecraftCore extends AlbPlugin {
      * The amount of negative karma a player starts with
      */
     private float originalSin;
+    /**
+     * Whether to call extra events
+     */
+    private boolean extraEvents;
 
     /**
      * Whether the SQL has finished loading
      */
     private volatile boolean sqlLoaded;
-    private SpellManager spellManager;
-
-    private static boolean extraEvents;
 
     @Override
     public void onEnable() {
@@ -184,15 +187,13 @@ public final class RolecraftCore extends AlbPlugin {
 
         // Register listeners
         register(new RCListener(this));
-        register(new MagicListener(this));
-        register(new ProjectileListener(this));
 
         // Register commands
         Commands.registerCommand(this, new GuildCommand(this));
         Commands.registerCommand(this, new ProfessionCommand(this));
         Commands.registerCommand(this, new GCCommand(this));
         Commands.registerCommand(this, new RCConfirmCommand(this));
-        Commands.registerCommand(this, new DebugCommands(this));
+        Commands.registerCommand(this, new DebugCommand(this));
     }
 
     @Override
@@ -250,6 +251,26 @@ public final class RolecraftCore extends AlbPlugin {
     }
 
     /**
+     * Gets the Rolecraft {@link QuestManager}, which keeps track of all loaded
+     * quests
+     *
+     * @return The instance of Rolecraft's {@link QuestManager}
+     */
+    public QuestManager getQuestManager() {
+        return questManager;
+    }
+
+    /**
+     * Gets the Rolecraft {@link SpellManager}, which manages Spells and their
+     * casting
+     *
+     * @return The instance of Rolecraft's {@link SpellManager}
+     */
+    public SpellManager getSpellManager() {
+        return spellManager;
+    }
+
+    /**
      * Gets the Vault {@link Economy} object in use.
      *
      * @return The used Vault {@link Economy} object used by Rolecraft
@@ -268,13 +289,21 @@ public final class RolecraftCore extends AlbPlugin {
     }
 
     /**
-     * Gets the Rolecraft {@link QuestManager}, which keeps track of all loaded
-     * quests
+     * Gets the name of the database type being used by Rolecraft
      *
-     * @return The instance of Rolecraft's {@link QuestManager}
+     * @return The name of the database implementation being used
      */
-    public QuestManager getQuestManager() {
-        return questManager;
+    public String getDbType() {
+        return dbType;
+    }
+
+    /**
+     * Gets whether extra events are being called
+     *
+     * @return Whether extra events are being called
+     */
+    public boolean isExtraEvents() {
+        return extraEvents;
     }
 
     /**
@@ -360,13 +389,5 @@ public final class RolecraftCore extends AlbPlugin {
                 }
             }
         }
-    }
-
-    public SpellManager getSpellManager() {
-        return spellManager;
-    }
-
-    public static boolean isExtraEvents() {
-        return extraEvents;
     }
 }

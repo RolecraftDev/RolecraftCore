@@ -1,17 +1,17 @@
 package com.github.rolecraftdev.magic.spells;
 
+import com.github.rolecraftdev.magic.Spell;
+import com.github.rolecraftdev.magic.SpellManager;
+
 import org.bukkit.block.Block;
 import org.bukkit.entity.LivingEntity;
 import org.bukkit.entity.Player;
 import org.bukkit.inventory.Recipe;
 
-import com.github.rolecraftdev.magic.Spell;
-import com.github.rolecraftdev.magic.SpellManager;
-
 public class DestroyBlock implements Spell {
-    
+
     private SpellManager manager;
-    
+
     public DestroyBlock(SpellManager parent) {
         manager = parent;
     }

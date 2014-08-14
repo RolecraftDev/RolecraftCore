@@ -58,7 +58,7 @@ public final class RCListener implements Listener {
      */
     private final DataManager dataMgr;
 
-    public RCListener(final RolecraftCore plugin) {
+    RCListener(final RolecraftCore plugin) {
         this.plugin = plugin;
         dataMgr = plugin.getDataManager();
     }

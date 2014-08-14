@@ -42,15 +42,12 @@ import org.bukkit.inventory.ItemStack;
 import org.bukkit.inventory.Recipe;
 import org.bukkit.inventory.ShapedRecipe;
 import org.bukkit.inventory.meta.ItemMeta;
-import java.util.Collection;
-
 
 // TODO: figure out why you can't pick these blocks up....
 public class FarbreakSilkTouch implements Spell {
+    private final SpellManager manager;
 
-    private SpellManager manager;
-
-    public FarbreakSilkTouch(SpellManager spellManager) {
+    public FarbreakSilkTouch(final SpellManager spellManager) {
         manager = spellManager;
     }
 
@@ -86,8 +83,8 @@ public class FarbreakSilkTouch implements Spell {
     @SuppressWarnings("deprecation")
     @Override
     public float rightClick(Player ply, Block block, int modifier) {
-        float retVal = 0;
-        Block toBreak = null;
+        float retVal;
+        Block toBreak;
         if (block == null) {
             toBreak = ply.getTargetBlock(null, manager.getRange());
             if (toBreak == null) {
@@ -99,19 +96,19 @@ public class FarbreakSilkTouch implements Spell {
             retVal = 5;
         }
 
-        if (RolecraftCore.isExtraEvents()) {
+        if (manager.getPlugin().isExtraEvents()) {
             BlockBreakEvent event = new BlockBreakEvent(toBreak, ply);
             Bukkit.getServer().getPluginManager().callEvent(event);
             if (event.isCancelled()) {
                 return Float.MIN_VALUE;
             }
         }
-        
-        ItemStack i = new ItemStack(toBreak.getType(),0,(short)1,toBreak.getData());
+
+        ItemStack i = new ItemStack(toBreak.getType(), 0, (short) 1,
+                toBreak.getData());
 
         toBreak.setType(Material.AIR);
         toBreak.getWorld().dropItemNaturally(toBreak.getLocation(), i);
-        
 
         return retVal;
     }
@@ -119,8 +116,8 @@ public class FarbreakSilkTouch implements Spell {
     @SuppressWarnings("deprecation")
     @Override
     public float leftClick(Player ply, Block block, int modifier) {
-        float retVal = 0;
-        Block toBreak = null;
+        float retVal;
+        Block toBreak;
         if (block == null) {
             toBreak = ply.getTargetBlock(null, manager.getRange());
             if (toBreak == null) {
@@ -132,21 +129,20 @@ public class FarbreakSilkTouch implements Spell {
             retVal = 5;
         }
 
-        if (RolecraftCore.isExtraEvents()) {
+        if (manager.getPlugin().isExtraEvents()) {
             BlockBreakEvent event = new BlockBreakEvent(toBreak, ply);
             Bukkit.getServer().getPluginManager().callEvent(event);
             if (event.isCancelled()) {
                 return Float.MIN_VALUE;
             }
         }
-        toBreak.getState().getData();
-        ItemStack i = new ItemStack(toBreak.getType(),0,(short)1,toBreak.getData());
 
-        toBreak.setType(Material.AIR);
-        
-        toBreak.getWorld().dropItemNaturally(toBreak.getLocation(), i);
-        
+//        ItemStack i = new ItemStack(toBreak.getType(), 0, (short) 1,
+//                toBreak.getData());
+//        toBreak.setType(Material.AIR);
+//        toBreak.getWorld().dropItemNaturally(toBreak.getLocation(), i);
 
+        toBreak.breakNaturally();
         return retVal;
     }
 

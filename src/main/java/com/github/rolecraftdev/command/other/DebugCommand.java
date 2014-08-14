@@ -26,32 +26,33 @@
  */
 package com.github.rolecraftdev.command.other;
 
-import org.bukkit.entity.Player;
+import pw.ian.albkit.command.PlayerCommandHandler;
+import pw.ian.albkit.command.parser.Arguments;
 
 import com.github.rolecraftdev.RolecraftCore;
 import com.github.rolecraftdev.magic.Spell;
 
-import pw.ian.albkit.command.PlayerCommandHandler;
-import pw.ian.albkit.command.parser.Arguments;
+import org.bukkit.entity.Player;
 
-public class DebugCommands extends PlayerCommandHandler {
+public class DebugCommand extends PlayerCommandHandler {
     RolecraftCore parent;
 
-    public DebugCommands(RolecraftCore plugin) {
+    public DebugCommand(RolecraftCore plugin) {
         super(plugin, "debug");
         setUsage("/debug wand");
         parent = plugin;
     }
-    
+
     @Override
     public void onCommand(final Player player, final Arguments args) {
-        if(args.length() ==0) {
+        if (args.length() == 0) {
             return;
         }
-        if(args.getArgument(0).rawString().equalsIgnoreCase("wand")) {
+        if (args.getArgument(0).rawString().equalsIgnoreCase("wand")) {
             for (Spell spell : parent.getSpellManager().getSpells()) {
-                if(spell.getWandRecipe() != null) {
-                    player.getInventory().addItem(spell.getWandRecipe().getResult());
+                if (spell.getWandRecipe() != null) {
+                    player.getInventory()
+                            .addItem(spell.getWandRecipe().getResult());
                 }
             }
             player.updateInventory();

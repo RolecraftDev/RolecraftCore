@@ -49,7 +49,7 @@ public class GuildRankCommand extends PlayerCommandHandler {
     private final RolecraftCore plugin;
     private final GuildManager guildManager;
 
-    public GuildRankCommand(final RolecraftCore plugin) {
+    GuildRankCommand(final RolecraftCore plugin) {
         super(plugin, "rank");
         this.plugin = plugin;
         guildManager = plugin.getGuildManager();

@@ -290,11 +290,22 @@ public final class GuildListener implements Listener {
                         event.isCancelled(), GuildAction.CHANGE_BLOCK));
     }
 
+    /**
+     * Checks whether an event at the given location by the given location for
+     * the given action should be cancelled, returning the value of def if we
+     * have no preference
+     *
+     * @param loc    The {@link Location} at which the event is occurring
+     * @param player The {@link UUID} of the player causing the event
+     * @param def    The value to return if we have no preference
+     * @param action The {@link GuildAction} which is taking place
+     * @return
+     */
     private boolean cancel(final Location loc, final UUID player,
             final boolean def, final GuildAction action) {
         final Guild guild;
         guild = getGuildFromHall(loc);
-        if(guild == nullGuild) {
+        if (guild == nullGuild) {
             return true;
         }
         if (guild != null) {
@@ -305,18 +316,15 @@ public final class GuildListener implements Listener {
     }
 
     /**
-     * 
-     * Do not change this method, no more exceptions.
-     * @param loc
+     * Gets the {@link Guild} Hall at the given location, returning null if
+     * there isn't one or nullGuild if SQL hasn't loaded
+     *
+     * @param loc The {@link Location} to get the guild hall at
      * @return null if no guild is found, nullGuild if SQL isn't loaded
      */
     private Guild getGuildFromHall(final Location loc) {
         final Set<Guild> guilds = guildManager.getGuilds();
         if (guilds == null) {
-            
-            // no absolutely not, never again. Freezes the server completely.
-            // unique returns, always.
-            // throw new IllegalStateException("SQL not yet loaded");
             return nullGuild;
         }
         for (final Guild guild : guilds) {
@@ -328,6 +336,6 @@ public final class GuildListener implements Listener {
         }
         return null;
     }
-    
+
     private Guild nullGuild = new Guild(null);
 }

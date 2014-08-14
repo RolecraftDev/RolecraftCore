@@ -40,7 +40,7 @@ import org.bukkit.metadata.MetadataValue;
 public class GuildRejectCommand extends PlayerCommandHandler {
     private final RolecraftCore plugin;
 
-    public GuildRejectCommand(final RolecraftCore plugin) {
+    GuildRejectCommand(final RolecraftCore plugin) {
         super("reject");
         this.plugin = plugin;
 

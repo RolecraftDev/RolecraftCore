@@ -76,7 +76,7 @@ public class BurnBlock implements Spell {
     public float rightClick(Player ply, Block block, int modifier) {
         Block toIgnite = ply.getLastTwoTargetBlocks(null, parent.getRange())
                 .get(1);
-        if(toIgnite == null) {
+        if (toIgnite == null) {
             return Float.MIN_VALUE;
         }
         BlockState state = block.getState();

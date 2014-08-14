@@ -42,8 +42,6 @@ import org.bukkit.inventory.Recipe;
 import org.bukkit.inventory.ShapedRecipe;
 import org.bukkit.inventory.meta.ItemMeta;
 
-import java.util.Collection;
-
 public class SilkTouch implements Spell {
     private ItemStack simulate;
 
@@ -85,12 +83,12 @@ public class SilkTouch implements Spell {
             return Float.MIN_VALUE;
         }
 
-        ItemStack i = new ItemStack(block.getType(),0,(short)1,block.getData());
+        ItemStack i = new ItemStack(block.getType(), 0, (short) 1,
+                block.getData());
 
         block.setType(Material.AIR);
-        
+
         block.getWorld().dropItemNaturally(block.getLocation(), i);
-        
 
         return 10;
     }
@@ -107,10 +105,11 @@ public class SilkTouch implements Spell {
             return Float.MIN_VALUE;
         }
 
-        ItemStack i = new ItemStack(block.getType(),0,(short)1,block.getData());
+        ItemStack i = new ItemStack(block.getType(), 0, (short) 1,
+                block.getData());
 
         block.setType(Material.AIR);
-        
+
         block.getWorld().dropItemNaturally(block.getLocation(), i);
         return 10;
     }

@@ -42,7 +42,7 @@ import java.util.UUID;
 public class GuildHomeCommand extends PlayerCommandHandler {
     private final GuildManager guildManager;
 
-    public GuildHomeCommand(final RolecraftCore plugin) {
+    GuildHomeCommand(final RolecraftCore plugin) {
         super(plugin, "home");
         guildManager = plugin.getGuildManager();
 
@@ -56,8 +56,9 @@ public class GuildHomeCommand extends PlayerCommandHandler {
         final UUID id = player.getUniqueId();
         final Guild guild = guildManager.getPlayerGuild(id);
         if (args.length() > 0 && args.getRaw(0).equalsIgnoreCase("set")) {
-            if (!player.hasPermission("rolecraft.guild.sethome") || !guild.can(id,
-                    GuildAction.SET_HOME)) {
+            if (!player.hasPermission("rolecraft.guild.sethome") || !guild
+                    .can(id,
+                            GuildAction.SET_HOME)) {
                 player.sendMessage(ChatColor.DARK_RED
                         + "You don't have permission to do that!");
                 return;

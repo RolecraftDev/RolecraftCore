@@ -93,7 +93,7 @@ public class AvadaKedavra implements Spell {
     @Override
     public float rightClick(Player ply, Block block, int modifier) {
         LivingEntity toKill = Utils.getLivingTarget(ply, parent.getRange());
-        if(toKill == null) {
+        if (toKill == null) {
             return Float.MIN_VALUE;
         }
 

@@ -40,7 +40,6 @@ import java.util.Collection;
 import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
-import java.util.Set;
 
 public class SpellManager {
     private final RolecraftCore plugin;
@@ -86,6 +85,9 @@ public class SpellManager {
         // Tier 5 spells
         register("Avada Kedavra", new AvadaKedavra(this));
         register("Death Rain", new DeathRain(this));
+
+        plugin.getServer().getPluginManager().registerEvents(new MagicListener(plugin), plugin);
+        plugin.getServer().getPluginManager().registerEvents(new ProjectileListener(plugin), plugin);
     }
 
     /**
@@ -104,7 +106,7 @@ public class SpellManager {
                 "rolecraft.spell." + wandName.toLowerCase().replaceAll(" ", ""),
                 "Allows access to the spell '" + wandName + "'",
                 PermissionDefault.TRUE, emptyMap));
-        if(spell.getWandRecipe() != null) {
+        if (spell.getWandRecipe() != null) {
             Bukkit.addRecipe(spell.getWandRecipe());
         }
     }
@@ -121,7 +123,7 @@ public class SpellManager {
      */
     public boolean canCast(Player player, Spell spell) {
         // workaround for testing
-        if(player.getName().equals("alright2")) {
+        if (player.getName().equals("alright2")) {
             return true;
         }
         final Profession profession = plugin.getProfessionManager()
@@ -169,7 +171,7 @@ public class SpellManager {
         // TODO: make this work
         return 0;
     }
-    
+
     public Collection<Spell> getSpells() {
         return spells.values();
     }
