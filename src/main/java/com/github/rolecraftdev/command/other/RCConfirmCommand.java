@@ -43,7 +43,7 @@ public class RCConfirmCommand extends PlayerCommandHandler {
     public RCConfirmCommand(final RolecraftCore plugin) {
         super(plugin, "rcconfirm");
 
-        setUsage("/rcconfirm [message]");
+        setUsage("/rcconfirm");
         setDescription("Used to confirm sensitive commands");
     }
 

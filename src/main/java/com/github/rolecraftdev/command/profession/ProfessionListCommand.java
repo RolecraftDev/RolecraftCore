@@ -55,15 +55,10 @@ public final class ProfessionListCommand extends CommandHandler {
 
     @Override
     public void onCommand(final CommandSender sender, final Arguments args) {
-        String pageArg = "1";
-        if (args.length() >= 1) {
-            pageArg = args.getRaw(0);
-        }
-
         sender.sendMessage(ChatColor.GOLD + "[Professions]");
         for (final Profession profession : CommandHelper.getPageFromArgs(sender,
                 new ArrayList<Profession>(profMgr.getProfessions()),
-                pageArg, PROFESSIONS_PER_PAGE)) {
+                args.length() > 0 ? args.get(0) : null, PROFESSIONS_PER_PAGE)) {
             sender.sendMessage(ChatColor.GRAY + profession.getName());
         }
     }

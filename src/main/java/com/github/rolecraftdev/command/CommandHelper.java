@@ -29,6 +29,7 @@ package com.github.rolecraftdev.command;
 import org.apache.commons.lang.StringUtils;
 import pw.ian.albkit.command.CommandHandler;
 import pw.ian.albkit.command.parser.Arguments;
+import pw.ian.albkit.command.parser.ChatSection;
 
 import com.github.rolecraftdev.guild.Guild;
 import com.github.rolecraftdev.guild.GuildAction;
@@ -55,7 +56,8 @@ public final class CommandHelper {
 
     /**
      * Joins all of the arguments in the given {@link Arguments} object starting
-     * from the given start index
+     * from the given start index. Arguments are joined by a single whitespace
+     * character.
      *
      * @param start The index to start joining arguments from
      * @param args  The {@link Arguments} to join into one string
@@ -127,18 +129,18 @@ public final class CommandHelper {
      * @return The page
      */
     public static <T> List<T> getPageFromArgs(final CommandSender sender,
-            final List<T> list, final String pageArg,
+            final List<T> list, final ChatSection pageArg,
             final int elementsPerPage) {
         final int amount = list.size();
         final int pages = (int) Math.ceil(amount / elementsPerPage);
 
         int page = 1;
         if (pageArg != null) {
-            try {
-                page = Integer.parseInt(pageArg);
-            } catch (NumberFormatException e) {
-                sender.sendMessage(
-                        ChatColor.DARK_RED + "Invalid page number specified!");
+            if (pageArg.isInt()) {
+                page = pageArg.asInt();
+            } else {
+                sender.sendMessage(ChatColor.DARK_RED +
+                        "Invalid page argument!");
                 return null;
             }
 
@@ -187,23 +189,21 @@ public final class CommandHelper {
      * @param sender     - The {@link CommandSender} to send the help messages to
      * @param commands   - A {@link List} of sub-commands, used for sending
      *                   help to the {@link CommandSender}
-     * @param args       - The arguments provided by the user to request for help. For
-     *                   example, if the user would've typed /command help 1, the
-     *                   arguments would be { "help", "1" }
-     * @param startIndex - The first index in {@code args} which can be
-     *                   used as a page number for this method. For example, in
-     *                   the array { "help", "1" }, this would be 1, as "help" is an
-     *                   argument which was parsed by the {@link CommandExecutor}
+     * @param pageArg    - The {@link ChatSection} argument which should be
+     *                   used to extract a page number from
      */
     public static void displayCommandList(final CommandSender sender,
-            final List<CommandHandler> commands, final String[] args,
-            final int startIndex) {
-        sender.sendMessage(ChatColor.GOLD + "[Commands]");
-        for (final CommandHandler sub : getPageFromArgs(sender, commands,
-                args[startIndex], COMMANDS_PER_PAGE)) {
-            if (sender.hasPermission(sub.getPermission())) {
-                sender.sendMessage(ChatColor.GOLD + sub.getUsage() + " - "
-                        + sub.getDescription());
+            final List<CommandHandler> commands, final ChatSection pageArg) {
+        final List<CommandHandler> list = getPageFromArgs(sender, commands,
+                pageArg, COMMANDS_PER_PAGE);
+
+        if (list != null) {
+            sender.sendMessage(ChatColor.GOLD + "[Commands]");
+            for (final CommandHandler sub : list) {
+                if (sender.hasPermission(sub.getPermission())) {
+                    sender.sendMessage(ChatColor.GOLD + sub.getUsage() + " - "
+                            + sub.getDescription());
+                }
             }
         }
     }

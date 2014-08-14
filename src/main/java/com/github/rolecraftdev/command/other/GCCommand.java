@@ -48,6 +48,7 @@ public class GCCommand extends PlayerCommandHandler {
         setUsage("/gc [message]");
         setDescription("Allows communicating in Guild chat");
         setPermission("rolecraft.guild.chat");
+        setValidateUsage(false);
     }
 
     @Override
