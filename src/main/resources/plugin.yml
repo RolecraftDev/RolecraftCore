@@ -18,6 +18,8 @@ commands:
     rcconfirm:
         description: Used for confirmation of sensitive actions
         aliases: [rconfirm]
+    debug:
+        description: Commands used in the debugging of code, not included in release builds
 
 permissions:
     rolecraft.guild.show:

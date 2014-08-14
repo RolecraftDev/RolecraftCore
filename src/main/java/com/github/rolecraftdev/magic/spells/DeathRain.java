@@ -29,12 +29,15 @@ package com.github.rolecraftdev.magic.spells;
 
 import com.github.rolecraftdev.magic.Spell;
 import com.github.rolecraftdev.magic.SpellManager;
+import com.github.rolecraftdev.util.Utils;
 
 import org.bukkit.ChatColor;
+import org.bukkit.Chunk;
 import org.bukkit.Location;
 import org.bukkit.Material;
 import org.bukkit.World;
 import org.bukkit.block.Block;
+import org.bukkit.block.BlockFace;
 import org.bukkit.enchantments.Enchantment;
 import org.bukkit.entity.Arrow;
 import org.bukkit.entity.LivingEntity;
@@ -59,6 +62,7 @@ public class DeathRain implements Spell {
 
     static {
         transparency = new HashSet<Byte>();
+        transparency.add((byte) Material.AIR.getId());
         transparency.add((byte) Material.GLASS.getId());
         transparency.add((byte) Material.STATIONARY_WATER.getId());
         transparency.add((byte) Material.WATER.getId());
@@ -104,9 +108,27 @@ public class DeathRain implements Spell {
                 return Float.MIN_VALUE;
             }
         }
+        Block index = target;
+        
+        boolean isTop = true;
+        
+        loop:
+        for(int i = 0; i < 40; i++) {
+            index  = index.getRelative(BlockFace.UP);
+            switch (index.getType()) {
+            case AIR:
+                continue;
+            case LEAVES:
+                continue;
+            case DEAD_BUSH:
+                continue;
+            default:
+                isTop = false;
+                break loop;
+            }
+        }
 
-        if (target.getWorld().getHighestBlockAt(target.getLocation())
-                != target) {
+        if (!isTop) {
             ply.sendMessage("You must aim above ground to rain arrows!");
             return Float.MIN_VALUE;
         }
@@ -125,11 +147,11 @@ public class DeathRain implements Spell {
                                 center.getZ() + z), Arrow.class);
                 arrow.setMetadata("Multiplier",
                         new FixedMetadataValue(manager.getPlugin(),
-                                new Float(4)));
+                                new Float(6)));
                 arrow.setMetadata("Explosion",
                         new FixedMetadataValue(manager.getPlugin(),
                                 new Boolean(true)));
-                arrow.setVelocity(velocity);
+                arrow.setVelocity(Utils.velocityRandomiser(velocity));
             }
         }
 
@@ -138,13 +160,11 @@ public class DeathRain implements Spell {
 
     @Override
     public float leftClick(Player ply, Block block, int modifier) {
-        // TODO Auto-generated method stub
         return 0;
     }
 
     @Override
     public float attack(Player ply, LivingEntity ent, int modifier) {
-        // TODO Auto-generated method stub
         return 0;
     }
 

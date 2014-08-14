@@ -80,11 +80,11 @@ public class HandCannon implements Spell {
         }
 
         Arrow arrow = ply.launchProjectile(Arrow.class);
-        arrow.setVelocity(arrow.getVelocity().multiply(4d));
+        arrow.setVelocity(arrow.getVelocity().multiply(4));
         arrow.setMetadata("Multiplier",
-                new FixedMetadataValue(manager.getPlugin(), new Float(4)));
+                new FixedMetadataValue(manager.getPlugin(), new Float(6)));
         arrow.setMetadata("Knockback",
-                new FixedMetadataValue(manager.getPlugin(), new Float(0.2)));
+                new FixedMetadataValue(manager.getPlugin(), new Float(1.0)));
         // Make a loud bang when used
         ply.getWorld().playSound(ply.getLocation(), Sound.EXPLODE, 0.8f, 1.0f);
 

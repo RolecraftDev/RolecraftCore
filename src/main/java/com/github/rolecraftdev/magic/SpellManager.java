@@ -36,9 +36,11 @@ import org.bukkit.entity.Player;
 import org.bukkit.permissions.Permission;
 import org.bukkit.permissions.PermissionDefault;
 
+import java.util.Collection;
 import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
+import java.util.Set;
 
 public class SpellManager {
     private final RolecraftCore plugin;
@@ -55,19 +57,20 @@ public class SpellManager {
         // Tier 1 spells
         register("Freeze Block", new FreezeBlock(this));
         register("Burn Block", new BurnBlock(this));
+        register("Destroy Block", new DestroyBlock(this));
         register("Lesser Sword", new LesserSword(this));
         register("Weak Bow", new WeakBow(this));
 
         // Tier 2 spells
         register("Freeze Ray", new FreezeRay(this));
         register("Fire Beam", new FireBeam(this));
-        register("Farbreak", new Farbreak(this));
-        register("Stronger Bow", new StrongerBow(this));
-        register("Stronger Sword", new StrongerSword(this));
+        register("Strong Bow", new StrongerBow(this));
+        register("Strong Sword", new StrongerSword(this));
         register("Break Block", new BreakBlock(this));
 
         // Tier 3 spells
         register("Silk Touch", new SilkTouch(this));
+        register("Farbreak", new Farbreak(this));
         register("Excellent Bow", new ExcellentBow(this));
         register("Multi-Arrow", new MultiArrow(this));
         register("Arrow Shower", new ArrowShower(this));
@@ -82,6 +85,7 @@ public class SpellManager {
 
         // Tier 5 spells
         register("Avada Kedavra", new AvadaKedavra(this));
+        register("Death Rain", new DeathRain(this));
     }
 
     /**
@@ -164,6 +168,10 @@ public class SpellManager {
     public int getMagicModfier(Player ply) {
         // TODO: make this work
         return 0;
+    }
+    
+    public Collection<Spell> getSpells() {
+        return spells.values();
     }
 
     public int getRange() {

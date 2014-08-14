@@ -98,7 +98,7 @@ public class BreakBlock implements Spell {
 
     @Override
     public float attack(Player ply, LivingEntity ent, int modifier) {
-        return 0;
+        return Float.MIN_VALUE;
     }
 
     @Override

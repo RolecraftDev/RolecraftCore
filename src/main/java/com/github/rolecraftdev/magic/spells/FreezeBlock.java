@@ -26,6 +26,8 @@
  */
 package com.github.rolecraftdev.magic.spells;
 
+import java.util.HashSet;
+
 import com.github.rolecraftdev.magic.Spell;
 import com.github.rolecraftdev.magic.SpellManager;
 
@@ -44,8 +46,23 @@ import org.bukkit.inventory.Recipe;
 import org.bukkit.inventory.ShapedRecipe;
 import org.bukkit.inventory.meta.ItemMeta;
 
+@SuppressWarnings("deprecation")
 public class FreezeBlock implements Spell {
+    
+    private static HashSet<Byte> transparency;
+
+    private SpellManager manager;
+
+    static {
+        // declare it so water isn't transparent
+        
+        transparency = new HashSet<Byte>();
+        transparency.add((byte) Material.AIR.getId());
+        transparency.add((byte) Material.GLASS.getId());
+    }
+    
     public FreezeBlock(SpellManager spellManager) {
+        manager = spellManager;
     }
 
     @Override
@@ -60,6 +77,10 @@ public class FreezeBlock implements Spell {
 
     @Override
     public float estimateRightClickMana(Player ply, Block block, int modifier) {
+        Block targetBlock =ply.getTargetBlock(transparency, 5);
+        if(targetBlock.getType() == Material.STATIONARY_LAVA) {
+            return 50;
+        }
         return 5;
     }
 
@@ -79,17 +100,40 @@ public class FreezeBlock implements Spell {
                 }
             }
         }
+        else {
+            Block targetBlock =ply.getTargetBlock(transparency, 5);
+            if(targetBlock != null){
+                switch (targetBlock.getType()) {
+                case STATIONARY_WATER:
+                    targetBlock.setType(Material.ICE);
+                    return 5;
+                case WATER:
+                    targetBlock.setType(Material.ICE);
+                    return 5;
+                case STATIONARY_LAVA:
+                    targetBlock.setType(Material.OBSIDIAN);
+                    return 50;
+                case LAVA:
+                    targetBlock.setType(Material.COBBLESTONE);
+                    return 5;
+
+                default:
+                    break;
+                }
+            }
+            return Float.MIN_VALUE;
+        }
         return 5;
     }
 
     @Override
     public float leftClick(Player ply, Block block, int modifier) {
-        return 0;
+        return Float.MIN_VALUE;
     }
 
     @Override
     public float attack(Player ply, LivingEntity ent, int modifier) {
-        return 0;
+        return Float.MIN_VALUE;
     }
 
     @Override

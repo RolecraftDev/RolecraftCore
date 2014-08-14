@@ -28,17 +28,23 @@ package com.github.rolecraftdev.magic.spells;
 
 import com.github.rolecraftdev.magic.Spell;
 import com.github.rolecraftdev.magic.SpellManager;
+import com.github.rolecraftdev.util.Utils;
 
+import org.bukkit.ChatColor;
+import org.bukkit.Material;
 import org.bukkit.block.Block;
+import org.bukkit.enchantments.Enchantment;
+import org.bukkit.entity.Arrow;
 import org.bukkit.entity.LivingEntity;
 import org.bukkit.entity.Player;
+import org.bukkit.inventory.ItemStack;
 import org.bukkit.inventory.Recipe;
+import org.bukkit.inventory.ShapedRecipe;
+import org.bukkit.inventory.meta.ItemMeta;
 
 public class MultiArrow implements Spell {
 
-    public MultiArrow(SpellManager spellManager) {
-        // TODO Auto-generated constructor stub
-    }
+    public MultiArrow(SpellManager spellManager) {}
 
     @Override
     public String getName() {
@@ -48,44 +54,57 @@ public class MultiArrow implements Spell {
     @Override
     public float estimateAttackMana(Player ply, LivingEntity entity,
             int modifier) {
-        // TODO Auto-generated method stub
         return 0;
     }
 
     @Override
     public float estimateLeftClickMana(Player ply, Block block, int modifier) {
-        // TODO Auto-generated method stub
         return 0;
     }
 
     @Override
     public float estimateRightClickMana(Player ply, Block block, int modifier) {
-        // TODO Auto-generated method stub
-        return 0;
+        return (50f - modifier / 100f > 0) ? 50f - modifier / 100f : 0;
     }
 
     @Override
     public float rightClick(Player ply, Block block, int modifier) {
-        // TODO Auto-generated method stub
-        return 0;
+        if(block != null) {
+            return Float.MIN_VALUE;
+        }
+        
+        for (int i = 0; i < 4; i ++ ){
+            Arrow arrow = ply.launchProjectile(Arrow.class);
+            arrow.setVelocity(Utils.smallVelocityRandomiser(arrow.getVelocity()));
+        }
+        
+        return (50f - modifier / 100f > 0) ? 50f - modifier / 100f : 0;
     }
 
     @Override
     public float leftClick(Player ply, Block block, int modifier) {
-        // TODO Auto-generated method stub
-        return 0;
+        return Float.MIN_VALUE;
     }
 
     @Override
     public float attack(Player ply, LivingEntity ent, int modifier) {
-        // TODO Auto-generated method stub
-        return 0;
+        return Float.MIN_VALUE;
     }
 
     @Override
     public Recipe getWandRecipe() {
-        // TODO Auto-generated method stub
-        return null;
+        ItemStack result = new ItemStack(Material.STICK);
+        ItemMeta meta = result.getItemMeta();
+        meta.setDisplayName(ChatColor.AQUA + getName());
+        meta.addEnchant(Enchantment.LUCK, 10, true);
+        result.setItemMeta(meta);
+        ShapedRecipe recipe = new ShapedRecipe(result);
+        // custom recipe stuff
+        recipe.shape("AAC", "ACB", "CBB");
+        recipe.setIngredient('A', Material.ARROW);
+        recipe.setIngredient('C', Material.EMERALD);
+        recipe.setIngredient('B', Material.BOW);
+        return recipe;
     }
 
 }

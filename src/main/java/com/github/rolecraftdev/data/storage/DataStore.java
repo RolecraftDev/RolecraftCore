@@ -447,7 +447,7 @@ public abstract class DataStore {
                     ps = connection
                             .prepareStatement("UPDATE "
                                     + pt
-                                    + " SET name = ?, guild = ?, exp = ?, profession = ?, influence = ? WHERE uuid = ?");
+                                    + " SET lastname = ?, guild = ?, exp = ?, profession = ?, influence = ? WHERE uuid = ?");
                     ps.setString(1, commit.getPlayerName());
                     ps.setString(2, commit.getGuild().toString());
                     ps.setFloat(3, commit.getExperience());
@@ -478,7 +478,7 @@ public abstract class DataStore {
             ps = connection
                     .prepareStatement("UPDATE "
                             + pt
-                            + " SET name = ?, guild = ?, exp = ?, profession = ?, influence = ?, karma = ? WHERE uuid = ?");
+                            + " SET lastname = ?, guild = ?, exp = ?, profession = ?, influence = ?, karma = ? WHERE uuid = ?");
             ps.setString(1, commit.getPlayerName());
             ps.setString(2, commit.getGuild().toString());
             ps.setFloat(3, commit.getExperience());
@@ -536,7 +536,7 @@ public abstract class DataStore {
                     } else {
                         ps.close();
                         ps = connection.prepareStatement("INSERT INTO " + pt
-                                + " (uuid, name) VALUES (?,?)");
+                                + " (uuid, lastname) VALUES (?,?)");
                         ps.setString(1, uuid);
                         ps.setString(2, name);
                         ps.execute();
@@ -589,7 +589,7 @@ public abstract class DataStore {
                                 ps.close();
                                 ps = connection
                                         .prepareStatement("INSERT INTO " + pt
-                                                + " (uuid, name) VALUES (?,?)");
+                                                + " (uuid, lastname) VALUES (?,?)");
                                 ps.setString(1, uuid);
                                 ps.setString(2, name);
                                 ps.execute();

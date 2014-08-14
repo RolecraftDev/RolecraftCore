@@ -28,12 +28,14 @@ package com.github.rolecraftdev.magic.spells;
 
 import com.github.rolecraftdev.magic.Spell;
 import com.github.rolecraftdev.magic.SpellManager;
+import com.github.rolecraftdev.util.Utils;
 
 import org.bukkit.ChatColor;
 import org.bukkit.Location;
 import org.bukkit.Material;
 import org.bukkit.World;
 import org.bukkit.block.Block;
+import org.bukkit.block.BlockFace;
 import org.bukkit.enchantments.Enchantment;
 import org.bukkit.entity.Arrow;
 import org.bukkit.entity.LivingEntity;
@@ -55,6 +57,7 @@ public class ArrowShower implements Spell {
 
     static {
         transparency = new HashSet<Byte>();
+        transparency.add((byte) Material.AIR.getId());
         transparency.add((byte) Material.GLASS.getId());
         transparency.add((byte) Material.STATIONARY_WATER.getId());
         transparency.add((byte) Material.WATER.getId());
@@ -99,9 +102,27 @@ public class ArrowShower implements Spell {
                 return Float.MIN_VALUE;
             }
         }
-
-        if (target.getWorld().getHighestBlockAt(target.getLocation())
-                != target) {
+        Block index = target;
+        
+        boolean isTop = true;
+        
+        loop:
+        for(int i = 0; i < 40; i++) {
+            index  = index.getRelative(BlockFace.UP);
+            switch (index.getType()) {
+            case AIR:
+                continue;
+            case LEAVES:
+                continue;
+            case DEAD_BUSH:
+                continue;
+            default:
+                isTop = false;
+                break loop;
+            }
+        }
+        
+        if (!isTop) {
             ply.sendMessage("You must aim above ground to rain arrows!");
             return Float.MIN_VALUE;
         }
@@ -120,7 +141,7 @@ public class ArrowShower implements Spell {
                         .spawn(new Location(world, center.getX() + x
                                 , center.getY(), center.getZ() + z),
                                 Arrow.class);
-                arrow.setVelocity(velocity);
+                arrow.setVelocity(Utils.velocityRandomiser(velocity));
             }
         }
 

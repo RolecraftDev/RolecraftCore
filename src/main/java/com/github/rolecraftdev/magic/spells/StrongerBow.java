@@ -40,7 +40,6 @@ import org.bukkit.inventory.ItemStack;
 import org.bukkit.inventory.Recipe;
 import org.bukkit.inventory.ShapedRecipe;
 import org.bukkit.inventory.meta.ItemMeta;
-import org.bukkit.metadata.FixedMetadataValue;
 
 public class StrongerBow implements Spell {
 
@@ -78,9 +77,9 @@ public class StrongerBow implements Spell {
         }
 
         Arrow arrow = ply.launchProjectile(Arrow.class);
-        arrow.setVelocity(arrow.getVelocity().multiply(2d));
-        arrow.setMetadata("Multiplier", new FixedMetadataValue(
-                manager.getPlugin(), new Float(2f)));
+        //arrow.setVelocity(arrow.getVelocity().multiply(2d));
+        //arrow.setMetadata("Multiplier", new FixedMetadataValue(
+        //        manager.getPlugin(), new Float(2f)));
 
         return (50f - modifier / 100f > 0) ? 50f - modifier / 100f : 0;
     }

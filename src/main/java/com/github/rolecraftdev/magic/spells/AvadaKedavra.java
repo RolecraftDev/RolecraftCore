@@ -93,6 +93,9 @@ public class AvadaKedavra implements Spell {
     @Override
     public float rightClick(Player ply, Block block, int modifier) {
         LivingEntity toKill = Utils.getLivingTarget(ply, parent.getRange());
+        if(toKill == null) {
+            return Float.MIN_VALUE;
+        }
 
         EntityDamageByEntityEvent edbee = new EntityDamageByEntityEvent(ply,
                 toKill,
@@ -113,7 +116,7 @@ public class AvadaKedavra implements Spell {
 
     @Override
     public float leftClick(Player ply, Block block, int modifier) {
-        return 0;
+        return Float.MIN_VALUE;
     }
 
     @Override
@@ -134,7 +137,7 @@ public class AvadaKedavra implements Spell {
             }
         }
 
-        return 0;
+        return Float.MIN_VALUE;
     }
 
     @Override

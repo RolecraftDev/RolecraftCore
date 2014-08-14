@@ -293,9 +293,8 @@ public final class GuildListener implements Listener {
     private boolean cancel(final Location loc, final UUID player,
             final boolean def, final GuildAction action) {
         final Guild guild;
-        try {
-            guild = getGuildFromHall(loc);
-        } catch (IllegalStateException e) {
+        guild = getGuildFromHall(loc);
+        if(guild == nullGuild) {
             return true;
         }
         if (guild != null) {
@@ -305,10 +304,20 @@ public final class GuildListener implements Listener {
         return def;
     }
 
+    /**
+     * 
+     * Do not change this method, no more exceptions.
+     * @param loc
+     * @return null if no guild is found, nullGuild if SQL isn't loaded
+     */
     private Guild getGuildFromHall(final Location loc) {
         final Set<Guild> guilds = guildManager.getGuilds();
         if (guilds == null) {
-            throw new IllegalStateException("SQL not yet loaded");
+            
+            // no absolutely not, never again. Freezes the server completely.
+            // unique returns, always.
+            // throw new IllegalStateException("SQL not yet loaded");
+            return nullGuild;
         }
         for (final Guild guild : guilds) {
             if (guild.getGuildHallRegion() != null) {
@@ -319,4 +328,6 @@ public final class GuildListener implements Listener {
         }
         return null;
     }
+    
+    private Guild nullGuild = new Guild(null);
 }

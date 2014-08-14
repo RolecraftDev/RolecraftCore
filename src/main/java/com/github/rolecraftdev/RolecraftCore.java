@@ -31,6 +31,7 @@ import pw.ian.albkit.command.Commands;
 import pw.ian.albkit.util.ColorScheme;
 
 import com.github.rolecraftdev.command.guild.GuildCommand;
+import com.github.rolecraftdev.command.other.DebugCommands;
 import com.github.rolecraftdev.command.other.GCCommand;
 import com.github.rolecraftdev.command.other.RCConfirmCommand;
 import com.github.rolecraftdev.command.profession.ProfessionCommand;
@@ -41,6 +42,7 @@ import com.github.rolecraftdev.data.storage.SQLiteDataStore;
 import com.github.rolecraftdev.guild.Guild;
 import com.github.rolecraftdev.guild.GuildManager;
 import com.github.rolecraftdev.magic.MagicListener;
+import com.github.rolecraftdev.magic.ProjectileListener;
 import com.github.rolecraftdev.magic.SpellManager;
 import com.github.rolecraftdev.profession.Profession;
 import com.github.rolecraftdev.profession.ProfessionManager;
@@ -183,12 +185,14 @@ public final class RolecraftCore extends AlbPlugin {
         // Register listeners
         register(new RCListener(this));
         register(new MagicListener(this));
+        register(new ProjectileListener(this));
 
         // Register commands
         Commands.registerCommand(this, new GuildCommand(this));
         Commands.registerCommand(this, new ProfessionCommand(this));
         Commands.registerCommand(this, new GCCommand(this));
         Commands.registerCommand(this, new RCConfirmCommand(this));
+        Commands.registerCommand(this, new DebugCommands(this));
     }
 
     @Override
@@ -329,6 +333,7 @@ public final class RolecraftCore extends AlbPlugin {
                     .getResourceAsStream("/" + name);
             if (input != null) {
                 FileOutputStream output = null;
+                getDataFolder().mkdir();
 
                 try {
                     output = new FileOutputStream(actual);

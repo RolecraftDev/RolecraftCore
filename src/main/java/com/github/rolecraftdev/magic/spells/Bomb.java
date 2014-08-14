@@ -80,12 +80,12 @@ public class Bomb implements Spell {
 
     @Override
     public float leftClick(Player ply, Block block, int modifier) {
-        return 0;
+        return Float.MIN_VALUE;
     }
 
     @Override
     public float attack(Player ply, LivingEntity ent, int modifier) {
-        return 0;
+        return Float.MIN_VALUE;
     }
 
     @Override
@@ -95,6 +95,7 @@ public class Bomb implements Spell {
         ItemMeta meta = result.getItemMeta();
         meta.setDisplayName(ChatColor.AQUA + getName());
         meta.addEnchant(Enchantment.LUCK, 10, true);
+        result.setItemMeta(meta);
         ShapedRecipe recipe = new ShapedRecipe(result);
         // custom recipe stuff
         recipe.shape("SSI", "SIS", "ISS");

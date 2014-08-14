@@ -44,15 +44,14 @@ import org.bukkit.inventory.ShapedRecipe;
 import org.bukkit.inventory.meta.ItemMeta;
 import java.util.Collection;
 
+
+// TODO: figure out why you can't pick these blocks up....
 public class FarbreakSilkTouch implements Spell {
 
     private SpellManager manager;
-    private ItemStack simulate;
 
     public FarbreakSilkTouch(SpellManager spellManager) {
         manager = spellManager;
-        simulate = new ItemStack(Material.DIAMOND_PICKAXE, 1);
-        simulate.addEnchantment(Enchantment.SILK_TOUCH, 1);
     }
 
     @Override
@@ -101,18 +100,18 @@ public class FarbreakSilkTouch implements Spell {
         }
 
         if (RolecraftCore.isExtraEvents()) {
-            BlockBreakEvent event = new BlockBreakEvent(block, ply);
+            BlockBreakEvent event = new BlockBreakEvent(toBreak, ply);
             Bukkit.getServer().getPluginManager().callEvent(event);
             if (event.isCancelled()) {
                 return Float.MIN_VALUE;
             }
         }
-        Collection<ItemStack> drops = block.getDrops(simulate);
+        
+        ItemStack i = new ItemStack(toBreak.getType(),0,(short)1,toBreak.getData());
 
-        block.setType(Material.AIR);
-        for (ItemStack i : drops) {
-            block.getWorld().dropItemNaturally(block.getLocation(), i);
-        }
+        toBreak.setType(Material.AIR);
+        toBreak.getWorld().dropItemNaturally(toBreak.getLocation(), i);
+        
 
         return retVal;
     }
@@ -134,19 +133,19 @@ public class FarbreakSilkTouch implements Spell {
         }
 
         if (RolecraftCore.isExtraEvents()) {
-            BlockBreakEvent event = new BlockBreakEvent(block, ply);
+            BlockBreakEvent event = new BlockBreakEvent(toBreak, ply);
             Bukkit.getServer().getPluginManager().callEvent(event);
             if (event.isCancelled()) {
                 return Float.MIN_VALUE;
             }
         }
-        block.getState().getData();
-        Collection<ItemStack> drops = block.getDrops(simulate);
+        toBreak.getState().getData();
+        ItemStack i = new ItemStack(toBreak.getType(),0,(short)1,toBreak.getData());
 
-        block.setType(Material.AIR);
-        for (ItemStack i : drops) {
-            block.getWorld().dropItemNaturally(block.getLocation(), i);
-        }
+        toBreak.setType(Material.AIR);
+        
+        toBreak.getWorld().dropItemNaturally(toBreak.getLocation(), i);
+        
 
         return retVal;
     }

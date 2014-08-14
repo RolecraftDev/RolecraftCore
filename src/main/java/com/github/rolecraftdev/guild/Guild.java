@@ -99,6 +99,14 @@ public final class Guild {
      *                     contained by.
      */
     public Guild(final GuildManager guildManager) {
+        if(guildManager == null) {
+            plugin = null;
+            members = null;
+            ranks = null;
+            guildId = null;
+            this.guildManager= null;
+            return;
+        }
         this.guildManager = guildManager;
         plugin = guildManager.getPlugin();
         guildId = UUID.randomUUID();

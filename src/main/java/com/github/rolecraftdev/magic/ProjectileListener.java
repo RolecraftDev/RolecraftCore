@@ -35,7 +35,16 @@ import org.bukkit.event.Listener;
 import org.bukkit.event.entity.EntityDamageByEntityEvent;
 import org.bukkit.event.entity.ProjectileHitEvent;
 
+import com.github.rolecraftdev.RolecraftCore;
+
 public class ProjectileListener implements Listener {
+    
+    private RolecraftCore parent;
+    
+    public ProjectileListener(RolecraftCore plugin) {
+        parent = plugin;
+    }
+    
     @EventHandler(priority = EventPriority.HIGHEST)
     public void onDamage(EntityDamageByEntityEvent e) {
         if (e.getDamager() instanceof Arrow) {

@@ -85,12 +85,12 @@ public class SilkTouch implements Spell {
             return Float.MIN_VALUE;
         }
 
-        Collection<ItemStack> drops = block.getDrops(simulate);
+        ItemStack i = new ItemStack(block.getType(),0,(short)1,block.getData());
 
         block.setType(Material.AIR);
-        for (ItemStack i : drops) {
-            block.getWorld().dropItemNaturally(block.getLocation(), i);
-        }
+        
+        block.getWorld().dropItemNaturally(block.getLocation(), i);
+        
 
         return 10;
     }
@@ -107,14 +107,11 @@ public class SilkTouch implements Spell {
             return Float.MIN_VALUE;
         }
 
-        block.getState().getData();
-        Collection<ItemStack> drops = block.getDrops(simulate);
+        ItemStack i = new ItemStack(block.getType(),0,(short)1,block.getData());
 
         block.setType(Material.AIR);
-        for (ItemStack i : drops) {
-            block.getWorld().dropItemNaturally(block.getLocation(), i);
-        }
-
+        
+        block.getWorld().dropItemNaturally(block.getLocation(), i);
         return 10;
     }
 

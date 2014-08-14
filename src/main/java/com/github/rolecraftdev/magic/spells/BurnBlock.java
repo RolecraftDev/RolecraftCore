@@ -75,7 +75,10 @@ public class BurnBlock implements Spell {
     @Override
     public float rightClick(Player ply, Block block, int modifier) {
         Block toIgnite = ply.getLastTwoTargetBlocks(null, parent.getRange())
-                .get(0);
+                .get(1);
+        if(toIgnite == null) {
+            return Float.MIN_VALUE;
+        }
         BlockState state = block.getState();
         block.setType(Material.FIRE);
         new BlockPlaceEvent(toIgnite, state, block, null, ply, true);
@@ -84,12 +87,12 @@ public class BurnBlock implements Spell {
 
     @Override
     public float leftClick(Player ply, Block block, int modifier) {
-        return 0;
+        return Float.MIN_VALUE;
     }
 
     @Override
     public float attack(Player ply, LivingEntity ent, int modifier) {
-        return 0;
+        return Float.MIN_VALUE;
     }
 
     @Override
