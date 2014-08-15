@@ -32,11 +32,12 @@ import pw.ian.albkit.command.parser.Arguments;
 import com.github.rolecraftdev.RolecraftCore;
 import com.github.rolecraftdev.guild.Guild;
 import com.github.rolecraftdev.guild.GuildManager;
+import com.traksag.channels.Channel;
 
+import org.bukkit.Bukkit;
 import org.bukkit.ChatColor;
 import org.bukkit.entity.Player;
-
-import java.util.UUID;
+import org.bukkit.event.player.AsyncPlayerChatEvent;
 
 public class GCCommand extends PlayerCommandHandler {
     private final GuildManager guildManager;
@@ -53,8 +54,7 @@ public class GCCommand extends PlayerCommandHandler {
 
     @Override
     public void onCommand(final Player player, final Arguments args) {
-        final UUID playerId = player.getUniqueId();
-        final Guild guild = guildManager.getPlayerGuild(playerId);
+        final Guild guild = guildManager.getPlayerGuild(player.getUniqueId());
 
         if (guild == null) {
             player.sendMessage(ChatColor.DARK_RED
@@ -62,10 +62,28 @@ public class GCCommand extends PlayerCommandHandler {
             return;
         }
 
+        final Channel channel = guild.getChannel();
+
         if (args.length() > 0) {
-            // TODO: send one-off message to guild channel
+            final StringBuilder message = new StringBuilder();
+
+            for(String arg : args.toStringArray()) {
+                message.append(arg + " ");
+            }
+
+            // Add, send message, remove
+            channel.onConnect(player);
+            Bukkit.getPluginManager()
+                    .callEvent(
+                            new AsyncPlayerChatEvent(false, player, message
+                                    .toString(), null));
+            channel.onDisconnect(player);
         } else {
-            // TODO: switch channels
+            if (channel.contains(player)) {
+                channel.onDisconnect(player);
+            } else {
+                channel.onConnect(player);
+            }
         }
     }
 }

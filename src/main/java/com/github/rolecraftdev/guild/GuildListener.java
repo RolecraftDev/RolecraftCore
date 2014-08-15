@@ -26,6 +26,8 @@
  */
 package com.github.rolecraftdev.guild;
 
+import com.traksag.channels.Channel;
+
 import org.bukkit.Location;
 import org.bukkit.block.Block;
 import org.bukkit.block.BlockFace;
@@ -40,6 +42,7 @@ import org.bukkit.event.entity.EntityDamageByEntityEvent;
 import org.bukkit.event.entity.EntityExplodeEvent;
 import org.bukkit.event.hanging.HangingBreakByEntityEvent;
 import org.bukkit.event.hanging.HangingPlaceEvent;
+import org.bukkit.event.player.AsyncPlayerChatEvent;
 import org.bukkit.event.player.PlayerBucketEmptyEvent;
 import org.bukkit.event.player.PlayerBucketFillEvent;
 import org.bukkit.event.player.PlayerEggThrowEvent;
@@ -58,6 +61,24 @@ public final class GuildListener implements Listener {
 
     GuildListener(final GuildManager guildManager) {
         this.guildManager = guildManager;
+    }
+
+    @EventHandler(priority = EventPriority.HIGHEST)
+    public void onAsyncPlayerChat(final AsyncPlayerChatEvent event) {
+        // All function calls in here should be thread safe
+        if (event.isCancelled() || !guildManager.getChannelBatch().isOpen()) {
+            return;
+        }
+
+        final Channel channel =
+                guildManager.getChannelBatch().getChannel(event.getPlayer());
+
+        if (channel != null && channel.isOpen()) {
+            // Send in channel
+            event.setCancelled(true);
+            channel.chat(event.isAsynchronous(), event.getPlayer(),
+                    event.getFormat(), event.getMessage());
+        }
     }
 
     @EventHandler(priority = EventPriority.HIGHEST)

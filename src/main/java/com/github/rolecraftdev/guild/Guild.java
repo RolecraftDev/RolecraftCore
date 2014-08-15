@@ -31,6 +31,10 @@ import com.github.rolecraftdev.data.Region2D;
 import com.github.rolecraftdev.event.guild.GuildPlayerJoinEvent;
 import com.github.rolecraftdev.event.guild.GuildPlayerKickedEvent;
 import com.github.rolecraftdev.event.guild.GuildPlayerLeaveEvent;
+import com.traksag.channels.Channel;
+import com.traksag.channels.ChannelOption;
+import com.traksag.channels.DefaultChannel;
+import com.traksag.channels.DefaultChannelConfig;
 
 import org.bukkit.Bukkit;
 import org.bukkit.Location;
@@ -51,6 +55,11 @@ public final class Guild {
      * The {@link RolecraftCore} plugin instance.
      */
     private final RolecraftCore plugin;
+    /**
+     * The associated {@link Channel}.
+     */
+    private final Channel channel = new DefaultChannel(
+            new DefaultChannelConfig().setOption(ChannelOption.PREFIX, "[GC] "));
     /**
      * The {@link GuildManager} object this {@link Guild} is registered to.
      */
@@ -109,8 +118,8 @@ public final class Guild {
             return;
         }
 
-        this.guildManager = guildManager;
         plugin = guildManager.getPlugin();
+        this.guildManager = guildManager;
         guildId = UUID.randomUUID();
         members = new HashSet<UUID>();
         ranks = new HashSet<GuildRank>();
@@ -140,8 +149,8 @@ public final class Guild {
             final String name, final UUID leader, final Set<UUID> members,
             final Set<GuildRank> ranks, final Location home,
             final int influence, final Region2D hallRegion) {
-        this.guildManager = guildManager;
         plugin = guildManager.getPlugin();
+        this.guildManager = guildManager;
         this.guildId = guildId;
         this.name = name;
         this.leader = leader;
@@ -150,6 +159,15 @@ public final class Guild {
         this.home = home;
         this.influence = influence;
         this.hallRegion = hallRegion;
+    }
+
+    /**
+     * Get the associated {@link Channel}.
+     *
+     * @return Its {@link Channel}
+     */
+    public Channel getChannel() {
+        return channel;
     }
 
     /**

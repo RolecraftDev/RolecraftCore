@@ -30,6 +30,8 @@ import com.github.rolecraftdev.RolecraftCore;
 import com.github.rolecraftdev.data.storage.YamlFile;
 import com.github.rolecraftdev.event.guild.GuildCreateEvent;
 import com.github.rolecraftdev.event.guild.GuildDisbandEvent;
+import com.traksag.channels.ChannelBatch;
+import com.traksag.channels.DefaultChannelBatch;
 
 import org.bukkit.Bukkit;
 import org.bukkit.ChatColor;
@@ -51,6 +53,11 @@ public final class GuildManager {
      * The {@link RolecraftCore} plugin object.
      */
     private final RolecraftCore plugin;
+    /**
+     * The associated {@link ChannelBatch}.
+     */
+    // We use a ChannelBatch to ensure thread safety for AsyncPlayerChatEvent
+    private final ChannelBatch channelBatch = new DefaultChannelBatch();
     /**
      * A {@link Set} of all currently loaded {@link Guild} objects.
      */
@@ -123,7 +130,7 @@ public final class GuildManager {
                 @Override
                 public void run() {
                     if (plugin.isSqlLoaded()) {
-                        this.cancel();
+                        cancel();
                         plugin.getDataStore().loadGuilds(callback);
                     }
                 }
@@ -133,6 +140,15 @@ public final class GuildManager {
         // Register the guild listener with Bukkit
         plugin.getServer().getPluginManager()
                 .registerEvents(new GuildListener(this), plugin);
+    }
+
+    /**
+     * Get the associated {@link ChannelBatch}.
+     *
+     * @return Its {@link ChannelBatch}
+     */
+    public ChannelBatch getChannelBatch() {
+        return channelBatch;
     }
 
     /**
@@ -148,6 +164,7 @@ public final class GuildManager {
     public boolean addGuild(final Guild guild, boolean fromDatabase) {
         if (fromDatabase) {
             guilds.add(guild);
+            channelBatch.addChannel(guild.getChannel());
             return true;
         }
         for (final Guild cur : guilds) {
@@ -168,6 +185,7 @@ public final class GuildManager {
             return false;
         } else {
             guilds.add(guild);
+            channelBatch.addChannel(guild.getChannel());
             plugin.getDataStore().createGuild(guild);
             return true;
         }
@@ -186,6 +204,7 @@ public final class GuildManager {
             plugin.getServer().getPluginManager()
                     .callEvent(new GuildDisbandEvent(plugin, guild));
             plugin.getDataStore().deleteGuild(guild);
+            channelBatch.removeChannel(guild.getChannel());
             return guilds.remove(guild);
         } else {
             return false;
