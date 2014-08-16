@@ -58,9 +58,9 @@ public class MagicListener implements Listener {
     private final Map<UUID, Scoreboard> scoreboards;
     private final ScoreboardManager scoreboardMgr;
 
-    MagicListener(final RolecraftCore plugin) {
+    MagicListener(final RolecraftCore plugin, SpellManager manager) {
         this.plugin = plugin;
-        spellManager = plugin.getSpellManager();
+        spellManager = manager;
         scoreboards = new HashMap<UUID, Scoreboard>();
         scoreboardMgr = Bukkit.getScoreboardManager();
     }

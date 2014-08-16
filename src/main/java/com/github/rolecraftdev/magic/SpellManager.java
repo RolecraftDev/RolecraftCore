@@ -86,7 +86,7 @@ public class SpellManager {
         register("Avada Kedavra", new AvadaKedavra(this));
         register("Death Rain", new DeathRain(this));
 
-        plugin.getServer().getPluginManager().registerEvents(new MagicListener(plugin), plugin);
+        plugin.getServer().getPluginManager().registerEvents(new MagicListener(plugin,this), plugin);
         plugin.getServer().getPluginManager().registerEvents(new ProjectileListener(plugin), plugin);
     }
 
