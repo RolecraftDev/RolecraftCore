@@ -73,7 +73,7 @@ public class Bomb implements Spell {
     @Override
     public float rightClick(Player ply, Block block, int modifier, BlockFace face) {
         Entity tnt = ply.getWorld()
-                .spawn(ply.getEyeLocation(), TNTPrimed.class);
+                .spawn(ply.getEyeLocation().add(0,1,0), TNTPrimed.class);
         tnt.setVelocity(Utils.getUnitVectorFacing(ply)
                 .multiply(10f * modifier / 100f + 2f));
         return 200 - modifier;

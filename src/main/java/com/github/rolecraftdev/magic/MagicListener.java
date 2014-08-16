@@ -34,6 +34,7 @@ import org.bukkit.Bukkit;
 import org.bukkit.ChatColor;
 import org.bukkit.Material;
 import org.bukkit.block.Block;
+import org.bukkit.enchantments.Enchantment;
 import org.bukkit.entity.LivingEntity;
 import org.bukkit.entity.Player;
 import org.bukkit.event.EventHandler;
@@ -70,8 +71,7 @@ public class MagicListener implements Listener {
         ItemStack stack = e.getItem();
         boolean shown = false;
         if (stack != null && stack.getType() == Material.STICK) {
-            Spell spell = spellManager.getSpell(
-                    ChatColor.stripColor(stack.getItemMeta().getDisplayName()));
+            Spell spell = getSpell(stack);
             if (spell != null) {
                 PlayerData data = plugin.getDataManager()
                         .getPlayerData(e.getPlayer().getUniqueId());
@@ -107,9 +107,7 @@ public class MagicListener implements Listener {
                         || action == Action.RIGHT_CLICK_BLOCK
                         || action == Action.LEFT_CLICK_AIR
                         || action == Action.LEFT_CLICK_BLOCK) {
-                    Spell spell = spellManager.getSpell(
-                            ChatColor.stripColor(e.getItem().getItemMeta()
-                                    .getDisplayName()));
+                    Spell spell = getSpell(e.getItem());
                     if (spell != null) {
                         Player player = e.getPlayer();
                         Block clicked = e.getClickedBlock();
@@ -200,8 +198,7 @@ public class MagicListener implements Listener {
         if (e.getDamager() instanceof Player) {
             Player player = (Player) e.getDamager();
             if (player.getItemInHand().getType() == Material.STICK) {
-                Spell spell = spellManager.getSpell(
-                        player.getItemInHand().getItemMeta().getDisplayName());
+                Spell spell = getSpell(player.getItemInHand());
                 if (spell != null) {
                     if (spellManager.getMana(player) >
                             spell.estimateAttackMana(player,
@@ -229,6 +226,22 @@ public class MagicListener implements Listener {
                 }
             }
         }
+    }
+
+    private Spell getSpell(ItemStack stick) {
+        if(stick.getType() == Material.STICK) {
+            if(stick.hasItemMeta()) {
+                if(stick.getItemMeta().hasDisplayName()) {
+                    Spell temp = spellManager.getSpell(ChatColor.stripColor(stick.getItemMeta().getDisplayName()));
+                    if(stick.getEnchantments().size() > 0) {
+                        if(stick.getEnchantments().get(Enchantment.LUCK) == 10) {
+                            return temp;
+                        }
+                    }
+                }
+            }
+        }
+        return null;
     }
 
 }
