@@ -72,12 +72,8 @@ public class FreezeBlock implements Spell {
     }
 
     @Override
-    public float estimateLeftClickMana(Player ply, Block block, int modifier, BlockFace face) {
-        return 0;
-    }
-
-    @Override
-    public float estimateRightClickMana(Player ply, Block block, int modifier, BlockFace face) {
+    public float estimateLeftClickMana(Player ply, Block block, int modifier,
+            BlockFace face) {
         Block targetBlock = ply.getTargetBlock(transparency, 5);
         if (targetBlock.getType() == Material.STATIONARY_LAVA) {
             return 50;
@@ -86,49 +82,109 @@ public class FreezeBlock implements Spell {
     }
 
     @Override
-    public float rightClick(Player ply, Block block, int modifier, BlockFace face) {
-        if (block != null) {
-            BlockBreakEvent bbe = new BlockBreakEvent(block, ply);
-            Bukkit.getPluginManager().callEvent(bbe);
-            if (!bbe.isCancelled()) {
-                BlockState state = block.getState();
-                block.setType(Material.ICE);
-                BlockPlaceEvent bpe = new BlockPlaceEvent(block, state, null,
-                        null, ply, true);
-                Bukkit.getPluginManager().callEvent(bpe);
-                if (bpe.isCancelled()) {
-                    state.update();
-                }
-            }
-        } else {
-            Block targetBlock = ply.getTargetBlock(transparency, 5);
-            if (targetBlock != null) {
-                switch (targetBlock.getType()) {
-                    case STATIONARY_WATER:
-                        targetBlock.setType(Material.ICE);
-                        return 5;
-                    case WATER:
-                        targetBlock.setType(Material.ICE);
-                        return 5;
-                    case STATIONARY_LAVA:
-                        targetBlock.setType(Material.OBSIDIAN);
-                        return 50;
-                    case LAVA:
-                        targetBlock.setType(Material.COBBLESTONE);
-                        return 5;
-
-                    default:
-                        break;
-                }
-            }
-            return Float.MIN_VALUE;
+    public float estimateRightClickMana(Player ply, Block block, int modifier,
+            BlockFace face) {
+        Block targetBlock = ply.getTargetBlock(transparency, 5);
+        if (targetBlock.getType() == Material.STATIONARY_LAVA) {
+            return 50;
         }
         return 5;
     }
 
     @Override
+    public float rightClick(Player ply, Block block, int modifier,
+            BlockFace face) {
+
+        Block targetBlock = ply.getTargetBlock(transparency, 5);
+        BlockBreakEvent bbe = new BlockBreakEvent(targetBlock, ply);
+        Bukkit.getPluginManager().callEvent(bbe);
+        if(bbe.isCancelled()) {
+            return Float.MIN_VALUE;
+        }
+        float retVal = 0;
+        if (!bbe.isCancelled()) {
+            BlockState state = targetBlock.getState();
+            // block.setType(Material.ICE);
+            if (targetBlock != null) {
+                switch (targetBlock.getType()) {
+                case STATIONARY_WATER:
+                    targetBlock.setType(Material.ICE);
+                    retVal = 5;
+                    break;
+                case WATER:
+                    targetBlock.setType(Material.ICE);
+                    retVal = 5;
+                    break;
+                case STATIONARY_LAVA:
+                    targetBlock.setType(Material.OBSIDIAN);
+                    retVal = 50;
+                    break;
+                case LAVA:
+                    targetBlock.setType(Material.COBBLESTONE);
+                    retVal = 5;
+                    break;
+
+                default:
+                    targetBlock.setType(Material.ICE);
+                    retVal = 5;
+                    break;
+                }
+                BlockPlaceEvent bpe = new BlockPlaceEvent(targetBlock, state,
+                        null, null, ply, true);
+                Bukkit.getPluginManager().callEvent(bpe);
+                if (bpe.isCancelled()) {
+                    state.update();
+                }
+            }
+        }
+        return retVal;
+    }
+
+    @Override
     public float leftClick(Player ply, Block block, int modifier, BlockFace face) {
-        return Float.MIN_VALUE;
+        Block targetBlock = ply.getTargetBlock(transparency, 5);
+        BlockBreakEvent bbe = new BlockBreakEvent(targetBlock, ply);
+        Bukkit.getPluginManager().callEvent(bbe);
+        if(bbe.isCancelled()) {
+            return Float.MIN_VALUE;
+        }
+        float retVal = 0;
+        if (!bbe.isCancelled()) {
+            BlockState state = targetBlock.getState();
+            // block.setType(Material.ICE);
+            if (targetBlock != null) {
+                switch (targetBlock.getType()) {
+                case STATIONARY_WATER:
+                    targetBlock.setType(Material.ICE);
+                    retVal = 5;
+                    break;
+                case WATER:
+                    targetBlock.setType(Material.ICE);
+                    retVal = 5;
+                    break;
+                case STATIONARY_LAVA:
+                    targetBlock.setType(Material.OBSIDIAN);
+                    retVal = 50;
+                    break;
+                case LAVA:
+                    targetBlock.setType(Material.COBBLESTONE);
+                    retVal = 5;
+                    break;
+
+                default:
+                    targetBlock.setType(Material.ICE);
+                    retVal = 5;
+                    break;
+                }
+                BlockPlaceEvent bpe = new BlockPlaceEvent(targetBlock, state,
+                        null, null, ply, true);
+                Bukkit.getPluginManager().callEvent(bpe);
+                if (bpe.isCancelled()) {
+                    state.update();
+                }
+            }
+        }
+        return retVal;
     }
 
     @Override

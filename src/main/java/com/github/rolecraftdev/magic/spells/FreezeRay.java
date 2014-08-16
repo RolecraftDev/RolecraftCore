@@ -26,18 +26,42 @@
  */
 package com.github.rolecraftdev.magic.spells;
 
+import java.util.HashSet;
+
 import com.github.rolecraftdev.magic.Spell;
 import com.github.rolecraftdev.magic.SpellManager;
 
+import org.bukkit.Bukkit;
+import org.bukkit.ChatColor;
+import org.bukkit.Material;
 import org.bukkit.block.Block;
 import org.bukkit.block.BlockFace;
+import org.bukkit.block.BlockState;
+import org.bukkit.enchantments.Enchantment;
 import org.bukkit.entity.LivingEntity;
 import org.bukkit.entity.Player;
+import org.bukkit.event.block.BlockBreakEvent;
+import org.bukkit.event.block.BlockPlaceEvent;
+import org.bukkit.inventory.ItemStack;
 import org.bukkit.inventory.Recipe;
+import org.bukkit.inventory.ShapedRecipe;
+import org.bukkit.inventory.meta.ItemMeta;
 
+@SuppressWarnings("deprecation")
 public class FreezeRay implements Spell {
+    private static HashSet<Byte> transparency;
+
+    private SpellManager manager;
+
+    static {
+        // declare it so water isn't transparent
+
+        transparency = new HashSet<Byte>();
+        transparency.add((byte) Material.AIR.getId());
+        transparency.add((byte) Material.GLASS.getId());
+    }
     public FreezeRay(SpellManager spellManager) {
-        // TODO Auto-generated constructor stub
+        manager = spellManager;
     }
 
     @Override
@@ -46,46 +70,147 @@ public class FreezeRay implements Spell {
     }
 
     @Override
-    public float estimateAttackMana(Player ply, LivingEntity entity,
-            int modifier) {
-        // TODO Auto-generated method stub
-        return 0;
+    public float estimateLeftClickMana(Player ply, Block block, int modifier,
+            BlockFace face) {
+        Block targetBlock = ply.getTargetBlock(transparency, 100);
+        if (targetBlock.getType() == Material.STATIONARY_LAVA) {
+            return 50;
+        }
+        return 5;
     }
 
     @Override
-    public float estimateLeftClickMana(Player ply, Block block, int modifier, BlockFace face) {
-        // TODO Auto-generated method stub
-        return 0;
+    public float estimateRightClickMana(Player ply, Block block, int modifier,
+            BlockFace face) {
+        Block targetBlock = ply.getTargetBlock(transparency, 100);
+        if (targetBlock.getType() == Material.STATIONARY_LAVA) {
+            return 50;
+        }
+        return 5;
     }
 
     @Override
-    public float estimateRightClickMana(Player ply, Block block, int modifier, BlockFace face) {
-        // TODO Auto-generated method stub
-        return 0;
-    }
+    public float rightClick(Player ply, Block block, int modifier,
+            BlockFace face) {
 
-    @Override
-    public float rightClick(Player ply, Block block, int modifier, BlockFace face) {
-        // TODO Auto-generated method stub
-        return 0;
+        Block targetBlock = ply.getTargetBlock(transparency, 100);
+        BlockBreakEvent bbe = new BlockBreakEvent(targetBlock, ply);
+        Bukkit.getPluginManager().callEvent(bbe);
+        if(bbe.isCancelled()) {
+            return Float.MIN_VALUE;
+        }
+        float retVal = 0;
+        if (!bbe.isCancelled()) {
+            BlockState state = targetBlock.getState();
+            // block.setType(Material.ICE);
+            if (targetBlock != null) {
+                switch (targetBlock.getType()) {
+                case STATIONARY_WATER:
+                    targetBlock.setType(Material.ICE);
+                    retVal = 5;
+                    break;
+                case WATER:
+                    targetBlock.setType(Material.ICE);
+                    retVal = 5;
+                    break;
+                case STATIONARY_LAVA:
+                    targetBlock.setType(Material.OBSIDIAN);
+                    retVal = 50;
+                    break;
+                case LAVA:
+                    targetBlock.setType(Material.COBBLESTONE);
+                    retVal = 5;
+                    break;
+
+                default:
+                    targetBlock.setType(Material.ICE);
+                    retVal = 5;
+                    break;
+                }
+                BlockPlaceEvent bpe = new BlockPlaceEvent(targetBlock, state,
+                        null, null, ply, true);
+                Bukkit.getPluginManager().callEvent(bpe);
+                if (bpe.isCancelled()) {
+                    state.update();
+                }
+            }
+        }
+        return retVal;
     }
 
     @Override
     public float leftClick(Player ply, Block block, int modifier, BlockFace face) {
-        // TODO Auto-generated method stub
+        Block targetBlock = ply.getTargetBlock(transparency, 100);
+        BlockBreakEvent bbe = new BlockBreakEvent(targetBlock, ply);
+        Bukkit.getPluginManager().callEvent(bbe);
+        if(bbe.isCancelled()) {
+            return Float.MIN_VALUE;
+        }
+        float retVal = 0;
+        if (!bbe.isCancelled()) {
+            BlockState state = targetBlock.getState();
+            // block.setType(Material.ICE);
+            if (targetBlock != null) {
+                switch (targetBlock.getType()) {
+                case STATIONARY_WATER:
+                    targetBlock.setType(Material.ICE);
+                    retVal = 5;
+                    break;
+                case WATER:
+                    targetBlock.setType(Material.ICE);
+                    retVal = 5;
+                    break;
+                case STATIONARY_LAVA:
+                    targetBlock.setType(Material.OBSIDIAN);
+                    retVal = 50;
+                    break;
+                case LAVA:
+                    targetBlock.setType(Material.COBBLESTONE);
+                    retVal = 5;
+                    break;
+
+                default:
+                    targetBlock.setType(Material.ICE);
+                    retVal = 5;
+                    break;
+                }
+                BlockPlaceEvent bpe = new BlockPlaceEvent(targetBlock, state,
+                        null, null, ply, true);
+                Bukkit.getPluginManager().callEvent(bpe);
+                if (bpe.isCancelled()) {
+                    state.update();
+                }
+            }
+        }
+        return retVal;
+    }
+
+    @Override
+    public Recipe getWandRecipe() {
+     // same for each
+        ItemStack result = new ItemStack(Material.STICK);
+        ItemMeta meta = result.getItemMeta();
+        meta.setDisplayName(ChatColor.AQUA + getName());
+        meta.addEnchant(Enchantment.LUCK, 10, true);
+        result.setItemMeta(meta);
+        ShapedRecipe recipe = new ShapedRecipe(result);
+        // custom recipe stuff
+        recipe.shape("SSI", "SIS", "ISS");
+        recipe.setIngredient('S', Material.ICE);
+        recipe.setIngredient('I', Material.IRON_BLOCK);
+
+        return recipe;
+    }
+
+    @Override
+    public float estimateAttackMana(Player ply, LivingEntity entity,
+            int modifier) {
         return 0;
     }
 
     @Override
     public float attack(Player ply, LivingEntity ent, int modifier) {
-        // TODO Auto-generated method stub
         return 0;
-    }
-
-    @Override
-    public Recipe getWandRecipe() {
-        // TODO Auto-generated method stub
-        return null;
     }
 
 }
