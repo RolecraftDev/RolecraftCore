@@ -88,6 +88,7 @@ public class SpellManager {
 
         plugin.getServer().getPluginManager().registerEvents(new MagicListener(plugin,this), plugin);
         plugin.getServer().getPluginManager().registerEvents(new ProjectileListener(plugin), plugin);
+        plugin.getServer().getPluginManager().registerEvents(new FlyingListener(plugin), plugin);
     }
 
     /**
