@@ -30,6 +30,7 @@ import com.github.rolecraftdev.magic.Spell;
 import com.github.rolecraftdev.magic.SpellManager;
 
 import com.github.rolecraftdev.util.SoundWrapper;
+import org.bukkit.Bukkit;
 import org.bukkit.ChatColor;
 import org.bukkit.Material;
 import org.bukkit.Sound;
@@ -82,9 +83,14 @@ public class BurnBlock implements Spell {
         if (toIgnite == null) {
             return Float.MIN_VALUE;
         }
-        BlockState state = block.getState();
-        block.setType(Material.FIRE);
-        new BlockPlaceEvent(toIgnite, state, block, null, ply, true);
+        BlockState state = toIgnite.getState();
+        BlockPlaceEvent bpe = new BlockPlaceEvent(toIgnite, state, block, null, ply, true);
+        Bukkit.getServer().getPluginManager().callEvent(bpe);
+        if(bpe.isCancelled()) {
+            return Float.MIN_VALUE;
+        }
+
+        toIgnite.setType(Material.FIRE);
         return 5;
     }
 

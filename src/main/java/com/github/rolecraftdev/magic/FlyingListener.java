@@ -26,6 +26,7 @@ public class FlyingListener implements Listener {
         ItemStack hand = event.getPlayer().getInventory().getItemInHand();
         if (isFly(hand)) {
             event.getPlayer().setFlying(true);
+            event.getPlayer().setAllowFlight(true);
             event.getPlayer().setMetadata(
                     "rolecraftfly",
                     new FixedMetadataValue(plugin,
@@ -43,12 +44,14 @@ public class FlyingListener implements Listener {
                     "rolecraftfly",
                     new FixedMetadataValue(plugin,
                             new Boolean(true)));
+            event.getPlayer().setAllowFlight(true);
 
         }
         else {
             if(event.getPlayer().hasMetadata("rolecraftfly")) {
                 event.getPlayer().removeMetadata("rolecraftfly", plugin);
                 event.getPlayer().setFlying(false);
+                event.getPlayer().setAllowFlight(false);
             }
         }
     }
