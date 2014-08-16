@@ -29,16 +29,26 @@ package com.github.rolecraftdev.magic.spells;
 import com.github.rolecraftdev.magic.Spell;
 import com.github.rolecraftdev.magic.SpellManager;
 
+import org.bukkit.ChatColor;
+import org.bukkit.Material;
 import org.bukkit.block.Block;
 import org.bukkit.block.BlockFace;
+import org.bukkit.block.BlockState;
+import org.bukkit.enchantments.Enchantment;
 import org.bukkit.entity.LivingEntity;
 import org.bukkit.entity.Player;
+import org.bukkit.event.block.BlockPlaceEvent;
+import org.bukkit.inventory.ItemStack;
 import org.bukkit.inventory.Recipe;
+import org.bukkit.inventory.ShapedRecipe;
+import org.bukkit.inventory.meta.ItemMeta;
 
 public class FireBeam implements Spell {
 
+    private SpellManager manager;
+
     public FireBeam(SpellManager spellManager) {
-        // TODO Auto-generated constructor stub
+        this.manager = spellManager;
     }
 
     @Override
@@ -49,44 +59,58 @@ public class FireBeam implements Spell {
     @Override
     public float estimateAttackMana(Player ply, LivingEntity entity,
             int modifier) {
-        // TODO Auto-generated method stub
         return 0;
     }
 
     @Override
     public float estimateLeftClickMana(Player ply, Block block, int modifier, BlockFace face) {
-        // TODO Auto-generated method stub
         return 0;
     }
 
     @Override
     public float estimateRightClickMana(Player ply, Block block, int modifier, BlockFace face) {
-        // TODO Auto-generated method stub
-        return 0;
+        return 10;
     }
 
     @Override
     public float rightClick(Player ply, Block block, int modifier, BlockFace face) {
-        // TODO Auto-generated method stub
-        return 0;
+        Block toIgnite = ply.getLastTwoTargetBlocks(null, manager.getRange())
+                .get(0);
+        if (toIgnite == null) {
+            return Float.MIN_VALUE;
+        }
+        BlockState state = block.getState();
+        block.setType(Material.FIRE);
+        new BlockPlaceEvent(toIgnite, state, block, null, ply, true);
+        return 10;
     }
 
     @Override
     public float leftClick(Player ply, Block block, int modifier, BlockFace face) {
-        // TODO Auto-generated method stub
-        return 0;
+        return Float.MIN_VALUE;
     }
 
     @Override
     public float attack(Player ply, LivingEntity ent, int modifier) {
-        // TODO Auto-generated method stub
-        return 0;
+        return Float.MIN_VALUE;
     }
 
     @Override
     public Recipe getWandRecipe() {
-        // TODO Auto-generated method stub
-        return null;
+        // same for each
+        ItemStack result = new ItemStack(Material.STICK);
+        ItemMeta meta = result.getItemMeta();
+        meta.setDisplayName(ChatColor.AQUA + getName());
+        meta.addEnchant(Enchantment.LUCK, 10, true);
+        result.setItemMeta(meta);
+        ShapedRecipe recipe = new ShapedRecipe(result);
+        // custom recipe stuff
+        recipe.shape("NDI", "DID", "IDN");
+        recipe.setIngredient('N', Material.FLINT_AND_STEEL);
+        recipe.setIngredient('D', Material.DIAMOND);
+        recipe.setIngredient('I', Material.IRON_BLOCK);
+
+        return recipe;
     }
 
 }

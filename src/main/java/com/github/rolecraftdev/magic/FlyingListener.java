@@ -2,6 +2,7 @@ package com.github.rolecraftdev.magic;
 
 import org.bukkit.ChatColor;
 import org.bukkit.Material;
+import org.bukkit.enchantments.Enchantment;
 import org.bukkit.event.EventHandler;
 import org.bukkit.event.EventPriority;
 import org.bukkit.event.Listener;
@@ -23,38 +24,26 @@ public class FlyingListener implements Listener {
     @EventHandler(priority = EventPriority.HIGHEST)
     public void onJoin(PlayerJoinEvent event) {
         ItemStack hand = event.getPlayer().getInventory().getItemInHand();
-        if (hand.getType() == Material.STICK) {
-            if (hand.hasItemMeta()) {
-                if (hand.getItemMeta().hasDisplayName()) {
-                    if (ChatColor.stripColor(
-                            hand.getItemMeta().getDisplayName())
-                            .equalsIgnoreCase("Fly")) {
-                        event.getPlayer().setFlying(true);
-                        event.getPlayer().setMetadata(
-                                "rolecraftfly",
-                                new FixedMetadataValue(plugin,
-                                        new Boolean(true)));
-                    }
-                }
-            }
+        if (isFly(hand)) {
+            event.getPlayer().setFlying(true);
+            event.getPlayer().setMetadata(
+                    "rolecraftfly",
+                    new FixedMetadataValue(plugin,
+                            new Boolean(true)));
+
         }
     }
 
     @EventHandler(priority = EventPriority.HIGHEST)
     public void onItemChange(PlayerItemHeldEvent event) {
         ItemStack stack = event.getPlayer().getInventory().getItem(event.getNewSlot());
-        if(stack.getType() == Material.STICK) {
-            if(stack.hasItemMeta()){
-                if(stack.getItemMeta().hasDisplayName()) {
-                    if(ChatColor.stripColor(stack.getItemMeta().getDisplayName()).equalsIgnoreCase("fly")) {
-                        event.getPlayer().setFlying(true);
-                        event.getPlayer().setMetadata(
-                                "rolecraftfly",
-                                new FixedMetadataValue(plugin,
-                                        new Boolean(true)));
-                    }
-                }
-            }
+        if(isFly(stack)) {
+            event.getPlayer().setFlying(true);
+            event.getPlayer().setMetadata(
+                    "rolecraftfly",
+                    new FixedMetadataValue(plugin,
+                            new Boolean(true)));
+
         }
         else {
             if(event.getPlayer().hasMetadata("rolecraftfly")) {
@@ -62,5 +51,23 @@ public class FlyingListener implements Listener {
                 event.getPlayer().setFlying(false);
             }
         }
+    }
+
+    private boolean isFly(ItemStack stack) {
+        if(stack.getType() == Material.STICK) {
+            if(stack.hasItemMeta()) {
+                if(stack.getItemMeta().hasDisplayName()) {
+                    if(ChatColor.stripColor(stack.getItemMeta().getDisplayName()).equalsIgnoreCase("fly")) {
+                        if(stack.getEnchantments().size() > 0) {
+                            if(stack.getEnchantments().get(Enchantment.LUCK) == 10) {
+                                return true;
+                            }
+                        }
+                    }
+                }
+            }
+        }
+
+        return false;
     }
 }

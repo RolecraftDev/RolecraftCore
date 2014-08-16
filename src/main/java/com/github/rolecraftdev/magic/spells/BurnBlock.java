@@ -75,8 +75,8 @@ public class BurnBlock implements Spell {
     @SuppressWarnings("deprecation")
     @Override
     public float rightClick(Player ply, Block block, int modifier, BlockFace face) {
-        Block toIgnite = ply.getLastTwoTargetBlocks(null, parent.getRange())
-                .get(1);
+        Block toIgnite = ply.getLastTwoTargetBlocks(null, 5)
+                .get(0);
         if (toIgnite == null) {
             return Float.MIN_VALUE;
         }
