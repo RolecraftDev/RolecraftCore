@@ -33,6 +33,7 @@ import org.bukkit.Bukkit;
 import org.bukkit.ChatColor;
 import org.bukkit.Material;
 import org.bukkit.block.Block;
+import org.bukkit.block.BlockFace;
 import org.bukkit.block.BlockState;
 import org.bukkit.enchantments.Enchantment;
 import org.bukkit.entity.LivingEntity;
@@ -71,12 +72,12 @@ public class FreezeBlock implements Spell {
     }
 
     @Override
-    public float estimateLeftClickMana(Player ply, Block block, int modifier) {
+    public float estimateLeftClickMana(Player ply, Block block, int modifier, BlockFace face) {
         return 0;
     }
 
     @Override
-    public float estimateRightClickMana(Player ply, Block block, int modifier) {
+    public float estimateRightClickMana(Player ply, Block block, int modifier, BlockFace face) {
         Block targetBlock = ply.getTargetBlock(transparency, 5);
         if (targetBlock.getType() == Material.STATIONARY_LAVA) {
             return 50;
@@ -85,7 +86,7 @@ public class FreezeBlock implements Spell {
     }
 
     @Override
-    public float rightClick(Player ply, Block block, int modifier) {
+    public float rightClick(Player ply, Block block, int modifier, BlockFace face) {
         if (block != null) {
             BlockBreakEvent bbe = new BlockBreakEvent(block, ply);
             Bukkit.getPluginManager().callEvent(bbe);
@@ -126,7 +127,7 @@ public class FreezeBlock implements Spell {
     }
 
     @Override
-    public float leftClick(Player ply, Block block, int modifier) {
+    public float leftClick(Player ply, Block block, int modifier, BlockFace face) {
         return Float.MIN_VALUE;
     }
 

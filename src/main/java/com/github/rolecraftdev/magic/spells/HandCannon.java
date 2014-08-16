@@ -34,6 +34,7 @@ import org.bukkit.ChatColor;
 import org.bukkit.Material;
 import org.bukkit.Sound;
 import org.bukkit.block.Block;
+import org.bukkit.block.BlockFace;
 import org.bukkit.enchantments.Enchantment;
 import org.bukkit.entity.Arrow;
 import org.bukkit.entity.LivingEntity;
@@ -64,17 +65,17 @@ public class HandCannon implements Spell {
     }
 
     @Override
-    public float estimateLeftClickMana(Player ply, Block block, int modifier) {
+    public float estimateLeftClickMana(Player ply, Block block, int modifier, BlockFace face) {
         return 0;
     }
 
     @Override
-    public float estimateRightClickMana(Player ply, Block block, int modifier) {
+    public float estimateRightClickMana(Player ply, Block block, int modifier, BlockFace face) {
         return (300f - modifier / 100f > 0) ? 300f - modifier / 100f : 0;
     }
 
     @Override
-    public float rightClick(Player ply, Block block, int modifier) {
+    public float rightClick(Player ply, Block block, int modifier, BlockFace face) {
         if (block != null) {
             return Float.MIN_VALUE;
         }
@@ -92,7 +93,7 @@ public class HandCannon implements Spell {
     }
 
     @Override
-    public float leftClick(Player ply, Block block, int modifier) {
+    public float leftClick(Player ply, Block block, int modifier, BlockFace face) {
         return 0;
     }
 

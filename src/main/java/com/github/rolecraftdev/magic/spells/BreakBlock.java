@@ -33,6 +33,7 @@ import org.bukkit.Bukkit;
 import org.bukkit.ChatColor;
 import org.bukkit.Material;
 import org.bukkit.block.Block;
+import org.bukkit.block.BlockFace;
 import org.bukkit.enchantments.Enchantment;
 import org.bukkit.entity.LivingEntity;
 import org.bukkit.entity.Player;
@@ -58,17 +59,17 @@ public class BreakBlock implements Spell {
     }
 
     @Override
-    public float estimateLeftClickMana(Player ply, Block block, int modifier) {
+    public float estimateLeftClickMana(Player ply, Block block, int modifier, BlockFace face) {
         return 3;
     }
 
     @Override
-    public float estimateRightClickMana(Player ply, Block block, int modifier) {
+    public float estimateRightClickMana(Player ply, Block block, int modifier, BlockFace face) {
         return 3;
     }
 
     @Override
-    public float rightClick(Player ply, Block block, int modifier) {
+    public float rightClick(Player ply, Block block, int modifier, BlockFace face) {
         if (block != null) {
             if (ply.getLocation().distance(block.getLocation()) > 4) {
                 return 0;
@@ -84,7 +85,7 @@ public class BreakBlock implements Spell {
     }
 
     @Override
-    public float leftClick(Player ply, Block block, int modifier) {
+    public float leftClick(Player ply, Block block, int modifier, BlockFace face) {
         if (block != null) {
             BlockBreakEvent event = new BlockBreakEvent(block, ply);
             Bukkit.getPluginManager().callEvent(event);

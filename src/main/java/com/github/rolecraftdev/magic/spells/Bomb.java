@@ -33,6 +33,7 @@ import com.github.rolecraftdev.util.Utils;
 import org.bukkit.ChatColor;
 import org.bukkit.Material;
 import org.bukkit.block.Block;
+import org.bukkit.block.BlockFace;
 import org.bukkit.enchantments.Enchantment;
 import org.bukkit.entity.Entity;
 import org.bukkit.entity.LivingEntity;
@@ -60,17 +61,17 @@ public class Bomb implements Spell {
     }
 
     @Override
-    public float estimateLeftClickMana(Player ply, Block block, int modifier) {
+    public float estimateLeftClickMana(Player ply, Block block, int modifier, BlockFace face) {
         return 0;
     }
 
     @Override
-    public float estimateRightClickMana(Player ply, Block block, int modifier) {
+    public float estimateRightClickMana(Player ply, Block block, int modifier, BlockFace face) {
         return 200 - modifier;
     }
 
     @Override
-    public float rightClick(Player ply, Block block, int modifier) {
+    public float rightClick(Player ply, Block block, int modifier, BlockFace face) {
         Entity tnt = ply.getWorld()
                 .spawn(ply.getEyeLocation(), TNTPrimed.class);
         tnt.setVelocity(Utils.getUnitVectorFacing(ply)
@@ -79,7 +80,7 @@ public class Bomb implements Spell {
     }
 
     @Override
-    public float leftClick(Player ply, Block block, int modifier) {
+    public float leftClick(Player ply, Block block, int modifier, BlockFace face) {
         return Float.MIN_VALUE;
     }
 

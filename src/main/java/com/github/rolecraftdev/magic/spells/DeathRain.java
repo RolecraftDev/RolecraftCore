@@ -84,18 +84,18 @@ public class DeathRain implements Spell {
     }
 
     @Override
-    public float estimateLeftClickMana(Player ply, Block block, int modifier) {
+    public float estimateLeftClickMana(Player ply, Block block, int modifier, BlockFace face) {
         // TODO Auto-generated method stub
         return 0;
     }
 
     @Override
-    public float estimateRightClickMana(Player ply, Block block, int modifier) {
+    public float estimateRightClickMana(Player ply, Block block, int modifier, BlockFace face) {
         return (800f - modifier / 200f > 0) ? 800f - modifier / 200f : 0;
     }
 
     @Override
-    public float rightClick(Player ply, Block block, int modifier) {
+    public float rightClick(Player ply, Block block, int modifier, BlockFace face) {
         Block target = null;
         if (block != null) {
             target = block;
@@ -158,7 +158,7 @@ public class DeathRain implements Spell {
     }
 
     @Override
-    public float leftClick(Player ply, Block block, int modifier) {
+    public float leftClick(Player ply, Block block, int modifier, BlockFace face) {
         return 0;
     }
 

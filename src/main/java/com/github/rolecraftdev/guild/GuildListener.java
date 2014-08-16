@@ -32,6 +32,7 @@ import org.bukkit.Location;
 import org.bukkit.block.Block;
 import org.bukkit.block.BlockFace;
 import org.bukkit.block.BlockState;
+import org.bukkit.entity.Arrow;
 import org.bukkit.entity.Player;
 import org.bukkit.event.EventHandler;
 import org.bukkit.event.EventPriority;
@@ -98,6 +99,25 @@ public final class GuildListener implements Listener {
             if (guildManager.getPlayerGuild(playerId)
                     .equals(guildManager.getPlayerGuild(damagerId))) {
                 event.setCancelled(true);
+            }
+        }
+        else if (event.getDamager() instanceof Arrow  &&
+                event.getEntity() instanceof Player) {
+            if (guildManager.disallowHallPvp()
+                    && getGuildFromHall(event.getEntity().getLocation())
+                    != null) {
+                event.setCancelled(true);
+                return;
+            }
+
+            final UUID playerId = ((Player) event.getEntity()).getUniqueId();
+            if(((Arrow)event.getDamager()).getShooter() instanceof Player) {
+                final UUID damagerId = ((Player) ((Arrow)event.getDamager()).getShooter()).getUniqueId();
+    
+                if (guildManager.getPlayerGuild(playerId)
+                        .equals(guildManager.getPlayerGuild(damagerId))) {
+                    event.setCancelled(true);
+                }
             }
         }
     }

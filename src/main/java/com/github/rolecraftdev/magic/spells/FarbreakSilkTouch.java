@@ -34,6 +34,7 @@ import org.bukkit.Bukkit;
 import org.bukkit.ChatColor;
 import org.bukkit.Material;
 import org.bukkit.block.Block;
+import org.bukkit.block.BlockFace;
 import org.bukkit.enchantments.Enchantment;
 import org.bukkit.entity.LivingEntity;
 import org.bukkit.entity.Player;
@@ -64,7 +65,7 @@ public class FarbreakSilkTouch implements Spell {
     }
 
     @Override
-    public float estimateLeftClickMana(Player ply, Block block, int modifier) {
+    public float estimateLeftClickMana(Player ply, Block block, int modifier, BlockFace face) {
         // 5 if the block is close, 10 for ranged
         if (block != null) {
             return 5;
@@ -73,7 +74,7 @@ public class FarbreakSilkTouch implements Spell {
     }
 
     @Override
-    public float estimateRightClickMana(Player ply, Block block, int modifier) {
+    public float estimateRightClickMana(Player ply, Block block, int modifier, BlockFace face) {
         if (block != null) {
             return 5;
         }
@@ -82,7 +83,7 @@ public class FarbreakSilkTouch implements Spell {
 
     @SuppressWarnings("deprecation")
     @Override
-    public float rightClick(Player ply, Block block, int modifier) {
+    public float rightClick(Player ply, Block block, int modifier, BlockFace face) {
         float retVal;
         Block toBreak;
         if (block == null) {
@@ -115,7 +116,7 @@ public class FarbreakSilkTouch implements Spell {
 
     @SuppressWarnings("deprecation")
     @Override
-    public float leftClick(Player ply, Block block, int modifier) {
+    public float leftClick(Player ply, Block block, int modifier, BlockFace face) {
         float retVal;
         Block toBreak;
         if (block == null) {

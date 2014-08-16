@@ -122,7 +122,7 @@ public class MagicListener implements Listener {
                                 || action == Action.LEFT_CLICK_BLOCK) {
                             if (spell.estimateLeftClickMana(player,
                                     clicked,
-                                    spellManager.getMagicModfier(player))
+                                    spellManager.getMagicModfier(player), e.getBlockFace())
                                     <
                                     spellManager.getMana(e.getPlayer())) {
                                 SpellCastEvent event = new SpellCastEvent(
@@ -136,7 +136,7 @@ public class MagicListener implements Listener {
 
                                 float retVal = spell.leftClick(player,
                                         clicked, spellManager
-                                                .getMagicModfier(player));
+                                                .getMagicModfier(player), e.getBlockFace());
                                 // MIN_VALUE indicates error, 0 indicates that
                                 // the spell can't be cast in the current
                                 // situation
@@ -155,7 +155,7 @@ public class MagicListener implements Listener {
                         } else {
                             if (spell.estimateRightClickMana(player,
                                     clicked,
-                                    spellManager.getMagicModfier(player))
+                                    spellManager.getMagicModfier(player), e.getBlockFace())
                                     <
                                     spellManager.getMana(player)) {
                                 SpellCastEvent event = new SpellCastEvent(
@@ -169,7 +169,7 @@ public class MagicListener implements Listener {
 
                                 float retVal = spell.rightClick(player,
                                         clicked, spellManager
-                                                .getMagicModfier(player));
+                                                .getMagicModfier(player), e.getBlockFace());
                                 // MIN_VALUE indicates error, 0 indicates that
                                 // the spell can't be cast in the current
                                 // situation

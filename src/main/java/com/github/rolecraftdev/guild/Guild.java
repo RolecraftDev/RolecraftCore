@@ -1,5 +1,5 @@
 /*
- * This file is part of RolecraftCore.
+d * This file is part of RolecraftCore.
  *
  * Copyright (c) 2014 RolecraftDev <http://rolecraftdev.github.com>
  * RolecraftCore is licensed under the Creative Commons
