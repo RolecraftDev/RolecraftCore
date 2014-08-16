@@ -28,6 +28,7 @@ package com.github.rolecraftdev.magic.spells;
 
 import com.github.rolecraftdev.magic.Spell;
 import com.github.rolecraftdev.magic.SpellManager;
+import com.github.rolecraftdev.util.SoundWrapper;
 import com.github.rolecraftdev.util.Utils;
 
 import org.bukkit.ChatColor;
@@ -104,6 +105,11 @@ public class Bomb implements Spell {
         recipe.setIngredient('I', Material.EMERALD);
 
         return recipe;
+    }
+
+    @Override
+    public SoundWrapper getSound() {
+        return SoundWrapper.defaultSound;
     }
 
 }

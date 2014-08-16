@@ -29,6 +29,7 @@ package com.github.rolecraftdev.magic.spells;
 import com.github.rolecraftdev.magic.Spell;
 import com.github.rolecraftdev.magic.SpellManager;
 
+import com.github.rolecraftdev.util.SoundWrapper;
 import org.bukkit.Bukkit;
 import org.bukkit.ChatColor;
 import org.bukkit.Material;
@@ -44,6 +45,7 @@ import org.bukkit.inventory.ShapedRecipe;
 import org.bukkit.inventory.meta.ItemMeta;
 
 public class BreakBlock implements Spell {
+
     public BreakBlock(SpellManager spellManager) {
     }
 
@@ -117,5 +119,10 @@ public class BreakBlock implements Spell {
         recipe.setIngredient('P', Material.DIAMOND_PICKAXE);
         recipe.setIngredient('B', Material.IRON_BLOCK);
         return recipe;
+    }
+
+    @Override
+    public SoundWrapper getSound() {
+        return SoundWrapper.defaultSound;
     }
 }

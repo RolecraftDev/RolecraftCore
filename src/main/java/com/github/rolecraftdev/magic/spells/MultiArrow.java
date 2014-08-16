@@ -28,6 +28,7 @@ package com.github.rolecraftdev.magic.spells;
 
 import com.github.rolecraftdev.magic.Spell;
 import com.github.rolecraftdev.magic.SpellManager;
+import com.github.rolecraftdev.util.SoundWrapper;
 import com.github.rolecraftdev.util.Utils;
 
 import org.bukkit.ChatColor;
@@ -108,6 +109,11 @@ public class MultiArrow implements Spell {
         recipe.setIngredient('C', Material.EMERALD);
         recipe.setIngredient('B', Material.BOW);
         return recipe;
+    }
+
+    @Override
+    public SoundWrapper getSound() {
+        return SoundWrapper.bowSound;
     }
 
 }

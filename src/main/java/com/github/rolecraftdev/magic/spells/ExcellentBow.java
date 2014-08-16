@@ -29,6 +29,7 @@ package com.github.rolecraftdev.magic.spells;
 import com.github.rolecraftdev.magic.Spell;
 import com.github.rolecraftdev.magic.SpellManager;
 
+import com.github.rolecraftdev.util.SoundWrapper;
 import org.bukkit.ChatColor;
 import org.bukkit.Material;
 import org.bukkit.block.Block;
@@ -111,6 +112,11 @@ public class ExcellentBow implements Spell {
         recipe.setIngredient('P', Material.BOW);
         recipe.setIngredient('B', Material.EMERALD);
         return recipe;
+    }
+
+    @Override
+    public SoundWrapper getSound() {
+        return SoundWrapper.bowSound;
     }
 
 }

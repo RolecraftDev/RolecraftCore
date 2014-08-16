@@ -29,6 +29,7 @@ package com.github.rolecraftdev.magic.spells;
 import com.github.rolecraftdev.magic.Spell;
 import com.github.rolecraftdev.magic.SpellManager;
 
+import com.github.rolecraftdev.util.SoundWrapper;
 import org.bukkit.ChatColor;
 import org.bukkit.Material;
 import org.bukkit.block.Block;
@@ -93,11 +94,17 @@ public class Fly implements Spell {
         result.setItemMeta(meta);
         ShapedRecipe recipe = new ShapedRecipe(result);
         // custom recipe stuff
-        recipe.shape("SSI", "SIS", "ISS");
-        recipe.setIngredient('S', Material.SNOW_BALL);
-        recipe.setIngredient('I', Material.IRON_INGOT);
+        recipe.shape("FDI", "DID", "IDF");
+        recipe.setIngredient('F', Material.FEATHER);
+        recipe.setIngredient('D', Material.DIAMOND);
+        recipe.setIngredient('I', Material.DIAMOND_BLOCK);
 
         return recipe;
+    }
+
+    @Override
+    public SoundWrapper getSound() {
+        return null;
     }
 
 }

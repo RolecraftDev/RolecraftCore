@@ -149,6 +149,7 @@ public class MagicListener implements Listener {
                                 spellManager.subtractMana(player, retVal);
                                 player.sendMessage(
                                         "You have cast " + spell.getName());
+                                spell.getSound().play(player.getLocation());
                             }
                         } else {
                             if (spell.estimateRightClickMana(player,
@@ -181,6 +182,7 @@ public class MagicListener implements Listener {
                                 spellManager.subtractMana(player, retVal);
                                 player.sendMessage(
                                         "You have cast " + spell.getName());
+                                spell.getSound().play(player.getLocation());
                             }
                         }
                     }
@@ -222,6 +224,7 @@ public class MagicListener implements Listener {
 
                         spellManager.subtractMana(player, retVal);
                         player.sendMessage("You have cast " + spell.getName());
+                        spell.getSound().play(player.getLocation());
                     }
                 }
             }

@@ -26,10 +26,10 @@
  */
 package com.github.rolecraftdev.magic.spells;
 
-import com.github.rolecraftdev.RolecraftCore;
 import com.github.rolecraftdev.magic.Spell;
 import com.github.rolecraftdev.magic.SpellManager;
 
+import com.github.rolecraftdev.util.SoundWrapper;
 import org.bukkit.Bukkit;
 import org.bukkit.ChatColor;
 import org.bukkit.Material;
@@ -123,5 +123,10 @@ public class Farbreak implements Spell {
         recipe.setIngredient('P', Material.IRON_PICKAXE);
         recipe.setIngredient('B', Material.EMERALD);
         return recipe;
+    }
+
+    @Override
+    public SoundWrapper getSound() {
+        return SoundWrapper.defaultSound;
     }
 }

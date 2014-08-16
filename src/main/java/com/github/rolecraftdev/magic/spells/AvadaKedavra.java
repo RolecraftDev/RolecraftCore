@@ -28,11 +28,13 @@ package com.github.rolecraftdev.magic.spells;
 
 import com.github.rolecraftdev.magic.Spell;
 import com.github.rolecraftdev.magic.SpellManager;
+import com.github.rolecraftdev.util.SoundWrapper;
 import com.github.rolecraftdev.util.Utils;
 
 import org.bukkit.Bukkit;
 import org.bukkit.ChatColor;
 import org.bukkit.Material;
+import org.bukkit.Sound;
 import org.bukkit.block.Block;
 import org.bukkit.block.BlockFace;
 import org.bukkit.enchantments.Enchantment;
@@ -156,6 +158,11 @@ public class AvadaKedavra implements Spell {
         recipe.setIngredient('C', Material.DIAMOND_BLOCK);
 
         return recipe;
+    }
+
+    @Override
+    public SoundWrapper getSound() {
+        return new SoundWrapper(Sound.ENDERMAN_STARE,1.0F,2.0F);
     }
 
 }

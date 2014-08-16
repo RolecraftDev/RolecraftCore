@@ -30,6 +30,7 @@ package com.github.rolecraftdev.magic.spells;
 import com.github.rolecraftdev.magic.Spell;
 import com.github.rolecraftdev.magic.SpellManager;
 
+import com.github.rolecraftdev.util.SoundWrapper;
 import org.bukkit.ChatColor;
 import org.bukkit.Material;
 import org.bukkit.Sound;
@@ -87,7 +88,6 @@ public class HandCannon implements Spell {
         arrow.setMetadata("Knockback",
                 new FixedMetadataValue(manager.getPlugin(), new Float(1.0)));
         // Make a loud bang when used
-        ply.getWorld().playSound(ply.getLocation(), Sound.EXPLODE, 0.8f, 1.0f);
 
         return (300f - modifier / 100f > 0) ? 300f - modifier / 100f : 0;
     }
@@ -119,6 +119,11 @@ public class HandCannon implements Spell {
         recipe.setIngredient('P', Material.BOW);
         recipe.setIngredient('B', Material.DIAMOND_BLOCK);
         return recipe;
+    }
+
+    @Override
+    public SoundWrapper getSound() {
+        return new SoundWrapper(Sound.EXPLODE, 0.8f, 1.0f);
     }
 
 }

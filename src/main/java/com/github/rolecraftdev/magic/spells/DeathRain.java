@@ -29,12 +29,10 @@ package com.github.rolecraftdev.magic.spells;
 
 import com.github.rolecraftdev.magic.Spell;
 import com.github.rolecraftdev.magic.SpellManager;
+import com.github.rolecraftdev.util.SoundWrapper;
 import com.github.rolecraftdev.util.Utils;
 
-import org.bukkit.ChatColor;
-import org.bukkit.Location;
-import org.bukkit.Material;
-import org.bukkit.World;
+import org.bukkit.*;
 import org.bukkit.block.Block;
 import org.bukkit.block.BlockFace;
 import org.bukkit.enchantments.Enchantment;
@@ -51,7 +49,6 @@ import org.bukkit.util.Vector;
 import java.util.Arrays;
 import java.util.HashSet;
 
-//Material.getId()
 @SuppressWarnings("deprecation")
 public class DeathRain implements Spell {
 
@@ -189,6 +186,11 @@ public class DeathRain implements Spell {
         recipe.setIngredient('E', Material.EMERALD_BLOCK);
         recipe.setIngredient('B', Material.DIAMOND_BLOCK);
         return recipe;
+    }
+
+    @Override
+    public SoundWrapper getSound() {
+        return new SoundWrapper(Sound.GHAST_SCREAM,1.0f,-2.0f);
     }
 
 }

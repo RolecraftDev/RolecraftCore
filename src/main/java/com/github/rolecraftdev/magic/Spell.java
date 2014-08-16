@@ -26,6 +26,7 @@
  */
 package com.github.rolecraftdev.magic;
 
+import com.github.rolecraftdev.util.SoundWrapper;
 import org.bukkit.block.Block;
 import org.bukkit.block.BlockFace;
 import org.bukkit.entity.LivingEntity;
@@ -106,5 +107,7 @@ public interface Spell {
      * @return a recipe for crafting
      */
     public Recipe getWandRecipe();
+
+    public SoundWrapper getSound();
 
 }

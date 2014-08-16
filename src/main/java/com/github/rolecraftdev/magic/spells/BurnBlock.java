@@ -29,8 +29,10 @@ package com.github.rolecraftdev.magic.spells;
 import com.github.rolecraftdev.magic.Spell;
 import com.github.rolecraftdev.magic.SpellManager;
 
+import com.github.rolecraftdev.util.SoundWrapper;
 import org.bukkit.ChatColor;
 import org.bukkit.Material;
+import org.bukkit.Sound;
 import org.bukkit.block.Block;
 import org.bukkit.block.BlockFace;
 import org.bukkit.block.BlockState;
@@ -111,6 +113,11 @@ public class BurnBlock implements Spell {
         recipe.setIngredient('I', Material.IRON_INGOT);
 
         return recipe;
+    }
+
+    @Override
+    public SoundWrapper getSound() {
+        return new SoundWrapper(Sound.FIRE_IGNITE,1.0f,0.0f);
     }
 
 }
