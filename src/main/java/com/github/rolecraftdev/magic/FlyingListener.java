@@ -46,7 +46,7 @@ public class FlyingListener implements Listener {
         if(stack.getType() == Material.STICK) {
             if(stack.hasItemMeta()){
                 if(stack.getItemMeta().hasDisplayName()) {
-                    if(stack.getItemMeta().getDisplayName().equalsIgnoreCase("fly")) {
+                    if(ChatColor.stripColor(stack.getItemMeta().getDisplayName()).equalsIgnoreCase("fly")) {
                         event.getPlayer().setFlying(true);
                         event.getPlayer().setMetadata(
                                 "rolecraftfly",
