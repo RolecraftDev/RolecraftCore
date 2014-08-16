@@ -26,19 +26,39 @@
  */
 package com.github.rolecraftdev.magic.spells;
 
+import java.util.HashSet;
+
 import com.github.rolecraftdev.magic.Spell;
 import com.github.rolecraftdev.magic.SpellManager;
 
+import org.bukkit.Location;
+import org.bukkit.Material;
 import org.bukkit.block.Block;
 import org.bukkit.block.BlockFace;
+import org.bukkit.entity.Entity;
 import org.bukkit.entity.LivingEntity;
 import org.bukkit.entity.Player;
+import org.bukkit.entity.TNTPrimed;
 import org.bukkit.inventory.Recipe;
+import org.bukkit.util.Vector;
 
+@SuppressWarnings("deprecation")
 public class Meteor implements Spell {
 
+    private static HashSet<Byte> transparency;
+
+    private SpellManager manager;
+
+    static {
+        transparency = new HashSet<Byte>();
+        transparency.add((byte) Material.AIR.getId());
+        transparency.add((byte) Material.GLASS.getId());
+        transparency.add((byte) Material.STATIONARY_WATER.getId());
+        transparency.add((byte) Material.WATER.getId());
+    }
+
     public Meteor(SpellManager spellManager) {
-        // TODO Auto-generated constructor stub
+        manager = spellManager;
     }
 
     @Override
@@ -54,21 +74,68 @@ public class Meteor implements Spell {
     }
 
     @Override
-    public float estimateLeftClickMana(Player ply, Block block, int modifier, BlockFace face) {
+    public float estimateLeftClickMana(Player ply, Block block, int modifier,
+            BlockFace face) {
         // TODO Auto-generated method stub
         return 0;
     }
 
     @Override
-    public float estimateRightClickMana(Player ply, Block block, int modifier, BlockFace face) {
-        // TODO Auto-generated method stub
-        return 0;
+    public float estimateRightClickMana(Player ply, Block block, int modifier,
+            BlockFace face) {
+        return (200f - modifier / 100f > 0) ? 200f - modifier / 100f : 0;
     }
 
     @Override
-    public float rightClick(Player ply, Block block, int modifier, BlockFace face) {
-        // TODO Auto-generated method stub
-        return 0;
+    public float rightClick(Player ply, Block block, int modifier,
+            BlockFace face) {
+        Block target = null;
+        if (block != null) {
+            target = block;
+        }
+        else {
+            Block temp = ply.getTargetBlock(transparency, manager.getRange());
+            if (temp != null) {
+                target = temp;
+            }
+            else {
+                return Float.MIN_VALUE;
+            }
+        }
+        Block index = target;
+
+        boolean isTop = true;
+
+        loop:
+        for (int i = 0; i < 40; i++) {
+            index = index.getRelative(BlockFace.UP);
+            switch (index.getType()) {
+            case AIR:
+                continue;
+            case LEAVES:
+                continue;
+            case DEAD_BUSH:
+                continue;
+            default:
+                isTop = false;
+                break loop;
+            }
+        }
+
+        if (!isTop) {
+            ply.sendMessage("You must aim above ground to shoot a meteor!");
+            return Float.MIN_VALUE;
+        }
+        Location center = new Location(target.getWorld(),
+                target.getX(), target.getY() + 20, target.getZ());
+        Vector velocity = target.getLocation().toVector()
+                .subtract(center.toVector())
+                .normalize().multiply(0.2d);
+        Entity tnt = ply.getWorld().spawn(
+                new Location(ply.getWorld(), target.getX(), center.getY(),
+                        target.getZ()), TNTPrimed.class);
+        tnt.setVelocity(velocity);
+        return (200f - modifier / 100f > 0) ? 200f - modifier / 100f : 0;
     }
 
     @Override

@@ -101,7 +101,7 @@ public class FreezeBlock implements Spell {
         if(bbe.isCancelled()) {
             return Float.MIN_VALUE;
         }
-        float retVal = 0;
+        float retVal = Float.MIN_VALUE;
         if (!bbe.isCancelled()) {
             BlockState state = targetBlock.getState();
             // block.setType(Material.ICE);
@@ -148,7 +148,7 @@ public class FreezeBlock implements Spell {
         if(bbe.isCancelled()) {
             return Float.MIN_VALUE;
         }
-        float retVal = 0;
+        float retVal = Float.MIN_VALUE;
         if (!bbe.isCancelled()) {
             BlockState state = targetBlock.getState();
             // block.setType(Material.ICE);

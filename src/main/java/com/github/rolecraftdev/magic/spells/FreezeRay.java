@@ -72,7 +72,7 @@ public class FreezeRay implements Spell {
     @Override
     public float estimateLeftClickMana(Player ply, Block block, int modifier,
             BlockFace face) {
-        Block targetBlock = ply.getTargetBlock(transparency, 100);
+        Block targetBlock = ply.getTargetBlock(transparency, manager.getRange());
         if (targetBlock.getType() == Material.STATIONARY_LAVA) {
             return 50;
         }
@@ -82,7 +82,7 @@ public class FreezeRay implements Spell {
     @Override
     public float estimateRightClickMana(Player ply, Block block, int modifier,
             BlockFace face) {
-        Block targetBlock = ply.getTargetBlock(transparency, 100);
+        Block targetBlock = ply.getTargetBlock(transparency, manager.getRange());
         if (targetBlock.getType() == Material.STATIONARY_LAVA) {
             return 50;
         }
@@ -93,7 +93,7 @@ public class FreezeRay implements Spell {
     public float rightClick(Player ply, Block block, int modifier,
             BlockFace face) {
 
-        Block targetBlock = ply.getTargetBlock(transparency, 100);
+        Block targetBlock = ply.getTargetBlock(transparency, manager.getRange());
         BlockBreakEvent bbe = new BlockBreakEvent(targetBlock, ply);
         Bukkit.getPluginManager().callEvent(bbe);
         if(bbe.isCancelled()) {
@@ -140,7 +140,7 @@ public class FreezeRay implements Spell {
 
     @Override
     public float leftClick(Player ply, Block block, int modifier, BlockFace face) {
-        Block targetBlock = ply.getTargetBlock(transparency, 100);
+        Block targetBlock = ply.getTargetBlock(transparency, manager.getRange());
         BlockBreakEvent bbe = new BlockBreakEvent(targetBlock, ply);
         Bukkit.getPluginManager().callEvent(bbe);
         if(bbe.isCancelled()) {
