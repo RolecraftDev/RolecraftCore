@@ -31,14 +31,19 @@ import org.bukkit.plugin.java.JavaPlugin;
 import java.io.BufferedReader;
 import java.io.BufferedWriter;
 import java.io.File;
-import java.io.FileNotFoundException;
 import java.io.FileOutputStream;
 import java.io.FileReader;
 import java.io.FileWriter;
 import java.io.IOException;
 import java.util.Properties;
 
+/**
+ * Utility class to make dealing with Java {@link Properties} easier
+ */
 public class PropertiesFile extends Properties {
+    /**
+     * The {@link File} the {@link Properties} are loaded from
+     */
     private final File file;
 
     public PropertiesFile(final File file) {
@@ -47,6 +52,14 @@ public class PropertiesFile extends Properties {
         load();
     }
 
+    /**
+     * Creates a new PropertiesFile, copying the resource from the plugin jar
+     * if it doesn't already exist
+     *
+     * @param plugin    The plugin for copying the resource from
+     * @param fileName  The name of the file
+     * @param overwrite Whether to overwrite existing files while copying
+     */
     public PropertiesFile(final JavaPlugin plugin, final String fileName,
             final boolean overwrite) {
         file = new File(plugin.getDataFolder(), fileName);
@@ -54,6 +67,9 @@ public class PropertiesFile extends Properties {
         load();
     }
 
+    /**
+     * Loads the properties
+     */
     private void load() {
         try {
             super.load(new BufferedReader(new FileReader(file)));
@@ -62,14 +78,25 @@ public class PropertiesFile extends Properties {
         }
     }
 
+    /**
+     * Reloads the properties
+     */
     public void reload() {
         load();
     }
 
+    /**
+     * Saves the properties without comments
+     */
     public void save() {
         save("");
     }
 
+    /**
+     * Saves the properties with the given comments
+     *
+     * @param comments The comments to save the properties with
+     */
     public void save(final String comments) {
         try {
             super.store(new BufferedWriter(new FileWriter(file)), comments);
@@ -78,10 +105,18 @@ public class PropertiesFile extends Properties {
         }
     }
 
+    /**
+     * Saves the properties to the file in XML format
+     */
     public void saveXML() {
         saveXML("");
     }
 
+    /**
+     * Saves the properties in XML format with the given comments
+     *
+     * @param comments The comments to add to the XML file
+     */
     public void saveXML(final String comments) {
         try {
             super.storeToXML(new FileOutputStream(file), comments);
