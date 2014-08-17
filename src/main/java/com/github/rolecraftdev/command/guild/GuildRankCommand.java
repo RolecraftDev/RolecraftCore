@@ -83,7 +83,7 @@ public class GuildRankCommand extends PlayerCommandHandler {
             return;
         }
 
-        final String rankArg = args.getArgument(0).rawString();
+        final String rankArg = args.getRaw(0);
         final GuildRank rank = guild.getRank(rankArg);
         if (rank == null) { // The rank doesn't exist
             if (args.length() < 2 || !isCreateAlias(
@@ -116,7 +116,7 @@ public class GuildRankCommand extends PlayerCommandHandler {
             return;
         }
 
-        final String command = args.getArgument(1).rawString().toLowerCase();
+        final String command = args.getRaw(1).toLowerCase();
         if (isDeleteAlias(command)) {
             // Returns false if the rank is leader or default
             if (guild.removeRank(rank)) {
