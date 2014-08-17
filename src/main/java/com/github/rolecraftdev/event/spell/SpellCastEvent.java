@@ -39,17 +39,22 @@ public class SpellCastEvent extends SpellEvent implements Cancellable {
 
     private final Entity caster;
 
+    private float manaCost;
     private boolean cancelled;
     private String cancelMessage = ChatColor.DARK_RED + "You can't do that!";
 
     public SpellCastEvent(final RolecraftCore plugin, final Spell spell,
-            final Entity caster) {
+            final Entity caster, final float manaCost) {
         super(plugin, spell);
         this.caster = caster;
     }
 
     public Entity getCaster() {
         return caster;
+    }
+
+    public float getManaCost() {
+        return manaCost;
     }
 
     @Override
@@ -59,6 +64,10 @@ public class SpellCastEvent extends SpellEvent implements Cancellable {
 
     public String getCancelMessage() {
         return cancelMessage;
+    }
+
+    public void setManaCost(final float manaCost) {
+        this.manaCost = manaCost;
     }
 
     @Override

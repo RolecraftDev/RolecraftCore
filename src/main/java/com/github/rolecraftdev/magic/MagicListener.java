@@ -121,20 +121,20 @@ public class MagicListener implements Listener {
                         }
                         if (action == Action.LEFT_CLICK_AIR
                                 || action == Action.LEFT_CLICK_BLOCK) {
-                            if (spell.estimateLeftClickMana(player,
-                                    clicked,
+                            final float estimate = spell.estimateLeftClickMana(
+                                    player, clicked,
                                     spellManager.getMagicModfier(player),
-                                    e.getBlockFace())
-                                    <
-                                    spellManager.getMana(e.getPlayer())) {
+                                    e.getBlockFace());
+                            if (estimate < spellManager.getMana(e.getPlayer())) {
                                 SpellCastEvent event = new SpellCastEvent(
-                                        plugin, spell, player);
+                                        plugin, spell, player, estimate);
                                 Bukkit.getPluginManager().callEvent(event);
                                 if (event.isCancelled()) {
                                     player.sendMessage(
                                             event.getCancelMessage());
                                     return;
                                 }
+                                final float evtMana = event.getManaCost();
 
                                 float retVal = spell.leftClick(player,
                                         clicked, spellManager
@@ -147,6 +147,7 @@ public class MagicListener implements Listener {
                                         || retVal == Float.MIN_NORMAL) {
                                     return;
                                 }
+                                retVal = evtMana;
                                 spellManager.subtractMana(player, retVal);
                                 player.sendMessage(plugin.getMessage(
                                         Messages.SPELL_CAST,
@@ -155,14 +156,13 @@ public class MagicListener implements Listener {
                                 spell.getSound().play(player.getLocation());
                             }
                         } else {
-                            if (spell.estimateRightClickMana(player,
-                                    clicked,
+                            final float estimate = spell.estimateRightClickMana(
+                                    player, clicked,
                                     spellManager.getMagicModfier(player),
-                                    e.getBlockFace())
-                                    <
-                                    spellManager.getMana(player)) {
+                                    e.getBlockFace());
+                            if (estimate < spellManager.getMana(player)) {
                                 SpellCastEvent event = new SpellCastEvent(
-                                        plugin, spell, player);
+                                        plugin, spell, player, estimate);
                                 Bukkit.getPluginManager().callEvent(event);
                                 if (event.isCancelled()) {
                                     player.sendMessage(
@@ -181,6 +181,8 @@ public class MagicListener implements Listener {
                                         || retVal == Float.MIN_NORMAL) {
                                     return;
                                 }
+
+                                retVal = event.getManaCost();
                                 spellManager.subtractMana(player, retVal);
                                 player.sendMessage(plugin.getMessage(
                                         Messages.SPELL_CAST,
@@ -206,10 +208,19 @@ public class MagicListener implements Listener {
             if (player.getItemInHand().getType() == Material.STICK) {
                 Spell spell = getSpell(player.getItemInHand());
                 if (spell != null) {
+                    final float estimate = spell.estimateAttackMana(player,
+                            (LivingEntity) e.getEntity(),
+                            spellManager.getMagicModfier(player));
                     if (spellManager.getMana(player) >
-                            spell.estimateAttackMana(player,
-                                    (LivingEntity) e.getEntity(),
-                                    spellManager.getMagicModfier(player))) {
+                            estimate) {
+                        SpellCastEvent event = new SpellCastEvent(plugin, spell,
+                                e.getDamager(), estimate);
+                        Bukkit.getPluginManager().callEvent(event);
+                        if (event.isCancelled()) {
+                            player.sendMessage(
+                                    event.getCancelMessage());
+                            return;
+                        }
                         float retVal = spell
                                 .attack(player, (LivingEntity) e.getEntity(),
                                         spellManager.getMagicModfier(player));
@@ -217,15 +228,7 @@ public class MagicListener implements Listener {
                                 || retVal == Float.MIN_NORMAL) {
                             return;
                         }
-                        SpellCastEvent event = new SpellCastEvent(
-                                plugin, spell, e.getDamager());
-                        Bukkit.getPluginManager().callEvent(event);
-                        if (event.isCancelled()) {
-                            player.sendMessage(
-                                    event.getCancelMessage());
-                            return;
-                        }
-
+                        retVal = event.getManaCost();
                         spellManager.subtractMana(player, retVal);
                         player.sendMessage(plugin.getMessage(
                                 Messages.SPELL_CAST,
