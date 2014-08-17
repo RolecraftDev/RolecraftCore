@@ -51,7 +51,7 @@ public class GuildShowCommand extends CommandHandler {
     @Override
     public void onCommand(final CommandSender sender, final Arguments args) {
         final Guild guild = CommandHelper.getGuildFromArgs(guildManager, sender,
-                args.length() > 0 ? args.getArgument(0).rawString() : null);
+                args.length() > 0 ? args.get(0) : null);
 
         if (guild != null) {
             // TODO: Show information about the guild

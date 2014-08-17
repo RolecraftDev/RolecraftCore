@@ -90,10 +90,10 @@ public final class CommandHelper {
      * {@link Guild} if {@code guildArg} is null, and else null
      */
     public static Guild getGuildFromArgs(final GuildManager mgr,
-            final CommandSender sender, final String guildArg) {
+            final CommandSender sender, final ChatSection guildArg) {
         final Guild result;
         if (guildArg != null) {
-            result = mgr.getGuild(guildArg);
+            result = mgr.getGuild(guildArg.get());
             if (result == null) {
                 sender.sendMessage(
                         ChatColor.DARK_RED + "That guild doesn't exist!");
