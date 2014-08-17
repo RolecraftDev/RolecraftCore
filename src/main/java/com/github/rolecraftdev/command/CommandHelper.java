@@ -91,6 +91,10 @@ public final class CommandHelper {
      * @return The given string with all variables replaced
      */
     public static String applyVars(String message, final MsgVar... vars) {
+        if (vars == null) {
+            return message;
+        }
+
         for (final MsgVar var : vars) {
             message = var.replace(message);
         }

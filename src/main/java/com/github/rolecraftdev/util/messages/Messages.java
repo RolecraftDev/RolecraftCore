@@ -156,8 +156,8 @@ public class Messages {
      * @param key The key of the message to get
      * @return The message configured for the given key
      */
-    public String get(final String key) {
-        return parseColours(messages.get(key));
+    public String get(final String key, final MsgVar... vars) {
+        return CommandHelper.applyVars(parseColours(messages.get(key)), vars);
     }
 
     /**
