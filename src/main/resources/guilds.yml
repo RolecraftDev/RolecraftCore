@@ -1,4 +1,4 @@
-#No values in this file can be changed without a server restart
+# No values in this file can be changed without a server restart
 economy:
   creation-cost: 100
   invite-cost: 0
