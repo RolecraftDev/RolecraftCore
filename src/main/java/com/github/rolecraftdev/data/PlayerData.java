@@ -44,9 +44,12 @@ public final class PlayerData {
      * The username of the player this object holds data for
      */
     private final String name;
-
+    /**
+     * The {@link PlayerSettings} object for this player, which holds settings
+     * for the player such as whether they want their mana shown on a scoreboard
+     * and whether they want to see chat messages when they cast a spell
+     */
     private PlayerSettings settings;
-
     /**
      * The unique ID of the {@link com.github.rolecraftdev.guild.Guild} the
      * player belongs to, or null if the player doesn't belong to a Guild
@@ -75,6 +78,10 @@ public final class PlayerData {
      * for Rolecraft
      */
     private float karma;
+    /**
+     * The player's mana, stored as a float
+     */
+    private float mana;
 
     /**
      * Whether the data is loaded
@@ -84,10 +91,6 @@ public final class PlayerData {
      * Whether the data is currently being unloaded
      */
     private volatile boolean unloading;
-    /**
-     * The player's mana, stored as a float
-     */
-    private float mana;
 
     /**
      * Constructs a new PlayerData object for a player
@@ -263,10 +266,8 @@ public final class PlayerData {
      *              is joining
      */
     public void setGuild(final UUID guild) {
-        if (loaded) {
-            if (!unloading) {
-                this.guild = guild;
-            }
+        if (loaded && !unloading) {
+            this.guild = guild;
         }
     }
 
@@ -277,10 +278,8 @@ public final class PlayerData {
      *                   the player is joining
      */
     public void setProfession(final UUID profession) {
-        if (loaded) {
-            if (!unloading) {
-                this.profession = profession;
-            }
+        if (loaded && !unloading) {
+            this.profession = profession;
         }
     }
 
@@ -290,10 +289,8 @@ public final class PlayerData {
      * @param influence The new level of influence for the player
      */
     public void setInfluence(final int influence) {
-        if (loaded) {
-            if (!unloading) {
-                this.influence = influence;
-            }
+        if (loaded && !unloading) {
+            this.influence = influence;
         }
     }
 
@@ -321,10 +318,8 @@ public final class PlayerData {
      * @param amount The new experience value for the player
      */
     public void setExperience(final float amount) {
-        if (loaded) {
-            if (!unloading) {
-                experience = amount;
-            }
+        if (loaded && !unloading) {
+            experience = amount;
         }
     }
 
@@ -352,10 +347,8 @@ public final class PlayerData {
      * @param karma The new value for the player's karma
      */
     public void setKarma(float karma) {
-        if (loaded) {
-            if (!unloading) {
-                this.karma = karma;
-            }
+        if (loaded && !unloading) {
+            this.karma = karma;
         }
     }
 
@@ -378,7 +371,9 @@ public final class PlayerData {
     }
 
     /**
-     * @return The player's mana, or -1
+     * Gets this player's current amount of mana
+     *
+     * @return The player's mana, or -1 if the data for this player isn't loaded
      */
     public float getMana() {
         // workaround for testing
@@ -440,7 +435,7 @@ public final class PlayerData {
     public void initialise(final UUID guild, final UUID profession,
             final int influence, final float exp, final float karma,
             float mana, final Map<UUID, String> progression,
-            PlayerSettings settings) {
+            final PlayerSettings settings) {
         this.guild = guild;
         this.profession = profession;
         this.influence = influence;
