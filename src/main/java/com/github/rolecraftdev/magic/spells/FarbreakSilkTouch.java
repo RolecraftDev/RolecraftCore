@@ -44,7 +44,6 @@ import org.bukkit.inventory.Recipe;
 import org.bukkit.inventory.ShapedRecipe;
 import org.bukkit.inventory.meta.ItemMeta;
 
-// TODO: figure out why you can't pick these blocks up....
 public class FarbreakSilkTouch implements Spell {
     private final SpellManager manager;
 
@@ -54,7 +53,6 @@ public class FarbreakSilkTouch implements Spell {
 
     @Override
     public String getName() {
-        // TODO: IDK but Farbreak Silk Touch is too long
         return "Silky Farbreak";
     }
 
