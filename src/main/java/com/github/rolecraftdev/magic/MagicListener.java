@@ -29,6 +29,8 @@ package com.github.rolecraftdev.magic;
 import com.github.rolecraftdev.RolecraftCore;
 import com.github.rolecraftdev.data.PlayerData;
 import com.github.rolecraftdev.event.spell.SpellCastEvent;
+import com.github.rolecraftdev.util.messages.Messages;
+import com.github.rolecraftdev.util.messages.MsgVar;
 
 import org.bukkit.Bukkit;
 import org.bukkit.ChatColor;
@@ -112,8 +114,9 @@ public class MagicListener implements Listener {
                         Player player = e.getPlayer();
                         Block clicked = e.getClickedBlock();
                         if (!(spellManager.canCast(player, spell))) {
-                            player.sendMessage(ChatColor.DARK_RED
-                                    + "You can't cast that spell!");
+                            player.sendMessage(plugin.getMessage(
+                                    Messages.CANNOT_CAST_SPELL,
+                                    MsgVar.create("$spell", spell.getName())));
                             return;
                         }
                         if (action == Action.LEFT_CLICK_AIR
@@ -137,20 +140,18 @@ public class MagicListener implements Listener {
                                         clicked, spellManager
                                                 .getMagicModfier(player),
                                         e.getBlockFace());
-                                // MIN_VALUE indicates error, 0 indicates that
-                                // the spell can't be cast in the current
-                                // situation
-
-                                // no, 0 indicates a free cast for some spells
-                                // in high level players, use MIN_NORMAL for 
-                                // can't be cast
+                                // 0 indicates a free cast for some spells in
+                                // high level players, use MIN_NORMAL for can't
+                                // be cast
                                 if (retVal == Float.MIN_VALUE
                                         || retVal == Float.MIN_NORMAL) {
                                     return;
                                 }
                                 spellManager.subtractMana(player, retVal);
-                                player.sendMessage(
-                                        "You have cast " + spell.getName());
+                                player.sendMessage(plugin.getMessage(
+                                        Messages.SPELL_CAST,
+                                        MsgVar.create("$spell",
+                                                spell.getName())));
                                 spell.getSound().play(player.getLocation());
                             }
                         } else {
@@ -173,19 +174,18 @@ public class MagicListener implements Listener {
                                         clicked, spellManager
                                                 .getMagicModfier(player),
                                         e.getBlockFace());
-                                // MIN_VALUE indicates error, 0 indicates that
-                                // the spell can't be cast in the current
-                                // situation
-                                // no, 0 indicates a free cast for some spells
-                                // in high level players, use MIN_NORMAL for 
-                                // can't be cast
+                                // 0 indicates a free cast for some spells in
+                                // high level players, use MIN_NORMAL for can't
+                                // be cast
                                 if (retVal == Float.MIN_VALUE
                                         || retVal == Float.MIN_NORMAL) {
                                     return;
                                 }
                                 spellManager.subtractMana(player, retVal);
-                                player.sendMessage(
-                                        "You have cast " + spell.getName());
+                                player.sendMessage(plugin.getMessage(
+                                        Messages.SPELL_CAST,
+                                        MsgVar.create("$spell",
+                                                spell.getName())));
                                 spell.getSound().play(player.getLocation());
                             }
                         }
@@ -227,7 +227,10 @@ public class MagicListener implements Listener {
                         }
 
                         spellManager.subtractMana(player, retVal);
-                        player.sendMessage("You have cast " + spell.getName());
+                        player.sendMessage(plugin.getMessage(
+                                Messages.SPELL_CAST,
+                                MsgVar.create("$spell",
+                                        spell.getName())));
                         spell.getSound().play(player.getLocation());
                     }
                 }

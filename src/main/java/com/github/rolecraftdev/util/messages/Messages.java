@@ -139,6 +139,10 @@ public class Messages {
     public static final String PROFESSION_SELECTED = "profession-selected";
     // Sent if a player tries to select a profession when they already have one
     public static final String PROFESSION_ALREADY_SELECTED = "profession-already-selected";
+    // Sent to players who try to cast a spell they aren't allowed to cast
+    public static final String CANNOT_CAST_SPELL = "cannot-cast-spell";
+    // Sent when a player casts a spell
+    public static final String SPELL_CAST = "spell-cast";
 
     /**
      * The {@link RolecraftCore} plugin object
