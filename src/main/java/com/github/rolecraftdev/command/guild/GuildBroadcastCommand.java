@@ -34,8 +34,8 @@ import com.github.rolecraftdev.command.CommandHelper;
 import com.github.rolecraftdev.guild.Guild;
 import com.github.rolecraftdev.guild.GuildAction;
 import com.github.rolecraftdev.guild.GuildRank;
+import com.github.rolecraftdev.util.messages.Messages;
 
-import org.bukkit.ChatColor;
 import org.bukkit.entity.Player;
 
 public class GuildBroadcastCommand extends PlayerCommandHandler {
@@ -62,7 +62,7 @@ public class GuildBroadcastCommand extends PlayerCommandHandler {
         final Guild guild = plugin.getGuildManager()
                 .getPlayerGuild(player.getUniqueId());
         if (guild == null) {
-            player.sendMessage(ChatColor.DARK_RED + "You don't have a guild!");
+            player.sendMessage(plugin.getMessage(Messages.NO_GUILD));
             return;
         }
         if (guild.can(player.getUniqueId(), GuildAction.BROADCAST_MESSAGE)) {
@@ -71,7 +71,7 @@ public class GuildBroadcastCommand extends PlayerCommandHandler {
                         .getRank(args.getValueFlag("r").getRawValue());
                 if (rank == null) {
                     player.sendMessage(
-                            ChatColor.DARK_RED + "That rank doesn't exist!");
+                            plugin.getMessage(Messages.RANK_NOT_EXISTS));
                     return;
                 }
 

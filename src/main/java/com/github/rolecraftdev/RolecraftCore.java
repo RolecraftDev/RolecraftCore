@@ -44,7 +44,7 @@ import com.github.rolecraftdev.magic.SpellManager;
 import com.github.rolecraftdev.profession.Profession;
 import com.github.rolecraftdev.profession.ProfessionManager;
 import com.github.rolecraftdev.quest.QuestManager;
-import com.github.rolecraftdev.util.Messages;
+import com.github.rolecraftdev.util.messages.Messages;
 
 import net.milkbowl.vault.economy.Economy;
 
@@ -239,6 +239,26 @@ public final class RolecraftCore extends AlbPlugin {
      */
     public ColorScheme getColorScheme() {
         return colorScheme;
+    }
+
+    /**
+     * Gets the configured messages for the plugin
+     *
+     * @return The plugin's loaded {@link Messages} object
+     */
+    public Messages getMessages() {
+        return messages;
+    }
+
+    /**
+     * Gets the configured message for the plugin with the given configuration
+     * key
+     *
+     * @param key The configuration key to get the configured message for
+     * @return The configured message for the given configuration key
+     */
+    public String getMessage(final String key) {
+        return getMessages().get(key);
     }
 
     /**

@@ -26,6 +26,8 @@
  */
 package com.github.rolecraftdev.util;
 
+import pw.ian.albkit.util.Rand;
+
 import org.bukkit.block.Block;
 import org.bukkit.entity.Entity;
 import org.bukkit.entity.LivingEntity;
@@ -39,8 +41,7 @@ import java.util.Random;
  * General utility methods for Rolecraft
  */
 public class Utils {
-
-    private static Random rand = new Random();
+    private static Random rand = Rand.r;
     private static final float velocityFactor = 0.2f;
     private static final float smallVelocityFactor = 0.05f;
 
@@ -103,11 +104,11 @@ public class Utils {
     }
 
     /**
-     * Changes float values slightly to create the effect of randomness,
-     * based on velocityFactor
+     * Changes float values slightly to create the effect of randomness, based
+     * on velocityFactor
      *
-     * @param original
-     * @return
+     * @param original The original velocity
+     * @return A randomly modified version of the given float
      */
     public static float velocityRandomiser(float original) {
         float velocity = original - velocityFactor;
@@ -116,8 +117,8 @@ public class Utils {
     }
 
     /**
-     * Convenience method for {@link Utils#velocityRandomiser(float)}, applies to
-     * X,Y, and Z
+     * Convenience method for {@link Utils#velocityRandomiser(float)}, applies
+     * to X, Y, and Z
      *
      * @param original
      * @return
@@ -129,7 +130,8 @@ public class Utils {
     }
 
     /**
-     * Same as {@link Utils#velocityRandomiser(float)}, except with 1/4 of the effect
+     * Same as {@link Utils#velocityRandomiser(float)}, except with 1/4 of the
+     * effect
      *
      * @param original
      * @return
@@ -141,7 +143,8 @@ public class Utils {
     }
 
     /**
-     * Same as {@link Utils#velocityRandomiser(Vector)}, except with 1/4 of the effect
+     * Same as {@link Utils#velocityRandomiser(Vector)}, except with 1/4 of the
+     * effect
      *
      * @param original
      * @return

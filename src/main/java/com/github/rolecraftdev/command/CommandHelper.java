@@ -35,6 +35,7 @@ import com.github.rolecraftdev.guild.Guild;
 import com.github.rolecraftdev.guild.GuildAction;
 import com.github.rolecraftdev.guild.GuildManager;
 import com.github.rolecraftdev.guild.GuildRank;
+import com.github.rolecraftdev.util.messages.MsgVar;
 
 import org.bukkit.ChatColor;
 import org.bukkit.command.CommandSender;
@@ -52,6 +53,49 @@ public final class CommandHelper {
      * to a user.
      */
     public static final int COMMANDS_PER_PAGE = 6;
+
+    /**
+     * Displays a 'help message' to the given command sender, which consists of
+     * a list of commands, containing their usage as well as a brief description
+     * as to each command's functionality. The page of subcommands is taken from
+     * the arguments if any are provided.
+     *
+     * @param sender   - The {@link CommandSender} to send the help messages to
+     * @param commands - A {@link List} of sub-commands, used for sending
+     *                 help to the {@link CommandSender}
+     * @param pageArg  - The {@link ChatSection} argument which should be
+     *                 used to extract a page number from
+     */
+    public static void displayCommandList(final CommandSender sender,
+            final List<CommandHandler> commands, final ChatSection pageArg) {
+        final List<CommandHandler> list = getPageFromArgs(sender, commands,
+                pageArg, COMMANDS_PER_PAGE);
+
+        if (list != null) {
+            sender.sendMessage(ChatColor.GOLD + "[Commands]");
+            for (final CommandHandler sub : list) {
+                if (sender.hasPermission(sub.getPermission())) {
+                    sender.sendMessage(ChatColor.GOLD + sub.getUsage() + " - "
+                            + sub.getDescription());
+                }
+            }
+        }
+    }
+
+    /**
+     * Replaces the variables in the given message with the values contained by
+     * the given {@link MsgVar} objects
+     *
+     * @param message The message to replace variables in
+     * @param vars    The variables to replace in the given message
+     * @return The given string with all variables replaced
+     */
+    public static String applyVars(String message, final MsgVar... vars) {
+        for (final MsgVar var : vars) {
+            message = var.replace(message);
+        }
+        return message;
+    }
 
     /**
      * Joins all of the arguments in the given {@link Arguments} object starting
@@ -177,34 +221,6 @@ public final class CommandHelper {
 
         sender.sendMessage(ChatColor.GRAY +
                 "Permitted Actions: " + permitted.toString());
-    }
-
-    /**
-     * Displays a 'help message' to the given command sender, which consists of
-     * a list of commands, containing their usage as well as a brief description
-     * as to each command's functionality. The page of subcommands is taken from
-     * the arguments if any are provided.
-     *
-     * @param sender   - The {@link CommandSender} to send the help messages to
-     * @param commands - A {@link List} of sub-commands, used for sending
-     *                 help to the {@link CommandSender}
-     * @param pageArg  - The {@link ChatSection} argument which should be
-     *                 used to extract a page number from
-     */
-    public static void displayCommandList(final CommandSender sender,
-            final List<CommandHandler> commands, final ChatSection pageArg) {
-        final List<CommandHandler> list = getPageFromArgs(sender, commands,
-                pageArg, COMMANDS_PER_PAGE);
-
-        if (list != null) {
-            sender.sendMessage(ChatColor.GOLD + "[Commands]");
-            for (final CommandHandler sub : list) {
-                if (sender.hasPermission(sub.getPermission())) {
-                    sender.sendMessage(ChatColor.GOLD + sub.getUsage() + " - "
-                            + sub.getDescription());
-                }
-            }
-        }
     }
 
     /**

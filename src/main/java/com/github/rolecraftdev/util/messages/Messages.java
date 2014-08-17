@@ -24,10 +24,13 @@
  * DISCLAIMER: This is a human-readable summary of (and not a substitute for) the
  * license.
  */
-package com.github.rolecraftdev.util;
+package com.github.rolecraftdev.util.messages;
 
 import com.github.rolecraftdev.RolecraftCore;
+import com.github.rolecraftdev.command.CommandHelper;
 import com.github.rolecraftdev.data.storage.YamlFile;
+
+import org.bukkit.ChatColor;
 
 import java.io.File;
 import java.lang.reflect.Field;
@@ -154,7 +157,7 @@ public class Messages {
      * @return The message configured for the given key
      */
     public String get(final String key) {
-        return messages.get(key);
+        return parseColours(messages.get(key));
     }
 
     /**
@@ -187,7 +190,7 @@ public class Messages {
                     .isFinal(mods)) {
                 try {
                     final String key = (String) field.get(this);
-                    if (key == null) {
+                    if (!messages.containsKey(key)) {
                         messages.put(key, defaults.getString(key));
                     }
                 } catch (final IllegalAccessException e) {
@@ -196,5 +199,14 @@ public class Messages {
             }
             field.setAccessible(false);
         }
+    }
+
+    private MsgVar[] colours = new MsgVar[] {
+            // TODO maybe add more
+            MsgVar.create("$darkred", ChatColor.DARK_RED.toString()),
+    };
+
+    private String parseColours(final String original) {
+        return CommandHelper.applyVars(original, colours);
     }
 }

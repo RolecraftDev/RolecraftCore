@@ -6,40 +6,40 @@ message: WHITE
 highlight: YELLOW
 
 # Actual messages
-no-permission: You don't have permission to do that!
-not-player: You must be a player to do that!
-no-guild: You don't have a guild!
-not-guild-leader: You have to be the guild leader to do that!
-rank-not-exists: That rank doesn't exist!
-guild-not-exists: That guild doesn't exist!
-already-in-guild: You already have a guild!
-cannot-afford: You can't afford to do that!
+no-permission: $darkredYou don't have permission to do that!
+not-player: $darkredYou must be a player to do that!
+no-guild: $darkredYou don't have a guild!
+not-guild-leader: $darkredYou have to be the guild leader to do that!
+rank-not-exists: $darkredThat rank doesn't exist!
+guild-not-exists: $darkredThat guild doesn't exist!
+already-in-guild: $darkredYou already have a guild!
+cannot-afford: $darkredYou can't afford to do that!
 guild-created: Your guild was created!
 guild-disbanded: Guild disbanded!
 guild-home-set: You set your guild's home.
 guild-tp-home: Teleporting to guild home...
-guild-not-invited: You aren't invited to that guild!
+guild-not-invited: $darkredYou aren't invited to that guild!
 guild-invite-rejected: You rejected the invitation.
 guild-joined-player: You joined the guild.
 guild-joined-others: A player has joined the guild!
-player-not-exists: That player doesn't exist!
-player-not-online: That player isn't online right now!
-player-considering-invite: That player is already considering a guild invitation!
+player-not-exists: $darkredThat player doesn't exist!
+player-not-online: $darkredThat player isn't online right now!
+player-considering-invite: $darkredThat player is already considering a guild invitation!
 player-invited-receiver: You've received an invitation to a guild!
 player-invited-sender: You sent an invite to your guild.
-player-not-in-guild: That player isn't in your guild!
-invalid-member-action: That action doesn't make any sense...
+player-not-in-guild: $darkredThat player isn't in your guild!
+invalid-member-action: $darkredThat action doesn't make any sense...
 player-added-to-rank: You were added to a rank.
 added-player-to-rank: You added the player to a rank.
 player-removed-from-rank: You were removed from a rank!
 removed-player-from-rank: You removed the player from a rank!
-kicked-from-guild: You were kicked from your guild!
+kicked-from-guild: $darkredYou were kicked from your guild!
 player-kicked: You kicked the player from the guild!
 rank-created: You created a new guild rank!
-rank-already-exists: That rank can't be created as it already exists!
+rank-already-exists: $darkredThat rank can't be created as it already exists!
 rank-removed: You removed that rank from the guild.
-cannot-remove-rank: You can't remove that rank!
-invalid-action: That's not a valid action...
-invalid-value: That's not a valid value to set the permission to...
+cannot-remove-rank: $darkredYou can't remove that rank!
+invalid-action: $darkredThat's not a valid action...
+invalid-value: $darkredThat's not a valid value to set the permission to...
 value-set: You set the value of the permission.
-cannot-modify-rank: You can't modify that rank!
+cannot-modify-rank: $darkredYou can't modify that rank!
