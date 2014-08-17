@@ -40,7 +40,7 @@ public abstract class RolecraftEvent extends Event {
         this.plugin = plugin;
     }
 
-    public final RolecraftCore getPlugin() {
+    public final RolecraftCore getRolecraftPlugin() {
         return plugin;
     }
 }

@@ -58,7 +58,7 @@ public class GuildCreateEvent extends GuildEvent implements Cancellable {
      * @return The {@link Player} who founded the new {@link Guild}
      */
     public Player getFounder() {
-        return getPlugin().getServer().getPlayer(getGuild().getLeader());
+        return getRolecraftPlugin().getServer().getPlayer(getGuild().getLeader());
     }
 
     @Override
