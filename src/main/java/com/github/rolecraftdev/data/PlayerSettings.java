@@ -50,7 +50,6 @@ public class PlayerSettings {
         sb.append(String.valueOf(showMana));
         sb.append(',');
         sb.append(String.valueOf(spellChatMessage));
-        sb.append(',');
         return sb.toString();
     }
 
