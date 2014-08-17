@@ -28,7 +28,7 @@ package com.github.rolecraftdev.util.messages;
 
 import com.github.rolecraftdev.RolecraftCore;
 import com.github.rolecraftdev.command.CommandHelper;
-import com.github.rolecraftdev.data.storage.YamlFile;
+import com.github.rolecraftdev.data.storage.PropertiesFile;
 
 import org.bukkit.ChatColor;
 
@@ -170,18 +170,18 @@ public class Messages {
      * a value
      */
     public void load() {
-        // Save the default messages to defaults.yml in the data folder
-        plugin.saveResource("defaults.yml", false);
+        // Save the default messages to defaults.properties in the data folder
+        plugin.saveResource("defaults.properties", false);
 
-        final YamlFile yaml = new YamlFile(
-                new File(plugin.getDataFolder(), "messages.yml"));
-        for (final String key : yaml.getKeys(false)) {
-            messages.put(key, yaml.getString(key));
+        final PropertiesFile props = new PropertiesFile(
+                new File(plugin.getDataFolder(), "messages.properties"));
+        for (final Object key : props.keySet()) {
+            messages.put(key.toString(), props.getProperty(key.toString()));
         }
 
-        // Create the YamlFile for the defaults
-        final YamlFile defaults = new YamlFile(
-                new File(plugin.getDataFolder(), "defaults.yml"));
+        // Create the PropertiesFile for the defaults
+        final PropertiesFile defaults = new PropertiesFile(
+                new File(plugin.getDataFolder(), "defaults.properties"));
         for (final Field field : getClass().getDeclaredFields()) {
             field.setAccessible(true);
             int mods = field.getModifiers();
@@ -191,7 +191,7 @@ public class Messages {
                 try {
                     final String key = (String) field.get(this);
                     if (!messages.containsKey(key)) {
-                        messages.put(key, defaults.getString(key));
+                        messages.put(key, defaults.getProperty(key));
                     }
                 } catch (final IllegalAccessException e) {
                     e.printStackTrace();
