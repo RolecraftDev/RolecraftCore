@@ -39,8 +39,12 @@ public class PropertiesFile extends Properties {
     }
 
     public void save() {
+        save("");
+    }
+
+    public void save(final String comments) {
         try {
-            super.store(new BufferedWriter(new FileWriter(file)), "");
+            super.store(new BufferedWriter(new FileWriter(file)), comments);
         } catch (final IOException e) {
             e.printStackTrace();
         }
