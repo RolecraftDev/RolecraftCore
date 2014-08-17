@@ -4,7 +4,8 @@ package com.github.rolecraftdev.util.messages;
  * Represents a variable in a message
  */
 public class MsgVar {
-    private String var, val;
+    private final String var;
+    private String val;
 
     private MsgVar(final String var) {
         this.var = var;
