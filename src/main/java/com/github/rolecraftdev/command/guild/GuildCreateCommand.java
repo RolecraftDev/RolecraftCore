@@ -32,6 +32,8 @@ import pw.ian.albkit.command.parser.Arguments;
 import com.github.rolecraftdev.RolecraftCore;
 import com.github.rolecraftdev.guild.Guild;
 import com.github.rolecraftdev.guild.GuildManager;
+import com.github.rolecraftdev.util.messages.Messages;
+import com.github.rolecraftdev.util.messages.MsgVar;
 
 import net.milkbowl.vault.economy.EconomyResponse;
 
@@ -62,8 +64,7 @@ public class GuildCreateCommand extends PlayerCommandHandler {
         }
         final UUID playerId = player.getUniqueId();
         if (guildManager.getPlayerGuild(playerId) != null) {
-            player.sendMessage(
-                    ChatColor.DARK_RED + "You are already in a guild!");
+            player.sendMessage(plugin.getMessage(Messages.ALREADY_IN_GUILD));
             return;
         }
         if (plugin.useEconomy()) {
@@ -71,8 +72,7 @@ public class GuildCreateCommand extends PlayerCommandHandler {
                     player.getName(),
                     guildManager.getCreationCost());
             if (!response.transactionSuccess()) {
-                player.sendMessage(
-                        ChatColor.DARK_RED + "You can't afford to do that!");
+                player.sendMessage(plugin.getMessage(Messages.CANNOT_AFFORD));
                 return;
             }
         }
@@ -83,8 +83,8 @@ public class GuildCreateCommand extends PlayerCommandHandler {
         guild.setName(name);
         guild.setLeader(playerId);
         if (guildManager.addGuild(guild, false)) {
-            player.sendMessage(ChatColor.GRAY
-                    + "You created a guild named '" + name + "'!");
+            player.sendMessage(plugin.getMessage(Messages.GUILD_CREATED,
+                    MsgVar.create("$name", name)));
 
             if (plugin.useEconomy()) {
                 plugin.getEconomy().bankWithdraw(player.getName(),

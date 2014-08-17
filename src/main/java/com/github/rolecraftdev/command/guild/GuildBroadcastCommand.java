@@ -35,6 +35,7 @@ import com.github.rolecraftdev.guild.Guild;
 import com.github.rolecraftdev.guild.GuildAction;
 import com.github.rolecraftdev.guild.GuildRank;
 import com.github.rolecraftdev.util.messages.Messages;
+import com.github.rolecraftdev.util.messages.MsgVar;
 
 import org.bukkit.entity.Player;
 
@@ -67,11 +68,12 @@ public class GuildBroadcastCommand extends PlayerCommandHandler {
         }
         if (guild.can(player.getUniqueId(), GuildAction.BROADCAST_MESSAGE)) {
             if (args.hasValueFlag("r")) {
-                final GuildRank rank = guild
-                        .getRank(args.getValueFlag("r").getRawValue());
+                final String name = args.getValueFlag("r").getRawValue();
+                final GuildRank rank = guild.getRank(name);
                 if (rank == null) {
-                    player.sendMessage(
-                            plugin.getMessage(Messages.RANK_NOT_EXISTS));
+                    player.sendMessage(plugin.getMessage(
+                            Messages.RANK_NOT_EXISTS,
+                            MsgVar.create("$rank", name)));
                     return;
                 }
 

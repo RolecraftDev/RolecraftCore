@@ -33,17 +33,19 @@ import com.github.rolecraftdev.RolecraftCore;
 import com.github.rolecraftdev.guild.Guild;
 import com.github.rolecraftdev.guild.GuildAction;
 import com.github.rolecraftdev.guild.GuildManager;
+import com.github.rolecraftdev.util.messages.Messages;
 
-import org.bukkit.ChatColor;
 import org.bukkit.entity.Player;
 
 import java.util.UUID;
 
 public class GuildHomeCommand extends PlayerCommandHandler {
+    private final RolecraftCore plugin;
     private final GuildManager guildManager;
 
     GuildHomeCommand(final RolecraftCore plugin) {
         super(plugin, "home");
+        this.plugin = plugin;
         guildManager = plugin.getGuildManager();
 
         setUsage("/guild home");
@@ -59,22 +61,18 @@ public class GuildHomeCommand extends PlayerCommandHandler {
             if (!player.hasPermission("rolecraft.guild.sethome") || !guild
                     .can(id,
                             GuildAction.SET_HOME)) {
-                player.sendMessage(ChatColor.DARK_RED
-                        + "You don't have permission to do that!");
+                player.sendMessage(plugin.getMessage(Messages.NO_PERMISSION));
                 return;
             }
 
             guild.setHomeLocation(player.getLocation());
-            player.sendMessage(
-                    ChatColor.GRAY + "The guild's home location has been set!");
+            player.sendMessage(plugin.getMessage(Messages.SET_GUILD_HOME));
         } else {
             if (guild != null) {
                 guild.teleportToHome(player);
-                player.sendMessage(
-                        ChatColor.GRAY + "Teleporting to guild home!");
+                player.sendMessage(plugin.getMessage(Messages.GUILD_TP_HOME));
             } else {
-                player.sendMessage(
-                        ChatColor.DARK_RED + "You don't have a guild!");
+                player.sendMessage(plugin.getMessage(Messages.NO_GUILD));
             }
         }
     }

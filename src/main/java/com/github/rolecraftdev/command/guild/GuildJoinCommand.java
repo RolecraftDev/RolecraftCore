@@ -32,6 +32,8 @@ import pw.ian.albkit.command.parser.Arguments;
 import com.github.rolecraftdev.RolecraftCore;
 import com.github.rolecraftdev.guild.Guild;
 import com.github.rolecraftdev.guild.GuildManager;
+import com.github.rolecraftdev.util.messages.Messages;
+import com.github.rolecraftdev.util.messages.MsgVar;
 
 import org.bukkit.ChatColor;
 import org.bukkit.entity.Player;
@@ -39,10 +41,12 @@ import org.bukkit.metadata.FixedMetadataValue;
 import org.bukkit.metadata.MetadataValue;
 
 public class GuildJoinCommand extends PlayerCommandHandler {
+    private final RolecraftCore plugin;
     private final GuildManager guildMgr;
 
     GuildJoinCommand(final RolecraftCore plugin) {
         super("join");
+        this.plugin = plugin;
         guildMgr = plugin.getGuildManager();
 
         setUsage("/guild join <name>");
@@ -57,15 +61,13 @@ public class GuildJoinCommand extends PlayerCommandHandler {
             return;
         }
         if (!player.hasMetadata(GuildManager.GUILD_INVITE_METADATA)) {
-            player.sendMessage(ChatColor.DARK_RED +
-                    "You aren't invited to that guild!");
+            player.sendMessage(plugin.getMessage(Messages.GUILD_NOT_INVITED));
             return;
         }
         final MetadataValue val = player
                 .getMetadata(GuildManager.GUILD_INVITE_METADATA).get(0);
         if (!(val instanceof FixedMetadataValue)) {
-            player.sendMessage(ChatColor.DARK_RED +
-                    "You aren't invited to that guild!");
+            player.sendMessage(plugin.getMessage(Messages.GUILD_NOT_INVITED));
             return;
         }
 
@@ -74,13 +76,14 @@ public class GuildJoinCommand extends PlayerCommandHandler {
         final Guild guild = guildMgr.getGuild(name);
         if (fixed.asString().equalsIgnoreCase(guild.getId().toString())) {
             guild.addMember(player.getUniqueId(), guild.getDefaultRank());
-            player.sendMessage(ChatColor.GRAY +
-                    "You joined " + guild.getName());
-            guild.broadcastMessage(ChatColor.GRAY + player.getName()
-                    + " has joined the guild!");
+            player.sendMessage(plugin.getMessage(Messages.GUILD_JOINED_PLAYER,
+                    MsgVar.create("$guild", guild.getName())));
+            guild.broadcastMessage(
+                    plugin.getMessage(Messages.GUILD_JOINED_OTHERS,
+                            MsgVar.create("$guild", guild.getName()),
+                            MsgVar.create("$player", player.getName())));
         } else {
-            player.sendMessage(ChatColor.DARK_RED +
-                    "You aren't invited to that guild!");
+            player.sendMessage(plugin.getMessage(Messages.GUILD_NOT_INVITED));
         }
     }
 }

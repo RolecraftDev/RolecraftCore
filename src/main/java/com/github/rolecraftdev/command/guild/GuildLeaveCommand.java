@@ -33,6 +33,7 @@ import com.github.rolecraftdev.RolecraftCore;
 import com.github.rolecraftdev.data.DataManager;
 import com.github.rolecraftdev.guild.Guild;
 import com.github.rolecraftdev.guild.GuildManager;
+import com.github.rolecraftdev.util.messages.Messages;
 
 import org.bukkit.ChatColor;
 import org.bukkit.entity.Player;
@@ -40,11 +41,13 @@ import org.bukkit.entity.Player;
 import java.util.UUID;
 
 public class GuildLeaveCommand extends PlayerCommandHandler {
+    private final RolecraftCore plugin;
     private final GuildManager guildMgr;
     private final DataManager dataMgr;
 
     GuildLeaveCommand(final RolecraftCore plugin) {
         super("leave");
+        this.plugin = plugin;
         guildMgr = plugin.getGuildManager();
         dataMgr = plugin.getDataManager();
 
@@ -57,7 +60,7 @@ public class GuildLeaveCommand extends PlayerCommandHandler {
         final UUID playerId = player.getUniqueId();
         final Guild guild = guildMgr.getPlayerGuild(playerId);
         if (guild == null) {
-            player.sendMessage(ChatColor.DARK_RED + "You don't have a guild!");
+            player.sendMessage(plugin.getMessage(Messages.NO_GUILD));
             return;
         }
 

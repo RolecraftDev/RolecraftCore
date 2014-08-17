@@ -33,6 +33,8 @@ import com.github.rolecraftdev.RolecraftCore;
 import com.github.rolecraftdev.data.DataManager;
 import com.github.rolecraftdev.guild.Guild;
 import com.github.rolecraftdev.guild.GuildManager;
+import com.github.rolecraftdev.util.messages.Messages;
+import com.github.rolecraftdev.util.messages.MsgVar;
 
 import org.bukkit.ChatColor;
 import org.bukkit.command.CommandSender;
@@ -61,15 +63,14 @@ public class GuildDisbandCommand extends CommandHandler {
         if (args.length() > 0) {
             if (sender instanceof Player && !sender
                     .hasPermission("rolecraft.guild.disband.other")) {
-                sender.sendMessage(ChatColor.DARK_RED
-                        + "You don't have permission to do that!");
+                sender.sendMessage(plugin.getMessage(Messages.NO_PERMISSION));
                 return;
             }
 
-            guild = guildManager.getGuild(args.getArgument(0).rawString());
+            guild = guildManager.getGuild(args.getRaw(0));
             if (guild == null) {
-                sender.sendMessage(
-                        ChatColor.DARK_RED + "That guild doesn't exist!");
+                sender.sendMessage(plugin.getMessage(
+                        Messages.GUILD_NOT_EXISTS));
                 return;
             }
         } else {
@@ -83,13 +84,12 @@ public class GuildDisbandCommand extends CommandHandler {
             guild = guildManager.getPlayerGuild(player);
 
             if (guild == null) {
-                sender.sendMessage(
-                        ChatColor.DARK_RED + "You don't have a guild!");
+                sender.sendMessage(plugin.getMessage(Messages.NO_GUILD));
                 return;
             } else {
                 if (!guild.getLeader().equals(player)) {
-                    sender.sendMessage(ChatColor.DARK_RED
-                            + "You aren't the leader of your guild!");
+                    sender.sendMessage(plugin.getMessage(
+                            Messages.NOT_GUILD_LEADER));
                     return;
                 }
             }
@@ -103,9 +103,8 @@ public class GuildDisbandCommand extends CommandHandler {
                                     guild)));
         } else {
             guildManager.removeGuild(guild);
-            sender.sendMessage(
-                    ChatColor.GRAY + "Disbanded the guild: " + guild
-                            .getName());
+            sender.sendMessage(plugin.getMessage(Messages.GUILD_DISBANDED,
+                    MsgVar.create("$name", guild.getName())));
         }
     }
 
@@ -128,8 +127,9 @@ public class GuildDisbandCommand extends CommandHandler {
         @Override
         public void run() {
             mgr.removeGuild(guild);
-            sender.sendMessage(
-                    ChatColor.GRAY + "Disbanded guild: " + guild.getName());
+            sender.sendMessage(mgr.getPlugin().getMessage(
+                    Messages.GUILD_DISBANDED,
+                    MsgVar.create("$name", guild.getName())));
         }
     }
 }

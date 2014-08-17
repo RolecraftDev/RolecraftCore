@@ -36,6 +36,8 @@ import com.github.rolecraftdev.guild.Guild;
 import com.github.rolecraftdev.guild.GuildAction;
 import com.github.rolecraftdev.guild.GuildManager;
 import com.github.rolecraftdev.guild.GuildRank;
+import com.github.rolecraftdev.util.messages.Messages;
+import com.github.rolecraftdev.util.messages.MsgVar;
 
 import org.bukkit.Bukkit;
 import org.bukkit.ChatColor;
@@ -64,7 +66,7 @@ public class GuildMemberCommand extends PlayerCommandHandler {
     public void onCommand(final Player player, final Arguments args) {
         final Guild guild = guildMgr.getPlayerGuild(player.getUniqueId());
         if (guild == null) {
-            player.sendMessage(ChatColor.DARK_RED + "You don't have a guild!");
+            player.sendMessage(plugin.getMessage(Messages.NO_GUILD));
             return;
         }
         if (args.length() < 2) {
@@ -77,8 +79,7 @@ public class GuildMemberCommand extends PlayerCommandHandler {
         final OfflinePlayer offline = targetArg.asOfflinePlayer();
 
         if (!offline.hasPlayedBefore()) {
-            player.sendMessage(ChatColor.DARK_RED +
-                    "That player doesn't exist!");
+            player.sendMessage(plugin.getMessage(Messages.PLAYER_NOT_EXISTS));
             return;
         }
 
@@ -90,45 +91,44 @@ public class GuildMemberCommand extends PlayerCommandHandler {
 
         if (command.equalsIgnoreCase("invite")) {
             if (!guild.can(player.getUniqueId(), GuildAction.INVITE)) {
-                player.sendMessage(ChatColor.DARK_RED +
-                        "You can't do that!");
+                player.sendMessage(plugin.getMessage(Messages.NO_PERMISSION));
                 return;
             }
             if (target == null) {
-                player.sendMessage(ChatColor.DARK_RED +
-                        "That player isn't online!");
+                player.sendMessage(
+                        plugin.getMessage(Messages.PLAYER_NOT_ONLINE));
                 return;
             }
 
             if (target.hasMetadata(GuildManager.GUILD_INVITE_METADATA)) {
-                player.sendMessage(ChatColor.DARK_RED
-                        + "That player is already considering an invitation to a guild!");
+                player.sendMessage(
+                        plugin.getMessage(Messages.PLAYER_CONSIDERING_INVITE));
                 return;
             }
 
             target.setMetadata(GuildManager.GUILD_INVITE_METADATA,
                     new FixedMetadataValue(plugin, guild.getId()));
-            target.sendMessage(ChatColor.GRAY +
-                    "You have been invited to " + guild.getName());
-            player.sendMessage(ChatColor.GRAY +
-                    "Invited " + target.getName() + " to the guild");
+            target.sendMessage(plugin.getMessage(
+                    Messages.PLAYER_INVITED_RECEIVER,
+                    MsgVar.create("$guild", guild.getName())));
+            player.sendMessage(plugin.getMessage(Messages.PLAYER_INVITED_SENDER,
+                    MsgVar.create("$player", target.getName())));
         } else {
             final UUID id = offline.getUniqueId();
             if (!targetGuild.equals(guild)) {
-                player.sendMessage(ChatColor.DARK_RED +
-                        "That player isn't in your guild!");
+                player.sendMessage(plugin.getMessage(
+                        Messages.PLAYER_NOT_IN_GUILD));
                 return;
             }
             if (guild.getLeader().equals(id)) {
-                player.sendMessage(ChatColor.DARK_RED +
-                        "You can't do that!");
+                player.sendMessage(plugin.getMessage(Messages.NO_PERMISSION));
                 return;
             }
 
             if (command.equalsIgnoreCase("kick")) {
                 if (!guild.can(player.getUniqueId(), GuildAction.KICK_MEMBER)) {
-                    player.sendMessage(ChatColor.DARK_RED +
-                            "You can't do that!");
+                    player.sendMessage(plugin.getMessage(
+                            Messages.NO_PERMISSION));
                     return;
                 }
 
@@ -137,13 +137,13 @@ public class GuildMemberCommand extends PlayerCommandHandler {
                 // SQL
                 new KickPlayerTask(plugin, targetData)
                         .runTaskAsynchronously(plugin);
-                player.sendMessage(ChatColor.GRAY +
-                        "Kicked " + offline.getName() + " from the guild!");
+                player.sendMessage(plugin.getMessage(Messages.PLAYER_KICKED,
+                        MsgVar.create("$player", targetData.getPlayerName())));
             } else if (command.equalsIgnoreCase("rank")) {
                 if (!guild.can(
                         player.getUniqueId(), GuildAction.MODIFY_RANKS)) {
-                    player.sendMessage(ChatColor.DARK_RED +
-                            "You can't do that!");
+                    player.sendMessage(plugin.getMessage(
+                            Messages.NO_PERMISSION));
                     return;
                 }
                 if (args.length() < 4) {
@@ -157,8 +157,9 @@ public class GuildMemberCommand extends PlayerCommandHandler {
                 final GuildRank rank = guild.getRank(rankArg);
 
                 if (rank == null) {
-                    player.sendMessage(ChatColor.DARK_RED +
-                            "The rank '" + rankArg + "' doesn't exist!");
+                    player.sendMessage(plugin.getMessage(
+                            Messages.RANK_NOT_EXISTS,
+                            MsgVar.create("$rank", rankArg)));
                     return;
                 }
 
@@ -167,32 +168,34 @@ public class GuildMemberCommand extends PlayerCommandHandler {
                 final boolean valid = add || remove;
 
                 if (!valid) {
-                    player.sendMessage(ChatColor.DARK_RED
-                            + "Action must be 'add' or 'remove'!");
+                    player.sendMessage(
+                            plugin.getMessage(Messages.INVALID_MEMBER_ACTION));
                     return;
                 }
 
                 if (add) {
                     rank.addMember(offline.getUniqueId());
-                    player.sendMessage(ChatColor.DARK_RED +
-                            "Added player '" + offline.getName() + "' to rank "
-                            + rank.getName() + "!");
+                    player.sendMessage(plugin.getMessage(
+                            Messages.ADDED_PLAYER_TO_RANK,
+                            MsgVar.create("$rank", rank.getName()),
+                            MsgVar.create("$player", offline.getName())));
 
                     if (target != null) {
-                        target.sendMessage(ChatColor.RED
-                                + "You were added to the guild rank " + rank
-                                .getName());
+                        target.sendMessage(plugin.getMessage(
+                                Messages.PLAYER_ADDED_TO_RANK,
+                                MsgVar.create("$rank", rank.getName())));
                     }
-                } else if (remove) {
+                } else {
                     rank.removeMember(offline.getUniqueId());
-                    player.sendMessage(ChatColor.DARK_RED +
-                            "Removed player '" + offline.getName()
-                            + "' from rank " + rank.getName() + "!");
+                    player.sendMessage(plugin.getMessage(
+                            Messages.REMOVED_PLAYER_FROM_RANK,
+                            MsgVar.create("$rank", rank.getName()),
+                            MsgVar.create("$player", offline.getName())));
 
                     if (target != null) {
-                        target.sendMessage(ChatColor.RED
-                                + "You were removed from the guild rank " + rank
-                                .getName());
+                        target.sendMessage(plugin.getMessage(
+                                Messages.PLAYER_REMOVED_FROM_RANK,
+                                MsgVar.create("$rank", rank.getName())));
                     }
                 }
             }
@@ -233,8 +236,8 @@ public class GuildMemberCommand extends PlayerCommandHandler {
 
                     final Player player = Bukkit.getPlayer(data.getPlayerId());
                     if (player != null) {
-                        player.sendMessage(ChatColor.RED +
-                                "You were kicked from your guild!");
+                        player.sendMessage(
+                                plugin.getMessage(Messages.KICKED_FROM_GUILD));
                     } else {
                         // If the player is offline we unload the data because
                         // the data was only loaded so they could be kicked

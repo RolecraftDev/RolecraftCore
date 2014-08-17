@@ -38,6 +38,8 @@ import com.github.rolecraftdev.guild.Guild;
 import com.github.rolecraftdev.guild.GuildAction;
 import com.github.rolecraftdev.guild.GuildManager;
 import com.github.rolecraftdev.guild.GuildRank;
+import com.github.rolecraftdev.util.messages.Messages;
+import com.github.rolecraftdev.util.messages.MsgVar;
 
 import org.bukkit.ChatColor;
 import org.bukkit.entity.Player;
@@ -66,14 +68,13 @@ public class GuildRankCommand extends PlayerCommandHandler {
 
         if (guild == null) {
             // The player doesn't have a guild
-            player.sendMessage(ChatColor.DARK_RED + "You don't have a guild!");
+            player.sendMessage(plugin.getMessage(Messages.NO_GUILD));
             return;
         }
         if (!guild.getLeader().equals(id)) {
             // The player isn't the leader of the guild and therefore cannot
             // modify ranks
-            player.sendMessage(ChatColor.DARK_RED
-                    + "You must be guild leader to do that!");
+            player.sendMessage(plugin.getMessage(Messages.NOT_GUILD_LEADER));
             return;
         }
         if (args.length() == 0) {
@@ -88,8 +89,7 @@ public class GuildRankCommand extends PlayerCommandHandler {
             if (args.length() < 2 || !isCreateAlias(
                     args.getRaw(1).toLowerCase())) {
                 // The sender has entered a non-existent rank within their guild
-                player.sendMessage(ChatColor.DARK_RED +
-                        "That rank doesn't exist!");
+                player.sendMessage(plugin.getMessage(Messages.RANK_NOT_EXISTS));
             } else { // There are 3+ args & the next is an alias of 'create'
                 // Only returns false if the rank already exists
                 final GuildRank newRank = new GuildRank(rankArg,
@@ -98,12 +98,12 @@ public class GuildRankCommand extends PlayerCommandHandler {
                     plugin.getServer().getPluginManager().callEvent(
                             new GuildRankCreateEvent(plugin, guild, newRank));
                     // Notify the sender that the rank was created
-                    player.sendMessage(
-                            ChatColor.GRAY + "Created the rank: " + rankArg);
+                    player.sendMessage(plugin.getMessage(Messages.RANK_CREATED,
+                            MsgVar.create("$rank", newRank.getName())));
                 } else {
                     // Notify the sender that the rank already exists
-                    player.sendMessage(ChatColor.DARK_RED +
-                            "That rank already exists!");
+                    player.sendMessage(plugin.getMessage(
+                            Messages.RANK_ALREADY_EXISTS));
                 }
             }
 
@@ -123,12 +123,13 @@ public class GuildRankCommand extends PlayerCommandHandler {
                 plugin.getServer().getPluginManager().callEvent(
                         new GuildRankRemoveEvent(plugin, guild, rank));
                 // Alert the sender that the rank was removed
-                player.sendMessage(ChatColor.GRAY +
-                        "Removed the rank: " + rankArg);
+                player.sendMessage(plugin.getMessage(Messages.RANK_REMOVED,
+                        MsgVar.create("$rank", rank.getName())));
             } else {
                 // Alert the sender that the rank wasn't removed
-                player.sendMessage(ChatColor.DARK_RED +
-                        "Can't remove the " + rankArg + " rank!");
+                player.sendMessage(plugin.getMessage(
+                        Messages.CANNOT_REMOVE_RANK,
+                        MsgVar.create("$rank", rank.getName())));
             }
 
             return;
@@ -142,13 +143,12 @@ public class GuildRankCommand extends PlayerCommandHandler {
                 return;
             }
 
-            final String permission = args.getArgument(2).rawString()
-                    .toLowerCase();
+            final String permission = args.getRaw(2).toLowerCase();
             final GuildAction perm = GuildAction.fromHumanReadable(permission);
 
             if (perm == null) { // The entered permission doesn't exist
-                player.sendMessage(ChatColor.DARK_RED +
-                        "Invalid action: " + permission);
+                player.sendMessage(plugin.getMessage(Messages.INVALID_ACTION,
+                        MsgVar.create("$action", permission)));
                 return;
             }
 
@@ -162,8 +162,8 @@ public class GuildRankCommand extends PlayerCommandHandler {
 
             if (!valid) {
                 // Value isn't valid
-                player.sendMessage(ChatColor.DARK_RED + value +
-                        " isn't a valid value!");
+                player.sendMessage(plugin.getMessage(Messages.INVALID_VALUE,
+                        MsgVar.create("$value", value)));
                 return;
             }
 
@@ -171,23 +171,24 @@ public class GuildRankCommand extends PlayerCommandHandler {
                 value = "true";
                 // Set the value of the permission to true
                 rank.allowAction(perm);
-                player.sendMessage(ChatColor.GRAY +
-                        "Set value for permission " + permission
-                        + " to yes for rank" + rank.getName());
+                player.sendMessage(plugin.getMessage(Messages.VALUE_SET,
+                        MsgVar.create("$action", permission),
+                        MsgVar.create("$value", value)));
             } else {
                 value = "false";
                 // Leader must always have all permissions
                 if (rank.getName().equals("Leader")) {
-                    player.sendMessage(ChatColor.DARK_RED
-                            + "Cannot remove permissions from the leader!");
+                    player.sendMessage(plugin.getMessage(
+                            Messages.CANNOT_MODIFY_RANK,
+                            MsgVar.create("$rank", rank.getName())));
                     return;
                 }
 
                 // Remove the permission from the rank + notify sender
                 rank.disallowAction(perm);
-                player.sendMessage(ChatColor.GRAY +
-                        "Set value for permission " + permission
-                        + " to no for rank " + rank.getName());
+                player.sendMessage(plugin.getMessage(Messages.VALUE_SET,
+                        MsgVar.create("$action", permission),
+                        MsgVar.create("$value", value)));
             }
 
             plugin.getServer().getPluginManager().callEvent(

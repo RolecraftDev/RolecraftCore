@@ -31,6 +31,7 @@ import pw.ian.albkit.command.parser.Arguments;
 
 import com.github.rolecraftdev.RolecraftCore;
 import com.github.rolecraftdev.guild.GuildManager;
+import com.github.rolecraftdev.util.messages.Messages;
 
 import org.bukkit.ChatColor;
 import org.bukkit.entity.Player;
@@ -60,7 +61,6 @@ public class GuildRejectCommand extends PlayerCommandHandler {
         }
 
         player.removeMetadata(GuildManager.GUILD_INVITE_METADATA, plugin);
-        player.sendMessage(ChatColor.GRAY +
-                "Rejected your current guild invitation");
+        player.sendMessage(plugin.getMessage(Messages.GUILD_INVITE_REJECTED));
     }
 }
