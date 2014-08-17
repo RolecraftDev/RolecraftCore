@@ -236,8 +236,9 @@ public class GuildMemberCommand extends PlayerCommandHandler {
 
                     final Player player = Bukkit.getPlayer(data.getPlayerId());
                     if (player != null) {
-                        player.sendMessage(
-                                plugin.getMessage(Messages.KICKED_FROM_GUILD));
+                        player.sendMessage(plugin.getMessage(
+                                Messages.KICKED_FROM_GUILD,
+                                MsgVar.create("$player", data.getPlayerName())));
                     } else {
                         // If the player is offline we unload the data because
                         // the data was only loaded so they could be kicked
