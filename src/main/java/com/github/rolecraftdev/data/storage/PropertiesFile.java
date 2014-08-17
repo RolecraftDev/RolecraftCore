@@ -31,6 +31,8 @@ import org.bukkit.plugin.java.JavaPlugin;
 import java.io.BufferedReader;
 import java.io.BufferedWriter;
 import java.io.File;
+import java.io.FileNotFoundException;
+import java.io.FileOutputStream;
 import java.io.FileReader;
 import java.io.FileWriter;
 import java.io.IOException;
@@ -71,6 +73,18 @@ public class PropertiesFile extends Properties {
     public void save(final String comments) {
         try {
             super.store(new BufferedWriter(new FileWriter(file)), comments);
+        } catch (final IOException e) {
+            e.printStackTrace();
+        }
+    }
+
+    public void saveXML() {
+        saveXML("");
+    }
+
+    public void saveXML(final String comments) {
+        try {
+            super.storeToXML(new FileOutputStream(file), comments);
         } catch (final IOException e) {
             e.printStackTrace();
         }
