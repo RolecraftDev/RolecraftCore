@@ -49,7 +49,7 @@ public final class PlayerData {
      * for the player such as whether they want their mana shown on a scoreboard
      * and whether they want to see chat messages when they cast a spell
      */
-    private PlayerSettings settings;
+    private volatile PlayerSettings settings;
     /**
      * The unique ID of the {@link com.github.rolecraftdev.guild.Guild} the
      * player belongs to, or null if the player doesn't belong to a Guild

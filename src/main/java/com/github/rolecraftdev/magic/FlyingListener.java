@@ -57,7 +57,7 @@ public class FlyingListener implements Listener {
             event.getPlayer().setMetadata(
                     "rolecraftfly",
                     new FixedMetadataValue(plugin,
-                            new Boolean(true)));
+                            true));
             event.getPlayer().setFallDistance(0f);
 
         }
@@ -73,7 +73,7 @@ public class FlyingListener implements Listener {
             event.getPlayer().setMetadata(
                     "rolecraftfly",
                     new FixedMetadataValue(plugin,
-                            new Boolean(true)));
+                            true));
             event.getPlayer().setFallDistance(0f);
 
         } else {

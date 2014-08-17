@@ -29,10 +29,12 @@ package com.github.rolecraftdev.data;
 public class PlayerSettings {
     private boolean showMana;
     private boolean spellChatMessage;
+    private volatile boolean guildSpy;
 
     private PlayerSettings() {
         showMana = true;
         spellChatMessage = true;
+        guildSpy = true;
     }
 
     public static PlayerSettings fromString(String string) {
@@ -40,6 +42,7 @@ public class PlayerSettings {
         PlayerSettings temp = new PlayerSettings();
         temp.showMana = strings[0].equals("true");
         temp.spellChatMessage = strings[1].equals("true");
+        temp.guildSpy = strings[2].equals("true");
 
         return temp;
     }
@@ -50,7 +53,37 @@ public class PlayerSettings {
         sb.append(String.valueOf(showMana));
         sb.append(',');
         sb.append(String.valueOf(spellChatMessage));
+        sb.append(',');
+        sb.append(String.valueOf(guildSpy));
         return sb.toString();
+    }
+
+    public void setShowMana(boolean showMana) {
+        this.showMana = showMana;
+    }
+
+    public void setSpellChatMessage(boolean spellChatMessage) {
+        this.spellChatMessage = spellChatMessage;
+    }
+
+    public boolean isShowMana() {
+        return showMana;
+    }
+
+    public boolean isSpellChatMessage() {
+        return spellChatMessage;
+    }
+
+    /**
+     * Ostensibly thread safe
+     * @return
+     */
+    public boolean isGuildChatSpy() {
+        return guildSpy;
+    }
+
+    public void setGuildSpy(boolean guildSpy) {
+        this.guildSpy = guildSpy;
     }
 
     public static final PlayerSettings defaultSettings = new PlayerSettings();
