@@ -54,9 +54,10 @@ public class Utils {
      * @return The entity targeted by the given player, or null if there isn't
      * one within the given range
      */
-    public static Entity getTarget(Player player, int range) {
+    public static Entity getTarget(final Player player, final int range) {
         @SuppressWarnings("deprecation")
-        Block[] bs = player.getLineOfSight(null, range).toArray(new Block[0]);
+        List<Block> blocks = player.getLineOfSight(null, range);
+        Block[] bs = blocks.toArray(new Block[blocks.size()]);
         List<Entity> near = player.getNearbyEntities(range, range, range);
         for (Block b : bs) {
             for (Entity e : near) {
@@ -78,9 +79,11 @@ public class Utils {
      * @return The living entity targeted by the given player, or null if there
      * isn't one within the given range
      */
-    public static LivingEntity getLivingTarget(Player player, int range) {
+    public static LivingEntity getLivingTarget(final Player player,
+            final int range) {
         @SuppressWarnings("deprecation")
-        Block[] bs = player.getLineOfSight(null, range).toArray(new Block[0]);
+        List<Block> blocks = player.getLineOfSight(null, range);
+        Block[] bs = blocks.toArray(new Block[blocks.size()]);
         List<Entity> near = player.getNearbyEntities(range, range, range);
         for (Block b : bs) {
             for (Entity e : near) {
@@ -94,7 +97,7 @@ public class Utils {
         return null;
     }
 
-    public static Vector getUnitVectorFacing(Player ply) {
+    public static Vector getUnitVectorFacing(final Player ply) {
         double x = -Math.sin(Math.toRadians(ply.getLocation().getYaw())) *
                 Math.cos(Math.toRadians(ply.getLocation().getPitch()));
         double z = Math.cos(Math.toRadians(ply.getLocation().getYaw())) *
@@ -110,7 +113,7 @@ public class Utils {
      * @param original The original velocity
      * @return A randomly modified version of the given float
      */
-    public static float velocityRandomiser(float original) {
+    public static float velocityRandomiser(final float original) {
         float velocity = original - velocityFactor;
         velocity += (2 * velocityFactor) * rand.nextFloat();
         return velocity;
@@ -120,10 +123,10 @@ public class Utils {
      * Convenience method for {@link Utils#velocityRandomiser(float)}, applies
      * to X, Y, and Z
      *
-     * @param original
-     * @return
+     * @param original The original velocity to randomise
+     * @return A randomly modified version of the given {@link Vector} velocity
      */
-    public static Vector velocityRandomiser(Vector original) {
+    public static Vector velocityRandomiser(final Vector original) {
         return new Vector(velocityRandomiser((float) original.getX()),
                 velocityRandomiser((float) original.getY()),
                 velocityRandomiser((float) original.getZ()));
@@ -133,10 +136,10 @@ public class Utils {
      * Same as {@link Utils#velocityRandomiser(float)}, except with 1/4 of the
      * effect
      *
-     * @param original
-     * @return
+     * @param original The original velocity to slightly randomise
+     * @return A slightly randomly modified version of the given velocity float
      */
-    public static float smallVelocityRandomiser(float original) {
+    public static float smallVelocityRandomiser(final float original) {
         float velocity = original - smallVelocityFactor;
         velocity += (2 * smallVelocityFactor) * rand.nextFloat();
         return velocity;
@@ -146,12 +149,16 @@ public class Utils {
      * Same as {@link Utils#velocityRandomiser(Vector)}, except with 1/4 of the
      * effect
      *
-     * @param original
-     * @return
+     * @param original The {@link Vector to randomise}
+     * @return A slightly randomised version of the given {@link Vector}
      */
-    public static Vector smallVelocityRandomiser(Vector original) {
+    public static Vector smallVelocityRandomiser(final Vector original) {
         return new Vector(smallVelocityRandomiser((float) original.getX()),
                 smallVelocityRandomiser((float) original.getY()),
                 smallVelocityRandomiser((float) original.getZ()));
+    }
+
+    // prevent construction
+    private Utils() {
     }
 }
