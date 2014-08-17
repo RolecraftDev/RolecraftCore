@@ -139,7 +139,8 @@
                 <includes>
                     <include>config.yml</include>
                     <include>plugin.yml</include>
-                    <include>guildconfig.yml</include>
+                    <include>guilds.yml</include>
+                    <include>defaults.yml</include>
                 </includes>
             </resource>
         </resources>
