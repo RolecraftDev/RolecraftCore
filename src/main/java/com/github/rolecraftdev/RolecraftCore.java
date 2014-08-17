@@ -69,11 +69,6 @@ public final class RolecraftCore extends AlbPlugin {
      */
     private Logger logger;
     /**
-     * Rolecraft's messaging color (colour) scheme
-     */
-    // TODO: Make configurable
-    private ColorScheme colorScheme = ColorScheme.DEFAULT;
-    /**
      * All the messages used by the plugin
      */
     private Messages messages;
@@ -186,28 +181,6 @@ public final class RolecraftCore extends AlbPlugin {
         messages = new Messages(this);
         messages.load();
 
-        // Get the colour scheme from the messages config
-        final ChatColor light = ChatColor.valueOf(messages.get(
-                Messages.LIGHT_COLOUR).toUpperCase().replace(" ", "_"));
-        final ChatColor dark = ChatColor.valueOf(messages.get(
-                Messages.DARK_COLOUR).toUpperCase().replace(" ", "_"));
-        final ChatColor prefix = ChatColor.valueOf(messages.get(
-                Messages.PREFIX_COLOUR).toUpperCase().replace(" ", "_"));
-        final ChatColor message = ChatColor.valueOf(messages.get(
-                Messages.MESSAGE_COLOUR).toUpperCase().replace(" ", "_"));
-        final ChatColor highlight = ChatColor.valueOf(messages.get(
-                Messages.HIGHLIGHT_COLOUR).toUpperCase().replace(" ", "_"));
-
-        if (light == null || dark == null || prefix == null || message == null
-                || highlight == null) {
-            logger.warning("Invalid colours specified in messages.yml");
-            logger.warning("Using default colour scheme!");
-            colorScheme = ColorScheme.DEFAULT;
-        } else {
-            colorScheme = new ColorScheme(light, dark, prefix, message,
-                    highlight);
-        }
-
         // Create all the manager objects / load data
         dataManager = new DataManager(this);
         guildManager = new GuildManager(this);
@@ -231,15 +204,6 @@ public final class RolecraftCore extends AlbPlugin {
     @Override
     public void onDisable() {
         dataManager.unloadAllPlayerData();
-    }
-
-    /**
-     * Gets the colour scheme used by Rolecraft for messages
-     *
-     * @return Rolecraft's color scheme
-     */
-    public ColorScheme getColorScheme() {
-        return colorScheme;
     }
 
     /**
@@ -375,15 +339,6 @@ public final class RolecraftCore extends AlbPlugin {
      */
     public boolean isSqlLoaded() {
         return sqlLoaded;
-    }
-
-    /**
-     * Sets the {@link ColorScheme} object used by Rolecraft for messages
-     *
-     * @param colorScheme The new {@link ColorScheme}
-     */
-    public void setColorScheme(final ColorScheme colorScheme) {
-        this.colorScheme = colorScheme;
     }
 
     /**

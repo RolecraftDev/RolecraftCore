@@ -45,16 +45,6 @@ import java.util.Map;
 public class Messages {
     // This would be so much easier if Java has associative arrays, just saying
 
-    // The light colour used in messages
-    public static final String LIGHT_COLOUR = "light-colour";
-    // The dark colour used in messages
-    public static final String DARK_COLOUR = "dark-colour";
-    // The colour used for prefixes
-    public static final String PREFIX_COLOUR = "prefix-colour";
-    // The colour used for most of the message
-    public static final String MESSAGE_COLOUR = "message-colour";
-    // The colour used for highlighting small sections of text
-    public static final String HIGHLIGHT_COLOUR = "highlight-colour";
     // Sent to players who don't have permission to perform a command
     public static final String NO_PERMISSION = "no-permission";
     // Sent to non-players who try to execute a player-only command
@@ -228,7 +218,16 @@ public class Messages {
             MsgVar.create("$darkgreen", ChatColor.DARK_GREEN.toString()),
             MsgVar.create("$purple", ChatColor.DARK_PURPLE.toString()),
             MsgVar.create("$lightpurple", ChatColor.LIGHT_PURPLE.toString()),
+            MsgVar.create("$black", ChatColor.BLACK.toString()),
+            MsgVar.create("$blue", ChatColor.BLUE.toString()),
+            MsgVar.create("$darkblue", ChatColor.DARK_BLUE.toString()),
             MsgVar.create("$magic", ChatColor.MAGIC.toString()),
+            MsgVar.create("$gold", ChatColor.GOLD.toString()),
+            MsgVar.create("$aqua", ChatColor.AQUA.toString()),
+            MsgVar.create("$yellow", ChatColor.YELLOW.toString()),
+            MsgVar.create("$darkaqua", ChatColor.DARK_AQUA.toString()),
+            MsgVar.create("$darkgray", ChatColor.DARK_GRAY.toString()),
+            MsgVar.create("$reset", ChatColor.RESET.toString()),
             // Support all colours which aren't here by allowing $col1 etc
             MsgVar.create("$col", String.valueOf(ChatColor.COLOR_CHAR)),
             MsgVar.create("$strike", ChatColor.STRIKETHROUGH.toString()),

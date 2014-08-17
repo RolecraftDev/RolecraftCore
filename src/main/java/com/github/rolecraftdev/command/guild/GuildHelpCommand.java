@@ -28,6 +28,7 @@ package com.github.rolecraftdev.command.guild;
 
 import pw.ian.albkit.command.PlayerCommandHandler;
 import pw.ian.albkit.command.parser.Arguments;
+import pw.ian.albkit.util.ColorScheme;
 import pw.ian.albkit.util.Messaging;
 
 import com.github.rolecraftdev.RolecraftCore;
@@ -50,7 +51,7 @@ public class GuildHelpCommand extends PlayerCommandHandler {
     @Override
     public void onCommand(final Player player, final Arguments args) {
         if (args.length() == 0) {
-            Messaging.sendBanner(plugin.getColorScheme(), player,
+            Messaging.sendBanner(ColorScheme.DEFAULT, player,
                     "Guilds",
                     "/guild help actions - Help with guild actions",
                     "/guild help commands - Help with commands",
@@ -69,13 +70,13 @@ public class GuildHelpCommand extends PlayerCommandHandler {
                 first = false;
                 builder.append(action.getPlayerReadableName());
             }
-            Messaging.sendBanner(plugin.getColorScheme(), player,
+            Messaging.sendBanner(ColorScheme.DEFAULT, player,
                     "Actions:",
                     builder.toString());
         } else if (sub.equals("commands")) {
             // TODO: show command help
         } else if (sub.equals("halls")) {
-            Messaging.sendBanner(plugin.getColorScheme(), player,
+            Messaging.sendBanner(ColorScheme.DEFAULT, player,
                     "Guild Halls:",
                     "Guild Halls are predefined areas which only members of the guild can access.",
                     "Guild Halls allow for battles between guilds, storage for items and more.");
