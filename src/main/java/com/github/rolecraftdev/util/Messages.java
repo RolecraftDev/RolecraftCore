@@ -110,6 +110,12 @@ public class Messages {
      */
     private final Map<String, String> messages;
 
+    /**
+     * Construct a new Messages object
+     *
+     * @param plugin The {@link RolecraftCore} plugin object to use the data
+     *               directory from
+     */
     public Messages(final RolecraftCore plugin) {
         this.plugin = plugin;
         messages = new HashMap<String, String>();
@@ -118,17 +124,17 @@ public class Messages {
     /**
      * Gets the configured message for the given key
      *
-     * @param message The key of the message to get
+     * @param key The key of the message to get
      * @return The message configured for the given key
      */
-    public String get(final String message) {
-        return messages.get(message);
+    public String get(final String key) {
+        return messages.get(key);
     }
 
     /**
      * Loads all configurable messages from the messages.yml file in the
      * Rolecraft data folder, located at server/plugins/RolecraftCore
-     *
+     * <p/>
      * For any messages not configured in messages.yml, the default message
      * (from the RolecraftCore jar) is used instead. Reflection is used to go
      * through all of the constants in this class and check whether they have
@@ -151,7 +157,8 @@ public class Messages {
             field.setAccessible(true);
             int mods = field.getModifiers();
             // If it's a constant, basically
-            if (Modifier.isStatic(mods) && Modifier.isFinal(mods)) {
+            if (Modifier.isPublic(mods) && Modifier.isStatic(mods) && Modifier
+                    .isFinal(mods)) {
                 try {
                     final String key = (String) field.get(this);
                     if (key == null) {
