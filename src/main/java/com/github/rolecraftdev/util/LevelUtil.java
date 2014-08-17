@@ -31,7 +31,7 @@ import org.bukkit.entity.EntityType;
 /**
  * Utilities related to player levelling and experience
  */
-public class LevelUtil {
+public final class LevelUtil {
     /**
      * Gets the level which a player with the given amount of experience would
      * have
@@ -67,5 +67,11 @@ public class LevelUtil {
     public static final float expFromKill(final EntityType entityType) {
         // TODO: make this return exp gain from killing the given entity type
         return 0;
+    }
+
+    /**
+     * Do not call.
+     */
+    private LevelUtil() {
     }
 }
