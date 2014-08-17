@@ -76,12 +76,14 @@ public class AvadaKedavra implements Spell {
     }
 
     @Override
-    public float estimateLeftClickMana(Player ply, Block block, int modifier, BlockFace face) {
+    public float estimateLeftClickMana(Player ply, Block block, int modifier,
+            BlockFace face) {
         return 0;
     }
 
     @Override
-    public float estimateRightClickMana(Player ply, Block block, int modifier, BlockFace face) {
+    public float estimateRightClickMana(Player ply, Block block, int modifier,
+            BlockFace face) {
         LivingEntity toKill = Utils.getLivingTarget(ply, parent.getRange());
         if (toKill != null) {
             if (toKill instanceof Player) {
@@ -94,7 +96,8 @@ public class AvadaKedavra implements Spell {
     }
 
     @Override
-    public float rightClick(Player ply, Block block, int modifier, BlockFace face) {
+    public float rightClick(Player ply, Block block, int modifier,
+            BlockFace face) {
         LivingEntity toKill = Utils.getLivingTarget(ply, parent.getRange());
         if (toKill == null) {
             return Float.MIN_VALUE;
@@ -118,7 +121,8 @@ public class AvadaKedavra implements Spell {
     }
 
     @Override
-    public float leftClick(Player ply, Block block, int modifier, BlockFace face) {
+    public float leftClick(Player ply, Block block, int modifier,
+            BlockFace face) {
         return Float.MIN_VALUE;
     }
 
@@ -162,7 +166,7 @@ public class AvadaKedavra implements Spell {
 
     @Override
     public SoundWrapper getSound() {
-        return new SoundWrapper(Sound.ENDERMAN_STARE,1.0F,2.0F);
+        return new SoundWrapper(Sound.ENDERMAN_STARE, 1.0F, 2.0F);
     }
 
 }

@@ -26,6 +26,8 @@
  */
 package com.github.rolecraftdev.magic;
 
+import com.github.rolecraftdev.RolecraftCore;
+
 import org.bukkit.ChatColor;
 import org.bukkit.Material;
 import org.bukkit.enchantments.Enchantment;
@@ -36,8 +38,6 @@ import org.bukkit.event.player.PlayerItemHeldEvent;
 import org.bukkit.event.player.PlayerJoinEvent;
 import org.bukkit.inventory.ItemStack;
 import org.bukkit.metadata.FixedMetadataValue;
-
-import com.github.rolecraftdev.RolecraftCore;
 
 public class FlyingListener implements Listener {
 
@@ -53,7 +53,7 @@ public class FlyingListener implements Listener {
         if (isFly(hand)) {
             event.getPlayer().setAllowFlight(true);
             event.getPlayer().setFlying(true);
-            
+
             event.getPlayer().setMetadata(
                     "rolecraftfly",
                     new FixedMetadataValue(plugin,
@@ -65,8 +65,9 @@ public class FlyingListener implements Listener {
 
     @EventHandler(priority = EventPriority.HIGHEST)
     public void onItemChange(PlayerItemHeldEvent event) {
-        ItemStack stack = event.getPlayer().getInventory().getItem(event.getNewSlot());
-        if(isFly(stack)) {
+        ItemStack stack = event.getPlayer().getInventory()
+                .getItem(event.getNewSlot());
+        if (isFly(stack)) {
             event.getPlayer().setAllowFlight(true);
             event.getPlayer().setFlying(true);
             event.getPlayer().setMetadata(
@@ -74,11 +75,9 @@ public class FlyingListener implements Listener {
                     new FixedMetadataValue(plugin,
                             new Boolean(true)));
             event.getPlayer().setFallDistance(0f);
-            
 
-        }
-        else {
-            if(event.getPlayer().hasMetadata("rolecraftfly")) {
+        } else {
+            if (event.getPlayer().hasMetadata("rolecraftfly")) {
                 event.getPlayer().removeMetadata("rolecraftfly", plugin);
                 event.getPlayer().setFlying(false);
                 event.getPlayer().setAllowFlight(false);
@@ -88,12 +87,15 @@ public class FlyingListener implements Listener {
     }
 
     private boolean isFly(ItemStack stack) {
-        if(stack.getType() == Material.STICK) {
-            if(stack.hasItemMeta()) {
-                if(stack.getItemMeta().hasDisplayName()) {
-                    if(ChatColor.stripColor(stack.getItemMeta().getDisplayName()).equalsIgnoreCase("fly")) {
-                        if(stack.getEnchantments().size() > 0) {
-                            if(stack.getEnchantments().get(Enchantment.LUCK) == 10) {
+        if (stack.getType() == Material.STICK) {
+            if (stack.hasItemMeta()) {
+                if (stack.getItemMeta().hasDisplayName()) {
+                    if (ChatColor
+                            .stripColor(stack.getItemMeta().getDisplayName())
+                            .equalsIgnoreCase("fly")) {
+                        if (stack.getEnchantments().size() > 0) {
+                            if (stack.getEnchantments().get(Enchantment.LUCK)
+                                    == 10) {
                                 return true;
                             }
                         }

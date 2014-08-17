@@ -28,8 +28,8 @@ package com.github.rolecraftdev.magic.spells;
 
 import com.github.rolecraftdev.magic.Spell;
 import com.github.rolecraftdev.magic.SpellManager;
-
 import com.github.rolecraftdev.util.SoundWrapper;
+
 import org.bukkit.Bukkit;
 import org.bukkit.ChatColor;
 import org.bukkit.Material;
@@ -64,22 +64,26 @@ public class StrongerSword implements Spell {
     }
 
     @Override
-    public float estimateLeftClickMana(Player ply, Block block, int modifier, BlockFace face) {
+    public float estimateLeftClickMana(Player ply, Block block, int modifier,
+            BlockFace face) {
         return 0;
     }
 
     @Override
-    public float estimateRightClickMana(Player ply, Block block, int modifier, BlockFace face) {
+    public float estimateRightClickMana(Player ply, Block block, int modifier,
+            BlockFace face) {
         return 0;
     }
 
     @Override
-    public float rightClick(Player ply, Block block, int modifier, BlockFace face) {
+    public float rightClick(Player ply, Block block, int modifier,
+            BlockFace face) {
         return Float.MIN_VALUE;
     }
 
     @Override
-    public float leftClick(Player ply, Block block, int modifier, BlockFace face) {
+    public float leftClick(Player ply, Block block, int modifier,
+            BlockFace face) {
         return Float.MIN_VALUE;
     }
 
@@ -90,8 +94,7 @@ public class StrongerSword implements Spell {
         Bukkit.getPluginManager().callEvent(edbee);
         if (!edbee.isCancelled()) {
             ent.damage(3.5);
-        }
-        else {
+        } else {
             return Float.MIN_VALUE;
         }
         return (30f - modifier / 10f > 0) ? (30f - modifier / 10f) : 0f;

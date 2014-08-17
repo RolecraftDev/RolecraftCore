@@ -120,7 +120,8 @@ public class MagicListener implements Listener {
                                 || action == Action.LEFT_CLICK_BLOCK) {
                             if (spell.estimateLeftClickMana(player,
                                     clicked,
-                                    spellManager.getMagicModfier(player), e.getBlockFace())
+                                    spellManager.getMagicModfier(player),
+                                    e.getBlockFace())
                                     <
                                     spellManager.getMana(e.getPlayer())) {
                                 SpellCastEvent event = new SpellCastEvent(
@@ -134,7 +135,8 @@ public class MagicListener implements Listener {
 
                                 float retVal = spell.leftClick(player,
                                         clicked, spellManager
-                                                .getMagicModfier(player), e.getBlockFace());
+                                                .getMagicModfier(player),
+                                        e.getBlockFace());
                                 // MIN_VALUE indicates error, 0 indicates that
                                 // the spell can't be cast in the current
                                 // situation
@@ -154,7 +156,8 @@ public class MagicListener implements Listener {
                         } else {
                             if (spell.estimateRightClickMana(player,
                                     clicked,
-                                    spellManager.getMagicModfier(player), e.getBlockFace())
+                                    spellManager.getMagicModfier(player),
+                                    e.getBlockFace())
                                     <
                                     spellManager.getMana(player)) {
                                 SpellCastEvent event = new SpellCastEvent(
@@ -168,7 +171,8 @@ public class MagicListener implements Listener {
 
                                 float retVal = spell.rightClick(player,
                                         clicked, spellManager
-                                                .getMagicModfier(player), e.getBlockFace());
+                                                .getMagicModfier(player),
+                                        e.getBlockFace());
                                 // MIN_VALUE indicates error, 0 indicates that
                                 // the spell can't be cast in the current
                                 // situation
@@ -232,12 +236,14 @@ public class MagicListener implements Listener {
     }
 
     private Spell getSpell(ItemStack stick) {
-        if(stick.getType() == Material.STICK) {
-            if(stick.hasItemMeta()) {
-                if(stick.getItemMeta().hasDisplayName()) {
-                    Spell temp = spellManager.getSpell(ChatColor.stripColor(stick.getItemMeta().getDisplayName()));
-                    if(stick.getEnchantments().size() > 0) {
-                        if(stick.getEnchantments().get(Enchantment.LUCK) == 10) {
+        if (stick.getType() == Material.STICK) {
+            if (stick.hasItemMeta()) {
+                if (stick.getItemMeta().hasDisplayName()) {
+                    Spell temp = spellManager.getSpell(ChatColor
+                            .stripColor(stick.getItemMeta().getDisplayName()));
+                    if (stick.getEnchantments().size() > 0) {
+                        if (stick.getEnchantments().get(Enchantment.LUCK)
+                                == 10) {
                             return temp;
                         }
                     }

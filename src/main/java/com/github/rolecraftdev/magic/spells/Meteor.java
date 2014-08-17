@@ -26,12 +26,10 @@
  */
 package com.github.rolecraftdev.magic.spells;
 
-import java.util.HashSet;
-
 import com.github.rolecraftdev.magic.Spell;
 import com.github.rolecraftdev.magic.SpellManager;
-
 import com.github.rolecraftdev.util.SoundWrapper;
+
 import org.bukkit.ChatColor;
 import org.bukkit.Location;
 import org.bukkit.Material;
@@ -48,6 +46,8 @@ import org.bukkit.inventory.Recipe;
 import org.bukkit.inventory.ShapedRecipe;
 import org.bukkit.inventory.meta.ItemMeta;
 import org.bukkit.util.Vector;
+
+import java.util.HashSet;
 
 @SuppressWarnings("deprecation")
 public class Meteor implements Spell {
@@ -97,13 +97,11 @@ public class Meteor implements Spell {
         Block target = null;
         if (block != null) {
             target = block;
-        }
-        else {
+        } else {
             Block temp = ply.getTargetBlock(transparency, manager.getRange());
             if (temp != null) {
                 target = temp;
-            }
-            else {
+            } else {
                 return Float.MIN_VALUE;
             }
         }
@@ -115,15 +113,15 @@ public class Meteor implements Spell {
         for (int i = 0; i < 40; i++) {
             index = index.getRelative(BlockFace.UP);
             switch (index.getType()) {
-            case AIR:
-                continue;
-            case LEAVES:
-                continue;
-            case DEAD_BUSH:
-                continue;
-            default:
-                isTop = false;
-                break loop;
+                case AIR:
+                    continue;
+                case LEAVES:
+                    continue;
+                case DEAD_BUSH:
+                    continue;
+                default:
+                    isTop = false;
+                    break loop;
             }
         }
 
@@ -144,7 +142,8 @@ public class Meteor implements Spell {
     }
 
     @Override
-    public float leftClick(Player ply, Block block, int modifier, BlockFace face) {
+    public float leftClick(Player ply, Block block, int modifier,
+            BlockFace face) {
         return Float.MIN_VALUE;
     }
 
@@ -172,7 +171,7 @@ public class Meteor implements Spell {
 
     @Override
     public SoundWrapper getSound() {
-        return new SoundWrapper(Sound.FIZZ,1.0f,0f);
+        return new SoundWrapper(Sound.FIZZ, 1.0f, 0f);
     }
 
 }

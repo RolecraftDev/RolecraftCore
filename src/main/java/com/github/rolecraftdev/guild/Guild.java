@@ -57,6 +57,7 @@ import com.github.rolecraftdev.data.Region2D;
 import com.github.rolecraftdev.event.guild.GuildPlayerJoinEvent;
 import com.github.rolecraftdev.event.guild.GuildPlayerKickedEvent;
 import com.github.rolecraftdev.event.guild.GuildPlayerLeaveEvent;
+
 import com.traksag.channels.Channel;
 import com.traksag.channels.ChannelOption;
 import com.traksag.channels.DefaultChannel;
@@ -85,7 +86,8 @@ public final class Guild {
      * The associated {@link Channel}.
      */
     private final Channel channel = new DefaultChannel(
-            new DefaultChannelConfig().setOption(ChannelOption.PREFIX, "[GC] "));
+            new DefaultChannelConfig()
+                    .setOption(ChannelOption.PREFIX, "[GC] "));
     /**
      * The {@link GuildManager} object this {@link Guild} is registered to.
      */

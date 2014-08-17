@@ -32,6 +32,7 @@ import pw.ian.albkit.command.parser.Arguments;
 import com.github.rolecraftdev.RolecraftCore;
 import com.github.rolecraftdev.guild.Guild;
 import com.github.rolecraftdev.guild.GuildManager;
+
 import com.traksag.channels.Channel;
 
 import org.bukkit.Bukkit;
@@ -67,7 +68,7 @@ public class GCCommand extends PlayerCommandHandler {
         if (args.length() > 0) {
             final StringBuilder message = new StringBuilder();
 
-            for(String arg : args.toStringArray()) {
+            for (String arg : args.toStringArray()) {
                 message.append(arg + " ");
             }
 

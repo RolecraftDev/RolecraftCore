@@ -37,7 +37,15 @@ import org.bukkit.entity.Player;
 import org.bukkit.event.EventHandler;
 import org.bukkit.event.EventPriority;
 import org.bukkit.event.Listener;
-import org.bukkit.event.block.*;
+import org.bukkit.event.block.BlockBreakEvent;
+import org.bukkit.event.block.BlockFormEvent;
+import org.bukkit.event.block.BlockFromToEvent;
+import org.bukkit.event.block.BlockIgniteEvent;
+import org.bukkit.event.block.BlockPistonExtendEvent;
+import org.bukkit.event.block.BlockPistonRetractEvent;
+import org.bukkit.event.block.BlockPlaceEvent;
+import org.bukkit.event.block.BlockSpreadEvent;
+import org.bukkit.event.block.EntityBlockFormEvent;
 import org.bukkit.event.entity.EntityChangeBlockEvent;
 import org.bukkit.event.entity.EntityDamageByEntityEvent;
 import org.bukkit.event.entity.EntityExplodeEvent;
@@ -100,8 +108,7 @@ public final class GuildListener implements Listener {
                     .equals(guildManager.getPlayerGuild(damagerId))) {
                 event.setCancelled(true);
             }
-        }
-        else if (event.getDamager() instanceof Arrow  &&
+        } else if (event.getDamager() instanceof Arrow &&
                 event.getEntity() instanceof Player) {
             if (guildManager.disallowHallPvp()
                     && getGuildFromHall(event.getEntity().getLocation())
@@ -111,9 +118,10 @@ public final class GuildListener implements Listener {
             }
 
             final UUID playerId = ((Player) event.getEntity()).getUniqueId();
-            if(((Arrow)event.getDamager()).getShooter() instanceof Player) {
-                final UUID damagerId = ((Player) ((Arrow)event.getDamager()).getShooter()).getUniqueId();
-    
+            if (((Arrow) event.getDamager()).getShooter() instanceof Player) {
+                final UUID damagerId = ((Player) ((Arrow) event.getDamager())
+                        .getShooter()).getUniqueId();
+
                 if (guildManager.getPlayerGuild(playerId)
                         .equals(guildManager.getPlayerGuild(damagerId))) {
                     event.setCancelled(true);

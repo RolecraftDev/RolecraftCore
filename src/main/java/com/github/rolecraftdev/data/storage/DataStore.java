@@ -39,8 +39,16 @@ import org.bukkit.Bukkit;
 import org.bukkit.Location;
 import org.bukkit.scheduler.BukkitRunnable;
 
-import java.sql.*;
-import java.util.*;
+import java.sql.Connection;
+import java.sql.PreparedStatement;
+import java.sql.ResultSet;
+import java.sql.ResultSetMetaData;
+import java.sql.SQLException;
+import java.util.HashMap;
+import java.util.HashSet;
+import java.util.Map;
+import java.util.Set;
+import java.util.UUID;
 
 /**
  * Represents a form of data storage in Rolecraft - implemented in MySQL and
@@ -533,7 +541,8 @@ public abstract class DataStore {
                                 UUID.fromString(rs.getString("profession")),
                                 rs.getInt("influence"), rs.getFloat("exp"),
                                 rs.getFloat("karma"), rs.getFloat("mana"),
-                                null, PlayerSettings.fromString(rs.getString("settings")));
+                                null, PlayerSettings
+                                        .fromString(rs.getString("settings")));
                     } else {
                         ps.close();
                         ps = connection.prepareStatement("INSERT INTO " + pt
@@ -586,7 +595,8 @@ public abstract class DataStore {
                                         rs.getFloat("exp"),
                                         rs.getFloat("karma"),
                                         rs.getFloat("mana"), questData,
-                                        PlayerSettings.fromString(rs.getString("settings")));
+                                        PlayerSettings.fromString(
+                                                rs.getString("settings")));
                             } else {
                                 ps.close();
                                 ps = connection
@@ -596,7 +606,8 @@ public abstract class DataStore {
                                 ps.setString(2, name);
                                 ps.execute();
                                 callback.initialise(null, null, 0, 0f,
-                                        -originalSin, 0, null, PlayerSettings.defaultSettings);
+                                        -originalSin, 0, null,
+                                        PlayerSettings.defaultSettings);
                             }
 
                         } catch (SQLException ex) {

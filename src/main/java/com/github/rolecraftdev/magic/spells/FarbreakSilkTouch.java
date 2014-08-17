@@ -28,8 +28,8 @@ package com.github.rolecraftdev.magic.spells;
 
 import com.github.rolecraftdev.magic.Spell;
 import com.github.rolecraftdev.magic.SpellManager;
-
 import com.github.rolecraftdev.util.SoundWrapper;
+
 import org.bukkit.Bukkit;
 import org.bukkit.ChatColor;
 import org.bukkit.Material;
@@ -65,7 +65,8 @@ public class FarbreakSilkTouch implements Spell {
     }
 
     @Override
-    public float estimateLeftClickMana(Player ply, Block block, int modifier, BlockFace face) {
+    public float estimateLeftClickMana(Player ply, Block block, int modifier,
+            BlockFace face) {
         // 5 if the block is close, 10 for ranged
         if (block != null) {
             return 5;
@@ -74,7 +75,8 @@ public class FarbreakSilkTouch implements Spell {
     }
 
     @Override
-    public float estimateRightClickMana(Player ply, Block block, int modifier, BlockFace face) {
+    public float estimateRightClickMana(Player ply, Block block, int modifier,
+            BlockFace face) {
         if (block != null) {
             return 5;
         }
@@ -83,7 +85,8 @@ public class FarbreakSilkTouch implements Spell {
 
     @SuppressWarnings("deprecation")
     @Override
-    public float rightClick(Player ply, Block block, int modifier, BlockFace face) {
+    public float rightClick(Player ply, Block block, int modifier,
+            BlockFace face) {
         float retVal;
         Block toBreak;
         if (block == null) {
@@ -116,7 +119,8 @@ public class FarbreakSilkTouch implements Spell {
 
     @SuppressWarnings("deprecation")
     @Override
-    public float leftClick(Player ply, Block block, int modifier, BlockFace face) {
+    public float leftClick(Player ply, Block block, int modifier,
+            BlockFace face) {
         float retVal;
         Block toBreak;
         if (block == null) {
@@ -138,10 +142,10 @@ public class FarbreakSilkTouch implements Spell {
             }
         }
 
-//        ItemStack i = new ItemStack(toBreak.getType(), 0, (short) 1,
-//                toBreak.getData());
-//        toBreak.setType(Material.AIR);
-//        toBreak.getWorld().dropItemNaturally(toBreak.getLocation(), i);
+        //        ItemStack i = new ItemStack(toBreak.getType(), 0, (short) 1,
+        //                toBreak.getData());
+        //        toBreak.setType(Material.AIR);
+        //        toBreak.getWorld().dropItemNaturally(toBreak.getLocation(), i);
 
         toBreak.breakNaturally();
         return retVal;

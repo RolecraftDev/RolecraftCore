@@ -28,8 +28,8 @@ package com.github.rolecraftdev.magic.spells;
 
 import com.github.rolecraftdev.magic.Spell;
 import com.github.rolecraftdev.magic.SpellManager;
-
 import com.github.rolecraftdev.util.SoundWrapper;
+
 import org.bukkit.Bukkit;
 import org.bukkit.ChatColor;
 import org.bukkit.Material;
@@ -65,26 +65,30 @@ public class FireBeam implements Spell {
     }
 
     @Override
-    public float estimateLeftClickMana(Player ply, Block block, int modifier, BlockFace face) {
+    public float estimateLeftClickMana(Player ply, Block block, int modifier,
+            BlockFace face) {
         return 0;
     }
 
     @Override
-    public float estimateRightClickMana(Player ply, Block block, int modifier, BlockFace face) {
+    public float estimateRightClickMana(Player ply, Block block, int modifier,
+            BlockFace face) {
         return 10;
     }
 
     @Override
-    public float rightClick(Player ply, Block block, int modifier, BlockFace face) {
+    public float rightClick(Player ply, Block block, int modifier,
+            BlockFace face) {
         Block toIgnite = ply.getLastTwoTargetBlocks(null, manager.getRange())
                 .get(0);
         if (toIgnite == null) {
             return Float.MIN_VALUE;
         }
         BlockState state = toIgnite.getState();
-        BlockPlaceEvent bpe = new BlockPlaceEvent(toIgnite, state, block, null, ply, true);
+        BlockPlaceEvent bpe = new BlockPlaceEvent(toIgnite, state, block, null,
+                ply, true);
         Bukkit.getServer().getPluginManager().callEvent(bpe);
-        if(bpe.isCancelled()) {
+        if (bpe.isCancelled()) {
             return Float.MIN_VALUE;
         }
 
@@ -94,7 +98,8 @@ public class FireBeam implements Spell {
     }
 
     @Override
-    public float leftClick(Player ply, Block block, int modifier, BlockFace face) {
+    public float leftClick(Player ply, Block block, int modifier,
+            BlockFace face) {
         return Float.MIN_VALUE;
     }
 

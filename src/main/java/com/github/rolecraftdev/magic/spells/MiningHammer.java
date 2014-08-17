@@ -26,14 +26,10 @@
  */
 package com.github.rolecraftdev.magic.spells;
 
-import java.util.ArrayList;
-import java.util.List;
-import java.util.Set;
-
 import com.github.rolecraftdev.magic.Spell;
 import com.github.rolecraftdev.magic.SpellManager;
-
 import com.github.rolecraftdev.util.SoundWrapper;
+
 import org.bukkit.Bukkit;
 import org.bukkit.ChatColor;
 import org.bukkit.Material;
@@ -49,8 +45,11 @@ import org.bukkit.inventory.Recipe;
 import org.bukkit.inventory.ShapedRecipe;
 import org.bukkit.inventory.meta.ItemMeta;
 
+import java.util.ArrayList;
+import java.util.List;
+
 public class MiningHammer implements Spell {
-    
+
     private enum Orientation {
         NORTHSOUTH,
         EASTWEST,
@@ -58,7 +57,7 @@ public class MiningHammer implements Spell {
     }
 
     private SpellManager manager;
-    
+
     public MiningHammer(SpellManager spellManager) {
         this.manager = spellManager;
     }
@@ -75,106 +74,113 @@ public class MiningHammer implements Spell {
     }
 
     @Override
-    public float estimateLeftClickMana(Player ply, Block block, int modifier, BlockFace face) {
-        return (30f - modifier/100f > 0) ?  30f - modifier/100f: 0;
+    public float estimateLeftClickMana(Player ply, Block block, int modifier,
+            BlockFace face) {
+        return (30f - modifier / 100f > 0) ? 30f - modifier / 100f : 0;
     }
 
     @Override
-    public float estimateRightClickMana(Player ply, Block block, int modifier, BlockFace face) {
-        return (30f - modifier/100f > 0) ?  30f - modifier/100f: 0;
+    public float estimateRightClickMana(Player ply, Block block, int modifier,
+            BlockFace face) {
+        return (30f - modifier / 100f > 0) ? 30f - modifier / 100f : 0;
     }
 
     @Override
-    public float rightClick(Player ply, Block block, int modifier, BlockFace face) {
-        if(block == null) return Float.MIN_VALUE;
+    public float rightClick(Player ply, Block block, int modifier,
+            BlockFace face) {
+        if (block == null) {
+            return Float.MIN_VALUE;
+        }
         List<Block> blocks = null;
-        if(face == BlockFace.DOWN || face == BlockFace.UP) {
+        if (face == BlockFace.DOWN || face == BlockFace.UP) {
             blocks = getBlocksAround(block, Orientation.FLAT);
+        } else if (face == BlockFace.EAST || face == BlockFace.WEST) {
+            blocks = getBlocksAround(block, Orientation.NORTHSOUTH);
+        } else if (face == BlockFace.NORTH || face == BlockFace.SOUTH) {
+            blocks = getBlocksAround(block, Orientation.EASTWEST);
+        } else {
+            return Float.MIN_VALUE;
         }
-        else if (face == BlockFace.EAST || face == BlockFace.WEST) {
-            blocks = getBlocksAround(block,Orientation.NORTHSOUTH);
-        }
-        else if(face == BlockFace.NORTH || face == BlockFace.SOUTH) {
-            blocks = getBlocksAround(block,Orientation.EASTWEST);
-        }
-        else return Float.MIN_VALUE;
-        
+
         for (Block toBreak : blocks) {
-            if(manager.getPlugin().isExtraEvents()) {
+            if (manager.getPlugin().isExtraEvents()) {
                 BlockBreakEvent event = new BlockBreakEvent(toBreak, ply);
                 Bukkit.getPluginManager().callEvent(event);
-                if(event.isCancelled()) {
+                if (event.isCancelled()) {
                     continue;
                 }
             }
             toBreak.breakNaturally();
         }
-        return (30f - modifier/100f > 0) ?  30f - modifier/100f: 0;
+        return (30f - modifier / 100f > 0) ? 30f - modifier / 100f : 0;
     }
 
     @Override
-    public float leftClick(Player ply, Block block, int modifier, BlockFace face) {
-        if(block == null) return Float.MIN_VALUE;
+    public float leftClick(Player ply, Block block, int modifier,
+            BlockFace face) {
+        if (block == null) {
+            return Float.MIN_VALUE;
+        }
         List<Block> blocks = null;
-        if(face == BlockFace.DOWN || face == BlockFace.UP) {
+        if (face == BlockFace.DOWN || face == BlockFace.UP) {
             blocks = getBlocksAround(block, Orientation.FLAT);
+        } else if (face == BlockFace.EAST || face == BlockFace.WEST) {
+            blocks = getBlocksAround(block, Orientation.NORTHSOUTH);
+        } else if (face == BlockFace.NORTH || face == BlockFace.SOUTH) {
+            blocks = getBlocksAround(block, Orientation.EASTWEST);
+        } else {
+            return Float.MIN_VALUE;
         }
-        else if (face == BlockFace.EAST || face == BlockFace.WEST) {
-            blocks = getBlocksAround(block,Orientation.NORTHSOUTH);
-        }
-        else if(face == BlockFace.NORTH || face == BlockFace.SOUTH) {
-            blocks = getBlocksAround(block,Orientation.EASTWEST);
-        }
-        else return Float.MIN_VALUE;
-        
+
         for (Block toBreak : blocks) {
-            if(manager.getPlugin().isExtraEvents()) {
+            if (manager.getPlugin().isExtraEvents()) {
                 BlockBreakEvent event = new BlockBreakEvent(toBreak, ply);
                 Bukkit.getPluginManager().callEvent(event);
-                if(event.isCancelled()) {
+                if (event.isCancelled()) {
                     continue;
                 }
             }
             toBreak.breakNaturally();
         }
-        return (30f - modifier/100f > 0) ?  30f - modifier/100f: 0;
+        return (30f - modifier / 100f > 0) ? 30f - modifier / 100f : 0;
     }
 
     @Override
     public float attack(Player ply, LivingEntity ent, int modifier) {
         return Float.MIN_VALUE;
     }
-    
+
     private List<Block> getBlocksAround(Block center, Orientation orientation) {
-        if(center == null) return null;
-        
-        List<Block> temp = new ArrayList<Block> (9);
-        if(orientation == Orientation.NORTHSOUTH) {
+        if (center == null) {
+            return null;
+        }
+
+        List<Block> temp = new ArrayList<Block>(9);
+        if (orientation == Orientation.NORTHSOUTH) {
             int z = center.getZ();
-            for(int y = center.getY() -1; y <= center.getY() + 1; y++) {
-                for(int x = center.getX() -1; x <= center.getX() +1; x ++) {
+            for (int y = center.getY() - 1; y <= center.getY() + 1; y++) {
+                for (int x = center.getX() - 1; x <= center.getX() + 1; x++) {
                     temp.add(center.getWorld().getBlockAt(x, y, z));
                 }
             }
-        }
-        else if(orientation == Orientation.EASTWEST) {
+        } else if (orientation == Orientation.EASTWEST) {
             int x = center.getX();
-            for(int y = center.getY() -1; y <= center.getY() + 1; y++) {
-                for(int z = center.getZ() -1; z <= center.getZ() +1; z ++) {
+            for (int y = center.getY() - 1; y <= center.getY() + 1; y++) {
+                for (int z = center.getZ() - 1; z <= center.getZ() + 1; z++) {
                     temp.add(center.getWorld().getBlockAt(x, y, z));
                 }
             }
-        }
-        else if (orientation == Orientation.FLAT) {
+        } else if (orientation == Orientation.FLAT) {
             int y = center.getY();
-            for(int z = center.getZ() -1; z <= center.getZ() + 1; z++) {
-                for(int x = center.getX() -1; x <= center.getX() +1; x ++) {
+            for (int z = center.getZ() - 1; z <= center.getZ() + 1; z++) {
+                for (int x = center.getX() - 1; x <= center.getX() + 1; x++) {
                     temp.add(center.getWorld().getBlockAt(x, y, z));
                 }
             }
+        } else {
+            return null;
         }
-        else return null;
-        
+
         return temp;
     }
 
@@ -188,8 +194,8 @@ public class MiningHammer implements Spell {
         ShapedRecipe recipe = new ShapedRecipe(result);
         // custom recipe stuff
         recipe.shape("APB",
-                     "PBP",
-                     "BPA");
+                "PBP",
+                "BPA");
         recipe.setIngredient('A', Material.BOW);
         recipe.setIngredient('P', Material.DIAMOND_PICKAXE);
         recipe.setIngredient('B', Material.IRON_BLOCK);
@@ -198,7 +204,7 @@ public class MiningHammer implements Spell {
 
     @Override
     public SoundWrapper getSound() {
-        return new SoundWrapper(Sound.FIREWORK_LARGE_BLAST,1.0f,0f);
+        return new SoundWrapper(Sound.FIREWORK_LARGE_BLAST, 1.0f, 0f);
     }
 
 }

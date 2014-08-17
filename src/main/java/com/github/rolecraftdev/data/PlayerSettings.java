@@ -1,19 +1,13 @@
 package com.github.rolecraftdev.data;
 
-
-import java.io.ByteArrayInputStream;
-import java.io.InputStream;
-import java.io.InputStreamReader;
-
 public class PlayerSettings {
     private boolean showMana;
     private boolean spellChatMessage;
 
-    private PlayerSettings () {
+    private PlayerSettings() {
         showMana = true;
         spellChatMessage = true;
     }
-
 
     public static PlayerSettings fromString(String string) {
         String[] strings = string.split(",");

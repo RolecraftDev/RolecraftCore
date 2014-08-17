@@ -32,7 +32,11 @@ import com.github.rolecraftdev.magic.SpellManager;
 import com.github.rolecraftdev.util.SoundWrapper;
 import com.github.rolecraftdev.util.Utils;
 
-import org.bukkit.*;
+import org.bukkit.ChatColor;
+import org.bukkit.Location;
+import org.bukkit.Material;
+import org.bukkit.Sound;
+import org.bukkit.World;
 import org.bukkit.block.Block;
 import org.bukkit.block.BlockFace;
 import org.bukkit.enchantments.Enchantment;
@@ -81,18 +85,21 @@ public class DeathRain implements Spell {
     }
 
     @Override
-    public float estimateLeftClickMana(Player ply, Block block, int modifier, BlockFace face) {
+    public float estimateLeftClickMana(Player ply, Block block, int modifier,
+            BlockFace face) {
         // TODO Auto-generated method stub
         return 0;
     }
 
     @Override
-    public float estimateRightClickMana(Player ply, Block block, int modifier, BlockFace face) {
+    public float estimateRightClickMana(Player ply, Block block, int modifier,
+            BlockFace face) {
         return (800f - modifier / 200f > 0) ? 800f - modifier / 200f : 0;
     }
 
     @Override
-    public float rightClick(Player ply, Block block, int modifier, BlockFace face) {
+    public float rightClick(Player ply, Block block, int modifier,
+            BlockFace face) {
         Block target = null;
         if (block != null) {
             target = block;
@@ -155,7 +162,8 @@ public class DeathRain implements Spell {
     }
 
     @Override
-    public float leftClick(Player ply, Block block, int modifier, BlockFace face) {
+    public float leftClick(Player ply, Block block, int modifier,
+            BlockFace face) {
         return 0;
     }
 
@@ -190,7 +198,7 @@ public class DeathRain implements Spell {
 
     @Override
     public SoundWrapper getSound() {
-        return new SoundWrapper(Sound.GHAST_SCREAM,1.0f,-2.0f);
+        return new SoundWrapper(Sound.GHAST_SCREAM, 1.0f, -2.0f);
     }
 
 }

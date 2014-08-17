@@ -37,7 +37,6 @@ import com.github.rolecraftdev.guild.GuildManager;
 import com.github.rolecraftdev.guild.GuildRank;
 
 import org.bukkit.ChatColor;
-import org.bukkit.command.CommandExecutor;
 import org.bukkit.command.CommandSender;
 import org.bukkit.entity.Player;
 
@@ -186,11 +185,11 @@ public final class CommandHelper {
      * as to each command's functionality. The page of subcommands is taken from
      * the arguments if any are provided.
      *
-     * @param sender     - The {@link CommandSender} to send the help messages to
-     * @param commands   - A {@link List} of sub-commands, used for sending
-     *                   help to the {@link CommandSender}
-     * @param pageArg    - The {@link ChatSection} argument which should be
-     *                   used to extract a page number from
+     * @param sender   - The {@link CommandSender} to send the help messages to
+     * @param commands - A {@link List} of sub-commands, used for sending
+     *                 help to the {@link CommandSender}
+     * @param pageArg  - The {@link ChatSection} argument which should be
+     *                 used to extract a page number from
      */
     public static void displayCommandList(final CommandSender sender,
             final List<CommandHandler> commands, final ChatSection pageArg) {

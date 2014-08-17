@@ -45,7 +45,7 @@ public final class PlayerData {
      */
     private final String name;
 
-    private  PlayerSettings settings;
+    private PlayerSettings settings;
 
     /**
      * The unique ID of the {@link com.github.rolecraftdev.guild.Guild} the
@@ -438,8 +438,9 @@ public final class PlayerData {
      */
     @Deprecated
     public void initialise(final UUID guild, final UUID profession,
-                           final int influence, final float exp, final float karma,
-                           float mana, final Map<UUID, String> progression, PlayerSettings settings) {
+            final int influence, final float exp, final float karma,
+            float mana, final Map<UUID, String> progression,
+            PlayerSettings settings) {
         this.guild = guild;
         this.profession = profession;
         this.influence = influence;

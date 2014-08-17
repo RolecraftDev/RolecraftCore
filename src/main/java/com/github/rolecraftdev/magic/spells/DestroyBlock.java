@@ -28,8 +28,8 @@ package com.github.rolecraftdev.magic.spells;
 
 import com.github.rolecraftdev.magic.Spell;
 import com.github.rolecraftdev.magic.SpellManager;
-
 import com.github.rolecraftdev.util.SoundWrapper;
+
 import org.bukkit.Bukkit;
 import org.bukkit.ChatColor;
 import org.bukkit.Material;
@@ -64,30 +64,34 @@ public class DestroyBlock implements Spell {
     }
 
     @Override
-    public float estimateLeftClickMana(Player ply, Block block, int modifier, BlockFace face) {
+    public float estimateLeftClickMana(Player ply, Block block, int modifier,
+            BlockFace face) {
         return 3;
     }
 
     @Override
-    public float estimateRightClickMana(Player ply, Block block, int modifier, BlockFace face) {
+    public float estimateRightClickMana(Player ply, Block block, int modifier,
+            BlockFace face) {
         return 3;
     }
 
     @Override
-    public float rightClick(Player ply, Block block, int modifier, BlockFace face) {
-        BlockBreakEvent event = new BlockBreakEvent(block,ply);
+    public float rightClick(Player ply, Block block, int modifier,
+            BlockFace face) {
+        BlockBreakEvent event = new BlockBreakEvent(block, ply);
         Bukkit.getServer().getPluginManager().callEvent(event);
-        if(!event.isCancelled()) {
+        if (!event.isCancelled()) {
             block.setType(Material.AIR);
         }
         return 3;
     }
 
     @Override
-    public float leftClick(Player ply, Block block, int modifier, BlockFace face) {
-        BlockBreakEvent event = new BlockBreakEvent(block,ply);
+    public float leftClick(Player ply, Block block, int modifier,
+            BlockFace face) {
+        BlockBreakEvent event = new BlockBreakEvent(block, ply);
         Bukkit.getServer().getPluginManager().callEvent(event);
-        if(!event.isCancelled()) {
+        if (!event.isCancelled()) {
             block.setType(Material.AIR);
         }
         return 3;
@@ -108,8 +112,8 @@ public class DestroyBlock implements Spell {
         ShapedRecipe recipe = new ShapedRecipe(result);
         // custom recipe stuff
         recipe.shape("AAB",
-                     "ABA",
-                     "BAA");
+                "ABA",
+                "BAA");
         recipe.setIngredient('A', Material.WOOD_PICKAXE);
         recipe.setIngredient('B', Material.IRON_INGOT);
         return recipe;
