@@ -114,11 +114,6 @@
             <artifactId>albkit</artifactId>
             <version>LATEST</version>
         </dependency>
-        <dependency>
-            <groupId>org.mozilla</groupId>
-            <artifactId>rhino</artifactId>
-            <version>1.7R4</version>
-        </dependency>
     </dependencies>
 
     <build>
@@ -140,7 +135,7 @@
                     <include>config.yml</include>
                     <include>plugin.yml</include>
                     <include>guilds.yml</include>
-                    <include>defaults.yml</include>
+                    <include>defaults.properties</include>
                 </includes>
             </resource>
         </resources>
@@ -159,7 +154,6 @@
                         <includes>
                             <include>com.traksag:channels</include>
                             <include>pw.ian:albkit</include>
-                            <include>org.mozilla:rhino</include>
                         </includes>
                     </artifactSet>
                 </configuration>
@@ -175,12 +169,6 @@
                                     <pattern>pw.ian.albkit</pattern>
                                     <shadedPattern>
                                         com.github.rolecraftdev.albkit
-                                    </shadedPattern>
-                                </relocation>
-                                <relocation>
-                                    <pattern>org.mozilla.rhino</pattern>
-                                    <shadedPattern>
-                                        com.github.rolecraftdev.rhino
                                     </shadedPattern>
                                 </relocation>
                             </relocations>
@@ -238,6 +226,5 @@
                 </goals>
             </plugin>
         </plugins>
-
     </build>
 </project>
