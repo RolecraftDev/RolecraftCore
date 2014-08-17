@@ -131,6 +131,14 @@ public class Messages {
     public static final String CANNOT_MODIFY_RANK = "cannot-modify-rank";
     // Sent if someone tries /rcconfirm when they have nothing to confirm
     public static final String NOTHING_TO_CONFIRM = "nothing-to-confirm";
+    // Sent if someone specifies a profession which doesn't exist
+    public static final String PROFESSION_NOT_EXISTS = "profession-not-exists";
+    // Sent to somebody who tries to select a profession they aren't allowed
+    public static final String PROFESSION_NO_PERMS = "profession-no-perms";
+    // Sent when a player picks a profession
+    public static final String PROFESSION_SELECTED = "profession-selected";
+    // Sent if a player tries to select a profession when they already have one
+    public static final String PROFESSION_ALREADY_SELECTED = "profession-already-selected";
 
     /**
      * The {@link RolecraftCore} plugin object

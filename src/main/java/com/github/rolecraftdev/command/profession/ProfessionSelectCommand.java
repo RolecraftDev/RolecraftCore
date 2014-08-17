@@ -33,6 +33,8 @@ import com.github.rolecraftdev.RolecraftCore;
 import com.github.rolecraftdev.data.PlayerData;
 import com.github.rolecraftdev.profession.Profession;
 import com.github.rolecraftdev.profession.ProfessionManager;
+import com.github.rolecraftdev.util.messages.Messages;
+import com.github.rolecraftdev.util.messages.MsgVar;
 
 import org.bukkit.ChatColor;
 import org.bukkit.entity.Player;
@@ -40,10 +42,12 @@ import org.bukkit.entity.Player;
 import java.util.UUID;
 
 public class ProfessionSelectCommand extends PlayerCommandHandler {
+    private final RolecraftCore plugin;
     private final ProfessionManager professionMgr;
 
     ProfessionSelectCommand(final RolecraftCore plugin) {
         super("select");
+        this.plugin = plugin;
         professionMgr = plugin.getProfessionManager();
 
         setUsage("/profession select <profession>");
@@ -61,8 +65,8 @@ public class ProfessionSelectCommand extends PlayerCommandHandler {
         final Profession profession = professionMgr
                 .getProfession(args.getRaw(0));
         if (profession == null) {
-            player.sendMessage(
-                    ChatColor.DARK_RED + "That profession doesn't exist!");
+            player.sendMessage(plugin.getMessage(
+                    Messages.PROFESSION_NOT_EXISTS));
             return;
         }
 
@@ -71,19 +75,19 @@ public class ProfessionSelectCommand extends PlayerCommandHandler {
                 .getPlayerData(playerId);
 
         if (data.getProfession() != null) {
-            player.sendMessage(ChatColor.DARK_RED +
-                    "You already have a profession!");
+            player.sendMessage(plugin.getMessage(
+                    Messages.PROFESSION_ALREADY_SELECTED));
             return;
         }
         if (!player.hasPermission("rolecraft.profession." + profession
                 .getName())) {
-            player.sendMessage(ChatColor.DARK_RED
-                    + "You don't have permission to select that profession!");
+            player.sendMessage(plugin.getMessage(Messages.PROFESSION_NO_PERMS,
+                    MsgVar.create("$profession", profession.getName())));
             return;
         }
 
         data.setProfession(profession.getId());
-        player.sendMessage(ChatColor.GRAY +
-                "You've joined the " + profession.getName() + " profession!");
+        player.sendMessage(plugin.getMessage(Messages.PROFESSION_SELECTED,
+                MsgVar.create("$profession", profession.getName())));
     }
 }
