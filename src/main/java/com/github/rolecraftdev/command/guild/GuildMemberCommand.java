@@ -148,7 +148,7 @@ public class GuildMemberCommand extends PlayerCommandHandler {
                 }
                 if (args.length() < 4) {
                     player.sendMessage(ChatColor.DARK_RED
-                            + "You must specify an action and a value for it!");
+                            + "Invalid syntax, /guild member <name> rank <action> <value>");
                     return;
                 }
 

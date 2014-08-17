@@ -27,7 +27,6 @@
 package com.github.rolecraftdev;
 
 import pw.ian.albkit.AlbPlugin;
-import pw.ian.albkit.command.Commands;
 import pw.ian.albkit.util.ColorScheme;
 
 import com.github.rolecraftdev.command.guild.GuildCommand;
@@ -45,9 +44,11 @@ import com.github.rolecraftdev.magic.SpellManager;
 import com.github.rolecraftdev.profession.Profession;
 import com.github.rolecraftdev.profession.ProfessionManager;
 import com.github.rolecraftdev.quest.QuestManager;
+import com.github.rolecraftdev.util.Messages;
 
 import net.milkbowl.vault.economy.Economy;
 
+import org.bukkit.ChatColor;
 import org.bukkit.configuration.file.FileConfiguration;
 import org.bukkit.plugin.RegisteredServiceProvider;
 import org.bukkit.plugin.java.JavaPlugin;
@@ -71,6 +72,10 @@ public final class RolecraftCore extends AlbPlugin {
      */
     // TODO: Make configurable
     private ColorScheme colorScheme = ColorScheme.DEFAULT;
+    /**
+     * All the messages used by the plugin
+     */
+    private Messages messages;
     /**
      * The data storage solution used by Rolecraft.
      */
@@ -176,6 +181,32 @@ public final class RolecraftCore extends AlbPlugin {
         // Cleanup quests in database
         //        dataStore.finalizeQuests(questManager);
 
+        // Get all plugin messages from the messages file
+        messages = new Messages(this);
+        messages.load();
+
+        // Get the colour scheme from the messages config
+        final ChatColor light = ChatColor.valueOf(messages.get(
+                Messages.LIGHT_COLOUR).toUpperCase().replace(" ", "_"));
+        final ChatColor dark = ChatColor.valueOf(messages.get(
+                Messages.DARK_COLOUR).toUpperCase().replace(" ", "_"));
+        final ChatColor prefix = ChatColor.valueOf(messages.get(
+                Messages.PREFIX_COLOUR).toUpperCase().replace(" ", "_"));
+        final ChatColor message = ChatColor.valueOf(messages.get(
+                Messages.MESSAGE_COLOUR).toUpperCase().replace(" ", "_"));
+        final ChatColor highlight = ChatColor.valueOf(messages.get(
+                Messages.HIGHLIGHT_COLOUR).toUpperCase().replace(" ", "_"));
+
+        if (light == null || dark == null || prefix == null || message == null
+                || highlight == null) {
+            logger.warning("Invalid colours specified in messages.yml");
+            logger.warning("Using default colour scheme!");
+            colorScheme = ColorScheme.DEFAULT;
+        } else {
+            colorScheme = new ColorScheme(light, dark, prefix, message,
+                    highlight);
+        }
+
         // Create all the manager objects / load data
         dataManager = new DataManager(this);
         guildManager = new GuildManager(this);
@@ -189,11 +220,11 @@ public final class RolecraftCore extends AlbPlugin {
         register(new RCListener(this));
 
         // Register commands
-        Commands.registerCommand(this, new GuildCommand(this));
-        Commands.registerCommand(this, new ProfessionCommand(this));
-        Commands.registerCommand(this, new GCCommand(this));
-        Commands.registerCommand(this, new RCConfirmCommand(this));
-        Commands.registerCommand(this, new DebugCommand(this));
+        register(new GuildCommand(this));
+        register(new ProfessionCommand(this));
+        register(new GCCommand(this));
+        register(new RCConfirmCommand(this));
+        register(new DebugCommand(this));
     }
 
     @Override

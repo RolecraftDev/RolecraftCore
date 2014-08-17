@@ -146,13 +146,13 @@ public class GuildRankCommand extends PlayerCommandHandler {
                     .toLowerCase();
             final GuildAction perm = GuildAction.fromHumanReadable(permission);
 
-            String value = args.getArgument(3).rawString().toLowerCase();
-
             if (perm == null) { // The entered permission doesn't exist
                 player.sendMessage(ChatColor.DARK_RED +
                         "Invalid action: " + permission);
                 return;
             }
+
+            String value = args.getRaw(3).toLowerCase();
 
             final boolean allow = value.equals("yes") || value.equals("y")
                     || value.equals("true");
@@ -174,7 +174,7 @@ public class GuildRankCommand extends PlayerCommandHandler {
                 player.sendMessage(ChatColor.GRAY +
                         "Set value for permission " + permission
                         + " to yes for rank" + rank.getName());
-            } else if (disallow) {
+            } else {
                 value = "false";
                 // Leader must always have all permissions
                 if (rank.getName().equals("Leader")) {

@@ -114,7 +114,7 @@ public final class GuildManager {
         guilds = new HashSet<Guild>();
 
         // Get guild configuration options
-        guildConfig = new YamlFile(plugin, "guildconfig.yml", false);
+        guildConfig = new YamlFile(plugin, "guilds.yml", false);
         creationCost = guildConfig.getInt("economy.creation-cost", 0);
         inviteCost = guildConfig.getInt("economy.invite-cost", 0);
         hallCost = guildConfig.getInt("economy.guild-hall-cost", 0);
