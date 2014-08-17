@@ -32,6 +32,7 @@ import pw.ian.albkit.command.parser.Arguments;
 import com.github.rolecraftdev.RolecraftCore;
 import com.github.rolecraftdev.guild.Guild;
 import com.github.rolecraftdev.guild.GuildManager;
+import com.github.rolecraftdev.util.messages.Messages;
 
 import com.traksag.channels.Channel;
 
@@ -41,10 +42,12 @@ import org.bukkit.entity.Player;
 import org.bukkit.event.player.AsyncPlayerChatEvent;
 
 public class GCCommand extends PlayerCommandHandler {
+    private final RolecraftCore plugin;
     private final GuildManager guildManager;
 
     public GCCommand(final RolecraftCore plugin) {
         super(plugin, "gc");
+        this.plugin = plugin;
         guildManager = plugin.getGuildManager();
 
         setUsage("/gc [message]");
@@ -58,8 +61,7 @@ public class GCCommand extends PlayerCommandHandler {
         final Guild guild = guildManager.getPlayerGuild(player.getUniqueId());
 
         if (guild == null) {
-            player.sendMessage(ChatColor.DARK_RED
-                    + "You don't have a guild! Type /guild for instructions on how to get a guild.");
+            player.sendMessage(plugin.getMessage(Messages.NO_GUILD));
             return;
         }
 

@@ -129,6 +129,8 @@ public class Messages {
     public static final String VALUE_SET = "value-set";
     // Sent to somebody who tries to modify permissions for a rank they can't
     public static final String CANNOT_MODIFY_RANK = "cannot-modify-rank";
+    // Sent if someone tries /rcconfirm when they have nothing to confirm
+    public static final String NOTHING_TO_CONFIRM = "nothing-to-confirm";
 
     /**
      * The {@link RolecraftCore} plugin object

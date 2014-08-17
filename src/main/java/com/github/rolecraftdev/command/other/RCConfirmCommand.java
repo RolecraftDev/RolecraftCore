@@ -31,6 +31,7 @@ import pw.ian.albkit.command.parser.Arguments;
 
 import com.github.rolecraftdev.RolecraftCore;
 import com.github.rolecraftdev.data.DataManager;
+import com.github.rolecraftdev.util.messages.Messages;
 
 import org.bukkit.ChatColor;
 import org.bukkit.entity.Player;
@@ -39,9 +40,11 @@ import org.bukkit.metadata.MetadataValue;
 import java.util.List;
 
 public class RCConfirmCommand extends PlayerCommandHandler {
+    private final RolecraftCore plugin;
 
     public RCConfirmCommand(final RolecraftCore plugin) {
         super(plugin, "rcconfirm");
+        this.plugin = plugin;
 
         setUsage("/rcconfirm");
         setDescription("Used to confirm sensitive commands");
@@ -52,8 +55,7 @@ public class RCConfirmCommand extends PlayerCommandHandler {
         final List<MetadataValue> values = player
                 .getMetadata(DataManager.CONFIRM_COMMAND_METADATA);
         if (values == null || values.isEmpty()) {
-            player.sendMessage(
-                    ChatColor.DARK_RED + "You have nothing to confirm!");
+            player.sendMessage(plugin.getMessage(Messages.NOTHING_TO_CONFIRM));
             return;
         }
 
