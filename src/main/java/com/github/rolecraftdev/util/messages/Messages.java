@@ -194,8 +194,8 @@ public class Messages {
         }
 
         // Create the PropertiesFile for the defaults
-        final PropertiesFile defaults = new PropertiesFile(
-                new File(plugin.getDataFolder(), "defaults.properties"));
+        final PropertiesFile defaults = new PropertiesFile(plugin,
+                "defaults.properties", true);
         for (final Field field : getClass().getDeclaredFields()) {
             field.setAccessible(true);
             int mods = field.getModifiers();
