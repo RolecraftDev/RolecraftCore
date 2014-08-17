@@ -45,6 +45,7 @@ import com.github.rolecraftdev.profession.Profession;
 import com.github.rolecraftdev.profession.ProfessionManager;
 import com.github.rolecraftdev.quest.QuestManager;
 import com.github.rolecraftdev.util.messages.Messages;
+import com.github.rolecraftdev.util.messages.MsgVar;
 
 import net.milkbowl.vault.economy.Economy;
 
@@ -257,8 +258,8 @@ public final class RolecraftCore extends AlbPlugin {
      * @param key The configuration key to get the configured message for
      * @return The configured message for the given configuration key
      */
-    public String getMessage(final String key) {
-        return getMessages().get(key);
+    public String getMessage(final String key, final MsgVar... vars) {
+        return getMessages().get(key, vars);
     }
 
     /**
