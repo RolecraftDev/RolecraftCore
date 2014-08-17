@@ -28,6 +28,7 @@ package com.github.rolecraftdev.data.storage;
 
 import com.github.rolecraftdev.RolecraftCore;
 import com.github.rolecraftdev.data.PlayerData;
+import com.github.rolecraftdev.data.PlayerSettings;
 import com.github.rolecraftdev.data.Region2D;
 import com.github.rolecraftdev.guild.Guild;
 import com.github.rolecraftdev.guild.GuildManager;
@@ -518,7 +519,7 @@ public abstract class DataStore {
 
                     if (rs.next()) {
                         ResultSetMetaData rsmd = rs.getMetaData();
-                        Map<UUID, String> questData = new HashMap<UUID, String>();
+                       /* Map<UUID, String> questData = new HashMap<UUID, String>();
                         for (int i = 0; i < rsmd.getColumnCount(); i++) {
                             if (rsmd.getColumnName(i).startsWith("quest")) {
                                 questData.put(UUID.fromString(
@@ -526,13 +527,13 @@ public abstract class DataStore {
                                                         .substring(6)),
                                         rs.getString(i));
                             }
-                        }
+                        }*/
                         callback.initialise(
                                 UUID.fromString(rs.getString("guild")),
                                 UUID.fromString(rs.getString("profession")),
                                 rs.getInt("influence"), rs.getFloat("exp"),
                                 rs.getFloat("karma"), rs.getFloat("mana"),
-                                questData);
+                                null, PlayerSettings.fromString(rs.getString("settings")));
                     } else {
                         ps.close();
                         ps = connection.prepareStatement("INSERT INTO " + pt
@@ -541,7 +542,7 @@ public abstract class DataStore {
                         ps.setString(2, name);
                         ps.execute();
                         callback.initialise(null, null, 0, 0f, -originalSin,
-                                0, null);
+                                0, null, PlayerSettings.defaultSettings);
                     }
 
                 } catch (SQLException ex) {
@@ -584,7 +585,8 @@ public abstract class DataStore {
                                         rs.getInt("influence"),
                                         rs.getFloat("exp"),
                                         rs.getFloat("karma"),
-                                        rs.getFloat("mana"), questData);
+                                        rs.getFloat("mana"), questData,
+                                        PlayerSettings.fromString(rs.getString("settings")));
                             } else {
                                 ps.close();
                                 ps = connection
@@ -594,7 +596,7 @@ public abstract class DataStore {
                                 ps.setString(2, name);
                                 ps.execute();
                                 callback.initialise(null, null, 0, 0f,
-                                        -originalSin, 0, null);
+                                        -originalSin, 0, null, PlayerSettings.defaultSettings);
                             }
 
                         } catch (SQLException ex) {

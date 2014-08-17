@@ -79,7 +79,8 @@ public final class MySQLDataStore extends DataStore {
                     + "profession VARCHAR (37) DEFAULT NULL,"
                     + "influence INTEGER DEFAULT 0,"
                     + "karma REAL DEFAULT 0,"
-                    + "mana REAL DEFAULT 0" + ")";
+                    + "mana REAL DEFAULT 0," +
+                    "settings VARCHAR(100)" + ")";
 
     /**
      * The query used for creating the guild table

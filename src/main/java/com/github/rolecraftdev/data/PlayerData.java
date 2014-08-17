@@ -45,6 +45,8 @@ public final class PlayerData {
      */
     private final String name;
 
+    private  PlayerSettings settings;
+
     /**
      * The unique ID of the {@link com.github.rolecraftdev.guild.Guild} the
      * player belongs to, or null if the player doesn't belong to a Guild
@@ -98,6 +100,7 @@ public final class PlayerData {
         this.name = name;
 
         questProgression = new HashMap<UUID, String>();
+        settings = PlayerSettings.defaultSettings;
     }
 
     /**
@@ -435,8 +438,8 @@ public final class PlayerData {
      */
     @Deprecated
     public void initialise(final UUID guild, final UUID profession,
-            final int influence, final float exp, final float karma,
-            float mana, final Map<UUID, String> progression) {
+                           final int influence, final float exp, final float karma,
+                           float mana, final Map<UUID, String> progression, PlayerSettings settings) {
         this.guild = guild;
         this.profession = profession;
         this.influence = influence;
@@ -444,6 +447,7 @@ public final class PlayerData {
         this.karma = karma;
         this.questProgression = progression;
         this.mana = mana;
+        this.settings = settings;
 
         loaded = true;
     }

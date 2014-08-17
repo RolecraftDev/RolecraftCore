@@ -55,7 +55,8 @@ public final class SQLiteDataStore extends DataStore {
                     + "profession VARCHAR DEFAULT NULL,"
                     + "influence INTEGER DEFAULT 0,"
                     + "karma REAL DEFAULT 0,"
-                    + "mana REAL DEFAULT 0" + ")";
+                    + "mana REAL DEFAULT 0," +
+                    "settings VARCHAR" + ")";
 
     private static final String createGuildTable =
             "CREATE TABLE IF NOT EXISTS " + gt + " ("
