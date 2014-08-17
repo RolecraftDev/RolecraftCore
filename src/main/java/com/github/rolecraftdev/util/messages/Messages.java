@@ -157,7 +157,7 @@ public class Messages {
      * @return The message configured for the given key
      */
     public String get(final String key, final MsgVar... vars) {
-        return CommandHelper.applyVars(parseColours(messages.get(key)), vars);
+        return CommandHelper.applyVars(applyConstants(messages.get(key)), vars);
     }
 
     /**
@@ -201,7 +201,11 @@ public class Messages {
         }
     }
 
-    private MsgVar[] colours = new MsgVar[] {
+    /**
+     * Variables which are always the same for parsing messages, such as colours
+     * and formatting options
+     */
+    private MsgVar[] constants = new MsgVar[] {
             MsgVar.create("$darkred", ChatColor.DARK_RED.toString()),
             MsgVar.create("$gray", ChatColor.GRAY.toString()),
             MsgVar.create("$white", ChatColor.WHITE.toString()),
@@ -212,10 +216,14 @@ public class Messages {
             MsgVar.create("$lightpurple", ChatColor.LIGHT_PURPLE.toString()),
             MsgVar.create("$magic", ChatColor.MAGIC.toString()),
             // Support all colours which aren't here by allowing $col1 etc
-            MsgVar.create("$col", String.valueOf(ChatColor.COLOR_CHAR))
+            MsgVar.create("$col", String.valueOf(ChatColor.COLOR_CHAR)),
+            MsgVar.create("$strike", ChatColor.STRIKETHROUGH.toString()),
+            MsgVar.create("$underline", ChatColor.UNDERLINE.toString()),
+            MsgVar.create("$italic", ChatColor.ITALIC.toString()),
+            MsgVar.create("$bold", ChatColor.BOLD.toString()),
     };
 
-    private String parseColours(final String original) {
-        return CommandHelper.applyVars(original, colours);
+    private String applyConstants(final String original) {
+        return CommandHelper.applyVars(original, constants);
     }
 }
