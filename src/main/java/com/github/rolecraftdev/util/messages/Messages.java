@@ -202,8 +202,17 @@ public class Messages {
     }
 
     private MsgVar[] colours = new MsgVar[] {
-            // TODO maybe add more
             MsgVar.create("$darkred", ChatColor.DARK_RED.toString()),
+            MsgVar.create("$gray", ChatColor.GRAY.toString()),
+            MsgVar.create("$white", ChatColor.WHITE.toString()),
+            MsgVar.create("$red", ChatColor.RED.toString()),
+            MsgVar.create("$green", ChatColor.GREEN.toString()),
+            MsgVar.create("$darkgreen", ChatColor.DARK_GREEN.toString()),
+            MsgVar.create("$purple", ChatColor.DARK_PURPLE.toString()),
+            MsgVar.create("$lightpurple", ChatColor.LIGHT_PURPLE.toString()),
+            MsgVar.create("$magic", ChatColor.MAGIC.toString()),
+            // Support all colours which aren't here by allowing $col1 etc
+            MsgVar.create("$col", String.valueOf(ChatColor.COLOR_CHAR))
     };
 
     private String parseColours(final String original) {
