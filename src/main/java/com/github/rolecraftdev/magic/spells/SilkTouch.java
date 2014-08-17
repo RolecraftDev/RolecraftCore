@@ -88,11 +88,9 @@ public class SilkTouch implements Spell {
             return Float.MIN_VALUE;
         }
 
-        ItemStack i = new ItemStack(block.getType(), 0, (short) 1,
+        ItemStack i = new ItemStack(block.getType(), 1, (short) 1,
                 block.getData());
-
         block.setType(Material.AIR);
-
         block.getWorld().dropItemNaturally(block.getLocation(), i);
 
         return 10;
@@ -111,12 +109,11 @@ public class SilkTouch implements Spell {
             return Float.MIN_VALUE;
         }
 
-        ItemStack i = new ItemStack(block.getType(), 0, (short) 1,
+        ItemStack i = new ItemStack(block.getType(), 1, (short) 1,
                 block.getData());
-
         block.setType(Material.AIR);
-
         block.getWorld().dropItemNaturally(block.getLocation(), i);
+
         return 10;
     }
 

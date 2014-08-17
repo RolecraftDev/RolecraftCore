@@ -108,9 +108,8 @@ public class FarbreakSilkTouch implements Spell {
             }
         }
 
-        ItemStack i = new ItemStack(toBreak.getType(), 0, (short) 1,
+        ItemStack i = new ItemStack(toBreak.getType(), 1, (short) 1,
                 toBreak.getData());
-
         toBreak.setType(Material.AIR);
         toBreak.getWorld().dropItemNaturally(toBreak.getLocation(), i);
 
@@ -142,12 +141,11 @@ public class FarbreakSilkTouch implements Spell {
             }
         }
 
-        //        ItemStack i = new ItemStack(toBreak.getType(), 0, (short) 1,
-        //                toBreak.getData());
-        //        toBreak.setType(Material.AIR);
-        //        toBreak.getWorld().dropItemNaturally(toBreak.getLocation(), i);
+        ItemStack i = new ItemStack(toBreak.getType(), 1, (short) 1,
+        toBreak.getData());
+        toBreak.setType(Material.AIR);
+        toBreak.getWorld().dropItemNaturally(toBreak.getLocation(), i);
 
-        toBreak.breakNaturally();
         return retVal;
     }
 
