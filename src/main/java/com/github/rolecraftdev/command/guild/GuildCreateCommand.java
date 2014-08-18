@@ -37,7 +37,6 @@ import com.github.rolecraftdev.util.messages.MsgVar;
 
 import net.milkbowl.vault.economy.EconomyResponse;
 
-import org.bukkit.ChatColor;
 import org.bukkit.entity.Player;
 
 import java.util.UUID;

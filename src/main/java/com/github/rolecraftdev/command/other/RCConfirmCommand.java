@@ -33,7 +33,6 @@ import com.github.rolecraftdev.RolecraftCore;
 import com.github.rolecraftdev.data.DataManager;
 import com.github.rolecraftdev.util.messages.Messages;
 
-import org.bukkit.ChatColor;
 import org.bukkit.entity.Player;
 import org.bukkit.metadata.MetadataValue;
 

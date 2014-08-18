@@ -37,7 +37,6 @@ import com.github.rolecraftdev.util.messages.Messages;
 import com.traksag.channels.Channel;
 
 import org.bukkit.Bukkit;
-import org.bukkit.ChatColor;
 import org.bukkit.entity.Player;
 import org.bukkit.event.player.AsyncPlayerChatEvent;
 
