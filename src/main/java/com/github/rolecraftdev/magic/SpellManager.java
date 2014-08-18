@@ -139,6 +139,11 @@ public class SpellManager {
         }
         final List<?> usable = profession
                 .getRuleValue(ProfessionRule.USABLE_SPELLS);
+        // if the usable spells is not defined in profession,
+        // use the default value
+        if(usable == null) {
+            return plugin.getConfig().getBoolean("professiondefaults.spells");
+        }
         return usable.contains(spell.getName()) && player.hasPermission(
                 "rolecraft.spell." + spell.getName().toLowerCase()
                         .replaceAll(" ", ""));

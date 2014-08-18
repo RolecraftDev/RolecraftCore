@@ -27,7 +27,6 @@
 package com.github.rolecraftdev;
 
 import pw.ian.albkit.AlbPlugin;
-import pw.ian.albkit.util.ColorScheme;
 
 import com.github.rolecraftdev.command.guild.GuildCommand;
 import com.github.rolecraftdev.command.other.DebugCommand;
@@ -49,7 +48,6 @@ import com.github.rolecraftdev.util.messages.MsgVar;
 
 import net.milkbowl.vault.economy.Economy;
 
-import org.bukkit.ChatColor;
 import org.bukkit.configuration.file.FileConfiguration;
 import org.bukkit.plugin.RegisteredServiceProvider;
 import org.bukkit.plugin.java.JavaPlugin;

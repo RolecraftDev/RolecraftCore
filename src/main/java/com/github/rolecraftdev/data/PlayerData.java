@@ -103,7 +103,7 @@ public final class PlayerData {
         this.name = name;
 
         questProgression = new HashMap<UUID, String>();
-        settings = PlayerSettings.defaultSettings;
+        this.settings = PlayerSettings.defaultSettings;
     }
 
     /**
@@ -451,5 +451,9 @@ public final class PlayerData {
         this.settings = settings;
 
         loaded = true;
+    }
+
+    public PlayerSettings getSettings() {
+        return settings;
     }
 }

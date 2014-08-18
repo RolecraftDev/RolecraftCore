@@ -133,6 +133,8 @@ public class Messages {
     public static final String CANNOT_CAST_SPELL = "cannot-cast-spell";
     // Sent when a player casts a spell
     public static final String SPELL_CAST = "spell-cast";
+    // Sent when a player cannot wear armor due to their profession
+    public static final String PROFESSION_DENY_ARMOR = "profession-deny-armor";
 
     /**
      * The {@link RolecraftCore} plugin object
