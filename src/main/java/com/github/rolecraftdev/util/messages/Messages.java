@@ -135,6 +135,8 @@ public class Messages {
     public static final String SPELL_CAST = "spell-cast";
     // Sent when a player cannot wear armor due to their profession
     public static final String PROFESSION_DENY_ARMOR = "profession-deny-armor";
+    // Sent when a player cannot wear enchanted/ use enchanted due to their profession
+    public static final String PROFESSION_DENY_ENCHANTMENT = "profession-deny-enchantment";
 
     /**
      * The {@link RolecraftCore} plugin object

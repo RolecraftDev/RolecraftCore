@@ -48,8 +48,12 @@ public final class ProfessionRule<T> {
     @SuppressWarnings("rawtypes")
     public static final ProfessionRule<List> USABLE_SPELLS = new ProfessionRule<List>(
             "usable-spells", List.class);
+    @SuppressWarnings("rawtypes")
     public static final ProfessionRule<List> USABLE_ARMOR = new ProfessionRule<List>(
             "usable-armor", List.class);
+    @SuppressWarnings("rawtypes")
+    public static final ProfessionRule<List> USABLE_ENCHANTMENTS = new ProfessionRule<List>(
+            "usable-enchantments",List.class);
 
     /**
      * Get a unique {@link ProfessionRule} by its name.

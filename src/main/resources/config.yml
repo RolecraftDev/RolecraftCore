@@ -21,6 +21,7 @@ extraevents: true
 professiondefaults:
     spells: true
     armor: true
+    enchantments: true
 
 # Configuration for MySQL, can be ignored if using SQLite
 mysql:
