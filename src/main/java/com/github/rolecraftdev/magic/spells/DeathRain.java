@@ -53,6 +53,10 @@ import org.bukkit.util.Vector;
 import java.util.Arrays;
 import java.util.HashSet;
 
+/**
+ * A {@link Spell} implementation that spawns arrows in the same manor as
+ * {@link ArrowShower} and additionally makes them explosive.
+ */
 @SuppressWarnings("deprecation")
 public class DeathRain implements Spell {
 

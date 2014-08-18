@@ -45,6 +45,10 @@ import org.bukkit.inventory.Recipe;
 import org.bukkit.inventory.ShapedRecipe;
 import org.bukkit.inventory.meta.ItemMeta;
 
+/**
+ * A {@link Spell} implementation that will spawn a primed TNT and send it flying to
+ * the direction the executor is looking at.
+ */
 public class Bomb implements Spell {
 
     public Bomb(SpellManager spellManager) {}

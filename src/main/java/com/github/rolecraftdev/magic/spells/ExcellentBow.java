@@ -44,6 +44,10 @@ import org.bukkit.inventory.ShapedRecipe;
 import org.bukkit.inventory.meta.ItemMeta;
 import org.bukkit.metadata.FixedMetadataValue;
 
+/**
+ * A {@link Spell} implementation that shoots an arrow which will deal increased
+ * damage on hit.
+ */
 public class ExcellentBow implements Spell {
 
     public SpellManager manager;

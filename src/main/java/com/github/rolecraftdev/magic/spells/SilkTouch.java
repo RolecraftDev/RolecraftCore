@@ -44,6 +44,11 @@ import org.bukkit.inventory.Recipe;
 import org.bukkit.inventory.ShapedRecipe;
 import org.bukkit.inventory.meta.ItemMeta;
 
+/**
+ * A {@link Spell} implementation that will destroy the pointed at block and drop it
+ * naturally, in opposition to {@link BreakBlock} which will break the block
+ * naturally.
+ */
 public class SilkTouch implements Spell {
     private ItemStack simulate;
 

@@ -49,6 +49,10 @@ import org.bukkit.util.Vector;
 
 import java.util.HashSet;
 
+/**
+ * A {@link Spell} implementation that spawns multiple arrows at the location the
+ * executor points at.
+ */
 @SuppressWarnings("deprecation")
 public class ArrowShower implements Spell {
 

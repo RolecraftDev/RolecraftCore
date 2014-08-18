@@ -44,6 +44,10 @@ import org.bukkit.inventory.Recipe;
 import org.bukkit.inventory.ShapedRecipe;
 import org.bukkit.inventory.meta.ItemMeta;
 
+/**
+ * A {@link Spell} implementation which can be used to delete blocks without dropping
+ * anything.
+ */
 public class DestroyBlock implements Spell {
 
     public DestroyBlock(SpellManager parent) {}

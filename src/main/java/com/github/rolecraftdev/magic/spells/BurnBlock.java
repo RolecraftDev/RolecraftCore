@@ -46,6 +46,10 @@ import org.bukkit.inventory.Recipe;
 import org.bukkit.inventory.ShapedRecipe;
 import org.bukkit.inventory.meta.ItemMeta;
 
+/**
+ * A {@link Spell} implementation that applies fire to the block the executor is
+ * looking at.
+ */
 public class BurnBlock implements Spell {
 
     public BurnBlock(SpellManager spellManager) {}

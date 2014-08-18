@@ -48,6 +48,10 @@ import org.bukkit.inventory.meta.ItemMeta;
 
 import java.util.HashSet;
 
+/**
+ * A {@link Spell} implementation that freezes, or recreates the event in which water
+ * runs over, the pointed at block.
+ */
 @SuppressWarnings("deprecation")
 public class FreezeBlock implements Spell {
 

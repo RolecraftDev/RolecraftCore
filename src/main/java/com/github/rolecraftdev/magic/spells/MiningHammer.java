@@ -48,6 +48,10 @@ import org.bukkit.inventory.meta.ItemMeta;
 import java.util.ArrayList;
 import java.util.List;
 
+/**
+ * A {@link Spell} implementation which will make the held item function like a
+ * pickaxe, although this will affect more blocks when used.
+ */
 public class MiningHammer implements Spell {
 
     private enum Orientation {

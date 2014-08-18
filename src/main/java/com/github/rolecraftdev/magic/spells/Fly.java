@@ -42,6 +42,9 @@ import org.bukkit.inventory.Recipe;
 import org.bukkit.inventory.ShapedRecipe;
 import org.bukkit.inventory.meta.ItemMeta;
 
+/**
+ * A {@link Spell} implementation that allows the holder to fly.
+ */
 public class Fly implements Spell {
 
     public Fly(SpellManager spellManager) {}
