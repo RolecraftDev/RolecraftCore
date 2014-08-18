@@ -397,8 +397,13 @@ public final class PlayerData {
         setMana(getMana() + amount);
     }
 
-    public void substractMana(float amount) {
+    public void subtractMana(float amount) {
         setMana(getMana() - amount);
+    }
+
+    public float getManaRegenRate() {
+        // TODO: this is probably wayyyy too fast
+        return (float) Math.pow(getLevel(), 0.5)/10 + 5;
     }
 
     public void addQuestProgression(final UUID questId,

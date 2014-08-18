@@ -29,6 +29,7 @@ package com.github.rolecraftdev.data;
 import com.github.rolecraftdev.RolecraftCore;
 import com.github.rolecraftdev.data.storage.DataStore;
 
+import java.util.Collection;
 import java.util.HashMap;
 import java.util.Map;
 import java.util.UUID;
@@ -130,5 +131,9 @@ public final class DataManager {
      */
     public DataStore getStore() {
         return store;
+    }
+
+    public Collection<PlayerData> getPlayerDatum() {
+        return loadedPlayerData.values();
     }
 }

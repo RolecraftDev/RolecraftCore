@@ -92,6 +92,8 @@ public class SpellManager {
                 .registerEvents(new ProjectileListener(plugin), plugin);
         plugin.getServer().getPluginManager()
                 .registerEvents(new FlyingListener(plugin), plugin);
+
+        plugin.getServer().getScheduler().runTaskTimer(plugin,new ManaRunnable(plugin),20L,40L);
     }
 
     /**
@@ -138,8 +140,8 @@ public class SpellManager {
         final List<?> usable = profession
                 .getRuleValue(ProfessionRule.USABLE_SPELLS);
         return usable.contains(spell.getName()) && player.hasPermission(
-                "rolecraft.spell." + spell.getName().toLowerCase().replaceAll(
-                        " ", ""));
+                "rolecraft.spell." + spell.getName().toLowerCase()
+                        .replaceAll(" ", ""));
     }
 
     public Spell getSpell(String wandName) {
@@ -164,7 +166,7 @@ public class SpellManager {
      */
     public void subtractMana(Player ply, float amount) {
         plugin.getDataManager().getPlayerData(ply.getUniqueId())
-                .substractMana(amount);
+                .subtractMana(amount);
     }
 
     public void setMana(Player ply, float mana) {
