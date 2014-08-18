@@ -37,11 +37,9 @@ import com.github.rolecraftdev.guild.GuildAction;
 import org.bukkit.entity.Player;
 
 public class GuildHelpCommand extends PlayerCommandHandler {
-    private final RolecraftCore plugin;
 
     GuildHelpCommand(final RolecraftCore plugin) {
         super("help");
-        this.plugin = plugin;
 
         setDescription("Guild-related help");
         setUsage("/guild help [args...]");

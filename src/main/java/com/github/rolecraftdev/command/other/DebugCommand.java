@@ -43,6 +43,7 @@ public class DebugCommand extends PlayerCommandHandler {
         parent = plugin;
     }
 
+    @SuppressWarnings("deprecation")
     @Override
     public void onCommand(final Player player, final Arguments args) {
         if (args.length() == 0) {

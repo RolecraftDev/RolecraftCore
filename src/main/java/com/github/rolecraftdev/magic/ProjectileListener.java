@@ -38,11 +38,8 @@ import org.bukkit.event.entity.EntityDamageByEntityEvent;
 import org.bukkit.event.entity.ProjectileHitEvent;
 
 public class ProjectileListener implements Listener {
-    private final RolecraftCore parent;
 
-    ProjectileListener(final RolecraftCore plugin) {
-        parent = plugin;
-    }
+    ProjectileListener(final RolecraftCore plugin) {}
 
     @EventHandler(priority = EventPriority.HIGHEST)
     public void onDamage(EntityDamageByEntityEvent e) {
