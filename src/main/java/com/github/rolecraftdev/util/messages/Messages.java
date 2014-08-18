@@ -137,6 +137,8 @@ public class Messages {
     public static final String PROFESSION_DENY_ARMOR = "profession-deny-armor";
     // Sent when a player cannot wear enchanted/ use enchanted due to their profession
     public static final String PROFESSION_DENY_ENCHANTMENT = "profession-deny-enchantment";
+    // Sent when a player cannot equip weapons due to their profession
+    public static final String PROFESSION_DENY_ITEM = "profession-deny-weapon";
 
     /**
      * The {@link RolecraftCore} plugin object
