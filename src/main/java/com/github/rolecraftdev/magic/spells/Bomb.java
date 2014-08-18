@@ -47,8 +47,7 @@ import org.bukkit.inventory.meta.ItemMeta;
 
 public class Bomb implements Spell {
 
-    public Bomb(SpellManager spellManager) {
-    }
+    public Bomb(SpellManager spellManager) {}
 
     @Override
     public String getName() {

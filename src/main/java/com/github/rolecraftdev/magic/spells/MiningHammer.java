@@ -59,7 +59,7 @@ public class MiningHammer implements Spell {
     private SpellManager manager;
 
     public MiningHammer(SpellManager spellManager) {
-        this.manager = spellManager;
+        manager = spellManager;
     }
 
     @Override
@@ -88,36 +88,16 @@ public class MiningHammer implements Spell {
     @Override
     public float rightClick(Player ply, Block block, int modifier,
             BlockFace face) {
-        if (block == null) {
-            return Float.MIN_VALUE;
-        }
-        List<Block> blocks = null;
-        if (face == BlockFace.DOWN || face == BlockFace.UP) {
-            blocks = getBlocksAround(block, Orientation.FLAT);
-        } else if (face == BlockFace.EAST || face == BlockFace.WEST) {
-            blocks = getBlocksAround(block, Orientation.NORTHSOUTH);
-        } else if (face == BlockFace.NORTH || face == BlockFace.SOUTH) {
-            blocks = getBlocksAround(block, Orientation.EASTWEST);
-        } else {
-            return Float.MIN_VALUE;
-        }
-
-        for (Block toBreak : blocks) {
-            if (manager.getPlugin().isExtraEvents()) {
-                BlockBreakEvent event = new BlockBreakEvent(toBreak, ply);
-                Bukkit.getPluginManager().callEvent(event);
-                if (event.isCancelled()) {
-                    continue;
-                }
-            }
-            toBreak.breakNaturally();
-        }
-        return (30f - modifier / 100f > 0) ? 30f - modifier / 100f : 0;
+        return click(ply, block, modifier, face);
     }
 
     @Override
     public float leftClick(Player ply, Block block, int modifier,
             BlockFace face) {
+        return click(ply, block, modifier, face);
+    }
+
+    private float click(Player ply, Block block, int modifier, BlockFace face) {
         if (block == null) {
             return Float.MIN_VALUE;
         }

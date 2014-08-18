@@ -44,8 +44,7 @@ import org.bukkit.inventory.meta.ItemMeta;
 
 public class Fly implements Spell {
 
-    public Fly(SpellManager spellManager) {
-    }
+    public Fly(SpellManager spellManager) {}
 
     @Override
     public String getName() {

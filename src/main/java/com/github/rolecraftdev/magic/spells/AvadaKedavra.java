@@ -52,7 +52,7 @@ public class AvadaKedavra implements Spell {
     private SpellManager parent;
 
     public AvadaKedavra(SpellManager spellManager) {
-        this.parent = spellManager;
+        parent = spellManager;
     }
 
     @Override

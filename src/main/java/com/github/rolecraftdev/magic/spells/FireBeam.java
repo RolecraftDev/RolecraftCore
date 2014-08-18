@@ -50,7 +50,7 @@ public class FireBeam implements Spell {
     private SpellManager manager;
 
     public FireBeam(SpellManager spellManager) {
-        this.manager = spellManager;
+        manager = spellManager;
     }
 
     @Override
@@ -76,6 +76,7 @@ public class FireBeam implements Spell {
         return 10;
     }
 
+    @SuppressWarnings("deprecation")
     @Override
     public float rightClick(Player ply, Block block, int modifier,
             BlockFace face) {

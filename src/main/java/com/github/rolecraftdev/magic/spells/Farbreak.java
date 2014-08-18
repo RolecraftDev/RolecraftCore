@@ -74,6 +74,7 @@ public class Farbreak implements Spell {
         return 4;
     }
 
+    @SuppressWarnings("deprecation")
     @Override
     public float rightClick(Player ply, Block block, int modifier,
             BlockFace face) {

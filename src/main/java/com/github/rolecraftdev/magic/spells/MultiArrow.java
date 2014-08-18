@@ -46,8 +46,7 @@ import org.bukkit.inventory.meta.ItemMeta;
 
 public class MultiArrow implements Spell {
 
-    public MultiArrow(SpellManager spellManager) {
-    }
+    public MultiArrow(SpellManager spellManager) {}
 
     @Override
     public String getName() {

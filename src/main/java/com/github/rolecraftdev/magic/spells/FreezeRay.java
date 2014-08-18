@@ -96,56 +96,16 @@ public class FreezeRay implements Spell {
     @Override
     public float rightClick(Player ply, Block block, int modifier,
             BlockFace face) {
-
-        Block targetBlock = ply
-                .getTargetBlock(transparency, manager.getRange());
-        BlockBreakEvent bbe = new BlockBreakEvent(targetBlock, ply);
-        Bukkit.getPluginManager().callEvent(bbe);
-        if (bbe.isCancelled()) {
-            return Float.MIN_VALUE;
-        }
-        float retVal = 0;
-        if (!bbe.isCancelled()) {
-            BlockState state = targetBlock.getState();
-            // block.setType(Material.ICE);
-            if (targetBlock != null) {
-                switch (targetBlock.getType()) {
-                    case STATIONARY_WATER:
-                        targetBlock.setType(Material.ICE);
-                        retVal = 5;
-                        break;
-                    case WATER:
-                        targetBlock.setType(Material.ICE);
-                        retVal = 5;
-                        break;
-                    case STATIONARY_LAVA:
-                        targetBlock.setType(Material.OBSIDIAN);
-                        retVal = 50;
-                        break;
-                    case LAVA:
-                        targetBlock.setType(Material.COBBLESTONE);
-                        retVal = 5;
-                        break;
-
-                    default:
-                        targetBlock.setType(Material.ICE);
-                        retVal = 5;
-                        break;
-                }
-                BlockPlaceEvent bpe = new BlockPlaceEvent(targetBlock, state,
-                        null, null, ply, true);
-                Bukkit.getPluginManager().callEvent(bpe);
-                if (bpe.isCancelled()) {
-                    state.update();
-                }
-            }
-        }
-        return retVal;
+        return click(ply, block, modifier, face);
     }
 
     @Override
     public float leftClick(Player ply, Block block, int modifier,
             BlockFace face) {
+        return click(ply, block, modifier, face);
+    }
+
+    private float click(Player ply, Block block, int modifier, BlockFace face) {
         Block targetBlock = ply
                 .getTargetBlock(transparency, manager.getRange());
         BlockBreakEvent bbe = new BlockBreakEvent(targetBlock, ply);
@@ -154,39 +114,37 @@ public class FreezeRay implements Spell {
             return Float.MIN_VALUE;
         }
         float retVal = 0;
-        if (!bbe.isCancelled()) {
-            BlockState state = targetBlock.getState();
-            // block.setType(Material.ICE);
-            if (targetBlock != null) {
-                switch (targetBlock.getType()) {
-                    case STATIONARY_WATER:
-                        targetBlock.setType(Material.ICE);
-                        retVal = 5;
-                        break;
-                    case WATER:
-                        targetBlock.setType(Material.ICE);
-                        retVal = 5;
-                        break;
-                    case STATIONARY_LAVA:
-                        targetBlock.setType(Material.OBSIDIAN);
-                        retVal = 50;
-                        break;
-                    case LAVA:
-                        targetBlock.setType(Material.COBBLESTONE);
-                        retVal = 5;
-                        break;
 
-                    default:
-                        targetBlock.setType(Material.ICE);
-                        retVal = 5;
-                        break;
-                }
-                BlockPlaceEvent bpe = new BlockPlaceEvent(targetBlock, state,
-                        null, null, ply, true);
-                Bukkit.getPluginManager().callEvent(bpe);
-                if (bpe.isCancelled()) {
-                    state.update();
-                }
+        if (targetBlock != null) {
+            BlockState state = targetBlock.getState();
+
+            switch (targetBlock.getType()) {
+                case STATIONARY_WATER:
+                    targetBlock.setType(Material.ICE);
+                    retVal = 5;
+                    break;
+                case WATER:
+                    targetBlock.setType(Material.ICE);
+                    retVal = 5;
+                    break;
+                case STATIONARY_LAVA:
+                    targetBlock.setType(Material.OBSIDIAN);
+                    retVal = 50;
+                    break;
+                case LAVA:
+                    targetBlock.setType(Material.COBBLESTONE);
+                    retVal = 5;
+                    break;
+                default:
+                    targetBlock.setType(Material.ICE);
+                    retVal = 5;
+                    break;
+            }
+            BlockPlaceEvent bpe =
+                    new BlockPlaceEvent(targetBlock, state, null, null, ply, true);
+            Bukkit.getPluginManager().callEvent(bpe);
+            if (bpe.isCancelled()) {
+                state.update();
             }
         }
         return retVal;

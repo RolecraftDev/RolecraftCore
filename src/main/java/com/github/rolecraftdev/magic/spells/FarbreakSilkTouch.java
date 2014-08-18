@@ -81,43 +81,20 @@ public class FarbreakSilkTouch implements Spell {
         return 10;
     }
 
-    @SuppressWarnings("deprecation")
     @Override
     public float rightClick(Player ply, Block block, int modifier,
             BlockFace face) {
-        float retVal;
-        Block toBreak;
-        if (block == null) {
-            toBreak = ply.getTargetBlock(null, manager.getRange());
-            if (toBreak == null) {
-                return Float.MIN_VALUE;
-            }
-            retVal = 10;
-        } else {
-            toBreak = block;
-            retVal = 5;
-        }
-
-        if (manager.getPlugin().isExtraEvents()) {
-            BlockBreakEvent event = new BlockBreakEvent(toBreak, ply);
-            Bukkit.getServer().getPluginManager().callEvent(event);
-            if (event.isCancelled()) {
-                return Float.MIN_VALUE;
-            }
-        }
-
-        ItemStack i = new ItemStack(toBreak.getType(), 1, (short) 1,
-                toBreak.getData());
-        toBreak.setType(Material.AIR);
-        toBreak.getWorld().dropItemNaturally(toBreak.getLocation(), i);
-
-        return retVal;
+        return click(ply, block, modifier, face);
     }
 
-    @SuppressWarnings("deprecation")
     @Override
     public float leftClick(Player ply, Block block, int modifier,
             BlockFace face) {
+        return click(ply, block, modifier, face);
+    }
+
+    @SuppressWarnings("deprecation")
+    private float click(Player ply, Block block, int modifier, BlockFace face) {
         float retVal;
         Block toBreak;
         if (block == null) {
@@ -139,11 +116,10 @@ public class FarbreakSilkTouch implements Spell {
             }
         }
 
-        ItemStack i = new ItemStack(toBreak.getType(), 1, (short) 1,
-        toBreak.getData());
+        ItemStack i =
+                new ItemStack(toBreak.getType(), 1, (short) 1, toBreak.getData());
         toBreak.setType(Material.AIR);
         toBreak.getWorld().dropItemNaturally(toBreak.getLocation(), i);
-
         return retVal;
     }
 

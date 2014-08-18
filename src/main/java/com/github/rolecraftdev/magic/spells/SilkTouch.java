@@ -78,27 +78,17 @@ public class SilkTouch implements Spell {
     @Override
     public float rightClick(Player ply, Block block, int modifier,
             BlockFace face) {
-        if (block == null) {
-            return Float.MIN_VALUE;
-        }
-
-        BlockBreakEvent event = new BlockBreakEvent(block, ply);
-        Bukkit.getPluginManager().callEvent(event);
-        if (event.isCancelled()) {
-            return Float.MIN_VALUE;
-        }
-
-        ItemStack i = new ItemStack(block.getType(), 1, (short) 1,
-                block.getData());
-        block.setType(Material.AIR);
-        block.getWorld().dropItemNaturally(block.getLocation(), i);
-
-        return 10;
+        return click(ply, block, modifier, face);
     }
 
     @Override
     public float leftClick(Player ply, Block block, int modifier,
             BlockFace face) {
+        return click(ply, block, modifier, face);
+    }
+
+    @SuppressWarnings("deprecation")
+    private float click(Player ply, Block block, int modifier, BlockFace face) {
         if (block == null) {
             return Float.MIN_VALUE;
         }

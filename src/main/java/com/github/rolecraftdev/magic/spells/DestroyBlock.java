@@ -46,11 +46,7 @@ import org.bukkit.inventory.meta.ItemMeta;
 
 public class DestroyBlock implements Spell {
 
-    private SpellManager manager;
-
-    public DestroyBlock(SpellManager parent) {
-        manager = parent;
-    }
+    public DestroyBlock(SpellManager parent) {}
 
     @Override
     public String getName() {
@@ -78,17 +74,16 @@ public class DestroyBlock implements Spell {
     @Override
     public float rightClick(Player ply, Block block, int modifier,
             BlockFace face) {
-        BlockBreakEvent event = new BlockBreakEvent(block, ply);
-        Bukkit.getServer().getPluginManager().callEvent(event);
-        if (!event.isCancelled()) {
-            block.setType(Material.AIR);
-        }
-        return 3;
+        return click(ply, block, modifier, face);
     }
 
     @Override
     public float leftClick(Player ply, Block block, int modifier,
             BlockFace face) {
+        return click(ply, block, modifier, face);
+    }
+
+    private float click(Player ply, Block block, int modifier, BlockFace face) {
         BlockBreakEvent event = new BlockBreakEvent(block, ply);
         Bukkit.getServer().getPluginManager().callEvent(event);
         if (!event.isCancelled()) {

@@ -81,7 +81,7 @@ public class StrongerBow implements Spell {
             return Float.MIN_VALUE;
         }
 
-        Arrow arrow = ply.launchProjectile(Arrow.class);
+        ply.launchProjectile(Arrow.class);
         //arrow.setVelocity(arrow.getVelocity().multiply(2d));
         //arrow.setMetadata("Multiplier", new FixedMetadataValue(
         //        manager.getPlugin(), new Float(2f)));

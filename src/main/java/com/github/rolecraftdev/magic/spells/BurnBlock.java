@@ -48,11 +48,7 @@ import org.bukkit.inventory.meta.ItemMeta;
 
 public class BurnBlock implements Spell {
 
-    private SpellManager parent;
-
-    public BurnBlock(SpellManager spellManager) {
-        this.parent = spellManager;
-    }
+    public BurnBlock(SpellManager spellManager) {}
 
     @Override
     public String getName() {

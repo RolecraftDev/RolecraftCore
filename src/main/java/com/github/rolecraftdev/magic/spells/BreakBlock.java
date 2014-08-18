@@ -46,8 +46,7 @@ import org.bukkit.inventory.meta.ItemMeta;
 
 public class BreakBlock implements Spell {
 
-    public BreakBlock(SpellManager spellManager) {
-    }
+    public BreakBlock(SpellManager spellManager) {}
 
     @Override
     public String getName() {
@@ -91,7 +90,7 @@ public class BreakBlock implements Spell {
 
     @Override
     public float leftClick(Player ply, Block block, int modifier,
-            BlockFace face) {
+            BlockFace face) { 
         if (block != null) {
             BlockBreakEvent event = new BlockBreakEvent(block, ply);
             Bukkit.getPluginManager().callEvent(event);
