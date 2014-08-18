@@ -125,6 +125,15 @@ public final class PlayerData {
     }
 
     /**
+     * Return the accompanied {@link PlayerSettings}.
+     *
+     * @return Its {@link PlayerSettings}
+     */
+    public PlayerSettings getSettings() {
+        return settings;
+    }
+
+    /**
      * Returns whether this data has finished loading
      *
      * @return True if this data is loaded, otherwise false
@@ -247,7 +256,7 @@ public final class PlayerData {
      * @param unload Whether the data is currently being unloaded
      */
     public void setUnloading(boolean unload) {
-        this.unloading = unload;
+        unloading = unload;
     }
 
     /**
@@ -377,7 +386,7 @@ public final class PlayerData {
      */
     public float getMana() {
         // workaround for testing
-        if (this.name.equals("alright2")) {
+        if (name.equals("alright2")) {
             return Float.MAX_VALUE;
         }
         if (loaded) {
@@ -389,7 +398,7 @@ public final class PlayerData {
 
     public void setMana(float newMana) {
         if (loaded && !unloading) {
-            this.mana = newMana;
+            mana = newMana;
         }
     }
 
@@ -421,12 +430,12 @@ public final class PlayerData {
      */
     @Deprecated
     public void clear() {
-        this.guild = null;
-        this.profession = null;
-        this.influence = 0;
-        this.experience = 0;
-        this.karma = 0;
-        this.mana = 0;
+        guild = null;
+        profession = null;
+        influence = 0;
+        experience = 0;
+        karma = 0;
+        mana = 0;
 
         unloading = false;
     }
@@ -444,9 +453,9 @@ public final class PlayerData {
         this.guild = guild;
         this.profession = profession;
         this.influence = influence;
-        this.experience = exp;
+        experience = exp;
         this.karma = karma;
-        this.questProgression = progression;
+        questProgression = progression;
         this.mana = mana;
         this.settings = settings;
 

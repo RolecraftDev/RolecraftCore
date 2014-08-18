@@ -30,9 +30,9 @@ import com.github.rolecraftdev.RolecraftCore;
 import com.github.rolecraftdev.data.storage.DataStore;
 
 import java.util.Collection;
-import java.util.HashMap;
 import java.util.Map;
 import java.util.UUID;
+import java.util.concurrent.ConcurrentHashMap;
 
 /**
  * Manages data objects, such as {@link PlayerData} objects, in Rolecraft
@@ -63,9 +63,9 @@ public final class DataManager {
      */
     public DataManager(final RolecraftCore plugin) {
         this.plugin = plugin;
-        this.store = plugin.getDataStore();
-
-        loadedPlayerData = new HashMap<UUID, PlayerData>();
+        store = plugin.getDataStore();
+        // Thread safe operations!
+        loadedPlayerData = new ConcurrentHashMap<UUID, PlayerData>();
     }
 
     /**
