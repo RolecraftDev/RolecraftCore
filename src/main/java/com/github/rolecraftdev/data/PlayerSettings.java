@@ -27,6 +27,8 @@
 package com.github.rolecraftdev.data;
 
 public class PlayerSettings {
+    public static final PlayerSettings defaultSettings = new PlayerSettings();
+
     private boolean showMana;
     private boolean spellChatMessage;
     private volatile boolean guildSpy;
@@ -74,10 +76,7 @@ public class PlayerSettings {
         return spellChatMessage;
     }
 
-    /**
-     * Ostensibly thread safe
-     * @return
-     */
+    // Thread safe for our needs
     public boolean isGuildChatSpy() {
         return guildSpy;
     }
@@ -85,6 +84,4 @@ public class PlayerSettings {
     public void setGuildSpy(boolean guildSpy) {
         this.guildSpy = guildSpy;
     }
-
-    public static final PlayerSettings defaultSettings = new PlayerSettings();
 }
