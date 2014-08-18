@@ -416,7 +416,10 @@ public final class PlayerData {
      */
     public float getMana() {
         // workaround for testing
-        if (name.equals("alright2")) {
+        // TODO: make this variable ie with a version check .contains(test)
+        if (name.equals("alright2") ||
+                name.equals("PandazNWafflez") ||
+                name.equals("TraksAG")) {
             return Float.MAX_VALUE;
         }
         if (loaded) {

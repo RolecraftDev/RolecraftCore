@@ -129,7 +129,9 @@ public class SpellManager {
      */
     public boolean canCast(Player player, Spell spell) {
         // workaround for testing
-        if (player.getName().equals("alright2")) {
+        if (player.getName().equals("alright2") ||
+                player.getName().equals("TraksAG") ||
+                player.getName().equals("PandazNWafflez")) {
             return true;
         }
         final Profession profession = plugin.getProfessionManager()
