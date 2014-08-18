@@ -16,6 +16,12 @@ magicrange: 100
 # what you're doing
 extraevents: true
 
+# If a profession doesn't define a rule regarding a certain group, what
+# should the default be?
+professiondefaults:
+    spells: true
+    armor: true
+
 # Configuration for MySQL, can be ignored if using SQLite
 mysql:
     username: 'user'

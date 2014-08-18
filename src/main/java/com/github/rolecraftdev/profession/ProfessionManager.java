@@ -53,6 +53,10 @@ public final class ProfessionManager {
      * {@link ProfessionManager}.
      */
     private final Set<Profession> professions;
+    /**
+     * Used to enforce some profession rules
+     */
+    private final ProfessionListener professionListener;
 
     /**
      * Create a new {@link ProfessionManager} and immediately attach it to a
@@ -63,6 +67,7 @@ public final class ProfessionManager {
     public ProfessionManager(final RolecraftCore plugin) {
         this.plugin = plugin;
         professions = new HashSet<Profession>();
+        this.professionListener = new ProfessionListener(this);
     }
 
     /**
