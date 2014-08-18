@@ -50,34 +50,36 @@ public final class SQLiteDataStore extends DataStore {
 
     public static final String dbname = "rolecraft";
 
-    private static final String createPlayerTable =
-            "CREATE TABLE IF NOT EXISTS " + pt + " ("
-                    + "uuid VARCHAR PRIMARY KEY ON CONFLICT REPLACE,"
-                    + "lastname VARCHAR NOT NULL ON CONFLICT FAIL,"
-                    + "guild REFERENCES " + gt + "(uuid) ON DELETE SET NULL,"
-                    + "exp REAL DEFAULT 0,"
-                    + "profession VARCHAR DEFAULT NULL,"
-                    + "influence INTEGER DEFAULT 0,"
-                    + "karma REAL DEFAULT 0,"
-                    + "mana REAL DEFAULT 0," +
-                    "settings VARCHAR" + ")";
+    private static final String createPlayerTable = "CREATE TABLE IF NOT EXISTS "
+            + pt
+            + " ("
+            + "uuid VARCHAR PRIMARY KEY ON CONFLICT REPLACE,"
+            + "lastname VARCHAR NOT NULL ON CONFLICT FAIL,"
+            + "guild REFERENCES "
+            + gt
+            + "(uuid) ON DELETE SET NULL,"
+            + "exp REAL DEFAULT 0,"
+            + "profession VARCHAR DEFAULT NULL"
+            + "secondprofession VARCHAR DEFAULT NULL,"
+            + "influence INTEGER DEFAULT 0,"
+            + "karma REAL DEFAULT 0,"
+            + "mana REAL DEFAULT 0," + "settings VARCHAR" + ")";
 
-    private static final String createGuildTable =
-            "CREATE TABLE IF NOT EXISTS " + gt + " ("
-                    + "uuid VARCHAR PRIMARY KEY ON CONFLICT FAIL,"
-                    + "name VARCHAR,"
-                    + "leader VARCHAR,"
-                    + "members TEXT,"
-                    + "ranks TEXT,"
-                    + "home VARCHAR,"
-                    + "hall VARCHAR,"
-                    + "influence INTEGER DEFAULT 0" + ")";
-    
-    private static final String createMetaTable = "CREATE TABLE IF NOT EXISTS " + mdt +  " (" 
-            + "version VARCHAR,"
-            + "entry VARCHAR,"
-            + "PRIMARY KEY(entry)"
-            + ")";
+    private static final String createGuildTable = "CREATE TABLE IF NOT EXISTS "
+            + gt
+            + " ("
+            + "uuid VARCHAR PRIMARY KEY ON CONFLICT FAIL,"
+            + "name VARCHAR,"
+            + "leader VARCHAR,"
+            + "members TEXT,"
+            + "ranks TEXT,"
+            + "home VARCHAR,"
+            + "hall VARCHAR,"
+            + "influence INTEGER DEFAULT 0" + ")";
+
+    private static final String createMetaTable = "CREATE TABLE IF NOT EXISTS "
+            + mdt + " (" + "version VARCHAR," + "entry VARCHAR,"
+            + "PRIMARY KEY(entry)" + ")";
 
     @Override
     public void initialise() {
@@ -95,28 +97,34 @@ public final class SQLiteDataStore extends DataStore {
                     ps = connection.prepareStatement(createGuildTable);
                     ps.execute();
                     ps.close();
-                    
-                    ps = connection.prepareStatement("SELECT version FROM " + mdt + " WHERE entry = ?");
+
+                    ps = connection.prepareStatement("SELECT version FROM "
+                            + mdt + " WHERE entry = ?");
                     ps.setString(1, mde);
                     rs = ps.executeQuery();
-                    if(rs.next()) {
-                        if(rs.getString("version").equals(DataStore.SQLVERSION1)) {
+                    if (rs.next()) {
+                        if (rs.getString("version").equals(
+                                DataStore.SQLVERSION1)) {
                             // up to date, do nothing
                         }
-                        
-                        // TODO: in the future versions, add logic to update database
+
+                        // TODO: in the future versions, add logic to update
+                        // database
                     }
                     else {
-                        close(ps,rs);
-                        ps = connection.prepareStatement("INSERT INTO " + mdt + " VALUES ("
-                                + DataStore.SQLVERSION1 + "," + DataStore.mde+ ")");
+                        close(ps, rs);
+                        ps = connection.prepareStatement("INSERT INTO " + mdt
+                                + " VALUES (" + DataStore.SQLVERSION1 + ","
+                                + DataStore.mde + ")");
                         ps.execute();
                     }
-                    
+
                     parent.setSqlLoaded(true);
-                } catch (SQLException ex) {
+                }
+                catch (SQLException ex) {
                     ex.printStackTrace();
-                } finally {
+                }
+                finally {
                     close(ps, rs);
                 }
             }
@@ -130,7 +138,8 @@ public final class SQLiteDataStore extends DataStore {
         if (!dataFile.exists()) {
             try {
                 dataFile.createNewFile();
-            } catch (IOException e) {
+            }
+            catch (IOException e) {
                 getParent().getLogger().log(Level.SEVERE,
                         "File write error: " + dbname + ".db");
             }
@@ -142,10 +151,12 @@ public final class SQLiteDataStore extends DataStore {
             Class.forName("org.sqlite.JDBC");
             connection = DriverManager.getConnection("jdbc:sqlite:" + dataFile);
             return connection;
-        } catch (SQLException ex) {
-            getParent().getLogger()
-                    .log(Level.SEVERE, "SQLite exception on initialize", ex);
-        } catch (ClassNotFoundException ex) {
+        }
+        catch (SQLException ex) {
+            getParent().getLogger().log(Level.SEVERE,
+                    "SQLite exception on initialize", ex);
+        }
+        catch (ClassNotFoundException ex) {
             getParent().getLogger()
                     .log(Level.SEVERE, "CraftBukkit build error");
         }
@@ -160,7 +171,7 @@ public final class SQLiteDataStore extends DataStore {
 
     /**
      * Do not pull up
-     *
+     * 
      * @see com.github.rolecraftdev.data.storage.DataStore#clearPlayerData(com.github.rolecraftdev.data.PlayerData)
      */
     @Override
@@ -178,9 +189,11 @@ public final class SQLiteDataStore extends DataStore {
                     ps.setString(1, data.getPlayerId().toString());
                     ps.setString(2, data.getPlayerName());
                     ps.execute();
-                } catch (SQLException ex) {
+                }
+                catch (SQLException ex) {
                     ex.printStackTrace();
-                } finally {
+                }
+                finally {
                     close(ps, rs);
                 }
             }
@@ -192,79 +205,79 @@ public final class SQLiteDataStore extends DataStore {
         // Method left intentionally blank
     }
 
-    //    @Override
-    //    public void finalizeQuests(final QuestManager manager) {
-    //        final Set<UUID> uuids = manager.getIds();
+    // @Override
+    // public void finalizeQuests(final QuestManager manager) {
+    // final Set<UUID> uuids = manager.getIds();
     //
-    //        new BukkitRunnable() {
-    //            @Override
-    //            public void run() {
-    //                Connection connection = getConnection();
-    //                PreparedStatement ps = null;
-    //                ResultSet rs = null;
-    //                try {
-    //                    ps = connection.prepareStatement(
-    //                            "SELECT * FROM " + pt + " WHERE uuid = NULL");
-    //                    rs = ps.executeQuery();
-    //                    ResultSetMetaData rsmd = ps.getMetaData();
-    //                    LinkedHashSet<UUID> questIds = new LinkedHashSet<UUID>();
-    //                    for (int i = 0; i < rsmd.getColumnCount(); i++) {
-    //                        if (rsmd.getColumnName(i).startsWith("quest")) {
-    //                            questIds.add(UUID.fromString(
-    //                                    rsmd.getCatalogName(i).substring(6)));
-    //                        }
-    //                    }
-    //                    ps.close();
-    //                    rs.close();
+    // new BukkitRunnable() {
+    // @Override
+    // public void run() {
+    // Connection connection = getConnection();
+    // PreparedStatement ps = null;
+    // ResultSet rs = null;
+    // try {
+    // ps = connection.prepareStatement(
+    // "SELECT * FROM " + pt + " WHERE uuid = NULL");
+    // rs = ps.executeQuery();
+    // ResultSetMetaData rsmd = ps.getMetaData();
+    // LinkedHashSet<UUID> questIds = new LinkedHashSet<UUID>();
+    // for (int i = 0; i < rsmd.getColumnCount(); i++) {
+    // if (rsmd.getColumnName(i).startsWith("quest")) {
+    // questIds.add(UUID.fromString(
+    // rsmd.getCatalogName(i).substring(6)));
+    // }
+    // }
+    // ps.close();
+    // rs.close();
     //
-    //                    int loadedQuests = 0;
-    //                    Iterator<UUID> iter = uuids.iterator();
-    //                    while (iter.hasNext()) {
-    //                        UUID id = iter.next();
-    //                        if (questIds.contains(id)) {
-    //                            iter.remove();
-    //                            questIds.remove(id);
-    //                            loadedQuests++;
-    //                        }
-    //                    }
+    // int loadedQuests = 0;
+    // Iterator<UUID> iter = uuids.iterator();
+    // while (iter.hasNext()) {
+    // UUID id = iter.next();
+    // if (questIds.contains(id)) {
+    // iter.remove();
+    // questIds.remove(id);
+    // loadedQuests++;
+    // }
+    // }
     //
-    //                    Bukkit.getLogger()
-    //                            .info("[RolecraftCore] Loaded " + loadedQuests
-    //                                    + " quests successfully from SQL");
+    // Bukkit.getLogger()
+    // .info("[RolecraftCore] Loaded " + loadedQuests
+    // + " quests successfully from SQL");
     //
-    //                    if (uuids.size() != 0) {
-    //                        int addedQuests = 0;
-    //                        iter = uuids.iterator();
-    //                        while (iter.hasNext()) {
-    //                            String name = "quest:" + iter
-    //                                    .next(); // quest's columns are quest:<UUID>
-    //                            ps = connection.prepareStatement(
-    //                                    "ALTER TABLE " + pt + " ADD COLUMN " + name
-    //                                            + " VARCHAR");
-    //                            ps.execute();
-    //                            addedQuests++;
-    //                            ps.close();
-    //                        }
-    //                        Bukkit.getLogger()
-    //                                .info("[RolecraftCore] Added " + addedQuests
-    //                                        + " quests to SQL");
-    //                    }
+    // if (uuids.size() != 0) {
+    // int addedQuests = 0;
+    // iter = uuids.iterator();
+    // while (iter.hasNext()) {
+    // String name = "quest:" + iter
+    // .next(); // quest's columns are quest:<UUID>
+    // ps = connection.prepareStatement(
+    // "ALTER TABLE " + pt + " ADD COLUMN " + name
+    // + " VARCHAR");
+    // ps.execute();
+    // addedQuests++;
+    // ps.close();
+    // }
+    // Bukkit.getLogger()
+    // .info("[RolecraftCore] Added " + addedQuests
+    // + " quests to SQL");
+    // }
     //
-    //                    if (questIds.size() != 0) {
-    //                        Bukkit.getLogger()
-    //                                .info("[RolecraftCore] Detected " + questIds
-    //                                        .size()
-    //                                        + " obsolete quests, cannot delete due to database implementation");
-    //                    }
+    // if (questIds.size() != 0) {
+    // Bukkit.getLogger()
+    // .info("[RolecraftCore] Detected " + questIds
+    // .size()
+    // + " obsolete quests, cannot delete due to database implementation");
+    // }
     //
-    //                } catch (SQLException ex) {
-    //                    ex.printStackTrace();
-    //                } finally {
-    //                    close(ps, rs);
-    //                }
-    //            }
-    //        }.runTaskAsynchronously(getParent());
+    // } catch (SQLException ex) {
+    // ex.printStackTrace();
+    // } finally {
+    // close(ps, rs);
+    // }
+    // }
+    // }.runTaskAsynchronously(getParent());
     //
-    //    }
+    // }
 
 }

@@ -80,7 +80,8 @@ public final class MySQLDataStore extends DataStore {
                     + "FOREIGN KEY (guild) REFERENCES " + gt
                     + "(uuid) ON DELETE SET NULL,"
                     + "exp REAL DEFAULT 0,"
-                    + "profession VARCHAR (37) DEFAULT NULL,"
+                    + "profession VARCHAR (37) DEFAULT NULL"
+                    + "secondprofession VARCHAR(37) DEFAULT NULL,"
                     + "influence INTEGER DEFAULT 0,"
                     + "karma REAL DEFAULT 0,"
                     + "mana REAL DEFAULT 0," +

@@ -544,6 +544,7 @@ public abstract class DataStore {
                         callback.initialise(
                                 UUID.fromString(rs.getString("guild")),
                                 UUID.fromString(rs.getString("profession")),
+                                UUID.fromString(rs.getString("secondprofession")),
                                 rs.getInt("influence"), rs.getFloat("exp"),
                                 rs.getFloat("karma"), rs.getFloat("mana"),
                                 null, PlayerSettings
@@ -555,7 +556,7 @@ public abstract class DataStore {
                         ps.setString(1, uuid);
                         ps.setString(2, name);
                         ps.execute();
-                        callback.initialise(null, null, 0, 0f, -originalSin,
+                        callback.initialise(null, null, null, 0, 0f, -originalSin,
                                 0, null, PlayerSettings.defaultSettings);
                     }
 
@@ -596,6 +597,7 @@ public abstract class DataStore {
                                         UUID.fromString(rs.getString("guild")),
                                         UUID.fromString(
                                                 rs.getString("profession")),
+                                        UUID.fromString(rs.getString("secondprofession")),
                                         rs.getInt("influence"),
                                         rs.getFloat("exp"),
                                         rs.getFloat("karma"),
@@ -610,7 +612,7 @@ public abstract class DataStore {
                                 ps.setString(1, uuid);
                                 ps.setString(2, name);
                                 ps.execute();
-                                callback.initialise(null, null, 0, 0f,
+                                callback.initialise(null, null, null, 0, 0f,
                                         -originalSin, 0, null,
                                         PlayerSettings.defaultSettings);
                             }
