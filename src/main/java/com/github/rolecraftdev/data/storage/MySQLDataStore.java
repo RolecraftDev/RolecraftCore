@@ -99,6 +99,13 @@ public final class MySQLDataStore extends DataStore {
                     + "home VARCHAR(150),"
                     + "hall VARCHAR(100),"
                     + "influence INTEGER DEFAULT 0" + ")";
+    
+    private static final String createMetaTable = "CREATE TABLE IF NOT EXISTS " + mdt +  " (" 
+                    + "version VARCHAR(6),"
+                    + "entry VARCHAR(20),"
+                    + "PRIMARY KEY(entry)"
+                    + ")";
+            
 
     public MySQLDataStore(final RolecraftCore parent) {
         super(parent);
@@ -168,6 +175,27 @@ public final class MySQLDataStore extends DataStore {
                     ps = connection.prepareStatement(createGuildTable);
                     ps.execute();
                     ps.close();
+                    ps = connection.prepareStatement(createMetaTable);
+                    ps.execute();
+                    ps.close();
+                    
+                    ps = connection.prepareStatement("SELECT version FROM " + mdt + " WHERE entry = ?");
+                    ps.setString(1, mde);
+                    rs = ps.executeQuery();
+                    if(rs.next()) {
+                        if(rs.getString("version").equals(DataStore.SQLVERSION1)) {
+                            // up to date, do nothing
+                        }
+                        
+                        // TODO: in the future versions, add logic to update database
+                    }
+                    else {
+                        close(ps,rs);
+                        ps = connection.prepareStatement("INSERT INTO " + mdt + " VALUES ("
+                                + DataStore.SQLVERSION1 + "," + DataStore.mde+ ")");
+                        ps.execute();
+                    }
+                    
                     parent.setSqlLoaded(true);
                 } catch (final SQLException ex) {
                     ex.printStackTrace();

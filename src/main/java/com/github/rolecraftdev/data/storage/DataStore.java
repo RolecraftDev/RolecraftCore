@@ -67,6 +67,11 @@ public abstract class DataStore {
      * The name of the guilds table in SQL
      */
     public static final String gt = "guildtable";
+    
+    public static final String mde = "metadataentry";
+    
+    public static final String SQLVERSION1 = "1.0";
+    // other, future versions will go here
 
     /**
      * The Rolecraft plugin instance
