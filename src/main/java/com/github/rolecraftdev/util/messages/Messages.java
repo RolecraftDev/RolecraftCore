@@ -219,7 +219,7 @@ public class Messages {
     public void load() {
         // Get the defaults file
         File defaultsFile = new File(plugin.getClass().getResource(
-                "/defaults.properties").getFile());
+                "/messages/en_GB.properties").getFile());
         // Get the file configured by the user
         File configuredFile = new File(plugin.getDataFolder(),
                 "messages.properties");
