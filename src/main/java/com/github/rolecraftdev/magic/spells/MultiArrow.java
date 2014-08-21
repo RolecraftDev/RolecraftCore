@@ -44,6 +44,9 @@ import org.bukkit.inventory.Recipe;
 import org.bukkit.inventory.ShapedRecipe;
 import org.bukkit.inventory.meta.ItemMeta;
 
+/**
+ * A {@link Spell} implementation which can be used to shoot multiple arrows at once.
+ */
 public class MultiArrow implements Spell {
 
     public MultiArrow(SpellManager spellManager) {}

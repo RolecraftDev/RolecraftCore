@@ -43,6 +43,9 @@ import org.bukkit.inventory.Recipe;
 import org.bukkit.inventory.ShapedRecipe;
 import org.bukkit.inventory.meta.ItemMeta;
 
+/**
+ * A {@link Spell} implementation that will shoot an arrow.
+ */
 public class StrongerBow implements Spell {
 
     public SpellManager manager;

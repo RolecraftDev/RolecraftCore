@@ -49,6 +49,9 @@ import org.bukkit.util.Vector;
 
 import java.util.HashSet;
 
+/**
+ * A {@link Spell} implementation that will spawn a meteor in the air.
+ */
 @SuppressWarnings("deprecation")
 public class Meteor implements Spell {
 

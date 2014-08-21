@@ -26,7 +26,6 @@
  */
 package com.github.rolecraftdev;
 
-import com.github.rolecraftdev.data.DataManager;
 import com.github.rolecraftdev.data.PlayerData;
 import com.github.rolecraftdev.util.LevelUtil;
 
@@ -53,14 +52,9 @@ public final class RCListener implements Listener {
      * The {@link RolecraftCore} plugin object
      */
     private final RolecraftCore plugin;
-    /**
-     * The {@link RolecraftCore} {@link DataManager} object
-     */
-    private final DataManager dataMgr;
 
     RCListener(final RolecraftCore plugin) {
         this.plugin = plugin;
-        dataMgr = plugin.getDataManager();
     }
 
     @EventHandler

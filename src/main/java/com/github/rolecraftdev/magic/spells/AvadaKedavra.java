@@ -47,6 +47,10 @@ import org.bukkit.inventory.Recipe;
 import org.bukkit.inventory.ShapedRecipe;
 import org.bukkit.inventory.meta.ItemMeta;
 
+/**
+ * A {@link Spell} implementation which can be used to kill the living entity the
+ * executor points at.
+ */
 public class AvadaKedavra implements Spell {
 
     private SpellManager parent;

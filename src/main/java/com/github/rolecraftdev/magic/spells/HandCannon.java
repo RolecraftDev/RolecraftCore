@@ -46,6 +46,10 @@ import org.bukkit.inventory.ShapedRecipe;
 import org.bukkit.inventory.meta.ItemMeta;
 import org.bukkit.metadata.FixedMetadataValue;
 
+/**
+ * A {@link Spell} implementation which shoots an arrow that deals an increased
+ * amount of damage and applies a greater amount of knockback.
+ */
 public class HandCannon implements Spell {
 
     private SpellManager manager;

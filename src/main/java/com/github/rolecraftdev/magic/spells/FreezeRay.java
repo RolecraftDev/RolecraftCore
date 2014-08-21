@@ -48,6 +48,10 @@ import org.bukkit.inventory.meta.ItemMeta;
 
 import java.util.HashSet;
 
+/**
+ * A {@link Spell} implementation that works in the same way as {@link FreezeBlock},
+ * but allows for a greater distance.
+ */
 @SuppressWarnings("deprecation")
 public class FreezeRay implements Spell {
     private static HashSet<Byte> transparency;

@@ -44,6 +44,10 @@ import org.bukkit.inventory.Recipe;
 import org.bukkit.inventory.ShapedRecipe;
 import org.bukkit.inventory.meta.ItemMeta;
 
+/**
+ * A {@link Spell} implementation which can be used to break a block naturally from
+ * faraway.
+ */
 public class Farbreak implements Spell {
     private SpellManager manager;
 

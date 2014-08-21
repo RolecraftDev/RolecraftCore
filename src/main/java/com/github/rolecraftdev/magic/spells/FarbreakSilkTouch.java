@@ -44,6 +44,10 @@ import org.bukkit.inventory.Recipe;
 import org.bukkit.inventory.ShapedRecipe;
 import org.bukkit.inventory.meta.ItemMeta;
 
+/**
+ * A {@link Spell} implementation which is equivalent to {@link SilkTouch} with an
+ * increased distance.
+ */
 public class FarbreakSilkTouch implements Spell {
     private final SpellManager manager;
 

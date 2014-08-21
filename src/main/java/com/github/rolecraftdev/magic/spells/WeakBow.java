@@ -45,6 +45,10 @@ import org.bukkit.inventory.ShapedRecipe;
 import org.bukkit.inventory.meta.ItemMeta;
 import org.bukkit.metadata.FixedMetadataValue;
 
+/**
+ * A {@link Spell} implementation which fires an arrow that deals less damage than
+ * one shot with a bow.
+ */
 public class WeakBow implements Spell {
     private SpellManager parent;
 

@@ -45,6 +45,10 @@ import org.bukkit.inventory.Recipe;
 import org.bukkit.inventory.ShapedRecipe;
 import org.bukkit.inventory.meta.ItemMeta;
 
+/**
+ * A {@link Spell} implementation that applies fire to a block much like
+ * {@link BurnBlock} does, but allows the targeted block to be more distant.
+ */
 public class FireBeam implements Spell {
 
     private SpellManager manager;

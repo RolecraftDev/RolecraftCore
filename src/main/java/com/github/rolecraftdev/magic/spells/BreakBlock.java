@@ -44,6 +44,10 @@ import org.bukkit.inventory.Recipe;
 import org.bukkit.inventory.ShapedRecipe;
 import org.bukkit.inventory.meta.ItemMeta;
 
+/**
+ * A {@link Spell} implementation that will try to break the pointed at block
+ * naturally.
+ */
 public class BreakBlock implements Spell {
 
     public BreakBlock(SpellManager spellManager) {}
@@ -90,7 +94,7 @@ public class BreakBlock implements Spell {
 
     @Override
     public float leftClick(Player ply, Block block, int modifier,
-            BlockFace face) { 
+            BlockFace face) {
         if (block != null) {
             BlockBreakEvent event = new BlockBreakEvent(block, ply);
             Bukkit.getPluginManager().callEvent(event);

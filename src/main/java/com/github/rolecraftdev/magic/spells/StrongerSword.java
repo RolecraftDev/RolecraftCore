@@ -46,6 +46,10 @@ import org.bukkit.inventory.Recipe;
 import org.bukkit.inventory.ShapedRecipe;
 import org.bukkit.inventory.meta.ItemMeta;
 
+/**
+ * A {@link Spell} implementation that makes the held item function like a sword,
+ * just like {@link LesserSword} but dealing more damage.
+ */
 public class StrongerSword implements Spell {
 
     public StrongerSword(SpellManager spellManager) {}
