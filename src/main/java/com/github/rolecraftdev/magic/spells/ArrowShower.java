@@ -133,7 +133,7 @@ public class ArrowShower implements Spell {
 
         if (!isTop) {
             ply.sendMessage(manager.getPlugin().getMessage(
-                    Messages.SPELL_CAST));
+                    Messages.ARROW_BELOW_GROUND_FAILURE));
             return Float.MIN_VALUE;
         }
 

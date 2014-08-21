@@ -32,7 +32,6 @@ import com.github.rolecraftdev.magic.SpellManager;
 import com.github.rolecraftdev.util.SoundWrapper;
 import com.github.rolecraftdev.util.Utils;
 import com.github.rolecraftdev.util.messages.Messages;
-import com.github.rolecraftdev.util.messages.MsgVar;
 
 import org.bukkit.ChatColor;
 import org.bukkit.Location;
@@ -139,7 +138,7 @@ public class DeathRain implements Spell {
 
         if (!isTop) {
             ply.sendMessage(manager.getPlugin().getMessage(
-                    Messages.SPELL_CAST));
+                    Messages.ARROW_BELOW_GROUND_FAILURE));
             return Float.MIN_VALUE;
         }
 
