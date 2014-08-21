@@ -139,6 +139,8 @@ public class Messages {
     public static final String PROFESSION_DENY_ENCHANTMENT = "profession-deny-enchantment";
     // Sent when a player cannot equip weapons due to their profession
     public static final String PROFESSION_DENY_ITEM = "profession-deny-item";
+    // Send when a player aims below the ground when casting an arrow rain spell
+    public static final String ARROW_BELOW_GROUND_FAILURE = "arrow-below-ground-failure";
 
     /**
      * The {@link RolecraftCore} plugin object

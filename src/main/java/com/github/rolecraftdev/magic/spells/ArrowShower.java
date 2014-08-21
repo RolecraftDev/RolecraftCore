@@ -30,6 +30,7 @@ import com.github.rolecraftdev.magic.Spell;
 import com.github.rolecraftdev.magic.SpellManager;
 import com.github.rolecraftdev.util.SoundWrapper;
 import com.github.rolecraftdev.util.Utils;
+import com.github.rolecraftdev.util.messages.Messages;
 
 import org.bukkit.ChatColor;
 import org.bukkit.Location;
@@ -131,7 +132,8 @@ public class ArrowShower implements Spell {
         }
 
         if (!isTop) {
-            ply.sendMessage("You must aim above ground to rain arrows!");
+            ply.sendMessage(manager.getPlugin().getMessage(
+                    Messages.SPELL_CAST));
             return Float.MIN_VALUE;
         }
 
