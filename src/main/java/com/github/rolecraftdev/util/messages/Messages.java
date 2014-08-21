@@ -59,7 +59,7 @@ public class Messages {
     public static final String GUILD_NOT_EXISTS = "guild-not-exists";
     // Sent to players who try to join a guild if they're already in one
     public static final String ALREADY_IN_GUILD = "already-in-guild";
-    // Sent to players who can't affort what they're trying to do
+    // Sent to players who can't afford what they're trying to do
     public static final String CANNOT_AFFORD = "cannot-afford";
     // Sent to players who create a guild
     public static final String GUILD_CREATED = "guild-created";
