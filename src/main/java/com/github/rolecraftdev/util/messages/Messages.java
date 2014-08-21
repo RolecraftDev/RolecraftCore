@@ -59,7 +59,7 @@ public class Messages {
     public static final String GUILD_NOT_EXISTS = "guild-not-exists";
     // Sent to players who try to join a guild if they're already in one
     public static final String ALREADY_IN_GUILD = "already-in-guild";
-    // Sent to players who can't affort what they're trying to do
+    // Sent to players who can't afford what they're trying to do
     public static final String CANNOT_AFFORD = "cannot-afford";
     // Sent to players who create a guild
     public static final String GUILD_CREATED = "guild-created";
@@ -143,6 +143,37 @@ public class Messages {
     public static final String ARROW_BELOW_GROUND_FAILURE = "arrow-below-ground-failure";
 
     /**
+     * Variables which are always the same for parsing messages, such as colours
+     * and formatting options
+     */
+    private static final MsgVar[] constants = new MsgVar[]{
+            MsgVar.create("$darkred", ChatColor.DARK_RED.toString()),
+            MsgVar.create("$gray", ChatColor.GRAY.toString()),
+            MsgVar.create("$white", ChatColor.WHITE.toString()),
+            MsgVar.create("$red", ChatColor.RED.toString()),
+            MsgVar.create("$green", ChatColor.GREEN.toString()),
+            MsgVar.create("$darkgreen", ChatColor.DARK_GREEN.toString()),
+            MsgVar.create("$purple", ChatColor.DARK_PURPLE.toString()),
+            MsgVar.create("$lightpurple", ChatColor.LIGHT_PURPLE.toString()),
+            MsgVar.create("$black", ChatColor.BLACK.toString()),
+            MsgVar.create("$blue", ChatColor.BLUE.toString()),
+            MsgVar.create("$darkblue", ChatColor.DARK_BLUE.toString()),
+            MsgVar.create("$magic", ChatColor.MAGIC.toString()),
+            MsgVar.create("$gold", ChatColor.GOLD.toString()),
+            MsgVar.create("$aqua", ChatColor.AQUA.toString()),
+            MsgVar.create("$yellow", ChatColor.YELLOW.toString()),
+            MsgVar.create("$darkaqua", ChatColor.DARK_AQUA.toString()),
+            MsgVar.create("$darkgray", ChatColor.DARK_GRAY.toString()),
+            MsgVar.create("$reset", ChatColor.RESET.toString()),
+            // Support all colours which aren't here by allowing $col1 etc
+            MsgVar.create("$col", String.valueOf(ChatColor.COLOR_CHAR)),
+            MsgVar.create("$strike", ChatColor.STRIKETHROUGH.toString()),
+            MsgVar.create("$underline", ChatColor.UNDERLINE.toString()),
+            MsgVar.create("$italic", ChatColor.ITALIC.toString()),
+            MsgVar.create("$bold", ChatColor.BOLD.toString())
+    };
+
+    /**
      * The {@link RolecraftCore} plugin object
      */
     private final RolecraftCore plugin;
@@ -213,38 +244,7 @@ public class Messages {
         }
     }
 
-    /**
-     * Variables which are always the same for parsing messages, such as colours
-     * and formatting options
-     */
-    private MsgVar[] constants = new MsgVar[] {
-            MsgVar.create("$darkred", ChatColor.DARK_RED.toString()),
-            MsgVar.create("$gray", ChatColor.GRAY.toString()),
-            MsgVar.create("$white", ChatColor.WHITE.toString()),
-            MsgVar.create("$red", ChatColor.RED.toString()),
-            MsgVar.create("$green", ChatColor.GREEN.toString()),
-            MsgVar.create("$darkgreen", ChatColor.DARK_GREEN.toString()),
-            MsgVar.create("$purple", ChatColor.DARK_PURPLE.toString()),
-            MsgVar.create("$lightpurple", ChatColor.LIGHT_PURPLE.toString()),
-            MsgVar.create("$black", ChatColor.BLACK.toString()),
-            MsgVar.create("$blue", ChatColor.BLUE.toString()),
-            MsgVar.create("$darkblue", ChatColor.DARK_BLUE.toString()),
-            MsgVar.create("$magic", ChatColor.MAGIC.toString()),
-            MsgVar.create("$gold", ChatColor.GOLD.toString()),
-            MsgVar.create("$aqua", ChatColor.AQUA.toString()),
-            MsgVar.create("$yellow", ChatColor.YELLOW.toString()),
-            MsgVar.create("$darkaqua", ChatColor.DARK_AQUA.toString()),
-            MsgVar.create("$darkgray", ChatColor.DARK_GRAY.toString()),
-            MsgVar.create("$reset", ChatColor.RESET.toString()),
-            // Support all colours which aren't here by allowing $col1 etc
-            MsgVar.create("$col", String.valueOf(ChatColor.COLOR_CHAR)),
-            MsgVar.create("$strike", ChatColor.STRIKETHROUGH.toString()),
-            MsgVar.create("$underline", ChatColor.UNDERLINE.toString()),
-            MsgVar.create("$italic", ChatColor.ITALIC.toString()),
-            MsgVar.create("$bold", ChatColor.BOLD.toString()),
-    };
-
-    private String applyConstants(final String original) {
+    private static String applyConstants(final String original) {
         return CommandHelper.applyVars(original, constants);
     }
 }
