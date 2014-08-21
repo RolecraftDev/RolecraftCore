@@ -30,13 +30,17 @@ import com.github.rolecraftdev.RolecraftCore;
 import com.github.rolecraftdev.command.CommandHelper;
 import com.github.rolecraftdev.data.storage.PropertiesFile;
 
+import net.minecraft.util.org.apache.commons.io.FileUtils;
+
 import org.bukkit.ChatColor;
 
 import java.io.File;
+import java.io.IOException;
 import java.lang.reflect.Field;
 import java.lang.reflect.Modifier;
 import java.util.HashMap;
 import java.util.Map;
+import java.util.Map.Entry;
 
 /**
  * Stores configuration key constants for all messages used in Rolecraft so that
@@ -213,26 +217,42 @@ public class Messages {
      * a value
      */
     public void load() {
-        // Save the default messages to defaults.properties in the data folder
-        plugin.saveResource("defaults.properties", false);
+        // Get the defaults file
+        File defaultsFile = new File(plugin.getClass().getResource(
+                "/messages/en_GB.properties").getFile());
+        // Get the file configured by the user
+        File configuredFile = new File(plugin.getDataFolder(),
+                "messages.properties");
 
-        final PropertiesFile props = new PropertiesFile(
-                new File(plugin.getDataFolder(), "messages.properties"));
-        for (final Object key : props.keySet()) {
-            messages.put(key.toString(), props.getProperty(key.toString()));
+        if (!configuredFile.isFile()) {
+            configuredFile.delete();
+        }
+        // Copy the default contents to the configurable one when nonexistent
+        // Creates the file as well
+        if (!configuredFile.exists()) {
+            try {
+                FileUtils.copyFile(defaultsFile, configuredFile);
+            } catch (IOException e) {
+                e.printStackTrace();
+            }
         }
 
-        // Create the PropertiesFile for the defaults
-        final PropertiesFile defaults = new PropertiesFile(plugin,
-                "defaults.properties", true);
+        for (final Entry<Object, Object> line : new PropertiesFile(
+                configuredFile).entrySet()) {
+            messages.put(line.getKey().toString(), line.getValue().toString());
+        }
+
+        PropertiesFile defaults = new PropertiesFile(defaultsFile);
+
         for (final Field field : getClass().getDeclaredFields()) {
             field.setAccessible(true);
             int mods = field.getModifiers();
             // If it's a constant, basically
-            if (Modifier.isPublic(mods) && Modifier.isStatic(mods) && Modifier
-                    .isFinal(mods)) {
+            if (Modifier.isPublic(mods) && Modifier.isStatic(mods)
+                    && Modifier.isFinal(mods)) {
                 try {
                     final String key = (String) field.get(this);
+
                     if (!messages.containsKey(key)) {
                         messages.put(key, defaults.getProperty(key));
                     }
@@ -240,6 +260,7 @@ public class Messages {
                     e.printStackTrace();
                 }
             }
+
             field.setAccessible(false);
         }
     }
