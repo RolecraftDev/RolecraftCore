@@ -225,6 +225,13 @@ public class Messages {
         File configuredFile = new File(plugin.getDataFolder(),
                 "messages.properties");
 
+        configuredFile.mkdir();
+        try {
+            configuredFile.createNewFile();
+        } catch (IOException e) {
+            e.printStackTrace();
+        }
+
         if (!configuredFile.isFile()) {
             configuredFile.delete();
         }
