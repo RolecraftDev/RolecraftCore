@@ -36,6 +36,7 @@ import org.bukkit.ChatColor;
 
 import java.io.File;
 import java.io.IOException;
+import java.io.InputStream;
 import java.lang.reflect.Field;
 import java.lang.reflect.Modifier;
 import java.util.HashMap;
@@ -219,8 +220,9 @@ public class Messages {
     @SuppressWarnings("ResultOfMethodCallIgnored")
     public void load() {
         // Get the defaults file
-        File defaultsFile = new File(plugin.getClass().getResource(
+        File input = new File(plugin.getClass().getResource(
                 "/messages/en-US.properties").getFile());
+
         // Get the file configured by the user
         File configuredFile = new File(plugin.getDataFolder(),
                 "messages.properties");
@@ -232,14 +234,14 @@ public class Messages {
             e.printStackTrace();
         }
 
-        if (!configuredFile.isFile()) {
-            configuredFile.delete();
-        }
+        //if (!configuredFile.isFile()) {
+        //    configuredFile.delete();
+        //}
         // Copy the default contents to the configurable one when nonexistent
         // Creates the file as well
         if (!configuredFile.exists()) {
             try {
-                FileUtils.copyFile(defaultsFile, configuredFile);
+                FileUtils.copyFile(input, configuredFile);
             } catch (IOException e) {
                 e.printStackTrace();
             }
@@ -250,7 +252,7 @@ public class Messages {
             messages.put(line.getKey().toString(), line.getValue().toString());
         }
 
-        PropertiesFile defaults = new PropertiesFile(defaultsFile);
+        PropertiesFile defaults = new PropertiesFile(input);
 
         for (final Field field : getClass().getDeclaredFields()) {
             field.setAccessible(true);
