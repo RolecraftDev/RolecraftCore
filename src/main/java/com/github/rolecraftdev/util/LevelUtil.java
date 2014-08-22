@@ -44,7 +44,9 @@ public final class LevelUtil {
     public static final int getLevel(float experience) {
         // TODO: make this a function that can, within reason, be solved for X
         // short circut to prevent "bottoming out"
-        if(experience < 0.025) return 1;
+        if(experience < 0.025) {
+            return 1;
+        }
         float temp = (float) Math.log(0.8*(experience + 1.25f));
         temp *= Math.pow(experience + 1.25f, 0.4f);
         temp *= 0.1f;

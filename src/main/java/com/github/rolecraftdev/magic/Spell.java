@@ -63,7 +63,7 @@ public interface Spell {
      * @param ply      The
      * @param block
      * @param modifier
-     * @param face     TODO
+     * @param face     The BlockFace that is being faced
      * @return Should return the same as leftClick(Player, Block, int),
      * given the same values, without preforming the action
      */
@@ -76,7 +76,6 @@ public interface Spell {
      * @param ply      The
      * @param block
      * @param modifier
-     * @param face     TODO
      * @param face     TODO
      * @return Should return the same as rightClick(Player, Block, int),
      * given the same values, without preforming the action

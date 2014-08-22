@@ -120,10 +120,10 @@ public class FarbreakSilkTouch implements Spell {
             }
         }
 
-        ItemStack i =
+        ItemStack itemStack =
                 new ItemStack(toBreak.getType(), 1, (short) 1, toBreak.getData());
         toBreak.setType(Material.AIR);
-        toBreak.getWorld().dropItemNaturally(toBreak.getLocation(), i);
+        toBreak.getWorld().dropItemNaturally(toBreak.getLocation(), itemStack);
         return retVal;
     }
 

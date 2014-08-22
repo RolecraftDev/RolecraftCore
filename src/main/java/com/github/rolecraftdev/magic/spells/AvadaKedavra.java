@@ -68,9 +68,8 @@ public class AvadaKedavra implements Spell {
     public float estimateAttackMana(Player ply, LivingEntity entity,
             int modifier) {
 
-        LivingEntity toKill = entity;
-        if (toKill != null) {
-            if (toKill instanceof Player) {
+        if (entity != null) {
+            if (entity instanceof Player) {
                 return 1000;
             } else {
                 return 600 - modifier;
@@ -132,15 +131,14 @@ public class AvadaKedavra implements Spell {
 
     @Override
     public float attack(Player ply, LivingEntity ent, int modifier) {
-        LivingEntity toKill = ent;
 
         EntityDamageByEntityEvent edbee = new EntityDamageByEntityEvent(ply,
-                toKill,
+                ent,
                 DamageCause.MAGIC, Double.MAX_VALUE);
         Bukkit.getPluginManager().callEvent(edbee);
         if (!edbee.isCancelled()) {
-            toKill.setHealth(0D); // pwnt
-            if (toKill instanceof Player) {
+            ent.setHealth(0D); // pwnt
+            if (ent instanceof Player) {
                 parent.setMana(ply, 0f);
                 ply.sendMessage("Your mana has been drained!");
             } else {

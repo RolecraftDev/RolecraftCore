@@ -173,6 +173,7 @@ public final class ProfessionManager {
      * files, in the professions folder of the plugin returned by
      * {@link #getPlugin()}.
      */
+    @SuppressWarnings("ResultOfMethodCallIgnored")
     public void loadProfessions() {
         final File directory = new File(plugin.getDataFolder(), "professions");
 

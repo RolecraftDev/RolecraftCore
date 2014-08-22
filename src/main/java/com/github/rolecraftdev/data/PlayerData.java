@@ -122,7 +122,7 @@ public final class PlayerData {
         this.plugin = plugin;
 
         questProgression = new HashMap<UUID, String>();
-        settings = PlayerSettings.defaultSettings;
+        settings = PlayerSettings.DEFAULT_SETTINGS;
     }
 
     /**

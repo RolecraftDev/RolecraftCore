@@ -27,7 +27,7 @@
 package com.github.rolecraftdev.data;
 
 public final class PlayerSettings {
-    public static final PlayerSettings defaultSettings = new PlayerSettings();
+    public static final PlayerSettings DEFAULT_SETTINGS = new PlayerSettings();
 
     private boolean showMana;
     private boolean spellChatMessage;

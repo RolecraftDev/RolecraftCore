@@ -55,6 +55,7 @@ import java.util.HashMap;
 import java.util.Map;
 import java.util.UUID;
 
+@SuppressWarnings("FeatureEnvy")
 public class MagicListener implements Listener {
     private final RolecraftCore plugin;
     private final SpellManager spellManager;
@@ -124,7 +125,7 @@ public class MagicListener implements Listener {
                                 || action == Action.LEFT_CLICK_BLOCK) {
                             final float estimate = spell.estimateLeftClickMana(
                                     player, clicked,
-                                    spellManager.getMagicModfier(player),
+                                    spellManager.getMagicModifier(player),
                                     e.getBlockFace());
                             if (estimate < spellManager.getMana(e.getPlayer())) {
                                 SpellCastEvent event = new SpellCastEvent(
@@ -137,7 +138,7 @@ public class MagicListener implements Listener {
                                 final float evtMana = event.getManaCost();
 
                                 float retVal = spell.leftClick(player, clicked,
-                                        spellManager.getMagicModfier(player),
+                                        spellManager.getMagicModifier(player),
                                         e.getBlockFace());
                                 // 0 indicates a free cast for some spells in
                                 // high level players, use MIN_NORMAL for can't
@@ -151,11 +152,12 @@ public class MagicListener implements Listener {
 
                                 if (plugin.getDataManager()
                                         .getPlayerData(player.getUniqueId())
-                                        .getSettings().isSpellChatMessage())
+                                        .getSettings().isSpellChatMessage()) {
                                     player.sendMessage(plugin.getMessage(
                                             Messages.SPELL_CAST,
                                             MsgVar.create("$spell",
                                                     spell.getName())));
+                                }
                                 spell.getSound().play(player.getLocation());
                             }
                         }
@@ -163,7 +165,7 @@ public class MagicListener implements Listener {
                             final float estimate = spell
                                     .estimateRightClickMana(player, clicked,
                                             spellManager
-                                                    .getMagicModfier(player), e
+                                                    .getMagicModifier(player), e
                                                     .getBlockFace());
                             if (estimate < spellManager.getMana(player)) {
                                 SpellCastEvent event = new SpellCastEvent(
@@ -176,7 +178,7 @@ public class MagicListener implements Listener {
 
                                 float retVal = spell.rightClick(player,
                                         clicked,
-                                        spellManager.getMagicModfier(player),
+                                        spellManager.getMagicModifier(player),
                                         e.getBlockFace());
                                 // 0 indicates a free cast for some spells in
                                 // high level players, use MIN_NORMAL for can't
@@ -190,10 +192,11 @@ public class MagicListener implements Listener {
                                 spellManager.subtractMana(player, retVal);
                                 if (plugin.getDataManager()
                                         .getPlayerData(player.getUniqueId())
-                                        .getSettings().isSpellChatMessage())
-                                player.sendMessage(plugin.getMessage(
-                                        Messages.SPELL_CAST, MsgVar.create(
-                                                "$spell", spell.getName())));
+                                        .getSettings().isSpellChatMessage()) {
+                                    player.sendMessage(plugin.getMessage(
+                                            Messages.SPELL_CAST, MsgVar.create(
+                                                    "$spell", spell.getName())));
+                                }
                                 spell.getSound().play(player.getLocation());
                             }
                         }
@@ -220,7 +223,7 @@ public class MagicListener implements Listener {
             if (spell != null) {
                 final float estimate = spell.estimateAttackMana(player,
                         (LivingEntity) e.getEntity(),
-                        spellManager.getMagicModfier(player));
+                        spellManager.getMagicModifier(player));
                 if (spellManager.getMana(player) > estimate) {
                     SpellCastEvent event = new SpellCastEvent(plugin, spell,
                             e.getDamager(), estimate);
@@ -231,7 +234,7 @@ public class MagicListener implements Listener {
                     }
                     float retVal = spell.attack(player,
                             (LivingEntity) e.getEntity(),
-                            spellManager.getMagicModfier(player));
+                            spellManager.getMagicModifier(player));
                     if (retVal == Float.MIN_VALUE || retVal == Float.MIN_NORMAL) {
                         return;
                     }
@@ -239,9 +242,10 @@ public class MagicListener implements Listener {
                     spellManager.subtractMana(player, retVal);
                     if (plugin.getDataManager()
                             .getPlayerData(player.getUniqueId())
-                            .getSettings().isSpellChatMessage())
-                    player.sendMessage(plugin.getMessage(Messages.SPELL_CAST,
-                            MsgVar.create("$spell", spell.getName())));
+                            .getSettings().isSpellChatMessage()) {
+                        player.sendMessage(plugin.getMessage(Messages.SPELL_CAST,
+                                MsgVar.create("$spell", spell.getName())));
+                    }
                     spell.getSound().play(player.getLocation());
                 }
 
@@ -255,7 +259,7 @@ public class MagicListener implements Listener {
                 if (stick.getItemMeta().hasDisplayName()) {
                     Spell temp = spellManager.getSpell(ChatColor
                             .stripColor(stick.getItemMeta().getDisplayName()));
-                    if (stick.getEnchantments().size() > 0) {
+                    if (!stick.getEnchantments().isEmpty()) {
                         if (stick.getEnchantments().get(Enchantment.LUCK) == 10) {
                             return temp;
                         }

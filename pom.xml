@@ -20,7 +20,7 @@
             <id>test-build</id>
             <build>
                 <finalName>
-                    ${project.artifactId}-${project.version}-${project.properties.testing}
+                    ${project.artifactId}-${project.version}-${testing}
                 </finalName>
             </build>
         </profile>

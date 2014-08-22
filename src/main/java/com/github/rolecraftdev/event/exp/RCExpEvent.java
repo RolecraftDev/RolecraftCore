@@ -35,8 +35,8 @@ public abstract class RCExpEvent extends RolecraftEvent implements Cancellable {
          * 
          * @deprecated Should specify a reason when adding exp
          */
-        DEFAULT;
-    };
+        DEFAULT
+    }
 
     final Player concern;
     private boolean cancelled;

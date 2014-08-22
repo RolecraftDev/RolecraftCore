@@ -35,8 +35,10 @@ import org.bukkit.Location;
 import org.bukkit.block.Block;
 import org.bukkit.block.BlockFace;
 import org.bukkit.block.BlockState;
+import org.bukkit.entity.AnimalTamer;
 import org.bukkit.entity.Arrow;
 import org.bukkit.entity.Player;
+import org.bukkit.entity.Projectile;
 import org.bukkit.event.EventHandler;
 import org.bukkit.event.EventPriority;
 import org.bukkit.event.Listener;
@@ -50,7 +52,6 @@ import org.bukkit.event.block.BlockPlaceEvent;
 import org.bukkit.event.block.BlockSpreadEvent;
 import org.bukkit.event.block.EntityBlockFormEvent;
 import org.bukkit.event.entity.CreatureSpawnEvent;
-import org.bukkit.event.entity.CreatureSpawnEvent.SpawnReason;
 import org.bukkit.event.entity.EntityChangeBlockEvent;
 import org.bukkit.event.entity.EntityDamageByEntityEvent;
 import org.bukkit.event.entity.EntityExplodeEvent;
@@ -70,6 +71,7 @@ import java.util.UUID;
 /**
  * Listens for and manipulates various events depending on the guild config
  */
+@SuppressWarnings("FeatureEnvy")
 public final class GuildListener implements Listener {
     private final GuildManager guildManager;
 
@@ -122,8 +124,8 @@ public final class GuildListener implements Listener {
                 return;
             }
 
-            final UUID playerId = ((Player) event.getEntity()).getUniqueId();
-            final UUID damagerId = ((Player) event.getDamager()).getUniqueId();
+            final UUID playerId =  event.getEntity().getUniqueId();
+            final UUID damagerId =  event.getDamager().getUniqueId();
 
             if (guildManager.getPlayerGuild(playerId).equals(
                     guildManager.getPlayerGuild(damagerId))) {
@@ -138,9 +140,9 @@ public final class GuildListener implements Listener {
                 return;
             }
 
-            final UUID playerId = ((Player) event.getEntity()).getUniqueId();
-            if (((Arrow) event.getDamager()).getShooter() instanceof Player) {
-                final UUID damagerId = ((Player) ((Arrow) event.getDamager())
+            final UUID playerId = event.getEntity().getUniqueId();
+            if (((Projectile) event.getDamager()).getShooter() instanceof Player) {
+                final UUID damagerId = ((AnimalTamer) ((Projectile) event.getDamager())
                         .getShooter()).getUniqueId();
 
                 if (guildManager.getPlayerGuild(playerId).equals(
@@ -202,7 +204,7 @@ public final class GuildListener implements Listener {
     public void onEntityChangeBlock(final EntityChangeBlockEvent event) {
         if (event.getEntity() instanceof Player) {
             event.setCancelled(cancel(event.getBlock().getLocation(),
-                    ((Player) event.getEntity()).getUniqueId(),
+                    event.getEntity().getUniqueId(),
                     event.isCancelled(), GuildAction.CHANGE_BLOCK));
         }
         else {
@@ -361,6 +363,7 @@ public final class GuildListener implements Listener {
     }
 
     @EventHandler(priority = EventPriority.NORMAL)
+    @SuppressWarnings("deprecation")
     public void onCreatureSpawn(CreatureSpawnEvent event) {
         Guild guild = getGuildFromHall(event.getLocation());
         if (guild != null) {

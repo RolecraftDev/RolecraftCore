@@ -15,11 +15,11 @@ public class RCExpEventFactory {
     /**
      * Creates and calls the appropriate events given the input
      * 
-     * @param plugin
-     * @param player
-     * @param amount
-     * @param reason
-     * @return
+     * @param plugin The RC Core to use
+     * @param player The player to call the event on
+     * @param amount The amount of experience to add
+     * @param reason The reason to add or remove experience
+     * @return The event created and called by this factory
      */
     public static RCExpChangeEvent callRCExpEvent(RolecraftCore plugin,
             Player player, float amount, ChangeReason reason) {

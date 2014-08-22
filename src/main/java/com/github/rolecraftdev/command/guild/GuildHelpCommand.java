@@ -38,6 +38,7 @@ import org.bukkit.entity.Player;
 
 public class GuildHelpCommand extends PlayerCommandHandler {
 
+    @SuppressWarnings(value = "unused")
     GuildHelpCommand(final RolecraftCore plugin) {
         super("help");
 

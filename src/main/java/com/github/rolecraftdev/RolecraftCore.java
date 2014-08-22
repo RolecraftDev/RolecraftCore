@@ -298,7 +298,7 @@ public final class RolecraftCore extends AlbPlugin {
      *
      * @return True if economy is enabled and false if it isn't
      */
-    public boolean useEconomy() {
+    public boolean doesUseEconomy() {
         return useEconomy;
     }
 
@@ -357,40 +357,54 @@ public final class RolecraftCore extends AlbPlugin {
      */
     public void createDefaultConfiguration(final String name) {
         final File actual = new File(getDataFolder(), name);
-        if (!actual.exists()) {
-            try {
-                actual.createNewFile();
-            } catch (IOException e) {
-            }
+        InputStream input = getClass()
+                .getResourceAsStream("/" + name);
+        try {
 
-            final InputStream input = getClass()
-                    .getResourceAsStream("/" + name);
-            if (input != null) {
-                FileOutputStream output = null;
-                getDataFolder().mkdir();
-
+            if (!actual.exists()) {
                 try {
-                    output = new FileOutputStream(actual);
-                    byte[] buf = new byte[8192];
-                    int length = 0;
-                    while ((length = input.read(buf)) > 0) {
-                        output.write(buf, 0, length);
-                    }
+                    //noinspection ResultOfMethodCallIgnored
+                    actual.createNewFile();
+                } catch (IOException ignored) {
+                }
 
-                    logger.info("Default configuration file written: " + name);
-                } catch (final IOException e) {
-                    e.printStackTrace();
-                } finally {
+
+                if (input != null) {
+                    FileOutputStream output = null;
+                    //noinspection ResultOfMethodCallIgnored
+                    getDataFolder().mkdir();
+
                     try {
-                        input.close();
-                    } catch (final IOException e) {
-                    }
-                    try {
-                        if (output != null) {
-                            output.close();
+                        output = new FileOutputStream(actual);
+                        byte[] buf = new byte[8192];
+                        int length = 0;
+                        while ((length = input.read(buf)) > 0) {
+                            output.write(buf, 0, length);
                         }
+
+                        logger.info("Default configuration file written: " + name);
                     } catch (final IOException e) {
+                        e.printStackTrace();
+                    } finally {
+                        try {
+                            input.close();
+                        } catch (final IOException ignored) {
+                        }
+                        try {
+                            if (output != null) {
+                                output.close();
+                            }
+                        } catch (final IOException ignored) {
+                        }
                     }
+                }
+            }
+        }
+        finally {
+            if(input != null) {
+                try {
+                    input.close();
+                } catch (IOException ignored) {
                 }
             }
         }

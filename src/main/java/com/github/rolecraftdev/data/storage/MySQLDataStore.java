@@ -41,6 +41,7 @@ import java.util.Iterator;
 import java.util.Map.Entry;
 import java.util.concurrent.ConcurrentHashMap;
 
+@SuppressWarnings("FeatureEnvy")
 public final class MySQLDataStore extends DataStore {
     /**
      * The username for the MySQL database
@@ -63,9 +64,11 @@ public final class MySQLDataStore extends DataStore {
      */
     private final String databaseName;
 
-    //                               minutes
-    private static final int killTime = 5
-            * 60000;
+    //                               MINUTES
+
+    private static final int MINUTES = 60000;
+    private static final int KILL_TIME = 5* MINUTES;
+    private static final int MYSQL_DEFAULT_PORT = 3306;
 
     //                        connection      in use? last use
     private ConcurrentHashMap<Connection, Entry<Boolean, Long>> connections;
@@ -73,7 +76,7 @@ public final class MySQLDataStore extends DataStore {
     /**
      * The query used for creating the player table
      */
-    private static final String createPlayerTable =
+    private static final String CREATE_PLAYER_TABLE =
             "CREATE TABLE IF NOT EXISTS " + pt + " ("
                     + "uuid VARCHAR(40) PRIMARY KEY,"
                     + "lastname VARCHAR(16) NOT NULL,"
@@ -90,7 +93,7 @@ public final class MySQLDataStore extends DataStore {
     /**
      * The query used for creating the guild table
      */
-    private static final String createGuildTable =
+    private static final String CREATE_GUILD_TABLE =
             "CREATE TABLE IF NOT EXISTS " + gt + " ("
                     + "uuid VARCHAR(37) PRIMARY KEY ON CONFLICT FAIL,"
                     + "name VARCHAR (50),"
@@ -101,7 +104,7 @@ public final class MySQLDataStore extends DataStore {
                     + "hall VARCHAR(100),"
                     + "influence INTEGER DEFAULT 0" + ")";
     
-    private static final String createMetaTable = "CREATE TABLE IF NOT EXISTS " + mdt +  " (" 
+    private static final String CREATE_META_TABLE = "CREATE TABLE IF NOT EXISTS " + mdt +  " ("
                     + "version VARCHAR(6),"
                     + "entry VARCHAR(20),"
                     + "PRIMARY KEY(entry)"
@@ -114,12 +117,13 @@ public final class MySQLDataStore extends DataStore {
         user = parent.getConfig().getString("mysql.username");
         password = parent.getConfig().getString("mysql.password");
         uri = parent.getConfig().getString("mysql.address");
-        port = parent.getConfig().getInt("mysql.port", 3306);
+        port = parent.getConfig().getInt("mysql.port", MYSQL_DEFAULT_PORT);
         databaseName = parent.getConfig().getString("mysql.databasename");
 
         connections = new ConcurrentHashMap<Connection, Entry<Boolean, Long>>();
 
         new BukkitRunnable() {
+            @SuppressWarnings("JDBCResourceOpenedButNotSafelyClosed")
             @Override
             public void run() {
                 Iterator<Entry<Connection, Entry<Boolean, Long>>> iter = connections
@@ -129,15 +133,15 @@ public final class MySQLDataStore extends DataStore {
                     try {
                         if (conn.getKey() == null || conn.getKey().isClosed()) {
                             // if in use, reset timer
-                            if (conn.getValue().getKey() == true) {
+                            if (conn.getValue().getKey()) {
                                 conn.getValue()
                                         .setValue(System.currentTimeMillis());
                             }
                             // else check for age and close and remove/keepalive
                             else {
-                                if (conn.getValue().getValue() + killTime
+                                if (conn.getValue().getValue() + KILL_TIME
                                         < System.currentTimeMillis()) {
-                                    if (connections.size() > 0) {
+                                    if (!connections.isEmpty()) {
                                         conn.getKey().close();
                                         iter.remove();
                                     } else {
@@ -153,6 +157,7 @@ public final class MySQLDataStore extends DataStore {
                             }
                         }
                     } catch (final SQLException e) {
+
                         e.printStackTrace();
                     }
                 }
@@ -170,13 +175,13 @@ public final class MySQLDataStore extends DataStore {
                 PreparedStatement ps = null;
                 ResultSet rs = null;
                 try {
-                    ps = connection.prepareStatement(createPlayerTable);
+                    ps = connection.prepareStatement(CREATE_PLAYER_TABLE);
                     ps.execute();
                     ps.close();
-                    ps = connection.prepareStatement(createGuildTable);
+                    ps = connection.prepareStatement(CREATE_GUILD_TABLE);
                     ps.execute();
                     ps.close();
-                    ps = connection.prepareStatement(createMetaTable);
+                    ps = connection.prepareStatement(CREATE_META_TABLE);
                     ps.execute();
                     ps.close();
                     

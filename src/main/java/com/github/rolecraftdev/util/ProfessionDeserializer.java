@@ -32,6 +32,7 @@ import com.github.rolecraftdev.profession.ProfessionManager;
 import com.github.rolecraftdev.profession.ProfessionRule;
 import com.github.rolecraftdev.profession.ProfessionRuleMap;
 
+import org.bukkit.Bukkit;
 import org.bukkit.configuration.ConfigurationSection;
 
 import java.util.Map.Entry;
@@ -110,8 +111,8 @@ public class ProfessionDeserializer {
         try {
             return UUID.fromString(id);
         } catch (IllegalArgumentException e) {
-            System.out
-                    .println("[WARNING] [Rolecraft] Invalid ID for profession "
+            Bukkit.getLogger()
+                    .warning("[WARNING] [Rolecraft] Invalid ID for profession "
                             + getProfessionName() + ", generating a new one");
             professionConfig.set(ID, UUID.randomUUID().toString());
             // Update file
@@ -153,7 +154,8 @@ public class ProfessionDeserializer {
 
             // Validation is done by ProfessionRuleMap#set
             if (!ruleMap.set(ProfessionRule.getRule(ruleName), value)) {
-                System.out.println("[WARNING] [Rolecraft] Couldn't set rule "
+                Bukkit.getLogger()
+                        .warning("[WARNING] [Rolecraft] Couldn't set rule "
                         + ruleName + " for profession " + getProfessionName());
             }
         }

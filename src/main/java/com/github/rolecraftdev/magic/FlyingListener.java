@@ -93,7 +93,7 @@ public class FlyingListener implements Listener {
                     if (ChatColor
                             .stripColor(stack.getItemMeta().getDisplayName())
                             .equalsIgnoreCase("fly")) {
-                        if (stack.getEnchantments().size() > 0) {
+                        if (!stack.getEnchantments().isEmpty()) {
                             if (stack.getEnchantments().get(Enchantment.LUCK)
                                     == 10) {
                                 return true;

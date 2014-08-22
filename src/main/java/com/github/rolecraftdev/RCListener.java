@@ -77,7 +77,7 @@ public final class RCListener implements Listener {
         if (dmg instanceof EntityDamageByEntityEvent) {
             final EntityDamageByEntityEvent e = (EntityDamageByEntityEvent) dmg;
             if (e.getDamager() instanceof Player) {
-                final UUID id = ((Player) e.getDamager()).getUniqueId();
+                final UUID id = e.getDamager().getUniqueId();
                 final EntityType entityType = deadEntity.getType();
                 final PlayerData pd = plugin.getDataManager().getPlayerData(id);
 

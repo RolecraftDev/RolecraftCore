@@ -52,6 +52,7 @@ import org.bukkit.inventory.meta.ItemMeta;
  */
 public class BurnBlock implements Spell {
 
+    @SuppressWarnings("unused")
     public BurnBlock(SpellManager spellManager) {}
 
     @Override

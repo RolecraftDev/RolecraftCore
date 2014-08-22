@@ -8,7 +8,7 @@ import com.github.rolecraftdev.util.LevelUtil;
 
 public class RCLevelChangeEvent extends RCExpChangeEvent {
 
-    private static HandlerList handlers;
+    private static final HandlerList handlers = new HandlerList();
     
     private int newLevel;
 

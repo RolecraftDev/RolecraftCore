@@ -156,10 +156,10 @@ public class DeathRain implements Spell {
                                 center.getZ() + z), Arrow.class);
                 arrow.setMetadata("Multiplier",
                         new FixedMetadataValue(manager.getPlugin(),
-                                new Float(6)));
+                                (float) 6));
                 arrow.setMetadata("Explosion",
                         new FixedMetadataValue(manager.getPlugin(),
-                                new Boolean(true)));
+                                true));
                 arrow.setVelocity(Utils.velocityRandomiser(velocity));
             }
         }

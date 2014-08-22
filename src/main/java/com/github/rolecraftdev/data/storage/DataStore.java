@@ -557,7 +557,7 @@ public abstract class DataStore {
                         ps.setString(2, name);
                         ps.execute();
                         callback.initialise(null, null, null, 0, 0f, -originalSin,
-                                0, null, PlayerSettings.defaultSettings);
+                                0, null, PlayerSettings.DEFAULT_SETTINGS);
                     }
 
                 } catch (SQLException ex) {
@@ -614,7 +614,7 @@ public abstract class DataStore {
                                 ps.execute();
                                 callback.initialise(null, null, null, 0, 0f,
                                         -originalSin, 0, null,
-                                        PlayerSettings.defaultSettings);
+                                        PlayerSettings.DEFAULT_SETTINGS);
                             }
 
                         } catch (SQLException ex) {

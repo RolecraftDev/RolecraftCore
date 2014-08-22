@@ -169,10 +169,10 @@ public class SpellManager {
     }
 
     /**
-     * Convience method
+     * Convenience method
      *
-     * @param ply
-     * @param amount
+     * @param ply The player to remove the mana from
+     * @param amount The amount to remove
      */
     public void subtractMana(Player ply, float amount) {
         plugin.getDataManager().getPlayerData(ply.getUniqueId())
@@ -183,7 +183,7 @@ public class SpellManager {
         plugin.getDataManager().getPlayerData(ply.getUniqueId()).setMana(mana);
     }
 
-    public int getMagicModfier(Player ply) {
+    public int getMagicModifier(Player ply) {
         // TODO: make this work
         return 0;
     }

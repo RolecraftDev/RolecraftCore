@@ -57,6 +57,7 @@ public class ProjectileListener implements Listener {
         }
     }
 
+    @EventHandler(priority =  EventPriority.HIGH)
     public void onHit(ProjectileHitEvent e) {
         if (e.getEntity() instanceof Arrow) {
             if (e.getEntity().hasMetadata("Explosion")) {

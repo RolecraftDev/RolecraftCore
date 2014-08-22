@@ -91,7 +91,7 @@ public class HandCannon implements Spell {
         Arrow arrow = ply.launchProjectile(Arrow.class);
         arrow.setVelocity(arrow.getVelocity().multiply(4));
         arrow.setMetadata("Multiplier",
-                new FixedMetadataValue(manager.getPlugin(), new Float(6)));
+                new FixedMetadataValue(manager.getPlugin(), (float) 6));
         arrow.setMetadata("Knockback",
                 new FixedMetadataValue(manager.getPlugin(), new Float(1.0)));
         // Make a loud bang when used

@@ -13,7 +13,7 @@ public class RCExpChangeEvent extends RCExpEvent {
     
     private final float experience;
 
-    private static HandlerList handlers;
+    private static final HandlerList handlers = new HandlerList();
     
     private final ChangeReason reason;
 

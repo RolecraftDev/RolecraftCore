@@ -36,6 +36,7 @@ public class ManaRunnable extends BukkitRunnable {
     private final RolecraftCore parent;
 
     public ManaRunnable (RolecraftCore parent) {
+        super();
         this.parent = parent;
     }
     

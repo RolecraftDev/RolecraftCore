@@ -43,7 +43,7 @@ import java.util.Map;
 import java.util.Map.Entry;
 
 /**
- * Stores configuration key constants for all messages used in Rolecraft so that
+ * Stores configuration key CONSTANTS for all messages used in Rolecraft so that
  * each message can be completely configurable
  */
 public class Messages {
@@ -150,7 +150,7 @@ public class Messages {
      * Variables which are always the same for parsing messages, such as colours
      * and formatting options
      */
-    private static final MsgVar[] constants = new MsgVar[]{
+    private static final MsgVar[] CONSTANTS = {
             MsgVar.create("$darkred", ChatColor.DARK_RED.toString()),
             MsgVar.create("$gray", ChatColor.GRAY.toString()),
             MsgVar.create("$white", ChatColor.WHITE.toString()),
@@ -213,9 +213,10 @@ public class Messages {
      * <p/>
      * For any messages not configured in messages.yml, the default message
      * (from the RolecraftCore jar) is used instead. Reflection is used to go
-     * through all of the constants in this class and check whether they have
+     * through all of the CONSTANTS in this class and check whether they have
      * a value
      */
+    @SuppressWarnings("ResultOfMethodCallIgnored")
     public void load() {
         // Get the defaults file
         File defaultsFile = new File(plugin.getClass().getResource(
@@ -266,6 +267,6 @@ public class Messages {
     }
 
     private static String applyConstants(final String original) {
-        return CommandHelper.applyVars(original, constants);
+        return CommandHelper.applyVars(original, CONSTANTS);
     }
 }

@@ -66,7 +66,7 @@ public class GuildCreateCommand extends PlayerCommandHandler {
             player.sendMessage(plugin.getMessage(Messages.ALREADY_IN_GUILD));
             return;
         }
-        if (plugin.useEconomy()) {
+        if (plugin.doesUseEconomy()) {
             final EconomyResponse response = plugin.getEconomy().bankHas(
                     player.getName(),
                     guildManager.getCreationCost());
@@ -85,7 +85,7 @@ public class GuildCreateCommand extends PlayerCommandHandler {
             player.sendMessage(plugin.getMessage(Messages.GUILD_CREATED,
                     MsgVar.create("$name", name)));
 
-            if (plugin.useEconomy()) {
+            if (plugin.doesUseEconomy()) {
                 plugin.getEconomy().bankWithdraw(player.getName(),
                         guildManager.getCreationCost());
             }

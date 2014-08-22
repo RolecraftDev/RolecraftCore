@@ -85,7 +85,7 @@ public class WeakBow implements Spell {
         Entity ent = ply.launchProjectile(Arrow.class);
         ent.setVelocity(ent.getVelocity().multiply(0.5f));
         ent.setMetadata("Multiplier",
-                new FixedMetadataValue(parent.getPlugin(), new Float(0.5f)));
+                new FixedMetadataValue(parent.getPlugin(), 0.5f));
         return (40f - modifier / 10f > 0) ? (40f - modifier / 10f) : 0f;
     }
 

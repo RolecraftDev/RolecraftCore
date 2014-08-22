@@ -50,11 +50,8 @@ import org.bukkit.inventory.meta.ItemMeta;
  * naturally.
  */
 public class SilkTouch implements Spell {
-    private ItemStack simulate;
 
     public SilkTouch(SpellManager spellManager) {
-        simulate = new ItemStack(Material.DIAMOND_PICKAXE, 1);
-        simulate.addEnchantment(Enchantment.SILK_TOUCH, 1);
     }
 
     @Override
