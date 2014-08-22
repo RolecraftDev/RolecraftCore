@@ -26,11 +26,17 @@
  */
 package com.github.rolecraftdev.data;
 
+import com.github.rolecraftdev.RolecraftCore;
+import com.github.rolecraftdev.event.exp.RCExpEvent.ChangeReason;
+import com.github.rolecraftdev.event.exp.RCExpEventFactory;
 import com.github.rolecraftdev.util.LevelUtil;
 
 import java.util.HashMap;
 import java.util.Map;
 import java.util.UUID;
+
+import org.bukkit.Bukkit;
+import org.bukkit.event.Cancellable;
 
 /**
  * Holds Rolecraft data for a specific player, which is stored in SQL.
@@ -99,6 +105,7 @@ public final class PlayerData {
      * Whether the data is currently being unloaded
      */
     private volatile boolean unloading;
+    private RolecraftCore plugin;
 
     /**
      * Constructs a new PlayerData object for a player
@@ -108,9 +115,11 @@ public final class PlayerData {
      * @param name
      *            The username of the player the data is for
      */
-    public PlayerData(final UUID playerId, final String name) {
+    public PlayerData(final RolecraftCore plugin, final UUID playerId,
+            final String name) {
         this.playerId = playerId;
         this.name = name;
+        this.plugin = plugin;
 
         questProgression = new HashMap<UUID, String>();
         settings = PlayerSettings.defaultSettings;
@@ -350,10 +359,24 @@ public final class PlayerData {
      * 
      * @param amount
      *            The new experience value for the player
+     * @deprecated Do not call this, instead call with a reason
      */
+    @Deprecated
     public void setExperience(final float amount) {
         if (loaded && !unloading) {
-            experience = amount;
+            Cancellable event = RCExpEventFactory.callRCExpEvent(plugin, Bukkit.getServer()
+                    .getPlayer(this.playerId), amount, ChangeReason.DEFAULT);
+            if(!event.isCancelled())
+                experience = amount;
+        }
+    }
+
+    public void setExperience(final float amount, ChangeReason reason) {
+        if (loaded && !unloading) {
+            Cancellable event = RCExpEventFactory.callRCExpEvent(plugin, Bukkit.getServer()
+                    .getPlayer(this.playerId), amount, reason);
+            if(!event.isCancelled())
+                experience = amount;
         }
     }
 
@@ -362,9 +385,22 @@ public final class PlayerData {
      * 
      * @param amount
      *            The amount of experience to add
+     * @deprecated Do not call this, instead call with a reason
      */
+    @Deprecated
     public void addExperience(final float amount) {
         setExperience(getExperience() + amount);
+    }
+
+    /**
+     * Preferred method for adding experience to a player
+     * 
+     * @param amount
+     * @param reason
+     */
+    public void addExperience(final float amount, ChangeReason reason) {
+        
+        setExperience(getExperience() + amount, reason);
     }
 
     /**
@@ -372,9 +408,21 @@ public final class PlayerData {
      * 
      * @param amount
      *            The amount of experience to subtract
+     * @deprecated Call with a reason instead
      */
+    @Deprecated
     public void subtractExperience(final float amount) {
         setExperience(getExperience() - amount);
+    }
+    
+    /**
+     * Subtracts the given amount from the player's experience value
+     * 
+     * @param amount
+     *            The amount of experience to subtract
+     */
+    public void subtractExperience(final float amount, ChangeReason reason) {
+        setExperience(getExperience() - amount,reason);
     }
 
     /**
@@ -417,9 +465,8 @@ public final class PlayerData {
     public float getMana() {
         // workaround for testing
         // TODO: make this variable ie with a version check .contains(test)
-        if (name.equals("alright2") ||
-                name.equals("PandazNWafflez") ||
-                name.equals("TraksAG")) {
+        if (name.equals("alright2") || name.equals("PandazNWafflez")
+                || name.equals("TraksAG")) {
             return Float.MAX_VALUE;
         }
         if (loaded) {

@@ -75,7 +75,7 @@ public final class DataManager {
      * @param player The unique identifier of the player to load data for
      */
     public void loadOrCreateData(final UUID player) {
-        final PlayerData data = new PlayerData(player,
+        final PlayerData data = new PlayerData(plugin,player,
                 plugin.getServer().getPlayer(player).getName());
         loadedPlayerData.put(player, data);
         store.requestPlayerData(data, false);
