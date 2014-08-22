@@ -135,7 +135,15 @@
                     <include>config.yml</include>
                     <include>plugin.yml</include>
                     <include>guilds.yml</include>
-                    <include>defaults.properties</include>
+                    <include>*.properties</include>
+                </includes>
+            </resource>
+            <resource>
+                <targetPath>.</targetPath>
+                <filtering>true</filtering>
+                <directory>${basedir}/src/main/resources/messages/</directory>
+                <includes>
+                    <include>*.properties</include>
                 </includes>
             </resource>
         </resources>
