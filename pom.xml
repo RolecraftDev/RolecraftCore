@@ -139,7 +139,7 @@
                 </includes>
             </resource>
             <resource>
-                <targetPath>.</targetPath>
+                <targetPath>./messages/</targetPath>
                 <filtering>true</filtering>
                 <directory>${basedir}/src/main/resources/messages/</directory>
                 <includes>
