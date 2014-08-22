@@ -35,6 +35,8 @@ import net.minecraft.util.org.apache.commons.io.FileUtils;
 import org.bukkit.ChatColor;
 
 import java.io.File;
+import java.io.FileInputStream;
+import java.io.FileOutputStream;
 import java.io.IOException;
 import java.io.InputStream;
 import java.lang.reflect.Field;
@@ -42,6 +44,7 @@ import java.lang.reflect.Modifier;
 import java.util.HashMap;
 import java.util.Map;
 import java.util.Map.Entry;
+import java.util.Properties;
 
 /**
  * Stores configuration key CONSTANTS for all messages used in Rolecraft so that
@@ -227,7 +230,6 @@ public class Messages {
         File configuredFile = new File(plugin.getDataFolder(),
                 "messages.properties");
 
-        configuredFile.mkdir();
         try {
             configuredFile.createNewFile();
         } catch (IOException e) {
@@ -239,20 +241,40 @@ public class Messages {
         //}
         // Copy the default contents to the configurable one when nonexistent
         // Creates the file as well
-        if (!configuredFile.exists()) {
+        
+        FileOutputStream output = null;
+        try {
+            InputStream stream = plugin.getClass().getResourceAsStream(
+                    "/messages/en-US.properties");
+            output = new FileOutputStream(configuredFile);
+            byte[] buf = new byte[8192];
+            int length = 0;
+            while ((length = stream.read(buf)) > 0) {
+                output.write(buf, 0, length);
+            }
+        } catch (IOException e) {
+            e.printStackTrace();
+        } finally {
             try {
-                FileUtils.copyFile(input, configuredFile);
-            } catch (IOException e) {
-                e.printStackTrace();
+                output.close();
+            } catch (IOException ignored) {
             }
         }
+        
 
         for (final Entry<Object, Object> line : new PropertiesFile(
                 configuredFile).entrySet()) {
             messages.put(line.getKey().toString(), line.getValue().toString());
         }
 
-        PropertiesFile defaults = new PropertiesFile(input);
+        //PropertiesFile defaults = new PropertiesFile(input);
+        Properties props = new Properties();
+        try {
+            props.load(plugin.getClass().getResourceAsStream(
+                            "/messages/en-US.properties"));
+        } catch (IOException e1) {
+            e1.printStackTrace();
+        }
 
         for (final Field field : getClass().getDeclaredFields()) {
             field.setAccessible(true);
@@ -264,7 +286,7 @@ public class Messages {
                     final String key = (String) field.get(this);
 
                     if (!messages.containsKey(key)) {
-                        messages.put(key, defaults.getProperty(key));
+                        messages.put(key, props.getProperty(key));
                     }
                 } catch (final IllegalAccessException e) {
                     e.printStackTrace();
