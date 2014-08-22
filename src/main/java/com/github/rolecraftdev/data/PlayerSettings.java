@@ -26,7 +26,7 @@
  */
 package com.github.rolecraftdev.data;
 
-public class PlayerSettings {
+public final class PlayerSettings {
     public static final PlayerSettings defaultSettings = new PlayerSettings();
 
     private boolean showMana;

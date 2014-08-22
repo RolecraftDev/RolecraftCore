@@ -27,6 +27,7 @@
 package com.github.rolecraftdev.data;
 
 import com.github.rolecraftdev.RolecraftCore;
+import com.github.rolecraftdev.event.exp.RCExpChangeEvent;
 import com.github.rolecraftdev.event.exp.RCExpEvent.ChangeReason;
 import com.github.rolecraftdev.event.exp.RCExpEventFactory;
 import com.github.rolecraftdev.util.LevelUtil;
@@ -36,7 +37,6 @@ import java.util.Map;
 import java.util.UUID;
 
 import org.bukkit.Bukkit;
-import org.bukkit.event.Cancellable;
 
 /**
  * Holds Rolecraft data for a specific player, which is stored in SQL.
@@ -364,19 +364,19 @@ public final class PlayerData {
     @Deprecated
     public void setExperience(final float amount) {
         if (loaded && !unloading) {
-            Cancellable event = RCExpEventFactory.callRCExpEvent(plugin, Bukkit.getServer()
-                    .getPlayer(this.playerId), amount, ChangeReason.DEFAULT);
+            RCExpChangeEvent event = RCExpEventFactory.callRCExpEvent(plugin, Bukkit.getServer()
+                    .getPlayer(this.playerId), amount - experience, ChangeReason.DEFAULT);
             if(!event.isCancelled())
-                experience = amount;
+                experience = event.getNewExperience();
         }
     }
 
     public void setExperience(final float amount, ChangeReason reason) {
         if (loaded && !unloading) {
-            Cancellable event = RCExpEventFactory.callRCExpEvent(plugin, Bukkit.getServer()
-                    .getPlayer(this.playerId), amount, reason);
+            RCExpChangeEvent event = RCExpEventFactory.callRCExpEvent(plugin, Bukkit.getServer()
+                    .getPlayer(this.playerId), amount - experience,reason);
             if(!event.isCancelled())
-                experience = amount;
+                experience = event.getNewExperience();
         }
     }
 

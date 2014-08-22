@@ -21,9 +21,9 @@ public class RCExpEventFactory {
      * @param reason
      * @return
      */
-    public static RCExpEvent callRCExpEvent(RolecraftCore plugin,
+    public static RCExpChangeEvent callRCExpEvent(RolecraftCore plugin,
             Player player, float amount, ChangeReason reason) {
-        RCExpEvent temp = null;
+        RCExpChangeEvent temp;
         
         float experience = plugin.getDataManager().getPlayerData(player.getUniqueId()).getExperience();
         

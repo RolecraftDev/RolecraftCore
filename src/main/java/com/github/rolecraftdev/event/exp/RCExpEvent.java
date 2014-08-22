@@ -2,11 +2,9 @@ package com.github.rolecraftdev.event.exp;
 
 import org.bukkit.entity.Player;
 import org.bukkit.event.Cancellable;
-import org.bukkit.event.HandlerList;
 
 import com.github.rolecraftdev.RolecraftCore;
 import com.github.rolecraftdev.event.RolecraftEvent;
-import com.github.rolecraftdev.guild.Guild;
 
 public abstract class RCExpEvent extends RolecraftEvent implements Cancellable {
 
