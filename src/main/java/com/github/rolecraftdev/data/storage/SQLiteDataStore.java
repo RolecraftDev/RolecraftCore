@@ -55,15 +55,15 @@ public final class SQLiteDataStore extends DataStore {
             + " ("
             + "uuid VARCHAR PRIMARY KEY ON CONFLICT REPLACE,"
             + "lastname VARCHAR NOT NULL ON CONFLICT FAIL,"
-            + "guild REFERENCES "
-            + gt
-            + "(uuid) ON DELETE SET NULL,"
+            + "guild REFERENCES "+ gt+ "(uuid) ON DELETE SET NULL,"
             + "exp REAL DEFAULT 0,"
-            + "profession VARCHAR DEFAULT NULL"
+            + "profession VARCHAR DEFAULT NULL,"
             + "secondprofession VARCHAR DEFAULT NULL,"
             + "influence INTEGER DEFAULT 0,"
             + "karma REAL DEFAULT 0,"
-            + "mana REAL DEFAULT 0," + "settings VARCHAR" + ")";
+            + "mana REAL DEFAULT 0,"
+            + "settings VARCHAR"
+            + ")";
 
     private static final String createGuildTable = "CREATE TABLE IF NOT EXISTS "
             + gt
