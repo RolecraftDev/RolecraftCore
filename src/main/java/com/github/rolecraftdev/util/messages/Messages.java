@@ -30,12 +30,12 @@ import com.github.rolecraftdev.RolecraftCore;
 import com.github.rolecraftdev.command.CommandHelper;
 import com.github.rolecraftdev.data.storage.PropertiesFile;
 
+import net.minecraft.util.org.apache.commons.io.FileUtils;
+
 import org.bukkit.ChatColor;
 
 import java.io.File;
-import java.io.FileOutputStream;
 import java.io.IOException;
-import java.io.InputStream;
 import java.lang.reflect.Field;
 import java.lang.reflect.Modifier;
 import java.util.HashMap;
@@ -211,73 +211,54 @@ public class Messages {
     /**
      * Loads all configurable messages from the messages.yml file in the
      * Rolecraft data folder, located at server/plugins/RolecraftCore
-     * <p/>
+     * <p>
      * For any messages not configured in messages.yml, the default message
      * (from the RolecraftCore jar) is used instead. Reflection is used to go
-     * through all of the CONSTANTS in this class and check whether they have
-     * a value
+     * through all of the CONSTANTS in this class and check whether they have a
+     * value
+     * </p>
      */
-    @SuppressWarnings("ResultOfMethodCallIgnored")
+    // Note: we use getResourceAsStream because getResource is buggy for some
+    // reason
     public void load() {
-        new File(plugin.getClass().getResource(
-                "/messages/en-US.properties").getFile());
-
+        final String langName = "/messages/en-US.properties";
         // Get the file configured by the user
-        File configuredFile = new File(plugin.getDataFolder(),
+        final File configuredFile = new File(plugin.getDataFolder(),
                 "messages.properties");
 
-        boolean toWrite = !configuredFile.exists();
-        try {
-            configuredFile.createNewFile();
-        } catch (IOException e) {
-            e.printStackTrace();
+        // Avoid IOException in FileUtils#copyInputStreamToFile
+        if (!configuredFile.isFile()) {
+            configuredFile.delete();
         }
-
-        //if (!configuredFile.isFile()) {
-        //    configuredFile.delete();
-        //}
-        // Copy the default contents to the configurable one when nonexistent
-        // Creates the file as well
-
-        if(toWrite) {
-            FileOutputStream output = null;
+        if (!configuredFile.exists()) {
             try {
-                InputStream stream = plugin.getClass().getResourceAsStream(
-                        "/messages/en-US.properties");
-                output = new FileOutputStream(configuredFile);
-                byte[] buf = new byte[8192];
-                int length = 0;
-                while ((length = stream.read(buf)) > 0) {
-                    output.write(buf, 0, length);
-                }
+                // Creates the target file and writes the source to it
+                // (overwrites!)
+                FileUtils.copyInputStreamToFile(plugin.getClass()
+                        .getResourceAsStream(langName), configuredFile);
             } catch (IOException e) {
                 e.printStackTrace();
-            } finally {
-                try {
-                    output.close();
-                } catch (IOException ignored) {
-                }
             }
         }
-
 
         for (final Entry<Object, Object> line : new PropertiesFile(
                 configuredFile).entrySet()) {
             messages.put(line.getKey().toString(), line.getValue().toString());
         }
 
-        //PropertiesFile defaults = new PropertiesFile(input);
-        Properties props = new Properties();
+        final Properties langProps = new Properties();
+
         try {
-            props.load(plugin.getClass().getResourceAsStream(
-                            "/messages/en-US.properties"));
-        } catch (IOException e1) {
-            e1.printStackTrace();
+            langProps.load(plugin.getClass().getResourceAsStream(langName));
+        } catch (IOException e) {
+            e.printStackTrace();
         }
 
         for (final Field field : getClass().getDeclaredFields()) {
             field.setAccessible(true);
-            int mods = field.getModifiers();
+
+            final int mods = field.getModifiers();
+
             // If it's a constant, basically
             if (Modifier.isPublic(mods) && Modifier.isStatic(mods)
                     && Modifier.isFinal(mods)) {
@@ -285,7 +266,7 @@ public class Messages {
                     final String key = (String) field.get(this);
 
                     if (!messages.containsKey(key)) {
-                        messages.put(key, props.getProperty(key));
+                        messages.put(key, langProps.getProperty(key));
                     }
                 } catch (final IllegalAccessException e) {
                     e.printStackTrace();
