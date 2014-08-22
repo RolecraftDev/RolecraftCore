@@ -40,7 +40,6 @@ import org.bukkit.inventory.ItemStack;
 import org.bukkit.metadata.FixedMetadataValue;
 
 public class FlyingListener implements Listener {
-
     private RolecraftCore plugin;
 
     public FlyingListener(RolecraftCore plugin) {
@@ -87,7 +86,9 @@ public class FlyingListener implements Listener {
     }
 
     private boolean isFly(ItemStack stack) {
-        if(stack == null || stack.getType() == Material.AIR) return false;
+        if(stack == null || stack.getType() == Material.AIR) {
+            return false;
+        }
         if (stack.getType() == Material.STICK) {
             if (stack.hasItemMeta()) {
                 if (stack.getItemMeta().hasDisplayName()) {

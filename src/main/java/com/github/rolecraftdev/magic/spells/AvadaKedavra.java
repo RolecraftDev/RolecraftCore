@@ -52,7 +52,6 @@ import org.bukkit.inventory.meta.ItemMeta;
  * executor points at.
  */
 public class AvadaKedavra implements Spell {
-
     private SpellManager parent;
 
     public AvadaKedavra(SpellManager spellManager) {
@@ -170,5 +169,4 @@ public class AvadaKedavra implements Spell {
     public SoundWrapper getSound() {
         return new SoundWrapper(Sound.ENDERMAN_STARE, 1.0F, 2.0F);
     }
-
 }

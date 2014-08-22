@@ -54,7 +54,6 @@ import java.util.HashSet;
  */
 @SuppressWarnings("deprecation")
 public class FreezeBlock implements Spell {
-
     private static HashSet<Byte> transparency;
 
     static {
@@ -180,5 +179,4 @@ public class FreezeBlock implements Spell {
             int modifier) {
         return 0;
     }
-
 }

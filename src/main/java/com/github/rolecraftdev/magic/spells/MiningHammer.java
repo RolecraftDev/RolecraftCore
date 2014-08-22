@@ -53,7 +53,6 @@ import java.util.List;
  * pickaxe, although this will affect more blocks when used.
  */
 public class MiningHammer implements Spell {
-
     private enum Orientation {
         NORTHSOUTH,
         EASTWEST,
@@ -190,5 +189,4 @@ public class MiningHammer implements Spell {
     public SoundWrapper getSound() {
         return new SoundWrapper(Sound.FIREWORK_LARGE_BLAST, 1.0f, 0f);
     }
-
 }

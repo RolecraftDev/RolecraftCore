@@ -102,7 +102,7 @@ public abstract class DataStore {
 
     public abstract String getStoreTypeName();
 
-    //    public abstract void finalizeQuests(QuestManager manager);
+    // public abstract void finalizeQuests(QuestManager manager);
 
     public abstract void freeConnection(Connection connection);
 
@@ -207,7 +207,6 @@ public abstract class DataStore {
                     freeConnection(connection);
                 }
             }
-
         }.runTaskAsynchronously(getParent());
     }
 
@@ -347,7 +346,6 @@ public abstract class DataStore {
                 }
             }
         }.runTaskAsynchronously(getParent());
-
     }
 
     public void addPlayerToGuild(final UUID uuid, final Guild guild) {
@@ -445,7 +443,6 @@ public abstract class DataStore {
                 }
             }
         }.runTaskAsynchronously(getParent());
-
     }
 
     public void commitPlayerData(final PlayerData commit) {
@@ -637,8 +634,6 @@ public abstract class DataStore {
                     }
                 }
             }.runTaskTimerAsynchronously(getParent(), 2, 2);
-
         }
-
     }
 }

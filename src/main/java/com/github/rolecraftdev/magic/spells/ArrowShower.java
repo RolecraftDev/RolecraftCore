@@ -56,7 +56,6 @@ import java.util.HashSet;
  */
 @SuppressWarnings("deprecation")
 public class ArrowShower implements Spell {
-
     private static HashSet<Byte> transparency;
 
     private SpellManager manager;
@@ -189,5 +188,4 @@ public class ArrowShower implements Spell {
     public SoundWrapper getSound() {
         return SoundWrapper.defaultSound;
     }
-
 }

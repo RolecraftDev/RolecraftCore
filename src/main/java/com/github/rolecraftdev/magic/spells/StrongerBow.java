@@ -47,7 +47,6 @@ import org.bukkit.inventory.meta.ItemMeta;
  * A {@link Spell} implementation that will shoot an arrow.
  */
 public class StrongerBow implements Spell {
-
     public SpellManager manager;
 
     public StrongerBow(SpellManager spellManager) {
@@ -125,5 +124,4 @@ public class StrongerBow implements Spell {
     public SoundWrapper getSound() {
         return SoundWrapper.bowSound;
     }
-
 }

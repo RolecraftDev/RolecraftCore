@@ -30,12 +30,9 @@ import com.github.rolecraftdev.RolecraftCore;
 import com.github.rolecraftdev.command.CommandHelper;
 import com.github.rolecraftdev.data.storage.PropertiesFile;
 
-import net.minecraft.util.org.apache.commons.io.FileUtils;
-
 import org.bukkit.ChatColor;
 
 import java.io.File;
-import java.io.FileInputStream;
 import java.io.FileOutputStream;
 import java.io.IOException;
 import java.io.InputStream;
@@ -222,8 +219,7 @@ public class Messages {
      */
     @SuppressWarnings("ResultOfMethodCallIgnored")
     public void load() {
-        // Get the defaults file
-        File input = new File(plugin.getClass().getResource(
+        new File(plugin.getClass().getResource(
                 "/messages/en-US.properties").getFile());
 
         // Get the file configured by the user
@@ -242,7 +238,7 @@ public class Messages {
         //}
         // Copy the default contents to the configurable one when nonexistent
         // Creates the file as well
-        
+
         if(toWrite) {
             FileOutputStream output = null;
             try {
@@ -263,7 +259,7 @@ public class Messages {
                 }
             }
         }
-        
+
 
         for (final Entry<Object, Object> line : new PropertiesFile(
                 configuredFile).entrySet()) {

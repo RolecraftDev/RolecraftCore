@@ -49,7 +49,6 @@ import org.bukkit.inventory.meta.ItemMeta;
  * naturally.
  */
 public class BreakBlock implements Spell {
-
     @SuppressWarnings("unused")
     public BreakBlock(SpellManager spellManager) {}
 

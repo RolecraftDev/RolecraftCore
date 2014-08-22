@@ -51,7 +51,6 @@ import org.bukkit.inventory.meta.ItemMeta;
  * just like {@link LesserSword} but dealing more damage.
  */
 public class StrongerSword implements Spell {
-
     public StrongerSword(SpellManager spellManager) {}
 
     @Override
@@ -127,5 +126,4 @@ public class StrongerSword implements Spell {
     public SoundWrapper getSound() {
         return SoundWrapper.swordSound;
     }
-
 }

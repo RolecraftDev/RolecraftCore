@@ -117,6 +117,5 @@ public class LocationSerializer {
     /**
      * Should never be called
      */
-    private LocationSerializer() {
-    }
+    private LocationSerializer() {}
 }

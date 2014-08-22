@@ -41,6 +41,7 @@ import java.util.Properties;
  * Utility class to make dealing with Java {@link Properties} easier
  */
 public class PropertiesFile extends Properties {
+    private static final long serialVersionUID = 1L;
     /**
      * The {@link File} the {@link Properties} are loaded from
      */

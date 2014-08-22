@@ -154,8 +154,8 @@ public class SpellManager {
         if(usable == null) {
             return plugin.getConfig().getBoolean("professiondefaults.spells");
         }
-        
-        boolean retVal = usable.contains(spell.getName()) || 
+
+        boolean retVal = usable.contains(spell.getName()) ||
                 (usable.contains("*") && !usable.contains("-"+spell.getName()));
         return retVal && player.hasPermission(
                 "rolecraft.spell." + spell.getName().toLowerCase()

@@ -49,7 +49,6 @@ import org.bukkit.inventory.meta.ItemMeta;
  * anything.
  */
 public class DestroyBlock implements Spell {
-
     public DestroyBlock(SpellManager parent) {}
 
     @Override
@@ -122,5 +121,4 @@ public class DestroyBlock implements Spell {
     public SoundWrapper getSound() {
         return SoundWrapper.defaultSound;
     }
-
 }

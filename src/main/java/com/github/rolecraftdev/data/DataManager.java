@@ -106,7 +106,7 @@ public final class DataManager {
     /**
      * Gets the {@link PlayerData} object for the player with the given unique
      * identifier ({@link UUID})
-     *
+     * 
      * @param player The unique identifier of the player to get data for
      * @return The {@link PlayerData} for the player with the given identifier
      */

@@ -186,5 +186,4 @@ public class FreezeRay implements Spell {
     public float attack(Player ply, LivingEntity ent, int modifier) {
         return 0;
     }
-
 }

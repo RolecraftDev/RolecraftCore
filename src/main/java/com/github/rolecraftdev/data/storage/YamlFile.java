@@ -34,8 +34,9 @@ import java.io.File;
 import java.io.IOException;
 
 /**
- * A utility class for manipulation of a yaml file. Provides all the funcionality
- * of {@link YamlConfiguration} but also makes usage of the file easier
+ * A utility class for manipulation of a YAML file. Provides all the
+ * functionality of {@link YamlConfiguration} but also makes usage of the file
+ * easier
  */
 public class YamlFile extends YamlConfiguration {
     /**

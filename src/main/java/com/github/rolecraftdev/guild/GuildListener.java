@@ -393,7 +393,7 @@ public final class GuildListener implements Listener {
      * Checks whether an event at the given location by the given location for
      * the given action should be cancelled, returning the value of def if we
      * have no preference
-     * 
+     *
      * @param loc
      *            The {@link Location} at which the event is occurring
      * @param player
@@ -420,7 +420,7 @@ public final class GuildListener implements Listener {
     /**
      * Gets the {@link Guild} Hall at the given location, returning null if
      * there isn't one or nullGuild if SQL hasn't loaded
-     * 
+     *
      * @param loc
      *            The {@link Location} to get the guild hall at
      * @return null if no guild is found, nullGuild if SQL isn't loaded

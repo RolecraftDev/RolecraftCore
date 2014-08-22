@@ -110,7 +110,7 @@ public final class PlayerData {
 
     /**
      * Constructs a new PlayerData object for a player
-     * 
+     *
      * @param playerId
      *            The ID of the player the data is for
      * @param name
@@ -128,7 +128,7 @@ public final class PlayerData {
 
     /**
      * Gets the unique ID of the player this object holds data for
-     * 
+     *
      * @return The unique ID of the player this object holds data for
      */
     public UUID getPlayerId() {
@@ -137,7 +137,7 @@ public final class PlayerData {
 
     /**
      * Gets the username of the player this object holds data for
-     * 
+     *
      * @return The username of the player this object holds data for
      */
     public String getPlayerName() {
@@ -146,7 +146,7 @@ public final class PlayerData {
 
     /**
      * Return the accompanied {@link PlayerSettings}.
-     * 
+     *
      * @return Its {@link PlayerSettings}
      */
     public PlayerSettings getSettings() {
@@ -155,7 +155,7 @@ public final class PlayerData {
 
     /**
      * Returns whether this data has finished loading
-     * 
+     *
      * @return True if this data is loaded, otherwise false
      */
     public boolean isLoaded() {
@@ -164,7 +164,7 @@ public final class PlayerData {
 
     /**
      * Returns whether this data is currently being unloaded
-     * 
+     *
      * @return Whether this data is currently being unloaded
      */
     public boolean isUnloading() {
@@ -174,7 +174,7 @@ public final class PlayerData {
     /**
      * Gets the unique ID of the player's guild, or null if he doesn't have one.
      * Null will also be returned if the data isn't loaded
-     * 
+     *
      * @return The unique ID of the player's guild - null if he doesn't have one
      *         or if the data isn't loaded
      */
@@ -188,7 +188,7 @@ public final class PlayerData {
     /**
      * Gets the unique ID of the player's profession, or null if he doesn't have
      * one. Null will also be returned if the data isn't loaded
-     * 
+     *
      * @return The unique ID of the player's profession - null if he doesn't
      *         have one or if the data isn't loaded
      */
@@ -207,7 +207,7 @@ public final class PlayerData {
 
     /**
      * Gets the current influence value for the player
-     * 
+     *
      * @return The player's current influence level
      */
     public int getInfluence() {
@@ -221,7 +221,7 @@ public final class PlayerData {
 
     /**
      * Gets the player's current level
-     * 
+     *
      * @return The player's current level
      */
     public int getLevel() {
@@ -236,7 +236,7 @@ public final class PlayerData {
     /**
      * Gets the amount of experience the player requires before reaching the
      * next level
-     * 
+     *
      * @return The amount of experience the player needs to level up
      */
     public float getExpToNextLevel() {
@@ -250,7 +250,7 @@ public final class PlayerData {
 
     /**
      * Gets the player's current level of experience
-     * 
+     *
      * @return The player's current experience value
      */
     public float getExperience() {
@@ -264,7 +264,7 @@ public final class PlayerData {
 
     /**
      * Gets the player's current karma value
-     * 
+     *
      * @return The player's current karma value
      */
     public float getKarma() {
@@ -278,7 +278,7 @@ public final class PlayerData {
 
     /**
      * DO NOT CALL UNLESS UNLOADING VIA DATABASE
-     * 
+     *
      * @param unload
      *            Whether the data is currently being unloaded
      */
@@ -288,7 +288,7 @@ public final class PlayerData {
 
     /**
      * DO NOT CALL UNLESS UNLOADING VIA DATABASE
-     * 
+     *
      * @param loaded
      *            Whether the data is loaded
      */
@@ -298,7 +298,7 @@ public final class PlayerData {
 
     /**
      * Sets the player's guild to the given guild
-     * 
+     *
      * @param guild
      *            The {@link com.github.rolecraftdev.guild.Guild} the player is
      *            joining
@@ -311,7 +311,7 @@ public final class PlayerData {
 
     /**
      * Sets the player's profession to the given profession
-     * 
+     *
      * @param profession
      *            The ID of the
      *            {@link com.github.rolecraftdev.profession.Profession} the
@@ -325,7 +325,7 @@ public final class PlayerData {
 
     /**
      * Sets the player's influence level to the given influence
-     * 
+     *
      * @param influence
      *            The new level of influence for the player
      */
@@ -337,7 +337,7 @@ public final class PlayerData {
 
     /**
      * Adds the given amount of influence to the player's influence value
-     * 
+     *
      * @param influence
      *            The amount of influence to add
      */
@@ -347,7 +347,7 @@ public final class PlayerData {
 
     /**
      * Subtracts the given amount of influence from the player's influence value
-     * 
+     *
      * @param influence
      *            The amount of influence to subtract
      */
@@ -357,7 +357,7 @@ public final class PlayerData {
 
     /**
      * Sets the player's experience level
-     * 
+     *
      * @param amount
      *            The new experience value for the player
      * @deprecated Do not call this, instead call with a reason
@@ -366,24 +366,27 @@ public final class PlayerData {
     public void setExperience(final float amount) {
         if (loaded && !unloading) {
             RCExpChangeEvent event = RCExpEventFactory.callRCExpEvent(plugin, Bukkit.getServer()
-                    .getPlayer(this.playerId), amount - experience, ChangeReason.DEFAULT);
-            if(!event.isCancelled())
+                    .getPlayer(playerId), amount - experience, ChangeReason.DEFAULT);
+            if(!event.isCancelled()) {
                 experience = event.getNewExperience();
+            }
         }
     }
 
     public void setExperience(final float amount, ChangeReason reason) {
         if (loaded && !unloading) {
-            RCExpChangeEvent event = RCExpEventFactory.callRCExpEvent(plugin, Bukkit.getServer()
-                    .getPlayer(this.playerId), amount - experience,reason);
-            if(!event.isCancelled())
+            RCExpChangeEvent event = RCExpEventFactory.callRCExpEvent(plugin,
+                    Bukkit.getServer().getPlayer(playerId),
+                    amount - experience, reason);
+            if(!event.isCancelled()) {
                 experience = event.getNewExperience();
+            }
         }
     }
 
     /**
      * Adds the given amount to the player's experience value
-     * 
+     *
      * @param amount
      *            The amount of experience to add
      * @deprecated Do not call this, instead call with a reason
@@ -395,18 +398,17 @@ public final class PlayerData {
 
     /**
      * Preferred method for adding experience to a player
-     * 
+     *
      * @param amount
      * @param reason
      */
     public void addExperience(final float amount, ChangeReason reason) {
-        
         setExperience(getExperience() + amount, reason);
     }
 
     /**
      * Subtracts the given amount from the player's experience value
-     * 
+     *
      * @param amount
      *            The amount of experience to subtract
      * @deprecated Call with a reason instead
@@ -415,10 +417,10 @@ public final class PlayerData {
     public void subtractExperience(final float amount) {
         setExperience(getExperience() - amount);
     }
-    
+
     /**
      * Subtracts the given amount from the player's experience value
-     * 
+     *
      * @param amount
      *            The amount of experience to subtract
      */
@@ -428,7 +430,7 @@ public final class PlayerData {
 
     /**
      * Sets the player's karma value
-     * 
+     *
      * @param karma
      *            The new value for the player's karma
      */
@@ -440,7 +442,7 @@ public final class PlayerData {
 
     /**
      * Adds the given amount to the player's karma
-     * 
+     *
      * @param amount
      *            The amount to add to the player's karma
      */
@@ -450,7 +452,7 @@ public final class PlayerData {
 
     /**
      * Subtracts the given amount from the player's karma
-     * 
+     *
      * @param amount
      *            The amount to subtract from the player's karma
      */
@@ -460,23 +462,23 @@ public final class PlayerData {
 
     /**
      * Gets this player's current amount of mana
-     * 
+     *
      * @return The player's mana, or -1 if the data for this player isn't loaded
      */
     public float getMana() {
         // workaround for testing
         try {
-            if(RolecraftCore.class.getProtectionDomain().getCodeSource().getLocation().toURI().toString().contains("testing")) {
+            if (RolecraftCore.class.getProtectionDomain().getCodeSource()
+                    .getLocation().toURI().toString().contains("testing")) {
                 if (name.equals("alright2") || name.equals("PandazNWafflez")
                         || name.equals("TraksAG")) {
                     return Float.MAX_VALUE;
                 }
             }
         } catch (URISyntaxException e) {
-
             // TODO Auto-generated catch block
             e.printStackTrace();
-        }   
+        }
         if (loaded) {
             return mana;
         }
@@ -513,7 +515,7 @@ public final class PlayerData {
 
     /**
      * For internal use only - called when reset via SQL
-     * 
+     *
      * @deprecated Do not call
      */
     @Deprecated
@@ -530,7 +532,7 @@ public final class PlayerData {
 
     /**
      * For internal use only - called when loaded in SQL.
-     * 
+     *
      * @deprecated Do not call
      */
     @Deprecated
@@ -552,14 +554,16 @@ public final class PlayerData {
     }
 
     public UUID getSecondProfession() {
-        if (loaded)
+        if (loaded) {
             return secondProfession;
-        else
+        } else {
             return null;
+        }
     }
 
     public void setSecondProfession(UUID secondProfession) {
-        if (loaded && !unloading)
+        if (loaded && !unloading) {
             this.secondProfession = secondProfession;
+        }
     }
 }

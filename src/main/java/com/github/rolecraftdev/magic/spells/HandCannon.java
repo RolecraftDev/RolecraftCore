@@ -51,7 +51,6 @@ import org.bukkit.metadata.FixedMetadataValue;
  * amount of damage and applies a greater amount of knockback.
  */
 public class HandCannon implements Spell {
-
     private SpellManager manager;
 
     public HandCannon(SpellManager spellManager) {
@@ -133,5 +132,4 @@ public class HandCannon implements Spell {
     public SoundWrapper getSound() {
         return new SoundWrapper(Sound.EXPLODE, 0.8f, 1.0f);
     }
-
 }

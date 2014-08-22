@@ -50,9 +50,7 @@ import org.bukkit.inventory.meta.ItemMeta;
  * naturally.
  */
 public class SilkTouch implements Spell {
-
-    public SilkTouch(SpellManager spellManager) {
-    }
+    public SilkTouch(SpellManager spellManager) {}
 
     @Override
     public String getName() {
@@ -134,5 +132,4 @@ public class SilkTouch implements Spell {
     public SoundWrapper getSound() {
         return SoundWrapper.defaultSound;
     }
-
 }

@@ -49,7 +49,6 @@ import org.bukkit.metadata.FixedMetadataValue;
  * damage on hit.
  */
 public class ExcellentBow implements Spell {
-
     public SpellManager manager;
 
     public ExcellentBow(SpellManager spellManager) {
@@ -126,5 +125,4 @@ public class ExcellentBow implements Spell {
     public SoundWrapper getSound() {
         return SoundWrapper.bowSound;
     }
-
 }

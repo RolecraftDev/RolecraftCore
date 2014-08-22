@@ -61,14 +61,14 @@ public final class ProfessionManager {
     /**
      * Create a new {@link ProfessionManager} and immediately attach it to a
      * {@link RolecraftCore} object.
-     * 
+     *
      * @param plugin
      *            - The {@link RolecraftCore} plugin
      */
     public ProfessionManager(final RolecraftCore plugin) {
         this.plugin = plugin;
         professions = new HashSet<Profession>();
-        this.professionListener = new ProfessionListener(this);
+        professionListener = new ProfessionListener(this);
         plugin.getServer().getPluginManager()
                 .registerEvents(professionListener, plugin);
     }
@@ -76,7 +76,7 @@ public final class ProfessionManager {
     /**
      * Get the {@link RolecraftCore} plugin object this
      * {@link ProfessionManager} is attached to.
-     * 
+     *
      * @return Its {@link RolecraftCore} object
      */
     public RolecraftCore getPlugin() {
@@ -86,7 +86,7 @@ public final class ProfessionManager {
     /**
      * Get the {@link Profession}s that are grouped by this
      * {@link ProfessionManager}.
-     * 
+     *
      * @return A copy of the original {@link Set}, which isn't updated when the
      *         original version is
      */
@@ -97,7 +97,7 @@ public final class ProfessionManager {
     /**
      * Get a {@link Profession} that is contained by this
      * {@link ProfessionManager}, by its unique name.
-     * 
+     *
      * @param name
      *            - The unique name of the wanted {@link Profession}
      * @return Null if no {@link Profession} is found in this
@@ -116,7 +116,7 @@ public final class ProfessionManager {
     /**
      * Get a {@link Profession} that is contained by this
      * {@link ProfessionManager}, by its unique identifier.
-     * 
+     *
      * @param id
      *            - The unique identifier of the wanted {@link Profession}
      * @return Null if no {@link Profession} is found in this
@@ -136,7 +136,7 @@ public final class ProfessionManager {
      * Gets the {@link Profession} for the player with the given unique
      * identifier, if this ProfessionManager holds a profession with the ID of
      * the player's profession
-     * 
+     *
      * @param player
      *            The unique identifier of the player
      * @return The {@link Profession} of the player with the given {@link UUID}
@@ -150,7 +150,7 @@ public final class ProfessionManager {
      * Add a {@link Profession} to this {@link ProfessionManager}. Make sure its
      * {@link ProfessionManager} is equivalent to the one it is added to, before
      * doing so.
-     * 
+     *
      * @param profession
      *            - The {@link Profession} that should be added
      * @return False if the given {@link Profession} is already contained by

@@ -50,7 +50,6 @@ import org.bukkit.inventory.meta.ItemMeta;
  * the direction the executor is looking at.
  */
 public class Bomb implements Spell {
-
     public Bomb(SpellManager spellManager) {}
 
     @Override
@@ -118,5 +117,4 @@ public class Bomb implements Spell {
     public SoundWrapper getSound() {
         return SoundWrapper.defaultSound;
     }
-
 }

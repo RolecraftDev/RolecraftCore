@@ -33,7 +33,6 @@ import com.github.rolecraftdev.RolecraftCore;
 import com.github.rolecraftdev.event.RolecraftEvent;
 
 public abstract class RCExpEvent extends RolecraftEvent implements Cancellable {
-
     public enum ChangeReason {
         /**
          * Awarded for killing something
@@ -58,13 +57,14 @@ public abstract class RCExpEvent extends RolecraftEvent implements Cancellable {
         COMMAND,
         /**
          * Defaults to this, if nothing is specified
-         * 
+         *
          * @deprecated Should specify a reason when adding exp
          */
         DEFAULT
     }
 
-    final Player concern;
+    private final Player concern;
+
     private boolean cancelled;
 
     protected RCExpEvent(RolecraftCore plugin, Player player) {
@@ -75,7 +75,7 @@ public abstract class RCExpEvent extends RolecraftEvent implements Cancellable {
     public final Player getPlayer() {
         return concern;
     }
-    
+
     @Override
     public boolean isCancelled() {
         return cancelled;
@@ -83,6 +83,6 @@ public abstract class RCExpEvent extends RolecraftEvent implements Cancellable {
 
     @Override
     public void setCancelled(boolean cancel) {
-        this.cancelled = cancel;
+        cancelled = cancel;
     }
 }

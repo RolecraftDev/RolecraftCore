@@ -159,6 +159,5 @@ public class Utils {
     }
 
     // prevent construction
-    private Utils() {
-    }
+    private Utils() {}
 }

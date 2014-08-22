@@ -50,8 +50,7 @@ import org.bukkit.inventory.meta.ItemMeta;
  * A {@link Spell} implementation that makes the held item function like a sword.
  */
 public class LesserSword implements Spell {
-    public LesserSword(SpellManager spellManager) {
-    }
+    public LesserSword(SpellManager spellManager) {}
 
     @Override
     public String getName() {

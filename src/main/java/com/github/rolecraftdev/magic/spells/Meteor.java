@@ -54,7 +54,6 @@ import java.util.HashSet;
  */
 @SuppressWarnings("deprecation")
 public class Meteor implements Spell {
-
     private static HashSet<Byte> transparency;
 
     private SpellManager manager;
@@ -176,5 +175,4 @@ public class Meteor implements Spell {
     public SoundWrapper getSound() {
         return new SoundWrapper(Sound.FIZZ, 1.0f, 0f);
     }
-
 }

@@ -51,7 +51,6 @@ import org.bukkit.inventory.meta.ItemMeta;
  * looking at.
  */
 public class BurnBlock implements Spell {
-
     @SuppressWarnings("unused")
     public BurnBlock(SpellManager spellManager) {}
 
@@ -131,5 +130,4 @@ public class BurnBlock implements Spell {
     public SoundWrapper getSound() {
         return new SoundWrapper(Sound.FIRE_IGNITE, 1.0f, 0.0f);
     }
-
 }

@@ -113,5 +113,4 @@ public interface Spell {
     public Recipe getWandRecipe();
 
     public SoundWrapper getSound();
-
 }

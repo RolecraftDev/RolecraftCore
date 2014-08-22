@@ -55,6 +55,11 @@ public final class GuildManager {
     public static final String GUILD_INVITE_METADATA = "guild-invite";
 
     /**
+     * A {@link Map} of human readable strings to GuildAction enum values
+     */
+    static final Map<String, GuildAction> actionMap = new HashMap<String, GuildAction>();
+
+    /**
      * The {@link RolecraftCore} plugin object.
      */
     private final RolecraftCore plugin;
@@ -125,7 +130,8 @@ public final class GuildManager {
         loaded = false;
 
         /*
-         * Load all guilds, protection from SQL errors by not querying a table that does not exist
+         * Load all guilds, protection from SQL errors by not querying a table
+         * that does not exist
          */
         if (plugin.isSqlLoaded()) {
             plugin.getDataStore().loadGuilds(this);
@@ -161,9 +167,9 @@ public final class GuildManager {
      * {@link Guild}s if it is valid - i.e if it is loaded from the database or
      * doesn't clash with another {@link Guild}. (being logically equal)
      *
-     * @param guild        - The {@link Guild} to load
+     * @param guild - The {@link Guild} to load
      * @param fromDatabase - Used internally for loading from database, always
-     *                     use false
+     *        use false
      * @return True for success, false if the {@link Guild} already exists
      */
     public boolean addGuild(final Guild guild, boolean fromDatabase) {
@@ -185,8 +191,8 @@ public final class GuildManager {
         plugin.getServer().getPluginManager().callEvent(event);
 
         if (event.isCancelled()) {
-            event.getFounder()
-                    .sendMessage(ChatColor.DARK_RED + event.getCancelMessage());
+            event.getFounder().sendMessage(
+                    ChatColor.DARK_RED + event.getCancelMessage());
             return false;
         } else {
             guilds.add(guild);
@@ -221,8 +227,8 @@ public final class GuildManager {
      *
      * @param name - The name of the wanted {@link Guild}
      * @return The {@link Guild} with the given name if it is contained by this
-     * {@link GuildManager}, or null if none is found, or this manager has not
-     * finished loading
+     *         {@link GuildManager}, or null if none is found, or this manager
+     *         has not finished loading
      */
     public Guild getGuild(final String name) {
         if (loaded) {
@@ -242,8 +248,8 @@ public final class GuildManager {
      *
      * @param uuid - The UUID of the wanted {@link Guild}
      * @return The {@link Guild} with the given name if it is contained by this
-     * {@link GuildManager}, or null if none is found, or this manager has not
-     * finished loading
+     *         {@link GuildManager}, or null if none is found, or this manager
+     *         has not finished loading
      */
     public Guild getGuild(final UUID uuid) {
         if (loaded) {
@@ -262,10 +268,10 @@ public final class GuildManager {
      * Gets the {@link Guild} the given player belongs to.
      *
      * @param player - The unique identifier of the player to get the
-     *               {@link Guild} of
+     *        {@link Guild} of
      * @return The given player's {@link Guild}, or null if they don't have one.
-     * Note that this will also return null if this {@link GuildManager}
-     * hasn't been fully loaded yet
+     *         Note that this will also return null if this {@link GuildManager}
+     *         hasn't been fully loaded yet
      */
     public Guild getPlayerGuild(final UUID player) {
         if (loaded) {
@@ -284,7 +290,7 @@ public final class GuildManager {
      * Get a copy of the {@link Set} used to store all loaded {@link Guild}s.
      *
      * @return A copy of the {@link Set} used to store loaded {@link Guild}s, or
-     * null if this {@link GuildManager} remains unloaded.
+     *         null if this {@link GuildManager} remains unloaded.
      */
     public Set<Guild> getGuilds() {
         if (loaded) {
@@ -306,7 +312,7 @@ public final class GuildManager {
      * Get the amount of money required to invite somebody to a {@link Guild}.
      *
      * @return The amount of money required to invite somebody to a
-     * {@link Guild}
+     *         {@link Guild}
      */
     public int getInvitationCost() {
         return inviteCost;
@@ -366,13 +372,6 @@ public final class GuildManager {
     public void completeLoad() {
         loaded = true;
     }
-
-    // Has to go here because you can't access static members in an enum constructor
-
-    /**
-     * A {@link Map} of human readable strings to GuildAction enum values
-     */
-    static final Map<String, GuildAction> actionMap = new HashMap<String, GuildAction>();
 
     public static GuildAction fromHumanReadable(final String humanReadable) {
         return actionMap.get(humanReadable);

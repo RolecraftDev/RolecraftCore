@@ -269,5 +269,4 @@ public class MagicListener implements Listener {
         }
         return null;
     }
-
 }

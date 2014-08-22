@@ -42,13 +42,6 @@ import java.sql.SQLException;
 import java.util.logging.Level;
 
 public final class SQLiteDataStore extends DataStore {
-
-    private Connection connection;
-
-    public SQLiteDataStore(RolecraftCore parent) {
-        super(parent);
-    }
-
     public static final String dbname = "rolecraft";
 
     private static final String createPlayerTable = "CREATE TABLE IF NOT EXISTS "
@@ -65,7 +58,6 @@ public final class SQLiteDataStore extends DataStore {
             + "mana REAL DEFAULT 0,"
             + "settings VARCHAR"
             + ")";
-
     private static final String createGuildTable = "CREATE TABLE IF NOT EXISTS "
             + gt
             + " ("
@@ -77,15 +69,21 @@ public final class SQLiteDataStore extends DataStore {
             + "home VARCHAR,"
             + "hall VARCHAR,"
             + "influence INTEGER DEFAULT 0" + ")";
-
-    private static final String createMetaTable = "CREATE TABLE IF NOT EXISTS " + mdt + " (" 
-            + "version VARCHAR," 
-            + "entry VARCHAR PRIMARY KEY" 
+    private static final String createMetaTable = "CREATE TABLE IF NOT EXISTS "
+            + mdt + " ("
+            + "version VARCHAR,"
+            + "entry VARCHAR PRIMARY KEY"
             + ")";
+
+    private Connection connection;
+
+    public SQLiteDataStore(RolecraftCore parent) {
+        super(parent);
+    }
 
     @Override
     public void initialise() {
-        final RolecraftCore parent = this.getParent();
+        final RolecraftCore parent = getParent();
         new BukkitRunnable() {
             @Override
             public void run() {
@@ -138,7 +136,6 @@ public final class SQLiteDataStore extends DataStore {
                 }
             }
         }.runTaskAsynchronously(getParent());
-
     }
 
     @Override
@@ -175,12 +172,11 @@ public final class SQLiteDataStore extends DataStore {
     @Override
     public String getStoreTypeName() {
         return "SQLite";
-
     }
 
     /**
      * Do not pull up
-     * 
+     *
      * @see com.github.rolecraftdev.data.storage.DataStore#clearPlayerData(com.github.rolecraftdev.data.PlayerData)
      */
     @Override
@@ -288,5 +284,4 @@ public final class SQLiteDataStore extends DataStore {
     // }.runTaskAsynchronously(getParent());
     //
     // }
-
 }

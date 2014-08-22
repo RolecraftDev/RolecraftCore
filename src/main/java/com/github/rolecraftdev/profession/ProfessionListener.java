@@ -59,7 +59,7 @@ public class ProfessionListener implements Listener {
      * In the profession file, these are determined by the tag usable-armor
      * followed by a list of tags that are the names of items as defined in
      * {@link org.bukkit.Material}
-     * 
+     *
      * @param event
      *            ---
      */
@@ -251,8 +251,9 @@ public class ProfessionListener implements Listener {
     }
 
     private boolean checkEnchantments(Player ply, ItemStack stack) {
-        if (stack == null || stack.getType() == Material.AIR)
+        if (stack == null || stack.getType() == Material.AIR) {
             return true;
+        }
         if (stack.getEnchantments() == null
                 || stack.getEnchantments().isEmpty()) {
             return true;
@@ -311,8 +312,9 @@ public class ProfessionListener implements Listener {
     }
 
     private boolean checkMaterial(Material mat, Player ply, List<?> rules) {
-        if (mat == null)
+        if (mat == null) {
             return true;
+        }
         String material = mat.toString().replace("Material.", "").toLowerCase();
         if (rules == null || rules.isEmpty()) {
             // ifndef return default
@@ -325,6 +327,5 @@ public class ProfessionListener implements Listener {
         }
 
         return false;
-
     }
 }

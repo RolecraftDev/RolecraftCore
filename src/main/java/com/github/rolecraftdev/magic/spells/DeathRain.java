@@ -60,7 +60,6 @@ import java.util.HashSet;
  */
 @SuppressWarnings("deprecation")
 public class DeathRain implements Spell {
-
     private static HashSet<Byte> transparency;
 
     private SpellManager manager;
@@ -206,5 +205,4 @@ public class DeathRain implements Spell {
     public SoundWrapper getSound() {
         return new SoundWrapper(Sound.GHAST_SCREAM, 1.0f, -2.0f);
     }
-
 }

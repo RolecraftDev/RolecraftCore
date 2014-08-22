@@ -48,7 +48,6 @@ import org.bukkit.inventory.meta.ItemMeta;
  * A {@link Spell} implementation which can be used to shoot multiple arrows at once.
  */
 public class MultiArrow implements Spell {
-
     public MultiArrow(SpellManager spellManager) {}
 
     @Override
@@ -121,5 +120,4 @@ public class MultiArrow implements Spell {
     public SoundWrapper getSound() {
         return SoundWrapper.bowSound;
     }
-
 }

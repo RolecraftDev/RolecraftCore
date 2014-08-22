@@ -74,7 +74,7 @@ public final class Guild {
      * A {@link Set} containing all of this {@link Guild}'s members' unique
      * identifiers, which includes its leader.
      */
-    private final Set<UUID> members;
+    private final Set<UUID> members; 
     /**
      * A {@link Set} containing all of the {@link GuildRank}s available in this
      * {@link Guild}, as configured by the leader.

@@ -44,6 +44,48 @@ import java.util.concurrent.ConcurrentHashMap;
 @SuppressWarnings("FeatureEnvy")
 public final class MySQLDataStore extends DataStore {
     /**
+     * The query used for creating the player table
+     */
+    private static final String CREATE_PLAYER_TABLE = "CREATE TABLE IF NOT EXISTS "
+            + pt
+            + " ("
+            + "uuid VARCHAR(40) PRIMARY KEY,"
+            + "lastname VARCHAR(16) NOT NULL,"
+            + "FOREIGN KEY (guild) REFERENCES "
+            + gt
+            + "(uuid) ON DELETE SET NULL,"
+            + "exp REAL DEFAULT 0,"
+            + "profession VARCHAR (37) DEFAULT NULL"
+            + "secondprofession VARCHAR(37) DEFAULT NULL,"
+            + "influence INTEGER DEFAULT 0,"
+            + "karma REAL DEFAULT 0,"
+            + "mana REAL DEFAULT 0," + "settings VARCHAR(100)" + ")";
+    /**
+     * The query used for creating the guild table
+     */
+    private static final String CREATE_GUILD_TABLE = "CREATE TABLE IF NOT EXISTS "
+            + gt
+            + " ("
+            + "uuid VARCHAR(37) PRIMARY KEY ON CONFLICT FAIL,"
+            + "name VARCHAR (50),"
+            + "leader VARCHAR(37),"
+            + "members MEDIUMTEXT,"
+            + "ranks MEDIUMTEXT,"
+            + "home VARCHAR(150),"
+            + "hall VARCHAR(100),"
+            + "influence INTEGER DEFAULT 0" + ")";
+    private static final String CREATE_META_TABLE = "CREATE TABLE IF NOT EXISTS "
+            + mdt
+            + " ("
+            + "version VARCHAR(6),"
+            + "entry VARCHAR(20),"
+            + "PRIMARY KEY(entry)" + ")";
+    //                                MINUTES
+    private static final int MINUTES = 60000;
+    private static final int KILL_TIME = 5 * MINUTES;
+    private static final int MYSQL_DEFAULT_PORT = 3306;
+
+    /**
      * The username for the MySQL database
      */
     private final String user;
@@ -64,52 +106,8 @@ public final class MySQLDataStore extends DataStore {
      */
     private final String databaseName;
 
-    //                               MINUTES
-
-    private static final int MINUTES = 60000;
-    private static final int KILL_TIME = 5* MINUTES;
-    private static final int MYSQL_DEFAULT_PORT = 3306;
-
     //                        connection      in use? last use
     private ConcurrentHashMap<Connection, Entry<Boolean, Long>> connections;
-
-    /**
-     * The query used for creating the player table
-     */
-    private static final String CREATE_PLAYER_TABLE =
-            "CREATE TABLE IF NOT EXISTS " + pt + " ("
-                    + "uuid VARCHAR(40) PRIMARY KEY,"
-                    + "lastname VARCHAR(16) NOT NULL,"
-                    + "FOREIGN KEY (guild) REFERENCES " + gt
-                    + "(uuid) ON DELETE SET NULL,"
-                    + "exp REAL DEFAULT 0,"
-                    + "profession VARCHAR (37) DEFAULT NULL"
-                    + "secondprofession VARCHAR(37) DEFAULT NULL,"
-                    + "influence INTEGER DEFAULT 0,"
-                    + "karma REAL DEFAULT 0,"
-                    + "mana REAL DEFAULT 0," +
-                    "settings VARCHAR(100)" + ")";
-
-    /**
-     * The query used for creating the guild table
-     */
-    private static final String CREATE_GUILD_TABLE =
-            "CREATE TABLE IF NOT EXISTS " + gt + " ("
-                    + "uuid VARCHAR(37) PRIMARY KEY ON CONFLICT FAIL,"
-                    + "name VARCHAR (50),"
-                    + "leader VARCHAR(37),"
-                    + "members MEDIUMTEXT,"
-                    + "ranks MEDIUMTEXT,"
-                    + "home VARCHAR(150),"
-                    + "hall VARCHAR(100),"
-                    + "influence INTEGER DEFAULT 0" + ")";
-    
-    private static final String CREATE_META_TABLE = "CREATE TABLE IF NOT EXISTS " + mdt +  " ("
-                    + "version VARCHAR(6),"
-                    + "entry VARCHAR(20),"
-                    + "PRIMARY KEY(entry)"
-                    + ")";
-            
 
     public MySQLDataStore(final RolecraftCore parent) {
         super(parent);
@@ -167,7 +165,7 @@ public final class MySQLDataStore extends DataStore {
 
     @Override
     public void initialise() {
-        final RolecraftCore parent = this.getParent();
+        final RolecraftCore parent = getParent();
         new BukkitRunnable() {
             @Override
             public void run() {
@@ -184,7 +182,7 @@ public final class MySQLDataStore extends DataStore {
                     ps = connection.prepareStatement(CREATE_META_TABLE);
                     ps.execute();
                     ps.close();
-                    
+
                     ps = connection.prepareStatement("SELECT version FROM " + mdt + " WHERE entry = ?");
                     ps.setString(1, mde);
                     rs = ps.executeQuery();
@@ -192,7 +190,7 @@ public final class MySQLDataStore extends DataStore {
                         if(rs.getString("version").equals(DataStore.SQLVERSION1)) {
                             // up to date, do nothing
                         }
-                        
+
                         // TODO: in the future versions, add logic to update database
                     }
                     else {
@@ -201,7 +199,7 @@ public final class MySQLDataStore extends DataStore {
                                 + DataStore.SQLVERSION1 + "','" + DataStore.mde+ "')");
                         ps.execute();
                     }
-                    
+
                     parent.setSqlLoaded(true);
                 } catch (final SQLException ex) {
                     ex.printStackTrace();
@@ -247,7 +245,6 @@ public final class MySQLDataStore extends DataStore {
                 }
             }
         }.runTaskAsynchronously(getParent());
-
     }
 
     @Override
