@@ -197,8 +197,8 @@ public final class MySQLDataStore extends DataStore {
                     }
                     else {
                         close(ps,rs);
-                        ps = connection.prepareStatement("INSERT INTO " + mdt + " VALUES ("
-                                + DataStore.SQLVERSION1 + "," + DataStore.mde+ ")");
+                        ps = connection.prepareStatement("INSERT INTO " + mdt + " VALUES ('"
+                                + DataStore.SQLVERSION1 + "','" + DataStore.mde+ "')");
                         ps.execute();
                     }
                     

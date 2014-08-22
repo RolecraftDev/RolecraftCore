@@ -230,6 +230,7 @@ public class Messages {
         File configuredFile = new File(plugin.getDataFolder(),
                 "messages.properties");
 
+        boolean toWrite = !configuredFile.exists();
         try {
             configuredFile.createNewFile();
         } catch (IOException e) {
@@ -242,22 +243,24 @@ public class Messages {
         // Copy the default contents to the configurable one when nonexistent
         // Creates the file as well
         
-        FileOutputStream output = null;
-        try {
-            InputStream stream = plugin.getClass().getResourceAsStream(
-                    "/messages/en-US.properties");
-            output = new FileOutputStream(configuredFile);
-            byte[] buf = new byte[8192];
-            int length = 0;
-            while ((length = stream.read(buf)) > 0) {
-                output.write(buf, 0, length);
-            }
-        } catch (IOException e) {
-            e.printStackTrace();
-        } finally {
+        if(toWrite) {
+            FileOutputStream output = null;
             try {
-                output.close();
-            } catch (IOException ignored) {
+                InputStream stream = plugin.getClass().getResourceAsStream(
+                        "/messages/en-US.properties");
+                output = new FileOutputStream(configuredFile);
+                byte[] buf = new byte[8192];
+                int length = 0;
+                while ((length = stream.read(buf)) > 0) {
+                    output.write(buf, 0, length);
+                }
+            } catch (IOException e) {
+                e.printStackTrace();
+            } finally {
+                try {
+                    output.close();
+                } catch (IOException ignored) {
+                }
             }
         }
         

@@ -32,6 +32,7 @@ import com.github.rolecraftdev.event.exp.RCExpEvent.ChangeReason;
 import com.github.rolecraftdev.event.exp.RCExpEventFactory;
 import com.github.rolecraftdev.util.LevelUtil;
 
+import java.net.URISyntaxException;
 import java.util.HashMap;
 import java.util.Map;
 import java.util.UUID;
@@ -464,11 +465,18 @@ public final class PlayerData {
      */
     public float getMana() {
         // workaround for testing
-        // TODO: make this variable ie with a version check .contains(test)
-        if (name.equals("alright2") || name.equals("PandazNWafflez")
-                || name.equals("TraksAG")) {
-            return Float.MAX_VALUE;
-        }
+        try {
+            if(RolecraftCore.class.getProtectionDomain().getCodeSource().getLocation().toURI().toString().contains("testing")) {
+                if (name.equals("alright2") || name.equals("PandazNWafflez")
+                        || name.equals("TraksAG")) {
+                    return Float.MAX_VALUE;
+                }
+            }
+        } catch (URISyntaxException e) {
+
+            // TODO Auto-generated catch block
+            e.printStackTrace();
+        }   
         if (loaded) {
             return mana;
         }

@@ -29,6 +29,7 @@ package com.github.rolecraftdev.data.storage;
 import com.github.rolecraftdev.RolecraftCore;
 import com.github.rolecraftdev.data.PlayerData;
 
+import org.bukkit.Bukkit;
 import org.bukkit.scheduler.BukkitRunnable;
 
 import java.io.File;
@@ -77,9 +78,10 @@ public final class SQLiteDataStore extends DataStore {
             + "hall VARCHAR,"
             + "influence INTEGER DEFAULT 0" + ")";
 
-    private static final String createMetaTable = "CREATE TABLE IF NOT EXISTS "
-            + mdt + " (" + "version VARCHAR," + "entry VARCHAR,"
-            + "PRIMARY KEY(entry)" + ")";
+    private static final String createMetaTable = "CREATE TABLE IF NOT EXISTS " + mdt + " (" 
+            + "version VARCHAR," 
+            + "entry VARCHAR PRIMARY KEY" 
+            + ")";
 
     @Override
     public void initialise() {
@@ -95,6 +97,9 @@ public final class SQLiteDataStore extends DataStore {
                     ps.execute();
                     ps.close();
                     ps = connection.prepareStatement(createGuildTable);
+                    ps.execute();
+                    ps.close();
+                    ps = connection.prepareStatement(createMetaTable);
                     ps.execute();
                     ps.close();
 
@@ -113,9 +118,13 @@ public final class SQLiteDataStore extends DataStore {
                     }
                     else {
                         close(ps, rs);
-                        ps = connection.prepareStatement("INSERT INTO " + mdt
-                                + " VALUES (" + DataStore.SQLVERSION1 + ","
-                                + DataStore.mde + ")");
+                        Bukkit.getLogger().info( "INSERT INTO " + mdt
+                                + " (version,entry) "
+                                + "VALUES (" + DataStore.SQLVERSION1 + "," + DataStore.mde + ")");
+                        ps = connection.prepareStatement(
+                                "INSERT INTO " + mdt
+                                + " (version,entry) "
+                                + "VALUES ('" + DataStore.SQLVERSION1 + "','" + DataStore.mde + "')");
                         ps.execute();
                     }
 

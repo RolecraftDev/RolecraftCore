@@ -59,17 +59,39 @@ public class ProfessionListener implements Listener {
      * In the profession file, these are determined by the tag usable-armor
      * followed by a list of tags that are the names of items as defined in
      * {@link org.bukkit.Material}
-     *
-     * @param event ---
+     * 
+     * @param event
+     *            ---
      */
     @EventHandler(priority = EventPriority.HIGHEST)
     public void enforceArmorRules(InventoryClickEvent event) {
         if (event.getWhoClicked() instanceof Player) {
+            if (parent.getPlayerProfession(event.getWhoClicked().getUniqueId()) == null) {
+                if (!parent.getPlugin().getConfig()
+                        .getBoolean("professiondefaults.enchantments")) {
+                    ((CommandSender) event.getWhoClicked()).sendMessage(parent
+                            .getPlugin().getMessage(
+                                    Messages.PROFESSION_DENY_ENCHANTMENT,
+                                    MsgVar.create(
+                                            "$profession",
+                                            parent.getPlayerProfession(
+                                                    event.getWhoClicked()
+                                                            .getUniqueId())
+                                                    .getName())));
+                    event.setCancelled(true);
+                    return;
+                }
+                else {
+                    return;
+                }
+            }
             if (event.getSlotType() == InventoryType.SlotType.ARMOR) {
-                if (!checkMaterial(event.getCurrentItem().getType(),
+                if (!checkMaterial(
+                        event.getCurrentItem().getType(),
                         (Player) event.getWhoClicked(),
-                        parent.getPlayerProfession(event.getWhoClicked().getUniqueId())
-                            .getRuleValue(ProfessionRule.USABLE_ARMOR))) {
+                        parent.getPlayerProfession(
+                                event.getWhoClicked().getUniqueId())
+                                .getRuleValue(ProfessionRule.USABLE_ARMOR))) {
                     ((CommandSender) event.getWhoClicked()).sendMessage(parent
                             .getPlugin().getMessage(
                                     Messages.PROFESSION_DENY_ARMOR,
@@ -83,8 +105,8 @@ public class ProfessionListener implements Listener {
                 }
             }
 
-
-            if(!checkEnchantments((Player) event.getWhoClicked(), event.getCurrentItem())) {
+            if (!checkEnchantments((Player) event.getWhoClicked(),
+                    event.getCurrentItem())) {
                 ((CommandSender) event.getWhoClicked()).sendMessage(parent
                         .getPlugin().getMessage(
                                 Messages.PROFESSION_DENY_ENCHANTMENT,
@@ -96,11 +118,13 @@ public class ProfessionListener implements Listener {
                                                 .getName())));
                 event.setCancelled(true);
             }
-            if(event instanceof CraftItemEvent) {
-                if(!checkMaterial(event.getCurrentItem().getType(),
+            if (event instanceof CraftItemEvent) {
+                if (!checkMaterial(
+                        event.getCurrentItem().getType(),
                         (Player) event.getWhoClicked(),
-                        parent.getPlayerProfession(event.getWhoClicked().getUniqueId())
-                            .getRuleValue(ProfessionRule.USABLE_ITEMS))) {
+                        parent.getPlayerProfession(
+                                event.getWhoClicked().getUniqueId())
+                                .getRuleValue(ProfessionRule.USABLE_ITEMS))) {
                     ((CommandSender) event.getWhoClicked()).sendMessage(parent
                             .getPlugin().getMessage(
                                     Messages.PROFESSION_DENY_ITEM,
@@ -112,12 +136,13 @@ public class ProfessionListener implements Listener {
                                                     .getName())));
                     event.setCancelled(true);
                 }
-            }
-            else if(event.getSlotType() == SlotType.QUICKBAR) {
-                if(!checkMaterial(event.getCurrentItem().getType(),
+            } else if (event.getSlotType() == SlotType.QUICKBAR) {
+                if (!checkMaterial(
+                        event.getCurrentItem().getType(),
                         (Player) event.getWhoClicked(),
-                        parent.getPlayerProfession(event.getWhoClicked().getUniqueId())
-                            .getRuleValue(ProfessionRule.USABLE_ITEMS))) {
+                        parent.getPlayerProfession(
+                                event.getWhoClicked().getUniqueId())
+                                .getRuleValue(ProfessionRule.USABLE_ITEMS))) {
                     ((CommandSender) event.getWhoClicked()).sendMessage(parent
                             .getPlugin().getMessage(
                                     Messages.PROFESSION_DENY_ITEM,
@@ -135,9 +160,28 @@ public class ProfessionListener implements Listener {
 
     @EventHandler(priority = EventPriority.LOW)
     public void enforceEnchantRules(EnchantItemEvent event) {
-        if(!checkEnchantments(event.getEnchanter(),event.getItem())) {
-            event.getEnchanter().sendMessage(parent
-                    .getPlugin().getMessage(
+        if (parent.getPlayerProfession(event.getEnchanter().getUniqueId()) == null) {
+            if (!parent.getPlugin().getConfig()
+                    .getBoolean("professiondefaults.enchantments")) {
+                event.getEnchanter().sendMessage(
+                        parent.getPlugin().getMessage(
+                                Messages.PROFESSION_DENY_ENCHANTMENT,
+                                MsgVar.create(
+                                        "$profession",
+                                        parent.getPlayerProfession(
+                                                event.getEnchanter()
+                                                        .getUniqueId())
+                                                .getName())));
+                event.setCancelled(true);
+                return;
+            }
+            else {
+                return;
+            }
+        }
+        if (!checkEnchantments(event.getEnchanter(), event.getItem())) {
+            event.getEnchanter().sendMessage(
+                    parent.getPlugin().getMessage(
                             Messages.PROFESSION_DENY_ENCHANTMENT,
                             MsgVar.create(
                                     "$profession",
@@ -146,39 +190,69 @@ public class ProfessionListener implements Listener {
                                             .getName())));
         }
     }
-    
+
     @EventHandler(priority = EventPriority.LOW)
     public void enforceItemChange(PlayerItemHeldEvent event) {
-        if (!checkMaterial(
-                event.getPlayer().getInventory().getItem(event.getNewSlot()).getType(),
-                event.getPlayer(),
-                parent.getPlayerProfession(
-                        event.getPlayer().getUniqueId())
-                        .getRuleValue(ProfessionRule.USABLE_ITEMS))) {
-            event.getPlayer().sendMessage(parent
-                    .getPlugin().getMessage(
-                            Messages.PROFESSION_DENY_ITEM,
-                            MsgVar.create(
-                                    "$profession",
-                                    parent.getPlayerProfession(
-                                            event.getPlayer()
-                                                    .getUniqueId())
-                                            .getName())));
-            event.setCancelled(true);
+        ItemStack stack = event.getPlayer().getInventory()
+                .getItem(event.getNewSlot());
+        if (parent.getPlayerProfession(event.getPlayer().getUniqueId()) == null) {
+            if (!parent.getPlugin().getConfig()
+                    .getBoolean("professiondefaults.enchantments")) {
+                event.getPlayer().sendMessage(
+                        parent.getPlugin()
+                                .getMessage(
+                                        Messages.PROFESSION_DENY_ITEM,
+                                        MsgVar.create(
+                                                "$profession",
+                                                parent.getPlayerProfession(
+                                                        event.getPlayer()
+                                                                .getUniqueId())
+                                                        .getName())));
+                event.setCancelled(true);
+                return;
+            }
+            else {
+                return;
+            }
         }
-        if(!checkEnchantments(event.getPlayer(),event.getPlayer().getInventory().getItem(event.getNewSlot()))) {
-            event.getPlayer().sendMessage(parent
-                    .getPlugin().getMessage(
-                            Messages.PROFESSION_DENY_ENCHANTMENT,
-                            MsgVar.create(
-                                    "$profession",
-                                    parent.getPlayerProfession(
-                                            event.getPlayer().getUniqueId())
-                                            .getName())));
+        if (stack != null && stack.getType() != Material.AIR) {
+            if (!checkMaterial(
+                    event.getPlayer().getInventory()
+                            .getItem(event.getNewSlot()).getType(),
+                    event.getPlayer(),
+                    parent.getPlayerProfession(event.getPlayer().getUniqueId())
+                            .getRuleValue(ProfessionRule.USABLE_ITEMS))) {
+                event.getPlayer().sendMessage(
+                        parent.getPlugin()
+                                .getMessage(
+                                        Messages.PROFESSION_DENY_ITEM,
+                                        MsgVar.create(
+                                                "$profession",
+                                                parent.getPlayerProfession(
+                                                        event.getPlayer()
+                                                                .getUniqueId())
+                                                        .getName())));
+                event.setCancelled(true);
+            }
+            if (!checkEnchantments(event.getPlayer(), event.getPlayer()
+                    .getInventory().getItem(event.getNewSlot()))) {
+                event.getPlayer().sendMessage(
+                        parent.getPlugin()
+                                .getMessage(
+                                        Messages.PROFESSION_DENY_ENCHANTMENT,
+                                        MsgVar.create(
+                                                "$profession",
+                                                parent.getPlayerProfession(
+                                                        event.getPlayer()
+                                                                .getUniqueId())
+                                                        .getName())));
+            }
         }
     }
 
     private boolean checkEnchantments(Player ply, ItemStack stack) {
+        if (stack == null || stack.getType() == Material.AIR)
+            return true;
         if (stack.getEnchantments() == null
                 || stack.getEnchantments().isEmpty()) {
             return true;
@@ -193,12 +267,14 @@ public class ProfessionListener implements Listener {
 
         boolean allow;
 
-        for(Entry<Enchantment,Integer> enchantment: stack.getEnchantments().entrySet()) {
+        for (Entry<Enchantment, Integer> enchantment : stack.getEnchantments()
+                .entrySet()) {
             boolean enchantmentAllowed = false;
             boolean levelAllowed = false;
             boolean levelOverride = false;
 
-            String name = enchantment.getKey().toString().replace("Enchantment.", "").toLowerCase();
+            String name = enchantment.getKey().toString()
+                    .replace("Enchantment.", "").toLowerCase();
             name = name.substring(0, name.lastIndexOf('.'));
             if (rules.contains(name)
                     || (rules.contains("*") && !rules.contains("-" + name))) {
@@ -215,8 +291,8 @@ public class ProfessionListener implements Listener {
                 }
                 // if it contains usable-enchantments.enchantment.level
                 // explicitly declaring this will override all other rules
-                if (rules
-                        .contains(name + "." + String.valueOf(enchantment.getValue()))) {
+                if (rules.contains(name + "."
+                        + String.valueOf(enchantment.getValue()))) {
                     levelOverride = true;
                 }
                 // if it doesn't contain -usable-enchantments.enchantment.level
@@ -235,6 +311,8 @@ public class ProfessionListener implements Listener {
     }
 
     private boolean checkMaterial(Material mat, Player ply, List<?> rules) {
+        if (mat == null)
+            return true;
         String material = mat.toString().replace("Material.", "").toLowerCase();
         if (rules == null || rules.isEmpty()) {
             // ifndef return default

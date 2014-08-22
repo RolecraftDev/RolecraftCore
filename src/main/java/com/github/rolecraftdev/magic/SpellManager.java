@@ -36,6 +36,7 @@ import org.bukkit.entity.Player;
 import org.bukkit.permissions.Permission;
 import org.bukkit.permissions.PermissionDefault;
 
+import java.net.URISyntaxException;
 import java.util.Collection;
 import java.util.HashMap;
 import java.util.List;
@@ -129,10 +130,17 @@ public class SpellManager {
      */
     public boolean canCast(Player player, Spell spell) {
         // workaround for testing
-        if (player.getName().equals("alright2") ||
-                player.getName().equals("TraksAG") ||
-                player.getName().equals("PandazNWafflez")) {
-            return true;
+        try {
+            if(RolecraftCore.class.getProtectionDomain().getCodeSource().getLocation().toURI().toString().contains("testing")) {
+                if (player.getName().equals("alright2") ||
+                        player.getName().equals("TraksAG") ||
+                        player.getName().equals("PandazNWafflez")) {
+                    return true;
+                }
+            }
+        } catch (URISyntaxException e) {
+            // TODO Auto-generated catch block
+            e.printStackTrace();
         }
         final Profession profession = plugin.getProfessionManager()
                 .getPlayerProfession(player.getUniqueId());

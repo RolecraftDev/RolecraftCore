@@ -68,7 +68,7 @@ public abstract class DataStore {
      */
     public static final String gt = "guildtable";
 
-    public static final String mde = "metadataentry";
+    public static final String mde = "metadata";
 
     public static final String SQLVERSION1 = "1.0";
     // other, future versions will go here
@@ -463,6 +463,7 @@ public abstract class DataStore {
                                     + pt
                                     + " SET lastname = ?, guild = ?, exp = ?, profession = ?, influence = ? WHERE uuid = ?");
                     ps.setString(1, commit.getPlayerName());
+                    // TODO: null check all of this
                     ps.setString(2, commit.getGuild().toString());
                     ps.setFloat(3, commit.getExperience());
                     ps.setString(4, commit.getProfession().toString());

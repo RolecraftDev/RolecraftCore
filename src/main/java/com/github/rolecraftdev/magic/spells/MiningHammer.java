@@ -109,9 +109,9 @@ public class MiningHammer implements Spell {
         if (face == BlockFace.DOWN || face == BlockFace.UP) {
             blocks = getBlocksAround(block, Orientation.FLAT);
         } else if (face == BlockFace.EAST || face == BlockFace.WEST) {
-            blocks = getBlocksAround(block, Orientation.NORTHSOUTH);
-        } else if (face == BlockFace.NORTH || face == BlockFace.SOUTH) {
             blocks = getBlocksAround(block, Orientation.EASTWEST);
+        } else if (face == BlockFace.NORTH || face == BlockFace.SOUTH) {
+            blocks = getBlocksAround(block, Orientation.NORTHSOUTH);
         } else {
             return Float.MIN_VALUE;
         }
