@@ -1,5 +1,5 @@
 name: RolecraftCore
-version: '${plugin-version}'
+version: '${project.version}'
 
 description: Roleplaying plugin for Bukkit
 authors: [PandazNWafflez, mythbusterma, TraksAG, LaughingQuoll]

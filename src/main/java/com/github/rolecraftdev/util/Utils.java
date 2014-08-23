@@ -40,10 +40,10 @@ import java.util.Random;
 /**
  * General utility methods for Rolecraft
  */
-public class Utils {
+public final class Utils {
     private static Random rand = Rand.r;
-    private static final float velocityFactor = 0.2f;
-    private static final float smallVelocityFactor = 0.05f;
+    private static final float VELOCITY_FACTOR = 0.2f;
+    private static final float SMALL_VELOCITY_FACTOR = 0.05f;
 
     /**
      * Gets the entity targeted by the given player. If there is no entity
@@ -57,11 +57,11 @@ public class Utils {
     public static Entity getTarget(final Player player, final int range) {
         @SuppressWarnings("deprecation")
         List<Block> blocks = player.getLineOfSight(null, range);
-        Block[] bs = blocks.toArray(new Block[blocks.size()]);
+        Block[] blockArray = blocks.toArray(new Block[blocks.size()]);
         List<Entity> near = player.getNearbyEntities(range, range, range);
-        for (Block b : bs) {
+        for (Block block : blockArray) {
             for (Entity e : near) {
-                if (e.getLocation().distance(b.getLocation()) < 2) {
+                if (e.getLocation().distance(block.getLocation()) < 2) {
                     return e;
                 }
             }
@@ -83,11 +83,11 @@ public class Utils {
             final int range) {
         @SuppressWarnings("deprecation")
         List<Block> blocks = player.getLineOfSight(null, range);
-        Block[] bs = blocks.toArray(new Block[blocks.size()]);
+        Block[] blockArray = blocks.toArray(new Block[blocks.size()]);
         List<Entity> near = player.getNearbyEntities(range, range, range);
-        for (Block b : bs) {
+        for (Block block : blockArray) {
             for (Entity e : near) {
-                if (e.getLocation().distance(b.getLocation()) < 2) {
+                if (e.getLocation().distance(block.getLocation()) < 2) {
                     if (e instanceof LivingEntity) {
                         return (LivingEntity) e;
                     }
@@ -108,14 +108,14 @@ public class Utils {
 
     /**
      * Changes float values slightly to create the effect of randomness, based
-     * on velocityFactor
+     * on VELOCITY_FACTOR
      *
      * @param original The original velocity
      * @return A randomly modified version of the given float
      */
     public static float velocityRandomiser(final float original) {
-        float velocity = original - velocityFactor;
-        velocity += (2 * velocityFactor) * rand.nextFloat();
+        float velocity = original - VELOCITY_FACTOR;
+        velocity += (2 * VELOCITY_FACTOR) * rand.nextFloat();
         return velocity;
     }
 
@@ -140,8 +140,8 @@ public class Utils {
      * @return A slightly randomly modified version of the given velocity float
      */
     public static float smallVelocityRandomiser(final float original) {
-        float velocity = original - smallVelocityFactor;
-        velocity += (2 * smallVelocityFactor) * rand.nextFloat();
+        float velocity = original - SMALL_VELOCITY_FACTOR;
+        velocity += (2 * SMALL_VELOCITY_FACTOR) * rand.nextFloat();
         return velocity;
     }
 
