@@ -139,8 +139,7 @@ public class SpellManager {
                 }
             }
         } catch (URISyntaxException e) {
-            // TODO Auto-generated catch block
-            e.printStackTrace();
+            Bukkit.getLogger().warning("Generated failure in player name exceptions");
         }
         final Profession profession = plugin.getProfessionManager()
                 .getPlayerProfession(player.getUniqueId());

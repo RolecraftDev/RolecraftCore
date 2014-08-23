@@ -84,14 +84,12 @@ public class DeathRain implements Spell {
     @Override
     public float estimateAttackMana(Player ply, LivingEntity entity,
             int modifier) {
-        // TODO Auto-generated method stub
         return 0;
     }
 
     @Override
     public float estimateLeftClickMana(Player ply, Block block, int modifier,
             BlockFace face) {
-        // TODO Auto-generated method stub
         return 0;
     }
 

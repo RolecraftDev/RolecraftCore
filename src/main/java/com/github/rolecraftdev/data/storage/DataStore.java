@@ -183,7 +183,6 @@ public abstract class DataStore {
                 PreparedStatement ps = null;
                 ResultSet rs = null;
                 try {
-                    // TODO: Method skeleton
                     ps = connection.prepareStatement("UPDATE " + gt + " SET "
                             + "name = ?, "
                             + "leader = ?,"

@@ -76,7 +76,7 @@ public interface Spell {
      * @param ply      The
      * @param block
      * @param modifier
-     * @param face     TODO
+     * @param face
      * @return Should return the same as rightClick(Player, Block, int),
      * given the same values, without preforming the action
      */
@@ -87,7 +87,7 @@ public interface Spell {
      * @param ply      The player that cast the spell
      * @param block    The block that was interacted with, if air, null
      * @param modifier A modifier based on a player's profession
-     * @param face     TODO
+     * @param face
      * @return the cost in mana
      */
     public float rightClick(Player ply, Block block, int modifier,
@@ -97,7 +97,7 @@ public interface Spell {
      * @param ply      The player that cast the spell
      * @param block    The block that was interacted with, if air, null
      * @param modifier A modifier based on a player's profession
-     * @param face     TODO
+     * @param face
      * @return the cost in mana
      */
     public float leftClick(Player ply, Block block, int modifier,

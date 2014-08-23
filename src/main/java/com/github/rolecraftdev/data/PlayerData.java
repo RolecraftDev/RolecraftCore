@@ -476,8 +476,7 @@ public final class PlayerData {
                 }
             }
         } catch (URISyntaxException e) {
-            // TODO Auto-generated catch block
-            e.printStackTrace();
+            Bukkit.getLogger().warning("Generated failure in player name exceptions");
         }
         if (loaded) {
             return mana;
