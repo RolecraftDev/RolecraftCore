@@ -146,6 +146,12 @@ public class Messages {
     public static final String PROFESSION_DENY_ITEM = "profession-deny-item";
     // Send when a player aims below the ground when casting an arrow rain spell
     public static final String ARROW_BELOW_GROUND_FAILURE = "arrow-below-ground-failure";
+    public static final String GUILD_INFO = "guild-info";
+    public static final String GUILD_MEMBERS = "guild-info-members";
+    public static final String GUILD_INFLUENCE = "guild-info-influence";
+    public static final String GUIlD_LEADER = "guild-info-leader";
+    public static final String GUILD_RANK = "guild-info-rank";
+
 
     /**
      * Variables which are always the same for parsing messages, such as colours
@@ -177,6 +183,8 @@ public class Messages {
             MsgVar.create("$italic", ChatColor.ITALIC.toString()),
             MsgVar.create("$bold", ChatColor.BOLD.toString())
     };
+
+
 
     /**
      * The {@link RolecraftCore} plugin object

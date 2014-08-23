@@ -26,6 +26,9 @@
  */
 package com.github.rolecraftdev.command.guild;
 
+import com.github.rolecraftdev.guild.GuildRank;
+import com.github.rolecraftdev.util.messages.Messages;
+import com.github.rolecraftdev.util.messages.MsgVar;
 import pw.ian.albkit.command.CommandHandler;
 import pw.ian.albkit.command.parser.Arguments;
 
@@ -36,12 +39,16 @@ import com.github.rolecraftdev.guild.GuildManager;
 
 import org.bukkit.command.CommandSender;
 
+import java.util.UUID;
+
 public class GuildShowCommand extends CommandHandler {
     private final GuildManager guildManager;
+    private final RolecraftCore plugin;
 
     GuildShowCommand(final RolecraftCore plugin) {
         super(plugin, "show");
         guildManager = plugin.getGuildManager();
+        this.plugin = plugin;
 
         setUsage("/guild show <name>");
         setDescription("Shows info about a guild");
@@ -54,7 +61,38 @@ public class GuildShowCommand extends CommandHandler {
                 args.length() > 0 ? args.get(0) : null);
 
         if (guild != null) {
-            // TODO: Show information about the guild
+            sender.sendMessage(plugin.getMessage(Messages.GUILD_INFO,
+                    MsgVar.create("$guild",guild.getName())));
+            StringBuilder members = new StringBuilder();
+            int onlineMembers = 0;
+            for(UUID id :guild.getMembers()) {
+                if(plugin.getServer().getPlayer(id) == null) {
+                    continue;
+                }
+                else {
+                    members.append(plugin.getServer().getPlayer(id));
+                    members.append(',');
+                    onlineMembers++;
+                }
+            }
+            // remove trailing comma
+            members.deleteCharAt(members.length()-1);
+            sender.sendMessage(plugin.getMessage(Messages.GUILD_MEMBERS,
+                    MsgVar.create("$totalnumber",String.valueOf(guild.getMembers().size())),
+                    MsgVar.create("$onlinenumber",String.valueOf(onlineMembers)),
+                    MsgVar.create("$members", members.toString())));
+            sender.sendMessage(plugin.getMessage(Messages.GUILD_INFLUENCE,
+                    MsgVar.create("$influence",String.valueOf(guild.getInfluence()))));
+            sender.sendMessage(plugin.getMessage(Messages.GUIlD_LEADER,
+                    MsgVar.create("$leader",guild.getLeader().toString())));
+            StringBuilder ranks = new StringBuilder();
+            for(GuildRank rank: guild.getRanks()) {
+                ranks.append(rank.getName());
+                ranks.append(',');
+            }
+            ranks.deleteCharAt(members.length()-1);
+            sender.sendMessage(plugin.getMessage(Messages.GUILD_RANK,
+                    MsgVar.create("$ranks",ranks.toString())));
         }
     }
 }
