@@ -23,6 +23,9 @@ professiondefaults:
     armor: true
     enchantments: true
 
+# Teleport delay before teleporting to guild home, in seconds
+teleportdelay: 4
+
 # Configuration for MySQL, can be ignored if using SQLite
 mysql:
     username: 'user'

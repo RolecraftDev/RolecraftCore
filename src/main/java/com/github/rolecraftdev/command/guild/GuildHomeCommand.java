@@ -26,16 +26,16 @@
  */
 package com.github.rolecraftdev.command.guild;
 
-import pw.ian.albkit.command.PlayerCommandHandler;
-import pw.ian.albkit.command.parser.Arguments;
-
 import com.github.rolecraftdev.RolecraftCore;
 import com.github.rolecraftdev.guild.Guild;
 import com.github.rolecraftdev.guild.GuildAction;
 import com.github.rolecraftdev.guild.GuildManager;
 import com.github.rolecraftdev.util.messages.Messages;
-
+import com.github.rolecraftdev.util.messages.MsgVar;
 import org.bukkit.entity.Player;
+import org.bukkit.scheduler.BukkitRunnable;
+import pw.ian.albkit.command.PlayerCommandHandler;
+import pw.ian.albkit.command.parser.Arguments;
 
 import java.util.UUID;
 
@@ -69,8 +69,15 @@ public class GuildHomeCommand extends PlayerCommandHandler {
             player.sendMessage(plugin.getMessage(Messages.SET_GUILD_HOME));
         } else {
             if (guild != null) {
-                guild.teleportToHome(player);
-                player.sendMessage(plugin.getMessage(Messages.GUILD_TP_HOME));
+                new BukkitRunnable() {
+                    @Override
+                    public void run() {
+                        guild.teleportToHome(player);
+                    }
+                }.runTaskLater(plugin,plugin.getConfig().getInt("teleportdelay")*20);
+
+                player.sendMessage(plugin.getMessage(Messages.GUILD_TP_HOME,
+                        MsgVar.create("$time",String.valueOf(plugin.getConfig().getInt("teleportdelay")))));
             } else {
                 player.sendMessage(plugin.getMessage(Messages.NO_GUILD));
             }

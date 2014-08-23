@@ -31,12 +31,10 @@ import com.github.rolecraftdev.data.Region2D;
 import com.github.rolecraftdev.event.guild.GuildPlayerJoinEvent;
 import com.github.rolecraftdev.event.guild.GuildPlayerKickedEvent;
 import com.github.rolecraftdev.event.guild.GuildPlayerLeaveEvent;
-
 import com.traksag.channels.Channel;
 import com.traksag.channels.ChannelOption;
 import com.traksag.channels.DefaultChannel;
 import com.traksag.channels.DefaultChannelConfig;
-
 import org.bukkit.Bukkit;
 import org.bukkit.Location;
 import org.bukkit.entity.Entity;
@@ -103,6 +101,8 @@ public final class Guild {
      */
     private Region2D hallRegion;
 
+    private boolean open;
+
     /**
      * Creates a new {@link Guild} object linked to the given
      * {@link GuildManager}.
@@ -150,7 +150,7 @@ public final class Guild {
     public Guild(final GuildManager guildManager, final UUID guildId,
             final String name, final UUID leader, final Set<UUID> members,
             final Set<GuildRank> ranks, final Location home,
-            final int influence, final Region2D hallRegion) {
+            final int influence, final Region2D hallRegion, boolean open) {
         plugin = guildManager.getPlugin();
         this.guildManager = guildManager;
         this.guildId = guildId;
@@ -161,6 +161,7 @@ public final class Guild {
         this.home = home;
         this.influence = influence;
         this.hallRegion = hallRegion;
+        this.open = open;
     }
 
     /**
@@ -428,6 +429,7 @@ public final class Guild {
      * Adds the given member to this {@link Guild}, with the specified
      * {@link GuildRank}.
      *
+     *
      * @param member - The unique identifier of the player to add
      * @param rank   - The rank the specified player will have
      */
@@ -445,7 +447,9 @@ public final class Guild {
      * Removes the given member from this {@link Guild}
      *
      * @param member - The unique identifier of the player to remove
+     * @deprecated Use {@link Guild#removeMember(java.util.UUID, boolean)} instead
      */
+    @Deprecated
     public void removeMember(final UUID member) {
         removeMember(member, false);
     }
@@ -538,5 +542,13 @@ public final class Guild {
     void claimAsGuildHall(final Region2D hallRegion) {
         this.hallRegion = hallRegion;
         plugin.getDataStore().updateGuildData(this);
+    }
+
+    public boolean isOpen() {
+        return open;
+    }
+
+    public void setOpen(boolean open) {
+        this.open = open;
     }
 }

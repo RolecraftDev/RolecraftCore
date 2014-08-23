@@ -26,9 +26,6 @@
  */
 package com.github.rolecraftdev.command.guild;
 
-import pw.ian.albkit.command.PlayerCommandHandler;
-import pw.ian.albkit.command.parser.Arguments;
-
 import com.github.rolecraftdev.RolecraftCore;
 import com.github.rolecraftdev.command.CommandHelper;
 import com.github.rolecraftdev.guild.Guild;
@@ -36,8 +33,9 @@ import com.github.rolecraftdev.guild.GuildAction;
 import com.github.rolecraftdev.guild.GuildRank;
 import com.github.rolecraftdev.util.messages.Messages;
 import com.github.rolecraftdev.util.messages.MsgVar;
-
 import org.bukkit.entity.Player;
+import pw.ian.albkit.command.PlayerCommandHandler;
+import pw.ian.albkit.command.parser.Arguments;
 
 public class GuildBroadcastCommand extends PlayerCommandHandler {
     private final RolecraftCore plugin;
@@ -81,6 +79,9 @@ public class GuildBroadcastCommand extends PlayerCommandHandler {
             } else {
                 guild.broadcastMessage(message);
             }
+        }
+        else {
+            player.sendMessage(plugin.getMessage(Messages.BROADCAST_NO_PERMS));
         }
     }
 }

@@ -26,18 +26,15 @@
  */
 package com.github.rolecraftdev.command.guild;
 
-import pw.ian.albkit.command.PlayerCommandHandler;
-import pw.ian.albkit.command.parser.Arguments;
-
 import com.github.rolecraftdev.RolecraftCore;
 import com.github.rolecraftdev.guild.Guild;
 import com.github.rolecraftdev.guild.GuildManager;
 import com.github.rolecraftdev.util.messages.Messages;
 import com.github.rolecraftdev.util.messages.MsgVar;
-
 import net.milkbowl.vault.economy.EconomyResponse;
-
 import org.bukkit.entity.Player;
+import pw.ian.albkit.command.PlayerCommandHandler;
+import pw.ian.albkit.command.parser.Arguments;
 
 import java.util.UUID;
 
@@ -89,6 +86,10 @@ public class GuildCreateCommand extends PlayerCommandHandler {
                 plugin.getEconomy().bankWithdraw(player.getName(),
                         guildManager.getCreationCost());
             }
+        }
+        else {
+            player.sendMessage(plugin.getMessage(Messages.GUILD_ALREADY_EXISTS,
+                    MsgVar.create("$name",name)));
         }
     }
 }

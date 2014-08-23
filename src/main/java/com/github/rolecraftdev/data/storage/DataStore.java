@@ -34,21 +34,12 @@ import com.github.rolecraftdev.guild.Guild;
 import com.github.rolecraftdev.guild.GuildManager;
 import com.github.rolecraftdev.guild.GuildRank;
 import com.github.rolecraftdev.util.LocationSerializer;
-
 import org.bukkit.Bukkit;
 import org.bukkit.Location;
 import org.bukkit.scheduler.BukkitRunnable;
 
-import java.sql.Connection;
-import java.sql.PreparedStatement;
-import java.sql.ResultSet;
-import java.sql.ResultSetMetaData;
-import java.sql.SQLException;
-import java.util.HashMap;
-import java.util.HashSet;
-import java.util.Map;
-import java.util.Set;
-import java.util.UUID;
+import java.sql.*;
+import java.util.*;
 
 /**
  * Represents a form of data storage in Rolecraft - implemented in MySQL and
@@ -189,7 +180,9 @@ public abstract class DataStore {
                             + "members = ?,"
                             + "ranks = ?,"
                             + "home = ?,"
-                            + "hall = ? "
+                            + "hall = ?, " +
+                            "influence = ?," +
+                            "open = ?"
                             + "WHERE uuid = ?");
                     ps.setString(1, name);
                     ps.setString(2, leader);
@@ -198,6 +191,8 @@ public abstract class DataStore {
                     ps.setString(5, home);
                     ps.setString(6, hall);
                     ps.setString(7, id);
+                    ps.setInt(8, guild.getInfluence());
+                    ps.setBoolean(9,guild.isOpen());
                     ps.execute();
                 } catch (final SQLException ex) {
                     ex.printStackTrace();
@@ -330,9 +325,10 @@ public abstract class DataStore {
                         Region2D hall = Region2D
                                 .fromString(rs.getString("hall"));
                         int influence = rs.getInt("influence");
+                        boolean open = rs.getBoolean("open");
 
                         Guild guild = new Guild(callback, id, name, leader,
-                                members, ranks, home, influence, hall);
+                                members, ranks, home, influence, hall,open);
                         callback.addGuild(guild, true);
                     }
 

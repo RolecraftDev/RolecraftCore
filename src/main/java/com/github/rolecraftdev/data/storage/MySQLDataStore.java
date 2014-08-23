@@ -28,14 +28,9 @@ package com.github.rolecraftdev.data.storage;
 
 import com.github.rolecraftdev.RolecraftCore;
 import com.github.rolecraftdev.data.PlayerData;
-
 import org.bukkit.scheduler.BukkitRunnable;
 
-import java.sql.Connection;
-import java.sql.DriverManager;
-import java.sql.PreparedStatement;
-import java.sql.ResultSet;
-import java.sql.SQLException;
+import java.sql.*;
 import java.util.AbstractMap.SimpleEntry;
 import java.util.Iterator;
 import java.util.Map.Entry;
@@ -73,7 +68,8 @@ public final class MySQLDataStore extends DataStore {
             + "ranks MEDIUMTEXT,"
             + "home VARCHAR(150),"
             + "hall VARCHAR(100),"
-            + "influence INTEGER DEFAULT 0" + ")";
+            + "influence INTEGER DEFAULT 0," +
+             "open BOOLEAN DEFAULT FALSE"+ ")";
     private static final String CREATE_META_TABLE = "CREATE TABLE IF NOT EXISTS "
             + mdt
             + " ("

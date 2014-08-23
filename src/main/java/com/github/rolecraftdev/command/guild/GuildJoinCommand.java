@@ -26,18 +26,16 @@
  */
 package com.github.rolecraftdev.command.guild;
 
-import pw.ian.albkit.command.PlayerCommandHandler;
-import pw.ian.albkit.command.parser.Arguments;
-
 import com.github.rolecraftdev.RolecraftCore;
 import com.github.rolecraftdev.guild.Guild;
 import com.github.rolecraftdev.guild.GuildManager;
 import com.github.rolecraftdev.util.messages.Messages;
 import com.github.rolecraftdev.util.messages.MsgVar;
-
 import org.bukkit.entity.Player;
 import org.bukkit.metadata.FixedMetadataValue;
 import org.bukkit.metadata.MetadataValue;
+import pw.ian.albkit.command.PlayerCommandHandler;
+import pw.ian.albkit.command.parser.Arguments;
 
 public class GuildJoinCommand extends PlayerCommandHandler {
     private final RolecraftCore plugin;
@@ -59,10 +57,16 @@ public class GuildJoinCommand extends PlayerCommandHandler {
             sendUsageMessage(player);
             return;
         }
+        final String name = args.getRaw(0);
+        final Guild guild = guildMgr.getGuild(name);
+        if(guild.isOpen()) {
+            completeGuildAdd(player,guild);
+        }
         if (!player.hasMetadata(GuildManager.GUILD_INVITE_METADATA)) {
             player.sendMessage(plugin.getMessage(Messages.GUILD_NOT_INVITED));
             return;
         }
+        // TODO: fix this for multiple invites
         final MetadataValue val = player
                 .getMetadata(GuildManager.GUILD_INVITE_METADATA).get(0);
         if (!(val instanceof FixedMetadataValue)) {
@@ -71,18 +75,29 @@ public class GuildJoinCommand extends PlayerCommandHandler {
         }
 
         final FixedMetadataValue fixed = (FixedMetadataValue) val;
-        final String name = args.getRaw(0);
-        final Guild guild = guildMgr.getGuild(name);
+
         if (fixed.asString().equalsIgnoreCase(guild.getId().toString())) {
-            guild.addMember(player.getUniqueId(), guild.getDefaultRank());
-            player.sendMessage(plugin.getMessage(Messages.GUILD_JOINED_PLAYER,
-                    MsgVar.create("$guild", guild.getName())));
-            guild.broadcastMessage(
-                    plugin.getMessage(Messages.GUILD_JOINED_OTHERS,
-                            MsgVar.create("$guild", guild.getName()),
-                            MsgVar.create("$player", player.getName())));
+            completeGuildAdd(player, guild);
         } else {
             player.sendMessage(plugin.getMessage(Messages.GUILD_NOT_INVITED));
         }
     }
+
+    private void completeGuildAdd(final Player player, final Guild guild) {
+        if(plugin.getDataManager().getPlayerData(player.getUniqueId()).getGuild()!= null) {
+            // TODO: use RCConfrim to make sure they want to leave their guild
+        }
+        plugin.getDataManager().getPlayerData(player.getUniqueId())
+                .setGuild(guild.getId());
+        guild.addMember(player.getUniqueId(), guild.getDefaultRank());
+        player.sendMessage(plugin.getMessage(Messages.GUILD_JOINED_PLAYER,
+                MsgVar.create("$guild", guild.getName())));
+        guild.broadcastMessage(
+                plugin.getMessage(Messages.GUILD_JOINED_OTHERS,
+                        MsgVar.create("$guild", guild.getName()),
+                        MsgVar.create("$player", player.getName())));
+
+    }
+
+
 }

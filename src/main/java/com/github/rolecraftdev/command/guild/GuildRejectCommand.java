@@ -26,17 +26,14 @@
  */
 package com.github.rolecraftdev.command.guild;
 
-import pw.ian.albkit.command.PlayerCommandHandler;
-import pw.ian.albkit.command.parser.Arguments;
-
 import com.github.rolecraftdev.RolecraftCore;
 import com.github.rolecraftdev.guild.GuildManager;
 import com.github.rolecraftdev.util.messages.Messages;
-
-import org.bukkit.ChatColor;
 import org.bukkit.entity.Player;
 import org.bukkit.metadata.FixedMetadataValue;
 import org.bukkit.metadata.MetadataValue;
+import pw.ian.albkit.command.PlayerCommandHandler;
+import pw.ian.albkit.command.parser.Arguments;
 
 public class GuildRejectCommand extends PlayerCommandHandler {
     private final RolecraftCore plugin;
@@ -55,8 +52,7 @@ public class GuildRejectCommand extends PlayerCommandHandler {
         final MetadataValue val = player
                 .getMetadata(GuildManager.GUILD_INVITE_METADATA).get(0);
         if (val == null || !(val instanceof FixedMetadataValue)) {
-            player.sendMessage(ChatColor.DARK_RED
-                    + "You don't have an invitation to a guild!");
+            player.sendMessage(plugin.getMessage(Messages.NO_GUILD_INVITE));
             return;
         }
 

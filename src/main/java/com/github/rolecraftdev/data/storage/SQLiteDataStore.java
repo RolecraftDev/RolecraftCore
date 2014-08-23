@@ -28,17 +28,12 @@ package com.github.rolecraftdev.data.storage;
 
 import com.github.rolecraftdev.RolecraftCore;
 import com.github.rolecraftdev.data.PlayerData;
-
 import org.bukkit.Bukkit;
 import org.bukkit.scheduler.BukkitRunnable;
 
 import java.io.File;
 import java.io.IOException;
-import java.sql.Connection;
-import java.sql.DriverManager;
-import java.sql.PreparedStatement;
-import java.sql.ResultSet;
-import java.sql.SQLException;
+import java.sql.*;
 import java.util.logging.Level;
 
 public final class SQLiteDataStore extends DataStore {
@@ -68,7 +63,8 @@ public final class SQLiteDataStore extends DataStore {
             + "ranks TEXT,"
             + "home VARCHAR,"
             + "hall VARCHAR,"
-            + "influence INTEGER DEFAULT 0" + ")";
+            + "influence INTEGER DEFAULT 0," +
+            "open BOOLEAN DEFAULT FALSE" + ")";
     private static final String createMetaTable = "CREATE TABLE IF NOT EXISTS "
             + mdt + " ("
             + "version VARCHAR,"
@@ -143,6 +139,7 @@ public final class SQLiteDataStore extends DataStore {
         File dataFile = new File(getParent().getDataFolder(), dbname + ".db");
         if (!dataFile.exists()) {
             try {
+                //noinspection ResultOfMethodCallIgnored
                 dataFile.createNewFile();
             }
             catch (IOException e) {
