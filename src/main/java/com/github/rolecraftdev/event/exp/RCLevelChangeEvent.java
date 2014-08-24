@@ -32,19 +32,25 @@ import org.bukkit.event.HandlerList;
 import com.github.rolecraftdev.RolecraftCore;
 import com.github.rolecraftdev.util.LevelUtil;
 
+/**
+ * A {@link RCExpChangeEvent} that gets called when a player's level is
+ * anticipated to change.
+ *
+ * @since 0.0.5
+ */
 public class RCLevelChangeEvent extends RCExpChangeEvent {
     private static final HandlerList handlers = new HandlerList();
 
     private int newLevel;
 
     /**
-     * Called whenever a player's level is anticipated to change, keep in mind that if a
-     * plugin alters the experience granted, getNewLevel() may equal getLevel()
+     * Constructor.
      *
-     * @param plugin
-     * @param player
-     * @param amount
-     * @param reason
+     * @param plugin the associated {@link RolecraftCore} instance
+     * @param player the affected player
+     * @param amount the amount that is added to the player's experience
+     * @param reason the reason for this change
+     * @since 0.0.5
      */
     protected RCLevelChangeEvent(RolecraftCore plugin, Player player,
             float amount, ChangeReason reason) {
@@ -52,21 +58,37 @@ public class RCLevelChangeEvent extends RCExpChangeEvent {
         newLevel = LevelUtil.getLevel(getNewExperience());
     }
 
+    /**
+     * @since 0.0.5
+     */
     @Override
     public void setAmount(float experience) {
         super.setAmount(experience);
         newLevel = LevelUtil.getLevel(getNewExperience());
     }
 
+    /**
+     * Get the level the player will have after the additional experience is
+     * included.
+     *
+     * @return the player's new level
+     * @since 0.0.5
+     */
     public int getNewLevel() {
         return newLevel;
     }
 
+    /**
+     * @since 0.0.5
+     */
     @Override
     public HandlerList getHandlers() {
         return handlers;
     }
 
+    /**
+     * @since 0.0.5
+     */
     public static HandlerList getHandlerList() {
         return handlers;
     }

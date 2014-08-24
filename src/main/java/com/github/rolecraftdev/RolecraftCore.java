@@ -39,9 +39,11 @@ import com.github.rolecraftdev.data.storage.MySQLDataStore;
 import com.github.rolecraftdev.data.storage.SQLiteDataStore;
 import com.github.rolecraftdev.guild.Guild;
 import com.github.rolecraftdev.guild.GuildManager;
+import com.github.rolecraftdev.magic.Spell;
 import com.github.rolecraftdev.magic.SpellManager;
 import com.github.rolecraftdev.profession.Profession;
 import com.github.rolecraftdev.profession.ProfessionManager;
+import com.github.rolecraftdev.quest.Quest;
 import com.github.rolecraftdev.quest.QuestManager;
 import com.github.rolecraftdev.util.messages.Messages;
 import com.github.rolecraftdev.util.messages.MsgVar;
@@ -50,8 +52,6 @@ import net.milkbowl.vault.economy.Economy;
 
 import org.bukkit.configuration.file.FileConfiguration;
 import org.bukkit.plugin.RegisteredServiceProvider;
-import org.bukkit.plugin.java.JavaPlugin;
-
 import java.io.File;
 import java.io.FileOutputStream;
 import java.io.IOException;
@@ -60,14 +60,16 @@ import java.util.logging.Logger;
 
 /**
  * Main class for the core of Rolecraft, the Bukkit RPG plugin.
+ *
+ * @since 0.0.5
  */
 public final class RolecraftCore extends AlbPlugin {
     /**
-     * The plugin {@link Logger}.
+     * The Rolecraft {@link Logger}.
      */
     private Logger logger;
     /**
-     * All the messages used by the plugin
+     * All the messages used by Rolecraft.
      */
     private Messages messages;
     /**
@@ -75,23 +77,23 @@ public final class RolecraftCore extends AlbPlugin {
      */
     private DataStore dataStore;
     /**
-     * Manages most data in Rolecraft with SQL.
+     * Manages Rolecraft's persistent data.
      */
     private DataManager dataManager;
     /**
-     * Manages Rolecraft {@link Guild}s.
+     * Manages Rolecraft's {@link Guild}s.
      */
     private GuildManager guildManager;
     /**
-     * Manages all aspects of questing.
+     * Manages Rolecraft's {@link Quest}s.
      */
     private QuestManager questManager;
     /**
-     * Manages all {@link Profession}s.
+     * Manages Rolecraft's {@link Profession}s.
      */
     private ProfessionManager professionManager;
     /**
-     * Manages Rolecraft {@link com.github.rolecraftdev.magic.Spell}s
+     * Manages Rolecraft's {@link Spell}s
      */
     private SpellManager spellManager;
     /**
@@ -99,30 +101,34 @@ public final class RolecraftCore extends AlbPlugin {
      */
     private boolean useEconomy = false;
     /**
-     * The Vault Economy instance.
+     * The Vault {@link Economy} instance.
      */
     private Economy economy;
 
     // Configuration options
 
     /**
-     * The name of the data store type being used
+     * The name of the storage solution being used.
      */
     private String dbType;
     /**
-     * The amount of negative karma a player starts with
+     * The amount of negative karma a player starts with.
      */
     private float originalSin;
     /**
-     * Whether to call extra events
+     * Whether to call extra events.
      */
     private boolean extraEvents;
 
     /**
-     * Whether the SQL has finished loading
+     * Whether the storage solution has finished initialisation and is thus
+     * fully loaded.
      */
     private volatile boolean sqlLoaded;
 
+    /**
+     * @since 0.0.5
+     */
     @Override
     public void onEnable() {
         super.init();
@@ -199,161 +205,185 @@ public final class RolecraftCore extends AlbPlugin {
         register(new DebugCommand(this));
     }
 
+    /**
+     * @since 0.0.5
+     */
     @Override
     public void onDisable() {
         dataManager.unloadAllPlayerData();
     }
 
     /**
-     * Gets the configured messages for the plugin
+     * Get the configured messages used by Rolecraft.
      *
-     * @return The plugin's loaded {@link Messages} object
+     * @return the configured {@link Messages}
+     * @since 0.0.5
      */
     public Messages getMessages() {
         return messages;
     }
 
     /**
-     * Gets the configured message for the plugin with the given configuration
-     * key
+     * Retrieves the value of configured message associated to the given key and
+     * applies the specified variables to it.
      *
-     * @param key The configuration key to get the configured message for
-     * @return The configured message for the given configuration key
+     * @param key the key of which the value (message) should be returned
+     * @param vars the {@link MsgVar}s that should be applied to the message for
+     *        the specified key
+     * @return the configured message for the given key
+     * @since 0.0.5
      */
     public String getMessage(final String key, final MsgVar... vars) {
         return getMessages().get(key, vars);
     }
 
     /**
-     * Get the {@link DataStore} implementation that is in use by Rolecraft,
-     * which is either {@link SQLiteDataStore} or {@link MySQLDataStore},
-     * depending on the configuration.
+     * Get the used {@link DataStore} implementation, which is configured by the
+     * user.
      *
-     * @return The used {@link DataStore}
+     * @return the used {@link DataStore} implementation
+     * @since 0.0.5
      */
     public DataStore getDataStore() {
         return dataStore;
     }
 
     /**
-     * Gets the Rolecraft {@link DataManager}.
+     * Gets the used {@link DataManager}.
      *
-     * @return The used {@link DataManager}
+     * @return the used {@link DataManager}
+     * @since 0.0.5
      */
     public DataManager getDataManager() {
         return dataManager;
     }
 
     /**
-     * Gets the Rolecraft {@link GuildManager}, which provides various methods
-     * for {@link Guild} manipulation.
+     * Get the {@link GuildManager} that is responsible for managing all
+     * available {@link Guild}s.
      *
-     * @return The used {@link GuildManager}
+     * @return the used {@link GuildManager}
+     * @since 0.0.5
      */
     public GuildManager getGuildManager() {
         return guildManager;
     }
 
     /**
-     * Gets the Rolecraft {@link ProfessionManager}, which provides various
-     * methods for {@link Profession} manipulation.
+     * Get the {@link ProfessionManager} that is responsible for managing all
+     * available {@link Profession}s.
      *
-     * @return The used {@link ProfessionManager}
+     * @return the used {@link ProfessionManager}
+     * @since 0.0.5
      */
     public ProfessionManager getProfessionManager() {
         return professionManager;
     }
 
     /**
-     * Gets the Rolecraft {@link QuestManager}, which keeps track of all loaded
-     * quests
+     * Get the {@link QuestManager} that is responsible for managing all
+     * available {@link Quest}s.
      *
-     * @return The instance of Rolecraft's {@link QuestManager}
+     * @return the used {@link QuestManager}
+     * @since 0.0.5
      */
     public QuestManager getQuestManager() {
         return questManager;
     }
 
     /**
-     * Gets the Rolecraft {@link SpellManager}, which manages Spells and their
-     * casting
+     * Get the {@link SpellManager} that is responsible for managing all
+     * available {@link Spell}s.
      *
-     * @return The instance of Rolecraft's {@link SpellManager}
+     * @return the used {@link SpellManager}
+     * @since 0.0.5
      */
     public SpellManager getSpellManager() {
         return spellManager;
     }
 
     /**
-     * Gets the Vault {@link Economy} object in use.
+     * Gets Vault's {@link Economy} instance that is currently in use.
      *
-     * @return The used Vault {@link Economy} object used by Rolecraft
+     * @return Vault's {@link Economy}
+     * @since 0.0.5
      */
     public Economy getEconomy() {
         return economy;
     }
 
     /**
-     * Check whether the use of economy is enabled.
+     * Check whether economy is available and in use.
      *
-     * @return True if economy is enabled and false if it isn't
+     * @return {@code true} if economy is available and in use; {@code false}
+     *         otherwise
+     * @since 0.0.5
      */
     public boolean doesUseEconomy() {
         return useEconomy;
     }
 
     /**
-     * Gets the name of the database type being used by Rolecraft
+     * Get the name of the storage solution that is currently in use.
      *
-     * @return The name of the database implementation being used
+     * @return the name of the used storage solution
+     * @since 0.0.5
      */
     public String getDbType() {
         return dbType;
     }
 
     /**
-     * Gets whether extra events are being called
+     * Check if the use of extra events is enabled.
      *
-     * @return Whether extra events are being called
+     * @return {@code true} if extra events are enabled
+     * @since 0.0.5
      */
     public boolean isExtraEvents() {
         return extraEvents;
     }
 
     /**
-     * Gets the configured amount of sin each player starts with and respawns
-     * with
+     * Get the amount of negative karma a player should start with when he joins
+     * for the first time or respawns.
      *
-     * @return The amount of sin each player spawns with, from the configuration
+     * @return the negative karma level a player begins with
+     * @since 0.0.5
      */
     public float getOriginalSin() {
         return originalSin;
     }
 
     /**
-     * Checks whether SQL is fully loaded
+     * Returns whether the used storage implementation has finished
+     * initialisation and is thus completely loaded.
      *
-     * @return True if SQL is fully loaded, otherwise false
+     * @return only {@code true} if the storage system has fully been made
+     *         available on this Minecraft server
+     * @since 0.0.5
      */
     public boolean isSqlLoaded() {
         return sqlLoaded;
     }
 
     /**
-     * Sets whether SQL has finished loading. Should only be called in
-     * {@link DataStore} implementations
+     * Mark the state of the used storage mechanism as wholly loaded on this
+     * Minecraft server. Calling this method from any code outside the used
+     * {@link DataStore} implementation can result in unknown problems.
      *
-     * @param loaded Whether SQL has finished loading
+     * @param loaded the new state of the used storage mechanism
+     * @since 0.0.5
      */
     public void setSqlLoaded(boolean loaded) {
         sqlLoaded = loaded;
     }
 
     /**
-     * Used instead of {@link JavaPlugin#saveDefaultConfig()} as it will copy
-     * comments as well
+     * Create a default configuration file, which contrary to
+     * {@link #saveDefaultConfig()} maintains comments.
      *
-     * @param name The name of the config file to create the default for
+     * @param name the name of the new default configuration file
+     * @since 0.0.5
      */
     public void createDefaultConfiguration(final String name) {
         final File actual = new File(getDataFolder(), name);

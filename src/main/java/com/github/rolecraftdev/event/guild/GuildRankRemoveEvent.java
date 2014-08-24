@@ -33,17 +33,28 @@ import com.github.rolecraftdev.guild.GuildRank;
 import org.bukkit.event.HandlerList;
 
 /**
- * A {@link GuildEvent} called when a {@link GuildRank} is removed from a
- * {@link Guild}
+ * A {@link GuildEvent} called after a {@link GuildRank} is removed from a
+ * {@link Guild}.
+ *
+ * @since 0.0.5
  */
 public class GuildRankRemoveEvent extends GuildEvent {
     private static final HandlerList handlers = new HandlerList();
 
     /**
-     * The {@link GuildRank} being removed from the {@link Guild}
+     * The removed {@link GuildRank}.
      */
     private final GuildRank rank;
 
+    /**
+     * Constructor.
+     *
+     * @param plugin the associated {@link RolecraftCore} instance
+     * @param guild the affected {@link Guild}
+     * @param rank the {@link GuildRank} that has been removed from its
+     *        {@link Guild}
+     * @since 0.0.5
+     */
     public GuildRankRemoveEvent(final RolecraftCore plugin, final Guild guild,
             final GuildRank rank) {
         super(plugin, guild);
@@ -51,19 +62,26 @@ public class GuildRankRemoveEvent extends GuildEvent {
     }
 
     /**
-     * Gets the {@link GuildRank} being removed from the {@link Guild}
+     * Get the {@link GuildRank} that has been removed from its {@link Guild}.
      *
-     * @return The {@link GuildRank} being removed from the {@link Guild}
+     * @return the removed {@link GuildRank}
+     * @since 0.0.5
      */
     public GuildRank getRank() {
         return rank;
     }
 
+    /**
+     * @since 0.0.5
+     */
     @Override
     public HandlerList getHandlers() {
         return handlers;
     }
 
+    /**
+     * @since 0.0.5
+     */
     public static HandlerList getHandlerList() {
         return handlers;
     }

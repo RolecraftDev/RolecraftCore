@@ -33,77 +33,150 @@ import com.github.rolecraftdev.data.Region2D;
 import com.github.rolecraftdev.guild.Guild;
 import com.github.rolecraftdev.guild.GuildManager;
 import com.github.rolecraftdev.guild.GuildRank;
+import com.github.rolecraftdev.quest.Quest;
 import com.github.rolecraftdev.util.LocationSerializer;
 import org.bukkit.Bukkit;
 import org.bukkit.Location;
 import org.bukkit.scheduler.BukkitRunnable;
+import org.bukkit.scheduler.BukkitTask;
 
 import java.sql.*;
 import java.util.*;
 
 /**
- * Represents a form of data storage in Rolecraft - implemented in MySQL and
- * SQLite
+ * A DAO used for persistent storage of Rolecraft data, which can be used for
+ * CRUD operations.
+ *
+ * @since 0.0.5
  */
 public abstract class DataStore {
     /**
-     * The name of the players table in SQL
+     * The name of the SQL database players table.
+     *
+     * @since 0.0.5
      */
     public static final String pt = "playertable";
     /**
-     * The name of the metadata table in SQL
+     * The name of the SQL database metadata table.
+     *
+     * @since 0.0.5
      */
     public static final String mdt = "metadatatable";
     /**
-     * The name of the guilds table in SQL
+     * The name of the SQL database guilds table.
+     *
+     * @since 0.0.5
      */
     public static final String gt = "guildtable";
-
+    // TODO: JavaDoc
+    /**
+     * @since 0.0.5
+     */
     public static final String mde = "metadata";
-
+    // TODO: JavaDoc
+    /**
+     * @since 0.0.5
+     */
     public static final String SQLVERSION1 = "1.0";
-    // other, future versions will go here
+    // Other, future versions will go here
 
     /**
-     * The Rolecraft plugin instance
+     * The associated {@link RolecraftCore} instance.
      */
     private final RolecraftCore parent;
-
+    /**
+     * Whether {@link Quest}s are wholly loaded.
+     */
     private volatile boolean questsLoaded;
 
+    /**
+     * Set the loading status of {@link Quest}s.
+     *
+     * @param bool the new {@link Quest} loading status
+     * @since 0.0.5
+     */
     public void setQuestsLoaded(boolean bool) {
         questsLoaded = bool;
     }
 
+    /**
+     * Check whether {@link Quest}s are completely loaded.
+     *
+     * @return {@code true} if {@link Quest}s are fully loaded
+     * @since 0.0.5
+     */
     public boolean isQuestsLoaded() {
         return questsLoaded;
     }
 
+    /**
+     * Constructor.
+     *
+     * @param parent the associated {@link RolecraftCore} instance
+     * @since 0.0.5
+     */
     public DataStore(RolecraftCore parent) {
         this.parent = parent;
     }
 
+    /**
+     * Returns the associated {@link RolecraftCore} instance.
+     *
+     * @return the associated {@link RolecraftCore} instance
+     * @since 0.0.5
+     */
     public RolecraftCore getParent() {
         return parent;
     }
 
+    /**
+     * Initialise this {@link DataStore} implementation.
+     *
+     * @since 0.0.5
+     */
     public abstract void initialise();
 
+    /**
+     * Obtain a {@link Connection} used for CRUD operations affecting the
+     * backing database.
+     *
+     * @return a {@link Connection} to the backing database
+     * @since 0.0.5
+     */
     protected abstract Connection getConnection();
 
+    /**
+     * Get the name of the implementation.
+     *
+     * @return the name of the implementation
+     * @since 0.0.5
+     */
     public abstract String getStoreTypeName();
 
-    // public abstract void finalizeQuests(QuestManager manager);
-
+    // TODO: JavaDoc
+    /**
+     * @since 0.0.5
+     */
     public abstract void freeConnection(Connection connection);
 
     /**
-     * For use with online players
+     * Clear the given {@link PlayerData} in the database as well as in memory.
+     * Note that this won't remove the data, but clear all its values except for
+     * the owner's {@link UUID} and username. This is typically used for players
+     * who are online, as opposed to {@link #clearPlayerData(UUID)}.
      *
-     * @param data
+     * @param data the {@link PlayerData} to clear
+     * @since 0.0.5
      */
     public abstract void clearPlayerData(PlayerData data);
 
+    /**
+     * Save all {@link GuildRank}s of the specified {@link Guild} to the used
+     * database.
+     *
+     * @param guild the {@link Guild} to update the {@link GuildRank}s of
+     * @since 0.0.5
+     */
     public void updateGuildRanks(final Guild guild) {
         StringBuilder sb = new StringBuilder();
         for (GuildRank rank : guild.getRanks()) {
@@ -134,6 +207,14 @@ public abstract class DataStore {
         }.runTaskAsynchronously(getParent());
     }
 
+    /**
+     * Close the specified {@link PreparedStatement} and afterwards the given
+     * {@link ResultSet}.
+     *
+     * @param ps the {@link PreparedStatement} that should be closed
+     * @param rs the {@link ResultSet} that should be closed
+     * @since 0.0.5
+     */
     protected void close(final PreparedStatement ps, final ResultSet rs) {
         try {
             if (ps != null) {
@@ -147,6 +228,12 @@ public abstract class DataStore {
         }
     }
 
+    /**
+     * Save all data a {@link Guild} has to the used database.
+     *
+     * @param guild the {@link Guild} to save the data of
+     * @since 0.0.5
+     */
     public void updateGuildData(final Guild guild) {
         final String home = LocationSerializer
                 .serialize(guild.getHomeLocation());
@@ -204,6 +291,12 @@ public abstract class DataStore {
         }.runTaskAsynchronously(getParent());
     }
 
+    /**
+     * Utterly remove a {@link Guild} from the used database.
+     *
+     * @param guild the {@link Guild} to remove
+     * @since 0.0.5
+     */
     public void deleteGuild(final Guild guild) {
         new BukkitRunnable() {
             @Override
@@ -228,10 +321,12 @@ public abstract class DataStore {
     }
 
     /**
-     * For use with <i>offline players ONLY</i>
+     * Remove a player's data from the used database. As opposed to
+     * {@link #clearPlayerData(PlayerData)} this deletes the player's data from
+     * the database and should thus be used for offline players only.
      *
-     * @param uuid
-     * @see com.github.rolecraftdev.data.storage.DataStore#clearPlayerData(java.util.UUID)
+     * @param uuid the {@link UUID} of the player to remove the data of
+     * @since 0.0.5
      */
     public void clearPlayerData(final UUID uuid) {
         new BukkitRunnable() {
@@ -256,6 +351,12 @@ public abstract class DataStore {
 
     }
 
+    /**
+     * Upload a {@link Guild} to the database.
+     *
+     * @param guild the {@link Guild} to save
+     * @since 0.0.5
+     */
     public void createGuild(final Guild guild) {
         final String id = guild.getId().toString();
         final String name = guild.getName();
@@ -293,6 +394,14 @@ public abstract class DataStore {
         }.runTaskAsynchronously(getParent());
     }
 
+    /**
+     * Load the {@link Guild}s from the database and add them to the given
+     * {@link GuildManager}.
+     *
+     * @param callback the {@link GuildManager} which will hold the loaded
+     *        {@link Guild}s
+     * @since 0.0.5
+     */
     public void loadGuilds(final GuildManager callback) {
         new BukkitRunnable() {
             @Override
@@ -343,6 +452,14 @@ public abstract class DataStore {
         }.runTaskAsynchronously(getParent());
     }
 
+    /**
+     * Add a player to a {@link Guild} in the database.
+     *
+     * @param uuid the {@link UUID} of the player that will be added to the
+     *        {@link Guild}
+     * @param guild the {@link Guild} to which the player will be added
+     * @since 0.0.5
+     */
     public void addPlayerToGuild(final UUID uuid, final Guild guild) {
         new BukkitRunnable() {
             @Override
@@ -389,6 +506,14 @@ public abstract class DataStore {
         }.runTaskAsynchronously(getParent());
     }
 
+    /**
+     * Remove a player from a {@link Guild} in the used database.
+     *
+     * @param uuid the {@link UUID} of the player to remove
+     * @param guild the {@link Guild} from which the player is supposed to be
+     *        removed
+     * @since 0.0.5
+     */
     public void removePlayerFromGuild(final UUID uuid, final Guild guild) {
         new BukkitRunnable() {
             @Override
@@ -440,6 +565,13 @@ public abstract class DataStore {
         }.runTaskAsynchronously(getParent());
     }
 
+    /**
+     * Save the given {@link PlayerData} to the database, updating all its
+     * values to the ones in memory.
+     *
+     * @param commit the {@link PlayerData} that should be saved
+     * @since 0.0.5
+     */
     public void commitPlayerData(final PlayerData commit) {
         commit.setUnloading(true);
 
@@ -473,9 +605,12 @@ public abstract class DataStore {
     }
 
     /**
-     * Used during server shutdown, as you cannot schedule a task during shutdown
+     * Save the given {@link PlayerData} through the executor thread. This is
+     * required for shutdowns, when scheduling new {@link BukkitTask}s is
+     * forbidden.
      *
-     * @param commit
+     * @param commit the {@link PlayerData} that should be saved
+     * @since 0.0.5
      */
     public void commitPlayerDataSync(final PlayerData commit) {
         Connection connection = getConnection();
@@ -503,8 +638,13 @@ public abstract class DataStore {
     }
 
     /**
-     * @param callback
-     * @param recursive only for recursion, call with false
+     * Retrieve the data of a player from the database, changing the modifiable
+     * values in the given {@link PlayerData}.
+     *
+     * @param callback the {@link PlayerData} which will be modified
+     * @param recursive will run the queries on the executor thread when
+     *        {@code true}, allowing for recursive look-ups
+     * @since 0.0.5
      */
     @SuppressWarnings("deprecation")
     public void requestPlayerData(final PlayerData callback,

@@ -30,14 +30,35 @@ import com.github.rolecraftdev.RolecraftCore;
 import com.github.rolecraftdev.event.RolecraftEvent;
 import com.github.rolecraftdev.magic.Spell;
 
+/**
+ * A {@link RolecraftEvent} called in coherence with a {@link Spell}.
+ *
+ * @since 0.0.5
+ */
 public abstract class SpellEvent extends RolecraftEvent {
+    /**
+     * The affected {@link Spell}.
+     */
     private final Spell spell;
 
+    /**
+     * Constructor.
+     *
+     * @param plugin the associated {@link RolecraftCore} instance
+     * @param spell the affected {@link Spell}
+     * @since 0.0.5
+     */
     public SpellEvent(final RolecraftCore plugin, final Spell spell) {
         super(plugin);
         this.spell = spell;
     }
 
+    /**
+     * Returns the affected {@link Spell}.
+     *
+     * @return the affected {@link Spell}
+     * @since 0.0.5
+     */
     public Spell getSpell() {
         return spell;
     }

@@ -36,9 +36,22 @@ import java.io.IOException;
 import java.sql.*;
 import java.util.logging.Level;
 
+/**
+ * The SQLite {@link DataStore} implementation.
+ *
+ * @since 0.0.5
+ */
 public final class SQLiteDataStore extends DataStore {
+    /**
+     * The name of the database used by Rolecraft.
+     *
+     * @since 0.0.5
+     */
     public static final String dbname = "rolecraft";
 
+    /**
+     * The query used for creating the player table in the database.
+     */
     private static final String createPlayerTable = "CREATE TABLE IF NOT EXISTS "
             + pt
             + " ("
@@ -53,6 +66,9 @@ public final class SQLiteDataStore extends DataStore {
             + "mana REAL DEFAULT 0,"
             + "settings VARCHAR"
             + ")";
+    /**
+     * The query used for creating the guild table in the database.
+     */
     private static final String createGuildTable = "CREATE TABLE IF NOT EXISTS "
             + gt
             + " ("
@@ -65,6 +81,9 @@ public final class SQLiteDataStore extends DataStore {
             + "hall VARCHAR,"
             + "influence INTEGER DEFAULT 0," +
             "open BOOLEAN DEFAULT FALSE" + ")";
+    /**
+     * The query used for creating the metadata table in the database.
+     */
     private static final String createMetaTable = "CREATE TABLE IF NOT EXISTS "
             + mdt + " ("
             + "version VARCHAR,"
@@ -73,10 +92,19 @@ public final class SQLiteDataStore extends DataStore {
 
     private Connection connection;
 
+    /**
+     * Constructor.
+     *
+     * @param parent the associated {@link RolecraftCore} instance
+     * @since 0.0.5
+     */
     public SQLiteDataStore(RolecraftCore parent) {
         super(parent);
     }
 
+    /**
+     * @since 0.0.5
+     */
     @Override
     public void initialise() {
         final RolecraftCore parent = getParent();
@@ -134,6 +162,9 @@ public final class SQLiteDataStore extends DataStore {
         }.runTaskAsynchronously(getParent());
     }
 
+    /**
+     * @since 0.0.5
+     */
     @Override
     protected Connection getConnection() {
         File dataFile = new File(getParent().getDataFolder(), dbname + ".db");
@@ -166,16 +197,18 @@ public final class SQLiteDataStore extends DataStore {
         return null;
     }
 
+    /**
+     * @since 0.0.5
+     */
     @Override
     public String getStoreTypeName() {
         return "SQLite";
     }
 
     /**
-     * Do not pull up
-     *
-     * @see com.github.rolecraftdev.data.storage.DataStore#clearPlayerData(com.github.rolecraftdev.data.PlayerData)
+     * @since 0.0.5
      */
+    // Do not pull up
     @Override
     public void clearPlayerData(final PlayerData data) {
         data.setUnloading(true);
@@ -202,6 +235,9 @@ public final class SQLiteDataStore extends DataStore {
         }.runTaskAsynchronously(getParent());
     }
 
+    /**
+     * @since 0.0.5
+     */
     @Override
     public void freeConnection(Connection connection) {
         // Method left intentionally blank

@@ -38,10 +38,19 @@ import pw.ian.albkit.command.parser.Arguments;
 
 import java.util.UUID;
 
+/**
+ * @since 0.0.5
+ */
 public class GuildCreateCommand extends PlayerCommandHandler {
     private final RolecraftCore plugin;
     private final GuildManager guildManager;
 
+    /**
+     * Constructor.
+     *
+     * @param plugin the associated {@link RolecraftCore} instance
+     * @since 0.0.5
+     */
     GuildCreateCommand(final RolecraftCore plugin) {
         super(plugin, "create");
         this.plugin = plugin;
@@ -52,6 +61,9 @@ public class GuildCreateCommand extends PlayerCommandHandler {
         setPermission("rolecraft.guild.create");
     }
 
+    /**
+     * @since 0.0.5
+     */
     @Override
     public void onCommand(final Player player, final Arguments args) {
         if (args.length() == 0) {

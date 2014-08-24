@@ -30,9 +30,18 @@ import pw.ian.albkit.command.TreeCommandHandler;
 
 import com.github.rolecraftdev.RolecraftCore;
 
+/**
+ * @since 0.0.5
+ */
 public class GuildCommand extends TreeCommandHandler {
     private final RolecraftCore plugin;
 
+    /**
+     * Constructor.
+     *
+     * @param plugin the associated {@link RolecraftCore} instance
+     * @since 0.0.5
+     */
     public GuildCommand(final RolecraftCore plugin) {
         super(plugin, "guild");
         this.plugin = plugin;

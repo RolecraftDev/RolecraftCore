@@ -38,11 +38,20 @@ import pw.ian.albkit.command.parser.Arguments;
 
 import java.util.UUID;
 
+/**
+ * @since 0.0.5
+ */
 public class GuildLeaveCommand extends PlayerCommandHandler {
     private final RolecraftCore plugin;
     private final GuildManager guildMgr;
     private final DataManager dataMgr;
 
+    /**
+     * Constructor.
+     *
+     * @param plugin the associated {@link RolecraftCore} instance
+     * @since 0.0.5
+     */
     GuildLeaveCommand(final RolecraftCore plugin) {
         super("leave");
         this.plugin = plugin;
@@ -53,6 +62,9 @@ public class GuildLeaveCommand extends PlayerCommandHandler {
         setDescription("Leave your guild");
     }
 
+    /**
+     * @since 0.0.5
+     */
     @Override
     public void onCommand(final Player player, final Arguments args) {
         final UUID playerId = player.getUniqueId();

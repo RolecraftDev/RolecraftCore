@@ -29,21 +29,31 @@ package com.github.rolecraftdev.data.storage;
 import org.bukkit.configuration.InvalidConfigurationException;
 import org.bukkit.configuration.file.YamlConfiguration;
 import org.bukkit.plugin.Plugin;
-
 import java.io.File;
 import java.io.IOException;
 
 /**
- * A utility class for manipulation of a YAML file. Provides all the
- * functionality of {@link YamlConfiguration} but also makes usage of the file
- * easier
+ * A utility class for manipulating of YAML files. This provides all the
+ * functionality of {@link YamlConfiguration} along with {@link File}
+ * management.
+ *
+ * @since 0.0.5
  */
 public class YamlFile extends YamlConfiguration {
     /**
-     * The YML file for this YamlFile object
+     * The associated {@link File}.
      */
     private final File file;
 
+    /**
+     * Automatically saves the resource defined by the given parameter values to
+     * the plugin's folder and loads its {@link YamlConfiguration}.
+     *
+     * @param plugin the {@link Plugin} that contains the specified resource
+     * @param fileName the name of the resource
+     * @param overwrite overwrite if the resource is already available
+     * @since 0.0.5
+     */
     public YamlFile(final Plugin plugin, final String fileName,
             final boolean overwrite) {
         file = new File(plugin.getDataFolder(), fileName);
@@ -52,19 +62,34 @@ public class YamlFile extends YamlConfiguration {
         reload();
     }
 
+    /**
+     * This automatically loads the the associated {@link YamlConfiguration}.
+     *
+     * @param file the {@link File} the {@link YamlConfiguration} should be
+     *        loaded from
+     * @since 0.0.5
+     */
     public YamlFile(final File file) {
         this.file = file;
 
         reload();
     }
 
+    /**
+     * Returns the associated {@link File}.
+     *
+     * @return the associated {@link File}
+     * @since 0.0.5
+     */
     public File getFile() {
         return file;
     }
 
     /**
-     * Reloads the yaml file without throwing an exception (any stack traces are
-     * printed)
+     * Reload its {@link YamlConfiguration}.
+     *
+     * @since 0.0.5
+     * @see #load(File)
      */
     public void reload() {
         try {
@@ -77,8 +102,10 @@ public class YamlFile extends YamlConfiguration {
     }
 
     /**
-     * Saves the yaml file without throwing an exception (any stack traces are
-     * printed)
+     * Save its {@link YamlConfiguration}.
+     *
+     * @since 0.0.5
+     * @see #save(File)
      */
     public void save() {
         try {

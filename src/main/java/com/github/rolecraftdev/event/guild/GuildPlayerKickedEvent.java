@@ -32,19 +32,39 @@ import com.github.rolecraftdev.guild.Guild;
 import org.bukkit.entity.Player;
 import org.bukkit.event.HandlerList;
 
+/**
+ * A {@link GuildPlayerLeaveEvent} that gets called when a player is about to be
+ * kicked out of his {@link Guild}.
+ *
+ * @since 0.0.5
+ */
 public class GuildPlayerKickedEvent extends GuildPlayerLeaveEvent {
     private static final HandlerList handlers = new HandlerList();
 
+    /**
+     * Constructor.
+     *
+     * @param plugin the associated {@link RolecraftCore} instance
+     * @param guild the affected {@link Guild}
+     * @param player the player that is about to be kicked
+     * @since 0.0.5
+     */
     public GuildPlayerKickedEvent(final RolecraftCore plugin, final Guild guild,
             final Player player) {
         super(plugin, guild, player);
     }
 
+    /**
+     * @since 0.0.5
+     */
     @Override
     public HandlerList getHandlers() {
         return handlers;
     }
 
+    /**
+     * @since 0.0.5
+     */
     public static HandlerList getHandlerList() {
         return handlers;
     }

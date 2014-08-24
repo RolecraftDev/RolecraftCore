@@ -40,10 +40,19 @@ import org.bukkit.Bukkit;
 import org.bukkit.entity.Player;
 import org.bukkit.event.player.AsyncPlayerChatEvent;
 
+/**
+ * @since 0.0.5
+ */
 public class GCCommand extends PlayerCommandHandler {
     private final RolecraftCore plugin;
     private final GuildManager guildManager;
 
+    /**
+     * Constructor.
+     *
+     * @param plugin the associated {@link RolecraftCore} instance
+     * @since 0.0.5
+     */
     public GCCommand(final RolecraftCore plugin) {
         super(plugin, "gc");
         this.plugin = plugin;
@@ -55,6 +64,9 @@ public class GCCommand extends PlayerCommandHandler {
         setValidateUsage(false);
     }
 
+    /**
+     * @since 0.0.5
+     */
     @Override
     public void onCommand(final Player player, final Arguments args) {
         final Guild guild = guildManager.getPlayerGuild(player.getUniqueId());

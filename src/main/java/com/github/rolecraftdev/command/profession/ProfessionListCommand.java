@@ -39,11 +39,20 @@ import org.bukkit.command.CommandSender;
 
 import java.util.ArrayList;
 
+/**
+ * @since 0.0.5
+ */
 public final class ProfessionListCommand extends CommandHandler {
     private static final int PROFESSIONS_PER_PAGE = 7;
 
     private final ProfessionManager profMgr;
 
+    /**
+     * Constructor.
+     *
+     * @param plugin the associated {@link RolecraftCore} instance
+     * @since 0.0.5
+     */
     ProfessionListCommand(final RolecraftCore plugin) {
         super("list");
         profMgr = plugin.getProfessionManager();
@@ -53,6 +62,9 @@ public final class ProfessionListCommand extends CommandHandler {
         setPermission("rolecraft.profession.list");
     }
 
+    /**
+     * @since 0.0.5
+     */
     @Override
     public void onCommand(final CommandSender sender, final Arguments args) {
         sender.sendMessage(ChatColor.GOLD + "[Professions]");

@@ -35,9 +35,18 @@ import org.bukkit.metadata.MetadataValue;
 import pw.ian.albkit.command.PlayerCommandHandler;
 import pw.ian.albkit.command.parser.Arguments;
 
+/**
+ * @since 0.0.5
+ */
 public class GuildRejectCommand extends PlayerCommandHandler {
     private final RolecraftCore plugin;
 
+    /**
+     * Constructor.
+     *
+     * @param plugin the associated {@link RolecraftCore} instance
+     * @since 0.0.5
+     */
     GuildRejectCommand(final RolecraftCore plugin) {
         super("reject");
         this.plugin = plugin;
@@ -47,6 +56,9 @@ public class GuildRejectCommand extends PlayerCommandHandler {
         setUsage("/guild reject");
     }
 
+    /**
+     * @since 0.0.5
+     */
     @Override
     public void onCommand(final Player player, final Arguments args) {
         final MetadataValue val = player

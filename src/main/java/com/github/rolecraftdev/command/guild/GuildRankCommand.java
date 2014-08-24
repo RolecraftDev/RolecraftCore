@@ -47,10 +47,19 @@ import org.bukkit.entity.Player;
 import java.util.HashSet;
 import java.util.UUID;
 
+/**
+ * @since 0.0.5
+ */
 public class GuildRankCommand extends PlayerCommandHandler {
     private final RolecraftCore plugin;
     private final GuildManager guildManager;
 
+    /**
+     * Constructor.
+     *
+     * @param plugin the associated {@link RolecraftCore} instance
+     * @since 0.0.5
+     */
     GuildRankCommand(final RolecraftCore plugin) {
         super(plugin, "rank");
         this.plugin = plugin;
@@ -61,6 +70,9 @@ public class GuildRankCommand extends PlayerCommandHandler {
         setPermission("rolecraft.guild.create");
     }
 
+    /**
+     * @since 0.0.5
+     */
     @Override
     public void onCommand(final Player player, final Arguments args) {
         final UUID id = player.getUniqueId();
@@ -202,11 +214,25 @@ public class GuildRankCommand extends PlayerCommandHandler {
         player.sendMessage(ChatColor.DARK_RED + "Invalid usage, " + getUsage());
     }
 
+    /**
+     * Check whether the given string is an alias of the rank create command.
+     *
+     * @param arg the string to check
+     * @return {@code true} if it is a defined alias; {@code false} otherwise
+     * @since 0.0.5
+     */
     private boolean isCreateAlias(final String arg) {
         return arg.equals("create") || arg.equals("new") || arg.equals("make")
                 || arg.equals("add");
     }
 
+    /**
+     * Check whether the given string is an alias of the rang delete command.
+     *
+     * @param arg the string to check
+     * @return {@code true} if it is a defined alias; {@code false} otherwise
+     * @since 0.0.5
+     */
     private boolean isDeleteAlias(final String arg) {
         return arg.equals("delete") || arg.equals("remove") || arg
                 .equals("destroy");

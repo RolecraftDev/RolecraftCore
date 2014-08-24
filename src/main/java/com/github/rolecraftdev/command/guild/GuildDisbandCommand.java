@@ -41,10 +41,19 @@ import pw.ian.albkit.command.parser.Arguments;
 
 import java.util.UUID;
 
+/**
+ * @since 0.0.5
+ */
 public class GuildDisbandCommand extends CommandHandler {
     private final RolecraftCore plugin;
     private final GuildManager guildManager;
 
+    /**
+     * Constructor.
+     *
+     * @param plugin the associated {@link RolecraftCore} instance
+     * @since 0.0.5
+     */
     GuildDisbandCommand(final RolecraftCore plugin) {
         super(plugin, "disband");
         this.plugin = plugin;
@@ -55,6 +64,9 @@ public class GuildDisbandCommand extends CommandHandler {
         setPermission("rolecraft.guild.create");
     }
 
+    /**
+     * @since 0.0.5
+     */
     @Override
     public void onCommand(final CommandSender sender, final Arguments args) {
         final Guild guild;
@@ -107,14 +119,24 @@ public class GuildDisbandCommand extends CommandHandler {
     }
 
     /**
-     * A Runnable implementation which disbands a specific guildold and sends a
-     * message notifying the command sender. For use with RCConfirmCommand
+     * Disbands a specific {@link Guild} and sends a message notifying the
+     * {@link CommandSender} when completed.
+     *
+     * @since 0.0.5
      */
     public static final class GuildDisbandTask implements Runnable {
         private final GuildManager mgr;
         private final CommandSender sender;
         private final Guild guild;
 
+        /**
+         * Constructor.
+         *
+         * @param mgr the affected {@link GuildManager}
+         * @param sender the executor of this event
+         * @param guild the {@link Guild} that will be disbanded
+         * @since 0.0.5
+         */
         public GuildDisbandTask(final GuildManager mgr,
                 final CommandSender sender, final Guild guild) {
             this.mgr = mgr;
@@ -122,6 +144,9 @@ public class GuildDisbandCommand extends CommandHandler {
             this.guild = guild;
         }
 
+        /**
+         * @since 0.0.5
+         */
         @Override
         public void run() {
             mgr.removeGuild(guild);

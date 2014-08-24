@@ -33,12 +33,27 @@ import com.github.rolecraftdev.guild.GuildRank;
 import org.bukkit.entity.Player;
 import org.bukkit.event.HandlerList;
 
+/**
+ * A {@link GuildEvent} that is called when a player is about to join a
+ * {@link Guild}.
+ *
+ * @since 0.0.5
+ */
 public class GuildPlayerJoinEvent extends GuildEvent {
     private static final HandlerList handlers = new HandlerList();
 
     private final Player player;
     private final GuildRank rank;
 
+    /**
+     * Constructor.
+     *
+     * @param plugin the associated {@link RolecraftCore} instance
+     * @param guild the affected {@link Guild}
+     * @param player the player who is about to join
+     * @param rank the {@link GuildRank} of the player
+     * @since 0.0.5
+     */
     public GuildPlayerJoinEvent(final RolecraftCore plugin, final Guild guild,
             final Player player, final GuildRank rank) {
         super(plugin, guild);
@@ -46,19 +61,38 @@ public class GuildPlayerJoinEvent extends GuildEvent {
         this.rank = rank;
     }
 
+    /**
+     * Get the player who is about to join the {@link Guild}.
+     *
+     * @return the joining player
+     * @since 0.0.5
+     */
     public Player getPlayer() {
         return player;
     }
 
+    /**
+     * Get the {@link GuildRank} of the player who is about to join the
+     * {@link Guild}.
+     *
+     * @return the {@link GuildRank} of the player
+     * @since 0.0.5
+     */
     public GuildRank getRank() {
         return rank;
     }
 
+    /**
+     * @since 0.0.5
+     */
     @Override
     public HandlerList getHandlers() {
         return handlers;
     }
 
+    /**
+     * @since 0.0.5
+     */
     public static HandlerList getHandlerList() {
         return handlers;
     }

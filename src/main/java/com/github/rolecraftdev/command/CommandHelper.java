@@ -44,27 +44,31 @@ import org.bukkit.entity.Player;
 import java.util.List;
 
 /**
- * This class provides various utility methods for dealing with commands in
- * Rolecraft.
+ * This class provides various utility methods for dealing with commands, help
+ * messages and {@link MsgVar}s.
+ *
+ * @since 0.0.5
  */
 public final class CommandHelper {
     /**
-     * The amount of commands to display on a single page in a help message sent
-     * to a user.
+     * The amount of commands to display on a single page; in a help message for
+     * example.
+     *
+     * @since 0.0.5
      */
     public static final int COMMANDS_PER_PAGE = 6;
 
     /**
-     * Displays a 'help message' to the given command sender, which consists of
-     * a list of commands, containing their usage as well as a brief description
-     * as to each command's functionality. The page of subcommands is taken from
-     * the arguments if any are provided.
+     * Displays a help message to the given {@link CommandSender}, which
+     * consists of a list of commands, containing their usage as well as a brief
+     * description of each command's functionality. The page of sub-commands is
+     * retrieved from the arguments when provided.
      *
-     * @param sender   - The {@link CommandSender} to send the help messages to
-     * @param commands - A {@link List} of sub-commands, used for sending
-     *                 help to the {@link CommandSender}
-     * @param pageArg  - The {@link ChatSection} argument which should be
-     *                 used to extract a page number from
+     * @param sender the {@link CommandSender} to send the help messages to
+     * @param commands the {@link List} of commands
+     * @param pageArg the {@link ChatSection} which should be used to extract a
+     *        page number from
+     * @since 0.0.5
      */
     public static void displayCommandList(final CommandSender sender,
             final List<CommandHandler> commands, final ChatSection pageArg) {
@@ -83,12 +87,12 @@ public final class CommandHelper {
     }
 
     /**
-     * Replaces the variables in the given message with the values contained by
-     * the given {@link MsgVar} objects
+     * Applies the values of the specified {@link MsgVar}s in the given message.
      *
-     * @param message The message to replace variables in
-     * @param vars    The variables to replace in the given message
-     * @return The given string with all variables replaced
+     * @param message the affected message
+     * @param vars the {@link MsgVar}s that should be applied
+     * @return the given message after the {@link MsgVar}s have been applied
+     * @since 0.0.5
      */
     public static String applyVars(String message, final MsgVar... vars) {
         if (vars == null) {
@@ -102,13 +106,15 @@ public final class CommandHelper {
     }
 
     /**
-     * Joins all of the arguments in the given {@link Arguments} object starting
-     * from the given start index. Arguments are joined by a single whitespace
-     * character.
+     * Joins all of the arguments in the given {@link Arguments}, starting from
+     * the specified start index. All arguments are separated from each other by
+     * a single whitespace character.
      *
-     * @param start The index to start joining arguments from
-     * @param args  The {@link Arguments} to join into one string
-     * @return A joined {@link String} of arguments from the given start index
+     * @param start the index to start joining arguments from
+     * @param args the {@link Arguments} to retrieve the arguments from
+     * @return a string of all arguments in the given {@link Arguments},
+     *         starting at the specified start index
+     * @since 0.0.5
      */
     public static String joinFrom(final int start, final Arguments args) {
         if (args.length() <= start) {
@@ -124,18 +130,17 @@ public final class CommandHelper {
     }
 
     /**
-     * Gets a {@link Guild} from the given argument. If there is no argument
-     * given, the method will attempt to get the {@link Guild} of the sender of
-     * the command, if said sender is a player. Otherwise, the sender is alerted
-     * that they must specify a {@link Guild}'s name. The sender is also alerted
-     * if they specify a {@link Guild} that doesn't exist.
+     * Gets a {@link Guild} from the given {@link ChatSection}. If no argument
+     * given, this method will attempt to return the {@link Guild} of the
+     * {@link CommandSender}. Whenever the result is {@code null}, the
+     * {@link CommandSender} will be warned with an appropriate message.
      *
-     * @param mgr      - The {@link GuildManager} to work with
-     * @param sender   - The {@link CommandSender} to send error messages to
-     * @param guildArg - The argument which contains the {@link Guild}'s name,
-     *                 or null if there isn't one
-     * @return The {@link Guild} specified by the argument, or the sender's
-     * {@link Guild} if {@code guildArg} is null, and else null
+     * @param mgr the {@link GuildManager} to work with
+     * @param sender the sender of the {@link ChatSection}
+     * @param guildArg the argument which contains the {@link Guild}'s name
+     * @return the {@link Guild} specified by the {@link ChatSection} or the
+     *         {@link CommandSender}'s when it is {@code null}
+     * @since 0.0.5
      */
     public static Guild getGuildFromArgs(final GuildManager mgr,
             final CommandSender sender, final ChatSection guildArg) {
@@ -164,16 +169,18 @@ public final class CommandHelper {
     }
 
     /**
-     * Gets a sublist of a specific page within the given list, using a page
-     * number provided in the arguments array and using the given amount of
-     * elements per page to decide the cut-off point for a page.
+     * Get a sublist of a specific page within the given list using a
+     * {@link ChatSection} as page number. Note that this also sends the
+     * {@link CommandSender} a message when this somehow fails.
      *
-     * @param sender          - The {@link CommandSender} to send error messages to
-     * @param list            - The {@link List} to get a specific page of elements from
-     * @param pageArg         - The page number argument as a string
-     * @param elementsPerPage - The amount of elements on each page
-     * @param <T>             - The type of the given {@link List}
-     * @return The page
+     * @param sender the sender of the {@link ChatSection}
+     * @param list the {@link List} to acquire a page of elements from
+     * @param pageArg the page number
+     * @param elementsPerPage the amount of elements per page
+     * @param <T> the type of the given {@link List}
+     * @return a bunch of elements from the given {@link List} that has been
+     *         constructed by using the other given parameter values
+     * @since 0.0.5
      */
     public static <T> List<T> getPageFromArgs(final CommandSender sender,
             final List<T> list, final ChatSection pageArg,
@@ -202,12 +209,13 @@ public final class CommandHelper {
     }
 
     /**
-     * Sends the given {@link CommandSender} a basic overview of the given
-     * {@link GuildRank} within the given {@link Guild}
+     * Sends the {@link CommandSender} a basic overview of the {@link GuildRank}
+     * within the specified {@link Guild}.
      *
-     * @param sender - The {@link CommandSender} to send messages to
-     * @param guild  - The {@link Guild} the {@link GuildRank} is part of
-     * @param rank   - The {@link GuildRank} to send information about
+     * @param sender whom to send the overview
+     * @param guild the applicable {@link Guild}
+     * @param rank the {@link GuildRank} information should be gathered about
+     * @since 0.0.5
      */
     public static void sendRankInfo(final CommandSender sender,
             final Guild guild, final GuildRank rank) {
@@ -228,8 +236,7 @@ public final class CommandHelper {
     }
 
     /**
-     * Should never be called.
+     * @since 0.0.5
      */
-    private CommandHelper() {
-    }
+    private CommandHelper() {}
 }

@@ -36,10 +36,15 @@ import java.util.Iterator;
 import java.util.Map.Entry;
 import java.util.concurrent.ConcurrentHashMap;
 
+/**
+ * The MySQL {@link DataStore} implementation.
+ *
+ * @since 0.0.5
+ */
 @SuppressWarnings("FeatureEnvy")
 public final class MySQLDataStore extends DataStore {
     /**
-     * The query used for creating the player table
+     * The query used for creating the player table in the database.
      */
     private static final String CREATE_PLAYER_TABLE = "CREATE TABLE IF NOT EXISTS "
             + pt
@@ -56,7 +61,7 @@ public final class MySQLDataStore extends DataStore {
             + "karma REAL DEFAULT 0,"
             + "mana REAL DEFAULT 0," + "settings VARCHAR(100)" + ")";
     /**
-     * The query used for creating the guild table
+     * The query used for creating the guild table in the database.
      */
     private static final String CREATE_GUILD_TABLE = "CREATE TABLE IF NOT EXISTS "
             + gt
@@ -70,6 +75,9 @@ public final class MySQLDataStore extends DataStore {
             + "hall VARCHAR(100),"
             + "influence INTEGER DEFAULT 0," +
              "open BOOLEAN DEFAULT FALSE"+ ")";
+    /**
+     * The query used for creating the metadata table in the database.
+     */
     private static final String CREATE_META_TABLE = "CREATE TABLE IF NOT EXISTS "
             + mdt
             + " ("
@@ -82,29 +90,35 @@ public final class MySQLDataStore extends DataStore {
     private static final int MYSQL_DEFAULT_PORT = 3306;
 
     /**
-     * The username for the MySQL database
+     * The username used to access the database.
      */
     private final String user;
     /**
-     * The password for the MySQL database
+     * The password used to access the database.
      */
     private final String password;
     /**
-     * The port used for connections to the MySQL database
+     * The port used for connecting to the database.
      */
     private final int port;
     /**
-     * The URI of the MySQL database
+     * The URI used for connecting to the database.
      */
     private final String uri;
     /**
-     * The name of the database which holds Rolecraft data
+     * The name of the Rolecraft database.
      */
     private final String databaseName;
 
     //                        connection      in use? last use
     private ConcurrentHashMap<Connection, Entry<Boolean, Long>> connections;
 
+    /**
+     * Constructor.
+     *
+     * @param parent the associated {@link RolecraftCore} instance
+     * @since 0.0.5
+     */
     public MySQLDataStore(final RolecraftCore parent) {
         super(parent);
 
@@ -159,6 +173,9 @@ public final class MySQLDataStore extends DataStore {
         }.runTaskTimerAsynchronously(getParent(), 20 * 20, 20 * 20);
     }
 
+    /**
+     * @since 0.0.5
+     */
     @Override
     public void initialise() {
         final RolecraftCore parent = getParent();
@@ -207,10 +224,9 @@ public final class MySQLDataStore extends DataStore {
     }
 
     /**
-     * DO NOT PULL UP
-     *
-     * @see DataStore#clearPlayerData(PlayerData)
+     * @since 0.0.5
      */
+    // Do not pull up
     @Override
     public void clearPlayerData(final PlayerData data) {
         data.setUnloading(true);
@@ -243,6 +259,9 @@ public final class MySQLDataStore extends DataStore {
         }.runTaskAsynchronously(getParent());
     }
 
+    /**
+     * @since 0.0.5
+     */
     @Override
     protected Connection getConnection() {
         try {
@@ -271,11 +290,17 @@ public final class MySQLDataStore extends DataStore {
         return null;
     }
 
+    /**
+     * @since 0.0.5
+     */
     @Override
     public String getStoreTypeName() {
         return "MySQL";
     }
 
+    /**
+     * @since 0.0.5
+     */
     @Override
     public void freeConnection(Connection connection) {
         connections.put(connection, new SimpleEntry<Boolean, Long>(false,

@@ -31,19 +31,31 @@ import com.github.rolecraftdev.RolecraftCore;
 import org.bukkit.event.Event;
 
 /**
- * Represents an Event called in Rolecraft
+ * Represents a Rolecraft {@link Event}.
+ *
+ * @since 0.0.5
  */
 public abstract class RolecraftEvent extends Event {
+    /**
+     * The associated {@link RolecraftCore} instance.
+     */
     private final RolecraftCore plugin;
 
+    /**
+     * Constructor.
+     *
+     * @param plugin the associated {@link RolecraftCore} instance
+     * @since 0.0.5
+     */
     protected RolecraftEvent(final RolecraftCore plugin) {
         this.plugin = plugin;
     }
 
     /**
+     * Returns the associated {@link RolecraftCore} instance.
      *
-     *
-     * @return
+     * @return the associated {@link RolecraftCore} instance
+     * @since 0.0.5
      */
     public final RolecraftCore getRolecraftPlugin() {
         return plugin;

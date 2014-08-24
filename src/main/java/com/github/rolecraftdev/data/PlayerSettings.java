@@ -26,19 +26,53 @@
  */
 package com.github.rolecraftdev.data;
 
+/**
+ * Holds persistent settings of a player.
+ *
+ * @since 0.0.5
+ */
 public final class PlayerSettings {
+    /**
+     * The default settings.
+     *
+     * @since 0.0.5
+     */
     public static final PlayerSettings DEFAULT_SETTINGS = new PlayerSettings();
 
     private boolean showMana;
     private boolean spellChatMessage;
+    // Thread-safe!
     private volatile boolean guildSpy;
 
+    /**
+     * Constructor.
+     *
+     * @since 0.0.5
+     */
     private PlayerSettings() {
         showMana = true;
         spellChatMessage = true;
         guildSpy = true;
     }
 
+    /**
+     * Obtain a new {@link PlayerSettings} object from a string in which every
+     * value is separated by a comma (only). The values should equal "true" if
+     * the linked setting should be {@code true} and may be anything else to
+     * represent {@code false}. Below is a list of the setting each element
+     * represents:
+     * <ol>
+     * <li>show mana</li>
+     * <li>spell chat message</li>
+     * <li>guild spy</li>
+     * </ol>
+     * This works in accordance with {@link #toString()}.
+     *
+     * @param string the string that should be parsed to construct a new
+     *        {@link PlayerSettings} object
+     * @return the constructed {@link PlayerSettings}
+     * @since 0.0.5
+     */
     public static PlayerSettings fromString(String string) {
         String[] strings = string.split(",");
         PlayerSettings temp = new PlayerSettings();
@@ -49,6 +83,9 @@ public final class PlayerSettings {
         return temp;
     }
 
+    /**
+     * @since 0.0.5
+     */
     @Override
     public String toString() {
         StringBuilder sb = new StringBuilder();
@@ -60,27 +97,64 @@ public final class PlayerSettings {
         return sb.toString();
     }
 
+    /**
+     * Set the <em>show mana</em> setting.
+     *
+     * @param showMana the new <em>show mana</em> value
+     * @since 0.0.5
+     */
     public void setShowMana(boolean showMana) {
         this.showMana = showMana;
     }
 
+    /**
+     * Set the <em>spell chat message</em> setting.
+     *
+     * @param spellChatMessage the new <em>spell chat message</em> value
+     * @since 0.0.5
+     */
     public void setSpellChatMessage(boolean spellChatMessage) {
         this.spellChatMessage = spellChatMessage;
     }
 
+    /**
+     * Get the value of the <em>show mana</em> setting.
+     *
+     * @return the value of <em>show mana</em>
+     * @since 0.0.5
+     */
     public boolean isShowMana() {
         return showMana;
     }
 
+    /**
+     * Get the value of the <em>spell chat message</em> setting.
+     *
+     * @return the value of <em>spell chat message</em>
+     * @since 0.0.5
+     */
     public boolean isSpellChatMessage() {
         return spellChatMessage;
     }
 
-    // Thread safe for our needs
+    /**
+     * Get the value of the <em>guild spy</em> setting. This setting is volatile
+     * and thus thread-safe to some extend.
+     *
+     * @return the value of <em>guild spy</em>
+     * @since 0.0.5
+     */
     public boolean isGuildChatSpy() {
         return guildSpy;
     }
 
+    /**
+     * Set the <em>guild spy</em> setting. This setting is volatile and thus
+     * thread-safe to some extend.
+     *
+     * @param showMana the new <em>guild spy</em> value
+     * @since 0.0.5
+     */
     public void setGuildSpy(boolean guildSpy) {
         this.guildSpy = guildSpy;
     }

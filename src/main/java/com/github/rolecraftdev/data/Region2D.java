@@ -29,12 +29,23 @@ package com.github.rolecraftdev.data;
 import org.bukkit.Location;
 
 /**
- * Represents a 2D region, used for storing data in SQL
+ * Represents a 2-dimensional region on the horizontal plane.
+ *
+ * @since 0.0.5
  */
 public class Region2D {
     private final int minX, minZ;
     private final int maxX, maxZ;
 
+    /**
+     * Constructor.
+     *
+     * @param minX the lowest x-coordinate
+     * @param minZ the lowest z-coordinate
+     * @param maxX the highest x-coordinate
+     * @param maxZ the highest z-coordinate
+     * @since 0.0.5
+     */
     public Region2D(final int minX, final int minZ, final int maxX,
             final int maxZ) {
         this.minX = minX;
@@ -43,22 +54,55 @@ public class Region2D {
         this.maxZ = maxZ;
     }
 
+    /**
+     * Get the lowest x-coordinate.
+     *
+     * @return the lowest x-coordinate
+     * @since 0.0.5
+     */
     public int getMinX() {
         return minX;
     }
 
+    /**
+     * Get the lowest z-coordinate.
+     *
+     * @return the lowest z-coordinate
+     * @since 0.0.5
+     */
     public int getMinZ() {
         return minZ;
     }
 
+    /**
+     * Get the highest x-coordinate.
+     *
+     * @return the highest x-coordinate
+     * @since 0.0.5
+     */
     public int getMaxX() {
         return maxX;
     }
 
+    /**
+     * Get the highest z-coordinate.
+     *
+     * @return the highest z-coordinate
+     * @since 0.0.5
+     */
     public int getMaxZ() {
         return maxZ;
     }
 
+    /**
+     * Check whether a {@link Location} lies between the vertices of this plane,
+     * and thus ignoring its height.
+     *
+     * @param location the location that should be inspected.
+     * @return {@code true} only if the given location lies between the vertices
+     *         of this plane.
+     * @since 0.0.5
+     */
     public boolean containsLocation(final Location location) {
         final double x = location.getX();
         final double z = location.getZ();
@@ -66,11 +110,23 @@ public class Region2D {
         return x >= minX && z >= minZ && x <= maxX && z <= maxZ;
     }
 
+    /**
+     * @since 0.0.5
+     */
     @Override
     public String toString() {
         return "R2D:" + minX + ";" + minZ + ";" + maxX + ";" + maxZ;
     }
 
+    /**
+     * Retrieve a new {@link Region2D} from a string that in the format used by
+     * {@link #toString()}.
+     *
+     * @param string the string that should be parsed to construct a new
+     *        {@link Region2D} object
+     * @return the constructed {@link Region2D}
+     * @since 0.0.5
+     */
     public static Region2D fromString(final String string) {
         final String[] split = string.split(":")[1].split(";");
         return new Region2D(Integer.parseInt(split[0]),

@@ -34,18 +34,20 @@ import com.github.rolecraftdev.guild.GuildRank;
 import org.bukkit.event.HandlerList;
 
 /**
- * A {@link GuildEvent} called when a {@link GuildRank} is modified - i.e when
- * a {@link GuildAction} is allowed or disallowed within the {@link GuildRank}
+ * A {@link GuildEvent} called after a {@link GuildRank} is modified - i.e. when
+ * a {@link GuildAction} is allowed or disallowed within the {@link GuildRank}.
+ *
+ * @since 0.0.5
  */
 public class GuildRankModifyEvent extends GuildEvent {
     private static final HandlerList handlers = new HandlerList();
 
     /**
-     * The {@link GuildRank} which has been modified
+     * The affected {@link GuildRank}.
      */
     private final GuildRank rank;
     /**
-     * The {@link GuildAction} being allowed or disallowed in this event
+     * The modified {@link GuildAction}.
      */
     private final GuildAction perm;
     /**
@@ -54,6 +56,16 @@ public class GuildRankModifyEvent extends GuildEvent {
      */
     private final boolean value;
 
+    /**
+     * Constructor.
+     *
+     * @param plugin the associated {@link RolecraftCore} instance
+     * @param guild the affected {@link Guild}
+     * @param rank the affected {@link GuildRank}
+     * @param perm the modified {@link GuildAction}
+     * @param value the allowance of the {@link GuildAction}
+     * @since 0.0.5
+     */
     public GuildRankModifyEvent(final RolecraftCore plugin, final Guild guild,
             final GuildRank rank, final GuildAction perm, final boolean value) {
         super(plugin, guild);
@@ -63,39 +75,49 @@ public class GuildRankModifyEvent extends GuildEvent {
     }
 
     /**
-     * Gets the {@link GuildRank} which has been modified
+     * Get affected {@link GuildRank}.
      *
-     * @return The {@link GuildRank} which has been modified
+     * @return the affected {@link GuildRank}
+     * @since 0.0.5
      */
     public GuildRank getRank() {
         return rank;
     }
 
     /**
-     * Gets the permissible {@link GuildAction} for which the permission value
-     * is being set
+     * Obtain the permissible {@link GuildAction} for which the permission value
+     * is being changed.
      *
-     * @return The {@link GuildAction} being allowed or disallowed
+     * @return the modified {@link GuildAction}
+     * @since 0.0.5
      */
     public GuildAction getPermission() {
         return perm;
     }
 
     /**
-     * Gets whether the {@link GuildAction} is being allowed or disallowed
+     * Check whether the {@link GuildAction} is being allowed or disallowed to
+     * the {@link GuildRank}.
      *
-     * @return True if the action is being allowed, false if it is being
-     * disallowed
+     * @return {@code true} if the {@link GuildAction} is being allowed;
+     *         {@code false} otherwise
+     * @since 0.0.5
      */
     public boolean getValue() {
         return value;
     }
 
+    /**
+     * @since 0.0.5
+     */
     @Override
     public HandlerList getHandlers() {
         return handlers;
     }
 
+    /**
+     * @since 0.0.5
+     */
     public static HandlerList getHandlerList() {
         return handlers;
     }

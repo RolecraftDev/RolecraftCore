@@ -34,15 +34,27 @@ import com.github.rolecraftdev.magic.Spell;
 
 import org.bukkit.entity.Player;
 
+/**
+ * @since 0.0.5
+ */
 public class DebugCommand extends PlayerCommandHandler {
     RolecraftCore parent;
 
+    /**
+     * Constructor.
+     *
+     * @param plugin the associated {@link RolecraftCore} instance
+     * @since 0.0.5
+     */
     public DebugCommand(RolecraftCore plugin) {
         super(plugin, "debug");
         setUsage("/debug wand");
         parent = plugin;
     }
 
+    /**
+     * @since 0.0.5
+     */
     @SuppressWarnings("deprecation")
     @Override
     public void onCommand(final Player player, final Arguments args) {

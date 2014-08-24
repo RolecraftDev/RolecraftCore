@@ -31,23 +31,34 @@ import com.github.rolecraftdev.event.RolecraftEvent;
 import com.github.rolecraftdev.guild.Guild;
 
 /**
- * A {@link RolecraftEvent} related to a {@link Guild}
+ * A {@link RolecraftEvent} that gets called when a {@link Guild} is somehow
+ * affected.
+ *
+ * @since 0.0.5
  */
 public abstract class GuildEvent extends RolecraftEvent {
     /**
-     * The guild which this GuildEvent is related to
+     * The affected {@link Guild}.
      */
     private final Guild guild;
 
+    /**
+     * Constructor.
+     *
+     * @param plugin the associated {@link RolecraftCore} instance
+     * @param guild the affected {@link Guild}
+     * @since 0.0.5
+     */
     public GuildEvent(final RolecraftCore plugin, final Guild guild) {
         super(plugin);
         this.guild = guild;
     }
 
     /**
-     * Gets the {@link Guild} involved in this GuildEvent
+     * Get the affected {@link Guild}.
      *
-     * @return The {@link Guild} involved in this GuildEvent
+     * @return the affected {@link Guild}
+     * @since 0.0.5
      */
     public final Guild getGuild() {
         return guild;

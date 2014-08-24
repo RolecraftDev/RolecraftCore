@@ -41,10 +41,19 @@ import org.bukkit.command.CommandSender;
 
 import java.util.UUID;
 
+/**
+ * @since 0.0.5
+ */
 public class GuildShowCommand extends CommandHandler {
     private final GuildManager guildManager;
     private final RolecraftCore plugin;
 
+    /**
+     * Constructor.
+     *
+     * @param plugin the associated {@link RolecraftCore} instance
+     * @since 0.0.5
+     */
     GuildShowCommand(final RolecraftCore plugin) {
         super(plugin, "show");
         guildManager = plugin.getGuildManager();
@@ -55,6 +64,9 @@ public class GuildShowCommand extends CommandHandler {
         setPermission("rolecraft.guild.show");
     }
 
+    /**
+     * @since 0.0.5
+     */
     @Override
     public void onCommand(final CommandSender sender, final Arguments args) {
         final Guild guild = CommandHelper.getGuildFromArgs(guildManager, sender,

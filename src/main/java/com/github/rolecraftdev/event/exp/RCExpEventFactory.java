@@ -33,17 +33,26 @@ import com.github.rolecraftdev.RolecraftCore;
 import com.github.rolecraftdev.event.exp.RCExpEvent.ChangeReason;
 import com.github.rolecraftdev.util.LevelUtil;
 
+/**
+ * A utility class which can be used to easily construct {@link RCExpEvent}s.
+ *
+ * @since 0.0.5
+ */
 public class RCExpEventFactory {
+    /**
+     * @since 0.0.5
+     */
     private RCExpEventFactory() {}
 
     /**
-     * Creates and calls the appropriate events given the input
+     * Creates and calls the appropriate event given the parameter values.
      *
-     * @param plugin The RC Core to use
-     * @param player The player to call the event on
-     * @param amount The amount of experience to add
-     * @param reason The reason to add or remove experience
-     * @return The event created and called by this factory
+     * @param plugin the associated {@link RolecraftCore} instance
+     * @param player the affected player
+     * @param amount the additional experience (may be negative)
+     * @param reason the reason for this change
+     * @return the appropriate {@link RCExpChangeEvent} after calling it
+     * @since 0.0.5
      */
     public static RCExpChangeEvent callRCExpEvent(RolecraftCore plugin,
             Player player, float amount, ChangeReason reason) {

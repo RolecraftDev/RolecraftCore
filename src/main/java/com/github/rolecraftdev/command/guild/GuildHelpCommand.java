@@ -36,8 +36,17 @@ import com.github.rolecraftdev.guild.GuildAction;
 
 import org.bukkit.entity.Player;
 
+/**
+ * @since 0.0.5
+ */
 public class GuildHelpCommand extends PlayerCommandHandler {
 
+    /**
+     * Constructor.
+     *
+     * @param plugin the associated {@link RolecraftCore} instance
+     * @since 0.0.5
+     */
     @SuppressWarnings(value = "unused")
     GuildHelpCommand(final RolecraftCore plugin) {
         super("help");
@@ -47,6 +56,9 @@ public class GuildHelpCommand extends PlayerCommandHandler {
         setPermission("rolecraft.guild.join");
     }
 
+    /**
+     * @since 0.0.5
+     */
     @Override
     public void onCommand(final Player player, final Arguments args) {
         if (args.length() == 0) {

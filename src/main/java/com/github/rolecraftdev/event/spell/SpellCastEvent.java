@@ -34,6 +34,12 @@ import org.bukkit.entity.Entity;
 import org.bukkit.event.Cancellable;
 import org.bukkit.event.HandlerList;
 
+/**
+ * A {@link SpellEvent} that is called when a {@link Spell} is on the brink of
+ * being cast.
+ *
+ * @since 0.0.5
+ */
 public class SpellCastEvent extends SpellEvent implements Cancellable {
     private static final HandlerList handlers = new HandlerList();
 
@@ -41,49 +47,106 @@ public class SpellCastEvent extends SpellEvent implements Cancellable {
 
     private float manaCost;
     private boolean cancelled;
+    /**
+     * The message sent to the caster when this event is cancelled.
+     */
     private String cancelMessage = ChatColor.DARK_RED + "You can't do that!";
 
+    /**
+     * Constructor.
+     *
+     * @param plugin the associated {@link RolecraftCore} instance
+     * @param spell the affected {@link Spell}
+     * @param caster the executor of the {@link Spell}
+     * @param manaCost the amount of mana the {@link Spell} will cost
+     * @since 0.0.5
+     */
     public SpellCastEvent(final RolecraftCore plugin, final Spell spell,
             final Entity caster, final float manaCost) {
         super(plugin, spell);
         this.caster = caster;
     }
 
+    /**
+     * Get the executor of the {@link Spell}.
+     *
+     * @return the executor of the {@link Spell}
+     * @since 0.0.5
+     */
     public Entity getCaster() {
         return caster;
     }
 
+    /**
+     * Get the amount of mana it will cost the caster to perform the
+     * {@link Spell}.
+     *
+     * @return the mana cost
+     * @since 0.0.5
+     */
     public float getManaCost() {
         return manaCost;
     }
 
+    /**
+     * @since 0.0.5
+     */
     @Override
     public boolean isCancelled() {
         return cancelled;
     }
 
+    /**
+     * Obtain the message that will be sent to caster on the occasion of this
+     * event being cancelled.
+     *
+     * @return the cancel message
+     * @since 0.0.5
+     */
     public String getCancelMessage() {
         return cancelMessage;
     }
 
+    /**
+     * Set the amount of mana it will cost to perform the {@link Spell}
+     *
+     * @param manaCost the new mana cost
+     * @since 0.0.5
+     */
     public void setManaCost(final float manaCost) {
         this.manaCost = manaCost;
     }
 
+    /**
+     * @since 0.0.5
+     */
     @Override
     public void setCancelled(final boolean cancelled) {
         this.cancelled = cancelled;
     }
 
+    /**
+     * Set the message that will be sent to the caster when this event is
+     * cancelled.
+     *
+     * @param cancelMessage the new cancel message
+     * @since 0.0.5
+     */
     public void setCancelMessage(final String cancelMessage) {
         this.cancelMessage = cancelMessage;
     }
 
+    /**
+     * @since 0.0.5
+     */
     @Override
     public HandlerList getHandlers() {
         return handlers;
     }
 
+    /**
+     * @since 0.0.5
+     */
     public static HandlerList getHandlerList() {
         return handlers;
     }

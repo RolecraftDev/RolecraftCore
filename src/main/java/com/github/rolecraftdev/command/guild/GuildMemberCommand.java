@@ -48,10 +48,19 @@ import org.bukkit.scheduler.BukkitRunnable;
 
 import java.util.UUID;
 
+/**
+ * @since 0.0.5
+ */
 public class GuildMemberCommand extends PlayerCommandHandler {
     private final RolecraftCore plugin;
     private final GuildManager guildMgr;
 
+    /**
+     * Constructor.
+     *
+     * @param plugin the associated {@link RolecraftCore} instance
+     * @since 0.0.5
+     */
     GuildMemberCommand(final RolecraftCore plugin) {
         super(plugin, "member");
         this.plugin = plugin;
@@ -62,6 +71,9 @@ public class GuildMemberCommand extends PlayerCommandHandler {
         setPermission("rolecraft.guild.create");
     }
 
+    /**
+     * @since 0.0.5
+     */
     @Override
     public void onCommand(final Player player, final Arguments args) {
         final Guild guild = guildMgr.getPlayerGuild(player.getUniqueId());
@@ -203,24 +215,36 @@ public class GuildMemberCommand extends PlayerCommandHandler {
     }
 
     /**
-     * A BukkitRunnable to kick a player from a guild and notify them if they
-     * are online
+     * Kick a player from his {@link Guild}. This will also send the player a
+     * message if he's online.
+     *
+     * @since 0.0.5
      */
     private final class KickPlayerTask extends BukkitRunnable {
         /**
-         * The {@link RolecraftCore} plugin
+         * The associated {@link RolecraftCore} instance.
          */
         private final RolecraftCore plugin;
         /**
-         * The {@link PlayerData} of the player to kick
+         * The kicked player's {@link PlayerData}.
          */
         private final PlayerData data;
 
+        /**
+         * Constructor.
+         *
+         * @param plugin the associated {@link RolecraftCore} instance
+         * @param data the {@link PlayerData} of the player that will be kicked
+         * @since 0.0.5
+         */
         KickPlayerTask(final RolecraftCore plugin, final PlayerData data) {
             this.plugin = plugin;
             this.data = data;
         }
 
+        /**
+         * @since 0.0.5
+         */
         @Override
         public void run() {
             // This is used because it is possible that the data will be loading

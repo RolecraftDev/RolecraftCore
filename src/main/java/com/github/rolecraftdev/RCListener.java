@@ -46,29 +46,46 @@ import java.util.UUID;
 /**
  * The base listener for Rolecraft which saves and loads {@link PlayerData}
  * objects when a player quits or joins, respectively.
+ *
+ * @since 0.0.5
  */
 public final class RCListener implements Listener {
     /**
-     * The {@link RolecraftCore} plugin object
+     * The associated {@link RolecraftCore} instance.
      */
     private final RolecraftCore plugin;
 
+    /**
+     * Constructor.
+     *
+     * @param plugin the linked {@link RolecraftCore} object
+     * @since 0.0.5
+     */
     RCListener(final RolecraftCore plugin) {
         this.plugin = plugin;
     }
 
+    /**
+     * @since 0.0.5
+     */
     @EventHandler
     public void onPlayerJoin(final PlayerJoinEvent event) {
         plugin.getDataManager().loadOrCreateData(
                 event.getPlayer().getUniqueId());
     }
 
+    /**
+     * @since 0.0.5
+     */
     @EventHandler
     public void onPlayerQuit(final PlayerQuitEvent event) {
         final UUID playerId = event.getPlayer().getUniqueId();
         plugin.getDataManager().unloadAndSaveData(playerId);
     }
 
+    /**
+     * @since 0.0.5
+     */
     @EventHandler(priority = EventPriority.MONITOR, ignoreCancelled = true)
     public void onEntityDeath(final EntityDeathEvent event) {
         final Entity deadEntity = event.getEntity();

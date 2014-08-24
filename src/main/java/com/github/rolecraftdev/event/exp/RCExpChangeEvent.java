@@ -31,6 +31,12 @@ import org.bukkit.event.HandlerList;
 
 import com.github.rolecraftdev.RolecraftCore;
 
+/**
+ * A {@link RCExpEvent} that gets called when a player's experience level is
+ * altered.
+ *
+ * @since 0.0.5
+ */
 public class RCExpChangeEvent extends RCExpEvent {
     private static final HandlerList handlers = new HandlerList();
 
@@ -40,6 +46,15 @@ public class RCExpChangeEvent extends RCExpEvent {
 
     private float amount;
 
+    /**
+     * Constructor.
+     *
+     * @param plugin the associated {@link RolecraftCore} instance
+     * @param player the affected player
+     * @param amount the amount that is added to the player's experience
+     * @param reason the reason for this change
+     * @since 0.0.5
+     */
     protected RCExpChangeEvent(RolecraftCore plugin, Player player, float amount, ChangeReason reason) {
         super(plugin, player);
         this.amount = amount;
@@ -49,44 +64,82 @@ public class RCExpChangeEvent extends RCExpEvent {
         experience = plugin.getDataManager().getPlayerData(player.getUniqueId()).getExperience();
     }
 
+    /**
+     * Get the reason for this experience change.
+     *
+     * @return the reason
+     * @since 0.0.5
+     */
     public ChangeReason getReason() {
         return reason;
     }
 
+    /**
+     * Obtain the amount that is added to the player's current experience.
+     *
+     * @return the experience that is added
+     * @since 0.0.5
+     */
     public float getAmount() {
         return amount;
     }
 
+    /**
+     * Set the amount of experience that is to be added or subtracted from the
+     * player's experience. A negative amount means that the player will lose
+     * experience.
+     *
+     * @param newAmount the new additional amount
+     * @since 0.0.5
+     */
     public void setAmount(float newAmount) {
         amount = newAmount;
     }
 
     /**
-     * @return The player's level before the addition or removal of experience
+     * Get the level of the player before the addition or removal will take
+     * place.
+     *
+     * @return the player's current level
+     * @since 0.0.5
      */
     public int getLevel() {
         return level;
     }
 
     /**
-     * @return The player's experience before the addition or removal of experience
+     * Get the experience of the player before the addition or removal will take
+     * place.
+     *
+     * @return the player's current experience
+     * @since 0.0.5
      */
     public float getExperience() {
         return experience;
     }
 
     /**
-     * @return The player's new experience amount
+     * Get the amount of experience the player will have after the additional
+     * experience is included.
+     *
+     * @return the player's new experience amount
+     * @since 0.0.5
      */
     public float getNewExperience() {
         return experience + amount;
     }
 
+    /**
+     * @since 0.0.5
+     */
     @Override
     public HandlerList getHandlers() {
         return handlers;
     }
 
+    /**
+     * @since 0.0.5
+     */
     public static HandlerList getHandlerList() {
         return handlers;
     }

@@ -30,6 +30,9 @@ import com.github.rolecraftdev.RolecraftCore;
 import com.github.rolecraftdev.event.exp.RCExpChangeEvent;
 import com.github.rolecraftdev.event.exp.RCExpEvent.ChangeReason;
 import com.github.rolecraftdev.event.exp.RCExpEventFactory;
+import com.github.rolecraftdev.guild.Guild;
+import com.github.rolecraftdev.profession.Profession;
+import com.github.rolecraftdev.quest.Quest;
 import com.github.rolecraftdev.util.LevelUtil;
 
 import java.net.URISyntaxException;
@@ -40,81 +43,77 @@ import java.util.UUID;
 import org.bukkit.Bukkit;
 
 /**
- * Holds Rolecraft data for a specific player, which is stored in SQL.
+ * Holds persistent Rolecraft data for a player.
+ *
+ * @since 0.0.5
  */
 public final class PlayerData {
     /**
-     * The unique ID of the player this object holds data for
+     * The player's {@link UUID}.
      */
     private final UUID playerId;
     /**
-     * The username of the player this object holds data for
+     * The player's username.
      */
     private final String name;
     /**
-     * The {@link PlayerSettings} object for this player, which holds settings
-     * for the player such as whether they want their mana shown on a scoreboard
-     * and whether they want to see chat messages when they cast a spell
+     * The player's {@link PlayerSettings}.
      */
     private volatile PlayerSettings settings;
     /**
-     * The unique ID of the {@link com.github.rolecraftdev.guild.Guild} the
-     * player belongs to, or null if the player doesn't belong to a Guild
+     * The {@link UUID} of the player's {@link Guild}.
      */
     private UUID guild;
     /**
-     * The unique ID of the
-     * {@link com.github.rolecraftdev.profession.Profession} the player belongs
-     * to, or null if the player doesn't have a Profession
+     * The {@link UUID} of the player's primary {@link Profession}.
      */
     private UUID profession;
 
     /**
-     * The unique ID of the second
-     * {@link com.github.rolecraftdev.profession.Profession} the player belongs
-     * to, or null if the player doesn't have a Second Profession
+     * The {@link UUID} of the player's secondary {@link Profession}.
      */
     private UUID secondProfession;
     /**
-     * A Map of quest IDs to progression
+     * The {@link UUID}s of the player's {@link Quest}s along with their
+     * progression.
      */
     private Map<UUID, String> questProgression;
     /**
-     * The current influence value for the player, calculated by his or her
-     * actions
+     * The player's influence value, which is calculated by his actions.
      */
     private int influence;
     /**
-     * The player's current Rolecraft level of experience
+     * The player's experience.
      */
     private float experience;
     /**
-     * The player's current Rolecraft karma level, used in the Afterlife addon
-     * for Rolecraft
+     * The player's karma, used in the Afterlife addon for Rolecraft.
      */
     private float karma;
     /**
-     * The player's mana, stored as a float
+     * The player's mana.
      */
     private float mana;
 
     /**
-     * Whether the data is loaded
+     * Whether the data is wholly loaded.
      */
     private volatile boolean loaded;
     /**
-     * Whether the data is currently being unloaded
+     * Whether the data is currently in the phase of being unloaded.
      */
     private volatile boolean unloading;
+    /**
+     * The associated {@link RolecraftCore} instance.
+     */
     private RolecraftCore plugin;
 
     /**
-     * Constructs a new PlayerData object for a player
+     * Constructor.
      *
-     * @param playerId
-     *            The ID of the player the data is for
-     * @param name
-     *            The username of the player the data is for
+     * @param playerId the {@link UUID} of the owner of this data
+     * @param name the username of the owner of this data
+     * @since 0.0.5
      */
     public PlayerData(final RolecraftCore plugin, final UUID playerId,
             final String name) {
@@ -127,18 +126,20 @@ public final class PlayerData {
     }
 
     /**
-     * Gets the unique ID of the player this object holds data for
+     * Get the {@link UUID} of the player who owns this data.
      *
-     * @return The unique ID of the player this object holds data for
+     * @return the owner's {@link UUID}
+     * @since 0.0.5
      */
     public UUID getPlayerId() {
         return playerId;
     }
 
     /**
-     * Gets the username of the player this object holds data for
+     * Get the username of the player who owns this data.
      *
-     * @return The username of the player this object holds data for
+     * @return the owner's username
+     * @since 0.0.5
      */
     public String getPlayerName() {
         return name;
@@ -147,36 +148,41 @@ public final class PlayerData {
     /**
      * Return the accompanied {@link PlayerSettings}.
      *
-     * @return Its {@link PlayerSettings}
+     * @return the owner's {@link PlayerSettings}
+     * @since 0.0.5
      */
     public PlayerSettings getSettings() {
         return settings;
     }
 
     /**
-     * Returns whether this data has finished loading
+     * Check if the data in this object has been fully loaded.
      *
-     * @return True if this data is loaded, otherwise false
+     * @return {@code true} when the data is completely loaded; {@code false}
+     *         otherwise
+     * @since 0.0.5
      */
     public boolean isLoaded() {
         return loaded;
     }
 
     /**
-     * Returns whether this data is currently being unloaded
+     * Check if this {@link PlayerData} is currently in the phase of being
+     * unloaded.
      *
-     * @return Whether this data is currently being unloaded
+     * @return {@code true} if this instance is currently being unloaded
+     * @since 0.0.5
      */
     public boolean isUnloading() {
         return unloading;
     }
 
     /**
-     * Gets the unique ID of the player's guild, or null if he doesn't have one.
-     * Null will also be returned if the data isn't loaded
+     * Obtain the {@link UUID} of the owner's {@link Guild}. Note that this will
+     * return {@code null} if this is not yet wholly loaded.
      *
-     * @return The unique ID of the player's guild - null if he doesn't have one
-     *         or if the data isn't loaded
+     * @return the {@link UUID} of the owner's {@link Guild}
+     * @since 0.0.5
      */
     public UUID getGuild() {
         if (loaded) {
@@ -186,11 +192,11 @@ public final class PlayerData {
     }
 
     /**
-     * Gets the unique ID of the player's profession, or null if he doesn't have
-     * one. Null will also be returned if the data isn't loaded
+     * Get the {@link UUID} of the owner's primary {@link Profession}. Note that
+     * this will return {@code null} if this is not yet wholly loaded.
      *
-     * @return The unique ID of the player's profession - null if he doesn't
-     *         have one or if the data isn't loaded
+     * @return the {@link UUID} of the owner's primary {@link Profession}
+     * @since 0.0.5
      */
     public UUID getProfession() {
         if (loaded) {
@@ -201,14 +207,22 @@ public final class PlayerData {
         }
     }
 
+    /**
+     * Get the owner's current {@link Quest} progression.
+     *
+     * @return the {@link Quest} progression of the owner
+     * @since 0.0.5
+     */
     public Map<UUID, String> getQuestProgression() {
         return questProgression;
     }
 
     /**
-     * Gets the current influence value for the player
+     * Obtain the owner's influence level. Note that this will return {@code -1}
+     * if this is not yet wholly loaded.
      *
-     * @return The player's current influence level
+     * @return the owner's influence level
+     * @since 0.0.5
      */
     public int getInfluence() {
         if (loaded) {
@@ -220,9 +234,12 @@ public final class PlayerData {
     }
 
     /**
-     * Gets the player's current level
+     * Obtain the owner's level, which is calculated with his experience. Note
+     * that this will return {@code -1} if this is not yet wholly loaded.
      *
-     * @return The player's current level
+     * @return the owner's level
+     * @since 0.0.5
+     * @see #getExperience()
      */
     public int getLevel() {
         if (loaded) {
@@ -234,10 +251,12 @@ public final class PlayerData {
     }
 
     /**
-     * Gets the amount of experience the player requires before reaching the
-     * next level
+     * Obtain the amount of experience needed for the owner to reach the next
+     * level. Note that this will return {@code -1} if this is not yet wholly
+     * loaded.
      *
-     * @return The amount of experience the player needs to level up
+     * @return the amount of experience till the next level
+     * @since 0.0.5
      */
     public float getExpToNextLevel() {
         if (loaded) {
@@ -249,9 +268,12 @@ public final class PlayerData {
     }
 
     /**
-     * Gets the player's current level of experience
+     * Get the amount of experience the owner currently has. Note that this will
+     * return {@code -1} if this is not yet wholly loaded.
      *
-     * @return The player's current experience value
+     * @return the owner's experience
+     * @since 0.0.5
+     * @see #getLevel()
      */
     public float getExperience() {
         if (loaded) {
@@ -263,9 +285,11 @@ public final class PlayerData {
     }
 
     /**
-     * Gets the player's current karma value
+     * Get the amount of karma the owner has. Note that this will return
+     * {@code -1} if this is not yet wholly loaded.
      *
-     * @return The player's current karma value
+     * @return the owner's karma
+     * @since 0.0.5
      */
     public float getKarma() {
         if (loaded) {
@@ -277,31 +301,33 @@ public final class PlayerData {
     }
 
     /**
-     * DO NOT CALL UNLESS UNLOADING VIA DATABASE
+     * Set the status of the unloading phase. Calling this from anywhere save
+     * DAO classes is ill-advised.
      *
-     * @param unload
-     *            Whether the data is currently being unloaded
+     * @param unload the new unloading status
+     * @since 0.0.5
      */
     public void setUnloading(boolean unload) {
         unloading = unload;
     }
 
     /**
-     * DO NOT CALL UNLESS UNLOADING VIA DATABASE
+     * Set the status of the loading phase. Calling this from anywhere save DAO
+     * classes is ill-advised.
      *
-     * @param loaded
-     *            Whether the data is loaded
+     * @param loaded the new loading status
+     * @since 0.0.5
      */
     public void setLoaded(boolean loaded) {
         this.loaded = loaded;
     }
 
     /**
-     * Sets the player's guild to the given guild
+     * Set the {@link Guild} of the owner. This action will only be completed
+     * when this is loaded and not in the unloading phase.
      *
-     * @param guild
-     *            The {@link com.github.rolecraftdev.guild.Guild} the player is
-     *            joining
+     * @param guild the {@link UUID} of the owner's new {@link Guild}
+     * @since 0.0.5
      */
     public void setGuild(final UUID guild) {
         if (loaded && !unloading) {
@@ -310,12 +336,12 @@ public final class PlayerData {
     }
 
     /**
-     * Sets the player's profession to the given profession
+     * Set the primary {@link Profession} of the owner. This action will only be
+     * completed when this is loaded and not in the unloading phase.
      *
-     * @param profession
-     *            The ID of the
-     *            {@link com.github.rolecraftdev.profession.Profession} the
-     *            player is joining
+     * @param profession the {@link UUID} of the owner's new primary
+     *        {@link Profession}
+     * @since 0.0.5
      */
     public void setProfession(final UUID profession) {
         if (loaded && !unloading) {
@@ -324,10 +350,11 @@ public final class PlayerData {
     }
 
     /**
-     * Sets the player's influence level to the given influence
+     * Set the influence of the owner. This action will only be completed when
+     * this is loaded and not in the unloading phase.
      *
-     * @param influence
-     *            The new level of influence for the player
+     * @param influence the owner's new influence level
+     * @since 0.0.5
      */
     public void setInfluence(final int influence) {
         if (loaded && !unloading) {
@@ -336,31 +363,43 @@ public final class PlayerData {
     }
 
     /**
-     * Adds the given amount of influence to the player's influence value
+     * Adds the given influence to the current influence level. This action may
+     * not be completed when this is not loaded or in the unloading phase.
      *
-     * @param influence
-     *            The amount of influence to add
+     * @param influence the amount of influence that should be added to the
+     *        current amount
+     * @since 0.0.5
+     * @see #setInfluence(float)
+     * @see #getInfluence()
      */
     public void addInfluence(final int influence) {
         setInfluence(getInfluence() + influence);
     }
 
     /**
-     * Subtracts the given amount of influence from the player's influence value
+     * Subtract the given influence from the current influence level. This
+     * action may not be completed when this is not loaded or in the unloading
+     * phase.
      *
-     * @param influence
-     *            The amount of influence to subtract
+     * @param influence the amount of influence that should be subtracted from
+     *        the current amount
+     * @since 0.0.5
+     * @see #setInfluence(float)
+     * @see #getInfluence()
      */
     public void subtractInfluence(final int influence) {
         setInfluence(getInfluence() - influence);
     }
 
     /**
-     * Sets the player's experience level
+     * Set the experience of the owner. When invoked, a new
+     * {@link RCExpChangeEvent} will be called and used to decide upon further
+     * execution. All of this will only happen when this is loaded and not in
+     * the unloading phase.
      *
-     * @param amount
-     *            The new experience value for the player
-     * @deprecated Do not call this, instead call with a reason
+     * @param amount the owner's new experience amount
+     * @since 0.0.5
+     * @deprecated use {@link #setExperience(float, ChangeReason)}
      */
     @Deprecated
     public void setExperience(final float amount) {
@@ -373,6 +412,16 @@ public final class PlayerData {
         }
     }
 
+    /**
+     * Set the experience of the owner. When invoked, a new
+     * {@link RCExpChangeEvent} will be called and used to decide upon further
+     * execution. All of this will only happen when this is loaded and not in
+     * the unloading phase.
+     *
+     * @param amount the owner's new experience amount
+     * @param reason the reason for this change
+     * @since 0.0.5
+     */
     public void setExperience(final float amount, ChangeReason reason) {
         if (loaded && !unloading) {
             RCExpChangeEvent event = RCExpEventFactory.callRCExpEvent(plugin,
@@ -385,11 +434,15 @@ public final class PlayerData {
     }
 
     /**
-     * Adds the given amount to the player's experience value
+     * Add the given experience to the current experience amount. This action
+     * may not be completed when this is not loaded or in the unloading phase.
      *
-     * @param amount
-     *            The amount of experience to add
-     * @deprecated Do not call this, instead call with a reason
+     * @param amount the amount of experience that should be added to the
+     *        current amount
+     * @since 0.0.5
+     * @see #setExperience(float)
+     * @see #getExperience()
+     * @deprecated use {@link #addExperience(float, ChangeReason)}
      */
     @Deprecated
     public void addExperience(final float amount) {
@@ -397,21 +450,30 @@ public final class PlayerData {
     }
 
     /**
-     * Preferred method for adding experience to a player
+     * Add the given experience to the current experience amount. This action
+     * may not be completed when this is not loaded or in the unloading phase.
      *
-     * @param amount
-     * @param reason
+     * @param amount the amount of experience that should be added to the
+     *        current amount
+     * @param reason the reason for this change
+     * @see #setExperience(float, ChangeReason)
+     * @see #getExperience()
      */
     public void addExperience(final float amount, ChangeReason reason) {
         setExperience(getExperience() + amount, reason);
     }
 
     /**
-     * Subtracts the given amount from the player's experience value
+     * Subtract the given experience from the current experience amount. This
+     * action may not be completed when this is not loaded or in the unloading
+     * phase.
      *
-     * @param amount
-     *            The amount of experience to subtract
-     * @deprecated Call with a reason instead
+     * @param amount the amount of experience that should be added to the
+     *        current amount
+     * @since 0.0.5
+     * @see #setExperience(float)
+     * @see #getExperience()
+     * @deprecated use {@link #subtractExperience(float, ChangeReason)}
      */
     @Deprecated
     public void subtractExperience(final float amount) {
@@ -419,20 +481,27 @@ public final class PlayerData {
     }
 
     /**
-     * Subtracts the given amount from the player's experience value
+     * Subtract the given experience from the current experience amount. This
+     * action may not be completed when this is not loaded or in the unloading
+     * phase.
      *
-     * @param amount
-     *            The amount of experience to subtract
+     * @param amount the amount of experience that should be added to the
+     *        current amount
+     * @param reason the reason for this change
+     * @since 0.0.5
+     * @see #setExperience(float, ChangeReason)
+     * @see #getExperience()
      */
     public void subtractExperience(final float amount, ChangeReason reason) {
         setExperience(getExperience() - amount,reason);
     }
 
     /**
-     * Sets the player's karma value
+     * Set the karma of the owner. This action will only be completed when this
+     * is loaded and not in the unloading phase.
      *
-     * @param karma
-     *            The new value for the player's karma
+     * @param karma the owner's new karma level
+     * @since 0.0.5
      */
     public void setKarma(float karma) {
         if (loaded && !unloading) {
@@ -441,29 +510,39 @@ public final class PlayerData {
     }
 
     /**
-     * Adds the given amount to the player's karma
+     * Add the given karma to the current karma level. This action may not be
+     * completed when this is not loaded or in the unloading phase.
      *
-     * @param amount
-     *            The amount to add to the player's karma
+     * @param amount the amount of karma that should be added to the current
+     *        amount
+     * @since 0.0.5
+     * @see #setKarma(float)
+     * @see #getKarma()
      */
     public void addKarma(float amount) {
         setKarma(getKarma() + amount);
     }
 
     /**
-     * Subtracts the given amount from the player's karma
+     * Subtract the given karma from the current karma level. This action may
+     * not be completed when this is not loaded or in the unloading phase.
      *
-     * @param amount
-     *            The amount to subtract from the player's karma
+     * @param amount the amount of karma that should be subtracted from the
+     *        current amount
+     * @since 0.0.5
+     * @see #setKarma(float)
+     * @see #getKarma()
      */
     public void subtractKarma(float amount) {
         setKarma(getKarma() - amount);
     }
 
     /**
-     * Gets this player's current amount of mana
+     * Get the amount of mana the owner has. Note that this will return
+     * {@code -1} if this is not yet wholly loaded.
      *
-     * @return The player's mana, or -1 if the data for this player isn't loaded
+     * @return the owner's mana
+     * @since 0.0.5
      */
     public float getMana() {
         // workaround for testing
@@ -486,25 +565,65 @@ public final class PlayerData {
         }
     }
 
+    /**
+     * Set the mana of the owner. This action will only be completed when this
+     * is loaded and not in the unloading phase.
+     *
+     * @param newMana the owner's new mana level
+     * @since 0.0.5
+     */
     public void setMana(float newMana) {
         if (loaded && !unloading) {
             mana = newMana;
         }
     }
 
+    /**
+     * Add the given mana to the current mana level. This action may not be
+     * completed when this is not loaded or in the unloading phase.
+     *
+     * @param amount the amount of mana that should be added to the current
+     *        amount
+     * @since 0.0.5
+     * @see #setMana(float)
+     * @see #getMana()
+     */
     public void addMana(float amount) {
         setMana(getMana() + amount);
     }
 
+    /**
+     * Subtract the given mana from the current mana level. This action may not
+     * be completed when this is not loaded or in the unloading phase.
+     *
+     * @param amount the amount of mana that should be subtracted from the
+     *        current amount
+     * @since 0.0.5
+     * @see #setMana(float)
+     * @see #getMana()
+     */
     public void subtractMana(float amount) {
         setMana(getMana() - amount);
     }
 
+    /**
+     * Get the rate at which mana should be regenerated.
+     *
+     * @return the owner's mana regeneration rate
+     * @since 0.0.5
+     */
     public float getManaRegenRate() {
         // TODO: this is probably wayyyy too fast
         return (float) Math.pow(getLevel(), 0.5) / 10 + 5;
     }
 
+    /**
+     * Set the current progression of a {@link Quest} for the owner.
+     *
+     * @param questId the {@link UUID} of the {@link Quest}
+     * @param progression its new progression value
+     * @since 0.0.5
+     */
     public void addQuestProgression(final UUID questId, final String progression) {
         if (questProgression.containsKey(questId)) {
             questProgression.remove(questId);
@@ -513,9 +632,11 @@ public final class PlayerData {
     }
 
     /**
-     * For internal use only - called when reset via SQL
+     * Resets all values to their initial value. This should only be called by
+     * DAO classes, doing otherwise might cause unknown problems.
      *
-     * @deprecated Do not call
+     * @since 0.0.5
+     * @deprecated for internal use only
      */
     @Deprecated
     public void clear() {
@@ -530,9 +651,23 @@ public final class PlayerData {
     }
 
     /**
-     * For internal use only - called when loaded in SQL.
+     * Set all values. This should only be used when all the data of a player
+     * has been collected from the appropriate database.
      *
-     * @deprecated Do not call
+     * @param guild the {@link UUID} of the owner's {@link Guild}
+     * @param profession the {@link UUID} of the owner's primary
+     *        {@link Profession}
+     * @param secondProfession the {@link UUID} of the owner's secondary
+     *        {@link Profession}
+     * @param influence the owner's influence level
+     * @param exp the owner's experience
+     * @param karma the owner's karma level
+     * @param mana the owner's mana level
+     * @param progression the owner's {@link Quest} along with their progression
+     *        data
+     * @param settings the owner's {@link PlayerSettings}
+     * @since 0.0.5
+     * @deprecated for internal use only
      */
     @Deprecated
     public void initialise(final UUID guild, final UUID profession,
@@ -552,6 +687,13 @@ public final class PlayerData {
         loaded = true;
     }
 
+    /**
+     * Get the {@link UUID} of the owner's secondary {@link Profession}. Note
+     * that this will return {@code null} if this is not yet wholly loaded.
+     *
+     * @return the {@link UUID} of the owner's secondary {@link Profession}
+     * @since 0.0.5
+     */
     public UUID getSecondProfession() {
         if (loaded) {
             return secondProfession;
@@ -560,6 +702,14 @@ public final class PlayerData {
         }
     }
 
+    /**
+     * Set the secondary {@link Profession} of the owner. This action will only
+     * be completed when this is loaded and not in the unloading phase.
+     *
+     * @param secondProfession the {@link UUID} of the owner's new secondary
+     *        {@link Profession}
+     * @since 0.0.5
+     */
     public void setSecondProfession(UUID secondProfession) {
         if (loaded && !unloading) {
             this.secondProfession = secondProfession;

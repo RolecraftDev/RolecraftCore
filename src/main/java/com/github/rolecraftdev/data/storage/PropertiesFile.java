@@ -38,15 +38,23 @@ import java.io.IOException;
 import java.util.Properties;
 
 /**
- * Utility class to make dealing with Java {@link Properties} easier
+ * Utility class to make dealing with {@link Properties} easier.
+ *
+ * @since 0.0.5
  */
 public class PropertiesFile extends Properties {
     private static final long serialVersionUID = 1L;
     /**
-     * The {@link File} the {@link Properties} are loaded from
+     * The associated {@link File}.
      */
     private final File file;
 
+    /**
+     * This automatically loads the the associated {@link Properties}.
+     *
+     * @param file the {@link File} the {@link Properties} should be loaded from
+     * @since 0.0.5
+     */
     public PropertiesFile(final File file) {
         super();
         this.file = file;
@@ -54,12 +62,13 @@ public class PropertiesFile extends Properties {
     }
 
     /**
-     * Creates a new PropertiesFile, copying the resource from the plugin jar
-     * if it doesn't already exist
+     * Automatically saves the resource defined by the given parameter values to
+     * the plugin's folder and loads its {@link Properties}.
      *
-     * @param plugin    The plugin for copying the resource from
-     * @param fileName  The name of the file
-     * @param overwrite Whether to overwrite existing files while copying
+     * @param plugin the {@link JavaPlugin} that contains the specified resource
+     * @param fileName the name of the resource
+     * @param overwrite overwrite if the resource is already available
+     * @since 0.0.5
      */
     public PropertiesFile(final JavaPlugin plugin, final String fileName,
             final boolean overwrite) {
@@ -69,7 +78,9 @@ public class PropertiesFile extends Properties {
     }
 
     /**
-     * Loads the properties
+     * Load its {@link Properties}.
+     *
+     * @since 0.0.5
      */
     private void load() {
         try {
@@ -80,23 +91,30 @@ public class PropertiesFile extends Properties {
     }
 
     /**
-     * Reloads the properties
+     * Reload its {@link Properties}.
+     *
+     * @since 0.0.5
+     * @see #load()
      */
     public void reload() {
         load();
     }
 
     /**
-     * Saves the properties without comments
+     * Save the {@link Properties} without any predefined comments.
+     *
+     * @since 0.0.5
+     * @see #save(String)
      */
     public void save() {
         save("");
     }
 
     /**
-     * Saves the properties with the given comments
+     * Save the {@link Properties} with the given comments.
      *
-     * @param comments The comments to save the properties with
+     * @param comments the comments that should be added
+     * @since 0.0.5
      */
     public void save(final String comments) {
         try {
@@ -107,16 +125,21 @@ public class PropertiesFile extends Properties {
     }
 
     /**
-     * Saves the properties to the file in XML format
+     * Save the {@link Properties} in XML format, without any predefined
+     * comments.
+     *
+     * @since 0.0.5
+     * @see #save(String)
      */
     public void saveXML() {
         saveXML("");
     }
 
     /**
-     * Saves the properties in XML format with the given comments
+     * Save the {@link Properties} in XML format with the given comments.
      *
-     * @param comments The comments to add to the XML file
+     * @param comments the comments that should be added
+     * @since 0.0.5
      */
     public void saveXML(final String comments) {
         try {

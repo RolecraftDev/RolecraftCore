@@ -37,9 +37,18 @@ import org.bukkit.entity.Player;
 import pw.ian.albkit.command.PlayerCommandHandler;
 import pw.ian.albkit.command.parser.Arguments;
 
+/**
+ * @since 0.0.5
+ */
 public class GuildBroadcastCommand extends PlayerCommandHandler {
     private final RolecraftCore plugin;
 
+    /**
+     * Constructor.
+     *
+     * @param plugin the associated {@link RolecraftCore} instance
+     * @since 0.0.5
+     */
     GuildBroadcastCommand(final RolecraftCore plugin) {
         super("broadcast");
         this.plugin = plugin;
@@ -50,6 +59,9 @@ public class GuildBroadcastCommand extends PlayerCommandHandler {
         setValidateUsage(false);
     }
 
+    /**
+     * @since 0.0.5
+     */
     @Override
     public void onCommand(final Player player, final Arguments args) {
         final String message = CommandHelper.joinFrom(1, args);

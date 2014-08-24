@@ -40,10 +40,19 @@ import org.bukkit.entity.Player;
 
 import java.util.UUID;
 
+/**
+ * @since 0.0.5
+ */
 public class ProfessionSelectCommand extends PlayerCommandHandler {
     private final RolecraftCore plugin;
     private final ProfessionManager professionMgr;
 
+    /**
+     * Constructor.
+     *
+     * @param plugin the associated {@link RolecraftCore} instance
+     * @since 0.0.5
+     */
     ProfessionSelectCommand(final RolecraftCore plugin) {
         super("select");
         this.plugin = plugin;
@@ -54,6 +63,9 @@ public class ProfessionSelectCommand extends PlayerCommandHandler {
         setPermission("rolecraft.profession.use");
     }
 
+    /**
+     * @since 0.0.5
+     */
     @Override
     public void onCommand(final Player player, final Arguments args) {
         if (args.length() < 1) {

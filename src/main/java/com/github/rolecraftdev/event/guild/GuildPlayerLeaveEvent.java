@@ -32,26 +32,52 @@ import com.github.rolecraftdev.guild.Guild;
 import org.bukkit.entity.Player;
 import org.bukkit.event.HandlerList;
 
+/**
+ * A {@link GuildEvent} called when a player decides to leave his {@link Guild}
+ * and is on the edge of doing so.
+ *
+ * @since 0.0.5
+ */
 public class GuildPlayerLeaveEvent extends GuildEvent {
     private static final HandlerList handlers = new HandlerList();
 
     private final Player player;
 
+    /**
+     * Constructor.
+     *
+     * @param plugin the associated {@link RolecraftCore} instance
+     * @param guild the affected {@link Guild}
+     * @param player the player who is about to leave his {@link Guild}
+     * @since 0.0.5
+     */
     public GuildPlayerLeaveEvent(final RolecraftCore plugin, final Guild guild,
             final Player player) {
         super(plugin, guild);
         this.player = player;
     }
 
+    /**
+     * Get the player who is on the brink of leaving his {@link Guild}.
+     *
+     * @return the leaving player
+     * @since 0.0.5
+     */
     public Player getPlayer() {
         return player;
     }
 
+    /**
+     * @since 0.0.5
+     */
     @Override
     public HandlerList getHandlers() {
         return handlers;
     }
 
+    /**
+     * @since 0.0.5
+     */
     public static HandlerList getHandlerList() {
         return handlers;
     }

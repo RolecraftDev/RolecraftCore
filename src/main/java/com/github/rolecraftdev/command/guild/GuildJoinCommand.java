@@ -37,10 +37,19 @@ import org.bukkit.metadata.MetadataValue;
 import pw.ian.albkit.command.PlayerCommandHandler;
 import pw.ian.albkit.command.parser.Arguments;
 
+/**
+ * @since 0.0.5
+ */
 public class GuildJoinCommand extends PlayerCommandHandler {
     private final RolecraftCore plugin;
     private final GuildManager guildMgr;
 
+    /**
+     * Constructor.
+     *
+     * @param plugin the associated {@link RolecraftCore} instance
+     * @since 0.0.5
+     */
     GuildJoinCommand(final RolecraftCore plugin) {
         super("join");
         this.plugin = plugin;
@@ -51,6 +60,9 @@ public class GuildJoinCommand extends PlayerCommandHandler {
         setPermission("rolecraft.guild.join");
     }
 
+    /**
+     * @since 0.0.5
+     */
     @Override
     public void onCommand(final Player player, final Arguments args) {
         if (args.length() == 0) {
@@ -83,6 +95,10 @@ public class GuildJoinCommand extends PlayerCommandHandler {
         }
     }
 
+    // TODO: JavaDoc
+    /**
+     * @since 0.0.5
+     */
     private void completeGuildAdd(final Player player, final Guild guild) {
         if(plugin.getDataManager().getPlayerData(player.getUniqueId()).getGuild()!= null) {
             // TODO: use RCConfrim to make sure they want to leave their guild

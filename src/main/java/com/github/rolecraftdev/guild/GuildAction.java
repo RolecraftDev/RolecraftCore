@@ -28,18 +28,60 @@ package com.github.rolecraftdev.guild;
 
 import java.util.UUID;
 
+import org.bukkit.Location;
+
 /**
  * A representation of all of the {@link GuildAction}s which can be performed
  * and are related to {@link Guild}s in one way or another.
+ *
+ * @since 0.0.5
  */
 public enum GuildAction {
-    // TODO: More things might be added here
-    KICK_MEMBER("kick"), INVITE("invite"), SET_HOME("set-home"), CHANGE_BLOCK(
-            "modify-hall"), IGNITE_BLOCK("ignite-hall-block"), MODIFY_RANKS(
-            "modify-ranks"), BROADCAST_MESSAGE("broadcast-message");
+    /**
+     * Permission to kick a player from his {@link Guild}.
+     *
+     * @since 0.0.5
+     */
+    KICK_MEMBER("kick"),
+    /**
+     * Permission to invite a player to his {@link Guild}.
+     *
+     * @since 0.0.5
+     */
+    INVITE("invite"),
+    /**
+     * Set the home {@link Location} of his {@link Guild}.
+     *
+     * @since 0.0.5
+     */
+    SET_HOME("set-home"),
+    /**
+     * Modify his guild-hall.
+     *
+     * @since 0.0.5
+     */
+    CHANGE_BLOCK("modify-hall"),
+    /**
+     * Ignite blocks in his guild-hall.
+     *
+     * @since 0.0.5
+     */
+    IGNITE_BLOCK("ignite-hall-block"),
+    /**
+     * Modify {@link GuildRank} permissions.
+     *
+     * @since 0.0.5
+     */
+    MODIFY_RANKS("modify-ranks"),
+    /**
+     * Send messages to all members of his {@link Guild}.
+     *
+     * @since 0.0.5
+     */
+    BROADCAST_MESSAGE("broadcast-message");
 
     /**
-     * A player-readable version of the name of this {@link GuildAction}.
+     * The player-readable version of the name of this {@link GuildAction}.
      */
     private final String playerReadable;
 
@@ -49,29 +91,39 @@ public enum GuildAction {
     }
 
     /**
-     * Get a player-readable version of the name of this {@link GuildAction}.
+     * Get the player-readable version of the name of this {@link GuildAction}.
      *
-     * @return The player-readable version of this {@link GuildAction}'s name
+     * @return the player-readable name
+     * @since 0.0.5
      */
     public String getPlayerReadableName() {
         return playerReadable;
     }
 
     /**
-     * Checks whether the given player is permitted to perform this
-     * {@link GuildAction} within the given {@link Guild}. This invokes
-     * {@link Guild#can(UUID, GuildAction)} and passes this {@link GuildAction}.
+     * Check whether the given player is allowed to perform this
+     * {@link GuildAction} in the specified {@link Guild}.
      *
-     * @param player - The player to check the permissions of
-     * @param guild  - The {@link Guild} to check the permissions of the given
-     *               player in
-     * @return True if the given player can perform this action and false in any
-     * otherold case
+     * @param player the {@link UUID} of the player to investigate
+     * @param guild the {@link Guild} to check the permissions in
+     * @return {@code true} if the player is able to perform this
+     *         {@link GuildAction}
+     * @since 0.0.5
+     * @see Guild#can(UUID, GuildAction)
      */
     public boolean can(final UUID player, final Guild guild) {
         return guild.can(player, this);
     }
 
+    /**
+     * Retrieve a {@link GuildAction} from a human-readable name.
+     *
+     * @param humanReadable the human-readable name to retrieve the
+     *        {@link GuildAction} from
+     * @return the associated {@link GuildAction}
+     * @since 0.0.5
+     * @see GuildManager#fromHumanReadable(String)
+     */
     public static GuildAction fromHumanReadable(final String humanReadable) {
         return GuildManager.fromHumanReadable(humanReadable);
     }

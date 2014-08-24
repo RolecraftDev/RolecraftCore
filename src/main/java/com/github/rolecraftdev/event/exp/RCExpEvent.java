@@ -32,33 +32,54 @@ import org.bukkit.event.Cancellable;
 import com.github.rolecraftdev.RolecraftCore;
 import com.github.rolecraftdev.event.RolecraftEvent;
 
+/**
+ * A {@link RolecraftEvent} that is called when a player's experience is somehow
+ * affected.
+ *
+ * @since 0.0.5
+ */
 public abstract class RCExpEvent extends RolecraftEvent implements Cancellable {
+    /**
+     * A reason as to why the experience of a player is affected.
+     *
+     * @since 0.0.5
+     */
     public enum ChangeReason {
         /**
-         * Awarded for killing something
+         * Awarded for killing something.
+         *
+         * @since 0.0.5
          */
         KILLING,
         /**
-         * Deducted for dying
+         * Deducted for dying.
+         *
+         * @since 0.0.5
          */
         DEATH,
         /**
-         * Changed by a plugin, should be called when modified from outside
-         * Rolecraft
+         * Changed by a plugin other than Rolecraft.
+         *
+         * @since 0.0.5
          */
         CUSTOM,
         /**
-         * Harvesting crops/breeding animals
+         * Harvesting crops/breeding animals.
+         *
+         * @since 0.0.5
          */
         HARVEST,
         /**
-         * Done via user command
+         * Done via command.
+         *
+         * @since 0.0.5
          */
         COMMAND,
         /**
-         * Defaults to this, if nothing is specified
+         * Defaults to this when nothing is specified.
          *
-         * @deprecated Should specify a reason when adding exp
+         * @since 0.0.5
+         * @deprecated a reason is required
          */
         DEFAULT
     }
@@ -67,20 +88,39 @@ public abstract class RCExpEvent extends RolecraftEvent implements Cancellable {
 
     private boolean cancelled;
 
+    /**
+     * Constructor.
+     *
+     * @param plugin the associated {@link RolecraftCore} instance
+     * @param player the affected player
+     * @since 0.0.5
+     */
     protected RCExpEvent(RolecraftCore plugin, Player player) {
         super(plugin);
         concern = player;
     }
 
+    /**
+     * Get the affected player.
+     *
+     * @return the affected player
+     * @since 0.0.5
+     */
     public final Player getPlayer() {
         return concern;
     }
 
+    /**
+     * @since 0.0.5
+     */
     @Override
     public boolean isCancelled() {
         return cancelled;
     }
 
+    /**
+     * @since 0.0.5
+     */
     @Override
     public void setCancelled(boolean cancel) {
         cancelled = cancel;

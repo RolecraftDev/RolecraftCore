@@ -34,69 +34,90 @@ import org.bukkit.event.Cancellable;
 import org.bukkit.event.HandlerList;
 
 /**
- * An event called upon the creation of a new {@link Guild} in Rolecraft
+ * A {@link GuildEvent} that gets called just before a new {@link Guild} is
+ * created.
+ *
+ * @since 0.0.5
  */
 public class GuildCreateEvent extends GuildEvent implements Cancellable {
     private static final HandlerList handlers = new HandlerList();
 
-    /**
-     * Whether the creation of the guild is cancelled
-     */
     private boolean cancelled;
     /**
-     * The message to send to the founder if the event is cancelled
+     * The message sent to the founder when this event is cancelled.
      */
     private String cancelMessage = "You can't create a guild right now!";
 
+    /**
+     * Constructor.
+     *
+     * @param plugin the associated {@link RolecraftCore} instance
+     * @param guild the affected {@link Guild}
+     * @since 0.0.5
+     */
     public GuildCreateEvent(final RolecraftCore plugin, final Guild guild) {
         super(plugin, guild);
     }
 
     /**
-     * Gets the {@link Player} who founded the new {@link Guild}
+     * Get the founder of the {@link Guild}.
      *
-     * @return The {@link Player} who founded the new {@link Guild}
+     * @return the founder of the {@link Guild}
+     * @since 0.0.5
      */
     public Player getFounder() {
         return getRolecraftPlugin().getServer().getPlayer(getGuild().getLeader());
     }
 
+    /**
+     * @since 0.0.5
+     */
     @Override
     public boolean isCancelled() {
         return cancelled;
     }
 
     /**
-     * Gets the message which will be sent to the founder if the event is
-     * cancelled
+     * Obtain the message that will be sent to the founder on the occasion of
+     * this event being cancelled.
      *
-     * @return The message to send to the founder if the event is cancelled
+     * @return the cancel message
+     * @since 0.0.5
      */
     public String getCancelMessage() {
         return cancelMessage;
     }
 
+    /**
+     * @since 0.0.5
+     */
     @Override
     public void setCancelled(final boolean cancelled) {
         this.cancelled = cancelled;
     }
 
     /**
-     * Sets the message to send to the founder of the new {@link Guild} if the
-     * event is cancelled
+     * Set the message that will be sent to the founder when this event is
+     * cancelled.
      *
-     * @param cancelMessage The new message to send to the founder if the event
-     *                      is cancelled
+     * @param cancelMessage the new cancel message
+     * @since 0.0.5
      */
     public void setCancelMessage(final String cancelMessage) {
         this.cancelMessage = cancelMessage;
     }
 
+    /**
+     * @since 0.0.5
+     */
     @Override
     public HandlerList getHandlers() {
         return handlers;
     }
 
+    /**
+     * @since 0.0.5
+     */
     public static HandlerList getHandlerList() {
         return handlers;
     }

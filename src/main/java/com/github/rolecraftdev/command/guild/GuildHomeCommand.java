@@ -39,10 +39,19 @@ import pw.ian.albkit.command.parser.Arguments;
 
 import java.util.UUID;
 
+/**
+ * @since 0.0.5
+ */
 public class GuildHomeCommand extends PlayerCommandHandler {
     private final RolecraftCore plugin;
     private final GuildManager guildManager;
 
+    /**
+     * Constructor.
+     *
+     * @param plugin the associated {@link RolecraftCore} instance
+     * @since 0.0.5
+     */
     GuildHomeCommand(final RolecraftCore plugin) {
         super(plugin, "home");
         this.plugin = plugin;
@@ -53,6 +62,9 @@ public class GuildHomeCommand extends PlayerCommandHandler {
         setPermission("rolecraft.guild.home");
     }
 
+    /**
+     * @since 0.0.5
+     */
     @Override
     public void onCommand(final Player player, final Arguments args) {
         final UUID id = player.getUniqueId();

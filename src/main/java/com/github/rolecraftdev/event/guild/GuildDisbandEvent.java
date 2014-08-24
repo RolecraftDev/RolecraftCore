@@ -32,20 +32,35 @@ import com.github.rolecraftdev.guild.Guild;
 import org.bukkit.event.HandlerList;
 
 /**
- * A {@link GuildEvent} called when a {@link Guild} is disbanded
+ * A {@link GuildEvent} called when a {@link Guild} is about to be disbanded.
+ *
+ * @since 0.0.5
  */
 public class GuildDisbandEvent extends GuildEvent {
     private static final HandlerList handlers = new HandlerList();
 
+    /**
+     * Constructor.
+     *
+     * @param plugin the associated {@link RolecraftCore} instance
+     * @param guild the affected {@link Guild}
+     * @since 0.0.5
+     */
     public GuildDisbandEvent(final RolecraftCore plugin, final Guild guild) {
         super(plugin, guild);
     }
 
+    /**
+     * @since 0.0.5
+     */
     @Override
     public HandlerList getHandlers() {
         return handlers;
     }
 
+    /**
+     * @since 0.0.5
+     */
     public static HandlerList getHandlerList() {
         return handlers;
     }

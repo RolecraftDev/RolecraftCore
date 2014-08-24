@@ -41,9 +41,18 @@ import java.util.ArrayList;
 import java.util.List;
 import java.util.Set;
 
+/**
+ * @since 0.0.5
+ */
 public class GuildListCommand extends CommandHandler {
     private final GuildManager guildMgr;
 
+    /**
+     * Constructor.
+     *
+     * @param plugin the associated {@link RolecraftCore} instance
+     * @since 0.0.5
+     */
     GuildListCommand(final RolecraftCore plugin) {
         super("list");
         guildMgr = plugin.getGuildManager();
@@ -53,6 +62,9 @@ public class GuildListCommand extends CommandHandler {
         setUsage("/guild list [page]");
     }
 
+    /**
+     * @since 0.0.5
+     */
     @Override
     public void onCommand(final CommandSender sender, final Arguments args) {
         final Set<Guild> guilds = guildMgr.getGuilds();

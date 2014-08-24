@@ -35,31 +35,38 @@ import java.util.UUID;
 import java.util.concurrent.ConcurrentHashMap;
 
 /**
- * Manages data objects, such as {@link PlayerData} objects, in Rolecraft
+ * A helper class for managing persistent data associated to Rolecraft.
+ *
+ * @since 0.0.5
  */
 public final class DataManager {
+    /**
+     * The key used for metadata for when something requires to be confirmed.
+     *
+     * @since 0.0.5
+     */
     public static final String CONFIRM_COMMAND_METADATA = "rolecraft-confirm";
 
     /**
-     * The Rolecraft plugin
+     * The associated {@link RolecraftCore} instance.
      */
     private final RolecraftCore plugin;
     /**
-     * The {@link DataStore} that data is being stored in and loaded from by
-     * this DataManager
+     * The {@link DataStore} implementation this manager uses for CRUD
+     * operations.
      */
     private final DataStore store;
     /**
-     * A Map of player unique identifiers to loaded {@link PlayerData} objects -
-     * {@link PlayerData} objects are loaded when a player joins the server and
-     * unloaded when the player quits
+     * Contains the correlation between a player's {@link UUID} and his
+     * {@link PlayerData}.
      */
     private final Map<UUID, PlayerData> loadedPlayerData;
 
     /**
-     * Creates a new DataManager object
+     * Constructor.
      *
-     * @param plugin The Rolecraft plugin this DataManager is storing data for
+     * @param plugin the linked {@link RolecraftCore} object
+     * @since 0.0.5
      */
     public DataManager(final RolecraftCore plugin) {
         this.plugin = plugin;
@@ -69,10 +76,12 @@ public final class DataManager {
     }
 
     /**
-     * Loads data for the given player from the database. If no data exists for
-     * the player, a new set of data is created
+     * Loads {@link PlayerData} for the given player from the linked database.
+     * If no data exists for the specified player, a new set of data is created
+     * and loaded afterwards.
      *
-     * @param player The unique identifier of the player to load data for
+     * @param player the {@link UUID} of the player
+     * @since 0.0.5
      */
     public void loadOrCreateData(final UUID player) {
         final PlayerData data = new PlayerData(plugin,player,
@@ -82,9 +91,11 @@ public final class DataManager {
     }
 
     /**
-     * Unloads data for the given player and saves it to the database
+     * Unloads the {@link PlayerData} of the player from memory and saves it to
+     * the used database.
      *
-     * @param player The unique identifier of the player to save data for
+     * @param player the {@link UUID} of the player
+     * @since 0.0.5
      */
     public void unloadAndSaveData(final UUID player) {
         final PlayerData data = loadedPlayerData.remove(player);
@@ -94,8 +105,9 @@ public final class DataManager {
     }
 
     /**
-     * Unloads all currently loaded {@link PlayerData} objects which are stored
-     * by this DataManager
+     * Unload all currently loaded {@link PlayerData}.
+     *
+     * @since 0.0.5
      */
     public void unloadAllPlayerData() {
         for (final UUID id : loadedPlayerData.keySet()) {
@@ -104,11 +116,12 @@ public final class DataManager {
     }
 
     /**
-     * Gets the {@link PlayerData} object for the player with the given unique
-     * identifier ({@link UUID})
-     * 
-     * @param player The unique identifier of the player to get data for
-     * @return The {@link PlayerData} for the player with the given identifier
+     * Get the {@link PlayerData} that is in correlation with the specified
+     * player.
+     *
+     * @param player the {@link UUID} of the player
+     * @return the {@link PlayerData} of the specified player
+     * @since 0.0.5
      */
     public PlayerData getPlayerData(final UUID player) {
         PlayerData result = loadedPlayerData.get(player);
@@ -119,20 +132,33 @@ public final class DataManager {
         return getPlayerData(player);
     }
 
+    /**
+     * Returns the associated {@link RolecraftCore} instance.
+     *
+     * @return the associated {@link RolecraftCore} instance
+     * @since 0.0.5
+     */
     public RolecraftCore getPlugin() {
         return plugin;
     }
 
     /**
-     * Gets the {@link DataStore} being used to store and retrieve data for
-     * this DataManager
+     * Get the {@link DataStore} implementation that is used for CRUD
+     * operations.
      *
-     * @return This DataManager's {@link DataStore} object
+     * @return the used {@link DataStore}
+     * @since 0.0.5
      */
     public DataStore getStore() {
         return store;
     }
 
+    /**
+     * Obtain all currently loaded {@link PlayerData}.
+     *
+     * @return all loaded {@link PlayerData}
+     * @since 0.0.5
+     */
     public Collection<PlayerData> getPlayerDatum() {
         return loadedPlayerData.values();
     }

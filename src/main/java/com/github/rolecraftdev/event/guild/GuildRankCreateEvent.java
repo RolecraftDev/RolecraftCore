@@ -33,16 +33,26 @@ import com.github.rolecraftdev.guild.GuildRank;
 import org.bukkit.event.HandlerList;
 
 /**
- * A {@link GuildEvent} called when a new {@link GuildRank} is created
+ * A {@link GuildEvent} called after a new {@link GuildRank} is created.
+ *
+ * @since 0.0.5
  */
 public class GuildRankCreateEvent extends GuildEvent {
     private static final HandlerList handlers = new HandlerList();
 
     /**
-     * The newly created {@link GuildRank}
+     * The new {@link GuildRank}.
      */
     private final GuildRank rank;
 
+    /**
+     * Constructor.
+     *
+     * @param plugin the associated {@link RolecraftCore} instance
+     * @param guild the affected {@link Guild}
+     * @param rank the newly created {@link GuildRank}
+     * @since 0.0.5
+     */
     public GuildRankCreateEvent(final RolecraftCore plugin, final Guild guild,
             final GuildRank rank) {
         super(plugin, guild);
@@ -50,19 +60,26 @@ public class GuildRankCreateEvent extends GuildEvent {
     }
 
     /**
-     * Gets the {@link GuildRank} which has been newly created
+     * Acquire the newly created {@link GuildRank}.
      *
-     * @return The newly created {@link GuildRank}
+     * @return the new {@link GuildRank}
+     * @since 0.0.5
      */
     public GuildRank getRank() {
         return rank;
     }
 
+    /**
+     * @since 0.0.5
+     */
     @Override
     public HandlerList getHandlers() {
         return handlers;
     }
 
+    /**
+     * @since 0.0.5
+     */
     public static HandlerList getHandlerList() {
         return handlers;
     }
