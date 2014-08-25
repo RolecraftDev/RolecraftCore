@@ -48,8 +48,6 @@ import java.util.Properties;
  * each message can be completely configurable
  */
 public class Messages {
-    // This would be so much easier if Java has associative arrays, just saying
-
     // Sent to players who don't have permission to perform a command
     public static final String NO_PERMISSION = "no-permission";
     // Sent to non-players who try to execute a player-only command
@@ -146,14 +144,19 @@ public class Messages {
     public static final String PROFESSION_DENY_ITEM = "profession-deny-item";
     // Send when a player aims below the ground when casting an arrow rain spell
     public static final String ARROW_BELOW_GROUND_FAILURE = "arrow-below-ground-failure";
+    // The basic message outline for guild information
     public static final String GUILD_INFO = "guild-info";
     public static final String GUILD_MEMBERS = "guild-info-members";
     public static final String GUILD_INFLUENCE = "guild-info-influence";
     public static final String GUIlD_LEADER = "guild-info-leader";
     public static final String GUILD_RANK = "guild-info-rank";
+    // Sent if someone tries to create a guild with a name which already exists
     public static final String GUILD_ALREADY_EXISTS = "guild-already-exists";
+    // Sent if someone who doesn't have permission tries to broadcast a message
     public static final String BROADCAST_NO_PERMS = "broadcast-no-perms";
     public static final String GUILD_LEAVE = "guild-leave";
+    // Sent to players who don't have a guild invitation
+    public static final String NO_GUILD_INVITE = "no-guild-invite";
 
     /**
      * Variables which are always the same for parsing messages, such as colours
@@ -185,7 +188,6 @@ public class Messages {
             MsgVar.create("$italic", ChatColor.ITALIC.toString()),
             MsgVar.create("$bold", ChatColor.BOLD.toString())
     };
-    public static final String NO_GUILD_INVITE = "no-guild-invite";
 
     /**
      * The {@link RolecraftCore} plugin object
@@ -227,8 +229,6 @@ public class Messages {
      * value
      * </p>
      */
-    // Note: we use getResourceAsStream because getResource is buggy for some
-    // reason
     public void load() {
         final String langName = "/messages/en-US.properties";
         // Get the file configured by the user
