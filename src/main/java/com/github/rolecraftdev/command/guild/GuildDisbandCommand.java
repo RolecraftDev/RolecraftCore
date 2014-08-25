@@ -26,9 +26,6 @@
  */
 package com.github.rolecraftdev.command.guild;
 
-import pw.ian.albkit.command.CommandHandler;
-import pw.ian.albkit.command.parser.Arguments;
-
 import com.github.rolecraftdev.RolecraftCore;
 import com.github.rolecraftdev.data.DataManager;
 import com.github.rolecraftdev.guild.Guild;
@@ -40,6 +37,9 @@ import org.bukkit.ChatColor;
 import org.bukkit.command.CommandSender;
 import org.bukkit.entity.Player;
 import org.bukkit.metadata.FixedMetadataValue;
+
+import pw.ian.albkit.command.CommandHandler;
+import pw.ian.albkit.command.parser.Arguments;
 
 import java.util.UUID;
 

@@ -26,8 +26,6 @@
  */
 package com.github.rolecraftdev;
 
-import pw.ian.albkit.AlbPlugin;
-
 import com.github.rolecraftdev.command.guild.GuildCommand;
 import com.github.rolecraftdev.command.other.DebugCommand;
 import com.github.rolecraftdev.command.other.GCCommand;
@@ -52,6 +50,8 @@ import net.milkbowl.vault.economy.Economy;
 
 import org.bukkit.configuration.file.FileConfiguration;
 import org.bukkit.plugin.RegisteredServiceProvider;
+
+import pw.ian.albkit.AlbPlugin;
 
 import java.io.File;
 import java.io.FileOutputStream;

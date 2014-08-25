@@ -27,9 +27,6 @@
 package com.github.rolecraftdev.command;
 
 import org.apache.commons.lang.StringUtils;
-import pw.ian.albkit.command.CommandHandler;
-import pw.ian.albkit.command.parser.Arguments;
-import pw.ian.albkit.command.parser.ChatSection;
 
 import com.github.rolecraftdev.guild.Guild;
 import com.github.rolecraftdev.guild.GuildAction;
@@ -40,6 +37,10 @@ import com.github.rolecraftdev.util.messages.MsgVar;
 import org.bukkit.ChatColor;
 import org.bukkit.command.CommandSender;
 import org.bukkit.entity.Player;
+
+import pw.ian.albkit.command.CommandHandler;
+import pw.ian.albkit.command.parser.Arguments;
+import pw.ian.albkit.command.parser.ChatSection;
 
 import java.util.List;
 

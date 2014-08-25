@@ -26,9 +26,6 @@
  */
 package com.github.rolecraftdev.command.profession;
 
-import pw.ian.albkit.command.CommandHandler;
-import pw.ian.albkit.command.parser.Arguments;
-
 import com.github.rolecraftdev.RolecraftCore;
 import com.github.rolecraftdev.command.CommandHelper;
 import com.github.rolecraftdev.profession.Profession;
@@ -36,6 +33,9 @@ import com.github.rolecraftdev.profession.ProfessionManager;
 
 import org.bukkit.ChatColor;
 import org.bukkit.command.CommandSender;
+
+import pw.ian.albkit.command.CommandHandler;
+import pw.ian.albkit.command.parser.Arguments;
 
 import java.util.ArrayList;
 

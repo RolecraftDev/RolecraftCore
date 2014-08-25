@@ -26,13 +26,13 @@
  */
 package com.github.rolecraftdev.util;
 
-import pw.ian.albkit.util.Rand;
-
 import org.bukkit.block.Block;
 import org.bukkit.entity.Entity;
 import org.bukkit.entity.LivingEntity;
 import org.bukkit.entity.Player;
 import org.bukkit.util.Vector;
+
+import pw.ian.albkit.util.Rand;
 
 import java.util.List;
 import java.util.Random;

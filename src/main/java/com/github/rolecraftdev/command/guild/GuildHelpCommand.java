@@ -26,15 +26,15 @@
  */
 package com.github.rolecraftdev.command.guild;
 
-import pw.ian.albkit.command.PlayerCommandHandler;
-import pw.ian.albkit.command.parser.Arguments;
-import pw.ian.albkit.util.ColorScheme;
-import pw.ian.albkit.util.Messaging;
-
 import com.github.rolecraftdev.RolecraftCore;
 import com.github.rolecraftdev.guild.GuildAction;
 
 import org.bukkit.entity.Player;
+
+import pw.ian.albkit.command.PlayerCommandHandler;
+import pw.ian.albkit.command.parser.Arguments;
+import pw.ian.albkit.util.ColorScheme;
+import pw.ian.albkit.util.Messaging;
 
 /**
  * @since 0.0.5

@@ -400,7 +400,7 @@ public final class PlayerData {
         if (loaded && !unloading) {
             RCExpChangeEvent event = RCExpEventFactory
                     .callRCExpEvent(plugin, Bukkit.getServer()
-                            .getPlayer(playerId), amount - experience,
+                                    .getPlayer(playerId), amount - experience,
                             ChangeReason.DEFAULT);
             if (!event.isCancelled()) {
                 experience = event.getNewExperience();
