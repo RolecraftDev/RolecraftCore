@@ -67,7 +67,7 @@ public class YamlFile extends YamlConfiguration {
      * This automatically loads the the associated {@link YamlConfiguration}.
      *
      * @param file the {@link File} the {@link YamlConfiguration} should be
-     *        loaded from
+     *             loaded from
      * @since 0.0.5
      */
     public YamlFile(final File file) {
@@ -77,7 +77,7 @@ public class YamlFile extends YamlConfiguration {
     }
 
     /**
-     * Returns the associated {@link File}.
+     * Gets the associated {@link File}.
      *
      * @return the associated {@link File}
      * @since 0.0.5
@@ -87,7 +87,8 @@ public class YamlFile extends YamlConfiguration {
     }
 
     /**
-     * Reload its {@link YamlConfiguration}.
+     * Reload its {@link YamlConfiguration}, printing the stack trace for any
+     * exceptions.
      *
      * @since 0.0.5
      * @see #load(File)
@@ -103,7 +104,8 @@ public class YamlFile extends YamlConfiguration {
     }
 
     /**
-     * Save its {@link YamlConfiguration}.
+     * Save its {@link YamlConfiguration}, printing the stack trace for any
+     * exceptions.
      *
      * @since 0.0.5
      * @see #save(File)

@@ -39,9 +39,18 @@ public final class PlayerSettings {
      */
     public static final PlayerSettings DEFAULT_SETTINGS = new PlayerSettings();
 
+    /**
+     * Whether to show mana for the player on a scoreboard
+     */
     private boolean showMana;
+    /**
+     * Whether to send a chat message to the player when they cast a spell
+     */
     private boolean spellChatMessage;
-    // Thread-safe!
+    /**
+     * Whether the player is spying on guild chat - volatile to ensure thread
+     * safety in Bukkit's AsyncPlayerChatEvent
+     */
     private volatile boolean guildSpy;
 
     /**
@@ -53,48 +62,6 @@ public final class PlayerSettings {
         showMana = true;
         spellChatMessage = true;
         guildSpy = true;
-    }
-
-    /**
-     * Obtain a new {@link PlayerSettings} object from a string in which every
-     * value is separated by a comma (only). The values should equal "true" if
-     * the linked setting should be {@code true} and may be anything else to
-     * represent {@code false}. Below is a list of the setting each element
-     * represents:
-     * <ol>
-     * <li>show mana</li>
-     * <li>spell chat message</li>
-     * <li>guild spy</li>
-     * </ol>
-     * This works in accordance with {@link #toString()}.
-     *
-     * @param string the string that should be parsed to construct a new
-     *        {@link PlayerSettings} object
-     * @return the constructed {@link PlayerSettings}
-     * @since 0.0.5
-     */
-    public static PlayerSettings fromString(String string) {
-        String[] strings = string.split(",");
-        PlayerSettings temp = new PlayerSettings();
-        temp.showMana = strings[0].equals("true");
-        temp.spellChatMessage = strings[1].equals("true");
-        temp.guildSpy = strings[2].equals("true");
-
-        return temp;
-    }
-
-    /**
-     * @since 0.0.5
-     */
-    @Override
-    public String toString() {
-        StringBuilder sb = new StringBuilder();
-        sb.append(String.valueOf(showMana));
-        sb.append(',');
-        sb.append(String.valueOf(spellChatMessage));
-        sb.append(',');
-        sb.append(String.valueOf(guildSpy));
-        return sb.toString();
     }
 
     /**
@@ -152,10 +119,51 @@ public final class PlayerSettings {
      * Set the <em>guild spy</em> setting. This setting is volatile and thus
      * thread-safe to some extend.
      *
-     * @param showMana the new <em>guild spy</em> value
+     * @param guildSpy the new <em>guild spy</em> value
      * @since 0.0.5
      */
     public void setGuildSpy(boolean guildSpy) {
         this.guildSpy = guildSpy;
+    }
+
+    /**
+     * @since 0.0.5
+     */
+    @Override
+    public String toString() {
+        StringBuilder sb = new StringBuilder();
+        sb.append(String.valueOf(showMana));
+        sb.append(',');
+        sb.append(String.valueOf(spellChatMessage));
+        sb.append(',');
+        sb.append(String.valueOf(guildSpy));
+        return sb.toString();
+    }
+
+    /**
+     * Obtain a new {@link PlayerSettings} object from a string in which every
+     * value is separated by a comma (only). The values should equal "true" if
+     * the linked setting should be {@code true} and may be anything else to
+     * represent {@code false}. Below is a list of the setting each element
+     * represents:
+     * <ol>
+     * <li>show mana</li>
+     * <li>spell chat message</li>
+     * <li>guild spy</li>
+     * </ol>
+     * This works in accordance with {@link #toString()}.
+     *
+     * @param string the string that should be parsed to construct a new
+     *        {@link PlayerSettings} object
+     * @return the constructed {@link PlayerSettings}
+     * @since 0.0.5
+     */
+    public static PlayerSettings fromString(String string) {
+        String[] strings = string.split(",");
+        PlayerSettings temp = new PlayerSettings();
+        temp.showMana = strings[0].equals("true");
+        temp.spellChatMessage = strings[1].equals("true");
+        temp.guildSpy = strings[2].equals("true");
+        return temp;
     }
 }

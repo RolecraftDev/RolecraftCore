@@ -34,8 +34,22 @@ import org.bukkit.Location;
  * @since 0.0.5
  */
 public class Region2D {
-    private final int minX, minZ;
-    private final int maxX, maxZ;
+    /**
+     * The lowest x value in the region
+     */
+    private final int minX;
+    /**
+     * The lowest z value in the region
+     */
+    private final int minZ;
+    /**
+     * The highest x value in the region
+     */
+    private final int maxX;
+    /**
+     * The highest z value in the region
+     */
+    private final int maxZ;
 
     /**
      * Constructor.
