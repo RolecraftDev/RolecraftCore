@@ -38,7 +38,8 @@ import org.bukkit.event.entity.EntityDamageByEntityEvent;
 import org.bukkit.event.entity.ProjectileHitEvent;
 
 public class ProjectileListener implements Listener {
-    ProjectileListener(final RolecraftCore plugin) {}
+    ProjectileListener(final RolecraftCore plugin) {
+    }
 
     @EventHandler(priority = EventPriority.HIGHEST)
     public void onDamage(EntityDamageByEntityEvent e) {
@@ -56,7 +57,7 @@ public class ProjectileListener implements Listener {
         }
     }
 
-    @EventHandler(priority =  EventPriority.HIGH)
+    @EventHandler(priority = EventPriority.HIGH)
     public void onHit(ProjectileHitEvent e) {
         if (e.getEntity() instanceof Arrow) {
             if (e.getEntity().hasMetadata("Explosion")) {

@@ -35,13 +35,22 @@ import com.github.rolecraftdev.guild.GuildManager;
 import com.github.rolecraftdev.guild.GuildRank;
 import com.github.rolecraftdev.quest.Quest;
 import com.github.rolecraftdev.util.LocationSerializer;
+
 import org.bukkit.Bukkit;
 import org.bukkit.Location;
 import org.bukkit.scheduler.BukkitRunnable;
 import org.bukkit.scheduler.BukkitTask;
 
-import java.sql.*;
-import java.util.*;
+import java.sql.Connection;
+import java.sql.PreparedStatement;
+import java.sql.ResultSet;
+import java.sql.ResultSetMetaData;
+import java.sql.SQLException;
+import java.util.HashMap;
+import java.util.HashSet;
+import java.util.Map;
+import java.util.Set;
+import java.util.UUID;
 
 /**
  * A DAO used for persistent storage of Rolecraft data, which can be used for
@@ -154,6 +163,7 @@ public abstract class DataStore {
     public abstract String getStoreTypeName();
 
     // TODO: JavaDoc
+
     /**
      * @since 0.0.5
      */
@@ -279,7 +289,7 @@ public abstract class DataStore {
                     ps.setString(6, hall);
                     ps.setString(7, id);
                     ps.setInt(8, guild.getInfluence());
-                    ps.setBoolean(9,guild.isOpen());
+                    ps.setBoolean(9, guild.isOpen());
                     ps.execute();
                 } catch (final SQLException ex) {
                     ex.printStackTrace();
@@ -437,7 +447,7 @@ public abstract class DataStore {
                         boolean open = rs.getBoolean("open");
 
                         Guild guild = new Guild(callback, id, name, leader,
-                                members, ranks, home, influence, hall,open);
+                                members, ranks, home, influence, hall, open);
                         callback.addGuild(guild, true);
                     }
 
@@ -677,7 +687,8 @@ public abstract class DataStore {
                         callback.initialise(
                                 UUID.fromString(rs.getString("guild")),
                                 UUID.fromString(rs.getString("profession")),
-                                UUID.fromString(rs.getString("secondprofession")),
+                                UUID.fromString(
+                                        rs.getString("secondprofession")),
                                 rs.getInt("influence"), rs.getFloat("exp"),
                                 rs.getFloat("karma"), rs.getFloat("mana"),
                                 null, PlayerSettings
@@ -689,7 +700,8 @@ public abstract class DataStore {
                         ps.setString(1, uuid);
                         ps.setString(2, name);
                         ps.execute();
-                        callback.initialise(null, null, null, 0, 0f, -originalSin,
+                        callback.initialise(null, null, null, 0, 0f,
+                                -originalSin,
                                 0, null, PlayerSettings.DEFAULT_SETTINGS);
                     }
 
@@ -730,7 +742,8 @@ public abstract class DataStore {
                                         UUID.fromString(rs.getString("guild")),
                                         UUID.fromString(
                                                 rs.getString("profession")),
-                                        UUID.fromString(rs.getString("secondprofession")),
+                                        UUID.fromString(rs.getString(
+                                                "secondprofession")),
                                         rs.getInt("influence"),
                                         rs.getFloat("exp"),
                                         rs.getFloat("karma"),

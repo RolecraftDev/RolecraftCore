@@ -26,10 +26,12 @@
  */
 package com.github.rolecraftdev.util.messages;
 
+import net.minecraft.util.org.apache.commons.io.FileUtils;
+
 import com.github.rolecraftdev.RolecraftCore;
 import com.github.rolecraftdev.command.CommandHelper;
 import com.github.rolecraftdev.data.storage.PropertiesFile;
-import net.minecraft.util.org.apache.commons.io.FileUtils;
+
 import org.bukkit.ChatColor;
 
 import java.io.File;
@@ -153,8 +155,6 @@ public class Messages {
     public static final String BROADCAST_NO_PERMS = "broadcast-no-perms";
     public static final String GUILD_LEAVE = "guild-leave";
 
-
-
     /**
      * Variables which are always the same for parsing messages, such as colours
      * and formatting options
@@ -185,8 +185,7 @@ public class Messages {
             MsgVar.create("$italic", ChatColor.ITALIC.toString()),
             MsgVar.create("$bold", ChatColor.BOLD.toString())
     };
-    public static final String NO_GUILD_INVITE  = "no-guild-invite";
-
+    public static final String NO_GUILD_INVITE = "no-guild-invite";
 
     /**
      * The {@link RolecraftCore} plugin object

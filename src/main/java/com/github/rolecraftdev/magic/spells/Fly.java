@@ -46,7 +46,8 @@ import org.bukkit.inventory.meta.ItemMeta;
  * A {@link Spell} implementation that allows the holder to fly.
  */
 public class Fly implements Spell {
-    public Fly(SpellManager spellManager) {}
+    public Fly(SpellManager spellManager) {
+    }
 
     @Override
     public String getName() {

@@ -66,7 +66,8 @@ public class GuildCreateEvent extends GuildEvent implements Cancellable {
      * @since 0.0.5
      */
     public Player getFounder() {
-        return getRolecraftPlugin().getServer().getPlayer(getGuild().getLeader());
+        return getRolecraftPlugin().getServer()
+                .getPlayer(getGuild().getLeader());
     }
 
     /**

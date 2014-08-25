@@ -26,12 +26,12 @@
  */
 package com.github.rolecraftdev.event.exp;
 
-import org.bukkit.Bukkit;
-import org.bukkit.entity.Player;
-
 import com.github.rolecraftdev.RolecraftCore;
 import com.github.rolecraftdev.event.exp.RCExpEvent.ChangeReason;
 import com.github.rolecraftdev.util.LevelUtil;
+
+import org.bukkit.Bukkit;
+import org.bukkit.entity.Player;
 
 /**
  * A utility class which can be used to easily construct {@link RCExpEvent}s.
@@ -42,7 +42,8 @@ public class RCExpEventFactory {
     /**
      * @since 0.0.5
      */
-    private RCExpEventFactory() {}
+    private RCExpEventFactory() {
+    }
 
     /**
      * Creates and calls the appropriate event given the parameter values.
@@ -58,13 +59,13 @@ public class RCExpEventFactory {
             Player player, float amount, ChangeReason reason) {
         RCExpChangeEvent temp;
 
-        float experience = plugin.getDataManager().getPlayerData(player.getUniqueId()).getExperience();
+        float experience = plugin.getDataManager()
+                .getPlayerData(player.getUniqueId()).getExperience();
 
-        if(LevelUtil.getLevel(experience) !=
-                LevelUtil.getLevel(experience+amount)) {
+        if (LevelUtil.getLevel(experience) !=
+                LevelUtil.getLevel(experience + amount)) {
             temp = new RCLevelChangeEvent(plugin, player, experience, reason);
-        }
-        else {
+        } else {
             temp = new RCExpChangeEvent(plugin, player, experience, reason);
         }
 

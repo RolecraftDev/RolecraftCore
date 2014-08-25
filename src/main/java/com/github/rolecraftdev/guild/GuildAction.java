@@ -26,9 +26,9 @@
  */
 package com.github.rolecraftdev.guild;
 
-import java.util.UUID;
-
 import org.bukkit.Location;
+
+import java.util.UUID;
 
 /**
  * A representation of all of the {@link GuildAction}s which can be performed

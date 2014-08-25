@@ -53,13 +53,13 @@ public final class ProfessionRule<T> {
             "usable-armor", List.class);
     @SuppressWarnings("rawtypes")
     public static final ProfessionRule<List> USABLE_ENCHANTMENTS = new ProfessionRule<List>(
-            "usable-enchantments",List.class);
+            "usable-enchantments", List.class);
     /**
      * Denies the equipping and crafting of items, STRONGLY recommended to put an *
      * and deny specific ones in this field
      */
     @SuppressWarnings("rawtypes")
-    public static final ProfessionRule<List> USABLE_ITEMS = new ProfessionRule<List> (
+    public static final ProfessionRule<List> USABLE_ITEMS = new ProfessionRule<List>(
             "usable-weapons", List.class);
 
     /**

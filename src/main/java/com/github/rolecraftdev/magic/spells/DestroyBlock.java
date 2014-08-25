@@ -49,7 +49,8 @@ import org.bukkit.inventory.meta.ItemMeta;
  * anything.
  */
 public class DestroyBlock implements Spell {
-    public DestroyBlock(SpellManager parent) {}
+    public DestroyBlock(SpellManager parent) {
+    }
 
     @Override
     public String getName() {

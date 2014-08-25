@@ -26,8 +26,8 @@
  */
 package com.github.rolecraftdev.profession;
 
-import java.util.List;
-import java.util.Map.Entry;
+import com.github.rolecraftdev.util.messages.Messages;
+import com.github.rolecraftdev.util.messages.MsgVar;
 
 import org.bukkit.Material;
 import org.bukkit.command.CommandSender;
@@ -44,8 +44,8 @@ import org.bukkit.event.inventory.InventoryType.SlotType;
 import org.bukkit.event.player.PlayerItemHeldEvent;
 import org.bukkit.inventory.ItemStack;
 
-import com.github.rolecraftdev.util.messages.Messages;
-import com.github.rolecraftdev.util.messages.MsgVar;
+import java.util.List;
+import java.util.Map.Entry;
 
 public class ProfessionListener implements Listener {
     private final ProfessionManager parent;
@@ -55,6 +55,7 @@ public class ProfessionListener implements Listener {
     }
 
     // enforce armor wearing rules
+
     /**
      * In the profession file, these are determined by the tag usable-armor
      * followed by a list of tags that are the names of items as defined in
@@ -66,7 +67,8 @@ public class ProfessionListener implements Listener {
     @EventHandler(priority = EventPriority.HIGHEST)
     public void enforceArmorRules(InventoryClickEvent event) {
         if (event.getWhoClicked() instanceof Player) {
-            if (parent.getPlayerProfession(event.getWhoClicked().getUniqueId()) == null) {
+            if (parent.getPlayerProfession(event.getWhoClicked().getUniqueId())
+                    == null) {
                 if (!parent.getPlugin().getConfig()
                         .getBoolean("professiondefaults.enchantments")) {
                     ((CommandSender) event.getWhoClicked()).sendMessage(parent
@@ -80,8 +82,7 @@ public class ProfessionListener implements Listener {
                                                     .getName())));
                     event.setCancelled(true);
                     return;
-                }
-                else {
+                } else {
                     return;
                 }
             }
@@ -160,7 +161,8 @@ public class ProfessionListener implements Listener {
 
     @EventHandler(priority = EventPriority.LOW)
     public void enforceEnchantRules(EnchantItemEvent event) {
-        if (parent.getPlayerProfession(event.getEnchanter().getUniqueId()) == null) {
+        if (parent.getPlayerProfession(event.getEnchanter().getUniqueId())
+                == null) {
             if (!parent.getPlugin().getConfig()
                     .getBoolean("professiondefaults.enchantments")) {
                 event.getEnchanter().sendMessage(
@@ -174,8 +176,7 @@ public class ProfessionListener implements Listener {
                                                 .getName())));
                 event.setCancelled(true);
                 return;
-            }
-            else {
+            } else {
                 return;
             }
         }
@@ -195,7 +196,8 @@ public class ProfessionListener implements Listener {
     public void enforceItemChange(PlayerItemHeldEvent event) {
         ItemStack stack = event.getPlayer().getInventory()
                 .getItem(event.getNewSlot());
-        if (parent.getPlayerProfession(event.getPlayer().getUniqueId()) == null) {
+        if (parent.getPlayerProfession(event.getPlayer().getUniqueId())
+                == null) {
             if (!parent.getPlugin().getConfig()
                     .getBoolean("professiondefaults.enchantments")) {
                 event.getPlayer().sendMessage(
@@ -210,8 +212,7 @@ public class ProfessionListener implements Listener {
                                                         .getName())));
                 event.setCancelled(true);
                 return;
-            }
-            else {
+            } else {
                 return;
             }
         }

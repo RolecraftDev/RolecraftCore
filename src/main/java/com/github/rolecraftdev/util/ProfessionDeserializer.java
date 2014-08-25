@@ -156,7 +156,8 @@ public class ProfessionDeserializer {
             if (!ruleMap.set(ProfessionRule.getRule(ruleName), value)) {
                 Bukkit.getLogger()
                         .warning("[WARNING] [Rolecraft] Couldn't set rule "
-                        + ruleName + " for profession " + getProfessionName());
+                                + ruleName + " for profession "
+                                + getProfessionName());
             }
         }
         return ruleMap;

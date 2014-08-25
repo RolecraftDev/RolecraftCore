@@ -26,11 +26,11 @@
  */
 package com.github.rolecraftdev.event.exp;
 
-import org.bukkit.entity.Player;
-import org.bukkit.event.Cancellable;
-
 import com.github.rolecraftdev.RolecraftCore;
 import com.github.rolecraftdev.event.RolecraftEvent;
+
+import org.bukkit.entity.Player;
+import org.bukkit.event.Cancellable;
 
 /**
  * A {@link RolecraftEvent} that is called when a player's experience is somehow

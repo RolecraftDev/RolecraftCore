@@ -35,12 +35,12 @@ import com.github.rolecraftdev.profession.Profession;
 import com.github.rolecraftdev.quest.Quest;
 import com.github.rolecraftdev.util.LevelUtil;
 
+import org.bukkit.Bukkit;
+
 import java.net.URISyntaxException;
 import java.util.HashMap;
 import java.util.Map;
 import java.util.UUID;
-
-import org.bukkit.Bukkit;
 
 /**
  * Holds persistent Rolecraft data for a player.
@@ -201,8 +201,7 @@ public final class PlayerData {
     public UUID getProfession() {
         if (loaded) {
             return profession;
-        }
-        else {
+        } else {
             return null;
         }
     }
@@ -227,8 +226,7 @@ public final class PlayerData {
     public int getInfluence() {
         if (loaded) {
             return influence;
-        }
-        else {
+        } else {
             return -1;
         }
     }
@@ -244,8 +242,7 @@ public final class PlayerData {
     public int getLevel() {
         if (loaded) {
             return LevelUtil.getLevel(experience);
-        }
-        else {
+        } else {
             return -1;
         }
     }
@@ -261,8 +258,7 @@ public final class PlayerData {
     public float getExpToNextLevel() {
         if (loaded) {
             return LevelUtil.expToNextLevel(experience);
-        }
-        else {
+        } else {
             return -1;
         }
     }
@@ -278,8 +274,7 @@ public final class PlayerData {
     public float getExperience() {
         if (loaded) {
             return experience;
-        }
-        else {
+        } else {
             return -1;
         }
     }
@@ -294,8 +289,7 @@ public final class PlayerData {
     public float getKarma() {
         if (loaded) {
             return karma;
-        }
-        else {
+        } else {
             return -1;
         }
     }
@@ -404,9 +398,11 @@ public final class PlayerData {
     @Deprecated
     public void setExperience(final float amount) {
         if (loaded && !unloading) {
-            RCExpChangeEvent event = RCExpEventFactory.callRCExpEvent(plugin, Bukkit.getServer()
-                    .getPlayer(playerId), amount - experience, ChangeReason.DEFAULT);
-            if(!event.isCancelled()) {
+            RCExpChangeEvent event = RCExpEventFactory
+                    .callRCExpEvent(plugin, Bukkit.getServer()
+                            .getPlayer(playerId), amount - experience,
+                            ChangeReason.DEFAULT);
+            if (!event.isCancelled()) {
                 experience = event.getNewExperience();
             }
         }
@@ -427,7 +423,7 @@ public final class PlayerData {
             RCExpChangeEvent event = RCExpEventFactory.callRCExpEvent(plugin,
                     Bukkit.getServer().getPlayer(playerId),
                     amount - experience, reason);
-            if(!event.isCancelled()) {
+            if (!event.isCancelled()) {
                 experience = event.getNewExperience();
             }
         }
@@ -493,7 +489,7 @@ public final class PlayerData {
      * @see #getExperience()
      */
     public void subtractExperience(final float amount, ChangeReason reason) {
-        setExperience(getExperience() - amount,reason);
+        setExperience(getExperience() - amount, reason);
     }
 
     /**
@@ -555,12 +551,12 @@ public final class PlayerData {
                 }
             }
         } catch (URISyntaxException e) {
-            Bukkit.getLogger().warning("Generated failure in player name exceptions");
+            Bukkit.getLogger()
+                    .warning("Generated failure in player name exceptions");
         }
         if (loaded) {
             return mana;
-        }
-        else {
+        } else {
             return -1;
         }
     }
@@ -624,7 +620,8 @@ public final class PlayerData {
      * @param progression its new progression value
      * @since 0.0.5
      */
-    public void addQuestProgression(final UUID questId, final String progression) {
+    public void addQuestProgression(final UUID questId,
+            final String progression) {
         if (questProgression.containsKey(questId)) {
             questProgression.remove(questId);
         }

@@ -28,12 +28,17 @@ package com.github.rolecraftdev.data.storage;
 
 import com.github.rolecraftdev.RolecraftCore;
 import com.github.rolecraftdev.data.PlayerData;
+
 import org.bukkit.Bukkit;
 import org.bukkit.scheduler.BukkitRunnable;
 
 import java.io.File;
 import java.io.IOException;
-import java.sql.*;
+import java.sql.Connection;
+import java.sql.DriverManager;
+import java.sql.PreparedStatement;
+import java.sql.ResultSet;
+import java.sql.SQLException;
 import java.util.logging.Level;
 
 /**
@@ -52,20 +57,21 @@ public final class SQLiteDataStore extends DataStore {
     /**
      * The query used for creating the player table in the database.
      */
-    private static final String createPlayerTable = "CREATE TABLE IF NOT EXISTS "
-            + pt
-            + " ("
-            + "uuid VARCHAR PRIMARY KEY ON CONFLICT REPLACE,"
-            + "lastname VARCHAR NOT NULL ON CONFLICT FAIL,"
-            + "guild REFERENCES "+ gt+ "(uuid) ON DELETE SET NULL,"
-            + "exp REAL DEFAULT 0,"
-            + "profession VARCHAR DEFAULT NULL,"
-            + "secondprofession VARCHAR DEFAULT NULL,"
-            + "influence INTEGER DEFAULT 0,"
-            + "karma REAL DEFAULT 0,"
-            + "mana REAL DEFAULT 0,"
-            + "settings VARCHAR"
-            + ")";
+    private static final String createPlayerTable =
+            "CREATE TABLE IF NOT EXISTS "
+                    + pt
+                    + " ("
+                    + "uuid VARCHAR PRIMARY KEY ON CONFLICT REPLACE,"
+                    + "lastname VARCHAR NOT NULL ON CONFLICT FAIL,"
+                    + "guild REFERENCES " + gt + "(uuid) ON DELETE SET NULL,"
+                    + "exp REAL DEFAULT 0,"
+                    + "profession VARCHAR DEFAULT NULL,"
+                    + "secondprofession VARCHAR DEFAULT NULL,"
+                    + "influence INTEGER DEFAULT 0,"
+                    + "karma REAL DEFAULT 0,"
+                    + "mana REAL DEFAULT 0,"
+                    + "settings VARCHAR"
+                    + ")";
     /**
      * The query used for creating the guild table in the database.
      */
@@ -137,25 +143,24 @@ public final class SQLiteDataStore extends DataStore {
 
                         // TODO: in the future versions, add logic to update
                         // database
-                    }
-                    else {
+                    } else {
                         close(ps, rs);
-                        Bukkit.getLogger().info( "INSERT INTO " + mdt
+                        Bukkit.getLogger().info("INSERT INTO " + mdt
                                 + " (version,entry) "
-                                + "VALUES (" + DataStore.SQLVERSION1 + "," + DataStore.mde + ")");
+                                + "VALUES (" + DataStore.SQLVERSION1 + ","
+                                + DataStore.mde + ")");
                         ps = connection.prepareStatement(
                                 "INSERT INTO " + mdt
-                                + " (version,entry) "
-                                + "VALUES ('" + DataStore.SQLVERSION1 + "','" + DataStore.mde + "')");
+                                        + " (version,entry) "
+                                        + "VALUES ('" + DataStore.SQLVERSION1
+                                        + "','" + DataStore.mde + "')");
                         ps.execute();
                     }
 
                     parent.setSqlLoaded(true);
-                }
-                catch (SQLException ex) {
+                } catch (SQLException ex) {
                     ex.printStackTrace();
-                }
-                finally {
+                } finally {
                     close(ps, rs);
                 }
             }
@@ -172,8 +177,7 @@ public final class SQLiteDataStore extends DataStore {
             try {
                 //noinspection ResultOfMethodCallIgnored
                 dataFile.createNewFile();
-            }
-            catch (IOException e) {
+            } catch (IOException e) {
                 getParent().getLogger().log(Level.SEVERE,
                         "File write error: " + dbname + ".db");
             }
@@ -185,12 +189,10 @@ public final class SQLiteDataStore extends DataStore {
             Class.forName("org.sqlite.JDBC");
             connection = DriverManager.getConnection("jdbc:sqlite:" + dataFile);
             return connection;
-        }
-        catch (SQLException ex) {
+        } catch (SQLException ex) {
             getParent().getLogger().log(Level.SEVERE,
                     "SQLite exception on initialize", ex);
-        }
-        catch (ClassNotFoundException ex) {
+        } catch (ClassNotFoundException ex) {
             getParent().getLogger()
                     .log(Level.SEVERE, "CraftBukkit build error");
         }
@@ -224,11 +226,9 @@ public final class SQLiteDataStore extends DataStore {
                     ps.setString(1, data.getPlayerId().toString());
                     ps.setString(2, data.getPlayerName());
                     ps.execute();
-                }
-                catch (SQLException ex) {
+                } catch (SQLException ex) {
                     ex.printStackTrace();
-                }
-                finally {
+                } finally {
                     close(ps, rs);
                 }
             }

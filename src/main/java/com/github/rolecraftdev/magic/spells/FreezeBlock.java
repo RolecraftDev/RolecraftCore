@@ -64,7 +64,8 @@ public class FreezeBlock implements Spell {
         transparency.add((byte) Material.GLASS.getId());
     }
 
-    public FreezeBlock(SpellManager spellManager) {}
+    public FreezeBlock(SpellManager spellManager) {
+    }
 
     @Override
     public String getName() {

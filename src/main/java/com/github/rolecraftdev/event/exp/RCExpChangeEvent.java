@@ -26,10 +26,10 @@
  */
 package com.github.rolecraftdev.event.exp;
 
+import com.github.rolecraftdev.RolecraftCore;
+
 import org.bukkit.entity.Player;
 import org.bukkit.event.HandlerList;
-
-import com.github.rolecraftdev.RolecraftCore;
 
 /**
  * A {@link RCExpEvent} that gets called when a player's experience level is
@@ -55,13 +55,16 @@ public class RCExpChangeEvent extends RCExpEvent {
      * @param reason the reason for this change
      * @since 0.0.5
      */
-    protected RCExpChangeEvent(RolecraftCore plugin, Player player, float amount, ChangeReason reason) {
+    protected RCExpChangeEvent(RolecraftCore plugin, Player player,
+            float amount, ChangeReason reason) {
         super(plugin, player);
         this.amount = amount;
         this.reason = reason;
 
-        level = plugin.getDataManager().getPlayerData(player.getUniqueId()).getLevel();
-        experience = plugin.getDataManager().getPlayerData(player.getUniqueId()).getExperience();
+        level = plugin.getDataManager().getPlayerData(player.getUniqueId())
+                .getLevel();
+        experience = plugin.getDataManager().getPlayerData(player.getUniqueId())
+                .getExperience();
     }
 
     /**

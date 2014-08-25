@@ -26,15 +26,17 @@
  */
 package com.github.rolecraftdev.command.guild;
 
+import pw.ian.albkit.command.PlayerCommandHandler;
+import pw.ian.albkit.command.parser.Arguments;
+
 import com.github.rolecraftdev.RolecraftCore;
 import com.github.rolecraftdev.data.DataManager;
 import com.github.rolecraftdev.guild.Guild;
 import com.github.rolecraftdev.guild.GuildManager;
 import com.github.rolecraftdev.util.messages.Messages;
 import com.github.rolecraftdev.util.messages.MsgVar;
+
 import org.bukkit.entity.Player;
-import pw.ian.albkit.command.PlayerCommandHandler;
-import pw.ian.albkit.command.parser.Arguments;
 
 import java.util.UUID;
 
@@ -74,7 +76,7 @@ public class GuildLeaveCommand extends PlayerCommandHandler {
             return;
         }
         player.sendMessage(plugin.getMessage(Messages.GUILD_LEAVE,
-                MsgVar.create("$guild",guild.getName())));
+                MsgVar.create("$guild", guild.getName())));
         guild.removeMember(playerId, false);
         dataMgr.getPlayerData(playerId).setGuild(null);
     }

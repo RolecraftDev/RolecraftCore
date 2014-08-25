@@ -44,10 +44,10 @@ public final class LevelUtil {
     public static final int getLevel(float experience) {
         // TODO: make this a function that can, within reason, be solved for X
         // short circut to prevent "bottoming out"
-        if(experience < 0.025) {
+        if (experience < 0.025) {
             return 1;
         }
-        float temp = (float) Math.log(0.8*(experience + 1.25f));
+        float temp = (float) Math.log(0.8 * (experience + 1.25f));
         temp *= Math.pow(experience + 1.25f, 0.4f);
         temp *= 0.1f;
         temp += 1;
@@ -75,74 +75,75 @@ public final class LevelUtil {
      * @return The amount of experience gained from killing the given entity
      */
     public static final float expFromKill(final EntityType entityType) {
-        switch(entityType) {
-        case ZOMBIE:
-            return 20;
-        case CREEPER:
-        case SKELETON:
-            return 30;
-        case WITHER:
-            return 5000;
-        case ENDER_DRAGON:
-            return 10000;
-        case SLIME:
-            return 50;
-        case PLAYER:
-            return 1000;
-        case BAT:
-            return 5;
-        case BLAZE:
-            return 50;
-        case CAVE_SPIDER:
-            return 100;
-        case CHICKEN:
-        case COW:
-            return 5;
-        case ENDERMAN:
-            return 50;
-        case ENDER_CRYSTAL:
-            return 150;
-        case GHAST:
-            return 100;
-        case GIANT:
-            return 40;
-        case HORSE:
-            return 10;
-        case IRON_GOLEM:
-            return 120;
-        case MAGMA_CUBE:
-            return 50;
-        case MUSHROOM_COW:
-            return 100;
-        case OCELOT:
-            return 50;
-        case PIG:
-            return 5;
-        case PIG_ZOMBIE:
-            return 40;
-        case SHEEP:
-            return 5;
-        case SILVERFISH:
-            return 100;
-        case SNOWMAN:
-            return 5;
-        case SPIDER:
-            return 30;
-        case SQUID:
-            return 5;
-        case VILLAGER:
-            return 30;
-        case WITCH:
-            return 50;
-        case WOLF:
-            return 10;
-        default:
-            return 0;
+        switch (entityType) {
+            case ZOMBIE:
+                return 20;
+            case CREEPER:
+            case SKELETON:
+                return 30;
+            case WITHER:
+                return 5000;
+            case ENDER_DRAGON:
+                return 10000;
+            case SLIME:
+                return 50;
+            case PLAYER:
+                return 1000;
+            case BAT:
+                return 5;
+            case BLAZE:
+                return 50;
+            case CAVE_SPIDER:
+                return 100;
+            case CHICKEN:
+            case COW:
+                return 5;
+            case ENDERMAN:
+                return 50;
+            case ENDER_CRYSTAL:
+                return 150;
+            case GHAST:
+                return 100;
+            case GIANT:
+                return 40;
+            case HORSE:
+                return 10;
+            case IRON_GOLEM:
+                return 120;
+            case MAGMA_CUBE:
+                return 50;
+            case MUSHROOM_COW:
+                return 100;
+            case OCELOT:
+                return 50;
+            case PIG:
+                return 5;
+            case PIG_ZOMBIE:
+                return 40;
+            case SHEEP:
+                return 5;
+            case SILVERFISH:
+                return 100;
+            case SNOWMAN:
+                return 5;
+            case SPIDER:
+                return 30;
+            case SQUID:
+                return 5;
+            case VILLAGER:
+                return 30;
+            case WITCH:
+                return 50;
+            case WOLF:
+                return 10;
+            default:
+                return 0;
         }
     }
 
     /**
      * Do not call.
      */
-    private LevelUtil() {}
+    private LevelUtil() {
+    }
 }

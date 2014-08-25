@@ -27,6 +27,7 @@
 package com.github.rolecraftdev.guild;
 
 import com.github.rolecraftdev.data.PlayerData;
+
 import com.traksag.channels.Channel;
 import com.traksag.channels.event.AsyncChannelChatEvent;
 
@@ -119,30 +120,33 @@ public final class GuildListener implements Listener {
         if (event.getDamager() instanceof Player
                 && event.getEntity() instanceof Player) {
             if (guildManager.disallowHallPvp()
-                    && getGuildFromHall(event.getEntity().getLocation()) != null) {
-                event.setCancelled(true);
-                return;
-            }
-
-            final UUID playerId =  event.getEntity().getUniqueId();
-            final UUID damagerId =  event.getDamager().getUniqueId();
-
-            if (guildManager.getPlayerGuild(playerId).equals(
-                    guildManager.getPlayerGuild(damagerId))) {
-                event.setCancelled(true);
-            }
-        }
-        else if (event.getDamager() instanceof Arrow
-                && event.getEntity() instanceof Player) {
-            if (guildManager.disallowHallPvp()
-                    && getGuildFromHall(event.getEntity().getLocation()) != null) {
+                    && getGuildFromHall(event.getEntity().getLocation())
+                    != null) {
                 event.setCancelled(true);
                 return;
             }
 
             final UUID playerId = event.getEntity().getUniqueId();
-            if (((Projectile) event.getDamager()).getShooter() instanceof Player) {
-                final UUID damagerId = ((AnimalTamer) ((Projectile) event.getDamager())
+            final UUID damagerId = event.getDamager().getUniqueId();
+
+            if (guildManager.getPlayerGuild(playerId).equals(
+                    guildManager.getPlayerGuild(damagerId))) {
+                event.setCancelled(true);
+            }
+        } else if (event.getDamager() instanceof Arrow
+                && event.getEntity() instanceof Player) {
+            if (guildManager.disallowHallPvp()
+                    && getGuildFromHall(event.getEntity().getLocation())
+                    != null) {
+                event.setCancelled(true);
+                return;
+            }
+
+            final UUID playerId = event.getEntity().getUniqueId();
+            if (((Projectile) event.getDamager())
+                    .getShooter() instanceof Player) {
+                final UUID damagerId = ((AnimalTamer) ((Projectile) event
+                        .getDamager())
                         .getShooter()).getUniqueId();
 
                 if (guildManager.getPlayerGuild(playerId).equals(
@@ -156,14 +160,14 @@ public final class GuildListener implements Listener {
     @EventHandler(priority = EventPriority.HIGHEST)
     public void onBlockBreak(final BlockBreakEvent event) {
         event.setCancelled(cancel(event.getBlock().getLocation(), event
-                .getPlayer().getUniqueId(), event.isCancelled(),
+                        .getPlayer().getUniqueId(), event.isCancelled(),
                 GuildAction.CHANGE_BLOCK));
     }
 
     @EventHandler(priority = EventPriority.HIGHEST)
     public void onBlockPlace(final BlockPlaceEvent event) {
         event.setCancelled(cancel(event.getBlock().getLocation(), event
-                .getPlayer().getUniqueId(), event.isCancelled(),
+                        .getPlayer().getUniqueId(), event.isCancelled(),
                 GuildAction.CHANGE_BLOCK));
     }
 
@@ -186,7 +190,7 @@ public final class GuildListener implements Listener {
             return;
         }
         event.setCancelled(cancel(event.getBlockClicked().getLocation(), event
-                .getPlayer().getUniqueId(), event.isCancelled(),
+                        .getPlayer().getUniqueId(), event.isCancelled(),
                 GuildAction.CHANGE_BLOCK));
     }
 
@@ -196,7 +200,7 @@ public final class GuildListener implements Listener {
             return;
         }
         event.setCancelled(cancel(event.getClickedBlock().getLocation(), event
-                .getPlayer().getUniqueId(), event.isCancelled(),
+                        .getPlayer().getUniqueId(), event.isCancelled(),
                 GuildAction.CHANGE_BLOCK));
     }
 
@@ -206,13 +210,13 @@ public final class GuildListener implements Listener {
             event.setCancelled(cancel(event.getBlock().getLocation(),
                     event.getEntity().getUniqueId(),
                     event.isCancelled(), GuildAction.CHANGE_BLOCK));
-        }
-        else {
+        } else {
             if (!guildManager.protectFromEnvironment()) {
                 return;
             }
 
-            final Guild guild = getGuildFromHall(event.getBlock().getLocation());
+            final Guild guild = getGuildFromHall(
+                    event.getBlock().getLocation());
             if (guild != null) {
                 event.setCancelled(true);
             }
@@ -225,7 +229,8 @@ public final class GuildListener implements Listener {
             if (!guildManager.protectFromEnvironment()) {
                 return;
             }
-            final Guild guild = getGuildFromHall(event.getBlock().getLocation());
+            final Guild guild = getGuildFromHall(
+                    event.getBlock().getLocation());
             if (guild != null) {
                 event.setCancelled(true);
             }
@@ -316,8 +321,7 @@ public final class GuildListener implements Listener {
             event.setCancelled(cancel(event.getBlock().getLocation(),
                     player.getUniqueId(), event.isCancelled(),
                     GuildAction.IGNITE_BLOCK));
-        }
-        else {
+        } else {
             if (!guildManager.protectFromEnvironment()) {
                 return;
             }
@@ -341,7 +345,7 @@ public final class GuildListener implements Listener {
     @EventHandler(priority = EventPriority.HIGHEST)
     public void onHangingPlace(final HangingPlaceEvent event) {
         event.setCancelled(cancel(event.getEntity().getLocation(), event
-                .getPlayer().getUniqueId(), event.isCancelled(),
+                        .getPlayer().getUniqueId(), event.isCancelled(),
                 GuildAction.CHANGE_BLOCK));
     }
 
@@ -372,19 +376,19 @@ public final class GuildListener implements Listener {
                 return;
             }
             switch (event.getSpawnReason()) {
-            case CURED:
-            case BED:
-            case EGG:
-            case SPAWNER_EGG:
-            case BUILD_SNOWMAN:
-            case BUILD_IRONGOLEM:
-            case BREEDING:
-            case CUSTOM:
-            case LIGHTNING:
-                return;
-            default:
-                event.setCancelled(true);
-                break;
+                case CURED:
+                case BED:
+                case EGG:
+                case SPAWNER_EGG:
+                case BUILD_SNOWMAN:
+                case BUILD_IRONGOLEM:
+                case BREEDING:
+                case CUSTOM:
+                case LIGHTNING:
+                    return;
+                default:
+                    event.setCancelled(true);
+                    break;
             }
         }
     }

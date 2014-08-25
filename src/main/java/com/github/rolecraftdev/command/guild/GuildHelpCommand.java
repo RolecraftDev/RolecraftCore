@@ -47,8 +47,8 @@ public class GuildHelpCommand extends PlayerCommandHandler {
      * @param plugin the associated {@link RolecraftCore} instance
      * @since 0.0.5
      */
-    @SuppressWarnings(value = "unused")
-    GuildHelpCommand(final RolecraftCore plugin) {
+    @SuppressWarnings(value = "unused") GuildHelpCommand(
+            final RolecraftCore plugin) {
         super("help");
 
         setDescription("Guild-related help");

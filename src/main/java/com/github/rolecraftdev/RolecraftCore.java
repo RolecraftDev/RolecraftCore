@@ -52,6 +52,7 @@ import net.milkbowl.vault.economy.Economy;
 
 import org.bukkit.configuration.file.FileConfiguration;
 import org.bukkit.plugin.RegisteredServiceProvider;
+
 import java.io.File;
 import java.io.FileOutputStream;
 import java.io.IOException;
@@ -398,7 +399,6 @@ public final class RolecraftCore extends AlbPlugin {
                 } catch (IOException ignored) {
                 }
 
-
                 if (input != null) {
                     FileOutputStream output = null;
                     //noinspection ResultOfMethodCallIgnored
@@ -412,7 +412,8 @@ public final class RolecraftCore extends AlbPlugin {
                             output.write(buf, 0, length);
                         }
 
-                        logger.info("Default configuration file written: " + name);
+                        logger.info(
+                                "Default configuration file written: " + name);
                     } catch (final IOException e) {
                         e.printStackTrace();
                     } finally {
@@ -429,9 +430,8 @@ public final class RolecraftCore extends AlbPlugin {
                     }
                 }
             }
-        }
-        finally {
-            if(input != null) {
+        } finally {
+            if (input != null) {
                 try {
                     input.close();
                 } catch (IOException ignored) {

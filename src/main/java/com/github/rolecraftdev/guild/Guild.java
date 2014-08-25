@@ -31,10 +31,12 @@ import com.github.rolecraftdev.data.Region2D;
 import com.github.rolecraftdev.event.guild.GuildPlayerJoinEvent;
 import com.github.rolecraftdev.event.guild.GuildPlayerKickedEvent;
 import com.github.rolecraftdev.event.guild.GuildPlayerLeaveEvent;
+
 import com.traksag.channels.Channel;
 import com.traksag.channels.ChannelOption;
 import com.traksag.channels.DefaultChannel;
 import com.traksag.channels.DefaultChannelConfig;
+
 import org.bukkit.Bukkit;
 import org.bukkit.Location;
 import org.bukkit.entity.Entity;
@@ -460,9 +462,7 @@ public final class Guild {
      *
      * @param member the {@link UUID} of the player to remove
      * @since 0.0.5
-     * @deprecated use {@link #removeMember(UUID, boolean)}
      */
-    @Deprecated
     public void removeMember(final UUID member) {
         removeMember(member, false);
     }

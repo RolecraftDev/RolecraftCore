@@ -238,5 +238,6 @@ public final class CommandHelper {
     /**
      * @since 0.0.5
      */
-    private CommandHelper() {}
+    private CommandHelper() {
+    }
 }

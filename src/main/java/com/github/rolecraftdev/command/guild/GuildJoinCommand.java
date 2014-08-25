@@ -26,16 +26,18 @@
  */
 package com.github.rolecraftdev.command.guild;
 
+import pw.ian.albkit.command.PlayerCommandHandler;
+import pw.ian.albkit.command.parser.Arguments;
+
 import com.github.rolecraftdev.RolecraftCore;
 import com.github.rolecraftdev.guild.Guild;
 import com.github.rolecraftdev.guild.GuildManager;
 import com.github.rolecraftdev.util.messages.Messages;
 import com.github.rolecraftdev.util.messages.MsgVar;
+
 import org.bukkit.entity.Player;
 import org.bukkit.metadata.FixedMetadataValue;
 import org.bukkit.metadata.MetadataValue;
-import pw.ian.albkit.command.PlayerCommandHandler;
-import pw.ian.albkit.command.parser.Arguments;
 
 /**
  * @since 0.0.5
@@ -71,8 +73,8 @@ public class GuildJoinCommand extends PlayerCommandHandler {
         }
         final String name = args.getRaw(0);
         final Guild guild = guildMgr.getGuild(name);
-        if(guild.isOpen()) {
-            completeGuildAdd(player,guild);
+        if (guild.isOpen()) {
+            completeGuildAdd(player, guild);
         }
         if (!player.hasMetadata(GuildManager.GUILD_INVITE_METADATA)) {
             player.sendMessage(plugin.getMessage(Messages.GUILD_NOT_INVITED));
@@ -96,11 +98,13 @@ public class GuildJoinCommand extends PlayerCommandHandler {
     }
 
     // TODO: JavaDoc
+
     /**
      * @since 0.0.5
      */
     private void completeGuildAdd(final Player player, final Guild guild) {
-        if(plugin.getDataManager().getPlayerData(player.getUniqueId()).getGuild()!= null) {
+        if (plugin.getDataManager().getPlayerData(player.getUniqueId())
+                .getGuild() != null) {
             // TODO: use RCConfrim to make sure they want to leave their guild
         }
         plugin.getDataManager().getPlayerData(player.getUniqueId())
@@ -114,6 +118,5 @@ public class GuildJoinCommand extends PlayerCommandHandler {
                         MsgVar.create("$player", player.getName())));
 
     }
-
 
 }

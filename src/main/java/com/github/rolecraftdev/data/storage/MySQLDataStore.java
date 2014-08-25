@@ -28,9 +28,14 @@ package com.github.rolecraftdev.data.storage;
 
 import com.github.rolecraftdev.RolecraftCore;
 import com.github.rolecraftdev.data.PlayerData;
+
 import org.bukkit.scheduler.BukkitRunnable;
 
-import java.sql.*;
+import java.sql.Connection;
+import java.sql.DriverManager;
+import java.sql.PreparedStatement;
+import java.sql.ResultSet;
+import java.sql.SQLException;
 import java.util.AbstractMap.SimpleEntry;
 import java.util.Iterator;
 import java.util.Map.Entry;
@@ -46,44 +51,47 @@ public final class MySQLDataStore extends DataStore {
     /**
      * The query used for creating the player table in the database.
      */
-    private static final String CREATE_PLAYER_TABLE = "CREATE TABLE IF NOT EXISTS "
-            + pt
-            + " ("
-            + "uuid VARCHAR(40) PRIMARY KEY,"
-            + "lastname VARCHAR(16) NOT NULL,"
-            + "FOREIGN KEY (guild) REFERENCES "
-            + gt
-            + "(uuid) ON DELETE SET NULL,"
-            + "exp REAL DEFAULT 0,"
-            + "profession VARCHAR (37) DEFAULT NULL"
-            + "secondprofession VARCHAR(37) DEFAULT NULL,"
-            + "influence INTEGER DEFAULT 0,"
-            + "karma REAL DEFAULT 0,"
-            + "mana REAL DEFAULT 0," + "settings VARCHAR(100)" + ")";
+    private static final String CREATE_PLAYER_TABLE =
+            "CREATE TABLE IF NOT EXISTS "
+                    + pt
+                    + " ("
+                    + "uuid VARCHAR(40) PRIMARY KEY,"
+                    + "lastname VARCHAR(16) NOT NULL,"
+                    + "FOREIGN KEY (guild) REFERENCES "
+                    + gt
+                    + "(uuid) ON DELETE SET NULL,"
+                    + "exp REAL DEFAULT 0,"
+                    + "profession VARCHAR (37) DEFAULT NULL"
+                    + "secondprofession VARCHAR(37) DEFAULT NULL,"
+                    + "influence INTEGER DEFAULT 0,"
+                    + "karma REAL DEFAULT 0,"
+                    + "mana REAL DEFAULT 0," + "settings VARCHAR(100)" + ")";
     /**
      * The query used for creating the guild table in the database.
      */
-    private static final String CREATE_GUILD_TABLE = "CREATE TABLE IF NOT EXISTS "
-            + gt
-            + " ("
-            + "uuid VARCHAR(37) PRIMARY KEY ON CONFLICT FAIL,"
-            + "name VARCHAR (50),"
-            + "leader VARCHAR(37),"
-            + "members MEDIUMTEXT,"
-            + "ranks MEDIUMTEXT,"
-            + "home VARCHAR(150),"
-            + "hall VARCHAR(100),"
-            + "influence INTEGER DEFAULT 0," +
-             "open BOOLEAN DEFAULT FALSE"+ ")";
+    private static final String CREATE_GUILD_TABLE =
+            "CREATE TABLE IF NOT EXISTS "
+                    + gt
+                    + " ("
+                    + "uuid VARCHAR(37) PRIMARY KEY ON CONFLICT FAIL,"
+                    + "name VARCHAR (50),"
+                    + "leader VARCHAR(37),"
+                    + "members MEDIUMTEXT,"
+                    + "ranks MEDIUMTEXT,"
+                    + "home VARCHAR(150),"
+                    + "hall VARCHAR(100),"
+                    + "influence INTEGER DEFAULT 0," +
+                    "open BOOLEAN DEFAULT FALSE" + ")";
     /**
      * The query used for creating the metadata table in the database.
      */
-    private static final String CREATE_META_TABLE = "CREATE TABLE IF NOT EXISTS "
-            + mdt
-            + " ("
-            + "version VARCHAR(6),"
-            + "entry VARCHAR(20),"
-            + "PRIMARY KEY(entry)" + ")";
+    private static final String CREATE_META_TABLE =
+            "CREATE TABLE IF NOT EXISTS "
+                    + mdt
+                    + " ("
+                    + "version VARCHAR(6),"
+                    + "entry VARCHAR(20),"
+                    + "PRIMARY KEY(entry)" + ")";
     //                                MINUTES
     private static final int MINUTES = 60000;
     private static final int KILL_TIME = 5 * MINUTES;
@@ -196,20 +204,23 @@ public final class MySQLDataStore extends DataStore {
                     ps.execute();
                     ps.close();
 
-                    ps = connection.prepareStatement("SELECT version FROM " + mdt + " WHERE entry = ?");
+                    ps = connection.prepareStatement(
+                            "SELECT version FROM " + mdt + " WHERE entry = ?");
                     ps.setString(1, mde);
                     rs = ps.executeQuery();
-                    if(rs.next()) {
-                        if(rs.getString("version").equals(DataStore.SQLVERSION1)) {
+                    if (rs.next()) {
+                        if (rs.getString("version")
+                                .equals(DataStore.SQLVERSION1)) {
                             // up to date, do nothing
                         }
 
                         // TODO: in the future versions, add logic to update database
-                    }
-                    else {
-                        close(ps,rs);
-                        ps = connection.prepareStatement("INSERT INTO " + mdt + " VALUES ('"
-                                + DataStore.SQLVERSION1 + "','" + DataStore.mde+ "')");
+                    } else {
+                        close(ps, rs);
+                        ps = connection.prepareStatement(
+                                "INSERT INTO " + mdt + " VALUES ('"
+                                        + DataStore.SQLVERSION1 + "','"
+                                        + DataStore.mde + "')");
                         ps.execute();
                     }
 

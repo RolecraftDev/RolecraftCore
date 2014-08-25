@@ -145,7 +145,8 @@ public class FreezeRay implements Spell {
                     break;
             }
             BlockPlaceEvent bpe =
-                    new BlockPlaceEvent(targetBlock, state, null, null, ply, true);
+                    new BlockPlaceEvent(targetBlock, state, null, null, ply,
+                            true);
             Bukkit.getPluginManager().callEvent(bpe);
             if (bpe.isCancelled()) {
                 state.update();

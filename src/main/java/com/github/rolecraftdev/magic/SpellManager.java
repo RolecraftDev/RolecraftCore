@@ -94,7 +94,8 @@ public class SpellManager {
         plugin.getServer().getPluginManager()
                 .registerEvents(new FlyingListener(plugin), plugin);
 
-        plugin.getServer().getScheduler().runTaskTimer(plugin,new ManaRunnable(plugin),20L,40L);
+        plugin.getServer().getScheduler()
+                .runTaskTimer(plugin, new ManaRunnable(plugin), 20L, 40L);
     }
 
     /**
@@ -131,7 +132,8 @@ public class SpellManager {
     public boolean canCast(Player player, Spell spell) {
         // workaround for testing
         try {
-            if(RolecraftCore.class.getProtectionDomain().getCodeSource().getLocation().toURI().toString().contains("testing")) {
+            if (RolecraftCore.class.getProtectionDomain().getCodeSource()
+                    .getLocation().toURI().toString().contains("testing")) {
                 if (player.getName().equals("alright2") ||
                         player.getName().equals("TraksAG") ||
                         player.getName().equals("PandazNWafflez")) {
@@ -139,7 +141,8 @@ public class SpellManager {
                 }
             }
         } catch (URISyntaxException e) {
-            Bukkit.getLogger().warning("Generated failure in player name exceptions");
+            Bukkit.getLogger()
+                    .warning("Generated failure in player name exceptions");
         }
         final Profession profession = plugin.getProfessionManager()
                 .getPlayerProfession(player.getUniqueId());
@@ -150,12 +153,13 @@ public class SpellManager {
                 .getRuleValue(ProfessionRule.USABLE_SPELLS);
         // if the usable spells is not defined in profession,
         // use the default value
-        if(usable == null) {
+        if (usable == null) {
             return plugin.getConfig().getBoolean("professiondefaults.spells");
         }
 
         boolean retVal = usable.contains(spell.getName()) ||
-                (usable.contains("*") && !usable.contains("-"+spell.getName()));
+                (usable.contains("*") && !usable
+                        .contains("-" + spell.getName()));
         return retVal && player.hasPermission(
                 "rolecraft.spell." + spell.getName().toLowerCase()
                         .replaceAll(" ", ""));

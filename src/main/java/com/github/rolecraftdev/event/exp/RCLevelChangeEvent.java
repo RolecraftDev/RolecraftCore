@@ -26,11 +26,11 @@
  */
 package com.github.rolecraftdev.event.exp;
 
-import org.bukkit.entity.Player;
-import org.bukkit.event.HandlerList;
-
 import com.github.rolecraftdev.RolecraftCore;
 import com.github.rolecraftdev.util.LevelUtil;
+
+import org.bukkit.entity.Player;
+import org.bukkit.event.HandlerList;
 
 /**
  * A {@link RCExpChangeEvent} that gets called when a player's level is
