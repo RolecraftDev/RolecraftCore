@@ -32,6 +32,8 @@ import java.util.UUID;
  * Represents a profession that can be chosen by players. After a player has
  * chosen a profession, events affecting that player will be handled according
  * to the profession's {@link ProfessionRule}s.
+ *
+ * @since 0.0.5
  */
 public class Profession {
     /**
@@ -58,12 +60,12 @@ public class Profession {
      * Create a {@link Profession} from predefined settings. Note that some of
      * the fields are {@code final} and can thus not be modified later on.
      *
-     * @param professionManager - The {@link ProfessionManager} this
+     * @param professionManager the {@link ProfessionManager} this
      *                          {@link Profession} belongs to
-     * @param professionId      - The unique identifier
-     * @param name              - The unique name
-     * @param rules             - A map of {@link ProfessionRule}s that handles events in
-     *                          this {@link Profession}.
+     * @param professionId the unique identifier
+     * @param name the unique name
+     * @param rules a map of {@link ProfessionRule}s that handles events in
+     *              this {@link Profession}.
      */
     public Profession(final ProfessionManager professionManager,
             final UUID professionId, final String name,
@@ -77,7 +79,7 @@ public class Profession {
     /**
      * Get the {@link ProfessionManager} this {@link Profession} belongs to.
      *
-     * @return Its manager
+     * @return this profession's {@link ProfessionManager}
      */
     public ProfessionManager getManager() {
         return professionManager;
@@ -86,7 +88,7 @@ public class Profession {
     /**
      * Get the unique identifier of this {@link Profession}.
      *
-     * @return Its unique identifier
+     * @return this profession's unique identifier
      */
     public UUID getId() {
         return professionId;
@@ -95,7 +97,7 @@ public class Profession {
     /**
      * Returns the unique name of this {@link Profession}.
      *
-     * @return Its unique name
+     * @return this professions unique name
      */
     public String getName() {
         return name;
@@ -105,7 +107,7 @@ public class Profession {
      * Get the map of {@link ProfessionRule}s this {@link Profession} is
      * dictated by.
      *
-     * @return Its {@link ProfessionRuleMap}
+     * @return the {@link ProfessionRuleMap} for this profession
      */
     public ProfessionRuleMap getRuleMap() {
         return rules;
@@ -115,9 +117,9 @@ public class Profession {
      * Gets the value of the given {@link ProfessionRule} in this Profession's
      * {@link ProfessionRuleMap} object
      *
-     * @param rule The rule to get the value for
-     * @param <T>  The type of the rule to get the value for
-     * @return The value of the given rule for this Profession
+     * @param rule the rule to get the value for
+     * @param <T> the type of the rule to get the value for
+     * @return the value of the given rule for this Profession
      */
     public <T> T getRuleValue(final ProfessionRule<T> rule) {
         return getRuleMap().get(rule);
@@ -126,7 +128,7 @@ public class Profession {
     /**
      * Set the unique name of this {@link Profession}.
      *
-     * @param name - The new unique name
+     * @param name the new unique name
      */
     public void setName(final String name) {
         this.name = name;
@@ -136,7 +138,7 @@ public class Profession {
      * Set the map of {@link ProfessionRule}s that will regulate events that
      * affect this {@link Profession}.
      *
-     * @param rules - The new {@link ProfessionRuleMap}
+     * @param rules the new {@link ProfessionRuleMap}
      */
     public void setRuleMap(final ProfessionRuleMap rules) {
         this.rules = rules;

@@ -36,6 +36,7 @@ import java.util.Set;
  *
  * @param <T> - Type of its values in a {@link ProfessionRuleMap}
  */
+@SuppressWarnings("rawtypes")
 public final class ProfessionRule<T> {
     /**
      * Constants pool for easy lookups.
@@ -45,29 +46,25 @@ public final class ProfessionRule<T> {
     /**
      * A rule which defines the spells usable by a profession
      */
-    @SuppressWarnings("rawtypes")
     public static final ProfessionRule<List> USABLE_SPELLS = new ProfessionRule<List>(
             "usable-spells", List.class);
-    @SuppressWarnings("rawtypes")
     public static final ProfessionRule<List> USABLE_ARMOR = new ProfessionRule<List>(
             "usable-armor", List.class);
-    @SuppressWarnings("rawtypes")
     public static final ProfessionRule<List> USABLE_ENCHANTMENTS = new ProfessionRule<List>(
             "usable-enchantments", List.class);
     /**
      * Denies the equipping and crafting of items, STRONGLY recommended to put an *
      * and deny specific ones in this field
      */
-    @SuppressWarnings("rawtypes")
     public static final ProfessionRule<List> USABLE_ITEMS = new ProfessionRule<List>(
             "usable-weapons", List.class);
 
     /**
      * Get a unique {@link ProfessionRule} by its name.
      *
-     * @param name - Its unique name
-     * @return The {@link ProfessionRule} if it can be found in {@link #pool},
-     * else null
+     * @param name the unique name of the rule
+     * @return the {@link ProfessionRule} if it can be found in {@link #pool},
+     *         else {@code null}
      */
     public static ProfessionRule<?> getRule(final String name) {
         for (final ProfessionRule<?> element : pool) {
@@ -79,7 +76,7 @@ public final class ProfessionRule<T> {
     }
 
     /**
-     * The name of this rule.
+     * The unique name of this rule.
      */
     private final String name;
     /**
@@ -90,9 +87,8 @@ public final class ProfessionRule<T> {
     /**
      * Create a new, unique {@link ProfessionRule}.
      *
-     * @param name - The unique name
-     * @param type - The type of the values it will hold in a
-     *             {@link ProfessionRuleMap}.
+     * @param name the unique name of the rule
+     * @param type the type of the values the rule takes
      */
     private ProfessionRule(final String name, final Class<T> type) {
         this.name = name;
@@ -104,7 +100,7 @@ public final class ProfessionRule<T> {
     /**
      * Get the unique name of this {@link ProfessionRule}.
      *
-     * @return Its unique name
+     * @return the unique name of this {@link ProfessionRule}
      */
     public String getName() {
         return name;
@@ -114,7 +110,7 @@ public final class ProfessionRule<T> {
      * Get the type, the values of this {@link ProfessionRule} should be in a
      * {@link ProfessionRuleMap}.
      *
-     * @return Its value type
+     * @return the value type for this rule
      */
     public Class<T> getType() {
         return type;
@@ -124,8 +120,9 @@ public final class ProfessionRule<T> {
      * Checks whether the given object is valid to be cast to this
      * {@link ProfessionRule}'s value type.
      *
-     * @param object - The object to check the validity to cast of
-     * @return True if the given object is of the correct type, false otherwise
+     * @param object the object to check the validity to cast of
+     * @return {@code true} if the given object is of the correct type, {@code
+     *         false } otherwise
      */
     public boolean validate(final Object object) {
         return object != null && getType().isAssignableFrom(object.getClass());
@@ -135,8 +132,8 @@ public final class ProfessionRule<T> {
      * Casts the given object to the type used for this {@link ProfessionRule}'s
      * values.
      *
-     * @param object - The object to cast to this rule's value type
-     * @return The instance of the given object cast to this rule's value type
+     * @param object the object to cast to this rule's value type
+     * @return the instance of the given object cast to this rule's value type
      */
     public T cast(final Object object) {
         return getType().cast(object);

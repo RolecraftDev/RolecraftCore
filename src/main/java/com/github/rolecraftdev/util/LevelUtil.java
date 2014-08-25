@@ -38,8 +38,8 @@ public final class LevelUtil {
      * <p>
      * Algorithm for levels is: y=ln(0.8(x+1.25))*((x+1.25)^0.4)*0.1+1
      *
-     * @param experience - The amount of experience to get the level for
-     * @return The level correlating to the given amount of experience
+     * @param experience the amount of experience to get the level for
+     * @return the level correlating to the given amount of experience
      */
     public static final int getLevel(float experience) {
         // TODO: make this a function that can, within reason, be solved for X
@@ -47,6 +47,7 @@ public final class LevelUtil {
         if (experience < 0.025) {
             return 1;
         }
+
         float temp = (float) Math.log(0.8 * (experience + 1.25f));
         temp *= Math.pow(experience + 1.25f, 0.4f);
         temp *= 0.1f;
@@ -58,8 +59,8 @@ public final class LevelUtil {
      * Gets the amount of experience required to reach the next level from the
      * given amount of experience
      *
-     * @param experience The current amount of experience
-     * @return The amount of experience required for a player with the given
+     * @param experience the current amount of experience
+     * @return the amount of experience required for a player with the given
      * amount of experience to level up
      */
     public static final float expToNextLevel(float experience) {
@@ -71,8 +72,8 @@ public final class LevelUtil {
      * Gets the amount of experience which is gained from killing an entity of
      * the given type
      *
-     * @param entityType The type of entity to get the kill exp for
-     * @return The amount of experience gained from killing the given entity
+     * @param entityType the type of entity to get the kill exp for
+     * @return the amount of experience gained from killing the given entity
      */
     public static final float expFromKill(final EntityType entityType) {
         switch (entityType) {

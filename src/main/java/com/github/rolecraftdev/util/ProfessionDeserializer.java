@@ -65,7 +65,7 @@ public class ProfessionDeserializer {
     /**
      * Create a new {@link ProfessionDeserializer}.
      *
-     * @param professionConfig - Serialized {@link Profession} file
+     * @param professionConfig the serialized {@link Profession} file
      */
     public ProfessionDeserializer(final YamlFile professionConfig) {
         this.professionConfig = professionConfig;
@@ -75,7 +75,7 @@ public class ProfessionDeserializer {
      * Get the configuration file that contains the serialized
      * {@link Profession}.
      *
-     * @return The serialized {@link Profession} file
+     * @return the serialized {@link Profession} file
      */
     public YamlFile getConfig() {
         return professionConfig;
@@ -86,9 +86,9 @@ public class ProfessionDeserializer {
      * object. Note that this simply uses most otherold methods in this
      * {@link ProfessionDeserializer} to construct a {@link Profession}.
      *
-     * @param professionManager - The {@link ProfessionManager}, the
+     * @param professionManager the {@link ProfessionManager}, the
      *                          {@link Profession} will be assigned to
-     * @return The deserialized {@link Profession}
+     * @return the deserialized {@link Profession}
      */
     public Profession getProfession(final ProfessionManager professionManager) {
         return new Profession(professionManager, getProfessionId(),
@@ -99,7 +99,7 @@ public class ProfessionDeserializer {
      * Deserialize the unique identifier in the file, which is defined at the
      * path {@link #ID}.
      *
-     * @return The deserialized unique identifier
+     * @return the deserialized unique identifier
      */
     public UUID getProfessionId() {
         String id = professionConfig.getString(ID);
@@ -125,7 +125,7 @@ public class ProfessionDeserializer {
      * Deserialize the unique name in the file, which is defined at the path
      * {@link #NAME}.
      *
-     * @return The deserialized unique name
+     * @return the deserialized unique name
      */
     public String getProfessionName() {
         return professionConfig.getString(NAME, "unset");
@@ -135,7 +135,7 @@ public class ProfessionDeserializer {
      * Deserialize the {@link ProfessionRule}s in the file, which are defined at
      * the path {@link #RULES}.
      *
-     * @return The deserialized {@link ProfessionRule}s.
+     * @return the deserialized {@link ProfessionRule}s.
      */
     public ProfessionRuleMap getProfessionRuleMap() {
         final ProfessionRuleMap ruleMap = new ProfessionRuleMap(

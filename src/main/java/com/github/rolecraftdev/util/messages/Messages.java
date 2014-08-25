@@ -46,6 +46,8 @@ import java.util.Properties;
 /**
  * Stores configuration key CONSTANTS for all messages used in Rolecraft so that
  * each message can be completely configurable
+ *
+ * @since 0.0.5
  */
 public class Messages {
     // Sent to players who don't have permission to perform a command
@@ -201,7 +203,7 @@ public class Messages {
     /**
      * Construct a new Messages object
      *
-     * @param plugin The {@link RolecraftCore} plugin object to use the data
+     * @param plugin the {@link RolecraftCore} plugin object to use the data
      *               directory from
      */
     public Messages(final RolecraftCore plugin) {
@@ -212,8 +214,8 @@ public class Messages {
     /**
      * Gets the configured message for the given key
      *
-     * @param key The key of the message to get
-     * @return The message configured for the given key
+     * @param key the key of the message to get
+     * @return the message configured for the given key
      */
     public String get(final String key, final MsgVar... vars) {
         return CommandHelper.applyVars(applyConstants(messages.get(key)), vars);

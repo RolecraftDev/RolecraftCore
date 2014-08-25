@@ -394,14 +394,12 @@ public final class RolecraftCore extends AlbPlugin {
 
             if (!actual.exists()) {
                 try {
-                    //noinspection ResultOfMethodCallIgnored
                     actual.createNewFile();
                 } catch (IOException ignored) {
                 }
 
                 if (input != null) {
                     FileOutputStream output = null;
-                    //noinspection ResultOfMethodCallIgnored
                     getDataFolder().mkdir();
 
                     try {

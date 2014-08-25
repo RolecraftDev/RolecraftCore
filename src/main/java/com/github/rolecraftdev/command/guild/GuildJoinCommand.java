@@ -121,7 +121,7 @@ public class GuildJoinCommand extends PlayerCommandHandler {
         player.sendMessage(plugin.getMessage(Messages.GUILD_JOINED_PLAYER,
                 MsgVar.create("$guild", guild.getName())));
         guild.broadcastMessage(plugin.getMessage(Messages.GUILD_JOINED_OTHERS,
-                        MsgVar.create("$guild", guild.getName()),
-                        MsgVar.create("$player", player.getName())));
+                MsgVar.create("$guild", guild.getName()),
+                MsgVar.create("$player", player.getName())));
     }
 }

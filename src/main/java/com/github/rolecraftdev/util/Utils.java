@@ -49,9 +49,9 @@ public final class Utils {
      * Gets the entity targeted by the given player. If there is no entity
      * being targeted by the player within the given range, null is returned
      *
-     * @param player The Player to get the entity target for
-     * @param range  The maximum distance the target can be from the player
-     * @return The entity targeted by the given player, or null if there isn't
+     * @param player the Player to get the entity target for
+     * @param range the maximum distance the target can be from the player
+     * @return the entity targeted by the given player, or null if there isn't
      * one within the given range
      */
     public static Entity getTarget(final Player player, final int range) {
@@ -74,9 +74,9 @@ public final class Utils {
      * living entity being targeted by the player within the given range, null
      * is returned
      *
-     * @param player The Player to get the living entity target for
-     * @param range  The maximum distance the target can be from the player
-     * @return The living entity targeted by the given player, or null if there
+     * @param player the Player to get the living entity target for
+     * @param range the maximum distance the target can be from the player
+     * @return the living entity targeted by the given player, or null if there
      * isn't one within the given range
      */
     public static LivingEntity getLivingTarget(final Player player,
@@ -110,8 +110,8 @@ public final class Utils {
      * Changes float values slightly to create the effect of randomness, based
      * on VELOCITY_FACTOR
      *
-     * @param original The original velocity
-     * @return A randomly modified version of the given float
+     * @param original the original velocity
+     * @return a randomly modified version of the given float
      */
     public static float velocityRandomiser(final float original) {
         float velocity = original - VELOCITY_FACTOR;
@@ -123,8 +123,8 @@ public final class Utils {
      * Convenience method for {@link Utils#velocityRandomiser(float)}, applies
      * to X, Y, and Z
      *
-     * @param original The original velocity to randomise
-     * @return A randomly modified version of the given {@link Vector} velocity
+     * @param original the original velocity to randomise
+     * @return a randomly modified version of the given {@link Vector} velocity
      */
     public static Vector velocityRandomiser(final Vector original) {
         return new Vector(velocityRandomiser((float) original.getX()),
@@ -136,8 +136,8 @@ public final class Utils {
      * Same as {@link Utils#velocityRandomiser(float)}, except with 1/4 of the
      * effect
      *
-     * @param original The original velocity to slightly randomise
-     * @return A slightly randomly modified version of the given velocity float
+     * @param original the original velocity to slightly randomise
+     * @return a slightly randomly modified version of the given velocity float
      */
     public static float smallVelocityRandomiser(final float original) {
         float velocity = original - SMALL_VELOCITY_FACTOR;
@@ -149,8 +149,8 @@ public final class Utils {
      * Same as {@link Utils#velocityRandomiser(Vector)}, except with 1/4 of the
      * effect
      *
-     * @param original The {@link Vector to randomise}
-     * @return A slightly randomised version of the given {@link Vector}
+     * @param original the {@link Vector to randomise}
+     * @return a slightly randomised version of the given {@link Vector}
      */
     public static Vector smallVelocityRandomiser(final Vector original) {
         return new Vector(smallVelocityRandomiser((float) original.getX()),

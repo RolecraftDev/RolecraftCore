@@ -42,10 +42,10 @@ public class LocationSerializer {
      * the given {@link String} is a valid serialized {@link Location}, as can
      * be obtained via the {@link #serialize(Location)} method
      *
-     * @param serial The serialized {@link String} to deserialize
-     * @return A {@link Location} deserialized from the given {@link String}
-     * @throws IllegalArgumentException If the provided serialized
-     *                                  {@link String} isn't valid
+     * @param serial the serialized {@link String} to deserialize
+     * @return a {@link Location} deserialized from the given {@link String}
+     * @throws IllegalArgumentException if the provided serialized {@link
+     *                                  String} isn't valid
      */
     public static Location deserialize(final String serial)
             throws IllegalArgumentException {
@@ -59,18 +59,18 @@ public class LocationSerializer {
                     "ID:1 " + serial + " is not a valid serialization!");
         }
 
-        final World world = Bukkit.getServer()
-                .getWorld(UUID.fromString(values[0]));
+        final World world = Bukkit.getServer().getWorld(
+                UUID.fromString(values[0]));
         if (world == null) {
             throw new IllegalArgumentException(
                     "ID:2 " + values[0] + " is not a world on this server!");
         }
 
-        double x = 0;
-        double y = 0;
-        double z = 0;
-        float yaw = 0;
-        float pitch = 0;
+        double x;
+        double y;
+        double z;
+        float yaw;
+        float pitch;
 
         try {
             x = Double.valueOf(values[1]);
@@ -78,10 +78,9 @@ public class LocationSerializer {
             z = Double.valueOf(values[3]);
             pitch = Float.valueOf(values[4]);
             yaw = Float.valueOf(values[5]);
-        } catch (Exception ex) {
-            throw new IllegalArgumentException(
-                    "ID:3 " + "Could not cast double values: " + ex
-                            .getMessage());
+        } catch (final NumberFormatException ex) {
+            throw new IllegalArgumentException("ID:3 " +
+                    "Could not cast double values: " + ex.getMessage());
         }
 
         return new Location(world, x, y, z, yaw, pitch);
@@ -91,8 +90,8 @@ public class LocationSerializer {
      * Transforms the given {@link Location} into a serialized {@link String}
      * for storage
      *
-     * @param loc The {@link Location} to turn into a serialized {@link String}
-     * @return A serialized String representing the given {@link Location}
+     * @param loc the {@link Location} to turn into a serialized {@link String}
+     * @return a serialized String representing the given {@link Location}
      */
     public static String serialize(Location loc) {
         if (loc == null) {

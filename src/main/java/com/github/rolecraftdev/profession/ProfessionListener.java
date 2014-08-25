@@ -30,7 +30,6 @@ import com.github.rolecraftdev.util.messages.Messages;
 import com.github.rolecraftdev.util.messages.MsgVar;
 
 import org.bukkit.Material;
-import org.bukkit.command.CommandSender;
 import org.bukkit.enchantments.Enchantment;
 import org.bukkit.entity.Player;
 import org.bukkit.event.EventHandler;
@@ -47,6 +46,9 @@ import org.bukkit.inventory.ItemStack;
 import java.util.List;
 import java.util.Map.Entry;
 
+/**
+ * Used to enforce rules specified for professions
+ */
 public class ProfessionListener implements Listener {
     private final ProfessionManager parent;
 
@@ -61,25 +63,21 @@ public class ProfessionListener implements Listener {
      * followed by a list of tags that are the names of items as defined in
      * {@link org.bukkit.Material}
      *
-     * @param event
-     *            ---
+     * @param event the {@link InventoryClickEvent} used to check that players
+     *              aren't putting disallowed armour in their armour slots
      */
     @EventHandler(priority = EventPriority.HIGHEST)
     public void enforceArmorRules(InventoryClickEvent event) {
         if (event.getWhoClicked() instanceof Player) {
-            if (parent.getPlayerProfession(event.getWhoClicked().getUniqueId())
-                    == null) {
+            final Player player = (Player) event.getWhoClicked();
+            if (parent.getPlayerProfession(player.getUniqueId()) == null) {
                 if (!parent.getPlugin().getConfig()
                         .getBoolean("professiondefaults.enchantments")) {
-                    ((CommandSender) event.getWhoClicked()).sendMessage(parent
-                            .getPlugin().getMessage(
-                                    Messages.PROFESSION_DENY_ENCHANTMENT,
-                                    MsgVar.create(
-                                            "$profession",
-                                            parent.getPlayerProfession(
-                                                    event.getWhoClicked()
-                                                            .getUniqueId())
-                                                    .getName())));
+                    player.sendMessage(parent.getPlugin().getMessage(
+                            Messages.PROFESSION_DENY_ENCHANTMENT,
+                            MsgVar.create("$profession", parent
+                                    .getPlayerProfession(player.getUniqueId())
+                                    .getName())));
                     event.setCancelled(true);
                     return;
                 } else {
@@ -89,70 +87,45 @@ public class ProfessionListener implements Listener {
             if (event.getSlotType() == InventoryType.SlotType.ARMOR) {
                 if (!checkMaterial(
                         event.getCurrentItem().getType(),
-                        (Player) event.getWhoClicked(),
-                        parent.getPlayerProfession(
-                                event.getWhoClicked().getUniqueId())
+                        player, parent.getPlayerProfession(player.getUniqueId())
                                 .getRuleValue(ProfessionRule.USABLE_ARMOR))) {
-                    ((CommandSender) event.getWhoClicked()).sendMessage(parent
-                            .getPlugin().getMessage(
-                                    Messages.PROFESSION_DENY_ARMOR,
-                                    MsgVar.create(
-                                            "$profession",
-                                            parent.getPlayerProfession(
-                                                    event.getWhoClicked()
-                                                            .getUniqueId())
-                                                    .getName())));
+                    player.sendMessage(parent.getPlugin().getMessage(
+                            Messages.PROFESSION_DENY_ARMOR,
+                            MsgVar.create("$profession", parent
+                                    .getPlayerProfession(player.getUniqueId())
+                                    .getName())));
                     event.setCancelled(true);
                 }
             }
 
-            if (!checkEnchantments((Player) event.getWhoClicked(),
-                    event.getCurrentItem())) {
-                ((CommandSender) event.getWhoClicked()).sendMessage(parent
-                        .getPlugin().getMessage(
-                                Messages.PROFESSION_DENY_ENCHANTMENT,
-                                MsgVar.create(
-                                        "$profession",
-                                        parent.getPlayerProfession(
-                                                event.getWhoClicked()
-                                                        .getUniqueId())
-                                                .getName())));
+            if (!checkEnchantments(player, event.getCurrentItem())) {
+                player.sendMessage(parent.getPlugin().getMessage(
+                        Messages.PROFESSION_DENY_ENCHANTMENT,
+                        MsgVar.create("$profession", parent.getPlayerProfession(
+                                player.getUniqueId()).getName())));
                 event.setCancelled(true);
             }
             if (event instanceof CraftItemEvent) {
-                if (!checkMaterial(
-                        event.getCurrentItem().getType(),
-                        (Player) event.getWhoClicked(),
-                        parent.getPlayerProfession(
-                                event.getWhoClicked().getUniqueId())
+                if (!checkMaterial(event.getCurrentItem().getType(), player,
+                        parent.getPlayerProfession(player.getUniqueId())
                                 .getRuleValue(ProfessionRule.USABLE_ITEMS))) {
-                    ((CommandSender) event.getWhoClicked()).sendMessage(parent
-                            .getPlugin().getMessage(
-                                    Messages.PROFESSION_DENY_ITEM,
-                                    MsgVar.create(
-                                            "$profession",
-                                            parent.getPlayerProfession(
-                                                    event.getWhoClicked()
-                                                            .getUniqueId())
-                                                    .getName())));
+                    player.sendMessage(parent.getPlugin().getMessage(Messages
+                            .PROFESSION_DENY_ITEM, MsgVar.create(
+                            "$profession", parent.getPlayerProfession(player
+                                    .getUniqueId()).getName())));
                     event.setCancelled(true);
                 }
             } else if (event.getSlotType() == SlotType.QUICKBAR) {
                 if (!checkMaterial(
                         event.getCurrentItem().getType(),
-                        (Player) event.getWhoClicked(),
+                        player,
                         parent.getPlayerProfession(
-                                event.getWhoClicked().getUniqueId())
+                                player.getUniqueId())
                                 .getRuleValue(ProfessionRule.USABLE_ITEMS))) {
-                    ((CommandSender) event.getWhoClicked()).sendMessage(parent
-                            .getPlugin().getMessage(
-                                    Messages.PROFESSION_DENY_ITEM,
-                                    MsgVar.create(
-                                            "$profession",
-                                            parent.getPlayerProfession(
-                                                    event.getWhoClicked()
-                                                            .getUniqueId())
-                                                    .getName())));
+                    player.sendMessage(parent.getPlugin().getMessage(
+                            Messages.PROFESSION_DENY_ITEM, MsgVar.create(
+                                    "$profession", parent.getPlayerProfession(
+                                            player.getUniqueId()).getName())));
                     event.setCancelled(true);
                 }
             }

@@ -55,7 +55,6 @@ import java.util.HashMap;
 import java.util.Map;
 import java.util.UUID;
 
-@SuppressWarnings("FeatureEnvy")
 public class MagicListener implements Listener {
     private final RolecraftCore plugin;
     private final SpellManager spellManager;
@@ -259,16 +258,14 @@ public class MagicListener implements Listener {
     }
 
     private Spell getSpell(ItemStack stick) {
-        if (stick.getType() == Material.STICK) {
-            if (stick.hasItemMeta()) {
-                if (stick.getItemMeta().hasDisplayName()) {
-                    Spell temp = spellManager.getSpell(ChatColor
-                            .stripColor(stick.getItemMeta().getDisplayName()));
-                    if (!stick.getEnchantments().isEmpty()) {
-                        if (stick.getEnchantments().get(Enchantment.LUCK)
-                                == 10) {
-                            return temp;
-                        }
+        if (stick != null && stick.getType() == Material.STICK) {
+            if (stick.hasItemMeta() && stick.getItemMeta().hasDisplayName()) {
+                final Spell temp = spellManager.getSpell(ChatColor
+                        .stripColor(stick.getItemMeta().getDisplayName()));
+                if (!stick.getEnchantments().isEmpty()) {
+                    if (stick.getEnchantments().get(Enchantment.LUCK)
+                            == 10) {
+                        return temp;
                     }
                 }
             }

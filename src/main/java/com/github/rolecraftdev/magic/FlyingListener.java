@@ -52,13 +52,9 @@ public class FlyingListener implements Listener {
         if (isFly(hand)) {
             event.getPlayer().setAllowFlight(true);
             event.getPlayer().setFlying(true);
-
-            event.getPlayer().setMetadata(
-                    "rolecraftfly",
-                    new FixedMetadataValue(plugin,
-                            true));
+            event.getPlayer().setMetadata("rolecraftfly",
+                    new FixedMetadataValue(plugin, true));
             event.getPlayer().setFallDistance(0f);
-
         }
     }
 
@@ -69,10 +65,8 @@ public class FlyingListener implements Listener {
         if (isFly(stack)) {
             event.getPlayer().setAllowFlight(true);
             event.getPlayer().setFlying(true);
-            event.getPlayer().setMetadata(
-                    "rolecraftfly",
-                    new FixedMetadataValue(plugin,
-                            true));
+            event.getPlayer().setMetadata("rolecraftfly",
+                    new FixedMetadataValue(plugin, true));
             event.getPlayer().setFallDistance(0f);
 
         } else {
@@ -86,23 +80,15 @@ public class FlyingListener implements Listener {
     }
 
     private boolean isFly(ItemStack stack) {
-        if (stack == null || stack.getType() == Material.AIR) {
+        if (stack == null || stack.getType() != Material.STICK) {
             return false;
         }
-        if (stack.getType() == Material.STICK) {
-            if (stack.hasItemMeta()) {
-                if (stack.getItemMeta().hasDisplayName()) {
-                    if (ChatColor
-                            .stripColor(stack.getItemMeta().getDisplayName())
-                            .equalsIgnoreCase("fly")) {
-                        if (!stack.getEnchantments().isEmpty()) {
-                            if (stack.getEnchantments().get(Enchantment.LUCK)
-                                    == 10) {
-                                return true;
-                            }
-                        }
-                    }
-                }
+        if (stack.hasItemMeta() && stack.getItemMeta().hasDisplayName()) {
+            if (ChatColor
+                    .stripColor(stack.getItemMeta().getDisplayName())
+                    .equalsIgnoreCase("fly")) {
+                return !stack.getEnchantments().isEmpty()
+                        && stack.getEnchantments().get(Enchantment.LUCK) == 10;
             }
         }
 
