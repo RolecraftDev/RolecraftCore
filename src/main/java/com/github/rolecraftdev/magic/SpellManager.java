@@ -26,6 +26,8 @@
  */
 package com.github.rolecraftdev.magic;
 
+import org.apache.commons.lang.Validate;
+
 import com.github.rolecraftdev.RolecraftCore;
 import com.github.rolecraftdev.magic.spells.*;
 import com.github.rolecraftdev.profession.Profession;
@@ -102,13 +104,24 @@ public class SpellManager {
      * Get the {@link RolecraftCore} plugin object this {@link SpellManager} is
      * attached to.
      *
-     * @return Its {@link RolecraftCore} object
+     * @return the {@link RolecraftCore} plugin object
      */
     public RolecraftCore getPlugin() {
         return plugin;
     }
 
+    /**
+     * Registers the given {@link Spell} to a wand with the given name. You
+     * cannot overwrite spells without first unregistering an old spell with the
+     * same name - an exception is thrown if this method is called with a wand
+     * name which is already registered.
+     *
+     * @param wandName the name of the want to bind the {@link Spell} to
+     * @param spell the {@link Spell} to bind to the given want
+     */
     public void register(String wandName, Spell spell) {
+        Validate.isTrue(!spells.containsKey(wandName));
+
         spells.put(wandName, spell);
         Bukkit.getPluginManager().addPermission(new Permission(
                 "rolecraft.spell." + wandName.toLowerCase().replaceAll(" ", ""),
@@ -120,14 +133,25 @@ public class SpellManager {
     }
 
     /**
+     * Unregisters the {@link Spell} with the given wand name from this {@link
+     * SpellManager}
+     *
+     * @param wandName the wand name of the {@link Spell} to unregister
+     */
+    public void unregister(String wandName) {
+        Validate.notNull(wandName);
+        spells.remove(wandName);
+    }
+
+    /**
      * Checks whether the given {@link Player} can cast the given {@link Spell},
      * checking their profession's ability to cast the spell (and therefore
      * returning null if they don't have a profession) and their server
      * permissions
      *
-     * @param player The {@link Player} to check the permissions for
-     * @param spell  The {@link Spell} to check for the given {@link Player}
-     * @return Whether the given {@link Player} can cast the given {@link Spell}
+     * @param player the {@link Player} to check the permissions for
+     * @param spell the {@link Spell} to check for the given {@link Player}
+     * @return whether the given {@link Player} can cast the given {@link Spell}
      */
     public boolean canCast(Player player, Spell spell) {
         // workaround for testing
@@ -141,14 +165,20 @@ public class SpellManager {
                 }
             }
         } catch (URISyntaxException e) {
-            Bukkit.getLogger()
-                    .warning("Generated failure in player name exceptions");
+            Bukkit.getLogger().warning("Problem in check exceptions - ignore");
         }
+
+        if (!player.hasPermission(
+                "rolecraft.spell." + spell.getName().toLowerCase())) {
+            return false;
+        }
+
         final Profession profession = plugin.getProfessionManager()
                 .getPlayerProfession(player.getUniqueId());
         if (profession == null) {
             return false;
         }
+
         final List<?> usable = profession
                 .getRuleValue(ProfessionRule.USABLE_SPELLS);
         // if the usable spells is not defined in profession,
@@ -157,12 +187,8 @@ public class SpellManager {
             return plugin.getConfig().getBoolean("professiondefaults.spells");
         }
 
-        boolean retVal = usable.contains(spell.getName()) ||
-                (usable.contains("*") && !usable
-                        .contains("-" + spell.getName()));
-        return retVal && player.hasPermission(
-                "rolecraft.spell." + spell.getName().toLowerCase()
-                        .replaceAll(" ", ""));
+        return usable.contains(spell.getName()) || (usable.contains("*") &&
+                !usable.contains("-" + spell.getName()));
     }
 
     public Spell getSpell(String wandName) {
