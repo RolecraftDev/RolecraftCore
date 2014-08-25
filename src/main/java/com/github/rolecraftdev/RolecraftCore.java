@@ -35,6 +35,7 @@ import com.github.rolecraftdev.data.DataManager;
 import com.github.rolecraftdev.data.storage.DataStore;
 import com.github.rolecraftdev.data.storage.MySQLDataStore;
 import com.github.rolecraftdev.data.storage.SQLiteDataStore;
+import com.github.rolecraftdev.event.RolecraftEventFactory;
 import com.github.rolecraftdev.guild.Guild;
 import com.github.rolecraftdev.guild.GuildManager;
 import com.github.rolecraftdev.magic.Spell;
@@ -174,6 +175,9 @@ public final class RolecraftCore extends AlbPlugin {
 
         // Initialise DataStore
         dataStore.initialise();
+
+        // Set the plugin object for event construction in RolecraftEventFactory
+        RolecraftEventFactory.setPlugin(this);
 
         // Log the data store we are using
         logger.info("Using " + dataStore.getStoreTypeName()
@@ -391,7 +395,6 @@ public final class RolecraftCore extends AlbPlugin {
         InputStream input = getClass()
                 .getResourceAsStream("/" + name);
         try {
-
             if (!actual.exists()) {
                 try {
                     actual.createNewFile();

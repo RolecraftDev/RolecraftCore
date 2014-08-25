@@ -28,6 +28,7 @@ package com.github.rolecraftdev.magic;
 
 import com.github.rolecraftdev.RolecraftCore;
 import com.github.rolecraftdev.data.PlayerData;
+import com.github.rolecraftdev.event.RolecraftEventFactory;
 import com.github.rolecraftdev.event.spell.SpellCastEvent;
 import com.github.rolecraftdev.util.SoundWrapper;
 import com.github.rolecraftdev.util.messages.Messages;
@@ -128,9 +129,8 @@ public class MagicListener implements Listener {
                                     e.getBlockFace());
                             if (estimate < spellManager
                                     .getMana(e.getPlayer())) {
-                                SpellCastEvent event = new SpellCastEvent(
-                                        plugin, spell, player, estimate);
-                                Bukkit.getPluginManager().callEvent(event);
+                                SpellCastEvent event = RolecraftEventFactory
+                                        .spellCast(spell, player, estimate);
                                 if (event.isCancelled()) {
                                     player.sendMessage(
                                             event.getCancelMessage());
@@ -172,9 +172,8 @@ public class MagicListener implements Listener {
                                                     .getMagicModifier(player), e
                                                     .getBlockFace());
                             if (estimate < spellManager.getMana(player)) {
-                                SpellCastEvent event = new SpellCastEvent(
-                                        plugin, spell, player, estimate);
-                                Bukkit.getPluginManager().callEvent(event);
+                                SpellCastEvent event = RolecraftEventFactory
+                                        .spellCast(spell, player, estimate);
                                 if (event.isCancelled()) {
                                     player.sendMessage(
                                             event.getCancelMessage());
@@ -235,9 +234,8 @@ public class MagicListener implements Listener {
                         (LivingEntity) e.getEntity(),
                         spellManager.getMagicModifier(player));
                 if (spellManager.getMana(player) > estimate) {
-                    SpellCastEvent event = new SpellCastEvent(plugin, spell,
-                            e.getDamager(), estimate);
-                    Bukkit.getPluginManager().callEvent(event);
+                    SpellCastEvent event = RolecraftEventFactory.spellCast(
+                            spell, e.getDamager(), estimate);
                     if (event.isCancelled()) {
                         player.sendMessage(event.getCancelMessage());
                         return;

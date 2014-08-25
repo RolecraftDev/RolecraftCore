@@ -42,7 +42,13 @@ import org.bukkit.event.HandlerList;
 public class GuildPlayerJoinEvent extends GuildEvent {
     private static final HandlerList handlers = new HandlerList();
 
+    /**
+     * The {@link Player} joining the guild
+     */
     private final Player player;
+    /**
+     * The {@link GuildRank} the new {@link Player} has been allocated to
+     */
     private final GuildRank rank;
 
     /**

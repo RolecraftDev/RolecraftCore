@@ -30,6 +30,7 @@ import org.apache.commons.lang.Validate;
 
 import com.github.rolecraftdev.RolecraftCore;
 import com.github.rolecraftdev.data.storage.YamlFile;
+import com.github.rolecraftdev.event.RolecraftEventFactory;
 import com.github.rolecraftdev.event.guild.GuildCreateEvent;
 import com.github.rolecraftdev.event.guild.GuildDisbandEvent;
 
@@ -199,9 +200,7 @@ public final class GuildManager {
             }
         }
 
-        final GuildCreateEvent event = new GuildCreateEvent(plugin, guild);
-        plugin.getServer().getPluginManager().callEvent(event);
-
+        GuildCreateEvent event = RolecraftEventFactory.guildCreated(guild);
         if (event.isCancelled()) {
             event.getFounder().sendMessage(
                     ChatColor.DARK_RED + event.getCancelMessage());
@@ -225,8 +224,7 @@ public final class GuildManager {
      */
     public boolean removeGuild(final Guild guild) {
         if (loaded) {
-            plugin.getServer().getPluginManager()
-                    .callEvent(new GuildDisbandEvent(plugin, guild));
+            RolecraftEventFactory.guildDisbanded(guild);
             plugin.getDataStore().deleteGuild(guild);
             channelBatch.removeChannel(guild.getChannel());
             return guilds.remove(guild);

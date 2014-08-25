@@ -30,6 +30,7 @@ import org.apache.commons.lang.Validate;
 
 import com.github.rolecraftdev.RolecraftCore;
 import com.github.rolecraftdev.data.Region2D;
+import com.github.rolecraftdev.event.RolecraftEventFactory;
 import com.github.rolecraftdev.event.guild.GuildPlayerJoinEvent;
 import com.github.rolecraftdev.event.guild.GuildPlayerKickedEvent;
 import com.github.rolecraftdev.event.guild.GuildPlayerLeaveEvent;
@@ -488,8 +489,8 @@ public final class Guild {
         Validate.notNull(member);
         Validate.notNull(rank);
 
-        Bukkit.getPluginManager().callEvent(new GuildPlayerJoinEvent(
-                plugin, this, Bukkit.getPlayer(member), rank));
+        RolecraftEventFactory.guildPlayerJoined(this, Bukkit.getPlayer(member),
+                rank);
 
         members.add(member);
         rank.addMember(member);
@@ -498,10 +499,13 @@ public final class Guild {
     }
 
     /**
-     * Remove the given player from this {@link Guild}.
+     * Remove the given player from this {@link Guild}. This method assumes that
+     * the removal isn't a kick - if you want to remove someone as if it was a
+     * kick, use {@link #removeMember(UUID, boolean)}
      *
      * @param member the {@link UUID} of the player to remove
      * @since 0.0.5
+     * @see {@link #removeMember(UUID, boolean}
      */
     public void removeMember(final UUID member) {
         removeMember(member, false);
