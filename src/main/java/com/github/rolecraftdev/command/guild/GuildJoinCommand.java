@@ -27,6 +27,8 @@
 package com.github.rolecraftdev.command.guild;
 
 import com.github.rolecraftdev.RolecraftCore;
+import com.github.rolecraftdev.data.DataManager;
+import com.github.rolecraftdev.data.PlayerData;
 import com.github.rolecraftdev.guild.Guild;
 import com.github.rolecraftdev.guild.GuildManager;
 import com.github.rolecraftdev.util.messages.Messages;
@@ -39,11 +41,14 @@ import org.bukkit.metadata.MetadataValue;
 import pw.ian.albkit.command.PlayerCommandHandler;
 import pw.ian.albkit.command.parser.Arguments;
 
+import java.util.UUID;
+
 /**
  * @since 0.0.5
  */
 public class GuildJoinCommand extends PlayerCommandHandler {
     private final RolecraftCore plugin;
+    private final DataManager dataMgr;
     private final GuildManager guildMgr;
 
     /**
@@ -55,6 +60,7 @@ public class GuildJoinCommand extends PlayerCommandHandler {
     GuildJoinCommand(final RolecraftCore plugin) {
         super("join");
         this.plugin = plugin;
+        dataMgr = plugin.getDataManager();
         guildMgr = plugin.getGuildManager();
 
         setUsage("/guild join <name>");
@@ -103,20 +109,19 @@ public class GuildJoinCommand extends PlayerCommandHandler {
      * @since 0.0.5
      */
     private void completeGuildAdd(final Player player, final Guild guild) {
-        if (plugin.getDataManager().getPlayerData(player.getUniqueId())
-                .getGuild() != null) {
-            // TODO: use RCConfrim to make sure they want to leave their guild
+        final UUID pid = player.getUniqueId();
+        final PlayerData data = dataMgr.getPlayerData(pid);
+        if (data.getGuild() != null) {
+            player.sendMessage(plugin.getMessage(Messages.ALREADY_IN_GUILD));
+            return;
         }
-        plugin.getDataManager().getPlayerData(player.getUniqueId())
-                .setGuild(guild.getId());
-        guild.addMember(player.getUniqueId(), guild.getDefaultRank());
+
+        dataMgr.getPlayerData(player.getUniqueId()).setGuild(guild.getId());
+        guild.addMember(pid, guild.getDefaultRank());
         player.sendMessage(plugin.getMessage(Messages.GUILD_JOINED_PLAYER,
                 MsgVar.create("$guild", guild.getName())));
-        guild.broadcastMessage(
-                plugin.getMessage(Messages.GUILD_JOINED_OTHERS,
+        guild.broadcastMessage(plugin.getMessage(Messages.GUILD_JOINED_OTHERS,
                         MsgVar.create("$guild", guild.getName()),
                         MsgVar.create("$player", player.getName())));
-
     }
-
 }
