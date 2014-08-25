@@ -98,19 +98,9 @@ public class LocationSerializer {
             return null;
         }
 
-        StringBuilder sb = new StringBuilder();
-        sb.append(loc.getWorld().getUID().toString());
-        sb.append(",");
-        sb.append(loc.getX());
-        sb.append(",");
-        sb.append(loc.getY());
-        sb.append(",");
-        sb.append(loc.getZ());
-        sb.append(",");
-        sb.append(loc.getYaw());
-        sb.append(",");
-        sb.append(loc.getPitch());
-        return sb.toString();
+        return loc.getWorld().getUID().toString() + "," + loc.getX() + "," + loc
+                .getY() + "," + loc.getZ() + "," + loc.getYaw() + "," + loc
+                .getPitch();
     }
 
     /**

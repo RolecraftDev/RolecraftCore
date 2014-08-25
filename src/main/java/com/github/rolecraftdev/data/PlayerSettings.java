@@ -131,13 +131,8 @@ public final class PlayerSettings {
      */
     @Override
     public String toString() {
-        StringBuilder sb = new StringBuilder();
-        sb.append(String.valueOf(showMana));
-        sb.append(',');
-        sb.append(String.valueOf(spellChatMessage));
-        sb.append(',');
-        sb.append(String.valueOf(guildSpy));
-        return sb.toString();
+        return String.valueOf(showMana) + ',' + String.valueOf(spellChatMessage)
+                + ',' + String.valueOf(guildSpy);
     }
 
     /**
