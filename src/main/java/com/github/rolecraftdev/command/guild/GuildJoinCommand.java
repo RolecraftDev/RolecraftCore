@@ -79,6 +79,11 @@ public class GuildJoinCommand extends PlayerCommandHandler {
         }
         final String name = args.getRaw(0);
         final Guild guild = guildMgr.getGuild(name);
+        if (guild == null) {
+            player.sendMessage(plugin.getMessage(Messages.GUILD_NOT_EXISTS));
+            return;
+        }
+
         if (guild.isOpen()) {
             completeGuildAdd(player, guild);
         }

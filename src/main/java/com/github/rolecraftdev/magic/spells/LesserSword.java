@@ -79,16 +79,16 @@ public class LesserSword implements Spell {
     @Override
     public float rightClick(Player caster, Block block, int modifier,
             BlockFace face) {
-        return click(caster, block, modifier, face);
+        return click();
     }
 
     @Override
     public float leftClick(Player caster, Block block, int modifier,
             BlockFace face) {
-        return click(caster, block, modifier, face);
+        return click();
     }
 
-    private float click(Player ply, Block block, int modifier, BlockFace face) {
+    private float click() {
         return Float.MIN_VALUE;
     }
 

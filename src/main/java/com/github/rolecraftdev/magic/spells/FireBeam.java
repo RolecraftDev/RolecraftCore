@@ -50,10 +50,10 @@ import org.bukkit.inventory.meta.ItemMeta;
  * {@link BurnBlock} does, but allows the targeted block to be more distant.
  */
 public class FireBeam implements Spell {
-    private SpellManager manager;
+    private final SpellManager manager;
 
-    public FireBeam(SpellManager spellManager) {
-        manager = spellManager;
+    public FireBeam(final SpellManager manager) {
+        this.manager = manager;
     }
 
     @Override

@@ -53,16 +53,28 @@ import java.util.List;
  * pickaxe, although this will affect more blocks when used.
  */
 public class MiningHammer implements Spell {
-    private enum Orientation {
-        NORTHSOUTH,
-        EASTWEST,
-        FLAT;
+    private final SpellManager manager;
+
+    public MiningHammer(final SpellManager manager) {
+        this.manager = manager;
     }
 
-    private SpellManager manager;
-
-    public MiningHammer(SpellManager spellManager) {
-        manager = spellManager;
+    /**
+     * Represents a general orientation
+     */
+    private enum Orientation {
+        /**
+         * Z axis - north or south
+         */
+        NORTHSOUTH,
+        /**
+         * X axis - east or west
+         */
+        EASTWEST,
+        /**
+         * Y axis - Up or down
+         */
+        FLAT
     }
 
     @Override
@@ -104,7 +116,7 @@ public class MiningHammer implements Spell {
         if (block == null) {
             return Float.MIN_VALUE;
         }
-        List<Block> blocks = null;
+        List<Block> blocks;
         if (face == BlockFace.DOWN || face == BlockFace.UP) {
             blocks = getBlocksAround(block, Orientation.FLAT);
         } else if (face == BlockFace.EAST || face == BlockFace.WEST) {

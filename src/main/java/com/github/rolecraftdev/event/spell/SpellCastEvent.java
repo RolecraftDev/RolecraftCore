@@ -65,6 +65,7 @@ public class SpellCastEvent extends SpellEvent implements Cancellable {
             final Entity caster, final float manaCost) {
         super(plugin, spell);
         this.caster = caster;
+        this.manaCost = manaCost;
     }
 
     /**

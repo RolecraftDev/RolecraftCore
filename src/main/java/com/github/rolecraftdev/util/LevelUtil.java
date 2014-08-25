@@ -41,7 +41,7 @@ public final class LevelUtil {
      * @param experience the amount of experience to get the level for
      * @return the level correlating to the given amount of experience
      */
-    public static final int getLevel(float experience) {
+    public static int getLevel(float experience) {
         // TODO: make this a function that can, within reason, be solved for X
         // short circut to prevent "bottoming out"
         if (experience < 0.025) {
@@ -63,7 +63,7 @@ public final class LevelUtil {
      * @return the amount of experience required for a player with the given
      * amount of experience to level up
      */
-    public static final float expToNextLevel(float experience) {
+    public static float expToNextLevel(float experience) {
         // TODO: make this return the experience to the next level
         return -1;
     }
@@ -75,7 +75,7 @@ public final class LevelUtil {
      * @param entityType the type of entity to get the kill exp for
      * @return the amount of experience gained from killing the given entity
      */
-    public static final float expFromKill(final EntityType entityType) {
+    public static float expFromKill(final EntityType entityType) {
         switch (entityType) {
             case ZOMBIE:
                 return 20;

@@ -52,10 +52,10 @@ import org.bukkit.inventory.meta.ItemMeta;
  * executor points at.
  */
 public class AvadaKedavra implements Spell {
-    private SpellManager parent;
+    private final SpellManager manager;
 
-    public AvadaKedavra(SpellManager spellManager) {
-        parent = spellManager;
+    public AvadaKedavra(final SpellManager manager) {
+        this.manager = manager;
     }
 
     @Override
@@ -86,7 +86,7 @@ public class AvadaKedavra implements Spell {
     @Override
     public float estimateRightClickMana(Player caster, Block block, int modifier,
             BlockFace face) {
-        LivingEntity toKill = Utils.getLivingTarget(caster, parent.getRange());
+        LivingEntity toKill = Utils.getLivingTarget(caster, manager.getRange());
         if (toKill != null) {
             if (toKill instanceof Player) {
                 return 1500;
@@ -100,7 +100,7 @@ public class AvadaKedavra implements Spell {
     @Override
     public float rightClick(Player caster, Block block, int modifier,
             BlockFace face) {
-        LivingEntity toKill = Utils.getLivingTarget(caster, parent.getRange());
+        LivingEntity toKill = Utils.getLivingTarget(caster, manager.getRange());
         if (toKill == null) {
             return Float.MIN_VALUE;
         }
@@ -112,7 +112,7 @@ public class AvadaKedavra implements Spell {
         if (!edbee.isCancelled()) {
             toKill.setHealth(0D); // pwnt
             if (toKill instanceof Player) {
-                parent.setMana(caster, 0f);
+                manager.setMana(caster, 0f);
                 caster.sendMessage("Your mana has been drained!");
             } else {
                 return 800 - modifier;
@@ -138,7 +138,7 @@ public class AvadaKedavra implements Spell {
         if (!edbee.isCancelled()) {
             target.setHealth(0D); // pwnt
             if (target instanceof Player) {
-                parent.setMana(caster, 0f);
+                manager.setMana(caster, 0f);
                 caster.sendMessage("Your mana has been drained!");
             } else {
                 return 800 - modifier;

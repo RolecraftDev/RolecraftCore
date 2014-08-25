@@ -48,7 +48,7 @@ public abstract class SpellEvent extends RolecraftEvent {
      * @param spell the affected {@link Spell}
      * @since 0.0.5
      */
-    public SpellEvent(final RolecraftCore plugin, final Spell spell) {
+    SpellEvent(final RolecraftCore plugin, final Spell spell) {
         super(plugin);
         this.spell = spell;
     }

@@ -71,10 +71,15 @@ public class GuildHomeCommand extends PlayerCommandHandler {
     public void onCommand(final Player player, final Arguments args) {
         final UUID id = player.getUniqueId();
         final Guild guild = guildManager.getPlayerGuild(id);
+
+        if (guild == null) {
+            player.sendMessage(plugin.getMessage(Messages.NO_GUILD));
+            return;
+        }
+
         if (args.length() > 0 && args.getRaw(0).equalsIgnoreCase("set")) {
-            if (!player.hasPermission("rolecraft.guild.sethome") || !guild
-                    .can(id,
-                            GuildAction.SET_HOME)) {
+            if (!player.hasPermission("rolecraft.guild.sethome") || !guild.can(
+                    id, GuildAction.SET_HOME)) {
                 player.sendMessage(plugin.getMessage(Messages.NO_PERMISSION));
                 return;
             }
@@ -82,21 +87,17 @@ public class GuildHomeCommand extends PlayerCommandHandler {
             guild.setHomeLocation(player.getLocation());
             player.sendMessage(plugin.getMessage(Messages.SET_GUILD_HOME));
         } else {
-            if (guild != null) {
-                new BukkitRunnable() {
-                    @Override
-                    public void run() {
-                        guild.teleportToHome(player);
-                    }
-                }.runTaskLater(plugin,
-                        plugin.getConfig().getInt("teleportdelay") * 20);
+            new BukkitRunnable() {
+                @Override
+                public void run() {
+                    guild.teleportToHome(player);
+                }
+            }.runTaskLater(plugin,
+                    plugin.getConfig().getInt("teleportdelay") * 20);
 
-                player.sendMessage(plugin.getMessage(Messages.GUILD_TP_HOME,
-                        MsgVar.create("$time", String.valueOf(
-                                plugin.getConfig().getInt("teleportdelay")))));
-            } else {
-                player.sendMessage(plugin.getMessage(Messages.NO_GUILD));
-            }
+            player.sendMessage(plugin.getMessage(Messages.GUILD_TP_HOME,
+                    MsgVar.create("$time", String.valueOf(plugin.getConfig()
+                            .getInt("teleportdelay")))));
         }
     }
 }

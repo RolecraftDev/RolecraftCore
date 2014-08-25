@@ -136,13 +136,10 @@ public final class SQLiteDataStore extends DataStore {
                     ps.setString(1, mde);
                     rs = ps.executeQuery();
                     if (rs.next()) {
-                        if (rs.getString("version").equals(
+                        if (!rs.getString("version").equals(
                                 DataStore.SQLVERSION1)) {
-                            // up to date, do nothing
+                            // TODO: in the future versions, add logic to update database
                         }
-
-                        // TODO: in the future versions, add logic to update
-                        // database
                     } else {
                         close(ps, rs);
                         Bukkit.getLogger().info("INSERT INTO " + mdt

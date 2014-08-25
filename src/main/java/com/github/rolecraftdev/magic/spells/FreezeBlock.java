@@ -54,7 +54,7 @@ import java.util.HashSet;
  */
 @SuppressWarnings("deprecation")
 public class FreezeBlock implements Spell {
-    private static HashSet<Byte> transparency;
+    private static final HashSet<Byte> transparency;
 
     static {
         // declare it so water isn't transparent

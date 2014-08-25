@@ -106,7 +106,7 @@ public final class PlayerData {
     /**
      * The associated {@link RolecraftCore} instance.
      */
-    private RolecraftCore plugin;
+    private final RolecraftCore plugin;
 
     /**
      * Constructor.

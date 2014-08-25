@@ -27,6 +27,7 @@
 package com.github.rolecraftdev;
 
 import com.github.rolecraftdev.data.PlayerData;
+import com.github.rolecraftdev.event.exp.RCExpEvent;
 import com.github.rolecraftdev.util.LevelUtil;
 
 import org.bukkit.entity.Entity;
@@ -98,7 +99,8 @@ public final class RCListener implements Listener {
                 final EntityType entityType = deadEntity.getType();
                 final PlayerData pd = plugin.getDataManager().getPlayerData(id);
 
-                pd.addExperience(LevelUtil.expFromKill(entityType));
+                pd.addExperience(LevelUtil.expFromKill(entityType),
+                        RCExpEvent.ChangeReason.KILLING);
             }
         }
     }

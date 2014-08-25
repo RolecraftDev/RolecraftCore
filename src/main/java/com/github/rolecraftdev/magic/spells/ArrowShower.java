@@ -56,9 +56,7 @@ import java.util.HashSet;
  */
 @SuppressWarnings("deprecation")
 public class ArrowShower implements Spell {
-    private static HashSet<Byte> transparency;
-
-    private SpellManager manager;
+    private static final HashSet<Byte> transparency;
 
     static {
         transparency = new HashSet<Byte>();
@@ -68,8 +66,10 @@ public class ArrowShower implements Spell {
         transparency.add((byte) Material.WATER.getId());
     }
 
-    public ArrowShower(SpellManager spellManager) {
-        manager = spellManager;
+    private final SpellManager manager;
+
+    public ArrowShower(SpellManager manager) {
+        this.manager = manager;
     }
 
     @Override

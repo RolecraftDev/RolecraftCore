@@ -78,9 +78,7 @@ public class GuildShowCommand extends CommandHandler {
             StringBuilder members = new StringBuilder();
             int onlineMembers = 0;
             for (UUID id : guild.getMembers()) {
-                if (plugin.getServer().getPlayer(id) == null) {
-                    continue;
-                } else {
+                if (plugin.getServer().getPlayer(id) != null) {
                     members.append(plugin.getServer().getPlayer(id));
                     members.append(',');
                     onlineMembers++;

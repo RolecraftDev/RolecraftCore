@@ -119,7 +119,8 @@ public class SpellManager {
      * @param wandName the name of the want to bind the {@link Spell} to
      * @param spell the {@link Spell} to bind to the given want
      */
-    public void register(String wandName, Spell spell) {
+    // TODO: Make public when we support anyone registering spells
+    private void register(String wandName, Spell spell) {
         Validate.isTrue(!spells.containsKey(wandName));
 
         spells.put(wandName, spell);
@@ -138,7 +139,8 @@ public class SpellManager {
      *
      * @param wandName the wand name of the {@link Spell} to unregister
      */
-    public void unregister(String wandName) {
+    // TODO: Make public when we support anyone registering spells
+    private void unregister(String wandName) {
         Validate.notNull(wandName);
         spells.remove(wandName);
     }

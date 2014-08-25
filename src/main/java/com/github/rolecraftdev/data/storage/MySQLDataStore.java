@@ -118,8 +118,8 @@ public final class MySQLDataStore extends DataStore {
      */
     private final String databaseName;
 
-    //                        connection      in use? last use
-    private ConcurrentHashMap<Connection, Entry<Boolean, Long>> connections;
+    //                              connection      in use? last use
+    private final ConcurrentHashMap<Connection, Entry<Boolean, Long>> connections;
 
     /**
      * Constructor.
@@ -209,12 +209,10 @@ public final class MySQLDataStore extends DataStore {
                     ps.setString(1, mde);
                     rs = ps.executeQuery();
                     if (rs.next()) {
-                        if (rs.getString("version")
+                        if (!rs.getString("version")
                                 .equals(DataStore.SQLVERSION1)) {
-                            // up to date, do nothing
+                            // TODO: in the future versions, add logic to update database
                         }
-
-                        // TODO: in the future versions, add logic to update database
                     } else {
                         close(ps, rs);
                         ps = connection.prepareStatement(

@@ -51,10 +51,10 @@ import org.bukkit.metadata.FixedMetadataValue;
  * amount of damage and applies a greater amount of knockback.
  */
 public class HandCannon implements Spell {
-    private SpellManager manager;
+    private final SpellManager manager;
 
-    public HandCannon(SpellManager spellManager) {
-        manager = spellManager;
+    public HandCannon(final SpellManager manager) {
+        this.manager = manager;
     }
 
     @Override

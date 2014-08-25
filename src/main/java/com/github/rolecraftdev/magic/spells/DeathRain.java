@@ -60,9 +60,7 @@ import java.util.HashSet;
  */
 @SuppressWarnings("deprecation")
 public class DeathRain implements Spell {
-    private static HashSet<Byte> transparency;
-
-    private SpellManager manager;
+    private static final HashSet<Byte> transparency;
 
     static {
         transparency = new HashSet<Byte>();
@@ -72,8 +70,10 @@ public class DeathRain implements Spell {
         transparency.add((byte) Material.WATER.getId());
     }
 
-    public DeathRain(SpellManager spellManager) {
-        manager = spellManager;
+    private final SpellManager manager;
+
+    public DeathRain(final SpellManager manager) {
+        this.manager = manager;
     }
 
     @Override
@@ -102,7 +102,7 @@ public class DeathRain implements Spell {
     @Override
     public float rightClick(Player caster, Block block, int modifier,
             BlockFace face) {
-        Block target = null;
+        Block target;
         if (block != null) {
             target = block;
         } else {

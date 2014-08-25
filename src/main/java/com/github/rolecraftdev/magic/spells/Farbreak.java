@@ -49,10 +49,10 @@ import org.bukkit.inventory.meta.ItemMeta;
  * faraway.
  */
 public class Farbreak implements Spell {
-    private SpellManager manager;
+    private final SpellManager manager;
 
-    public Farbreak(SpellManager spellManager) {
-        manager = spellManager;
+    public Farbreak(SpellManager manager) {
+        this.manager = manager;
     }
 
     @Override

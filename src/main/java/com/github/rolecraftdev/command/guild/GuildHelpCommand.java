@@ -40,15 +40,14 @@ import pw.ian.albkit.util.Messaging;
  * @since 0.0.5
  */
 public class GuildHelpCommand extends PlayerCommandHandler {
-
     /**
      * Constructor.
      *
      * @param plugin the associated {@link RolecraftCore} instance
      * @since 0.0.5
      */
-    @SuppressWarnings(value = "unused") GuildHelpCommand(
-            final RolecraftCore plugin) {
+    @SuppressWarnings("unused")
+    GuildHelpCommand(final RolecraftCore plugin) {
         super("help");
 
         setDescription("Guild-related help");

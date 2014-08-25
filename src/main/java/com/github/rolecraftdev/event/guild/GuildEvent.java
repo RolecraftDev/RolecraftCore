@@ -49,7 +49,7 @@ public abstract class GuildEvent extends RolecraftEvent {
      * @param guild the affected {@link Guild}
      * @since 0.0.5
      */
-    public GuildEvent(final RolecraftCore plugin, final Guild guild) {
+    GuildEvent(final RolecraftCore plugin, final Guild guild) {
         super(plugin);
         this.guild = guild;
     }

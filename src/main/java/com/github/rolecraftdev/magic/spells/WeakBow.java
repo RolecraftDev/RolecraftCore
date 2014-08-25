@@ -50,10 +50,10 @@ import org.bukkit.metadata.FixedMetadataValue;
  * one shot with a bow.
  */
 public class WeakBow implements Spell {
-    private SpellManager parent;
+    private final SpellManager manager;
 
-    public WeakBow(SpellManager spellManager) {
-        parent = spellManager;
+    public WeakBow(final SpellManager manager) {
+        this.manager = manager;
     }
 
     @Override
@@ -85,7 +85,7 @@ public class WeakBow implements Spell {
         Entity ent = caster.launchProjectile(Arrow.class);
         ent.setVelocity(ent.getVelocity().multiply(0.5f));
         ent.setMetadata("Multiplier",
-                new FixedMetadataValue(parent.getPlugin(), 0.5f));
+                new FixedMetadataValue(manager.getPlugin(), 0.5f));
         return (40f - modifier / 10f > 0) ? (40f - modifier / 10f) : 0f;
     }
 

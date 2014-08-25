@@ -261,7 +261,15 @@ public abstract class DataStore {
             sb.append(",");
         }
         final String ranks = sb.substring(0, sb.length() - 1);
-        final String hall = guild.getGuildHallRegion().toString();
+        final Region2D ghr = guild.getGuildHallRegion();
+
+        final String hall;
+        if (ghr == null) {
+            hall = null;
+        } else {
+            hall = ghr.toString();
+        }
+
         final String id = guild.getId().toString();
 
         new BukkitRunnable() {
@@ -485,8 +493,8 @@ public abstract class DataStore {
                     rs = ps.executeQuery();
 
                     if (rs.next()) {
-                        String members = rs.getString("members");
-                        members.concat("," + uuid.toString());
+                        final String members = rs.getString("members").concat(
+                                "," + uuid.toString());
                         ps.close();
                         rs.close();
 

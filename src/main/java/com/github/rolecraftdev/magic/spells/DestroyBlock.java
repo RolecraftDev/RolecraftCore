@@ -78,16 +78,16 @@ public class DestroyBlock implements Spell {
     @Override
     public float rightClick(Player caster, Block block, int modifier,
             BlockFace face) {
-        return click(caster, block, modifier, face);
+        return click(caster, block);
     }
 
     @Override
     public float leftClick(Player caster, Block block, int modifier,
             BlockFace face) {
-        return click(caster, block, modifier, face);
+        return click(caster, block);
     }
 
-    private float click(Player ply, Block block, int modifier, BlockFace face) {
+    private float click(Player ply, Block block) {
         BlockBreakEvent event = new BlockBreakEvent(block, ply);
         Bukkit.getServer().getPluginManager().callEvent(event);
         if (!event.isCancelled()) {

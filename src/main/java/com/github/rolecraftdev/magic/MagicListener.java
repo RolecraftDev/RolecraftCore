@@ -29,6 +29,7 @@ package com.github.rolecraftdev.magic;
 import com.github.rolecraftdev.RolecraftCore;
 import com.github.rolecraftdev.data.PlayerData;
 import com.github.rolecraftdev.event.spell.SpellCastEvent;
+import com.github.rolecraftdev.util.SoundWrapper;
 import com.github.rolecraftdev.util.messages.Messages;
 import com.github.rolecraftdev.util.messages.MsgVar;
 
@@ -158,7 +159,11 @@ public class MagicListener implements Listener {
                                             MsgVar.create("$spell",
                                                     spell.getName())));
                                 }
-                                spell.getSound().play(player.getLocation());
+
+                                final SoundWrapper sound = spell.getSound();
+                                if (sound != null) {
+                                    sound.play(player.getLocation());
+                                }
                             }
                         } else {
                             final float estimate = spell
@@ -198,7 +203,11 @@ public class MagicListener implements Listener {
                                                     "$spell",
                                                     spell.getName())));
                                 }
-                                spell.getSound().play(player.getLocation());
+
+                                final SoundWrapper sound = spell.getSound();
+                                if (sound != null) {
+                                    sound.play(player.getLocation());
+                                }
                             }
                         }
                     }
@@ -250,7 +259,11 @@ public class MagicListener implements Listener {
                                         MsgVar.create("$spell",
                                                 spell.getName())));
                     }
-                    spell.getSound().play(player.getLocation());
+
+                    final SoundWrapper sound = spell.getSound();
+                    if (sound != null) {
+                        sound.play(player.getLocation());
+                    }
                 }
 
             }

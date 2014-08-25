@@ -57,7 +57,7 @@ public final class CommandHelper {
      *
      * @since 0.0.5
      */
-    public static final int COMMANDS_PER_PAGE = 6;
+    private static final int COMMANDS_PER_PAGE = 6;
 
     /**
      * Displays a help message to the given {@link CommandSender}, which

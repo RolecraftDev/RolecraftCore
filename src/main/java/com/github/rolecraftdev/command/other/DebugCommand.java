@@ -38,7 +38,7 @@ import pw.ian.albkit.command.parser.Arguments;
  * @since 0.0.5
  */
 public class DebugCommand extends PlayerCommandHandler {
-    RolecraftCore parent;
+    private final RolecraftCore parent;
 
     /**
      * Constructor.
@@ -46,8 +46,8 @@ public class DebugCommand extends PlayerCommandHandler {
      * @param plugin the associated {@link RolecraftCore} instance
      * @since 0.0.5
      */
-    public DebugCommand(RolecraftCore plugin) {
-        super(plugin, "debug");
+    public DebugCommand(final RolecraftCore plugin) {
+        super("debug");
         setUsage("/debug wand");
         parent = plugin;
     }

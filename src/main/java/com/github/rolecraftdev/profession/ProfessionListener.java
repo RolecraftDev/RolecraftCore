@@ -295,11 +295,8 @@ public class ProfessionListener implements Listener {
             return parent.getPlugin().getConfig()
                     .getBoolean("professiondefaults.armor");
         }
-        if (rules.contains(material)
-                || (rules.contains("*") && !rules.contains("-" + material))) {
-            return true;
-        }
 
-        return false;
+        return rules.contains(material)
+                || (rules.contains("*") && !rules.contains("-" + material));
     }
 }

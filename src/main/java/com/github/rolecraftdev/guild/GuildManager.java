@@ -67,6 +67,10 @@ public final class GuildManager {
      */
     private final RolecraftCore plugin;
     /**
+     * A configuration holding options related to {@link Guild}s.
+     */
+    private final YamlFile guildConfig;
+    /**
      * The associated {@link ChannelBatch}. Used to ensure thread safety due
      * to Bukkit's chat event being async.
      */
@@ -80,10 +84,6 @@ public final class GuildManager {
      * Whether the {@link GuildManager} has finished loading.
      */
     private volatile boolean loaded;
-    /**
-     * A configuration holding options related to {@link Guild}s.
-     */
-    private YamlFile guildConfig;
 
     // Config options
 
@@ -104,11 +104,11 @@ public final class GuildManager {
      * Whether to protect guild halls from natural Minecraft damage, such as
      * creepers or lava / fire spread
      */
-    private boolean protectFromEnvironment;
+    private final boolean protectFromEnvironment;
     /**
      * Whether to disallow PvP in guild halls
      */
-    private boolean disallowHallPvp;
+    private final boolean disallowHallPvp;
 
     /**
      * Creates a new {@link GuildManager} instance using the given
@@ -163,6 +163,15 @@ public final class GuildManager {
      */
     public ChannelBatch getChannelBatch() {
         return channelBatch;
+    }
+
+    /**
+     * Gets the {@link YamlFile} configuration used for guilds
+     *
+     * @return the configuration used for {@link Guild}s
+     */
+    public YamlFile getGuildConfig() {
+        return guildConfig;
     }
 
     /**
@@ -368,6 +377,33 @@ public final class GuildManager {
      */
     public boolean isLoaded() {
         return loaded;
+    }
+
+    /**
+     * Sets the cost of inviting a player to a guild to the given amount
+     *
+     * @param inviteCost the amount it should cost to invite a player
+     */
+    public void setInviteCost(final int inviteCost) {
+        this.inviteCost = inviteCost;
+    }
+
+    /**
+     * Sets the cost of creating a guild to the given amount
+     *
+     * @param creationCost the amount it should cost to create a guild
+     */
+    public void setCreationCost(final int creationCost) {
+        this.creationCost = creationCost;
+    }
+
+    /**
+     * Sets the cost of purchasing a guild hall to the given amount
+     *
+     * @param hallCost the amount it should cost to buy a hall
+     */
+    public void setHallCost(final int hallCost) {
+        this.hallCost = hallCost;
     }
 
     /**

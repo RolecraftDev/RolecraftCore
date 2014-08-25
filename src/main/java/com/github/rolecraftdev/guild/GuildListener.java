@@ -127,9 +127,9 @@ public final class GuildListener implements Listener {
 
             final UUID playerId = event.getEntity().getUniqueId();
             final UUID damagerId = event.getDamager().getUniqueId();
-
-            if (guildManager.getPlayerGuild(playerId).equals(
-                    guildManager.getPlayerGuild(damagerId))) {
+            final Guild damagerGuild = guildManager.getPlayerGuild(damagerId);
+            final Guild playerGuild = guildManager.getPlayerGuild(playerId);
+            if (damagerGuild != null && damagerGuild.equals(playerGuild)) {
                 event.setCancelled(true);
             }
         } else if (event.getDamager() instanceof Arrow
@@ -148,8 +148,9 @@ public final class GuildListener implements Listener {
                         .getDamager())
                         .getShooter()).getUniqueId();
 
-                if (guildManager.getPlayerGuild(playerId).equals(
-                        guildManager.getPlayerGuild(damagerId))) {
+                final Guild damagerGuild = guildManager.getPlayerGuild(damagerId);
+                final Guild playerGuild = guildManager.getPlayerGuild(playerId);
+                if (damagerGuild != null && damagerGuild.equals(playerGuild)) {
                     event.setCancelled(true);
                 }
             }

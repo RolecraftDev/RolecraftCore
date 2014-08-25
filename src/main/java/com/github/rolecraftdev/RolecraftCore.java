@@ -386,7 +386,7 @@ public final class RolecraftCore extends AlbPlugin {
      * @param name the name of the new default configuration file
      * @since 0.0.5
      */
-    public void createDefaultConfiguration(final String name) {
+    private void createDefaultConfiguration(final String name) {
         final File actual = new File(getDataFolder(), name);
         InputStream input = getClass()
                 .getResourceAsStream("/" + name);
@@ -400,12 +400,12 @@ public final class RolecraftCore extends AlbPlugin {
 
                 if (input != null) {
                     FileOutputStream output = null;
-                    getDataFolder().mkdir();
+                    getDataFolder().mkdirs();
 
                     try {
                         output = new FileOutputStream(actual);
                         byte[] buf = new byte[8192];
-                        int length = 0;
+                        int length;
                         while ((length = input.read(buf)) > 0) {
                             output.write(buf, 0, length);
                         }

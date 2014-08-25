@@ -54,9 +54,7 @@ import java.util.HashSet;
  */
 @SuppressWarnings("deprecation")
 public class FreezeRay implements Spell {
-    private static HashSet<Byte> transparency;
-
-    private SpellManager manager;
+    private static final HashSet<Byte> transparency;
 
     static {
         // declare it so water isn't transparent
@@ -66,8 +64,10 @@ public class FreezeRay implements Spell {
         transparency.add((byte) Material.GLASS.getId());
     }
 
-    public FreezeRay(SpellManager spellManager) {
-        manager = spellManager;
+    private final SpellManager manager;
+
+    public FreezeRay(final SpellManager manager) {
+        this.manager = manager;
     }
 
     @Override

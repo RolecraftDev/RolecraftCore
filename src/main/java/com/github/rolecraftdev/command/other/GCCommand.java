@@ -82,7 +82,7 @@ public class GCCommand extends PlayerCommandHandler {
             final StringBuilder message = new StringBuilder();
 
             for (String arg : args.toStringArray()) {
-                message.append(arg + " ");
+                message.append(arg).append(" ");
             }
 
             // Add, send message, remove

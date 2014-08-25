@@ -49,10 +49,10 @@ import org.bukkit.metadata.FixedMetadataValue;
  * damage on hit.
  */
 public class ExcellentBow implements Spell {
-    public SpellManager manager;
+    private final SpellManager manager;
 
-    public ExcellentBow(SpellManager spellManager) {
-        manager = spellManager;
+    public ExcellentBow(final SpellManager manager) {
+        this.manager = manager;
     }
 
     @Override

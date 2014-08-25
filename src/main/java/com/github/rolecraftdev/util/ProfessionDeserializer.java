@@ -101,7 +101,7 @@ public class ProfessionDeserializer {
      *
      * @return the deserialized unique identifier
      */
-    public UUID getProfessionId() {
+    private UUID getProfessionId() {
         String id = professionConfig.getString(ID);
         // So we don't have to catch NullPointerException
         if (id == null) {
@@ -127,7 +127,7 @@ public class ProfessionDeserializer {
      *
      * @return the deserialized unique name
      */
-    public String getProfessionName() {
+    private String getProfessionName() {
         return professionConfig.getString(NAME, "unset");
     }
 
@@ -137,7 +137,7 @@ public class ProfessionDeserializer {
      *
      * @return the deserialized {@link ProfessionRule}s.
      */
-    public ProfessionRuleMap getProfessionRuleMap() {
+    private ProfessionRuleMap getProfessionRuleMap() {
         final ProfessionRuleMap ruleMap = new ProfessionRuleMap(
                 getProfessionName());
         ConfigurationSection rulesSection =

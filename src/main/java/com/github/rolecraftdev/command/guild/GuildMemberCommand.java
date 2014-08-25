@@ -127,7 +127,7 @@ public class GuildMemberCommand extends PlayerCommandHandler {
                     MsgVar.create("$player", target.getName())));
         } else {
             final UUID id = offline.getUniqueId();
-            if (!targetGuild.equals(guild)) {
+            if (!guild.equals(targetGuild)) {
                 player.sendMessage(plugin.getMessage(
                         Messages.PLAYER_NOT_IN_GUILD));
                 return;
@@ -255,6 +255,7 @@ public class GuildMemberCommand extends PlayerCommandHandler {
             new BukkitRunnable() {
                 @Override
                 public void run() {
+                    //noinspection ConstantConditions
                     plugin.getGuildManager().getGuild(data.getGuild())
                             .removeMember(data.getPlayerId(), true);
 

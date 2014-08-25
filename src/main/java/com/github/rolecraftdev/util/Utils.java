@@ -41,7 +41,7 @@ import java.util.Random;
  * General utility methods for Rolecraft
  */
 public final class Utils {
-    private static Random rand = Rand.r;
+    private static final Random rand = Rand.r;
     private static final float VELOCITY_FACTOR = 0.2f;
     private static final float SMALL_VELOCITY_FACTOR = 0.05f;
 

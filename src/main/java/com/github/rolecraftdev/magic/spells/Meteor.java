@@ -54,9 +54,7 @@ import java.util.HashSet;
  */
 @SuppressWarnings("deprecation")
 public class Meteor implements Spell {
-    private static HashSet<Byte> transparency;
-
-    private SpellManager manager;
+    private static final HashSet<Byte> transparency;
 
     static {
         transparency = new HashSet<Byte>();
@@ -66,8 +64,10 @@ public class Meteor implements Spell {
         transparency.add((byte) Material.WATER.getId());
     }
 
-    public Meteor(SpellManager spellManager) {
-        manager = spellManager;
+    private final SpellManager manager;
+
+    public Meteor(final SpellManager manager) {
+        this.manager = manager;
     }
 
     @Override
@@ -96,7 +96,7 @@ public class Meteor implements Spell {
     @Override
     public float rightClick(Player caster, Block block, int modifier,
             BlockFace face) {
-        Block target = null;
+        Block target;
         if (block != null) {
             target = block;
         } else {
