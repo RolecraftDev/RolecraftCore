@@ -52,20 +52,20 @@ public class Region2D {
     private final int maxZ;
 
     /**
-     * Constructor.
+     * Constructor. Automatically checks which x and z values are smaller and
+     * bigger to set minX / maxX and minZ / maxZ
      *
-     * @param minX the lowest x-coordinate
-     * @param minZ the lowest z-coordinate
-     * @param maxX the highest x-coordinate
-     * @param maxZ the highest z-coordinate
+     * @param x1 the first x-coordinate
+     * @param z1 the first z-coordinate
+     * @param x2 the second x-coordinate
+     * @param z2 the second z-coordinate
      * @since 0.0.5
      */
-    public Region2D(final int minX, final int minZ, final int maxX,
-            final int maxZ) {
-        this.minX = minX;
-        this.minZ = minZ;
-        this.maxX = maxX;
-        this.maxZ = maxZ;
+    public Region2D(final int x1, final int z1, final int x2, final int z2) {
+        minX = Math.min(x1, x2);
+        minZ = Math.min(z1, z2);
+        maxX = Math.max(x1, x2);
+        maxZ = Math.max(z1, z2);
     }
 
     /**
@@ -112,9 +112,9 @@ public class Region2D {
      * Check whether a {@link Location} lies between the vertices of this plane,
      * and thus ignoring its height.
      *
-     * @param location the location that should be inspected.
-     * @return {@code true} only if the given location lies between the vertices
-     *         of this plane.
+     * @param location the location that should be inspected
+     * @return {@code true} if the given location lies between the vertices of
+     *         this plane, otherwise {@code false}
      * @since 0.0.5
      */
     public boolean containsLocation(final Location location) {
