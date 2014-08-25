@@ -26,6 +26,8 @@
  */
 package com.github.rolecraftdev.guild;
 
+import org.apache.commons.lang.Validate;
+
 import org.bukkit.Bukkit;
 import org.bukkit.entity.Player;
 
@@ -58,10 +60,10 @@ public final class GuildRank {
     /**
      * Creates a new {@link GuildRank} using the given parameters.
      *
-     * @param name      - The name of the new {@link GuildRank}
-     * @param permitted - The {@link GuildAction}s, the {@link GuildRank}'s
+     * @param name the name of the new {@link GuildRank}
+     * @param permitted the {@link GuildAction}s, the {@link GuildRank}'s
      *                  members can perform
-     * @param members   - The members of the new {@link GuildRank}
+     * @param members the members of the new {@link GuildRank}
      */
     public GuildRank(final String name, final Set<GuildAction> permitted,
             final Set<UUID> members) {
@@ -73,7 +75,7 @@ public final class GuildRank {
     /**
      * Get the name of this {@link GuildRank}.
      *
-     * @return The name of this {@link GuildRank}
+     * @return the name of this {@link GuildRank}
      */
     public String getName() {
         return name;
@@ -83,7 +85,7 @@ public final class GuildRank {
      * Get a copy of the {@link Set} used to hold the {@link GuildAction}s, that
      * members of this {@link GuildRank} are allowed to perform.
      *
-     * @return A copy of the {@link Set} containing {@link GuildAction}s, that
+     * @return a copy of the {@link Set} containing {@link GuildAction}s, that
      * members of this {@link GuildRank} can perform
      */
     public Set<GuildAction> getPermittedActions() {
@@ -94,7 +96,7 @@ public final class GuildRank {
      * Get a copy of the {@link Set} used to hold the members of the
      * {@link Guild} who are a part of this {@link GuildRank}.
      *
-     * @return A copy of the {@link Set} of members of the {@link Guild} who are
+     * @return a copy of the {@link Set} of members of the {@link Guild} who are
      * part of this {@link GuildRank}
      */
     public Set<UUID> getMembers() {
@@ -104,12 +106,13 @@ public final class GuildRank {
     /**
      * Checks whether the given player is a part of this {@link GuildRank}.
      *
-     * @param player - The player whose membership of this {@link GuildRank} is
+     * @param player the player whose membership of this {@link GuildRank} is
      *               in question
-     * @return True if this {@link GuildRank} contains the given player,
-     * otherwise false
+     * @return {@code true} if this {@link GuildRank} contains the given player,
+     *         otherwise {@code false}
      */
     public boolean hasPlayer(final UUID player) {
+        Validate.notNull(player);
         return members.contains(player);
     }
 
@@ -118,12 +121,13 @@ public final class GuildRank {
      * of this {@link GuildRank} - i.e whether it is included in the {@link Set}
      * returned by {@link #getPermittedActions()}.
      *
-     * @param action - The {@link GuildAction} whose inclusion in the permitted
+     * @param action the {@link GuildAction} whose inclusion in the permitted
      *               {@link GuildAction}s of this {@link GuildRank} is being
      *               checked
-     * @return True if it is included, else false
+     * @return {@code true} if it is included, else {@code false}
      */
     public boolean can(final GuildAction action) {
+        Validate.notNull(action);
         return permitted.contains(action);
     }
 
@@ -131,9 +135,10 @@ public final class GuildRank {
      * Sends the given message to every currently online {@link Player} who is
      * part of this GuildRank
      *
-     * @param message The message to broadcast within this GuildRank
+     * @param message the message to broadcast within this GuildRank
      */
     public void broadcastMessage(final String message) {
+        Validate.notNull(message);
         for (final UUID playerId : members) {
             final Player player = Bukkit.getPlayer(playerId);
             if (player != null) {
@@ -145,20 +150,22 @@ public final class GuildRank {
     /**
      * Adds the given player as a member of this {@link GuildRank}.
      *
-     * @param member - The unique identifier of the player to add to this
-     *               {@link GuildRank}
+     * @param member the unique identifier of the player to add to this {@link
+     *               GuildRank}
      */
     public void addMember(final UUID member) {
+        Validate.notNull(member);
         members.add(member);
     }
 
     /**
      * Removes the given player from being a member of this {@link GuildRank}.
      *
-     * @param member - The unique identifier of the player to remove from this
+     * @param member the unique identifier of the player to remove from this
      *               {@link GuildRank}
      */
     public void removeMember(final UUID member) {
+        Validate.notNull(member);
         members.remove(member);
     }
 
@@ -166,9 +173,10 @@ public final class GuildRank {
      * Adds the given {@link GuildAction} to this {@link GuildRank}'s permitted
      * actions
      *
-     * @param perm - The permission to grant this {@link GuildRank}
+     * @param perm the permission to grant this {@link GuildRank}
      */
     public void allowAction(final GuildAction perm) {
+        Validate.notNull(perm);
         permitted.add(perm);
     }
 
@@ -176,32 +184,33 @@ public final class GuildRank {
      * Removes the given {@link GuildAction} from this {@link GuildRank}'s
      * permitted actions
      *
-     * @param perm - The permission to disallow this {@link GuildRank}
+     * @param perm the permission to disallow this {@link GuildRank}
      */
     public void disallowAction(final GuildAction perm) {
+        Validate.notNull(perm);
         permitted.remove(perm);
     }
 
     /**
      * Creates a {@link String} for storage in SQL, which does not use commas.
      *
-     * @return A serialized version of this {@link GuildRank}
+     * @return a serialized version of this {@link GuildRank}
      */
     public String serialize() {
-        StringBuilder sb = new StringBuilder();
-        sb.append(name);
-        sb.append(":");
+        StringBuilder res = new StringBuilder();
+        res.append(name);
+        res.append(":");
         for (GuildAction action : permitted) {
-            sb.append(action.ordinal());
-            sb.append("#");
+            res.append(action.ordinal());
+            res.append("#");
         }
-        sb = new StringBuilder(sb.substring(0, sb.length() - 1));
-        sb.append(":");
+        res = new StringBuilder(res.substring(0, res.length() - 1));
+        res.append(":");
         for (UUID id : members) {
-            sb.append(id.toString());
-            sb.append("#");
+            res.append(id.toString());
+            res.append("#");
         }
-        return sb.substring(0, sb.length() - 1);
+        return res.substring(0, res.length() - 1);
     }
 
     /**
@@ -210,11 +219,11 @@ public final class GuildRank {
      * separate thread and passed into the main one, assuming the other thread
      * destroys all references.
      *
-     * @param s - The String to deserialize into a {@link GuildRank} object
-     * @return The final deserialized {@link GuildRank}
+     * @param serialized the String to deserialize into a {@link GuildRank} object
+     * @return the final deserialized {@link GuildRank}
      */
-    public static GuildRank deserialize(String s) {
-        String[] data = s.split(":");
+    public static GuildRank deserialize(String serialized) {
+        String[] data = serialized.split(":");
         Set<GuildAction> actions = new HashSet<GuildAction>();
         Set<UUID> members = new HashSet<UUID>();
         for (String action : data[1].split("#")) {

@@ -41,7 +41,7 @@ public class ManaRunnable extends BukkitRunnable {
 
     @Override
     public void run() {
-        for (PlayerData pd : parent.getDataManager().getPlayerDatum()) {
+        for (final PlayerData pd : parent.getDataManager().getPlayerDatum()) {
             pd.addMana(pd.getManaRegenRate());
         }
     }

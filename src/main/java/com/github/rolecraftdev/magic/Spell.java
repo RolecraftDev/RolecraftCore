@@ -34,6 +34,8 @@ import org.bukkit.entity.LivingEntity;
 import org.bukkit.entity.Player;
 import org.bukkit.inventory.Recipe;
 
+import javax.annotation.Nullable;
+
 /**
  * Represents a spell in Rolecraft
  */
@@ -46,71 +48,103 @@ public interface Spell {
     public String getName();
 
     /**
-     * Used to test if a player has enough mana to perform this spell
+     * Gets the amount of mana it would cost for the given {@link Player} to
+     * cast the spell on the given {@link LivingEntity} with the given magic
+     * modifier value, without actually casting the spell.
      *
-     * @param ply      The
-     * @param entity
-     * @param modifier
-     * @return Should return the same as attack(Player, LivingEntity, int),
-     * given the same values, without preforming the action
+     * @param ply the {@link Player} to check the cast cost for
+     * @param entity the {@link LivingEntity} the spell is being cast on
+     * @param modifier the magic modifier of the player
+     * @return the same as {@link #attack(Player, LivingEntity, int)}, given the
+     *         same values, without actually performing the action
      */
     public float estimateAttackMana(Player ply, LivingEntity entity,
             int modifier);
 
     /**
-     * Used to test if a player has enough mana to perform this spell
+     * Gets the amount of mana it would cost for the given {@link Player} to
+     * cast the spell using left click on the given {@link Block} with the given
+     * magic modifier value, without actually casting the spell.
      *
-     * @param ply      The
-     * @param block
-     * @param modifier
-     * @param face     The BlockFace that is being faced
-     * @return Should return the same as leftClick(Player, Block, int),
-     * given the same values, without preforming the action
+     * @param ply the {@link Player} to check the cast cost for
+     * @param block the {@link Block} which the spell would be cast on
+     * @param modifier the magic modifier value for the player
+     * @param face the {@link BlockFace} that is being faced
+     * @return the same as {@link #leftClick(Player, Block, int, BlockFace)},
+     *         given the same values, without performing the action
      */
     public float estimateLeftClickMana(Player ply, Block block, int modifier,
             BlockFace face);
 
     /**
-     * Used to test if a player has enough mana to perform this spell
+     * Gets the amount of mana it would cost for the given {@link Player} to
+     * cast the spell using right click on the given {@link Block} with the
+     * given magic modifier value, without actually casting the spell.
      *
-     * @param ply      The
-     * @param block
-     * @param modifier
-     * @param face
-     * @return Should return the same as rightClick(Player, Block, int),
-     * given the same values, without preforming the action
+     * @param ply the {@link Player} to check the cast cost for
+     * @param block the {@link Block} which the spell would be cast on
+     * @param modifier the magic modifier value for the player
+     * @param face the {@link BlockFace} that is being faced
+     * @return the same as {@link #rightClick(Player, Block, int, BlockFace)},
+     *         given the same values, without performing the action
      */
     public float estimateRightClickMana(Player ply, Block block, int modifier,
             BlockFace face);
 
     /**
-     * @param ply      The player that cast the spell
-     * @param block    The block that was interacted with, if air, null
-     * @param modifier A modifier based on a player's profession
-     * @param face
-     * @return the cost in mana
+     * Casts the spell in the form of right clicking on the given {@link Block}
+     * on the given {@link BlockFace} and the given magic modifier for the given
+     * {@link Player}
+     *
+     * @param ply the player that cast the spell
+     * @param block the block that was interacted with, if air, null
+     * @param modifier a modifier based on a player's profession & level
+     * @param face the {@link BlockFace} being right clicked on
+     * @return the mana cost of the spell
      */
     public float rightClick(Player ply, Block block, int modifier,
             BlockFace face);
 
     /**
-     * @param ply      The player that cast the spell
-     * @param block    The block that was interacted with, if air, null
-     * @param modifier A modifier based on a player's profession
-     * @param face
-     * @return the cost in mana
+     * Casts the spell in the form of left clicking on the given {@link Block}
+     * on the given {@link BlockFace} and the given magic modifier for the given
+     * {@link Player}
+     *
+     * @param ply the player that cast the spell
+     * @param block the block that was interacted with, if air, null
+     * @param modifier a modifier based on a player's profession & level
+     * @param face the {@link BlockFace} being left clicked on
+     * @return the mana cost of the spell
      */
     public float leftClick(Player ply, Block block, int modifier,
             BlockFace face);
 
+    /**
+     * Casts the spell in the form of attacking the given {@link LivingEntity}
+     * with the given magic modifier for the given {@link Player}
+     *
+     * @param ply the {@link Player} that cast the spell
+     * @param ent the {@link LivingEntity} that was interacted with
+     * @param modifier a modifier based on a player's profession & level
+     * @return the mana cost of the spell
+     */
     public float attack(Player ply, LivingEntity ent, int modifier);
 
     /**
      * Used when creating wands to cast this spell
      *
-     * @return a recipe for crafting
+     * @return a recipe for crafting the wand used for the casting of this
+     * {@link Spell}
      */
     public Recipe getWandRecipe();
 
+    /**
+     * Gets the {@link SoundWrapper} around the Bukkit Sound which is played
+     * when this {@link Spell} is cast. This may return {@code null} if there is
+     * no specific sound
+     *
+     * @return the sound to play when this spell is cast, or {@code null}
+     */
+    @Nullable
     public SoundWrapper getSound();
 }

@@ -26,6 +26,8 @@
  */
 package com.github.rolecraftdev.guild;
 
+import org.apache.commons.lang.Validate;
+
 import com.github.rolecraftdev.RolecraftCore;
 import com.github.rolecraftdev.data.storage.YamlFile;
 import com.github.rolecraftdev.event.guild.GuildCreateEvent;
@@ -38,6 +40,7 @@ import org.bukkit.Bukkit;
 import org.bukkit.ChatColor;
 import org.bukkit.scheduler.BukkitRunnable;
 
+import javax.annotation.Nullable;
 import java.util.HashMap;
 import java.util.HashSet;
 import java.util.Map;
@@ -64,9 +67,9 @@ public final class GuildManager {
      */
     private final RolecraftCore plugin;
     /**
-     * The associated {@link ChannelBatch}.
+     * The associated {@link ChannelBatch}. Used to ensure thread safety due
+     * to Bukkit's chat event being async.
      */
-    // We use a ChannelBatch to ensure thread safety for AsyncPlayerChatEvent
     private final ChannelBatch channelBatch = new DefaultChannelBatch();
     /**
      * A {@link Set} of all currently loaded {@link Guild} objects.
@@ -207,8 +210,9 @@ public final class GuildManager {
      * SQL database. This method will fail if this {@link GuildManager} hasn't
      * loaded yet.
      *
-     * @param guild - The {@link Guild} to remove
-     * @return True if the {@link Guild} was removed, false if it wasn't
+     * @param guild the {@link Guild} to remove
+     * @return {@code true} if the {@link Guild} was removed, otherwise {@code
+     *         false}
      */
     public boolean removeGuild(final Guild guild) {
         if (loaded) {
@@ -225,73 +229,74 @@ public final class GuildManager {
     /**
      * Gets the {@link Guild} object that has the specified name.
      *
-     * @param name - The name of the wanted {@link Guild}
-     * @return The {@link Guild} with the given name if it is contained by this
-     *         {@link GuildManager}, or null if none is found, or this manager
-     *         has not finished loading
+     * @param name the name of the wanted {@link Guild}
+     * @return the {@link Guild} with the given name if it is contained by this
+     *         {@link GuildManager}, or {@code null} if none is found, or this
+     *         manager has not finished loading
      */
+    @Nullable
     public Guild getGuild(final String name) {
+        Validate.notNull(name);
         if (loaded) {
             for (final Guild guild : guilds) {
                 if (guild.getName().equalsIgnoreCase(name)) {
                     return guild;
                 }
             }
-            return null;
-        } else {
-            return null;
         }
+        return null;
     }
 
     /**
      * Gets the {@link Guild} object that has the specified UUID.
      *
-     * @param uuid - The UUID of the wanted {@link Guild}
-     * @return The {@link Guild} with the given name if it is contained by this
+     * @param uuid the UUID of the wanted {@link Guild}
+     * @return the {@link Guild} with the given name if it is contained by this
      *         {@link GuildManager}, or null if none is found, or this manager
      *         has not finished loading
      */
+    @Nullable
     public Guild getGuild(final UUID uuid) {
+        Validate.notNull(uuid);
         if (loaded) {
             for (final Guild guild : guilds) {
                 if (guild.getId().equals(uuid)) {
                     return guild;
                 }
             }
-            return null;
-        } else {
-            return null;
         }
+        return null;
     }
 
     /**
      * Gets the {@link Guild} the given player belongs to.
      *
-     * @param player - The unique identifier of the player to get the
+     * @param player the unique identifier of the player to get the
      *        {@link Guild} of
-     * @return The given player's {@link Guild}, or null if they don't have one.
+     * @return the given player's {@link Guild}, or null if they don't have one.
      *         Note that this will also return null if this {@link GuildManager}
      *         hasn't been fully loaded yet
      */
+    @Nullable
     public Guild getPlayerGuild(final UUID player) {
+        Validate.notNull(player);
         if (loaded) {
             for (final Guild guild : guilds) {
                 if (guild.isMember(player)) {
                     return guild;
                 }
             }
-            return null;
-        } else {
-            return null;
         }
+        return null;
     }
 
     /**
      * Get a copy of the {@link Set} used to store all loaded {@link Guild}s.
      *
-     * @return A copy of the {@link Set} used to store loaded {@link Guild}s, or
+     * @return a copy of the {@link Set} used to store loaded {@link Guild}s, or
      *         null if this {@link GuildManager} remains unloaded.
      */
+    @Nullable
     public Set<Guild> getGuilds() {
         if (loaded) {
             return new HashSet<Guild>(guilds);
@@ -302,7 +307,7 @@ public final class GuildManager {
     /**
      * Get the amount of money required to create a {@link Guild}.
      *
-     * @return The amount of money required to create a {@link Guild}
+     * @return the amount of money required to create a {@link Guild}
      */
     public int getCreationCost() {
         return creationCost;
@@ -311,8 +316,8 @@ public final class GuildManager {
     /**
      * Get the amount of money required to invite somebody to a {@link Guild}.
      *
-     * @return The amount of money required to invite somebody to a
-     *         {@link Guild}
+     * @return the amount of money required to invite somebody to a {@link
+     *         Guild}
      */
     public int getInvitationCost() {
         return inviteCost;
@@ -321,7 +326,7 @@ public final class GuildManager {
     /**
      * Get the amount of money required to buy a hall for a {@link Guild}.
      *
-     * @return The amount of money required to buy a hall for a {@link Guild}
+     * @return the amount of money required to buy a hall for a {@link Guild}
      */
     public int getGuildHallCost() {
         return hallCost;
@@ -331,7 +336,7 @@ public final class GuildManager {
      * Checks whether to protect guild hall's from the environment. Environment
      * -related causes include creepers and lava spread
      *
-     * @return Whether to protect guild halls from natural causes
+     * @return whether to protect guild halls from natural causes
      */
     public boolean protectFromEnvironment() {
         return protectFromEnvironment;
@@ -340,7 +345,7 @@ public final class GuildManager {
     /**
      * Checks whether to disallow PvP in guild halls
      *
-     * @return Whether to disallow PvP in guild halls
+     * @return whether to disallow PvP in guild halls
      */
     public boolean disallowHallPvp() {
         return disallowHallPvp;
@@ -350,7 +355,7 @@ public final class GuildManager {
      * Get the {@link RolecraftCore} plugin object this {@link GuildManager} is
      * attached to.
      *
-     * @return Its {@link RolecraftCore} object
+     * @return this {@link GuildManager}'s {@link RolecraftCore} plugin
      */
     public RolecraftCore getPlugin() {
         return plugin;
@@ -359,7 +364,7 @@ public final class GuildManager {
     /**
      * Check whether this {@link GuildManager} has been fully loaded.
      *
-     * @return True if it has been completely loaded, else false
+     * @return {@code true} if it has been completely loaded, else {@code false}
      */
     public boolean isLoaded() {
         return loaded;
@@ -368,12 +373,16 @@ public final class GuildManager {
     /**
      * This should be called when the database is finished populating
      * {@link Guild}s on this {@link GuildManager} from SQL.
+     *
+     * @deprecated for internal use only
      */
+    @Deprecated
     public void completeLoad() {
         loaded = true;
     }
 
     public static GuildAction fromHumanReadable(final String humanReadable) {
+        Validate.notNull(humanReadable);
         return actionMap.get(humanReadable);
     }
 }

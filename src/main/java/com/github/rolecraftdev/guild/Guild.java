@@ -26,6 +26,8 @@
  */
 package com.github.rolecraftdev.guild;
 
+import org.apache.commons.lang.Validate;
+
 import com.github.rolecraftdev.RolecraftCore;
 import com.github.rolecraftdev.data.Region2D;
 import com.github.rolecraftdev.event.guild.GuildPlayerJoinEvent;
@@ -42,6 +44,7 @@ import org.bukkit.Location;
 import org.bukkit.entity.Entity;
 import org.bukkit.entity.Player;
 
+import javax.annotation.Nullable;
 import java.util.EnumSet;
 import java.util.HashSet;
 import java.util.Set;
@@ -58,7 +61,7 @@ public final class Guild {
      */
     private final RolecraftCore plugin;
     /**
-     * The associated {@link Channel}.
+     * The chat {@link Channel} for this {@link Guild}.
      */
     private final Channel channel = new DefaultChannel(
             new DefaultChannelConfig()
@@ -103,7 +106,9 @@ public final class Guild {
      * The hall of this {@link Guild}.
      */
     private Region2D hallRegion;
-
+    /**
+     * Whether anyone can join this guild without an invitation
+     */
     private boolean open;
 
     /**
@@ -111,7 +116,8 @@ public final class Guild {
      * {@link UUID} and the leader and default {@link GuildRank}s.
      *
      * @param guildManager the {@link GuildManager} this {@link Guild} will be
-     *        registered to
+     *                     registered to. Providing null as this argument will
+     *                     cause all fields to be initialised to null
      * @since 0.0.5
      */
     public Guild(final GuildManager guildManager) {
@@ -201,6 +207,9 @@ public final class Guild {
      * @since 0.0.5
      */
     public boolean can(final UUID player, final GuildAction action) {
+        Validate.notNull(player);
+        Validate.notNull(action);
+
         for (final GuildRank rank : ranks) {
             if (rank.hasPlayer(player) && rank.can(action)) {
                 return true;
@@ -219,6 +228,8 @@ public final class Guild {
      * @since 0.0.5
      */
     public boolean isMember(final UUID player) {
+        Validate.notNull(player);
+
         return members.contains(player);
     }
 
@@ -232,6 +243,7 @@ public final class Guild {
      * @return all {@link GuildRank}s the given player has
      * @since 0.0.5
      */
+    @Nullable
     public Set<GuildRank> getPlayerRanks(final UUID player) {
         final Set<GuildRank> result = new HashSet<GuildRank>();
         for (final GuildRank rank : ranks) {
@@ -261,7 +273,11 @@ public final class Guild {
      * @since 0.0.5
      */
     public void teleportToHome(final Entity entity) {
-        entity.teleport(home);
+        Validate.notNull(entity);
+
+        if (getHomeLocation() != null) {
+            entity.teleport(getHomeLocation());
+        }
     }
 
     /**
@@ -291,6 +307,7 @@ public final class Guild {
      * @return the home {@link Location}
      * @since 0.0.5
      */
+    @Nullable
     public Location getHomeLocation() {
         return home;
     }
@@ -349,6 +366,7 @@ public final class Guild {
      * @return the guild-hall
      * @since 0.0.5
      */
+    @Nullable
     public Region2D getGuildHallRegion() {
         return hallRegion;
     }
@@ -374,6 +392,17 @@ public final class Guild {
     }
 
     /**
+     * Check whether this {@link Guild} is joinable to anyone.
+     *
+     * @return {@code true} if this {@link Guild} is open; {@code false}
+     *         otherwise
+     * @since 0.0.5
+     */
+    public boolean isOpen() {
+        return open;
+    }
+
+    /**
      * Sends the given message to all online players who are a member of this
      * {@link Guild}.
      *
@@ -381,6 +410,8 @@ public final class Guild {
      * @since 0.0.5
      */
     public void broadcastMessage(final String message) {
+        Validate.notNull(message);
+
         for (final UUID uuid : getMembers()) {
             final Player player = Bukkit.getPlayer(uuid);
             if (player != null) {
@@ -400,6 +431,8 @@ public final class Guild {
      */
     public void broadcastMessage(final String message,
             final GuildRank... ranks) {
+        Validate.notNull(message);
+
         for (final GuildRank rank : ranks) {
             rank.broadcastMessage(message);
         }
@@ -408,10 +441,12 @@ public final class Guild {
     /**
      * Set the name of this {@link Guild}.
      *
-     * @param name the new name
+     * @param name the new name. Cannot be null
      * @since 0.0.5
      */
     public void setName(final String name) {
+        Validate.notNull(name);
+
         this.name = name;
         plugin.getDataStore().updateGuildData(this);
     }
@@ -426,9 +461,11 @@ public final class Guild {
      * @since 0.0.5
      */
     public void setLeader(final UUID leader) {
+        Validate.notNull(leader);
+
         if (this.leader != null) {
             getLeaderRank().removeMember(this.leader);
-            getLeaderRank().addMember(this.leader);
+            getDefaultRank().addMember(this.leader);
         }
         if (!members.contains(leader)) {
             members.add(leader);
@@ -448,6 +485,9 @@ public final class Guild {
      * @since 0.0.5
      */
     public void addMember(final UUID member, final GuildRank rank) {
+        Validate.notNull(member);
+        Validate.notNull(rank);
+
         Bukkit.getPluginManager().callEvent(new GuildPlayerJoinEvent(
                 plugin, this, Bukkit.getPlayer(member), rank));
 
@@ -475,6 +515,8 @@ public final class Guild {
      * @since 0.0.5
      */
     public void removeMember(final UUID member, final boolean kicked) {
+        Validate.notNull(member);
+
         if (kicked) {
             Bukkit.getPluginManager().callEvent(new GuildPlayerKickedEvent(
                     plugin, this, Bukkit.getPlayer(member)));
@@ -502,6 +544,8 @@ public final class Guild {
      * @since 0.0.5
      */
     public boolean addRank(final GuildRank rank) {
+        Validate.notNull(rank);
+
         boolean retVal = getRank(rank.getName()) == null && ranks.add(rank);
         plugin.getDataStore().updateGuildRanks(this);
         return retVal;
@@ -517,6 +561,8 @@ public final class Guild {
      * @since 0.0.5
      */
     public boolean removeRank(final GuildRank rank) {
+        Validate.notNull(rank);
+
         final String name = rank.getName().toLowerCase();
         boolean retVal =
                 !(name.equals("leader") || name.equals("default")) && ranks
@@ -532,9 +578,19 @@ public final class Guild {
      * @param home the new home {@link Location}
      * @since 0.0.5
      */
-    public void setHomeLocation(final Location home) {
+    public void setHomeLocation(@Nullable Location home) {
         this.home = home;
         plugin.getDataStore().updateGuildData(this);
+    }
+
+    /**
+     * Set this {@link Guild} to be open or closed.
+     *
+     * @param open the new open status
+     * @since 0.0.5
+     */
+    public void setOpen(boolean open) {
+        this.open = open;
     }
 
     /**
@@ -542,7 +598,7 @@ public final class Guild {
      */
     @Override
     public boolean equals(Object o) {
-        if (!(o instanceof Guild)) {
+        if (o == null || !(o instanceof Guild)) {
             return false;
         }
         final Guild other = (Guild) o;
@@ -565,29 +621,8 @@ public final class Guild {
      * @param hallRegion the new guild-hall
      * @since 0.0.5
      */
-    void claimAsGuildHall(final Region2D hallRegion) {
+    void claimAsGuildHall(@Nullable final Region2D hallRegion) {
         this.hallRegion = hallRegion;
         plugin.getDataStore().updateGuildData(this);
-    }
-
-    /**
-     * Check whether this {@link Guild} is joinable.
-     *
-     * @return {@code true} if this {@link Guild} is open; {@code false}
-     *         otherwise
-     * @since 0.0.5
-     */
-    public boolean isOpen() {
-        return open;
-    }
-
-    /**
-     * Set this {@link Guild} to be open or closed.
-     *
-     * @param open the new open status
-     * @since 0.0.5
-     */
-    public void setOpen(boolean open) {
-        this.open = open;
     }
 }

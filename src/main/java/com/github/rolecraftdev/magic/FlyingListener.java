@@ -40,9 +40,9 @@ import org.bukkit.inventory.ItemStack;
 import org.bukkit.metadata.FixedMetadataValue;
 
 public class FlyingListener implements Listener {
-    private RolecraftCore plugin;
+    private final RolecraftCore plugin;
 
-    public FlyingListener(RolecraftCore plugin) {
+    public FlyingListener(final RolecraftCore plugin) {
         this.plugin = plugin;
     }
 

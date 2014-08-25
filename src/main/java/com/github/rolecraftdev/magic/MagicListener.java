@@ -61,7 +61,7 @@ public class MagicListener implements Listener {
     private final Map<UUID, Scoreboard> scoreboards;
     private final ScoreboardManager scoreboardMgr;
 
-    MagicListener(final RolecraftCore plugin, SpellManager manager) {
+    MagicListener(final RolecraftCore plugin, final SpellManager manager) {
         this.plugin = plugin;
         spellManager = manager;
         scoreboards = new HashMap<UUID, Scoreboard>();

@@ -72,7 +72,6 @@ import java.util.UUID;
 /**
  * Listens for and manipulates various events depending on the guild config
  */
-@SuppressWarnings("FeatureEnvy")
 public final class GuildListener implements Listener {
     private final GuildManager guildManager;
 
