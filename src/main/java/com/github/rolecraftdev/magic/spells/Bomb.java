@@ -59,41 +59,41 @@ public class Bomb implements Spell {
     }
 
     @Override
-    public float estimateAttackMana(Player ply, LivingEntity entity,
+    public float estimateAttackMana(Player caster, LivingEntity target,
             int modifier) {
         return 0;
     }
 
     @Override
-    public float estimateLeftClickMana(Player ply, Block block, int modifier,
+    public float estimateLeftClickMana(Player caster, Block block, int modifier,
             BlockFace face) {
         return 0;
     }
 
     @Override
-    public float estimateRightClickMana(Player ply, Block block, int modifier,
+    public float estimateRightClickMana(Player caster, Block block, int modifier,
             BlockFace face) {
         return 200 - modifier;
     }
 
     @Override
-    public float rightClick(Player ply, Block block, int modifier,
+    public float rightClick(Player caster, Block block, int modifier,
             BlockFace face) {
-        Entity tnt = ply.getWorld()
-                .spawn(ply.getEyeLocation().add(0, 1, 0), TNTPrimed.class);
-        tnt.setVelocity(Utils.getUnitVectorFacing(ply)
+        Entity tnt = caster.getWorld()
+                .spawn(caster.getEyeLocation().add(0, 1, 0), TNTPrimed.class);
+        tnt.setVelocity(Utils.getUnitVectorFacing(caster)
                 .multiply(10f * modifier / 100f + 2f));
         return 200 - modifier;
     }
 
     @Override
-    public float leftClick(Player ply, Block block, int modifier,
+    public float leftClick(Player caster, Block block, int modifier,
             BlockFace face) {
         return Float.MIN_VALUE;
     }
 
     @Override
-    public float attack(Player ply, LivingEntity ent, int modifier) {
+    public float attack(Player caster, LivingEntity target, int modifier) {
         return Float.MIN_VALUE;
     }
 

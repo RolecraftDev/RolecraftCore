@@ -59,31 +59,31 @@ public class StrongerBow implements Spell {
     }
 
     @Override
-    public float estimateAttackMana(Player ply, LivingEntity entity,
+    public float estimateAttackMana(Player caster, LivingEntity target,
             int modifier) {
         return 0;
     }
 
     @Override
-    public float estimateLeftClickMana(Player ply, Block block, int modifier,
+    public float estimateLeftClickMana(Player caster, Block block, int modifier,
             BlockFace face) {
         return 0;
     }
 
     @Override
-    public float estimateRightClickMana(Player ply, Block block, int modifier,
+    public float estimateRightClickMana(Player caster, Block block, int modifier,
             BlockFace face) {
         return (50f - modifier / 100f > 0) ? 50f - modifier / 100f : 0;
     }
 
     @Override
-    public float rightClick(Player ply, Block block, int modifier,
+    public float rightClick(Player caster, Block block, int modifier,
             BlockFace face) {
         if (block != null) {
             return Float.MIN_VALUE;
         }
 
-        ply.launchProjectile(Arrow.class);
+        caster.launchProjectile(Arrow.class);
         //arrow.setVelocity(arrow.getVelocity().multiply(2d));
         //arrow.setMetadata("Multiplier", new FixedMetadataValue(
         //        manager.getPlugin(), new Float(2f)));
@@ -92,13 +92,13 @@ public class StrongerBow implements Spell {
     }
 
     @Override
-    public float leftClick(Player ply, Block block, int modifier,
+    public float leftClick(Player caster, Block block, int modifier,
             BlockFace face) {
         return Float.MIN_VALUE;
     }
 
     @Override
-    public float attack(Player ply, LivingEntity ent, int modifier) {
+    public float attack(Player caster, LivingEntity target, int modifier) {
         return Float.MIN_VALUE;
     }
 

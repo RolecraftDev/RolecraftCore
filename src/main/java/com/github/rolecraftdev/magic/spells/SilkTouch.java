@@ -59,33 +59,33 @@ public class SilkTouch implements Spell {
     }
 
     @Override
-    public float estimateAttackMana(Player ply, LivingEntity entity,
+    public float estimateAttackMana(Player caster, LivingEntity target,
             int modifier) {
         return 0;
     }
 
     @Override
-    public float estimateLeftClickMana(Player ply, Block block, int modifier,
+    public float estimateLeftClickMana(Player caster, Block block, int modifier,
             BlockFace face) {
         return 10;
     }
 
     @Override
-    public float estimateRightClickMana(Player ply, Block block, int modifier,
+    public float estimateRightClickMana(Player caster, Block block, int modifier,
             BlockFace face) {
         return 10;
     }
 
     @Override
-    public float rightClick(Player ply, Block block, int modifier,
+    public float rightClick(Player caster, Block block, int modifier,
             BlockFace face) {
-        return click(ply, block, modifier, face);
+        return click(caster, block, modifier, face);
     }
 
     @Override
-    public float leftClick(Player ply, Block block, int modifier,
+    public float leftClick(Player caster, Block block, int modifier,
             BlockFace face) {
-        return click(ply, block, modifier, face);
+        return click(caster, block, modifier, face);
     }
 
     @SuppressWarnings("deprecation")
@@ -109,7 +109,7 @@ public class SilkTouch implements Spell {
     }
 
     @Override
-    public float attack(Player ply, LivingEntity ent, int modifier) {
+    public float attack(Player caster, LivingEntity target, int modifier) {
         return Float.MIN_VALUE;
     }
 

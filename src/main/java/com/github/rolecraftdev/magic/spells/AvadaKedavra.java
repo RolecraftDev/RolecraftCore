@@ -64,11 +64,11 @@ public class AvadaKedavra implements Spell {
     }
 
     @Override
-    public float estimateAttackMana(Player ply, LivingEntity entity,
+    public float estimateAttackMana(Player caster, LivingEntity target,
             int modifier) {
 
-        if (entity != null) {
-            if (entity instanceof Player) {
+        if (target != null) {
+            if (target instanceof Player) {
                 return 1000;
             } else {
                 return 600 - modifier;
@@ -78,15 +78,15 @@ public class AvadaKedavra implements Spell {
     }
 
     @Override
-    public float estimateLeftClickMana(Player ply, Block block, int modifier,
+    public float estimateLeftClickMana(Player caster, Block block, int modifier,
             BlockFace face) {
         return 0;
     }
 
     @Override
-    public float estimateRightClickMana(Player ply, Block block, int modifier,
+    public float estimateRightClickMana(Player caster, Block block, int modifier,
             BlockFace face) {
-        LivingEntity toKill = Utils.getLivingTarget(ply, parent.getRange());
+        LivingEntity toKill = Utils.getLivingTarget(caster, parent.getRange());
         if (toKill != null) {
             if (toKill instanceof Player) {
                 return 1500;
@@ -98,22 +98,22 @@ public class AvadaKedavra implements Spell {
     }
 
     @Override
-    public float rightClick(Player ply, Block block, int modifier,
+    public float rightClick(Player caster, Block block, int modifier,
             BlockFace face) {
-        LivingEntity toKill = Utils.getLivingTarget(ply, parent.getRange());
+        LivingEntity toKill = Utils.getLivingTarget(caster, parent.getRange());
         if (toKill == null) {
             return Float.MIN_VALUE;
         }
 
-        EntityDamageByEntityEvent edbee = new EntityDamageByEntityEvent(ply,
+        EntityDamageByEntityEvent edbee = new EntityDamageByEntityEvent(caster,
                 toKill,
                 DamageCause.MAGIC, Double.MAX_VALUE);
         Bukkit.getPluginManager().callEvent(edbee);
         if (!edbee.isCancelled()) {
             toKill.setHealth(0D); // pwnt
             if (toKill instanceof Player) {
-                parent.setMana(ply, 0f);
-                ply.sendMessage("Your mana has been drained!");
+                parent.setMana(caster, 0f);
+                caster.sendMessage("Your mana has been drained!");
             } else {
                 return 800 - modifier;
             }
@@ -123,23 +123,23 @@ public class AvadaKedavra implements Spell {
     }
 
     @Override
-    public float leftClick(Player ply, Block block, int modifier,
+    public float leftClick(Player caster, Block block, int modifier,
             BlockFace face) {
         return Float.MIN_VALUE;
     }
 
     @Override
-    public float attack(Player ply, LivingEntity ent, int modifier) {
+    public float attack(Player caster, LivingEntity target, int modifier) {
 
-        EntityDamageByEntityEvent edbee = new EntityDamageByEntityEvent(ply,
-                ent,
+        EntityDamageByEntityEvent edbee = new EntityDamageByEntityEvent(caster,
+                target,
                 DamageCause.MAGIC, Double.MAX_VALUE);
         Bukkit.getPluginManager().callEvent(edbee);
         if (!edbee.isCancelled()) {
-            ent.setHealth(0D); // pwnt
-            if (ent instanceof Player) {
-                parent.setMana(ply, 0f);
-                ply.sendMessage("Your mana has been drained!");
+            target.setHealth(0D); // pwnt
+            if (target instanceof Player) {
+                parent.setMana(caster, 0f);
+                caster.sendMessage("Your mana has been drained!");
             } else {
                 return 800 - modifier;
             }

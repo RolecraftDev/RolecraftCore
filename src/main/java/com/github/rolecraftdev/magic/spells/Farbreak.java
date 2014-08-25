@@ -61,31 +61,31 @@ public class Farbreak implements Spell {
     }
 
     @Override
-    public float estimateAttackMana(Player ply, LivingEntity entity,
+    public float estimateAttackMana(Player caster, LivingEntity target,
             int modifier) {
         return 0;
     }
 
     @Override
-    public float estimateLeftClickMana(Player ply, Block block, int modifier,
+    public float estimateLeftClickMana(Player caster, Block block, int modifier,
             BlockFace face) {
         return 0;
     }
 
     @Override
-    public float estimateRightClickMana(Player ply, Block block, int modifier,
+    public float estimateRightClickMana(Player caster, Block block, int modifier,
             BlockFace face) {
         return 4;
     }
 
     @SuppressWarnings("deprecation")
     @Override
-    public float rightClick(Player ply, Block block, int modifier,
+    public float rightClick(Player caster, Block block, int modifier,
             BlockFace face) {
         float retVal;
         Block toBreak;
         if (block == null) {
-            toBreak = ply.getTargetBlock(null, manager.getRange());
+            toBreak = caster.getTargetBlock(null, manager.getRange());
             if (toBreak == null) {
                 return Float.MIN_VALUE;
             }
@@ -96,7 +96,7 @@ public class Farbreak implements Spell {
         }
 
         if (manager.getPlugin().isExtraEvents()) {
-            BlockBreakEvent event = new BlockBreakEvent(toBreak, ply);
+            BlockBreakEvent event = new BlockBreakEvent(toBreak, caster);
             Bukkit.getServer().getPluginManager().callEvent(event);
             if (event.isCancelled()) {
                 return Float.MIN_VALUE;
@@ -108,13 +108,13 @@ public class Farbreak implements Spell {
     }
 
     @Override
-    public float leftClick(Player ply, Block block, int modifier,
+    public float leftClick(Player caster, Block block, int modifier,
             BlockFace face) {
         return Float.MIN_VALUE;
     }
 
     @Override
-    public float attack(Player ply, LivingEntity ent, int modifier) {
+    public float attack(Player caster, LivingEntity target, int modifier) {
         return Float.MIN_VALUE;
     }
 

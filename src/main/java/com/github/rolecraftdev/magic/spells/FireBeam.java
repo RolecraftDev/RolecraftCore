@@ -62,35 +62,35 @@ public class FireBeam implements Spell {
     }
 
     @Override
-    public float estimateAttackMana(Player ply, LivingEntity entity,
+    public float estimateAttackMana(Player caster, LivingEntity target,
             int modifier) {
         return 0;
     }
 
     @Override
-    public float estimateLeftClickMana(Player ply, Block block, int modifier,
+    public float estimateLeftClickMana(Player caster, Block block, int modifier,
             BlockFace face) {
         return 0;
     }
 
     @Override
-    public float estimateRightClickMana(Player ply, Block block, int modifier,
+    public float estimateRightClickMana(Player caster, Block block, int modifier,
             BlockFace face) {
         return 10;
     }
 
     @SuppressWarnings("deprecation")
     @Override
-    public float rightClick(Player ply, Block block, int modifier,
+    public float rightClick(Player caster, Block block, int modifier,
             BlockFace face) {
-        Block toIgnite = ply.getLastTwoTargetBlocks(null, manager.getRange())
+        Block toIgnite = caster.getLastTwoTargetBlocks(null, manager.getRange())
                 .get(0);
         if (toIgnite == null) {
             return Float.MIN_VALUE;
         }
         BlockState state = toIgnite.getState();
         BlockPlaceEvent bpe = new BlockPlaceEvent(toIgnite, state, block, null,
-                ply, true);
+                caster, true);
         Bukkit.getServer().getPluginManager().callEvent(bpe);
         if (bpe.isCancelled()) {
             return Float.MIN_VALUE;
@@ -102,13 +102,13 @@ public class FireBeam implements Spell {
     }
 
     @Override
-    public float leftClick(Player ply, Block block, int modifier,
+    public float leftClick(Player caster, Block block, int modifier,
             BlockFace face) {
         return Float.MIN_VALUE;
     }
 
     @Override
-    public float attack(Player ply, LivingEntity ent, int modifier) {
+    public float attack(Player caster, LivingEntity target, int modifier) {
         return Float.MIN_VALUE;
     }
 
