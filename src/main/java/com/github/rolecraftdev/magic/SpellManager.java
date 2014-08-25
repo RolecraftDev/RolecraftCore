@@ -97,7 +97,7 @@ public class SpellManager {
                 .registerEvents(new FlyingListener(plugin), plugin);
 
         plugin.getServer().getScheduler()
-                .runTaskTimer(plugin, new ManaRunnable(plugin), 20L, 40L);
+                .runTaskTimer(plugin, new ManaRegenTask(plugin), 20L, 40L);
     }
 
     /**

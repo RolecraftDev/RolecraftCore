@@ -31,10 +31,10 @@ import com.github.rolecraftdev.data.PlayerData;
 
 import org.bukkit.scheduler.BukkitRunnable;
 
-public class ManaRunnable extends BukkitRunnable {
+public class ManaRegenTask extends BukkitRunnable {
     private final RolecraftCore parent;
 
-    public ManaRunnable(RolecraftCore parent) {
+    public ManaRegenTask(RolecraftCore parent) {
         this.parent = parent;
     }
 
