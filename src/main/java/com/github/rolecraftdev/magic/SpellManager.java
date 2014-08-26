@@ -40,6 +40,7 @@ import org.bukkit.event.Listener;
 import org.bukkit.inventory.Recipe;
 import org.bukkit.permissions.Permission;
 import org.bukkit.permissions.PermissionDefault;
+import org.bukkit.scheduler.BukkitRunnable;
 
 import java.net.URISyntaxException;
 import java.util.Collection;
@@ -67,7 +68,7 @@ public class SpellManager {
      * from the given plugin's configuration file. Additionally this also
      * registers all Rolecraft {@link Spell} implementations and the required
      * {@link Listener}s along with scheduling the appropriate
-     * {@link org.bukkit.scheduler.BukkitRunnable} implementations.
+     * {@link BukkitRunnable} implementations.
      *
      * @param plugin the associated {@link RolecraftCore} instance
      * @since 0.0.5
