@@ -38,7 +38,7 @@ import pw.ian.albkit.command.parser.Arguments;
  * @since 0.0.5
  */
 public class DebugCommand extends PlayerCommandHandler {
-    private final RolecraftCore parent;
+    private final RolecraftCore plugin;
 
     /**
      * Constructor.
@@ -49,7 +49,7 @@ public class DebugCommand extends PlayerCommandHandler {
     public DebugCommand(final RolecraftCore plugin) {
         super("debug");
         setUsage("/debug wand");
-        parent = plugin;
+        this.plugin = plugin;
     }
 
     /**
@@ -62,7 +62,7 @@ public class DebugCommand extends PlayerCommandHandler {
             return;
         }
         if (args.getArgument(0).rawString().equalsIgnoreCase("wand")) {
-            for (Spell spell : parent.getSpellManager().getSpells()) {
+            for (Spell spell : plugin.getSpellManager().getSpells()) {
                 if (spell.getWandRecipe() != null) {
                     player.getInventory()
                             .addItem(spell.getWandRecipe().getResult());

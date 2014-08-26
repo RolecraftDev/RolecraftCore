@@ -73,17 +73,17 @@ public class FreezeRay implements Spell {
         transparency.add((byte) Material.GLASS.getId());
     }
 
-    private final SpellManager manager;
+    private final SpellManager spellManager;
 
     /**
      * Constructor.
      *
-     * @param manager the {@link SpellManager} this {@link Spell} implementation
-     *        will be registered to
+     * @param spellManager the {@link SpellManager} this {@link Spell}
+     *        implementation will be registered to
      * @since 0.0.5
      */
-    public FreezeRay(final SpellManager manager) {
-        this.manager = manager;
+    public FreezeRay(final SpellManager spellManager) {
+        this.spellManager = spellManager;
     }
 
     /**
@@ -101,7 +101,8 @@ public class FreezeRay implements Spell {
     public float estimateLeftClickMana(Player caster, Block block, int modifier,
             BlockFace face) {
         Block targetBlock = caster
-                .getTargetBlock(transparency, manager.getRange());
+.getTargetBlock(transparency, spellManager
+                .getRange());
         if (targetBlock.getType() == Material.STATIONARY_LAVA) {
             return 50;
         }
@@ -115,7 +116,8 @@ public class FreezeRay implements Spell {
     public float estimateRightClickMana(Player caster, Block block, int modifier,
             BlockFace face) {
         Block targetBlock = caster
-                .getTargetBlock(transparency, manager.getRange());
+.getTargetBlock(transparency, spellManager
+                .getRange());
         if (targetBlock.getType() == Material.STATIONARY_LAVA) {
             return 50;
         }
@@ -142,7 +144,8 @@ public class FreezeRay implements Spell {
 
     private float click(Player ply, Block block, int modifier, BlockFace face) {
         Block targetBlock = ply
-                .getTargetBlock(transparency, manager.getRange());
+.getTargetBlock(transparency, spellManager
+                .getRange());
         BlockBreakEvent bbe = new BlockBreakEvent(targetBlock, ply);
         Bukkit.getPluginManager().callEvent(bbe);
         if (bbe.isCancelled()) {

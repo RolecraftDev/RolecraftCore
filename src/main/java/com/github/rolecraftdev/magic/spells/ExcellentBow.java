@@ -51,17 +51,17 @@ import org.bukkit.metadata.FixedMetadataValue;
  * @since 0.0.5
  */
 public class ExcellentBow implements Spell {
-    private final SpellManager manager;
+    private final SpellManager spellManager;
 
     /**
      * Constructor.
      *
-     * @param manager the {@link SpellManager} this {@link Spell} implementation
-     *        will be registered to
+     * @param spellManager the {@link SpellManager} this {@link Spell}
+     *        implementation will be registered to
      * @since 0.0.5
      */
-    public ExcellentBow(final SpellManager manager) {
-        this.manager = manager;
+    public ExcellentBow(final SpellManager spellManager) {
+        this.spellManager = spellManager;
     }
 
     /**
@@ -112,7 +112,8 @@ public class ExcellentBow implements Spell {
         Arrow arrow = caster.launchProjectile(Arrow.class);
         arrow.setVelocity(arrow.getVelocity().multiply(2d));
         arrow.setMetadata("Multiplier", new FixedMetadataValue(
-                manager.getPlugin(), 2f));
+spellManager
+                .getPlugin(), 2f));
 
         return (100f - modifier / 100f > 0) ? 100f - modifier / 100f : 0;
     }

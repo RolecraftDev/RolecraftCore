@@ -54,11 +54,11 @@ public class DestroyBlock implements Spell {
     /**
      * Constructor.
      *
-     * @param parent the {@link SpellManager} this {@link Spell} implementation
-     *        will be registered to
+     * @param spellManager the {@link SpellManager} this {@link Spell}
+     *        implementation will be registered to
      * @since 0.0.5
      */
-    public DestroyBlock(SpellManager parent) {
+    public DestroyBlock(SpellManager spellManager) {
     }
 
     /**

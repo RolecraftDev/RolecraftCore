@@ -52,11 +52,11 @@ public class StrongerBow implements Spell {
     /**
      * Constructor.
      *
-     * @param manager the {@link SpellManager} this {@link Spell} implementation
-     *        will be registered to
+     * @param spellManager the {@link SpellManager} this {@link Spell}
+     *        implementation will be registered to
      * @since 0.0.5
      */
-    public StrongerBow(final SpellManager manager) {
+    public StrongerBow(final SpellManager spellManager) {
     }
 
     /**

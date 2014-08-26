@@ -52,17 +52,17 @@ import org.bukkit.inventory.meta.ItemMeta;
  * @since 0.0.5
  */
 public class FireBeam implements Spell {
-    private final SpellManager manager;
+    private final SpellManager spellManager;
 
     /**
      * Constructor.
      *
-     * @param manager the {@link SpellManager} this {@link Spell} implementation
-     *        will be registered to
+     * @param spellManager the {@link SpellManager} this {@link Spell}
+     *        implementation will be registered to
      * @since 0.0.5
      */
-    public FireBeam(final SpellManager manager) {
-        this.manager = manager;
+    public FireBeam(final SpellManager spellManager) {
+        this.spellManager = spellManager;
     }
 
     /**
@@ -107,7 +107,8 @@ public class FireBeam implements Spell {
     @Override
     public float rightClick(Player caster, Block block, int modifier,
             BlockFace face) {
-        Block toIgnite = caster.getLastTwoTargetBlocks(null, manager.getRange())
+        Block toIgnite = caster.getLastTwoTargetBlocks(null,
+                spellManager.getRange())
                 .get(0);
         if (toIgnite == null) {
             return Float.MIN_VALUE;
