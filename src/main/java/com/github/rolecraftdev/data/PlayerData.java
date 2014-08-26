@@ -51,6 +51,10 @@ import java.util.UUID;
  */
 public final class PlayerData {
     /**
+     * The associated {@link RolecraftCore} instance.
+     */
+    private final RolecraftCore plugin;
+    /**
      * The player's {@link UUID}.
      */
     private final UUID playerId;
@@ -58,10 +62,20 @@ public final class PlayerData {
      * The player's username.
      */
     private final String name;
+
     /**
      * The player's {@link PlayerSettings}.
      */
     private volatile PlayerSettings settings;
+    /**
+     * Whether the data is wholly loaded.
+     */
+    private volatile boolean loaded;
+    /**
+     * Whether the data is currently in the phase of being unloaded.
+     */
+    private volatile boolean unloading;
+
     /**
      * The {@link UUID} of the player's {@link Guild}.
      */
@@ -70,7 +84,6 @@ public final class PlayerData {
      * The {@link UUID} of the player's primary {@link Profession}.
      */
     private UUID profession;
-
     /**
      * The {@link UUID} of the player's secondary {@link Profession}.
      */
@@ -96,19 +109,6 @@ public final class PlayerData {
      * The player's mana.
      */
     private float mana;
-
-    /**
-     * Whether the data is wholly loaded.
-     */
-    private volatile boolean loaded;
-    /**
-     * Whether the data is currently in the phase of being unloaded.
-     */
-    private volatile boolean unloading;
-    /**
-     * The associated {@link RolecraftCore} instance.
-     */
-    private final RolecraftCore plugin;
 
     /**
      * Constructor.

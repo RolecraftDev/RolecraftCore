@@ -62,6 +62,8 @@ public class FreezeRay implements Spell {
      */
     private static final HashSet<Byte> transparency;
 
+    private final SpellManager spellManager;
+
     /**
      * @since 0.0.5
      */
@@ -71,8 +73,6 @@ public class FreezeRay implements Spell {
         transparency.add((byte) Material.AIR.getId());
         transparency.add((byte) Material.GLASS.getId());
     }
-
-    private final SpellManager spellManager;
 
     /**
      * Constructor.

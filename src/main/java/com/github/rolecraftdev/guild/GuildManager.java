@@ -101,6 +101,15 @@ public final class GuildManager {
     // Config options
 
     /**
+     * Protect guild-halls from the environment and hostile mobs.
+     */
+    private final boolean protectFromEnvironment;
+    /**
+     * Disallow PvP in guild-halls.
+     */
+    private final boolean disallowHallPvp;
+
+    /**
      * The price for making a new {@link Guild}.
      */
     private int creationCost;
@@ -112,14 +121,6 @@ public final class GuildManager {
      * The price for a guild-hall, which essentially is a protected area.
      */
     private int hallCost;
-    /**
-     * Protect guild-halls from the environment and hostile mobs.
-     */
-    private final boolean protectFromEnvironment;
-    /**
-     * Disallow PvP in guild-halls.
-     */
-    private final boolean disallowHallPvp;
 
     /**
      * Create a new {@link GuildManager} and load the guild.yml file from the

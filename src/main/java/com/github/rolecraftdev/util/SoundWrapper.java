@@ -36,6 +36,29 @@ import org.bukkit.Sound;
  */
 public class SoundWrapper {
     /**
+     * The default note.
+     *
+     * @since 0.0.5
+     */
+    public static final SoundWrapper defaultSound = new SoundWrapper(
+            Sound.ENDERMAN_TELEPORT, 0.8f, 0.0f);
+    /**
+     * The note that should be played when an arrow is shot.
+     *
+     * @since 0.0.5
+     */
+    public static final SoundWrapper bowSound = new SoundWrapper(
+            Sound.SHOOT_ARROW, 1.0f, 0.0f);
+    /**
+     * The note that should be played when an entity has successfully struck
+     * another entity.
+     *
+     * @since 0.0.5
+     */
+    public static final SoundWrapper swordSound = new SoundWrapper(
+            Sound.SUCCESSFUL_HIT, 1.0f, 0.0f);
+
+    /**
      * The volume of the {@link Sound}.
      */
     private final float volume;
@@ -72,27 +95,4 @@ public class SoundWrapper {
     public void play(Location location) {
         location.getWorld().playSound(location, sound, volume, pitch);
     }
-
-    /**
-     * The default note.
-     *
-     * @since 0.0.5
-     */
-    public static final SoundWrapper defaultSound = new SoundWrapper(
-            Sound.ENDERMAN_TELEPORT, 0.8f, 0.0f);
-    /**
-     * The note that should be played when an arrow is shot.
-     *
-     * @since 0.0.5
-     */
-    public static final SoundWrapper bowSound = new SoundWrapper(
-            Sound.SHOOT_ARROW, 1.0f, 0.0f);
-    /**
-     * The note that should be played when an entity has successfully struck
-     * another entity.
-     *
-     * @since 0.0.5
-     */
-    public static final SoundWrapper swordSound = new SoundWrapper(
-            Sound.SUCCESSFUL_HIT, 1.0f, 0.0f);
 }

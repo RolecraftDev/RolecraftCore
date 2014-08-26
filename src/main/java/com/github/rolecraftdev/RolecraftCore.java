@@ -69,6 +69,12 @@ import java.util.logging.Logger;
  */
 public final class RolecraftCore extends AlbPlugin {
     /**
+     * Whether the storage solution has finished initialisation and is thus
+     * fully loaded.
+     */
+    private volatile boolean sqlLoaded;
+
+    /**
      * The Rolecraft {@link Logger}.
      */
     private Logger logger;
@@ -123,12 +129,6 @@ public final class RolecraftCore extends AlbPlugin {
      * Whether to call extra events.
      */
     private boolean extraEvents;
-
-    /**
-     * Whether the storage solution has finished initialisation and is thus
-     * fully loaded.
-     */
-    private volatile boolean sqlLoaded;
 
     /**
      * @since 0.0.5

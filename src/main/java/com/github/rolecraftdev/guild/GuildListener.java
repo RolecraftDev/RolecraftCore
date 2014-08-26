@@ -78,6 +78,11 @@ import java.util.UUID;
  */
 public final class GuildListener implements Listener {
     private final GuildManager guildManager;
+    /**
+     * The special constant {@link Guild} instance used when the
+     * {@link GuildManager} hasn't finished loading.
+     */
+    private final Guild nullGuild = new Guild(null);
 
     /**
      * Constructor.
@@ -521,10 +526,4 @@ public final class GuildListener implements Listener {
         }
         return null;
     }
-
-    /**
-     * The special constant {@link Guild} instance used when the
-     * {@link GuildManager} hasn't finished loading.
-     */
-    private final Guild nullGuild = new Guild(null);
 }

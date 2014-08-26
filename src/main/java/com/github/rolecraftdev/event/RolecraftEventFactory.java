@@ -55,6 +55,11 @@ import org.bukkit.event.Event;
  */
 public class RolecraftEventFactory {
     /**
+     * The associated {@link RolecraftCore} instance.
+     */
+    private static RolecraftCore plugin;
+
+    /**
      * Calls a {@link GuildRankRemoveEvent} with the {@link RolecraftCore}
      * instance and the given parameters
      *
@@ -205,11 +210,6 @@ public class RolecraftEventFactory {
         Bukkit.getPluginManager().callEvent(event);
         return event;
     }
-
-    /**
-     * The associated {@link RolecraftCore} instance.
-     */
-    private static RolecraftCore plugin;
 
     /**
      * Set the associated {@link RolecraftCore} instance.

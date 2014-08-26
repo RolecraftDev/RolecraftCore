@@ -40,6 +40,12 @@ public final class PlayerSettings {
     public static final PlayerSettings DEFAULT_SETTINGS = new PlayerSettings();
 
     /**
+     * Whether the player is spying on guild chat - volatile to ensure thread
+     * safety in Bukkit's AsyncPlayerChatEvent
+     */
+    private volatile boolean guildSpy;
+
+    /**
      * Whether to show mana for the player on a scoreboard
      */
     private boolean showMana;
@@ -47,11 +53,6 @@ public final class PlayerSettings {
      * Whether to send a chat message to the player when they cast a spell
      */
     private boolean spellChatMessage;
-    /**
-     * Whether the player is spying on guild chat - volatile to ensure thread
-     * safety in Bukkit's AsyncPlayerChatEvent
-     */
-    private volatile boolean guildSpy;
 
     /**
      * Constructor.

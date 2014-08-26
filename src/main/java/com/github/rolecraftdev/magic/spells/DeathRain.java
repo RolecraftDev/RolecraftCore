@@ -68,6 +68,8 @@ public class DeathRain implements Spell {
      */
     private static final HashSet<Byte> transparency;
 
+    private final SpellManager spellManager;
+
     /**
      * @since 0.0.5
      */
@@ -78,8 +80,6 @@ public class DeathRain implements Spell {
         transparency.add((byte) Material.STATIONARY_WATER.getId());
         transparency.add((byte) Material.WATER.getId());
     }
-
-    private final SpellManager spellManager;
 
     /**
      * Constructor.
