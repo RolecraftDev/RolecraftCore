@@ -31,9 +31,6 @@ import org.apache.commons.lang.Validate;
 import com.github.rolecraftdev.RolecraftCore;
 import com.github.rolecraftdev.data.Region2D;
 import com.github.rolecraftdev.event.RolecraftEventFactory;
-import com.github.rolecraftdev.event.guild.GuildPlayerJoinEvent;
-import com.github.rolecraftdev.event.guild.GuildPlayerKickedEvent;
-import com.github.rolecraftdev.event.guild.GuildPlayerLeaveEvent;
 
 import com.traksag.channels.Channel;
 import com.traksag.channels.ChannelOption;
@@ -522,11 +519,11 @@ public final class Guild {
         Validate.notNull(member);
 
         if (kicked) {
-            Bukkit.getPluginManager().callEvent(new GuildPlayerKickedEvent(
-                    plugin, this, Bukkit.getPlayer(member)));
+            RolecraftEventFactory.guildPlayerKicked(this,
+                    Bukkit.getPlayer(member));
         } else {
-            Bukkit.getPluginManager().callEvent(new GuildPlayerLeaveEvent(
-                    plugin, this, Bukkit.getPlayer(member)));
+            RolecraftEventFactory.guildPlayerLeave(this,
+                    Bukkit.getPlayer(member));
         }
 
         final boolean removed = members.remove(member);

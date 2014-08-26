@@ -6,8 +6,14 @@ import com.github.rolecraftdev.RolecraftCore;
 import com.github.rolecraftdev.event.guild.GuildCreateEvent;
 import com.github.rolecraftdev.event.guild.GuildDisbandEvent;
 import com.github.rolecraftdev.event.guild.GuildPlayerJoinEvent;
+import com.github.rolecraftdev.event.guild.GuildPlayerKickedEvent;
+import com.github.rolecraftdev.event.guild.GuildPlayerLeaveEvent;
+import com.github.rolecraftdev.event.guild.GuildRankCreateEvent;
+import com.github.rolecraftdev.event.guild.GuildRankModifyEvent;
+import com.github.rolecraftdev.event.guild.GuildRankRemoveEvent;
 import com.github.rolecraftdev.event.spell.SpellCastEvent;
 import com.github.rolecraftdev.guild.Guild;
+import com.github.rolecraftdev.guild.GuildAction;
 import com.github.rolecraftdev.guild.GuildRank;
 import com.github.rolecraftdev.magic.Spell;
 
@@ -22,6 +28,84 @@ import org.bukkit.event.Event;
  * @since 0.0.5
  */
 public class RolecraftEventFactory {
+    /**
+     * Calls a {@link GuildRankRemoveEvent} with the {@link RolecraftCore}
+     * instance and the given parameters
+     *
+     * @param guild the {@link Guild} the rank belongs to
+     * @param rank the {@link GuildRank} being removed
+     * @return a {@link GuildRankRemoveEvent} constructed and called with the
+     *         given parameters
+     * @since 0.0.5
+     */
+    public static GuildRankRemoveEvent guildRankRemoved(Guild guild,
+            GuildRank rank) {
+        return callEvent(new GuildRankRemoveEvent(plugin, guild, rank));
+    }
+
+    /**
+     * Calls a {@link GuildRankModifyEvent} with the {@link RolecraftCore}
+     * instance and the given parameters
+     *
+     * @param guild the {@link Guild} the rank belongs to
+     * @param rank the {@link GuildRank} being modified
+     * @param perm the {@link GuildAction} permission which is being set
+     * @param value the new value of the {@link GuildAction}
+     * @return a {@link GuildRankModifyEvent} constructed and called with the
+     *         given parameters
+     * @since 0.0.5
+     */
+    public static GuildRankModifyEvent guildRankModified(Guild guild,
+            GuildRank rank, GuildAction perm, boolean value) {
+        return callEvent(new GuildRankModifyEvent(plugin, guild, rank, perm,
+                value));
+    }
+
+    /**
+     * Calls a {@link GuildRankCreateEvent} with the {@link RolecraftCore}
+     * instance and the given parameters
+     *
+     * @param guild the {@link Guild} the rank belongs to
+     * @param rank the {@link GuildRank} created
+     * @return a {@link GuildRankCreateEvent} constructed and called with the
+     *         given parameters
+     * @since 0.0.5
+     */
+    public static GuildRankCreateEvent guildRankCreated(Guild guild,
+            GuildRank rank) {
+        return callEvent(new GuildRankCreateEvent(plugin, guild, rank));
+    }
+
+    /**
+     * Calls a {@link GuildPlayerLeaveEvent} with the {@link RolecraftCore}
+     * instance and the given parameters.
+     *
+     * @param guild the {@link Guild} the player left
+     * @param player the {@link Player} leaving
+     * @return a {@link GuildPlayerLeaveEvent} constructed and called with the
+     *         given parameters
+     * @since 0.0.5
+     */
+    public static GuildPlayerLeaveEvent guildPlayerLeave(Guild guild,
+            Player player) {
+        return callEvent(new GuildPlayerLeaveEvent(plugin, guild, player));
+    }
+
+    /**
+     * Calls a {@link GuildPlayerKickedEvent} with the {@link RolecraftCore}
+     * instance and the given parameters.
+     *
+     * @param guild the {@link Guild} the player was kicked from
+     * @param player the {@link Player} being kicked
+     * @return a {@link GuildPlayerKickedEvent} constructed and called with the
+     *         given parameters
+     * @since 0.0.5
+     */
+    public static GuildPlayerKickedEvent guildPlayerKicked(Guild guild,
+            Player player) {
+        return callEvent(new GuildPlayerKickedEvent(plugin, guild, player));
+    }
+
     /**
      * Calls a {@link GuildPlayerJoinEvent} with the {@link RolecraftCore}
      * instance and the given parameters.

@@ -28,6 +28,7 @@ package com.github.rolecraftdev.command.guild;
 
 import com.github.rolecraftdev.RolecraftCore;
 import com.github.rolecraftdev.command.CommandHelper;
+import com.github.rolecraftdev.event.RolecraftEventFactory;
 import com.github.rolecraftdev.event.guild.GuildRankCreateEvent;
 import com.github.rolecraftdev.event.guild.GuildRankModifyEvent;
 import com.github.rolecraftdev.event.guild.GuildRankRemoveEvent;
@@ -107,8 +108,7 @@ public class GuildRankCommand extends PlayerCommandHandler {
                 final GuildRank newRank = new GuildRank(rankArg,
                         new HashSet<GuildAction>(), new HashSet<UUID>());
                 if (guild.addRank(newRank)) {
-                    plugin.getServer().getPluginManager().callEvent(
-                            new GuildRankCreateEvent(plugin, guild, newRank));
+                    RolecraftEventFactory.guildRankCreated(guild, newRank);
                     // Notify the sender that the rank was created
                     player.sendMessage(plugin.getMessage(Messages.RANK_CREATED,
                             MsgVar.create("$rank", newRank.getName())));
@@ -132,8 +132,7 @@ public class GuildRankCommand extends PlayerCommandHandler {
         if (isDeleteAlias(command)) {
             // Returns false if the rank is leader or default
             if (guild.removeRank(rank)) {
-                plugin.getServer().getPluginManager().callEvent(
-                        new GuildRankRemoveEvent(plugin, guild, rank));
+                RolecraftEventFactory.guildRankRemoved(guild, rank);
                 // Alert the sender that the rank was removed
                 player.sendMessage(plugin.getMessage(Messages.RANK_REMOVED,
                         MsgVar.create("$rank", rank.getName())));
@@ -203,10 +202,8 @@ public class GuildRankCommand extends PlayerCommandHandler {
                         MsgVar.create("$value", value)));
             }
 
-            plugin.getServer().getPluginManager().callEvent(
-                    new GuildRankModifyEvent(plugin, guild, rank, perm,
-                            Boolean.parseBoolean(value)));
-
+            RolecraftEventFactory.guildRankModified(guild, rank, perm,
+                    Boolean.parseBoolean(value));
             return;
         }
 
