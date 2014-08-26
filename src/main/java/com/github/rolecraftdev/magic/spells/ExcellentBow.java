@@ -111,8 +111,7 @@ public class ExcellentBow implements Spell {
 
         Arrow arrow = caster.launchProjectile(Arrow.class);
         arrow.setVelocity(arrow.getVelocity().multiply(2d));
-        arrow.setMetadata("Multiplier", new FixedMetadataValue(
-spellManager
+        arrow.setMetadata("Multiplier", new FixedMetadataValue(spellManager
                 .getPlugin(), 2f));
 
         return (100f - modifier / 100f > 0) ? 100f - modifier / 100f : 0;

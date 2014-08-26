@@ -183,14 +183,10 @@ public class DeathRain implements Spell {
                 Arrow arrow = world.spawn(
                         new Location(world, center.getX() + x, center.getY(),
                                 center.getZ() + z), Arrow.class);
-                arrow.setMetadata("Multiplier",
- new FixedMetadataValue(
-                        spellManager.getPlugin(),
-                                (float) 6));
-                arrow.setMetadata("Explosion",
- new FixedMetadataValue(
-                        spellManager.getPlugin(),
-                                true));
+                arrow.setMetadata("Multiplier", new FixedMetadataValue(
+                        spellManager.getPlugin(), 6f));
+                arrow.setMetadata("Explosion", new FixedMetadataValue(
+                        spellManager.getPlugin(), true));
                 arrow.setVelocity(Utils.velocityRandomiser(velocity));
             }
         }

@@ -113,12 +113,10 @@ public class HandCannon implements Spell {
 
         Arrow arrow = caster.launchProjectile(Arrow.class);
         arrow.setVelocity(arrow.getVelocity().multiply(4));
-        arrow.setMetadata("Multiplier",
- new FixedMetadataValue(spellManager
-                .getPlugin(), (float) 6));
-        arrow.setMetadata("Knockback",
- new FixedMetadataValue(spellManager
-                .getPlugin(), new Float(1.0)));
+        arrow.setMetadata("Multiplier", new FixedMetadataValue(spellManager
+                .getPlugin(), 6f));
+        arrow.setMetadata("Knockback", new FixedMetadataValue(spellManager
+                .getPlugin(), 1f));
         // Make a loud bang when used
 
         return (300f - modifier / 100f > 0) ? 300f - modifier / 100f : 0;

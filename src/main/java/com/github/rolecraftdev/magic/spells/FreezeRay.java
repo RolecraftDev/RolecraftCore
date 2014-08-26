@@ -100,8 +100,7 @@ public class FreezeRay implements Spell {
     @Override
     public float estimateLeftClickMana(Player caster, Block block, int modifier,
             BlockFace face) {
-        Block targetBlock = caster
-.getTargetBlock(transparency, spellManager
+        Block targetBlock = caster.getTargetBlock(transparency, spellManager
                 .getRange());
         if (targetBlock.getType() == Material.STATIONARY_LAVA) {
             return 50;
@@ -115,8 +114,7 @@ public class FreezeRay implements Spell {
     @Override
     public float estimateRightClickMana(Player caster, Block block, int modifier,
             BlockFace face) {
-        Block targetBlock = caster
-.getTargetBlock(transparency, spellManager
+        Block targetBlock = caster.getTargetBlock(transparency, spellManager
                 .getRange());
         if (targetBlock.getType() == Material.STATIONARY_LAVA) {
             return 50;
@@ -143,8 +141,7 @@ public class FreezeRay implements Spell {
     }
 
     private float click(Player ply, Block block, int modifier, BlockFace face) {
-        Block targetBlock = ply
-.getTargetBlock(transparency, spellManager
+        Block targetBlock = ply.getTargetBlock(transparency, spellManager
                 .getRange());
         BlockBreakEvent bbe = new BlockBreakEvent(targetBlock, ply);
         Bukkit.getPluginManager().callEvent(bbe);
