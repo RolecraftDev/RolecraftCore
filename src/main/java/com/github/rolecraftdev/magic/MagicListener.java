@@ -245,8 +245,11 @@ public class MagicListener implements Listener {
         }
 
         if (!(spellManager.canCast(player, spell))) {
-            player.sendMessage(plugin.getMessage(Messages.CANNOT_CAST_SPELL,
-                    MsgVar.create("$spell", spell.getName())));
+            if (plugin.getDataManager().getPlayerData(player.getUniqueId())
+                    .getSettings().isSpellChatMessage()) {
+                player.sendMessage(plugin.getMessage(Messages.CANNOT_CAST_SPELL,
+                        MsgVar.create("$spell", spell.getName())));
+            }
             return;
         }
 
