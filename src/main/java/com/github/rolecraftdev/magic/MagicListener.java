@@ -128,113 +128,103 @@ public class MagicListener implements Listener {
      */
     @EventHandler(priority = EventPriority.HIGHEST)
     public void onInteract(PlayerInteractEvent e) {
-        if (e.getItem() != null) {
-            if (e.getItem().getType() == Material.STICK) {
-                Action action = e.getAction();
-                if (action == Action.RIGHT_CLICK_AIR
-                        || action == Action.RIGHT_CLICK_BLOCK
-                        || action == Action.LEFT_CLICK_AIR
-                        || action == Action.LEFT_CLICK_BLOCK) {
-                    Spell spell = getSpell(e.getItem());
-                    if (spell != null) {
-                        Player player = e.getPlayer();
-                        Block clicked = e.getClickedBlock();
-                        if (!(spellManager.canCast(player, spell))) {
-                            player.sendMessage(plugin.getMessage(
-                                    Messages.CANNOT_CAST_SPELL,
-                                    MsgVar.create("$spell", spell.getName())));
-                            return;
-                        }
-                        if (action == Action.LEFT_CLICK_AIR
-                                || action == Action.LEFT_CLICK_BLOCK) {
-                            final float estimate = spell.estimateLeftClickMana(
-                                    player, clicked,
-                                    spellManager.getMagicModifier(player),
-                                    e.getBlockFace());
-                            if (estimate < spellManager
-                                    .getMana(e.getPlayer())) {
-                                SpellCastEvent event = RolecraftEventFactory
-                                        .spellCast(spell, player, estimate);
-                                if (event.isCancelled()) {
-                                    player.sendMessage(
-                                            event.getCancelMessage());
-                                    return;
-                                }
-                                final float evtMana = event.getManaCost();
+        final ItemStack stack = e.getItem();
+        if (stack == null || stack.getType() != Material.STICK) {
+            return;
+        }
 
-                                float retVal = spell.leftClick(player, clicked,
-                                        spellManager.getMagicModifier(player),
-                                        e.getBlockFace());
-                                // 0 indicates a free cast for some spells in
-                                // high level players, use MIN_NORMAL for can't
-                                // be cast
-                                if (retVal == Float.MIN_VALUE
-                                        || retVal == Float.MIN_NORMAL) {
-                                    return;
-                                }
-                                retVal = evtMana;
-                                spellManager.subtractMana(player, retVal);
+        final Action action = e.getAction();
+        if (action != Action.RIGHT_CLICK_AIR
+                && action != Action.RIGHT_CLICK_BLOCK
+                && action != Action.LEFT_CLICK_AIR
+                && action != Action.LEFT_CLICK_BLOCK) {
+            return;
+        }
 
-                                if (plugin.getDataManager()
-                                        .getPlayerData(player.getUniqueId())
-                                        .getSettings().isSpellChatMessage()) {
-                                    player.sendMessage(plugin.getMessage(
-                                            Messages.SPELL_CAST,
-                                            MsgVar.create("$spell",
-                                                    spell.getName())));
-                                }
+        final Spell spell = getSpell(e.getItem());
+        if (spell == null) {
+            return;
+        }
 
-                                final SoundWrapper sound = spell.getSound();
-                                if (sound != null) {
-                                    sound.play(player.getLocation());
-                                }
-                            }
-                        } else {
-                            final float estimate = spell
-                                    .estimateRightClickMana(player, clicked,
-                                            spellManager
-                                                    .getMagicModifier(player), e
-                                                    .getBlockFace());
-                            if (estimate < spellManager.getMana(player)) {
-                                SpellCastEvent event = RolecraftEventFactory
-                                        .spellCast(spell, player, estimate);
-                                if (event.isCancelled()) {
-                                    player.sendMessage(
-                                            event.getCancelMessage());
-                                    return;
-                                }
+        final Player player = e.getPlayer();
+        final Block clicked = e.getClickedBlock();
+        if (!(spellManager.canCast(player, spell))) {
+            player.sendMessage(plugin.getMessage(Messages.CANNOT_CAST_SPELL,
+                    MsgVar.create("$spell", spell.getName())));
+            return;
+        }
 
-                                float retVal = spell.rightClick(player,
-                                        clicked,
-                                        spellManager.getMagicModifier(player),
-                                        e.getBlockFace());
-                                // 0 indicates a free cast for some spells in
-                                // high level players, use MIN_NORMAL for can't
-                                // be cast
-                                if (retVal == Float.MIN_VALUE
-                                        || retVal == Float.MIN_NORMAL) {
-                                    return;
-                                }
+        if (action == Action.LEFT_CLICK_AIR
+                || action == Action.LEFT_CLICK_BLOCK) {
+            final float estimate = spell.estimateLeftClickMana(player, clicked,
+                    spellManager.getMagicModifier(player), e.getBlockFace());
+            if (estimate > spellManager.getMana(player)) {
+                return;
+            }
 
-                                retVal = event.getManaCost();
-                                spellManager.subtractMana(player, retVal);
-                                if (plugin.getDataManager()
-                                        .getPlayerData(player.getUniqueId())
-                                        .getSettings().isSpellChatMessage()) {
-                                    player.sendMessage(plugin.getMessage(
-                                            Messages.SPELL_CAST, MsgVar.create(
-                                                    "$spell",
-                                                    spell.getName())));
-                                }
+            final SpellCastEvent event = RolecraftEventFactory.spellCast(spell,
+                    player, estimate);
+            if (event.isCancelled()) {
+                player.sendMessage(event.getCancelMessage());
+                return;
+            }
 
-                                final SoundWrapper sound = spell.getSound();
-                                if (sound != null) {
-                                    sound.play(player.getLocation());
-                                }
-                            }
-                        }
-                    }
-                }
+            final float evtMana = event.getManaCost();
+            float retVal = spell.leftClick(player, clicked,
+                    spellManager.getMagicModifier(player), e.getBlockFace());
+
+            // MIN_VALUE = error, MIN_NORMAL = can't be cast right now
+            if (retVal == Float.MIN_VALUE || retVal == Float.MIN_NORMAL) {
+                return;
+            }
+
+            retVal = evtMana;
+            spellManager.subtractMana(player, retVal);
+
+            if (plugin.getDataManager().getPlayerData(player.getUniqueId())
+                    .getSettings().isSpellChatMessage()) {
+                player.sendMessage(plugin.getMessage(Messages.SPELL_CAST,
+                        MsgVar.create("$spell", spell.getName())));
+            }
+
+            final SoundWrapper sound = spell.getSound();
+            if (sound != null) {
+                sound.play(player.getLocation());
+            }
+        } else {
+            final float estimate = spell.estimateRightClickMana(player, clicked,
+                    spellManager.getMagicModifier(player), e.getBlockFace());
+            if (estimate > spellManager.getMana(player)) {
+                return;
+            }
+
+            final SpellCastEvent event = RolecraftEventFactory.spellCast(spell,
+                    player, estimate);
+            if (event.isCancelled()) {
+                player.sendMessage(event.getCancelMessage());
+                return;
+            }
+
+            float retVal = spell.rightClick(player, clicked,
+                    spellManager.getMagicModifier(player), e.getBlockFace());
+
+            // MIN_VALUE = error, MIN_NORMAL = can't be cast right now
+            if (retVal == Float.MIN_VALUE || retVal == Float.MIN_NORMAL) {
+                return;
+            }
+
+            retVal = event.getManaCost();
+            spellManager.subtractMana(player, retVal);
+
+            if (plugin.getDataManager().getPlayerData(player.getUniqueId())
+                    .getSettings().isSpellChatMessage()) {
+                player.sendMessage(plugin.getMessage(Messages.SPELL_CAST,
+                        MsgVar.create("$spell", spell.getName())));
+            }
+
+            final SoundWrapper sound = spell.getSound();
+            if (sound != null) {
+                sound.play(player.getLocation());
             }
         }
     }
@@ -244,54 +234,58 @@ public class MagicListener implements Listener {
      */
     @EventHandler(priority = EventPriority.HIGHEST)
     public void onDamage(EntityDamageByEntityEvent e) {
-        if (e.getCause() == DamageCause.MAGIC) {
+        if (e.getCause() == DamageCause.MAGIC || !(e
+                .getDamager() instanceof Player)) {
             return;
         }
-        if (e.getDamager() instanceof Player) {
-            Player player = (Player) e.getDamager();
-            Spell spell = getSpell(player.getItemInHand());
-            if (!(spellManager.canCast(player, spell))) {
-                player.sendMessage(plugin.getMessage(
-                        Messages.CANNOT_CAST_SPELL,
-                        MsgVar.create("$spell", spell.getName())));
-                return;
-            }
-            if (spell != null) {
-                final float estimate = spell.estimateAttackMana(player,
-                        (LivingEntity) e.getEntity(),
-                        spellManager.getMagicModifier(player));
-                if (spellManager.getMana(player) > estimate) {
-                    SpellCastEvent event = RolecraftEventFactory.spellCast(
-                            spell, e.getDamager(), estimate);
-                    if (event.isCancelled()) {
-                        player.sendMessage(event.getCancelMessage());
-                        return;
-                    }
-                    float retVal = spell.attack(player,
-                            (LivingEntity) e.getEntity(),
-                            spellManager.getMagicModifier(player));
-                    if (retVal == Float.MIN_VALUE
-                            || retVal == Float.MIN_NORMAL) {
-                        return;
-                    }
-                    retVal = event.getManaCost();
-                    spellManager.subtractMana(player, retVal);
-                    if (plugin.getDataManager()
-                            .getPlayerData(player.getUniqueId())
-                            .getSettings().isSpellChatMessage()) {
-                        player.sendMessage(
-                                plugin.getMessage(Messages.SPELL_CAST,
-                                        MsgVar.create("$spell",
-                                                spell.getName())));
-                    }
 
-                    final SoundWrapper sound = spell.getSound();
-                    if (sound != null) {
-                        sound.play(player.getLocation());
-                    }
-                }
+        final Player player = (Player) e.getDamager();
+        final Spell spell = getSpell(player.getItemInHand());
+        if (spell == null) {
+            return;
+        }
 
-            }
+        if (!(spellManager.canCast(player, spell))) {
+            player.sendMessage(plugin.getMessage(Messages.CANNOT_CAST_SPELL,
+                    MsgVar.create("$spell", spell.getName())));
+            return;
+        }
+
+        final float estimate = spell.estimateAttackMana(player,
+                (LivingEntity) e.getEntity(),
+                spellManager.getMagicModifier(player));
+        if (estimate > spellManager.getMana(player)) {
+            return;
+        }
+
+        final SpellCastEvent event = RolecraftEventFactory.spellCast(
+                spell, e.getDamager(), estimate);
+        if (event.isCancelled()) {
+            player.sendMessage(event.getCancelMessage());
+            return;
+        }
+
+        float retVal = spell.attack(player, (LivingEntity) e.getEntity(),
+                spellManager.getMagicModifier(player));
+
+        // MIN_VALUE = error, MIN_NORMAL = can't be cast right now
+        if (retVal == Float.MIN_VALUE
+                || retVal == Float.MIN_NORMAL) {
+            return;
+        }
+
+        retVal = event.getManaCost();
+        spellManager.subtractMana(player, retVal);
+
+        if (plugin.getDataManager().getPlayerData(player.getUniqueId())
+                .getSettings().isSpellChatMessage()) {
+            player.sendMessage(plugin.getMessage(Messages.SPELL_CAST,
+                    MsgVar.create("$spell", spell.getName())));
+        }
+
+        final SoundWrapper sound = spell.getSound();
+        if (sound != null) {
+            sound.play(player.getLocation());
         }
     }
 
@@ -302,17 +296,16 @@ public class MagicListener implements Listener {
      * @return the {@link Spell} that can be cast with the given wand
      */
     private Spell getSpell(ItemStack stick) {
-        if (stick != null && stick.getType() == Material.STICK) {
-            if (stick.hasItemMeta() && stick.getItemMeta().hasDisplayName()) {
-                final Spell temp = spellManager.getSpell(ChatColor
-                        .stripColor(stick.getItemMeta().getDisplayName()));
-                if (!stick.getEnchantments().isEmpty()) {
-                    if (stick.getEnchantments().get(Enchantment.LUCK)
-                            == 10) {
-                        return temp;
-                    }
-                }
-            }
+        if (stick == null || stick.getType() != Material.STICK || !stick
+                .hasItemMeta() || !stick.getItemMeta().hasDisplayName()) {
+            return null;
+        }
+
+        final Spell temp = spellManager.getSpell(ChatColor
+                .stripColor(stick.getItemMeta().getDisplayName()));
+        if (!stick.getEnchantments().isEmpty()
+                && stick.getEnchantments().get(Enchantment.LUCK) == 10) {
+            return temp;
         }
         return null;
     }

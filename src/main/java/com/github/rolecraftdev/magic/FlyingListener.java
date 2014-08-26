@@ -32,6 +32,7 @@ import com.github.rolecraftdev.magic.spells.Fly;
 import org.bukkit.ChatColor;
 import org.bukkit.Material;
 import org.bukkit.enchantments.Enchantment;
+import org.bukkit.entity.Player;
 import org.bukkit.event.Event;
 import org.bukkit.event.EventHandler;
 import org.bukkit.event.EventPriority;
@@ -47,6 +48,8 @@ import org.bukkit.metadata.FixedMetadataValue;
  * @since 0.0.5
  */
 public class FlyingListener implements Listener {
+    public static final String FLY_METADATA = "rolecraftfly";
+
     /**
      * The associated {@link RolecraftCore} instance.
      */
@@ -67,13 +70,10 @@ public class FlyingListener implements Listener {
      */
     @EventHandler(priority = EventPriority.HIGHEST)
     public void onJoin(PlayerJoinEvent event) {
-        ItemStack hand = event.getPlayer().getInventory().getItemInHand();
+        Player player = event.getPlayer();
+        ItemStack hand = player.getInventory().getItemInHand();
         if (isFly(hand)) {
-            event.getPlayer().setAllowFlight(true);
-            event.getPlayer().setFlying(true);
-            event.getPlayer().setMetadata("rolecraftfly",
-                    new FixedMetadataValue(plugin, true));
-            event.getPlayer().setFallDistance(0f);
+            enableFly(player);
         }
     }
 
@@ -82,23 +82,28 @@ public class FlyingListener implements Listener {
      */
     @EventHandler(priority = EventPriority.HIGHEST)
     public void onItemChange(PlayerItemHeldEvent event) {
-        ItemStack stack = event.getPlayer().getInventory()
-                .getItem(event.getNewSlot());
+        Player player = event.getPlayer();
+        ItemStack stack = player.getInventory().getItem(event.getNewSlot());
         if (isFly(stack)) {
-            event.getPlayer().setAllowFlight(true);
-            event.getPlayer().setFlying(true);
-            event.getPlayer().setMetadata("rolecraftfly",
-                    new FixedMetadataValue(plugin, true));
+            enableFly(player);
+        } else if (event.getPlayer().hasMetadata("rolecraftfly")) {
+            event.getPlayer().removeMetadata("rolecraftfly", plugin);
+            event.getPlayer().setFlying(false);
+            event.getPlayer().setAllowFlight(false);
             event.getPlayer().setFallDistance(0f);
-
-        } else {
-            if (event.getPlayer().hasMetadata("rolecraftfly")) {
-                event.getPlayer().removeMetadata("rolecraftfly", plugin);
-                event.getPlayer().setFlying(false);
-                event.getPlayer().setAllowFlight(false);
-                event.getPlayer().setFallDistance(0f);
-            }
         }
+    }
+
+    /**
+     * Enables Rolecraft flight for the given {@link Player}
+     *
+     * @param player the {@link Player} to enable flight capabilities for
+     */
+    private void enableFly(Player player) {
+        player.setAllowFlight(true);
+        player.setFlying(true);
+        player.setMetadata(FLY_METADATA, new FixedMetadataValue(plugin, true));
+        player.setFallDistance(0f);
     }
 
     /**
@@ -121,7 +126,6 @@ public class FlyingListener implements Listener {
                         && stack.getEnchantments().get(Enchantment.LUCK) == 10;
             }
         }
-
         return false;
     }
 }
