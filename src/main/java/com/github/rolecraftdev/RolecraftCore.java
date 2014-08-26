@@ -387,59 +387,51 @@ public final class RolecraftCore extends AlbPlugin {
     }
 
     /**
-     * Create a default configuration file, which contrary to
-     * {@link #saveDefaultConfig()} maintains comments.
+     * Create a default configuration file, which contrary to {@link
+     * #saveDefaultConfig()} maintains comments.
      *
      * @param name the name of the new default configuration file
      * @since 0.0.5
      */
     private void createDefaultConfiguration(@Nonnull final String name) {
+        getDataFolder().mkdirs();
         final File actual = new File(getDataFolder(), name);
-        InputStream input = getClass()
-                .getResourceAsStream("/" + name);
+        if (actual.exists()) {
+            return;
+        }
+
         try {
-            if (!actual.exists()) {
-                try {
-                    actual.createNewFile();
-                } catch (IOException ignored) {
-                }
+            actual.createNewFile();
+        } catch (final IOException ignore) {
+        }
 
-                if (input != null) {
-                    FileOutputStream output = null;
-                    getDataFolder().mkdirs();
+        InputStream input = getClass().getResourceAsStream("/" + name);
+        if (input == null) {
+            logger.warning("Couldn't get config file: " + name + " from jar");
+            return;
+        }
 
-                    try {
-                        output = new FileOutputStream(actual);
-                        byte[] buf = new byte[8192];
-                        int length;
-                        while ((length = input.read(buf)) > 0) {
-                            output.write(buf, 0, length);
-                        }
-
-                        logger.info(
-                                "Default configuration file written: " + name);
-                    } catch (final IOException e) {
-                        e.printStackTrace();
-                    } finally {
-                        try {
-                            input.close();
-                        } catch (final IOException ignored) {
-                        }
-                        try {
-                            if (output != null) {
-                                output.close();
-                            }
-                        } catch (final IOException ignored) {
-                        }
-                    }
-                }
+        FileOutputStream output = null;
+        try {
+            output = new FileOutputStream(actual);
+            byte[] buf = new byte[8192];
+            int length;
+            while ((length = input.read(buf)) > 0) {
+                output.write(buf, 0, length);
             }
+            logger.info("Default configuration file written: " + name);
+        } catch (final IOException e) {
+            e.printStackTrace();
         } finally {
-            if (input != null) {
-                try {
-                    input.close();
-                } catch (IOException ignored) {
+            try {
+                input.close();
+            } catch (IOException ignored) {
+            }
+            try {
+                if (output != null) {
+                    output.close();
                 }
+            } catch (final IOException ignored) {
             }
         }
     }
