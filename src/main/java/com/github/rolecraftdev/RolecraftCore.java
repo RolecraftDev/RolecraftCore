@@ -54,6 +54,8 @@ import org.bukkit.plugin.RegisteredServiceProvider;
 
 import pw.ian.albkit.AlbPlugin;
 
+import javax.annotation.Nonnull;
+import javax.annotation.Nullable;
 import java.io.File;
 import java.io.FileOutputStream;
 import java.io.IOException;
@@ -313,6 +315,7 @@ public final class RolecraftCore extends AlbPlugin {
      * @return Vault's {@link Economy}
      * @since 0.0.5
      */
+    @Nullable
     public Economy getEconomy() {
         return economy;
     }
@@ -390,7 +393,7 @@ public final class RolecraftCore extends AlbPlugin {
      * @param name the name of the new default configuration file
      * @since 0.0.5
      */
-    private void createDefaultConfiguration(final String name) {
+    private void createDefaultConfiguration(@Nonnull final String name) {
         final File actual = new File(getDataFolder(), name);
         InputStream input = getClass()
                 .getResourceAsStream("/" + name);
