@@ -35,8 +35,12 @@ import com.github.rolecraftdev.profession.Profession;
 import com.github.rolecraftdev.profession.ProfessionRule;
 
 import org.bukkit.Bukkit;
+import org.bukkit.ChatColor;
+import org.bukkit.Material;
+import org.bukkit.enchantments.Enchantment;
 import org.bukkit.entity.Player;
 import org.bukkit.event.Listener;
+import org.bukkit.inventory.ItemStack;
 import org.bukkit.inventory.Recipe;
 import org.bukkit.permissions.Permission;
 import org.bukkit.permissions.PermissionDefault;
@@ -219,6 +223,31 @@ public class SpellManager {
     @Nullable
     public Spell getSpell(@Nonnull String wandName) {
         return spells.get(wandName);
+    }
+
+    /**
+     * Obtain the {@link Spell} that's wand is the given {@link ItemStack}
+     *
+     * @param stack the wand {@link ItemStack} to get the {@link Spell} from
+     * @return the given {@link ItemStack}s {@link Spell}, or {@code null}
+     */
+    @Nullable
+    public Spell getSpellFromItem(@Nonnull final ItemStack stack) {
+        Validate.notNull(stack);
+
+        if (stack.getType() != Material.STICK || !stack.hasItemMeta() ||
+                !stack.getItemMeta().hasDisplayName()) {
+            return null;
+        }
+
+        final Spell temp = getSpell(ChatColor.stripColor(
+                stack.getItemMeta().getDisplayName()));
+        if (!stack.getEnchantments().isEmpty()
+                && stack.getEnchantments().get(Enchantment.LUCK) == 10) {
+            return temp;
+        }
+
+        return null;
     }
 
     /**

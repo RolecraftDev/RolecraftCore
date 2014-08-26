@@ -35,10 +35,8 @@ import com.github.rolecraftdev.util.messages.Messages;
 import com.github.rolecraftdev.util.messages.MsgVar;
 
 import org.bukkit.Bukkit;
-import org.bukkit.ChatColor;
 import org.bukkit.Material;
 import org.bukkit.block.Block;
-import org.bukkit.enchantments.Enchantment;
 import org.bukkit.entity.LivingEntity;
 import org.bukkit.entity.Player;
 import org.bukkit.event.Event;
@@ -96,9 +94,9 @@ public class MagicListener implements Listener {
         ItemStack stack = e.getItem();
         boolean shown = false;
         if (stack != null && stack.getType() == Material.STICK) {
-            Spell spell = getSpell(stack);
+            final Spell spell = spellManager.getSpellFromItem(stack);
             if (spell != null) {
-                PlayerData data = plugin.getDataManager().getPlayerData(
+                final PlayerData data = plugin.getDataManager().getPlayerData(
                         e.getPlayer().getUniqueId());
                 if (scoreboards.containsKey(e.getPlayer().getUniqueId())) {
                     scoreboards.get(e.getPlayer().getUniqueId())
@@ -141,7 +139,7 @@ public class MagicListener implements Listener {
             return;
         }
 
-        final Spell spell = getSpell(e.getItem());
+        final Spell spell = spellManager.getSpellFromItem(e.getItem());
         if (spell == null) {
             return;
         }
@@ -240,7 +238,8 @@ public class MagicListener implements Listener {
         }
 
         final Player player = (Player) e.getDamager();
-        final Spell spell = getSpell(player.getItemInHand());
+        final Spell spell = spellManager.getSpellFromItem(
+                player.getItemInHand());
         if (spell == null) {
             return;
         }
@@ -287,26 +286,5 @@ public class MagicListener implements Listener {
         if (sound != null) {
             sound.play(player.getLocation());
         }
-    }
-
-    /**
-     * Retrieve the {@link Spell} associated to the given wand.
-     *
-     * @param stick the wand
-     * @return the {@link Spell} that can be cast with the given wand
-     */
-    private Spell getSpell(ItemStack stick) {
-        if (stick == null || stick.getType() != Material.STICK || !stick
-                .hasItemMeta() || !stick.getItemMeta().hasDisplayName()) {
-            return null;
-        }
-
-        final Spell temp = spellManager.getSpell(ChatColor
-                .stripColor(stick.getItemMeta().getDisplayName()));
-        if (!stick.getEnchantments().isEmpty()
-                && stick.getEnchantments().get(Enchantment.LUCK) == 10) {
-            return temp;
-        }
-        return null;
     }
 }

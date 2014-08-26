@@ -82,12 +82,14 @@ public abstract class DataStore {
      * @since 0.0.5
      */
     public static final String mde = "metadata";
-    // TODO: JavaDoc
     /**
+     * The Rolecraft database schema version. Used to tell whether we need to
+     * update the database schema to a newer version when the data is loaded
+     *
      * @since 0.0.5
      */
     public static final String SQLVERSION1 = "1.0";
-    // Other, future versions will go here
+    // Future versions here
 
     /**
      * The associated {@link RolecraftCore} instance.
@@ -124,7 +126,7 @@ public abstract class DataStore {
      * @param plugin the associated {@link RolecraftCore} instance
      * @since 0.0.5
      */
-    public DataStore(RolecraftCore plugin) {
+    public DataStore(final RolecraftCore plugin) {
         this.plugin = plugin;
     }
 
@@ -162,9 +164,10 @@ public abstract class DataStore {
      */
     public abstract String getStoreTypeName();
 
-    // TODO: JavaDoc
-
     /**
+     * Frees / disconnects from the given SQL {@link Connection}.
+     *
+     * @param connection the SQL {@link Connection} to free
      * @since 0.0.5
      */
     public abstract void freeConnection(Connection connection);
