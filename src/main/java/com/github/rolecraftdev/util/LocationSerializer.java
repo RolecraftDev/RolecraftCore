@@ -33,19 +33,19 @@ import org.bukkit.World;
 import java.util.UUID;
 
 /**
- * A class used for transforming a {@link Location} to a serialized
- * {@link String} and back again. Used for storing data
+ * A utility class for serialising and deserialising {@link Location}s.
+ *
+ * @since 0.0.5
  */
 public class LocationSerializer {
     /**
-     * Transforms the given {@link String} into a {@link Location}, assuming
-     * the given {@link String} is a valid serialized {@link Location}, as can
-     * be obtained via the {@link #serialize(Location)} method
+     * Deserialise the given string.
      *
-     * @param serial the serialized {@link String} to deserialize
-     * @return a {@link Location} deserialized from the given {@link String}
-     * @throws IllegalArgumentException if the provided serialized {@link
-     *                                  String} isn't valid
+     * @param serial the string that is to be deserialised
+     * @return the constructed {@link Location}
+     * @throws IllegalArgumentException when the given string can't be
+     *         deserialised
+     * @since 0.0.5
      */
     public static Location deserialize(final String serial)
             throws IllegalArgumentException {
@@ -87,11 +87,11 @@ public class LocationSerializer {
     }
 
     /**
-     * Transforms the given {@link Location} into a serialized {@link String}
-     * for storage
+     * Serialise the given {@link Location}.
      *
-     * @param loc the {@link Location} to turn into a serialized {@link String}
-     * @return a serialized String representing the given {@link Location}
+     * @param loc the {@link Location} that is to be serialised
+     * @return the constructed string
+     * @since 0.0.5
      */
     public static String serialize(Location loc) {
         if (loc == null) {
@@ -104,7 +104,7 @@ public class LocationSerializer {
     }
 
     /**
-     * Should never be called
+     * @since 0.0.5
      */
     private LocationSerializer() {
     }

@@ -29,11 +29,13 @@ package com.github.rolecraftdev.guild;
 import org.apache.commons.lang.Validate;
 
 import com.github.rolecraftdev.RolecraftCore;
+import com.github.rolecraftdev.data.storage.DataStore;
 import com.github.rolecraftdev.data.storage.YamlFile;
 import com.github.rolecraftdev.event.RolecraftEventFactory;
 import com.github.rolecraftdev.event.guild.GuildCreateEvent;
 import com.github.rolecraftdev.event.guild.GuildDisbandEvent;
 
+import com.traksag.channels.Channel;
 import com.traksag.channels.ChannelBatch;
 import com.traksag.channels.DefaultChannelBatch;
 
@@ -49,73 +51,85 @@ import java.util.Set;
 import java.util.UUID;
 
 /**
- * Stores {@link Guild} data and {@link Guild}-related configuration options and
- * manages {@link Guild}s in Rolecraft.
+ * A helper class for managing {@link Guild}s and global configurable options
+ * affecting them.
+ *
+ * @since 0.0.5
  */
 public final class GuildManager {
     /**
-     * The metadata tag used for inviting players to guilds
+     * The key used for metadata for when a player has been invited to join a
+     * {@link Guild}.
+     *
+     * @since 0.0.5
      */
     public static final String GUILD_INVITE_METADATA = "guild-invite";
 
     /**
-     * A {@link Map} of human readable strings to GuildAction enum values
+     * A {@link Map} of human-readable names and their related
+     * {@link GuildAction}.
+     *
+     * @since 0.0.5
      */
     static final Map<String, GuildAction> actionMap = new HashMap<String, GuildAction>();
 
     /**
-     * The {@link RolecraftCore} plugin object.
+     * The associated {@link RolecraftCore} instance.
      */
     private final RolecraftCore plugin;
     /**
-     * A configuration holding options related to {@link Guild}s.
+     * The linked configuration file.
      */
     private final YamlFile guildConfig;
     /**
-     * The associated {@link ChannelBatch}. Used to ensure thread safety due
-     * to Bukkit's chat event being async.
+     * The {@link ChannelBatch} that manages all {@link Channel}s for the
+     * {@link Guild}s.
      */
+    // DefaultChannelBatch ensures thread-safety for AsyncPlayerChatEvent
     private final ChannelBatch channelBatch = new DefaultChannelBatch();
     /**
-     * A {@link Set} of all currently loaded {@link Guild} objects.
+     * All available {@link Guild}s.
      */
     private final Set<Guild> guilds;
 
     /**
-     * Whether the {@link GuildManager} has finished loading.
+     * Whether the data is wholly loaded.
      */
     private volatile boolean loaded;
 
     // Config options
 
     /**
-     * The amount of money required to create a {@link Guild}.
+     * The price for making a new {@link Guild}.
      */
     private int creationCost;
     /**
-     * The amount of money required to invite somebody to a {@link Guild}.
+     * The price for inviting a player to a {@link Guild}.
      */
     private int inviteCost;
     /**
-     * The amount of money required to purchase a hall for a {@link Guild}. Or
-     * simply, a protected area.
+     * The price for a guild-hall, which essentially is a protected area.
      */
     private int hallCost;
     /**
-     * Whether to protect guild halls from natural Minecraft damage, such as
-     * creepers or lava / fire spread
+     * Protect guild-halls from the environment and hostile mobs.
      */
     private final boolean protectFromEnvironment;
     /**
-     * Whether to disallow PvP in guild halls
+     * Disallow PvP in guild-halls.
      */
     private final boolean disallowHallPvp;
 
     /**
-     * Creates a new {@link GuildManager} instance using the given
-     * {@link RolecraftCore} object as the plugin to register events with.
+     * Create a new {@link GuildManager} and load the guild.yml file from the
+     * given plugin's folder, or create it when nonexistent, from which the
+     * configuration options will be loaded. Furthermore, this will also invoke
+     * {@link DataStore#loadGuilds(GuildManager)} when all data has been loaded
+     * from the used database. Registers a new {@link GuildListener}
+     * automatically as well.
      *
-     * @param plugin - The {@link RolecraftCore} plugin
+     * @param plugin the associated {@link RolecraftCore} instance
+     * @since 0.0.5
      */
     public GuildManager(final RolecraftCore plugin) {
         this.plugin = plugin;
@@ -158,32 +172,41 @@ public final class GuildManager {
     }
 
     /**
-     * Get the associated {@link ChannelBatch}.
+     * Get the {@link ChannelBatch} that is used for handling the
+     * {@link Channel}s of the {@link Guild}s.
      *
-     * @return Its {@link ChannelBatch}
+     * @return the used {@link ChannelBatch}
+     * @since 0.0.5
      */
     public ChannelBatch getChannelBatch() {
         return channelBatch;
     }
 
     /**
-     * Gets the {@link YamlFile} configuration used for guilds
+     * Get the linked {@link YamlFile} that is used for global {@link Guild}
+     * configuration.
      *
-     * @return the configuration used for {@link Guild}s
+     * @return the linked {@link YamlFile}
+     * @since 0.0.5
      */
     public YamlFile getGuildConfig() {
         return guildConfig;
     }
 
     /**
-     * Adds the given {@link Guild} object to the {@link Set} of loaded
-     * {@link Guild}s if it is valid - i.e if it is loaded from the database or
-     * doesn't clash with another {@link Guild}. (being logically equal)
+     * Add the given {@link Guild} to this {@link GuildManager}. The new
+     * {@link Guild} cannot be added when its name equals, ignoring case, the
+     * name of another {@link Guild} in this {@link GuildManager}. This will
+     * also call a new {@link GuildCreateEvent} and continue upon its final
+     * status. Note that adding a {@link Guild} from DAOs will avoid the
+     * aforementioned statements.
      *
-     * @param guild - The {@link Guild} to load
-     * @param fromDatabase - Used internally for loading from database, always
-     *        use false
-     * @return True for success, false if the {@link Guild} already exists
+     * @param guild the {@link Guild} that will be added
+     * @param fromDatabase whether the specified {@link Guild} is added by a
+     *        DAO, or in other words, for initialisation
+     * @return {@code true} if the {@link Guild} is added; {@code false}
+     *         otherwise
+     * @since 0.0.5
      */
     public boolean addGuild(final Guild guild, boolean fromDatabase) {
         if (fromDatabase) {
@@ -214,13 +237,13 @@ public final class GuildManager {
     }
 
     /**
-     * Attempts to delete the given {@link Guild}, both from memory and from the
-     * SQL database. This method will fail if this {@link GuildManager} hasn't
-     * loaded yet.
+     * Deletes the specified {@link Guild} when this is fully loaded. Gets rid
+     * of all the {@link Guild}'s associated properties that are stored within
+     * this {@link GuildManager} and calls a new {@link GuildDisbandEvent}.
      *
      * @param guild the {@link Guild} to remove
-     * @return {@code true} if the {@link Guild} was removed, otherwise {@code
-     *         false}
+     * @return only {@code true} if the {@link Guild} has truly been removed
+     * @since 0.0.5
      */
     public boolean removeGuild(final Guild guild) {
         if (loaded) {
@@ -234,12 +257,12 @@ public final class GuildManager {
     }
 
     /**
-     * Gets the {@link Guild} object that has the specified name.
+     * Retrieve the registered {@link Guild} with the specified name. Note that
+     * {@code null} will automatically be returned when this isn't loaded.
      *
      * @param name the name of the wanted {@link Guild}
-     * @return the {@link Guild} with the given name if it is contained by this
-     *         {@link GuildManager}, or {@code null} if none is found, or this
-     *         manager has not finished loading
+     * @return the {@link Guild} with the given name
+     * @since 0.0.5
      */
     @Nullable
     public Guild getGuild(final String name) {
@@ -255,12 +278,13 @@ public final class GuildManager {
     }
 
     /**
-     * Gets the {@link Guild} object that has the specified UUID.
+     * Retrieve the registered {@link Guild} with the specified {@link UUID}.
+     * Note that {@code null} will automatically be returned when this isn't
+     * loaded.
      *
-     * @param uuid the UUID of the wanted {@link Guild}
-     * @return the {@link Guild} with the given name if it is contained by this
-     *         {@link GuildManager}, or null if none is found, or this manager
-     *         has not finished loading
+     * @param uuid the {@link UUID} of the wanted {@link Guild}
+     * @return the {@link Guild} with the given {@link UUID}
+     * @since 0.0.5
      */
     @Nullable
     public Guild getGuild(final UUID uuid) {
@@ -276,13 +300,13 @@ public final class GuildManager {
     }
 
     /**
-     * Gets the {@link Guild} the given player belongs to.
+     * Retrieve the registered {@link Guild} in which the given player is. Note
+     * that {@code null} will automatically be returned when this isn't loaded.
      *
-     * @param player the unique identifier of the player to get the
-     *        {@link Guild} of
-     * @return the given player's {@link Guild}, or null if they don't have one.
-     *         Note that this will also return null if this {@link GuildManager}
-     *         hasn't been fully loaded yet
+     * @param player the {@link UUID} of the player of which the {@link Guild}
+     *        is wanted
+     * @return the {@link Guild} of the given player
+     * @since 0.0.5
      */
     @Nullable
     public Guild getPlayerGuild(final UUID player) {
@@ -298,10 +322,11 @@ public final class GuildManager {
     }
 
     /**
-     * Get a copy of the {@link Set} used to store all loaded {@link Guild}s.
+     * Get all registered {@link Guild}s in this {@link GuildManager}. Note that
+     * {@code null} will automatically be returned when this isn't loaded.
      *
-     * @return a copy of the {@link Set} used to store loaded {@link Guild}s, or
-     *         null if this {@link GuildManager} remains unloaded.
+     * @return all available {@link Guild}s
+     * @since 0.0.5
      */
     @Nullable
     public Set<Guild> getGuilds() {
@@ -312,102 +337,112 @@ public final class GuildManager {
     }
 
     /**
-     * Get the amount of money required to create a {@link Guild}.
+     * Obtain the price for creating a new {@link Guild}.
      *
-     * @return the amount of money required to create a {@link Guild}
+     * @return the {@link Guild} creation price
+     * @since 0.0.5
      */
     public int getCreationCost() {
         return creationCost;
     }
 
     /**
-     * Get the amount of money required to invite somebody to a {@link Guild}.
+     * Get the price for inviting a player to a {@link Guild}.
      *
-     * @return the amount of money required to invite somebody to a {@link
-     *         Guild}
+     * @return the {@link Guild} invitation price
+     * @since 0.0.5
      */
     public int getInvitationCost() {
         return inviteCost;
     }
 
     /**
-     * Get the amount of money required to buy a hall for a {@link Guild}.
+     * Get the price for a guild-hall.
      *
-     * @return the amount of money required to buy a hall for a {@link Guild}
+     * @return the guild-hall price
+     * @since 0.0.5
      */
     public int getGuildHallCost() {
         return hallCost;
     }
 
     /**
-     * Checks whether to protect guild hall's from the environment. Environment
-     * -related causes include creepers and lava spread
+     * Check whether guild-halls are protected from the environment and hostile
+     * mobs.
      *
-     * @return whether to protect guild halls from natural causes
+     * @return the state of guild-hall protection
+     * @since 0.0.5
      */
     public boolean protectFromEnvironment() {
         return protectFromEnvironment;
     }
 
     /**
-     * Checks whether to disallow PvP in guild halls
+     * Check whether PvP is disallowed in guild-halls.
      *
-     * @return whether to disallow PvP in guild halls
+     * @return the state disallowance of PvP in guild-halls
+     * @since 0.0.5
      */
     public boolean disallowHallPvp() {
         return disallowHallPvp;
     }
 
     /**
-     * Get the {@link RolecraftCore} plugin object this {@link GuildManager} is
-     * attached to.
+     * Returns the associated {@link RolecraftCore} instance.
      *
-     * @return this {@link GuildManager}'s {@link RolecraftCore} plugin
+     * @return the associated {@link RolecraftCore} instance
+     * @since 0.0.5
      */
     public RolecraftCore getPlugin() {
         return plugin;
     }
 
     /**
-     * Check whether this {@link GuildManager} has been fully loaded.
+     * Check if the data in this object has been fully loaded.
      *
-     * @return {@code true} if it has been completely loaded, else {@code false}
+     * @return {@code true} when the data is completely loaded; {@code false}
+     *         otherwise
+     * @since 0.0.5
      */
     public boolean isLoaded() {
         return loaded;
     }
 
     /**
-     * Sets the cost of inviting a player to a guild to the given amount
+     * Set the price for inviting a player to a {@link Guild}.
      *
-     * @param inviteCost the amount it should cost to invite a player
+     * @param inviteCost the new {@link Guild} invitation price
+     * @since 0.0.5
      */
     public void setInviteCost(final int inviteCost) {
         this.inviteCost = inviteCost;
     }
 
     /**
-     * Sets the cost of creating a guild to the given amount
+     * Set the price for creating a new {@link Guild}.
      *
-     * @param creationCost the amount it should cost to create a guild
+     * @param creationCost the new {@link Guild} creation price
+     * @since 0.0.5
      */
     public void setCreationCost(final int creationCost) {
         this.creationCost = creationCost;
     }
 
     /**
-     * Sets the cost of purchasing a guild hall to the given amount
+     * Set the price for a guild-hall.
      *
-     * @param hallCost the amount it should cost to buy a hall
+     * @param hallCost the new guild-hall price
+     * @since 0.0.5
      */
     public void setHallCost(final int hallCost) {
         this.hallCost = hallCost;
     }
 
     /**
-     * This should be called when the database is finished populating
-     * {@link Guild}s on this {@link GuildManager} from SQL.
+     * Complete the loading phase. This should only be called by DAOs after this
+     * {@link GuildManager} has been populated with all stored {@link Guild}s.
      *
+     * @since 0.0.5
      * @deprecated for internal use only
      */
     @Deprecated
@@ -415,6 +450,15 @@ public final class GuildManager {
         loaded = true;
     }
 
+    /**
+     * Get the {@link GuildAction} associated to the given human-readable
+     * string.
+     *
+     * @param humanReadable the human-readable string that represents the wanted
+     *        {@link GuildAction}
+     * @return the appropriate {@link GuildAction}
+     * @since 0.0.5
+     */
     public static GuildAction fromHumanReadable(final String humanReadable) {
         Validate.notNull(humanReadable);
         return actionMap.get(humanReadable);

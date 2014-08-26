@@ -27,10 +27,12 @@
 package com.github.rolecraftdev.magic;
 
 import com.github.rolecraftdev.RolecraftCore;
+import com.github.rolecraftdev.magic.spells.Fly;
 
 import org.bukkit.ChatColor;
 import org.bukkit.Material;
 import org.bukkit.enchantments.Enchantment;
+import org.bukkit.event.Event;
 import org.bukkit.event.EventHandler;
 import org.bukkit.event.EventPriority;
 import org.bukkit.event.Listener;
@@ -39,13 +41,30 @@ import org.bukkit.event.player.PlayerJoinEvent;
 import org.bukkit.inventory.ItemStack;
 import org.bukkit.metadata.FixedMetadataValue;
 
+/**
+ * Listens for {@link Event}s to provide a handler for the {@link Fly} spell.
+ *
+ * @since 0.0.5
+ */
 public class FlyingListener implements Listener {
+    /**
+     * The associated {@link RolecraftCore} instance.
+     */
     private final RolecraftCore plugin;
 
+    /**
+     * Constructor.
+     *
+     * @param plugin the associated {@link RolecraftCore} instance
+     * @since 0.0.5
+     */
     public FlyingListener(final RolecraftCore plugin) {
         this.plugin = plugin;
     }
 
+    /**
+     * @since 0.0.5
+     */
     @EventHandler(priority = EventPriority.HIGHEST)
     public void onJoin(PlayerJoinEvent event) {
         ItemStack hand = event.getPlayer().getInventory().getItemInHand();
@@ -58,6 +77,9 @@ public class FlyingListener implements Listener {
         }
     }
 
+    /**
+     * @since 0.0.5
+     */
     @EventHandler(priority = EventPriority.HIGHEST)
     public void onItemChange(PlayerItemHeldEvent event) {
         ItemStack stack = event.getPlayer().getInventory()
@@ -79,6 +101,14 @@ public class FlyingListener implements Listener {
         }
     }
 
+    /**
+     * Check whether the given {@link ItemStack} is a wand that holds the
+     * {@link Fly} spell.
+     *
+     * @param stack the {@link ItemStack} to investigate
+     * @return {@code true} if the given {@link ItemStack} can indeed be used
+     *         for the {@link Fly} spell
+     */
     private boolean isFly(ItemStack stack) {
         if (stack == null || stack.getType() != Material.STICK) {
             return false;

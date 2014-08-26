@@ -27,34 +27,37 @@
 package com.github.rolecraftdev.util.messages;
 
 /**
- * Represents a variable in a message
+ * Represents a replaceable piece of text.
  *
  * @since 0.0.5
  */
 public class MsgVar {
     /**
-     * The name of the variable, for example $blue
+     * The key of this {@link MsgVar}.
      */
     private final String var;
     /**
-     * The value of the variable, for example ChatColor.BLUE.toString()
+     * The value of this {@link MsgVar}.
      */
     private String val;
 
     /**
-     * Constructs a new {@link MsgVar} with the given name and no value
+     * Constructor.
      *
-     * @param var the name of the variable
+     * @param var the key that should be replaced
+     * @since 0.0.5
      */
     private MsgVar(final String var) {
         this.var = var;
     }
 
     /**
-     * Sets the value of this variable to the given value
+     * Set the replacing value.
      *
-     * @param val the new value for the variable
-     * @return {@code this}
+     * @param val the replacing value
+     * @return a {@link MsgVar} with the predefined replaceable key and newly
+     *         set replacing value
+     * @since 0.0.5
      */
     public MsgVar set(final String val) {
         this.val = val;
@@ -62,33 +65,37 @@ public class MsgVar {
     }
 
     /**
-     * Replaces occurrences of this variable with the value of this variable
-     * in the given {@link String}
+     * Replace the predefined piece of text with the set value.
      *
-     * @param string the {@link String} to replace variables in
-     * @return the {@link String} with replaced values
+     * @param string the string in which the key should be replaced
+     * @return the edited given string
+     * @since 0.0.5
      */
     public String replace(final String string) {
         return string.replace(var, val);
     }
 
     /**
-     * Creates a new {@link MsgVar} with the given name and value
+     * Create a new {@link MsgVar} with the given key and replacing value.
      *
-     * @param var the name of the new variable
-     * @param val the value of the new variable
-     * @return an {@link MsgVar} with the given name and value
+     * @param var the replaceable key
+     * @param val the replacing value
+     * @return a new {@link MsgVar} with the given key and value
+     * @since 0.0.5
+     * @see #named(String)
      */
     public static MsgVar create(final String var, final String val) {
         return new MsgVar(var).set(val);
     }
 
     /**
-     * Creates a new {@link MsgVar} with the given name, but without a value.
-     * The value can be set later using {@link #set(String)}
+     * Create a new {@link MsgVar} of which the replacing value is not yet
+     * defined.
      *
-     * @param name the name of the new {@link MsgVar}
-     * @return a new {@link MsgVar} with the given name and no value
+     * @param name the replaceable key
+     * @return a new {@link MsgVar} with the given key
+     * @since 0.0.5
+     * @see #create(String, String)
      */
     public static MsgVar named(final String name) {
         return new MsgVar(name);

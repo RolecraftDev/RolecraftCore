@@ -37,9 +37,11 @@ import java.util.Set;
 import java.util.UUID;
 
 /**
- * Represents a player rank within a specific {@link Guild}. {@link GuildRank}s
- * can be created by the {@link Guild}'s leader and can have different
- * permissions.
+ * Represents a player rank within a {@link Guild}. {@link GuildRank}s have
+ * certain permissions as configured by the leader of the {@link Guild} or
+ * anyone else allowed to edit them.
+ *
+ * @since 0.0.5
  */
 public final class GuildRank {
     /**
@@ -47,23 +49,22 @@ public final class GuildRank {
      */
     private final String name;
     /**
-     * The actions within the {@link Guild}, which members of this
-     * {@link GuildRank} are allowed to perform.
+     * The {@link GuildAction}s the players with this {@link GuildRank} are
+     * allowed to perform.
      */
     private final Set<GuildAction> permitted;
     /**
-     * All of the members of the {@link Guild} this {@link GuildRank} is
-     * included in who are in this {@link GuildRank}.
+     * All players who are a part of this {@link GuildRank}.
      */
     private final Set<UUID> members;
 
     /**
-     * Creates a new {@link GuildRank} using the given parameters.
+     * Constructor.
      *
-     * @param name the name of the new {@link GuildRank}
-     * @param permitted the {@link GuildAction}s, the {@link GuildRank}'s
-     *                  members can perform
-     * @param members the members of the new {@link GuildRank}
+     * @param name the name of the {@link GuildRank}
+     * @param permitted the predefined permitted {@link GuildAction}s
+     * @param members the predefined members of this {@link GuildRank}
+     * @since 0.0.5
      */
     public GuildRank(final String name, final Set<GuildAction> permitted,
             final Set<UUID> members) {
@@ -75,41 +76,42 @@ public final class GuildRank {
     /**
      * Get the name of this {@link GuildRank}.
      *
-     * @return the name of this {@link GuildRank}
+     * @return the name
+     * @since 0.0.5
      */
     public String getName() {
         return name;
     }
 
     /**
-     * Get a copy of the {@link Set} used to hold the {@link GuildAction}s, that
-     * members of this {@link GuildRank} are allowed to perform.
+     * Obtain the {@link GuildAction}s members of this {@link GuildRank} may
+     * perform.
      *
-     * @return a copy of the {@link Set} containing {@link GuildAction}s, that
-     * members of this {@link GuildRank} can perform
+     * @return the permitted {@link GuildAction}s
+     * @since 0.0.5
      */
     public Set<GuildAction> getPermittedActions() {
         return EnumSet.copyOf(permitted);
     }
 
     /**
-     * Get a copy of the {@link Set} used to hold the members of the
-     * {@link Guild} who are a part of this {@link GuildRank}.
+     * Get the players who are a part of this {@link GuildRank}.
      *
-     * @return a copy of the {@link Set} of members of the {@link Guild} who are
-     * part of this {@link GuildRank}
+     * @return the members
+     * @since 0.0.5
      */
     public Set<UUID> getMembers() {
         return new HashSet<UUID>(members);
     }
 
     /**
-     * Checks whether the given player is a part of this {@link GuildRank}.
+     * Check whether the given player is a member of this {@link GuildRank}.
      *
-     * @param player the player whose membership of this {@link GuildRank} is
-     *               in question
-     * @return {@code true} if this {@link GuildRank} contains the given player,
-     *         otherwise {@code false}
+     * @param player the {@link UUID} of the player whose membership will be
+     *        checked
+     * @return only {@code true} if the player is indeed a member of this
+     *         {@link GuildRank}
+     * @since 0.0.5
      */
     public boolean hasPlayer(final UUID player) {
         Validate.notNull(player);
@@ -117,14 +119,13 @@ public final class GuildRank {
     }
 
     /**
-     * Checks whether the given {@link GuildAction} can be performed by a member
-     * of this {@link GuildRank} - i.e whether it is included in the {@link Set}
-     * returned by {@link #getPermittedActions()}.
+     * Check whether the given {@link GuildAction} can be performed by members
+     * of this {@link GuildRank}.
      *
-     * @param action the {@link GuildAction} whose inclusion in the permitted
-     *               {@link GuildAction}s of this {@link GuildRank} is being
-     *               checked
-     * @return {@code true} if it is included, else {@code false}
+     * @param action the {@link GuildAction} that should be checked
+     * @return {@code true} if the given {@link GuildAction} can be performed;
+     *         {@code false} otherwise
+     * @since 0.0.5
      */
     public boolean can(final GuildAction action) {
         Validate.notNull(action);
@@ -132,10 +133,11 @@ public final class GuildRank {
     }
 
     /**
-     * Sends the given message to every currently online {@link Player} who is
-     * part of this GuildRank
+     * Sends the given message to all online players who are a member of this
+     * {@link GuildRank}.
      *
-     * @param message the message to broadcast within this GuildRank
+     * @param message the message that should be sent to all members
+     * @since 0.0.5
      */
     public void broadcastMessage(final String message) {
         Validate.notNull(message);
@@ -148,10 +150,10 @@ public final class GuildRank {
     }
 
     /**
-     * Adds the given player as a member of this {@link GuildRank}.
+     * Adds the given member to this {@link GuildRank}.
      *
-     * @param member the unique identifier of the player to add to this {@link
-     *               GuildRank}
+     * @param member the {@link UUID} of the player to add
+     * @since 0.0.5
      */
     public void addMember(final UUID member) {
         Validate.notNull(member);
@@ -159,10 +161,10 @@ public final class GuildRank {
     }
 
     /**
-     * Removes the given player from being a member of this {@link GuildRank}.
+     * Remove the given player from this {@link GuildRank}.
      *
-     * @param member the unique identifier of the player to remove from this
-     *               {@link GuildRank}
+     * @param member the {@link UUID} of the player to remove
+     * @since 0.0.5
      */
     public void removeMember(final UUID member) {
         Validate.notNull(member);
@@ -170,10 +172,11 @@ public final class GuildRank {
     }
 
     /**
-     * Adds the given {@link GuildAction} to this {@link GuildRank}'s permitted
-     * actions
+     * Add the given {@link GuildAction} to this {@link GuildRank}'s permitted
+     * actions.
      *
-     * @param perm the permission to grant this {@link GuildRank}
+     * @param perm the {@link GuildAction} that should be granted permissions to
+     * @since 0.0.5
      */
     public void allowAction(final GuildAction perm) {
         Validate.notNull(perm);
@@ -181,10 +184,12 @@ public final class GuildRank {
     }
 
     /**
-     * Removes the given {@link GuildAction} from this {@link GuildRank}'s
-     * permitted actions
+     * Remove the given {@link GuildAction} from this {@link GuildRank}'s
+     * permitted actions and thus refusing permissions to the specified
+     * {@link GuildAction}.
      *
-     * @param perm the permission to disallow this {@link GuildRank}
+     * @param perm the {@link GuildAction} that should be refused permissions to
+     * @since 0.0.5
      */
     public void disallowAction(final GuildAction perm) {
         Validate.notNull(perm);
@@ -192,9 +197,10 @@ public final class GuildRank {
     }
 
     /**
-     * Creates a {@link String} for storage in SQL, which does not use commas.
+     * Serialise this {@link GuildRank}.
      *
-     * @return a serialized version of this {@link GuildRank}
+     * @return the serialised version
+     * @since 0.0.5
      */
     public String serialize() {
         StringBuilder res = new StringBuilder();
@@ -214,13 +220,12 @@ public final class GuildRank {
     }
 
     /**
-     * Deserializes the given {@link String} into a {@link GuildRank} object,
-     * assuming it is a valid serialized {@link GuildRank}. It can be built in a
-     * separate thread and passed into the main one, assuming the other thread
-     * destroys all references.
+     * Attempt to deserialise the given string. It is strongly recommended to
+     * not build these strings yourself, but instead use {@link #serialize()}.
      *
-     * @param serialized the String to deserialize into a {@link GuildRank} object
-     * @return the final deserialized {@link GuildRank}
+     * @param s the string to deserialise
+     * @return the deserialised version
+     * @since 0.0.5
      */
     public static GuildRank deserialize(String serialized) {
         String[] data = serialized.split(":");

@@ -47,35 +47,59 @@ import org.bukkit.inventory.meta.ItemMeta;
 /**
  * A {@link Spell} implementation that will try to break the pointed at block
  * naturally.
+ *
+ * @since 0.0.5
  */
 public class BreakBlock implements Spell {
+    /**
+     * Constructor.
+     *
+     * @param spellManager the {@link SpellManager} this {@link Spell}
+     *        implementation will be registered to
+     * @since 0.0.5
+     */
     @SuppressWarnings("unused")
     public BreakBlock(SpellManager spellManager) {
     }
 
+    /**
+     * @since 0.0.5
+     */
     @Override
     public String getName() {
         return "Break Block";
     }
 
+    /**
+     * @since 0.0.5
+     */
     @Override
     public float estimateAttackMana(Player caster, LivingEntity target,
             int modifier) {
         return 0;
     }
 
+    /**
+     * @since 0.0.5
+     */
     @Override
     public float estimateLeftClickMana(Player caster, Block block, int modifier,
             BlockFace face) {
         return 3;
     }
 
+    /**
+     * @since 0.0.5
+     */
     @Override
     public float estimateRightClickMana(Player caster, Block block, int modifier,
             BlockFace face) {
         return 3;
     }
 
+    /**
+     * @since 0.0.5
+     */
     @Override
     public float rightClick(Player caster, Block block, int modifier,
             BlockFace face) {
@@ -93,6 +117,9 @@ public class BreakBlock implements Spell {
         return 0;
     }
 
+    /**
+     * @since 0.0.5
+     */
     @Override
     public float leftClick(Player caster, Block block, int modifier,
             BlockFace face) {
@@ -107,11 +134,17 @@ public class BreakBlock implements Spell {
         return 0;
     }
 
+    /**
+     * @since 0.0.5
+     */
     @Override
     public float attack(Player caster, LivingEntity target, int modifier) {
         return Float.MIN_VALUE;
     }
 
+    /**
+     * @since 0.0.5
+     */
     @Override
     public Recipe getWandRecipe() {
         // same for each
@@ -129,6 +162,9 @@ public class BreakBlock implements Spell {
         return recipe;
     }
 
+    /**
+     * @since 0.0.5
+     */
     @Override
     public SoundWrapper getSound() {
         return SoundWrapper.defaultSound;

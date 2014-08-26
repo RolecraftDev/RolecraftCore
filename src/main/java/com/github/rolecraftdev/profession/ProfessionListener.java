@@ -32,6 +32,7 @@ import com.github.rolecraftdev.util.messages.MsgVar;
 import org.bukkit.Material;
 import org.bukkit.enchantments.Enchantment;
 import org.bukkit.entity.Player;
+import org.bukkit.event.Event;
 import org.bukkit.event.EventHandler;
 import org.bukkit.event.EventPriority;
 import org.bukkit.event.Listener;
@@ -47,24 +48,27 @@ import java.util.List;
 import java.util.Map.Entry;
 
 /**
- * Used to enforce rules specified for professions
+ * Listens for and manipulates various {@link Event}s affecting
+ * {@link Profession}s, which in some cases depends on the configuration.
+ *
+ * @since 0.0.5
  */
 public class ProfessionListener implements Listener {
     private final ProfessionManager parent;
 
+    /**
+     * Constructor.
+     *
+     * @param professionManager the {@link ProfessionManager} of which the
+     *        {@link Profession}s should be handled by this {@link Listener}
+     * @since 0.0.5
+     */
     public ProfessionListener(ProfessionManager professionManager) {
         parent = professionManager;
     }
 
-    // enforce armor wearing rules
-
     /**
-     * In the profession file, these are determined by the tag usable-armor
-     * followed by a list of tags that are the names of items as defined in
-     * {@link org.bukkit.Material}
-     *
-     * @param event the {@link InventoryClickEvent} used to check that players
-     *              aren't putting disallowed armour in their armour slots
+     * @since 0.0.5
      */
     @EventHandler(priority = EventPriority.HIGHEST)
     public void enforceArmorRules(InventoryClickEvent event) {
@@ -132,6 +136,9 @@ public class ProfessionListener implements Listener {
         }
     }
 
+    /**
+     * @since 0.0.5
+     */
     @EventHandler(priority = EventPriority.LOW)
     public void enforceEnchantRules(EnchantItemEvent event) {
         if (parent.getPlayerProfession(event.getEnchanter().getUniqueId())
@@ -165,6 +172,9 @@ public class ProfessionListener implements Listener {
         }
     }
 
+    /**
+     * @since 0.0.5
+     */
     @EventHandler(priority = EventPriority.LOW)
     public void enforceItemChange(PlayerItemHeldEvent event) {
         ItemStack stack = event.getPlayer().getInventory()
@@ -224,6 +234,16 @@ public class ProfessionListener implements Listener {
         }
     }
 
+    /**
+     * Check whether the given player is allowed to utilise the given
+     * {@link ItemStack} when focusing on its {@link Enchantment}s in accordance
+     * with the player's {@link Profession}.
+     *
+     * @param ply the player the permissions should be check of
+     * @param stack the {@link ItemStack} that should be scrutinised
+     * @return {@code true} if the given player is allowed to use the given
+     *         {@link ItemStack}; {@code false} otherwise
+     */
     private boolean checkEnchantments(Player ply, ItemStack stack) {
         if (stack == null || stack.getType() == Material.AIR) {
             return true;
@@ -285,6 +305,16 @@ public class ProfessionListener implements Listener {
         return true;
     }
 
+    /**
+     * Check whether the given player is allowed to utilise the specified
+     * {@link Material} with respect to the given rules {@link List}.
+     *
+     * @param mat the material that should be checked
+     * @param ply the player of which the permissions should be scrutinised
+     * @param rules the rules with which should be complied
+     * @return {@code true} if the given player is allowed to use the given
+     *         {@link Material}; {@code false} otherwise
+     */
     private boolean checkMaterial(Material mat, Player ply, List<?> rules) {
         if (mat == null) {
             return true;

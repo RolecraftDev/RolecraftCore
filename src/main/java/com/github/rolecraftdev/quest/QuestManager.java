@@ -29,20 +29,33 @@ package com.github.rolecraftdev.quest;
 import com.github.rolecraftdev.RolecraftCore;
 
 /**
- * Handles quests in Rolecraft.
+ * A helper class for managing {@link Quest}s.
+ *
+ * @since 0.0.5
  */
 public final class QuestManager {
+    /**
+     * The associated {@link RolecraftCore} instance.
+     *
+     * @since 0.0.5
+     */
     private final RolecraftCore plugin;
 
+    /**
+     * Constructor.
+     *
+     * @param plugin the associated {@link RolecraftCore} instance
+     * @since 0.0.5
+     */
     public QuestManager(final RolecraftCore plugin) {
         this.plugin = plugin;
     }
 
     /**
-     * Get the {@link RolecraftCore} plugin object this {@link QuestManager} is
-     * attached to.
+     * Returns the associated {@link RolecraftCore} instance.
      *
-     * @return Its {@link RolecraftCore} object
+     * @return the associated {@link RolecraftCore} instance
+     * @since 0.0.5
      */
     public RolecraftCore getPlugin() {
         return plugin;

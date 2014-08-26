@@ -57,11 +57,20 @@ import java.util.HashSet;
 /**
  * A {@link Spell} implementation that spawns arrows in the same manor as
  * {@link ArrowShower} and additionally makes them explosive.
+ *
+ * @since 0.0.5
  */
 @SuppressWarnings("deprecation")
 public class DeathRain implements Spell {
+    /**
+     * All {@link Material} IDs that should be interpreted as transparent when
+     * targeting {@link Block}s.
+     */
     private static final HashSet<Byte> transparency;
 
+    /**
+     * @since 0.0.5
+     */
     static {
         transparency = new HashSet<Byte>();
         transparency.add((byte) Material.AIR.getId());
@@ -72,33 +81,55 @@ public class DeathRain implements Spell {
 
     private final SpellManager manager;
 
+    /**
+     * Constructor.
+     *
+     * @param manager the {@link SpellManager} this {@link Spell} implementation
+     *        will be registered to
+     * @since 0.0.5
+     */
     public DeathRain(final SpellManager manager) {
         this.manager = manager;
     }
 
+    /**
+     * @since 0.0.5
+     */
     @Override
     public String getName() {
         return "Death Rain";
     }
 
+    /**
+     * @since 0.0.5
+     */
     @Override
     public float estimateAttackMana(Player caster, LivingEntity target,
             int modifier) {
         return 0;
     }
 
+    /**
+     * @since 0.0.5
+     */
     @Override
     public float estimateLeftClickMana(Player caster, Block block, int modifier,
             BlockFace face) {
         return 0;
     }
 
+    /**
+     * @since 0.0.5
+     */
     @Override
     public float estimateRightClickMana(Player caster, Block block, int modifier,
             BlockFace face) {
         return (800f - modifier / 200f > 0) ? 800f - modifier / 200f : 0;
     }
 
+    /**
+     * @since 0.0.5
+     */
     @Override
     public float rightClick(Player caster, Block block, int modifier,
             BlockFace face) {
@@ -164,17 +195,26 @@ public class DeathRain implements Spell {
         return (800f - modifier / 200f > 0) ? 800f - modifier / 200f : 0;
     }
 
+    /**
+     * @since 0.0.5
+     */
     @Override
     public float leftClick(Player caster, Block block, int modifier,
             BlockFace face) {
         return 0;
     }
 
+    /**
+     * @since 0.0.5
+     */
     @Override
     public float attack(Player caster, LivingEntity target, int modifier) {
         return 0;
     }
 
+    /**
+     * @since 0.0.5
+     */
     @Override
     public Recipe getWandRecipe() {
         // same for each
@@ -199,6 +239,9 @@ public class DeathRain implements Spell {
         return recipe;
     }
 
+    /**
+     * @since 0.0.5
+     */
     @Override
     public SoundWrapper getSound() {
         return new SoundWrapper(Sound.GHAST_SCREAM, 1.0f, -2.0f);

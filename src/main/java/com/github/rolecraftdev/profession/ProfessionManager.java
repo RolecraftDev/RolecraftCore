@@ -31,6 +31,7 @@ import com.github.rolecraftdev.data.storage.YamlFile;
 import com.github.rolecraftdev.util.ProfessionDeserializer;
 
 import org.bukkit.Bukkit;
+import org.bukkit.event.Listener;
 import org.bukkit.permissions.Permission;
 
 import java.io.File;
@@ -39,26 +40,26 @@ import java.util.Set;
 import java.util.UUID;
 
 /**
- * Groups a bunch of {@link Profession}s together, to make them easier
- * accessible and to provide additional functionality.
+ * A helper class for managing {@link Profession}s.
+ *
+ * @since 0.0.5
  */
 public final class ProfessionManager {
     /**
-     * The {@link RolecraftCore} plugin object this {@link ProfessionManager} is
-     * attached to.
+     * The associated {@link RolecraftCore} instance.
      */
     private final RolecraftCore plugin;
     /**
-     * A {@link Set} of {@link Profession}s that are grouped by this
-     * {@link ProfessionManager}.
+     * All available {@link Profession}s.
      */
     private final Set<Profession> professions;
 
     /**
-     * Create a new {@link ProfessionManager} and immediately attach it to a
-     * {@link RolecraftCore} object.
+     * Create a new {@link ProfessionManager}. This automatically registers the
+     * proper {@link Listener}s.
      *
-     * @param plugin the {@link RolecraftCore} plugin
+     * @param plugin the associated {@link RolecraftCore} instance
+     * @since 0.0.5
      */
     public ProfessionManager(final RolecraftCore plugin) {
         this.plugin = plugin;
@@ -68,34 +69,31 @@ public final class ProfessionManager {
     }
 
     /**
-     * Get the {@link RolecraftCore} plugin object this {@link
-     * ProfessionManager} is attached to.
+     * Returns the associated {@link RolecraftCore} instance.
      *
-     * @return the {@link RolecraftCore} plugin object
+     * @return the associated {@link RolecraftCore} instance
+     * @since 0.0.5
      */
     public RolecraftCore getPlugin() {
         return plugin;
     }
 
     /**
-     * Get the {@link Profession}s that are grouped by this
-     * {@link ProfessionManager}.
+     * Get all registered {@link Profession}s in this {@link ProfessionManager}.
      *
-     * @return a copy of the original {@link Set}, which isn't updated when the
-     *         original version is
+     * @return all available {@link Profession}s
+     * @since 0.0.5
      */
     public Set<Profession> getProfessions() {
         return new HashSet<Profession>(professions);
     }
 
     /**
-     * Get a {@link Profession} that is contained by this
-     * {@link ProfessionManager}, by its unique name.
+     * Retrieve the registered {@link Profession} with the specified name.
      *
-     * @param name the unique name of the wanted {@link Profession}
-     * @return {@code null} if no {@link Profession} is found in this {@link
-     *         ProfessionManager} with the given name. Otherwise, the first
-     *         {@link Profession} with the specified name.
+     * @param name the name of the wanted {@link Profession}
+     * @return the {@link Profession} with the given name
+     * @since 0.0.5
      */
     public Profession getProfession(final String name) {
         for (final Profession profession : professions) {
@@ -107,13 +105,12 @@ public final class ProfessionManager {
     }
 
     /**
-     * Get a {@link Profession} that is contained by this
-     * {@link ProfessionManager}, by its unique identifier.
+     * Retrieve the registered {@link Profession} with the specified
+     * {@link UUID}.
      *
-     * @param id the unique identifier of the wanted {@link Profession}
-     * @return {@code null} if no {@link Profession} is found in this
-     *         {@link ProfessionManager} with the given identifier. Otherwise,
-     *         the first {@link Profession} with the specified identifier.
+     * @param id the {@link UUID} of the wanted {@link Profession}
+     * @return the {@link Profession} with the given {@link UUID}
+     * @since 0.0.5
      */
     public Profession getProfession(final UUID id) {
         for (final Profession profession : professions) {
@@ -125,12 +122,12 @@ public final class ProfessionManager {
     }
 
     /**
-     * Gets the {@link Profession} for the player with the given unique
-     * identifier, if this ProfessionManager holds a profession with the ID of
-     * the player's profession
+     * Retrieve the registered {@link Profession} in which the given player is.
      *
-     * @param player the unique identifier of the player
-     * @return the {@link Profession} of the player with the given {@link UUID}
+     * @param player the {@link UUID} of the player of which the
+     *        {@link Profession} is wanted
+     * @return the {@link Profession} of the given player
+     * @since 0.0.5
      */
     public Profession getPlayerProfession(final UUID player) {
         return getProfession(plugin.getDataManager().getPlayerData(player)
@@ -138,14 +135,14 @@ public final class ProfessionManager {
     }
 
     /**
-     * Add a {@link Profession} to this {@link ProfessionManager}. Make sure its
-     * {@link ProfessionManager} is equivalent to the one it is added to, before
-     * doing so.
+     * Add the given {@link Profession} to this {@link ProfessionManager}. This
+     * will additionally create a new {@link Permission} in the form of:
+     * <em>rolecraft.profession.({@link Profession#getName()} to lowercase)</em>
      *
-     * @param profession the {@link Profession} that should be added
-     * @return {@code false} if the given {@link Profession} is already
-     *         contained by this {@link Profession} and thus, isn't added.
-     *         {@code true} otherwise.
+     * @param profession the {@link Profession} that will be added
+     * @return {@code true} if the {@link Profession} is added; {@code false}
+     *         otherwise
+     * @since 0.0.5
      */
     public boolean addProfession(final Profession profession) {
         boolean result = professions.add(profession);
@@ -160,9 +157,12 @@ public final class ProfessionManager {
     }
 
     /**
-     * Load all serialized {@link Profession} objects from their representing
-     * files, in the professions folder of the plugin returned by
-     * {@link #getPlugin()}.
+     * Load the {@link Profession}s from the <em>professions</em> directory in
+     * the plugin's data folder by using {@link ProfessionDeserializer}s for all
+     * embedded files. If the folder is is non-existent, it will automatically
+     * be created.
+     *
+     * @since 0.0.5
      */
     public void loadProfessions() {
         final File directory = new File(plugin.getDataFolder(), "professions");

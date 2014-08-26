@@ -31,48 +31,49 @@ import java.util.HashMap;
 import java.util.Map;
 
 /**
- * A wrapper around a {@link Map} of a {@link ProfessionRule}s - {@link Object}s
- * pair. This is used for storing rules that govern events, that affect a
- * {@link Profession}.
+ * A wrapper around a {@link Map} of {@link ProfessionRule}s and their
+ * appropriate values, which allows for type maintainability.
+ *
+ * @since 0.0.5
  */
 public final class ProfessionRuleMap {
     /**
-     * The name of the {@link Profession} it regulates.
+     * The name of the associated {@link Profession}.
      */
     private final String professionName;
     /**
-     * A {@link Map} that links values to {@link ProfessionRule}s, to dictate
-     * its linked {@link Profession} accordingly.
+     * The {@link Map} for {@link ProfessionRule}s and their configured value.
      */
     private final Map<ProfessionRule<?>, Object> rules = new HashMap<ProfessionRule<?>, Object>();
 
     /**
-     * Create a new {@link ProfessionRuleMap}.
+     * Constructor.
      *
-     * @param professionName the name of its linked {@link Profession}
+     * @param professionName the name of the associated {@link Profession}
+     * @since 0.0.5
      */
     public ProfessionRuleMap(final String professionName) {
         this.professionName = professionName;
     }
 
     /**
-     * Get the name of the {@link Profession} that is linked to this
-     * {@link ProfessionRuleMap}.
+     * Get the name of the associated {@link Profession}.
      *
-     * @return the linked {@link Profession}'s name
+     * @return the name of the associated {@link Profession}
+     * @since 0.0.5
      */
     public String getProfessionName() {
         return professionName;
     }
 
     /**
-     * Gets the value of the given {@link ProfessionRule} in this
-     * {@link ProfessionRuleMap}.
+     * Obtain the configured value of the given {@link ProfessionRule}.
      *
-     * @param key the {@link ProfessionRule} the value should be returned of
-     * @param <T> the return type
-     * @return the value of the specified {@link ProfessionRule}, which could be
-     *         {@code null}
+     * @param key the {@link ProfessionRule} of which the value should be
+     *        returned
+     * @param <T> the type the given {@link ProfessionRule} is defined as
+     * @return the configured value of the given {@link ProfessionRule}
+     * @since 0.0.5
      */
     @Nullable
     public <T> T get(final ProfessionRule<T> key) {
@@ -80,11 +81,15 @@ public final class ProfessionRuleMap {
     }
 
     /**
-     * Sets the given {@link ProfessionRule} to the given value.
+     * Set the value of given {@link ProfessionRule} to the specified
+     * {@link Object}. The given value should be an instance of the
+     * {@link ProfessionRule}'s type.
      *
-     * @param key the {@link ProfessionRule} to set
-     * @param value the value to set the given {@link ProfessionRule} to
-     * @return {@code true} if the value has been set, else {@code false}
+     * @param key the {@link ProfessionRule} the value should be set of
+     * @param value the new value
+     * @return {@code true} if setting the key to the given value has been
+     *         successful; {@code false} otherwise
+     * @since 0.0.5
      */
     public boolean set(final ProfessionRule<?> key, final Object value) {
         if (key == null || !key.validate(value)) {

@@ -47,41 +47,69 @@ import org.bukkit.inventory.ShapedRecipe;
 import org.bukkit.inventory.meta.ItemMeta;
 
 /**
- * A {@link Spell} implementation that makes the held item function like a sword.
+ * A {@link Spell} implementation that makes the held item function like a
+ * sword.
+ *
+ * @since 0.0.5
  */
 public class LesserSword implements Spell {
+    /**
+     * Constructor.
+     *
+     * @param spellManager the {@link SpellManager} this {@link Spell}
+     *        implementation will be registered to
+     * @since 0.0.5
+     */
     public LesserSword(SpellManager spellManager) {
     }
 
+    /**
+     * @since 0.0.5
+     */
     @Override
     public String getName() {
         return "Lesser Sword";
     }
 
+    /**
+     * @since 0.0.5
+     */
     @Override
     public float estimateAttackMana(Player caster, LivingEntity target,
             int modifier) {
         return (20f - modifier / 10f > 0) ? (20f - modifier / 10f) : 0f;
     }
 
+    /**
+     * @since 0.0.5
+     */
     @Override
     public float estimateLeftClickMana(Player caster, Block block, int modifier,
             BlockFace face) {
         return 0;
     }
 
+    /**
+     * @since 0.0.5
+     */
     @Override
     public float estimateRightClickMana(Player caster, Block block, int modifier,
             BlockFace face) {
         return 0;
     }
 
+    /**
+     * @since 0.0.5
+     */
     @Override
     public float rightClick(Player caster, Block block, int modifier,
             BlockFace face) {
         return click();
     }
 
+    /**
+     * @since 0.0.5
+     */
     @Override
     public float leftClick(Player caster, Block block, int modifier,
             BlockFace face) {
@@ -92,6 +120,9 @@ public class LesserSword implements Spell {
         return Float.MIN_VALUE;
     }
 
+    /**
+     * @since 0.0.5
+     */
     @Override
     public float attack(Player caster, LivingEntity target, int modifier) {
         EntityDamageEvent edbee = new EntityDamageByEntityEvent(caster, target,
@@ -103,6 +134,9 @@ public class LesserSword implements Spell {
         return (20f - modifier / 10f > 0) ? (20f - modifier / 10f) : 0f;
     }
 
+    /**
+     * @since 0.0.5
+     */
     @Override
     public Recipe getWandRecipe() {
         // same for each
@@ -120,6 +154,9 @@ public class LesserSword implements Spell {
         return recipe;
     }
 
+    /**
+     * @since 0.0.5
+     */
     @Override
     public SoundWrapper getSound() {
         return SoundWrapper.swordSound;

@@ -108,10 +108,13 @@ public class GuildJoinCommand extends PlayerCommandHandler {
         }
     }
 
-    // TODO: JavaDoc
-
     /**
-     * @since 0.0.5
+     * Add the given player to the given {@link Guild}. This will automatically
+     * send the appropriate chat messages and update the player's
+     * {@link PlayerData}.
+     *
+     * @param player the player to add
+     * @param guild the {@link Guild} the given player should be added to
      */
     private void completeGuildAdd(final Player player, final Guild guild) {
         final UUID pid = player.getUniqueId();

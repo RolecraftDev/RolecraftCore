@@ -27,7 +27,9 @@
 package com.github.rolecraftdev.quest;
 
 /**
- * Represents a quest in Rolecraft.
+ * Represents a player quest.
+ *
+ * @since 0.0.5
  */
 public final class Quest {
 }

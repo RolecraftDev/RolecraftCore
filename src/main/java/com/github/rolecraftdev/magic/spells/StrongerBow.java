@@ -45,34 +45,58 @@ import org.bukkit.inventory.meta.ItemMeta;
 
 /**
  * A {@link Spell} implementation that will shoot an arrow.
+ *
+ * @since 0.0.5
  */
 public class StrongerBow implements Spell {
+    /**
+     * Constructor.
+     *
+     * @param manager the {@link SpellManager} this {@link Spell} implementation
+     *        will be registered to
+     * @since 0.0.5
+     */
     public StrongerBow(final SpellManager manager) {
     }
 
+    /**
+     * @since 0.0.5
+     */
     @Override
     public String getName() {
         return "Strong Bow";
     }
 
+    /**
+     * @since 0.0.5
+     */
     @Override
     public float estimateAttackMana(Player caster, LivingEntity target,
             int modifier) {
         return 0;
     }
 
+    /**
+     * @since 0.0.5
+     */
     @Override
     public float estimateLeftClickMana(Player caster, Block block, int modifier,
             BlockFace face) {
         return 0;
     }
 
+    /**
+     * @since 0.0.5
+     */
     @Override
     public float estimateRightClickMana(Player caster, Block block, int modifier,
             BlockFace face) {
         return (50f - modifier / 100f > 0) ? 50f - modifier / 100f : 0;
     }
 
+    /**
+     * @since 0.0.5
+     */
     @Override
     public float rightClick(Player caster, Block block, int modifier,
             BlockFace face) {
@@ -88,17 +112,26 @@ public class StrongerBow implements Spell {
         return (50f - modifier / 100f > 0) ? 50f - modifier / 100f : 0;
     }
 
+    /**
+     * @since 0.0.5
+     */
     @Override
     public float leftClick(Player caster, Block block, int modifier,
             BlockFace face) {
         return Float.MIN_VALUE;
     }
 
+    /**
+     * @since 0.0.5
+     */
     @Override
     public float attack(Player caster, LivingEntity target, int modifier) {
         return Float.MIN_VALUE;
     }
 
+    /**
+     * @since 0.0.5
+     */
     @Override
     public Recipe getWandRecipe() {
         ItemStack result = new ItemStack(Material.STICK);
@@ -117,6 +150,9 @@ public class StrongerBow implements Spell {
         return recipe;
     }
 
+    /**
+     * @since 0.0.5
+     */
     @Override
     public SoundWrapper getSound() {
         return SoundWrapper.bowSound;

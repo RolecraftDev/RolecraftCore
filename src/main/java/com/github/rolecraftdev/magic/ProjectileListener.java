@@ -29,13 +29,23 @@ package com.github.rolecraftdev.magic;
 import org.bukkit.Effect;
 import org.bukkit.Sound;
 import org.bukkit.entity.Arrow;
+import org.bukkit.event.Event;
 import org.bukkit.event.EventHandler;
 import org.bukkit.event.EventPriority;
 import org.bukkit.event.Listener;
 import org.bukkit.event.entity.EntityDamageByEntityEvent;
 import org.bukkit.event.entity.ProjectileHitEvent;
 
+/**
+ * Listens for {@link Event}s that can be used to attend to the custom
+ * {@link Arrow} metadata.
+ *
+ * @since 0.0.5
+ */
 public class ProjectileListener implements Listener {
+    /**
+     * @since 0.0.5
+     */
     @EventHandler(priority = EventPriority.HIGHEST)
     public void onDamage(EntityDamageByEntityEvent e) {
         if (e.getDamager() instanceof Arrow) {
@@ -52,6 +62,9 @@ public class ProjectileListener implements Listener {
         }
     }
 
+    /**
+     * @since 0.0.5
+     */
     @EventHandler(priority = EventPriority.HIGH)
     public void onHit(ProjectileHitEvent e) {
         if (e.getEntity() instanceof Arrow) {

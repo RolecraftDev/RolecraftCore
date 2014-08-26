@@ -30,31 +30,31 @@ import org.bukkit.Location;
 import org.bukkit.Sound;
 
 /**
- * A wrapper around a Bukkit {@link Sound} which contains a value for the volume
- * and pitch of the sound. Used for playing sounds when {@link
- * com.github.rolecraftdev.magic.Spell}s are cast in Rolecraft
+ * A wrapper class for {@link Sound}s that simplifies certain tasks.
+ *
+ * @since 0.0.5
  */
 public class SoundWrapper {
     /**
-     * The volume of the sound
+     * The volume of the {@link Sound}.
      */
     private final float volume;
     /**
-     * The pitch of the sound
+     * The pitch of the {@link Sound}.
      */
     private final float pitch;
     /**
-     * The Bukkit {@link Sound} object this object is a wrapper around
+     * The {@link Sound} type.
      */
     private final Sound sound;
 
     /**
-     * Constructs a new {@link SoundWrapper} around the given {@link Sound} with
-     * the given volume and pitch
+     * Constructor.
      *
-     * @param sound the {@link Sound} to wrap
-     * @param volume the volume of the sound
-     * @param pitch the pitch of the sound
+     * @param sound the {@link Sound} type
+     * @param volume the volume of the {@link Sound}
+     * @param pitch the pitch of the {@link Sound}
+     * @since 0.0.5
      */
     public SoundWrapper(Sound sound, float volume, float pitch) {
         this.volume = volume;
@@ -63,29 +63,35 @@ public class SoundWrapper {
     }
 
     /**
-     * Plays the Bukkit {@link Sound} being wrapped at the volume and pitch
-     * contained by this {@link SoundWrapper} at the given {@link Location}
+     * Play the embedded {@link Sound} at the predefined volume with the
+     * predefined pitch at the given {@link Location}.
      *
-     * @param location the {@link Location} to play the sound at
+     * @param location the {@link Location} at which the note should be played
+     * @since 0.0.5
      */
     public void play(Location location) {
         location.getWorld().playSound(location, sound, volume, pitch);
     }
 
     /**
-     * The sound used for most {@link com.github.rolecraftdev.magic.Spell}s
+     * The default note.
+     *
+     * @since 0.0.5
      */
     public static final SoundWrapper defaultSound = new SoundWrapper(
             Sound.ENDERMAN_TELEPORT, 0.8f, 0.0f);
     /**
-     * The sound used for {@link com.github.rolecraftdev.magic.Spell}s involving
-     * bows
+     * The note that should be played when an arrow is shot.
+     *
+     * @since 0.0.5
      */
     public static final SoundWrapper bowSound = new SoundWrapper(
             Sound.SHOOT_ARROW, 1.0f, 0.0f);
     /**
-     * The sound used for {@link com.github.rolecraftdev.magic.Spell}s involving
-     * swords
+     * The note that should be played when an entity has successfully struck
+     * another entity.
+     *
+     * @since 0.0.5
      */
     public static final SoundWrapper swordSound = new SoundWrapper(
             Sound.SUCCESSFUL_HIT, 1.0f, 0.0f);

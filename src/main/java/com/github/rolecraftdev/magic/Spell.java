@@ -28,8 +28,10 @@ package com.github.rolecraftdev.magic;
 
 import com.github.rolecraftdev.util.SoundWrapper;
 
+import org.bukkit.Sound;
 import org.bukkit.block.Block;
 import org.bukkit.block.BlockFace;
+import org.bukkit.entity.Entity;
 import org.bukkit.entity.LivingEntity;
 import org.bukkit.entity.Player;
 import org.bukkit.inventory.Recipe;
@@ -37,113 +39,118 @@ import org.bukkit.inventory.Recipe;
 import javax.annotation.Nullable;
 
 /**
- * Represents a spell in Rolecraft
+ * Represents a castable spell.
+ *
+ * @since 0.0.5
  */
 public interface Spell {
+    // TODO: elaborate on the mana return value
     /**
-     * Gets the name of this spell, which should be unique.
+     * Get the name of this {@link Spell}.
      *
-     * @return the name of this spell
+     * @return the name
+     * @since 0.0.5
      */
     public String getName();
 
     /**
-     * Gets the amount of mana it would cost for the given {@link Player} to
-     * cast the spell on the given {@link LivingEntity} with the given magic
-     * modifier value, without actually casting the spell.
+     * Retrieve the amount of mana that is required when performing the
+     * {@link Spell} implementation in attack.
      *
-     * @param caster the {@link Player} to check the cast cost for
-     * @param target the {@link LivingEntity} the spell is being cast on
-     * @param modifier the magic modifier of the player
-     * @return the same as {@link #attack(Player, LivingEntity, int)}, given the
-     *         same values, without actually performing the action
+     * @param caster the executor of the {@link Spell}
+     * @param target the attacked {@link Entity}
+     * @param modifier the magic modifier for the given player
+     * @return the mana cost
+     * @since 0.0.5
+     * @see #attack(Player, LivingEntity, int)
      */
     public float estimateAttackMana(Player caster, LivingEntity target,
             int modifier);
 
     /**
-     * Gets the amount of mana it would cost for the given {@link Player} to
-     * cast the spell using left click on the given {@link Block} with the given
-     * magic modifier value, without actually casting the spell.
+     * Retrieve the amount of mana that is required when performing the
+     * {@link Spell} implementation on left-click.
      *
-     * @param caster the {@link Player} to check the cast cost for
-     * @param block the {@link Block} which the spell would be cast on
-     * @param modifier the magic modifier value for the player
-     * @param face the {@link BlockFace} that is being faced
-     * @return the same as {@link #leftClick(Player, Block, int, BlockFace)},
-     *         given the same values, without performing the action
+     * @param caster the executor of the {@link Spell}
+     * @param block the {@link Block} that has been clicked
+     * @param modifier the magic modifier for the given player
+     * @param face the {@link BlockFace} that has been clicked
+     * @return the mana cost
+     * @since 0.0.5
+     * @see #leftClick(Player, Block, int, BlockFace)
      */
     public float estimateLeftClickMana(Player caster, Block block, int modifier,
             BlockFace face);
 
     /**
-     * Gets the amount of mana it would cost for the given {@link Player} to
-     * cast the spell using right click on the given {@link Block} with the
-     * given magic modifier value, without actually casting the spell.
+     * Retrieve the amount of mana that is required when performing the
+     * {@link Spell} implementation on right-click.
      *
-     * @param caster the {@link Player} to check the cast cost for
-     * @param block the {@link Block} which the spell would be cast on
-     * @param modifier the magic modifier value for the player
-     * @param face the {@link BlockFace} that is being faced
-     * @return the same as {@link #rightClick(Player, Block, int, BlockFace)},
-     *         given the same values, without performing the action
+     * @param caster the executor of the {@link Spell}
+     * @param block the {@link Block} that has been clicked
+     * @param modifier the magic modifier for the given player
+     * @param face the {@link BlockFace} that has been clicked
+     * @return the mana cost
+     * @since 0.0.5
+     * @see #rightClick(Player, Block, int, BlockFace)
      */
     public float estimateRightClickMana(Player caster, Block block, int modifier,
             BlockFace face);
 
     /**
-     * Casts the spell in the form of right clicking on the given {@link Block}
-     * on the given {@link BlockFace} and the given magic modifier for the given
-     * {@link Player}
+     * Perform the {@link Spell} implementation on right-click.
      *
-     * @param caster the player that cast the spell
-     * @param block the block that was interacted with, if air, null
-     * @param modifier a modifier based on a player's profession & level
-     * @param face the {@link BlockFace} being right clicked on
-     * @return the mana cost of the spell
+     * @param caster the executor of the {@link Spell}
+     * @param block the {@link Block} that has been clicked
+     * @param modifier the magic modifier for the given player
+     * @param face the {@link BlockFace} that has been clicked
+     * @return the mana cost
+     * @since 0.0.5
+     * @see #estimateRightClickMana(Player, Block, int, BlockFace)
      */
     public float rightClick(Player caster, Block block, int modifier,
             BlockFace face);
 
     /**
-     * Casts the spell in the form of left clicking on the given {@link Block}
-     * on the given {@link BlockFace} and the given magic modifier for the given
-     * {@link Player}
+     * Perform the {@link Spell} implementation on left-click.
      *
-     * @param caster the player that cast the spell
-     * @param block the block that was interacted with, if air, null
-     * @param modifier a modifier based on a player's profession & level
-     * @param face the {@link BlockFace} being left clicked on
-     * @return the mana cost of the spell
+     * @param caster the executor of the {@link Spell}
+     * @param block the {@link Block} that has been clicked
+     * @param modifier the magic modifier for the given player
+     * @param face the {@link BlockFace} that has been clicked
+     * @return the mana cost
+     * @since 0.0.5
+     * @see #estimateLeftClickMana(Player, Block, int, BlockFace)
      */
     public float leftClick(Player caster, Block block, int modifier,
             BlockFace face);
 
     /**
-     * Casts the spell in the form of attacking the given {@link LivingEntity}
-     * with the given magic modifier for the given {@link Player}
+     * Perform the {@link Spell} implementation in attack.
      *
-     * @param caster the {@link Player} that cast the spell
-     * @param target the {@link LivingEntity} that was interacted with
-     * @param modifier a modifier based on a player's profession & level
-     * @return the mana cost of the spell
+     * @param caster the executor of the {@link Spell}
+     * @param target the attacked {@link Entity}
+     * @param modifier the magic modifier for the given player
+     * @return the mana cost
+     * @since 0.0.5
+     * @see #estimateAttackMana(Player, LivingEntity, int)
      */
     public float attack(Player caster, LivingEntity target, int modifier);
 
     /**
-     * Used when creating wands to cast this spell
+     * Get the {@link Recipe} used for creating the representing wand.
      *
-     * @return a recipe for crafting the wand used for the casting of this
-     * {@link Spell}
+     * @return the wand {@link Recipe}
+     * @since 0.0.5
      */
     public Recipe getWandRecipe();
 
     /**
-     * Gets the {@link SoundWrapper} around the Bukkit Sound which is played
-     * when this {@link Spell} is cast. This may return {@code null} if there is
-     * no specific sound
+     * Get the {@link Sound}, indirectly, that should be played whenever the
+     * {@link Spell} implementation is performed.
      *
-     * @return the sound to play when this spell is cast, or {@code null}
+     * @return the {@link Sound}, indirectly, that should be played on complete
+     * @since 0.0.5
      */
     @Nullable
     public SoundWrapper getSound();

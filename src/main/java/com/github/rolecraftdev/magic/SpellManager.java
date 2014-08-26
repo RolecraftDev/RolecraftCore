@@ -29,12 +29,15 @@ package com.github.rolecraftdev.magic;
 import org.apache.commons.lang.Validate;
 
 import com.github.rolecraftdev.RolecraftCore;
+import com.github.rolecraftdev.data.PlayerData;
 import com.github.rolecraftdev.magic.spells.*;
 import com.github.rolecraftdev.profession.Profession;
 import com.github.rolecraftdev.profession.ProfessionRule;
 
 import org.bukkit.Bukkit;
 import org.bukkit.entity.Player;
+import org.bukkit.event.Listener;
+import org.bukkit.inventory.Recipe;
 import org.bukkit.permissions.Permission;
 import org.bukkit.permissions.PermissionDefault;
 
@@ -44,12 +47,31 @@ import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
 
+/**
+ * A helper class for managing {@link Spell}s and global configurable options
+ * affecting them.
+ *
+ * @since 0.0.5
+ */
 public class SpellManager {
+    /**
+     * The associated {@link RolecraftCore} instance.
+     */
     private final RolecraftCore plugin;
     private final Map<String, Spell> spells;
     private final int maxRange;
     private final Map<String, Boolean> emptyMap;
 
+    /**
+     * Create a new {@link SpellManager} and load certain configurable options
+     * from the given plugin's configuration file. Additionally this also
+     * registers all Rolecraft {@link Spell} implementations and the required
+     * {@link Listener}s along with scheduling the appropriate
+     * {@link BukkitRunnable} implementations.
+     *
+     * @param plugin the associated {@link RolecraftCore} instance
+     * @since 0.0.5
+     */
     public SpellManager(RolecraftCore plugin) {
         this.plugin = plugin;
         spells = new HashMap<String, Spell>();
@@ -101,23 +123,25 @@ public class SpellManager {
     }
 
     /**
-     * Get the {@link RolecraftCore} plugin object this {@link SpellManager} is
-     * attached to.
+     * Returns the associated {@link RolecraftCore} instance.
      *
-     * @return the {@link RolecraftCore} plugin object
+     * @return the associated {@link RolecraftCore} instance
+     * @since 0.0.5
      */
     public RolecraftCore getPlugin() {
         return plugin;
     }
 
     /**
-     * Registers the given {@link Spell} to a wand with the given name. You
-     * cannot overwrite spells without first unregistering an old spell with the
-     * same name - an exception is thrown if this method is called with a wand
-     * name which is already registered.
+     * Register a new {@link Spell} along with an appropriate wand name to this
+     * {@link SpellManager}. This automatically registers an the {@link Recipe}
+     * returned by {@link Spell#getWandRecipe()} and a new {@link Permission} in
+     * the following form:
+     * <em>rolecraft.spell.(wandName to lowercase, no spaces)</em>.
      *
-     * @param wandName the name of the want to bind the {@link Spell} to
-     * @param spell the {@link Spell} to bind to the given want
+     * @param wandName the name of the wand that will execute the specified
+     *        {@link Spell}
+     * @param spell the {@link Spell} to register
      */
     // TODO: Make public when we support anyone registering spells
     private void register(String wandName, Spell spell) {
@@ -134,26 +158,14 @@ public class SpellManager {
     }
 
     /**
-     * Unregisters the {@link Spell} with the given wand name from this {@link
-     * SpellManager}
+     * Check whether the given player can cast the specified {@link Spell}
+     * according to his {@link Profession} and the default rules.
      *
-     * @param wandName the wand name of the {@link Spell} to unregister
-     */
-    // TODO: Make public when we support anyone registering spells
-    private void unregister(String wandName) {
-        Validate.notNull(wandName);
-        spells.remove(wandName);
-    }
-
-    /**
-     * Checks whether the given {@link Player} can cast the given {@link Spell},
-     * checking their profession's ability to cast the spell (and therefore
-     * returning null if they don't have a profession) and their server
-     * permissions
-     *
-     * @param player the {@link Player} to check the permissions for
-     * @param spell the {@link Spell} to check for the given {@link Player}
-     * @return whether the given {@link Player} can cast the given {@link Spell}
+     * @param player the player to check the permissions of
+     * @param spell the {@link Spell} which should be scrutinised
+     * @return {@code true} if the given player can perform the given
+     *         {@link Spell}; {@code false} otherwise
+     * @since 0.0.5
      */
     public boolean canCast(Player player, Spell spell) {
         // workaround for testing
@@ -193,10 +205,26 @@ public class SpellManager {
                 !usable.contains("-" + spell.getName()));
     }
 
+    /**
+     * Obtain the {@link Spell} that is linked to the given wand name.
+     *
+     * @param wandName the wand name to get the corresponding {@link Spell} of
+     * @return the corresponding {@link Spell}
+     * @since 0.0.5
+     */
     public Spell getSpell(String wandName) {
         return spells.get(wandName);
     }
 
+    /**
+     * Get the amount of mana a player has, which traces back to
+     * {@link PlayerData#getMana()}, but returns {@code 0} when the
+     * {@link PlayerData} for the given player hasn't wholly loaded yet.
+     *
+     * @param ply the player to get the mana of
+     * @return the player's current amount of mana
+     * @since 0.0.5
+     */
     public float getMana(Player ply) {
         float mana = plugin.getDataManager().getPlayerData(ply.getUniqueId())
                 .getMana();
@@ -208,29 +236,60 @@ public class SpellManager {
     }
 
     /**
-     * Convenience method
+     * Draw the specified amount of mana from the given player. Directly traces
+     * back to {@link PlayerData#subtractMana(float)}.
      *
-     * @param ply The player to remove the mana from
-     * @param amount The amount to remove
+     * @param ply the player of whom to draw mana
+     * @param amount the amount of mana that should be removed
+     * @since 0.0.5
      */
     public void subtractMana(Player ply, float amount) {
         plugin.getDataManager().getPlayerData(ply.getUniqueId())
                 .subtractMana(amount);
     }
 
+    /**
+     * Set the mana of the given player. Directly traces back to
+     * {@link PlayerData#setMana(float)}
+     *
+     * @param ply the player of whom the mana should be changed
+     * @param mana the new amount of mana
+     * @since 0.0.5
+     */
     public void setMana(Player ply, float mana) {
         plugin.getDataManager().getPlayerData(ply.getUniqueId()).setMana(mana);
     }
 
+    /**
+     * Retrieve a number that relies on a player's {@link Profession} and his
+     * current level, which can give them an edge in magic.
+     *
+     * @param ply the player to get the current special modifier of
+     * @return the {@link Profession}- and level-based number
+     * @since 0.0.5
+     */
     public int getMagicModifier(Player ply) {
         // TODO: make this work
         return 0;
     }
 
+    /**
+     * Get all {@link Spell}s that are registered to this {@link SpellManager}.
+     *
+     * @return all registered {@link Spell}s
+     * @since 0.0.5
+     */
     public Collection<Spell> getSpells() {
         return spells.values();
     }
 
+    /**
+     * Get the configured maximum range, which is used for {@link Spell}s that
+     * affect something distantly.
+     *
+     * @return the maximum range
+     * @since 0.0.5
+     */
     public int getRange() {
         return maxRange;
     }

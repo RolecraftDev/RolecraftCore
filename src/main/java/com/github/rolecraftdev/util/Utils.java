@@ -38,7 +38,9 @@ import java.util.List;
 import java.util.Random;
 
 /**
- * General utility methods for Rolecraft
+ * A utility class for general use.
+ *
+ * @since 0.0.5
  */
 public final class Utils {
     private static final Random rand = Rand.r;
@@ -46,13 +48,14 @@ public final class Utils {
     private static final float SMALL_VELOCITY_FACTOR = 0.05f;
 
     /**
-     * Gets the entity targeted by the given player. If there is no entity
-     * being targeted by the player within the given range, null is returned
+     * Retrieve the {@link Entity} that is targeted by the given player within
+     * the given range.
      *
-     * @param player the Player to get the entity target for
-     * @param range the maximum distance the target can be from the player
-     * @return the entity targeted by the given player, or null if there isn't
-     * one within the given range
+     * @param player the player who targets
+     * @param range the maximum distance to the {@link Entity}
+     * @return the targeted {@link Entity}
+     * @since 0.0.5
+     * @see #getLivingTarget(Player, int)
      */
     public static Entity getTarget(final Player player, final int range) {
         @SuppressWarnings("deprecation")
@@ -70,14 +73,14 @@ public final class Utils {
     }
 
     /**
-     * Gets the living entity targeted by the given player. If there is no
-     * living entity being targeted by the player within the given range, null
-     * is returned
+     * Retrieve the {@link LivingEntity} that is targeted by the given player
+     * within the given range.
      *
-     * @param player the Player to get the living entity target for
-     * @param range the maximum distance the target can be from the player
-     * @return the living entity targeted by the given player, or null if there
-     * isn't one within the given range
+     * @param player the player who targets
+     * @param range the maximum distance to the {@link LivingEntity}
+     * @return the targeted {@link LivingEntity}
+     * @since 0.0.5
+     * @see #getTarget(Player, int)
      */
     public static LivingEntity getLivingTarget(final Player player,
             final int range) {
@@ -97,6 +100,13 @@ public final class Utils {
         return null;
     }
 
+    /**
+     * Acquire the direction the given player is facing towards as unit vector.
+     *
+     * @param ply the player of whom the facing unit vector is wanted
+     * @return the given player's facing unit vector
+     * @since 0.0.5
+     */
     public static Vector getUnitVectorFacing(final Player ply) {
         double x = -Math.sin(Math.toRadians(ply.getLocation().getYaw())) *
                 Math.cos(Math.toRadians(ply.getLocation().getPitch()));
@@ -107,11 +117,13 @@ public final class Utils {
     }
 
     /**
-     * Changes float values slightly to create the effect of randomness, based
-     * on VELOCITY_FACTOR
+     * Modify the given speed slightly and semi-randomly by using
+     * {@link #VELOCITY_FACTOR}.
      *
-     * @param original the original velocity
-     * @return a randomly modified version of the given float
+     * @param original the speed that should be modified ever so slightly
+     * @return the slightly modified given speed
+     * @since 0.0.5
+     * @see #smallVelocityRandomiser(float)
      */
     public static float velocityRandomiser(final float original) {
         float velocity = original - VELOCITY_FACTOR;
@@ -120,11 +132,14 @@ public final class Utils {
     }
 
     /**
-     * Convenience method for {@link Utils#velocityRandomiser(float)}, applies
-     * to X, Y, and Z
+     * Modify the given {@link Vector} slightly and semi-randomly by using
+     * {@link #velocityRandomiser(float)}.
      *
-     * @param original the original velocity to randomise
-     * @return a randomly modified version of the given {@link Vector} velocity
+     * @param original the {@link Vector} that should be modified ever so
+     *        slightly
+     * @return the slightly modified given {@link Vector}
+     * @since 0.0.5
+     * @see #smallVelocityRandomiser(Vector)
      */
     public static Vector velocityRandomiser(final Vector original) {
         return new Vector(velocityRandomiser((float) original.getX()),
@@ -133,11 +148,13 @@ public final class Utils {
     }
 
     /**
-     * Same as {@link Utils#velocityRandomiser(float)}, except with 1/4 of the
-     * effect
+     * Modify the given speed slightly and semi-randomly by using
+     * {@link #SMALL_VELOCITY_FACTOR}.
      *
-     * @param original the original velocity to slightly randomise
-     * @return a slightly randomly modified version of the given velocity float
+     * @param original the speed that should be modified ever so slightly
+     * @return the slightly modified given speed
+     * @since 0.0.5
+     * @see #velocityRandomiser(float)
      */
     public static float smallVelocityRandomiser(final float original) {
         float velocity = original - SMALL_VELOCITY_FACTOR;
@@ -146,11 +163,14 @@ public final class Utils {
     }
 
     /**
-     * Same as {@link Utils#velocityRandomiser(Vector)}, except with 1/4 of the
-     * effect
+     * Modify the given {@link Vector} slightly and semi-randomly by using
+     * {@link #smallVelocityRandomiser(float)}.
      *
-     * @param original the {@link Vector to randomise}
-     * @return a slightly randomised version of the given {@link Vector}
+     * @param original the {@link Vector} that should be modified ever so
+     *        slightly
+     * @return the slightly modified given {@link Vector}
+     * @since 0.0.5
+     * @see #velocityRandomiser(Vector)
      */
     public static Vector smallVelocityRandomiser(final Vector original) {
         return new Vector(smallVelocityRandomiser((float) original.getX()),
@@ -158,7 +178,9 @@ public final class Utils {
                 smallVelocityRandomiser((float) original.getZ()));
     }
 
-    // prevent construction
+    /**
+     * @since 0.0.5
+     */
     private Utils() {
     }
 }

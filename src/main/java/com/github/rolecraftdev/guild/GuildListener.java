@@ -40,6 +40,7 @@ import org.bukkit.entity.AnimalTamer;
 import org.bukkit.entity.Arrow;
 import org.bukkit.entity.Player;
 import org.bukkit.entity.Projectile;
+import org.bukkit.event.Event;
 import org.bukkit.event.EventHandler;
 import org.bukkit.event.EventPriority;
 import org.bukkit.event.Listener;
@@ -70,15 +71,28 @@ import java.util.Set;
 import java.util.UUID;
 
 /**
- * Listens for and manipulates various events depending on the guild config
+ * Listens for and manipulates various {@link Event}s affecting {@link Guild}s,
+ * which in some cases depends on the configuration.
+ *
+ * @since 0.0.5
  */
 public final class GuildListener implements Listener {
     private final GuildManager guildManager;
 
+    /**
+     * Constructor.
+     *
+     * @param guildManager the {@link GuildManager} of which the {@link Guild}s
+     *        should be handled by this {@link Listener}
+     * @since 0.0.5
+     */
     GuildListener(final GuildManager guildManager) {
         this.guildManager = guildManager;
     }
 
+    /**
+     * @since 0.0.5
+     */
     @EventHandler(priority = EventPriority.HIGHEST)
     public void onAsyncPlayerChat(final AsyncPlayerChatEvent event) {
         // All function calls in here should be thread safe
@@ -97,6 +111,9 @@ public final class GuildListener implements Listener {
         }
     }
 
+    /**
+     * @since 0.0.5
+     */
     @EventHandler(priority = EventPriority.HIGHEST)
     public void onAsyncChannelChat(final AsyncChannelChatEvent event) {
         // All function calls in here should be thread safe
@@ -114,6 +131,9 @@ public final class GuildListener implements Listener {
         }
     }
 
+    /**
+     * @since 0.0.5
+     */
     @EventHandler(priority = EventPriority.HIGHEST)
     public void onEntityDamageByEntity(final EntityDamageByEntityEvent event) {
         if (event.getDamager() instanceof Player
@@ -157,6 +177,9 @@ public final class GuildListener implements Listener {
         }
     }
 
+    /**
+     * @since 0.0.5
+     */
     @EventHandler(priority = EventPriority.HIGHEST)
     public void onBlockBreak(final BlockBreakEvent event) {
         event.setCancelled(cancel(event.getBlock().getLocation(), event
@@ -164,6 +187,9 @@ public final class GuildListener implements Listener {
                 GuildAction.CHANGE_BLOCK));
     }
 
+    /**
+     * @since 0.0.5
+     */
     @EventHandler(priority = EventPriority.HIGHEST)
     public void onBlockPlace(final BlockPlaceEvent event) {
         event.setCancelled(cancel(event.getBlock().getLocation(), event
@@ -171,6 +197,9 @@ public final class GuildListener implements Listener {
                 GuildAction.CHANGE_BLOCK));
     }
 
+    /**
+     * @since 0.0.5
+     */
     @EventHandler(priority = EventPriority.HIGHEST)
     public void onBucketEmpty(final PlayerBucketEmptyEvent event) {
         if (event.getBlockClicked() == null) {
@@ -184,6 +213,9 @@ public final class GuildListener implements Listener {
                 GuildAction.CHANGE_BLOCK));
     }
 
+    /**
+     * @since 0.0.5
+     */
     @EventHandler(priority = EventPriority.HIGHEST)
     public void onBucketFill(final PlayerBucketFillEvent event) {
         if (event.getBlockClicked() == null) {
@@ -194,6 +226,9 @@ public final class GuildListener implements Listener {
                 GuildAction.CHANGE_BLOCK));
     }
 
+    /**
+     * @since 0.0.5
+     */
     @EventHandler(priority = EventPriority.HIGHEST)
     public void onPlayerInteract(final PlayerInteractEvent event) {
         if (event.getClickedBlock() == null) {
@@ -204,6 +239,9 @@ public final class GuildListener implements Listener {
                 GuildAction.CHANGE_BLOCK));
     }
 
+    /**
+     * @since 0.0.5
+     */
     @EventHandler(priority = EventPriority.HIGHEST)
     public void onEntityChangeBlock(final EntityChangeBlockEvent event) {
         if (event.getEntity() instanceof Player) {
@@ -223,6 +261,9 @@ public final class GuildListener implements Listener {
         }
     }
 
+    /**
+     * @since 0.0.5
+     */
     @EventHandler(priority = EventPriority.HIGHEST)
     public void onEntityBlockForm(final EntityBlockFormEvent event) {
         if (!(event.getEntity() instanceof Player)) {
@@ -237,6 +278,9 @@ public final class GuildListener implements Listener {
         }
     }
 
+    /**
+     * @since 0.0.5
+     */
     @EventHandler(priority = EventPriority.HIGHEST)
     public void onBlockSpread(final BlockSpreadEvent event) {
         if (!guildManager.protectFromEnvironment()) {
@@ -249,6 +293,9 @@ public final class GuildListener implements Listener {
         }
     }
 
+    /**
+     * @since 0.0.5
+     */
     @EventHandler(priority = EventPriority.HIGHEST)
     public void onBlockForm(final BlockFormEvent event) {
         if (!guildManager.protectFromEnvironment()) {
@@ -261,6 +308,9 @@ public final class GuildListener implements Listener {
         }
     }
 
+    /**
+     * @since 0.0.5
+     */
     @EventHandler(priority = EventPriority.HIGHEST)
     public void onBlockFromTo(final BlockFromToEvent event) {
         if (!guildManager.protectFromEnvironment()) {
@@ -273,6 +323,9 @@ public final class GuildListener implements Listener {
         }
     }
 
+    /**
+     * @since 0.0.5
+     */
     @EventHandler(priority = EventPriority.HIGHEST)
     public void onBlockPistonExtend(final BlockPistonExtendEvent event) {
         for (final Block block : event.getBlocks()) {
@@ -283,6 +336,9 @@ public final class GuildListener implements Listener {
         }
     }
 
+    /**
+     * @since 0.0.5
+     */
     @EventHandler(priority = EventPriority.HIGHEST)
     public void onBlockPistonRetract(final BlockPistonRetractEvent event) {
         if (getGuildFromHall(event.getRetractLocation()) != null
@@ -291,6 +347,9 @@ public final class GuildListener implements Listener {
         }
     }
 
+    /**
+     * @since 0.0.5
+     */
     @EventHandler(priority = EventPriority.HIGHEST)
     public void onStructureGrow(final StructureGrowEvent event) {
         final List<BlockState> blocks = event.getBlocks();
@@ -302,6 +361,9 @@ public final class GuildListener implements Listener {
         }
     }
 
+    /**
+     * @since 0.0.5
+     */
     @EventHandler(priority = EventPriority.HIGHEST)
     public void onEntityExplode(final EntityExplodeEvent event) {
         if (!guildManager.protectFromEnvironment()) {
@@ -314,6 +376,9 @@ public final class GuildListener implements Listener {
         }
     }
 
+    /**
+     * @since 0.0.5
+     */
     @EventHandler(priority = EventPriority.HIGHEST)
     public void onBlockIgnite(final BlockIgniteEvent event) {
         final Player player = event.getPlayer();
@@ -334,6 +399,9 @@ public final class GuildListener implements Listener {
         }
     }
 
+    /**
+     * @since 0.0.5
+     */
     @EventHandler(priority = EventPriority.HIGHEST)
     public void onPlayerEggThrow(final PlayerEggThrowEvent event) {
         if (cancel(event.getPlayer().getLocation(), event.getPlayer()
@@ -342,6 +410,9 @@ public final class GuildListener implements Listener {
         }
     }
 
+    /**
+     * @since 0.0.5
+     */
     @EventHandler(priority = EventPriority.HIGHEST)
     public void onHangingPlace(final HangingPlaceEvent event) {
         event.setCancelled(cancel(event.getEntity().getLocation(), event
@@ -349,6 +420,9 @@ public final class GuildListener implements Listener {
                 GuildAction.CHANGE_BLOCK));
     }
 
+    /**
+     * @since 0.0.5
+     */
     @EventHandler(priority = EventPriority.HIGHEST)
     public void onHangingBreakByEntity(final HangingBreakByEntityEvent event) {
         if (!(event.getRemover() instanceof Player)) {
@@ -366,6 +440,9 @@ public final class GuildListener implements Listener {
                 GuildAction.CHANGE_BLOCK));
     }
 
+    /**
+     * @since 0.0.5
+     */
     @EventHandler(priority = EventPriority.NORMAL)
     @SuppressWarnings("deprecation")
     public void onCreatureSpawn(CreatureSpawnEvent event) {
@@ -394,19 +471,16 @@ public final class GuildListener implements Listener {
     }
 
     /**
-     * Checks whether an event at the given location by the given location for
-     * the given action should be cancelled, returning the value of def if we
-     * have no preference
+     * Check whether the given {@link GuildAction} at the specified
+     * {@link Location}, executed by the given player, should be cancelled.
      *
-     * @param loc
-     *            The {@link Location} at which the event is occurring
-     * @param player
-     *            The {@link UUID} of the player causing the event
-     * @param def
-     *            The value to return if we have no preference
-     * @param action
-     *            The {@link GuildAction} which is taking place
-     * @return Whether the action should be cancelled
+     * @param loc the {@link Location} the {@link GuildAction} occured at
+     * @param player the performer of the {@link GuildAction}
+     * @param def the default return value, in the case of no justified
+     *        preference
+     * @param action the executed {@link GuildAction}
+     * @return {@code true} if the event should be cancelled; {@code false}
+     *         otherwise
      */
     private boolean cancel(final Location loc, final UUID player,
             final boolean def, final GuildAction action) {
@@ -422,12 +496,16 @@ public final class GuildListener implements Listener {
     }
 
     /**
-     * Gets the {@link Guild} Hall at the given location, returning null if
-     * there isn't one or nullGuild if SQL hasn't loaded
+     * Retrieve the {@link Guild} from the location of its hall. A special
+     * constant instance of {@link Guild} is returned when the
+     * {@link GuildManager} registered to this {@link Listener} is not yet
+     * wholly loaded, that is, when {@link GuildManager#isLoaded()} returns
+     * {@code false}.
      *
-     * @param loc
-     *            The {@link Location} to get the guild hall at
-     * @return null if no guild is found, nullGuild if SQL isn't loaded
+     * @param loc the {@link Location} that should be investigated
+     * @return the appropriate {@link Guild} of which the hall is at the given
+     *         {@link Location} or a special constant {@link Guild} instance.
+     * @see #nullGuild
      */
     private Guild getGuildFromHall(final Location loc) {
         final Set<Guild> guilds = guildManager.getGuilds();
@@ -444,5 +522,9 @@ public final class GuildListener implements Listener {
         return null;
     }
 
+    /**
+     * The special constant {@link Guild} instance used when the
+     * {@link GuildManager} hasn't finished loading.
+     */
     private final Guild nullGuild = new Guild(null);
 }

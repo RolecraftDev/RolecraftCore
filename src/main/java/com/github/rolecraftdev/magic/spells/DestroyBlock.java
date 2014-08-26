@@ -45,42 +45,69 @@ import org.bukkit.inventory.ShapedRecipe;
 import org.bukkit.inventory.meta.ItemMeta;
 
 /**
- * A {@link Spell} implementation which can be used to delete blocks without dropping
- * anything.
+ * A {@link Spell} implementation which can be used to delete blocks without
+ * dropping anything.
+ *
+ * @since 0.0.5
  */
 public class DestroyBlock implements Spell {
+    /**
+     * Constructor.
+     *
+     * @param parent the {@link SpellManager} this {@link Spell} implementation
+     *        will be registered to
+     * @since 0.0.5
+     */
     public DestroyBlock(SpellManager parent) {
     }
 
+    /**
+     * @since 0.0.5
+     */
     @Override
     public String getName() {
         return "Destroy Block";
     }
 
+    /**
+     * @since 0.0.5
+     */
     @Override
     public float estimateAttackMana(Player caster, LivingEntity target,
             int modifier) {
         return 0;
     }
 
+    /**
+     * @since 0.0.5
+     */
     @Override
     public float estimateLeftClickMana(Player caster, Block block, int modifier,
             BlockFace face) {
         return 3;
     }
 
+    /**
+     * @since 0.0.5
+     */
     @Override
     public float estimateRightClickMana(Player caster, Block block, int modifier,
             BlockFace face) {
         return 3;
     }
 
+    /**
+     * @since 0.0.5
+     */
     @Override
     public float rightClick(Player caster, Block block, int modifier,
             BlockFace face) {
         return click(caster, block);
     }
 
+    /**
+     * @since 0.0.5
+     */
     @Override
     public float leftClick(Player caster, Block block, int modifier,
             BlockFace face) {
@@ -96,11 +123,17 @@ public class DestroyBlock implements Spell {
         return 3;
     }
 
+    /**
+     * @since 0.0.5
+     */
     @Override
     public float attack(Player caster, LivingEntity target, int modifier) {
         return 0;
     }
 
+    /**
+     * @since 0.0.5
+     */
     @Override
     public Recipe getWandRecipe() {
         ItemStack result = new ItemStack(Material.STICK);
@@ -118,6 +151,9 @@ public class DestroyBlock implements Spell {
         return recipe;
     }
 
+    /**
+     * @since 0.0.5
+     */
     @Override
     public SoundWrapper getSound() {
         return SoundWrapper.defaultSound;

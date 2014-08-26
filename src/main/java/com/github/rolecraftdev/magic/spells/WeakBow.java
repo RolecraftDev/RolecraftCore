@@ -46,39 +46,63 @@ import org.bukkit.inventory.meta.ItemMeta;
 import org.bukkit.metadata.FixedMetadataValue;
 
 /**
- * A {@link Spell} implementation which fires an arrow that deals less damage than
- * one shot with a bow.
+ * A {@link Spell} implementation which fires an arrow that deals less damage
+ * than one shot with a bow.
+ *
+ * @since 0.0.5
  */
 public class WeakBow implements Spell {
     private final SpellManager manager;
 
+    /**
+     * Constructor.
+     *
+     * @param manager the {@link SpellManager} this {@link Spell} implementation
+     *        will be registered to
+     * @since 0.0.5
+     */
     public WeakBow(final SpellManager manager) {
         this.manager = manager;
     }
 
+    /**
+     * @since 0.0.5
+     */
     @Override
     public String getName() {
         return "Weak Bow";
     }
 
+    /**
+     * @since 0.0.5
+     */
     @Override
     public float estimateAttackMana(Player caster, LivingEntity target,
             int modifier) {
         return 0;
     }
 
+    /**
+     * @since 0.0.5
+     */
     @Override
     public float estimateLeftClickMana(Player caster, Block block, int modifier,
             BlockFace face) {
         return 0;
     }
 
+    /**
+     * @since 0.0.5
+     */
     @Override
     public float estimateRightClickMana(Player caster, Block block, int modifier,
             BlockFace face) {
         return (40f - modifier / 10f > 0) ? (40f - modifier / 10f) : 0f;
     }
 
+    /**
+     * @since 0.0.5
+     */
     @Override
     public float rightClick(Player caster, Block block, int modifier,
             BlockFace face) {
@@ -89,17 +113,26 @@ public class WeakBow implements Spell {
         return (40f - modifier / 10f > 0) ? (40f - modifier / 10f) : 0f;
     }
 
+    /**
+     * @since 0.0.5
+     */
     @Override
     public float leftClick(Player caster, Block block, int modifier,
             BlockFace face) {
         return Float.MIN_VALUE;
     }
 
+    /**
+     * @since 0.0.5
+     */
     @Override
     public float attack(Player caster, LivingEntity target, int modifier) {
         return Float.MIN_VALUE;
     }
 
+    /**
+     * @since 0.0.5
+     */
     @Override
     public Recipe getWandRecipe() {
         ItemStack result = new ItemStack(Material.STICK);
@@ -116,6 +149,9 @@ public class WeakBow implements Spell {
         return recipe;
     }
 
+    /**
+     * @since 0.0.5
+     */
     @Override
     public SoundWrapper getSound() {
         return SoundWrapper.bowSound;

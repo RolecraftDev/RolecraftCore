@@ -48,21 +48,36 @@ import org.bukkit.inventory.ShapedRecipe;
 import org.bukkit.inventory.meta.ItemMeta;
 
 /**
- * A {@link Spell} implementation which can be used to kill the living entity the
- * executor points at.
+ * A {@link Spell} implementation which can be used to kill the living entity
+ * the executor points at.
+ *
+ * @since 0.0.5
  */
 public class AvadaKedavra implements Spell {
     private final SpellManager manager;
 
+    /**
+     * Constructor.
+     *
+     * @param manager the {@link SpellManager} this {@link Spell} implementation
+     *        will be registered to
+     * @since 0.0.5
+     */
     public AvadaKedavra(final SpellManager manager) {
         this.manager = manager;
     }
 
+    /**
+     * @since 0.0.5
+     */
     @Override
     public String getName() {
         return "Avada Kedavra";
     }
 
+    /**
+     * @since 0.0.5
+     */
     @Override
     public float estimateAttackMana(Player caster, LivingEntity target,
             int modifier) {
@@ -77,12 +92,18 @@ public class AvadaKedavra implements Spell {
         return 0;
     }
 
+    /**
+     * @since 0.0.5
+     */
     @Override
     public float estimateLeftClickMana(Player caster, Block block, int modifier,
             BlockFace face) {
         return 0;
     }
 
+    /**
+     * @since 0.0.5
+     */
     @Override
     public float estimateRightClickMana(Player caster, Block block, int modifier,
             BlockFace face) {
@@ -97,6 +118,9 @@ public class AvadaKedavra implements Spell {
         return 0;
     }
 
+    /**
+     * @since 0.0.5
+     */
     @Override
     public float rightClick(Player caster, Block block, int modifier,
             BlockFace face) {
@@ -122,12 +146,18 @@ public class AvadaKedavra implements Spell {
         return 0;
     }
 
+    /**
+     * @since 0.0.5
+     */
     @Override
     public float leftClick(Player caster, Block block, int modifier,
             BlockFace face) {
         return Float.MIN_VALUE;
     }
 
+    /**
+     * @since 0.0.5
+     */
     @Override
     public float attack(Player caster, LivingEntity target, int modifier) {
 
@@ -148,6 +178,9 @@ public class AvadaKedavra implements Spell {
         return Float.MIN_VALUE;
     }
 
+    /**
+     * @since 0.0.5
+     */
     @Override
     public Recipe getWandRecipe() {
         ItemStack result = new ItemStack(Material.STICK);
@@ -165,6 +198,9 @@ public class AvadaKedavra implements Spell {
         return recipe;
     }
 
+    /**
+     * @since 0.0.5
+     */
     @Override
     public SoundWrapper getSound() {
         return new SoundWrapper(Sound.ENDERMAN_STARE, 1.0F, 2.0F);

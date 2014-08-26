@@ -26,45 +26,61 @@
  */
 package com.github.rolecraftdev.profession;
 
+import com.github.rolecraftdev.magic.Spell;
+
 import java.util.HashSet;
 import java.util.List;
 import java.util.Set;
 
+import org.bukkit.enchantments.Enchantment;
+
 /**
- * A rule that a {@link Profession} should be dominated by. These are contained
- * by a {@link ProfessionRuleMap}.
+ * Represents a configurable rule, which is used for {@link Profession}s.
  *
- * @param <T> - Type of its values in a {@link ProfessionRuleMap}
+ * @since 0.0.5
  */
 @SuppressWarnings("rawtypes")
 public final class ProfessionRule<T> {
     /**
-     * Constants pool for easy lookups.
+     * Constants pool for simplified look-up.
      */
     private static final Set<ProfessionRule<?>> pool = new HashSet<ProfessionRule<?>>();
 
     /**
-     * A rule which defines the spells usable by a profession
+     * Allowed {@link Spell}s.
+     *
+     * @since 0.0.5
      */
     public static final ProfessionRule<List> USABLE_SPELLS = new ProfessionRule<List>(
             "usable-spells", List.class);
+    /**
+     * The armor of which the use is permitted.
+     *
+     * @since 0.0.5
+     */
     public static final ProfessionRule<List> USABLE_ARMOR = new ProfessionRule<List>(
             "usable-armor", List.class);
+    /**
+     * Allowed {@link Enchantment}s.
+     *
+     * @since 0.0.5
+     */
     public static final ProfessionRule<List> USABLE_ENCHANTMENTS = new ProfessionRule<List>(
             "usable-enchantments", List.class);
     /**
-     * Denies the equipping and crafting of items, STRONGLY recommended to put an *
-     * and deny specific ones in this field
+     * Permitted items for crafting and equipping.
+     *
+     * @since 0.0.5
      */
     public static final ProfessionRule<List> USABLE_ITEMS = new ProfessionRule<List>(
             "usable-weapons", List.class);
 
     /**
-     * Get a unique {@link ProfessionRule} by its name.
+     * Retrieve the {@link ProfessionRule} with the specified name.
      *
-     * @param name the unique name of the rule
-     * @return the {@link ProfessionRule} if it can be found in {@link #pool},
-     *         else {@code null}
+     * @param name the name of the wanted {@link ProfessionRule}
+     * @return the {@link ProfessionRule} with the given name
+     * @since 0.0.5
      */
     public static ProfessionRule<?> getRule(final String name) {
         for (final ProfessionRule<?> element : pool) {
@@ -76,19 +92,19 @@ public final class ProfessionRule<T> {
     }
 
     /**
-     * The unique name of this rule.
+     * The name of this {@link ProfessionRule}.
      */
     private final String name;
     /**
-     * The type of object this rule should be set to.
+     * The type of this {@link ProfessionRule}.
      */
     private final Class<T> type;
 
     /**
-     * Create a new, unique {@link ProfessionRule}.
+     * Constructor.
      *
-     * @param name the unique name of the rule
-     * @param type the type of the values the rule takes
+     * @param name the {@link ProfessionRule}'s name
+     * @param type the {@link ProfessionRule}'s type
      */
     private ProfessionRule(final String name, final Class<T> type) {
         this.name = name;
@@ -98,52 +114,62 @@ public final class ProfessionRule<T> {
     }
 
     /**
-     * Get the unique name of this {@link ProfessionRule}.
+     * Get the name of this {@link ProfessionRule}.
      *
-     * @return the unique name of this {@link ProfessionRule}
+     * @return the name
+     * @since 0.0.5
      */
     public String getName() {
         return name;
     }
 
     /**
-     * Get the type, the values of this {@link ProfessionRule} should be in a
-     * {@link ProfessionRuleMap}.
+     * Get the type of this {@link ProfessionRule}.
      *
-     * @return the value type for this rule
+     * @return the type
+     * @since 0.0.5
      */
     public Class<T> getType() {
         return type;
     }
 
     /**
-     * Checks whether the given object is valid to be cast to this
-     * {@link ProfessionRule}'s value type.
+     * Check whether the given {@link Object} is an instance of the declared
+     * type of this {@link ProfessionRule}.
      *
-     * @param object the object to check the validity to cast of
-     * @return {@code true} if the given object is of the correct type, {@code
-     *         false } otherwise
+     * @param object the {@link Object} that should be examined
+     * @return {@code true} if the given {@link Object} is an instance of the
+     *         declared type of this {@link ProfessionRule}
+     * @since 0.0.5
      */
     public boolean validate(final Object object) {
         return object != null && getType().isAssignableFrom(object.getClass());
     }
 
     /**
-     * Casts the given object to the type used for this {@link ProfessionRule}'s
-     * values.
+     * Cast the given {@link Object} to the known type of this
+     * {@link ProfessionRule} and obtain it as an instance of that type.
      *
-     * @param object the object to cast to this rule's value type
-     * @return the instance of the given object cast to this rule's value type
+     * @param object the {@link Object} which should be cast
+     * @return the given {@link Object} with this {@link ProfessionRule}'s known
+     *         type
+     * @since 0.0.5
      */
     public T cast(final Object object) {
         return getType().cast(object);
     }
 
+    /**
+     * @since 0.0.5
+     */
     @Override
     public int hashCode() {
         return name.hashCode();
     }
 
+    /**
+     * @since 0.0.5
+     */
     // ProfessionRules are equal when their names are
     @Override
     public boolean equals(final Object object) {

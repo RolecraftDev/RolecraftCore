@@ -31,13 +31,31 @@ import com.github.rolecraftdev.data.PlayerData;
 
 import org.bukkit.scheduler.BukkitRunnable;
 
+/**
+ * Increases the mana of all online players whenever the {@link #run()}
+ * implementation is invoked.
+ *
+ * @since 0.0.5
+ */
 public class ManaRegenTask extends BukkitRunnable {
+    /**
+     * The associated {@link RolecraftCore} instance.
+     */
     private final RolecraftCore parent;
 
+    /**
+     * Constructor.
+     *
+     * @param parent the associated {@link RolecraftCore} instance
+     * @since 0.0.5
+     */
     public ManaRegenTask(RolecraftCore parent) {
         this.parent = parent;
     }
 
+    /**
+     * @since 0.0.5
+     */
     @Override
     public void run() {
         for (final PlayerData pd : parent.getDataManager().getPlayerDatum()) {

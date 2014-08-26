@@ -51,61 +51,88 @@ import java.util.List;
 /**
  * A {@link Spell} implementation which will make the held item function like a
  * pickaxe, although this will affect more blocks when used.
+ *
+ * @since 0.0.5
  */
 public class MiningHammer implements Spell {
     private final SpellManager manager;
 
+    /**
+     * Constructor.
+     *
+     * @param manager the {@link SpellManager} this {@link Spell} implementation
+     *        will be registered to
+     * @since 0.0.5
+     */
     public MiningHammer(final SpellManager manager) {
         this.manager = manager;
     }
 
     /**
-     * Represents a general orientation
+     * Allows opposing directions to be easily handled as equal.
      */
     private enum Orientation {
         /**
-         * Z axis - north or south
+         * Z axis - north or south.
          */
         NORTHSOUTH,
         /**
-         * X axis - east or west
+         * X axis - east or west.
          */
         EASTWEST,
         /**
-         * Y axis - Up or down
+         * Y axis - up or down.
          */
         FLAT
     }
 
+    /**
+     * @since 0.0.5
+     */
     @Override
     public String getName() {
         return "Mining Hammer";
     }
 
+    /**
+     * @since 0.0.5
+     */
     @Override
     public float estimateAttackMana(Player caster, LivingEntity target,
             int modifier) {
         return 0;
     }
 
+    /**
+     * @since 0.0.5
+     */
     @Override
     public float estimateLeftClickMana(Player caster, Block block, int modifier,
             BlockFace face) {
         return (30f - modifier / 100f > 0) ? 30f - modifier / 100f : 0;
     }
 
+    /**
+     * @since 0.0.5
+     */
     @Override
     public float estimateRightClickMana(Player caster, Block block, int modifier,
             BlockFace face) {
         return (30f - modifier / 100f > 0) ? 30f - modifier / 100f : 0;
     }
 
+    /**
+     * @since 0.0.5
+     */
     @Override
     public float rightClick(Player caster, Block block, int modifier,
             BlockFace face) {
         return click(caster, block, modifier, face);
     }
 
+    /**
+     * @since 0.0.5
+     */
     @Override
     public float leftClick(Player caster, Block block, int modifier,
             BlockFace face) {
@@ -140,11 +167,25 @@ public class MiningHammer implements Spell {
         return (30f - modifier / 100f > 0) ? 30f - modifier / 100f : 0;
     }
 
+    /**
+     * @since 0.0.5
+     */
     @Override
     public float attack(Player caster, LivingEntity target, int modifier) {
         return Float.MIN_VALUE;
     }
 
+    /**
+     * Acquire all {@link Block}s around (as a plane) and including, the given
+     * center {@link Block} depending on the given {@link Orientation}, which
+     * works as normal of the used plane.
+     *
+     * @param center the center {@link Block}
+     * @param orientation the used {@link Orientation}, which functions as
+     *        normal
+     * @return the {@link Block}s around the given center {@link Block} in a
+     *         plane
+     */
     private List<Block> getBlocksAround(Block center, Orientation orientation) {
         if (center == null) {
             return null;
@@ -179,6 +220,9 @@ public class MiningHammer implements Spell {
         return temp;
     }
 
+    /**
+     * @since 0.0.5
+     */
     @Override
     public Recipe getWandRecipe() {
         ItemStack result = new ItemStack(Material.STICK);
@@ -197,6 +241,9 @@ public class MiningHammer implements Spell {
         return recipe;
     }
 
+    /**
+     * @since 0.0.5
+     */
     @Override
     public SoundWrapper getSound() {
         return new SoundWrapper(Sound.FIREWORK_LARGE_BLAST, 1.0f, 0f);

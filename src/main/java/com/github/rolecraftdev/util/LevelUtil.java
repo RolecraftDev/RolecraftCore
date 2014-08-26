@@ -29,17 +29,20 @@ package com.github.rolecraftdev.util;
 import org.bukkit.entity.EntityType;
 
 /**
- * Utilities related to player levelling and experience
+ * A utility class for player experience and levels.
+ *
+ * @since 0.0.5
  */
 public final class LevelUtil {
     /**
-     * Gets the level which a player with the given amount of experience would
-     * have
-     * <p>
-     * Algorithm for levels is: y=ln(0.8(x+1.25))*((x+1.25)^0.4)*0.1+1
+     * Retrieve the level that the given amount of experience represents. The
+     * algorithm for levels is:
+     * <em>y = ln(0.8(x + 1.25)) * ((x + 1.25)^0.4) * 0.1 + 1</em>
      *
-     * @param experience the amount of experience to get the level for
-     * @return the level correlating to the given amount of experience
+     * @param experience the amount of experience from which the appropriate
+     *        level should be calculated
+     * @return the level that corresponds to the given experience
+     * @since 0.0.5
      */
     public static int getLevel(float experience) {
         // TODO: make this a function that can, within reason, be solved for X
@@ -56,12 +59,12 @@ public final class LevelUtil {
     }
 
     /**
-     * Gets the amount of experience required to reach the next level from the
-     * given amount of experience
+     * Retrieve the amount of experience that is needed to reach the next level
+     * from the already obtained experience.
      *
      * @param experience the current amount of experience
-     * @return the amount of experience required for a player with the given
-     * amount of experience to level up
+     * @return the experience that is required to level up
+     * @since 0.0.5
      */
     public static float expToNextLevel(float experience) {
         // TODO: make this return the experience to the next level
@@ -69,11 +72,13 @@ public final class LevelUtil {
     }
 
     /**
-     * Gets the amount of experience which is gained from killing an entity of
-     * the given type
+     * Get the amount of experience that is acquired when killing a mob of the
+     * specified {@link EntityType}.
      *
-     * @param entityType the type of entity to get the kill exp for
-     * @return the amount of experience gained from killing the given entity
+     * @param entityType the {@link EntityType} that has been killed
+     * @return the amount of experience gained when killing a mob of the
+     *         specified {@link EntityType}
+     * @since 0.0.5
      */
     public static float expFromKill(final EntityType entityType) {
         switch (entityType) {
@@ -143,7 +148,7 @@ public final class LevelUtil {
     }
 
     /**
-     * Do not call.
+     * @since 0.0.5
      */
     private LevelUtil() {
     }

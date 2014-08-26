@@ -29,20 +29,17 @@ package com.github.rolecraftdev.profession;
 import java.util.UUID;
 
 /**
- * Represents a profession that can be chosen by players. After a player has
- * chosen a profession, events affecting that player will be handled according
- * to the profession's {@link ProfessionRule}s.
+ * Represents a player-selectable profession.
  *
  * @since 0.0.5
  */
 public class Profession {
     /**
-     * The {@link ProfessionManager} object this {@link Profession} is
-     * registered to.
+     * The {@link ProfessionManager} this {@link Profession} is registered to.
      */
     private final ProfessionManager professionManager;
     /**
-     * A {@link UUID} that refers to this {@link Profession}.
+     * The {@link UUID} of this {@link Profession}.
      */
     private final UUID professionId;
 
@@ -51,21 +48,19 @@ public class Profession {
      */
     private String name;
     /**
-     * A container for the {@link ProfessionRule}s this {@link Profession}
-     * should be regulated by.
+     * The {@link ProfessionRuleMap} of this {@link Profession}.
      */
     private ProfessionRuleMap rules;
 
     /**
-     * Create a {@link Profession} from predefined settings. Note that some of
-     * the fields are {@code final} and can thus not be modified later on.
+     * Constructor.
      *
      * @param professionManager the {@link ProfessionManager} this
-     *                          {@link Profession} belongs to
-     * @param professionId the unique identifier
-     * @param name the unique name
-     * @param rules a map of {@link ProfessionRule}s that handles events in
-     *              this {@link Profession}.
+     *        {@link Profession} will be registered to
+     * @param professionId the {@link Profession}'s {@link UUID}
+     * @param name the {@link Profession}'s name
+     * @param rules the {@link Profession}'s {@link ProfessionRuleMap}
+     * @since 0.0.5
      */
     public Profession(final ProfessionManager professionManager,
             final UUID professionId, final String name,
@@ -77,78 +72,91 @@ public class Profession {
     }
 
     /**
-     * Get the {@link ProfessionManager} this {@link Profession} belongs to.
+     * Get the {@link ProfessionManager} this {@link Profession} is supposed to
+     * be registered to.
      *
-     * @return this profession's {@link ProfessionManager}
+     * @return the {@link ProfessionManager} this {@link Profession} is
+     *         registered to
+     * @since 0.0.5
      */
     public ProfessionManager getManager() {
         return professionManager;
     }
 
     /**
-     * Get the unique identifier of this {@link Profession}.
+     * Get the {@link UUID} of this {@link Profession}.
      *
-     * @return this profession's unique identifier
+     * @return the {@link UUID}
+     * @since 0.0.5
      */
     public UUID getId() {
         return professionId;
     }
 
     /**
-     * Returns the unique name of this {@link Profession}.
+     * Get the name of this {@link Profession}.
      *
-     * @return this professions unique name
+     * @return the name
+     * @since 0.0.5
      */
     public String getName() {
         return name;
     }
 
     /**
-     * Get the map of {@link ProfessionRule}s this {@link Profession} is
-     * dictated by.
+     * Get the {@link ProfessionRuleMap} of this {@link Profession}.
      *
-     * @return the {@link ProfessionRuleMap} for this profession
+     * @return the {@link ProfessionRuleMap}
+     * @since 0.0.5
      */
     public ProfessionRuleMap getRuleMap() {
         return rules;
     }
 
     /**
-     * Gets the value of the given {@link ProfessionRule} in this Profession's
-     * {@link ProfessionRuleMap} object
+     * Get the value that is referred to by the given {@link ProfessionRule} key
+     * in the {@link ProfessionRuleMap} of this {@link Profession}.
      *
-     * @param rule the rule to get the value for
-     * @param <T> the type of the rule to get the value for
-     * @return the value of the given rule for this Profession
+     * @param rule the key of which the value is wanted
+     * @param <T> the type of the given {@link ProfessionRule}
+     * @return the value of the given {@link ProfessionRule} key
+     * @since 0.0.5
      */
     public <T> T getRuleValue(final ProfessionRule<T> rule) {
         return getRuleMap().get(rule);
     }
 
     /**
-     * Set the unique name of this {@link Profession}.
+     * Set the name of this {@link Profession}.
      *
-     * @param name the new unique name
+     * @param name the new name
+     * @since 0.0.5
      */
     public void setName(final String name) {
         this.name = name;
     }
 
     /**
-     * Set the map of {@link ProfessionRule}s that will regulate events that
-     * affect this {@link Profession}.
+     * Set the {@link ProfessionRuleMap} of this {@link Profession}.
      *
      * @param rules the new {@link ProfessionRuleMap}
+     * @since 0.0.5
      */
     public void setRuleMap(final ProfessionRuleMap rules) {
         this.rules = rules;
     }
 
+    /**
+     * @since 0.0.5
+     */
     @Override
     public int hashCode() {
         return professionId.hashCode();
     }
 
+    /**
+     * @since 0.0.5
+     */
     @Override
     public boolean equals(Object object) {
         if (!(object instanceof Profession)) {

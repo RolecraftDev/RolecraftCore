@@ -39,17 +39,17 @@ import java.util.Map.Entry;
 import java.util.UUID;
 
 /**
- * A class which can be used to extract a {@link Profession} and all its related
- * classes (except for {@link ProfessionManager}) from a YAML file by using
- * appropriate deserialization.
+ * A utility class for deserialising {@link Profession}s and their attributes.
+ *
+ * @since 0.0.5
  */
 public class ProfessionDeserializer {
     /**
-     * The path to the {@link Profession}'s unique identifier.
+     * The path to the {@link Profession}'s {@link UUID}.
      */
     private static final String ID = "id";
     /**
-     * The path to the {@link Profession}'s unique name.
+     * The path to the {@link Profession}'s name
      */
     private static final String NAME = "name";
     /**
@@ -58,37 +58,39 @@ public class ProfessionDeserializer {
     private static final String RULES = "rules";
 
     /**
-     * The configuration file that contains a serialized {@link Profession}.
+     * The {@link YamlFile} that contains the serialised {@link Profession}.
      */
     private final YamlFile professionConfig;
 
     /**
-     * Create a new {@link ProfessionDeserializer}.
+     * Constructor.
      *
-     * @param professionConfig the serialized {@link Profession} file
+     * @param professionConfig the {@link YamlFile} that contains the serialised
+     *        {@link Profession}
+     * @since 0.0.5
      */
     public ProfessionDeserializer(final YamlFile professionConfig) {
         this.professionConfig = professionConfig;
     }
 
     /**
-     * Get the configuration file that contains the serialized
-     * {@link Profession}.
+     * Get the {@link YamlFile} that contains the serialised {@link Profession}.
      *
-     * @return the serialized {@link Profession} file
+     * @return the {@link YamlFile} that contains the serialised
+     *         {@link Profession}
+     * @since 0.0.5
      */
     public YamlFile getConfig() {
         return professionConfig;
     }
 
     /**
-     * Deserialize the contents of the file, to return a {@link Profession}
-     * object. Note that this simply uses most otherold methods in this
-     * {@link ProfessionDeserializer} to construct a {@link Profession}.
+     * Retrieve the {@link Profession} from the linked file.
      *
-     * @param professionManager the {@link ProfessionManager}, the
-     *                          {@link Profession} will be assigned to
-     * @return the deserialized {@link Profession}
+     * @param professionManager the {@link ProfessionManager} that is used to
+     *        construct a new {@link Profession}
+     * @return the deserialised {@link Profession}
+     * @since 0.0.5
      */
     public Profession getProfession(final ProfessionManager professionManager) {
         return new Profession(professionManager, getProfessionId(),
@@ -96,10 +98,10 @@ public class ProfessionDeserializer {
     }
 
     /**
-     * Deserialize the unique identifier in the file, which is defined at the
-     * path {@link #ID}.
+     * Retrieve the {@link Profession}'s {@link UUID} from the linked file.
      *
-     * @return the deserialized unique identifier
+     * @return the deserialised {@link UUID}
+     * @since 0.0.5
      */
     private UUID getProfessionId() {
         String id = professionConfig.getString(ID);
@@ -122,20 +124,21 @@ public class ProfessionDeserializer {
     }
 
     /**
-     * Deserialize the unique name in the file, which is defined at the path
-     * {@link #NAME}.
+     * Retrieve the {@link Profession}'s name from the linked file.
      *
-     * @return the deserialized unique name
+     * @return the deserialised name
+     * @since 0.0.5
      */
     private String getProfessionName() {
         return professionConfig.getString(NAME, "unset");
     }
 
     /**
-     * Deserialize the {@link ProfessionRule}s in the file, which are defined at
-     * the path {@link #RULES}.
+     * Retrieve the {@link Profession}'s {@link ProfessionRuleMap} from the
+     * linked file.
      *
-     * @return the deserialized {@link ProfessionRule}s.
+     * @return the deserialised {@link ProfessionRuleMap}
+     * @since 0.0.5
      */
     private ProfessionRuleMap getProfessionRuleMap() {
         final ProfessionRuleMap ruleMap = new ProfessionRuleMap(

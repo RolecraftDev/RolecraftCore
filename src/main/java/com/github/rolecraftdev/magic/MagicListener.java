@@ -41,6 +41,7 @@ import org.bukkit.block.Block;
 import org.bukkit.enchantments.Enchantment;
 import org.bukkit.entity.LivingEntity;
 import org.bukkit.entity.Player;
+import org.bukkit.event.Event;
 import org.bukkit.event.EventHandler;
 import org.bukkit.event.EventPriority;
 import org.bukkit.event.Listener;
@@ -57,12 +58,29 @@ import java.util.HashMap;
 import java.util.Map;
 import java.util.UUID;
 
+/**
+ * A {@link Listener} for {@link Event}s that can be used to perform
+ * {@link Spell}s, when of course, met under certain conditions.
+ *
+ * @since 0.0.5
+ */
 public class MagicListener implements Listener {
+    /**
+     * The associated {@link RolecraftCore} instance.
+     */
     private final RolecraftCore plugin;
     private final SpellManager spellManager;
     private final Map<UUID, Scoreboard> scoreboards;
     private final ScoreboardManager scoreboardMgr;
 
+    /**
+     * Constructor.
+     *
+     * @param plugin the associated {@link RolecraftCore} instance
+     * @param manager the {@link SpellManager} of which the {@link Spell}s
+     *        should be handled by this {@link Listener}
+     * @since 0.0.5
+     */
     MagicListener(final RolecraftCore plugin, final SpellManager manager) {
         this.plugin = plugin;
         spellManager = manager;
@@ -70,6 +88,9 @@ public class MagicListener implements Listener {
         scoreboardMgr = Bukkit.getScoreboardManager();
     }
 
+    /**
+     * @since 0.0.5
+     */
     @EventHandler(priority = EventPriority.HIGHEST)
     public void handleManaScoreboard(PlayerInteractEvent e) {
         ItemStack stack = e.getItem();
@@ -102,6 +123,9 @@ public class MagicListener implements Listener {
         }
     }
 
+    /**
+     * @since 0.0.5
+     */
     @EventHandler(priority = EventPriority.HIGHEST)
     public void onInteract(PlayerInteractEvent e) {
         if (e.getItem() != null) {
@@ -215,6 +239,9 @@ public class MagicListener implements Listener {
         }
     }
 
+    /**
+     * @since 0.0.5
+     */
     @EventHandler(priority = EventPriority.HIGHEST)
     public void onDamage(EntityDamageByEntityEvent e) {
         if (e.getCause() == DamageCause.MAGIC) {
@@ -268,6 +295,12 @@ public class MagicListener implements Listener {
         }
     }
 
+    /**
+     * Retrieve the {@link Spell} associated to the given wand.
+     *
+     * @param stick the wand
+     * @return the {@link Spell} that can be cast with the given wand
+     */
     private Spell getSpell(ItemStack stick) {
         if (stick != null && stick.getType() == Material.STICK) {
             if (stick.hasItemMeta() && stick.getItemMeta().hasDisplayName()) {
