@@ -101,11 +101,11 @@ public final class SQLiteDataStore extends DataStore {
     /**
      * Constructor.
      *
-     * @param parent the associated {@link RolecraftCore} instance
+     * @param plugin the associated {@link RolecraftCore} instance
      * @since 0.0.5
      */
-    public SQLiteDataStore(RolecraftCore parent) {
-        super(parent);
+    public SQLiteDataStore(RolecraftCore plugin) {
+        super(plugin);
     }
 
     /**

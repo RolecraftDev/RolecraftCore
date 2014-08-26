@@ -124,17 +124,17 @@ public final class MySQLDataStore extends DataStore {
     /**
      * Constructor.
      *
-     * @param parent the associated {@link RolecraftCore} instance
+     * @param plugin the associated {@link RolecraftCore} instance
      * @since 0.0.5
      */
-    public MySQLDataStore(final RolecraftCore parent) {
-        super(parent);
+    public MySQLDataStore(final RolecraftCore plugin) {
+        super(plugin);
 
-        user = parent.getConfig().getString("mysql.username");
-        password = parent.getConfig().getString("mysql.password");
-        uri = parent.getConfig().getString("mysql.address");
-        port = parent.getConfig().getInt("mysql.port", MYSQL_DEFAULT_PORT);
-        databaseName = parent.getConfig().getString("mysql.databasename");
+        user = plugin.getConfig().getString("mysql.username");
+        password = plugin.getConfig().getString("mysql.password");
+        uri = plugin.getConfig().getString("mysql.address");
+        port = plugin.getConfig().getInt("mysql.port", MYSQL_DEFAULT_PORT);
+        databaseName = plugin.getConfig().getString("mysql.databasename");
 
         connections = new ConcurrentHashMap<Connection, Entry<Boolean, Long>>();
 

@@ -41,16 +41,16 @@ public class ManaRegenTask extends BukkitRunnable {
     /**
      * The associated {@link RolecraftCore} instance.
      */
-    private final RolecraftCore parent;
+    private final RolecraftCore plugin;
 
     /**
      * Constructor.
      *
-     * @param parent the associated {@link RolecraftCore} instance
+     * @param plugin the associated {@link RolecraftCore} instance
      * @since 0.0.5
      */
-    public ManaRegenTask(RolecraftCore parent) {
-        this.parent = parent;
+    public ManaRegenTask(RolecraftCore plugin) {
+        this.plugin = plugin;
     }
 
     /**
@@ -58,7 +58,7 @@ public class ManaRegenTask extends BukkitRunnable {
      */
     @Override
     public void run() {
-        for (final PlayerData pd : parent.getDataManager().getPlayerDatum()) {
+        for (final PlayerData pd : plugin.getDataManager().getPlayerDatum()) {
             pd.addMana(pd.getManaRegenRate());
         }
     }

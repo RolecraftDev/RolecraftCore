@@ -92,7 +92,7 @@ public abstract class DataStore {
     /**
      * The associated {@link RolecraftCore} instance.
      */
-    private final RolecraftCore parent;
+    private final RolecraftCore plugin;
     /**
      * Whether {@link Quest}s are wholly loaded.
      */
@@ -121,11 +121,11 @@ public abstract class DataStore {
     /**
      * Constructor.
      *
-     * @param parent the associated {@link RolecraftCore} instance
+     * @param plugin the associated {@link RolecraftCore} instance
      * @since 0.0.5
      */
-    public DataStore(RolecraftCore parent) {
-        this.parent = parent;
+    public DataStore(RolecraftCore plugin) {
+        this.plugin = plugin;
     }
 
     /**
@@ -135,7 +135,7 @@ public abstract class DataStore {
      * @since 0.0.5
      */
     public RolecraftCore getParent() {
-        return parent;
+        return plugin;
     }
 
     /**
@@ -670,7 +670,7 @@ public abstract class DataStore {
         if (isQuestsLoaded()) {
             final String uuid = callback.getPlayerId().toString();
             final String name = callback.getPlayerName();
-            final float originalSin = parent.getOriginalSin();
+            final float originalSin = plugin.getOriginalSin();
             if (recursive) {
                 Connection connection = getConnection();
                 PreparedStatement ps = null;
