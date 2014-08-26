@@ -34,6 +34,8 @@ import java.util.Set;
 
 import org.bukkit.enchantments.Enchantment;
 
+import javax.annotation.Nullable;
+
 /**
  * Represents a configurable rule, which is used for {@link Profession}s.
  *
@@ -82,6 +84,7 @@ public final class ProfessionRule<T> {
      * @return the {@link ProfessionRule} with the given name
      * @since 0.0.5
      */
+    @Nullable
     public static ProfessionRule<?> getRule(final String name) {
         for (final ProfessionRule<?> element : pool) {
             if (element.getName().equals(name)) {

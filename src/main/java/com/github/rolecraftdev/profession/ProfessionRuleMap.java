@@ -26,6 +26,7 @@
  */
 package com.github.rolecraftdev.profession;
 
+import javax.annotation.Nonnull;
 import javax.annotation.Nullable;
 import java.util.HashMap;
 import java.util.Map;
@@ -40,6 +41,7 @@ public final class ProfessionRuleMap {
     /**
      * The name of the associated {@link Profession}.
      */
+    @Nonnull
     private final String professionName;
     /**
      * The {@link Map} for {@link ProfessionRule}s and their configured value.
@@ -52,7 +54,7 @@ public final class ProfessionRuleMap {
      * @param professionName the name of the associated {@link Profession}
      * @since 0.0.5
      */
-    public ProfessionRuleMap(final String professionName) {
+    public ProfessionRuleMap(@Nonnull final String professionName) {
         this.professionName = professionName;
     }
 
@@ -62,6 +64,7 @@ public final class ProfessionRuleMap {
      * @return the name of the associated {@link Profession}
      * @since 0.0.5
      */
+    @Nonnull
     public String getProfessionName() {
         return professionName;
     }

@@ -34,6 +34,8 @@ import org.bukkit.Bukkit;
 import org.bukkit.event.Listener;
 import org.bukkit.permissions.Permission;
 
+import javax.annotation.Nonnull;
+import javax.annotation.Nullable;
 import java.io.File;
 import java.util.HashSet;
 import java.util.Set;
@@ -84,6 +86,7 @@ public final class ProfessionManager {
      * @return all available {@link Profession}s
      * @since 0.0.5
      */
+    @Nonnull
     public Set<Profession> getProfessions() {
         return new HashSet<Profession>(professions);
     }
@@ -95,6 +98,7 @@ public final class ProfessionManager {
      * @return the {@link Profession} with the given name
      * @since 0.0.5
      */
+    @Nullable
     public Profession getProfession(final String name) {
         for (final Profession profession : professions) {
             if (profession.getName().equalsIgnoreCase(name)) {
@@ -112,6 +116,7 @@ public final class ProfessionManager {
      * @return the {@link Profession} with the given {@link UUID}
      * @since 0.0.5
      */
+    @Nullable
     public Profession getProfession(final UUID id) {
         for (final Profession profession : professions) {
             if (profession.getId().equals(id)) {
@@ -129,6 +134,7 @@ public final class ProfessionManager {
      * @return the {@link Profession} of the given player
      * @since 0.0.5
      */
+    @Nullable
     public Profession getPlayerProfession(final UUID player) {
         return getProfession(plugin.getDataManager().getPlayerData(player)
                 .getProfession());

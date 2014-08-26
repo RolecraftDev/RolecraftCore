@@ -42,6 +42,8 @@ import org.bukkit.permissions.Permission;
 import org.bukkit.permissions.PermissionDefault;
 import org.bukkit.scheduler.BukkitRunnable;
 
+import javax.annotation.Nonnull;
+import javax.annotation.Nullable;
 import java.net.URISyntaxException;
 import java.util.Collection;
 import java.util.HashMap;
@@ -73,7 +75,7 @@ public class SpellManager {
      * @param plugin the associated {@link RolecraftCore} instance
      * @since 0.0.5
      */
-    public SpellManager(RolecraftCore plugin) {
+    public SpellManager(final RolecraftCore plugin) {
         this.plugin = plugin;
         spells = new HashMap<String, Spell>();
         maxRange = plugin.getConfig().getInt("magicrange", 100);
@@ -145,7 +147,7 @@ public class SpellManager {
      * @param spell the {@link Spell} to register
      */
     // TODO: Make public when we support anyone registering spells
-    private void register(String wandName, Spell spell) {
+    private void register(@Nonnull String wandName, @Nonnull Spell spell) {
         Validate.isTrue(!spells.containsKey(wandName));
 
         spells.put(wandName, spell);
@@ -153,9 +155,7 @@ public class SpellManager {
                 "rolecraft.spell." + wandName.toLowerCase().replaceAll(" ", ""),
                 "Allows access to the spell '" + wandName + "'",
                 PermissionDefault.TRUE, emptyMap));
-        if (spell.getWandRecipe() != null) {
-            Bukkit.addRecipe(spell.getWandRecipe());
-        }
+        Bukkit.addRecipe(spell.getWandRecipe());
     }
 
     /**
@@ -168,7 +168,10 @@ public class SpellManager {
      *         {@link Spell}; {@code false} otherwise
      * @since 0.0.5
      */
-    public boolean canCast(Player player, Spell spell) {
+    public boolean canCast(@Nonnull Player player, @Nonnull Spell spell) {
+        Validate.notNull(player);
+        Validate.notNull(spell);
+
         // workaround for testing
         try {
             if (RolecraftCore.class.getProtectionDomain().getCodeSource()
@@ -213,7 +216,8 @@ public class SpellManager {
      * @return the corresponding {@link Spell}
      * @since 0.0.5
      */
-    public Spell getSpell(String wandName) {
+    @Nullable
+    public Spell getSpell(@Nonnull String wandName) {
         return spells.get(wandName);
     }
 

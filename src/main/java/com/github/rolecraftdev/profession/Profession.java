@@ -26,6 +26,8 @@
  */
 package com.github.rolecraftdev.profession;
 
+import javax.annotation.Nonnull;
+import javax.annotation.Nullable;
 import java.util.UUID;
 
 /**
@@ -109,6 +111,7 @@ public class Profession {
      * @return the {@link ProfessionRuleMap}
      * @since 0.0.5
      */
+    @Nonnull
     public ProfessionRuleMap getRuleMap() {
         return rules;
     }
@@ -122,6 +125,7 @@ public class Profession {
      * @return the value of the given {@link ProfessionRule} key
      * @since 0.0.5
      */
+    @Nullable
     public <T> T getRuleValue(final ProfessionRule<T> rule) {
         return getRuleMap().get(rule);
     }
@@ -159,7 +163,7 @@ public class Profession {
      */
     @Override
     public boolean equals(Object object) {
-        if (!(object instanceof Profession)) {
+        if (object == null || !(object instanceof Profession)) {
             return false;
         }
 
