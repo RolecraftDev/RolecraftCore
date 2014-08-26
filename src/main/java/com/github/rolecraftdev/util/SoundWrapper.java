@@ -40,14 +40,14 @@ public class SoundWrapper {
      *
      * @since 0.0.5
      */
-    public static final SoundWrapper defaultSound = new SoundWrapper(
+    public static final SoundWrapper DEFAULT = new SoundWrapper(
             Sound.ENDERMAN_TELEPORT, 0.8f, 0.0f);
     /**
      * The note that should be played when an arrow is shot.
      *
      * @since 0.0.5
      */
-    public static final SoundWrapper bowSound = new SoundWrapper(
+    public static final SoundWrapper BOW = new SoundWrapper(
             Sound.SHOOT_ARROW, 1.0f, 0.0f);
     /**
      * The note that should be played when an entity has successfully struck
@@ -55,7 +55,7 @@ public class SoundWrapper {
      *
      * @since 0.0.5
      */
-    public static final SoundWrapper swordSound = new SoundWrapper(
+    public static final SoundWrapper SWORD = new SoundWrapper(
             Sound.SUCCESSFUL_HIT, 1.0f, 0.0f);
 
     /**

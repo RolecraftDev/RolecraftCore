@@ -188,6 +188,6 @@ public class FarbreakSilkTouch implements Spell {
      */
     @Override
     public SoundWrapper getSound() {
-        return SoundWrapper.defaultSound;
+        return SoundWrapper.DEFAULT;
     }
 }

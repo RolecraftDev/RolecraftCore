@@ -155,6 +155,6 @@ public class StrongerBow implements Spell {
      */
     @Override
     public SoundWrapper getSound() {
-        return SoundWrapper.bowSound;
+        return SoundWrapper.BOW;
     }
 }

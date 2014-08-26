@@ -229,6 +229,6 @@ public class ArrowShower implements Spell {
      */
     @Override
     public SoundWrapper getSound() {
-        return SoundWrapper.defaultSound;
+        return SoundWrapper.DEFAULT;
     }
 }

@@ -161,6 +161,6 @@ public class StrongerSword implements Spell {
      */
     @Override
     public SoundWrapper getSound() {
-        return SoundWrapper.swordSound;
+        return SoundWrapper.SWORD;
     }
 }

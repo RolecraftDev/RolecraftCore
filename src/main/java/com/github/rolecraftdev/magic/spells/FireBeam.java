@@ -169,6 +169,6 @@ public class FireBeam implements Spell {
      */
     @Override
     public SoundWrapper getSound() {
-        return SoundWrapper.defaultSound;
+        return SoundWrapper.DEFAULT;
     }
 }
