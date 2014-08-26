@@ -51,7 +51,7 @@ import org.bukkit.inventory.meta.ItemMeta;
  * @since 0.0.5
  */
 public class FarbreakSilkTouch implements Spell {
-    private final SpellManager manager;
+    private final SpellManager spellManager;
 
     /**
      * Constructor.
@@ -61,7 +61,7 @@ public class FarbreakSilkTouch implements Spell {
      * @since 0.0.5
      */
     public FarbreakSilkTouch(final SpellManager spellManager) {
-        manager = spellManager;
+        this.spellManager = spellManager;
     }
 
     /**
@@ -129,7 +129,7 @@ public class FarbreakSilkTouch implements Spell {
         float retVal;
         Block toBreak;
         if (block == null) {
-            toBreak = ply.getTargetBlock(null, manager.getRange());
+            toBreak = ply.getTargetBlock(null, spellManager.getRange());
             if (toBreak == null) {
                 return Float.MIN_VALUE;
             }
@@ -139,7 +139,7 @@ public class FarbreakSilkTouch implements Spell {
             retVal = 5;
         }
 
-        if (manager.getPlugin().isExtraEvents()) {
+        if (spellManager.getPlugin().isExtraEvents()) {
             BlockBreakEvent event = new BlockBreakEvent(toBreak, ply);
             Bukkit.getServer().getPluginManager().callEvent(event);
             if (event.isCancelled()) {

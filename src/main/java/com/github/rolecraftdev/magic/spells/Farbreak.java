@@ -51,17 +51,17 @@ import org.bukkit.inventory.meta.ItemMeta;
  * @since 0.0.5
  */
 public class Farbreak implements Spell {
-    private final SpellManager manager;
+    private final SpellManager spellManager;
 
     /**
      * Constructor.
      *
-     * @param manager the {@link SpellManager} this {@link Spell} implementation
-     *        will be registered to
+     * @param spellManager the {@link SpellManager} this {@link Spell}
+     *        implementation will be registered to
      * @since 0.0.5
      */
-    public Farbreak(SpellManager manager) {
-        this.manager = manager;
+    public Farbreak(SpellManager spellManager) {
+        this.spellManager = spellManager;
     }
 
     /**
@@ -109,7 +109,7 @@ public class Farbreak implements Spell {
         float retVal;
         Block toBreak;
         if (block == null) {
-            toBreak = caster.getTargetBlock(null, manager.getRange());
+            toBreak = caster.getTargetBlock(null, spellManager.getRange());
             if (toBreak == null) {
                 return Float.MIN_VALUE;
             }
@@ -119,7 +119,7 @@ public class Farbreak implements Spell {
             retVal = 2;
         }
 
-        if (manager.getPlugin().isExtraEvents()) {
+        if (spellManager.getPlugin().isExtraEvents()) {
             BlockBreakEvent event = new BlockBreakEvent(toBreak, caster);
             Bukkit.getServer().getPluginManager().callEvent(event);
             if (event.isCancelled()) {

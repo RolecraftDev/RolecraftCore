@@ -54,17 +54,17 @@ import org.bukkit.inventory.meta.ItemMeta;
  * @since 0.0.5
  */
 public class AvadaKedavra implements Spell {
-    private final SpellManager manager;
+    private final SpellManager spellManager;
 
     /**
      * Constructor.
      *
-     * @param manager the {@link SpellManager} this {@link Spell} implementation
-     *        will be registered to
+     * @param spellManager the {@link SpellManager} this {@link Spell}
+     *        implementation will be registered to
      * @since 0.0.5
      */
-    public AvadaKedavra(final SpellManager manager) {
-        this.manager = manager;
+    public AvadaKedavra(final SpellManager spellManager) {
+        this.spellManager = spellManager;
     }
 
     /**
@@ -107,7 +107,8 @@ public class AvadaKedavra implements Spell {
     @Override
     public float estimateRightClickMana(Player caster, Block block, int modifier,
             BlockFace face) {
-        LivingEntity toKill = Utils.getLivingTarget(caster, manager.getRange());
+        LivingEntity toKill = Utils.getLivingTarget(caster, spellManager
+                .getRange());
         if (toKill != null) {
             if (toKill instanceof Player) {
                 return 1500;
@@ -124,7 +125,8 @@ public class AvadaKedavra implements Spell {
     @Override
     public float rightClick(Player caster, Block block, int modifier,
             BlockFace face) {
-        LivingEntity toKill = Utils.getLivingTarget(caster, manager.getRange());
+        LivingEntity toKill = Utils.getLivingTarget(caster, spellManager
+                .getRange());
         if (toKill == null) {
             return Float.MIN_VALUE;
         }
@@ -136,7 +138,7 @@ public class AvadaKedavra implements Spell {
         if (!edbee.isCancelled()) {
             toKill.setHealth(0D); // pwnt
             if (toKill instanceof Player) {
-                manager.setMana(caster, 0f);
+                spellManager.setMana(caster, 0f);
                 caster.sendMessage("Your mana has been drained!");
             } else {
                 return 800 - modifier;
@@ -168,7 +170,7 @@ public class AvadaKedavra implements Spell {
         if (!edbee.isCancelled()) {
             target.setHealth(0D); // pwnt
             if (target instanceof Player) {
-                manager.setMana(caster, 0f);
+                spellManager.setMana(caster, 0f);
                 caster.sendMessage("Your mana has been drained!");
             } else {
                 return 800 - modifier;

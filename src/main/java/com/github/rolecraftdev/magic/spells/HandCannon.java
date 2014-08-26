@@ -53,17 +53,17 @@ import org.bukkit.metadata.FixedMetadataValue;
  * @since 0.0.5
  */
 public class HandCannon implements Spell {
-    private final SpellManager manager;
+    private final SpellManager spellManager;
 
     /**
      * Constructor.
      *
-     * @param manager the {@link SpellManager} this {@link Spell} implementation
-     *        will be registered to
+     * @param spellManager the {@link SpellManager} this {@link Spell}
+     *        implementation will be registered to
      * @since 0.0.5
      */
-    public HandCannon(final SpellManager manager) {
-        this.manager = manager;
+    public HandCannon(final SpellManager spellManager) {
+        this.spellManager = spellManager;
     }
 
     /**
@@ -114,9 +114,11 @@ public class HandCannon implements Spell {
         Arrow arrow = caster.launchProjectile(Arrow.class);
         arrow.setVelocity(arrow.getVelocity().multiply(4));
         arrow.setMetadata("Multiplier",
-                new FixedMetadataValue(manager.getPlugin(), (float) 6));
+ new FixedMetadataValue(spellManager
+                .getPlugin(), (float) 6));
         arrow.setMetadata("Knockback",
-                new FixedMetadataValue(manager.getPlugin(), new Float(1.0)));
+ new FixedMetadataValue(spellManager
+                .getPlugin(), new Float(1.0)));
         // Make a loud bang when used
 
         return (300f - modifier / 100f > 0) ? 300f - modifier / 100f : 0;

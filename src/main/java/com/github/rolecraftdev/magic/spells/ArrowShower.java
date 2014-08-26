@@ -75,17 +75,17 @@ public class ArrowShower implements Spell {
         transparency.add((byte) Material.WATER.getId());
     }
 
-    private final SpellManager manager;
+    private final SpellManager spellManager;
 
     /**
      * Constructor.
      *
-     * @param manager the {@link SpellManager} this {@link Spell} implementation
-     *        will be registered to
+     * @param spellManager the {@link SpellManager} this {@link Spell}
+     *        implementation will be registered to
      * @since 0.0.5
      */
-    public ArrowShower(SpellManager manager) {
-        this.manager = manager;
+    public ArrowShower(SpellManager spellManager) {
+        this.spellManager = spellManager;
     }
 
     /**
@@ -134,7 +134,8 @@ public class ArrowShower implements Spell {
         if (block != null) {
             target = block;
         } else {
-            Block temp = caster.getTargetBlock(transparency, manager.getRange());
+            Block temp = caster.getTargetBlock(transparency, spellManager
+                    .getRange());
             if (temp != null) {
                 target = temp;
             } else {
@@ -162,7 +163,7 @@ public class ArrowShower implements Spell {
         }
 
         if (!isTop) {
-            caster.sendMessage(manager.getPlugin().getMessage(
+            caster.sendMessage(spellManager.getPlugin().getMessage(
                     Messages.ARROW_BELOW_GROUND_FAILURE));
             return Float.MIN_VALUE;
         }

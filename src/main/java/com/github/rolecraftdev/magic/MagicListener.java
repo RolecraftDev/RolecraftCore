@@ -77,13 +77,13 @@ public class MagicListener implements Listener {
      * Constructor.
      *
      * @param plugin the associated {@link RolecraftCore} instance
-     * @param manager the {@link SpellManager} of which the {@link Spell}s
+     * @param spellManager the {@link SpellManager} of which the {@link Spell}s
      *        should be handled by this {@link Listener}
      * @since 0.0.5
      */
-    MagicListener(final RolecraftCore plugin, final SpellManager manager) {
+    MagicListener(final RolecraftCore plugin, final SpellManager spellManager) {
         this.plugin = plugin;
-        spellManager = manager;
+        this.spellManager = spellManager;
         scoreboards = new HashMap<UUID, Scoreboard>();
         scoreboardMgr = Bukkit.getScoreboardManager();
     }

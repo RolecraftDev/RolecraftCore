@@ -55,17 +55,17 @@ import java.util.List;
  * @since 0.0.5
  */
 public class MiningHammer implements Spell {
-    private final SpellManager manager;
+    private final SpellManager spellManager;
 
     /**
      * Constructor.
      *
-     * @param manager the {@link SpellManager} this {@link Spell} implementation
-     *        will be registered to
+     * @param spellManager the {@link SpellManager} this {@link Spell}
+     *        implementation will be registered to
      * @since 0.0.5
      */
-    public MiningHammer(final SpellManager manager) {
-        this.manager = manager;
+    public MiningHammer(final SpellManager spellManager) {
+        this.spellManager = spellManager;
     }
 
     /**
@@ -155,7 +155,7 @@ public class MiningHammer implements Spell {
         }
 
         for (Block toBreak : blocks) {
-            if (manager.getPlugin().isExtraEvents()) {
+            if (spellManager.getPlugin().isExtraEvents()) {
                 BlockBreakEvent event = new BlockBreakEvent(toBreak, ply);
                 Bukkit.getPluginManager().callEvent(event);
                 if (event.isCancelled()) {
