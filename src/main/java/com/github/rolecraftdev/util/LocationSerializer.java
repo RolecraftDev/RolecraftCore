@@ -39,6 +39,12 @@ import java.util.UUID;
  */
 public class LocationSerializer {
     /**
+     * @since 0.0.5
+     */
+    private LocationSerializer() {
+    }
+
+    /**
      * Deserialise the given string.
      *
      * @param serial the string that is to be deserialised
@@ -101,11 +107,5 @@ public class LocationSerializer {
         return loc.getWorld().getUID().toString() + "," + loc.getX() + "," + loc
                 .getY() + "," + loc.getZ() + "," + loc.getYaw() + "," + loc
                 .getPitch();
-    }
-
-    /**
-     * @since 0.0.5
-     */
-    private LocationSerializer() {
     }
 }

@@ -35,6 +35,12 @@ import org.bukkit.entity.EntityType;
  */
 public final class LevelUtil {
     /**
+     * @since 0.0.5
+     */
+    private LevelUtil() {
+    }
+
+    /**
      * Retrieve the level that the given amount of experience represents. The
      * algorithm for levels is:
      * <em>y = ln(0.8(x + 1.25)) * ((x + 1.25)^0.4) * 0.1 + 1</em>
@@ -145,11 +151,5 @@ public final class LevelUtil {
             default:
                 return 0;
         }
-    }
-
-    /**
-     * @since 0.0.5
-     */
-    private LevelUtil() {
     }
 }

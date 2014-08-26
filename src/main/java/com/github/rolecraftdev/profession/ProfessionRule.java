@@ -78,23 +78,6 @@ public final class ProfessionRule<T> {
             "usable-weapons", List.class);
 
     /**
-     * Retrieve the {@link ProfessionRule} with the specified name.
-     *
-     * @param name the name of the wanted {@link ProfessionRule}
-     * @return the {@link ProfessionRule} with the given name
-     * @since 0.0.5
-     */
-    @Nullable
-    public static ProfessionRule<?> getRule(final String name) {
-        for (final ProfessionRule<?> element : pool) {
-            if (element.getName().equals(name)) {
-                return element;
-            }
-        }
-        return null;
-    }
-
-    /**
      * The name of this {@link ProfessionRule}.
      */
     private final String name;
@@ -114,6 +97,23 @@ public final class ProfessionRule<T> {
         this.type = type;
 
         pool.add(this);
+    }
+
+    /**
+     * Retrieve the {@link ProfessionRule} with the specified name.
+     *
+     * @param name the name of the wanted {@link ProfessionRule}
+     * @return the {@link ProfessionRule} with the given name
+     * @since 0.0.5
+     */
+    @Nullable
+    public static ProfessionRule<?> getRule(final String name) {
+        for (final ProfessionRule<?> element : pool) {
+            if (element.getName().equals(name)) {
+                return element;
+            }
+        }
+        return null;
     }
 
     /**

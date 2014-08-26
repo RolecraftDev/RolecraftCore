@@ -60,6 +60,12 @@ public final class CommandHelper {
     private static final int COMMANDS_PER_PAGE = 6;
 
     /**
+     * @since 0.0.5
+     */
+    private CommandHelper() {
+    }
+
+    /**
      * Displays a help message to the given {@link CommandSender}, which
      * consists of a list of commands, containing their usage as well as a brief
      * description of each command's functionality. The page of sub-commands is
@@ -234,11 +240,5 @@ public final class CommandHelper {
 
         sender.sendMessage(ChatColor.GRAY +
                 "Permitted Actions: " + permitted.toString());
-    }
-
-    /**
-     * @since 0.0.5
-     */
-    private CommandHelper() {
     }
 }

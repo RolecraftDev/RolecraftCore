@@ -48,6 +48,11 @@ public final class Utils {
     private static final float SMALL_VELOCITY_FACTOR = 0.05f;
 
     /**
+     * @since 0.0.5
+     */
+    private Utils() {}
+
+    /**
      * Retrieve the {@link Entity} that is targeted by the given player within
      * the given range.
      *
@@ -176,11 +181,5 @@ public final class Utils {
         return new Vector(smallVelocityRandomiser((float) original.getX()),
                 smallVelocityRandomiser((float) original.getY()),
                 smallVelocityRandomiser((float) original.getZ()));
-    }
-
-    /**
-     * @since 0.0.5
-     */
-    private Utils() {
     }
 }

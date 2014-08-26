@@ -60,6 +60,12 @@ public class RolecraftEventFactory {
     private static RolecraftCore plugin;
 
     /**
+     * @since 0.0.5
+     */
+    private RolecraftEventFactory() {
+    }
+
+    /**
      * Calls a {@link GuildRankRemoveEvent} with the {@link RolecraftCore}
      * instance and the given parameters
      *
@@ -220,12 +226,5 @@ public class RolecraftEventFactory {
     public static void setPlugin(RolecraftCore plugin) {
         Validate.notNull(plugin);
         RolecraftEventFactory.plugin = plugin;
-    }
-
-    /**
-     * @since 0.0.5
-     */
-    private RolecraftEventFactory() {
-        throw new UnsupportedOperationException();
     }
 }
