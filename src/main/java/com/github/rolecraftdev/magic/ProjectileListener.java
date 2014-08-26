@@ -29,6 +29,7 @@ package com.github.rolecraftdev.magic;
 import org.bukkit.Effect;
 import org.bukkit.Sound;
 import org.bukkit.entity.Arrow;
+import org.bukkit.entity.Entity;
 import org.bukkit.event.Event;
 import org.bukkit.event.EventHandler;
 import org.bukkit.event.EventPriority;
@@ -48,17 +49,18 @@ public class ProjectileListener implements Listener {
      */
     @EventHandler(priority = EventPriority.HIGHEST)
     public void onDamage(EntityDamageByEntityEvent e) {
-        if (e.getDamager() instanceof Arrow) {
-            if (e.getDamager().hasMetadata("Multiplier")) {
-                e.setDamage(
-                        e.getDamage() * e.getDamager().getMetadata("Multiplier")
-                                .get(0).asFloat());
-            }
-            if (e.getDamager().hasMetadata("Knockback")) {
-                e.getEntity().setVelocity(e.getDamager().getVelocity().multiply(
-                        e.getDamager().getMetadata("Knockback").get(0)
-                                .asFloat()));
-            }
+        final Entity damager = e.getDamager();
+        if (!(damager instanceof Arrow)) {
+            return;
+        }
+
+        if (damager.hasMetadata("Multiplier")) {
+            e.setDamage(e.getDamage() * damager.getMetadata("Multiplier")
+                    .get(0).asFloat());
+        }
+        if (damager.hasMetadata("Knockback")) {
+            e.getEntity().setVelocity(damager.getVelocity().multiply(
+                    damager.getMetadata("Knockback").get(0).asFloat()));
         }
     }
 
@@ -67,14 +69,16 @@ public class ProjectileListener implements Listener {
      */
     @EventHandler(priority = EventPriority.HIGH)
     public void onHit(ProjectileHitEvent e) {
-        if (e.getEntity() instanceof Arrow) {
-            if (e.getEntity().hasMetadata("Explosion")) {
-                e.getEntity().getWorld()
-                        .playEffect(e.getEntity().getLocation(), Effect.SMOKE,
-                                null);
-                e.getEntity().getWorld().playSound(e.getEntity().getLocation(),
-                        Sound.EXPLODE, 1.0f, 0.0f);
-            }
+        final Entity entity = e.getEntity();
+        if (!(entity instanceof Arrow)) {
+            return;
+        }
+
+        if (entity.hasMetadata("Explosion")) {
+            entity.getWorld().playEffect(e.getEntity().getLocation(),
+                    Effect.SMOKE, null);
+            entity.getWorld().playSound(e.getEntity().getLocation(),
+                    Sound.EXPLODE, 1.0f, 0.0f);
         }
     }
 }

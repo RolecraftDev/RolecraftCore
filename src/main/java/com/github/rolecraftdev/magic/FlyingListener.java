@@ -48,6 +48,9 @@ import org.bukkit.metadata.FixedMetadataValue;
  * @since 0.0.5
  */
 public class FlyingListener implements Listener {
+    /**
+     * The metadata tag used for a flying player
+     */
     public static final String FLY_METADATA = "rolecraftfly";
 
     /**
