@@ -67,7 +67,7 @@ public class SpellManager {
      * from the given plugin's configuration file. Additionally this also
      * registers all Rolecraft {@link Spell} implementations and the required
      * {@link Listener}s along with scheduling the appropriate
-     * {@link BukkitRunnable} implementations.
+     * {@link org.bukkit.scheduler.BukkitRunnable} implementations.
      *
      * @param plugin the associated {@link RolecraftCore} instance
      * @since 0.0.5

@@ -36,10 +36,11 @@ import org.bukkit.entity.LivingEntity;
 import org.bukkit.entity.Player;
 import org.bukkit.inventory.Recipe;
 
+import javax.annotation.Nonnull;
 import javax.annotation.Nullable;
 
 /**
- * Represents a castable spell.
+ * Represents a spell which can be cast in Rolecraft.
  *
  * @since 0.0.5
  */
@@ -48,21 +49,22 @@ public interface Spell {
      * Returned by attack, leftClick, rightClick if it isn't the right type of
      * action for the spell to be cast
      */
-    public static final float BAD_SITUATION = Float.MIN_NORMAL;
+    float BAD_SITUATION = Float.MIN_NORMAL;
     /**
      * Returned by attack, leftClick, rightClick if there is a failure to cast
      * the spell
      */
-    public static final float CAST_FAILURE = Float.MIN_VALUE;
+    float CAST_FAILURE = Float.MIN_VALUE;
 
     // TODO: elaborate on the mana return value
+
     /**
      * Get the name of this {@link Spell}.
      *
      * @return the name
      * @since 0.0.5
      */
-    public String getName();
+    String getName();
 
     /**
      * Retrieve the amount of mana that is required when performing the
@@ -75,8 +77,7 @@ public interface Spell {
      * @since 0.0.5
      * @see #attack(Player, LivingEntity, int)
      */
-    public float estimateAttackMana(Player caster, LivingEntity target,
-            int modifier);
+    float estimateAttackMana(Player caster, LivingEntity target, int modifier);
 
     /**
      * Retrieve the amount of mana that is required when performing the
@@ -90,7 +91,7 @@ public interface Spell {
      * @since 0.0.5
      * @see #leftClick(Player, Block, int, BlockFace)
      */
-    public float estimateLeftClickMana(Player caster, Block block, int modifier,
+    float estimateLeftClickMana(Player caster, Block block, int modifier,
             BlockFace face);
 
     /**
@@ -105,7 +106,7 @@ public interface Spell {
      * @since 0.0.5
      * @see #rightClick(Player, Block, int, BlockFace)
      */
-    public float estimateRightClickMana(Player caster, Block block, int modifier,
+    float estimateRightClickMana(Player caster, Block block, int modifier,
             BlockFace face);
 
     /**
@@ -119,8 +120,7 @@ public interface Spell {
      * @since 0.0.5
      * @see #estimateRightClickMana(Player, Block, int, BlockFace)
      */
-    public float rightClick(Player caster, Block block, int modifier,
-            BlockFace face);
+    float rightClick(Player caster, Block block, int modifier, BlockFace face);
 
     /**
      * Perform the {@link Spell} implementation on left-click.
@@ -133,8 +133,7 @@ public interface Spell {
      * @since 0.0.5
      * @see #estimateLeftClickMana(Player, Block, int, BlockFace)
      */
-    public float leftClick(Player caster, Block block, int modifier,
-            BlockFace face);
+    float leftClick(Player caster, Block block, int modifier, BlockFace face);
 
     /**
      * Perform the {@link Spell} implementation in attack.
@@ -146,7 +145,7 @@ public interface Spell {
      * @since 0.0.5
      * @see #estimateAttackMana(Player, LivingEntity, int)
      */
-    public float attack(Player caster, LivingEntity target, int modifier);
+    float attack(Player caster, LivingEntity target, int modifier);
 
     /**
      * Get the {@link Recipe} used for creating the representing wand.
@@ -154,7 +153,8 @@ public interface Spell {
      * @return the wand {@link Recipe}
      * @since 0.0.5
      */
-    public Recipe getWandRecipe();
+    @Nonnull
+    Recipe getWandRecipe();
 
     /**
      * Get the {@link Sound}, indirectly, that should be played whenever the
@@ -164,5 +164,5 @@ public interface Spell {
      * @since 0.0.5
      */
     @Nullable
-    public SoundWrapper getSound();
+    SoundWrapper getSound();
 }
