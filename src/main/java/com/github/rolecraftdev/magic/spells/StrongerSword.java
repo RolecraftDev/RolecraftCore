@@ -117,7 +117,7 @@ public class StrongerSword implements Spell {
     }
 
     private float click() {
-        return Float.MIN_VALUE;
+        return BAD_SITUATION;
     }
 
     /**
@@ -131,7 +131,7 @@ public class StrongerSword implements Spell {
         if (!edbee.isCancelled()) {
             target.damage(3.5);
         } else {
-            return Float.MIN_VALUE;
+            return CAST_FAILURE;
         }
         return (30f - modifier / 10f > 0) ? (30f - modifier / 10f) : 0f;
     }

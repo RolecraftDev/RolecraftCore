@@ -106,7 +106,7 @@ public class ExcellentBow implements Spell {
     public float rightClick(Player caster, Block block, int modifier,
             BlockFace face) {
         if (block != null) {
-            return Float.MIN_VALUE;
+            return CAST_FAILURE;
         }
 
         Arrow arrow = caster.launchProjectile(Arrow.class);
@@ -123,7 +123,7 @@ public class ExcellentBow implements Spell {
     @Override
     public float leftClick(Player caster, Block block, int modifier,
             BlockFace face) {
-        return Float.MIN_VALUE;
+        return BAD_SITUATION;
     }
 
     /**
@@ -131,7 +131,7 @@ public class ExcellentBow implements Spell {
      */
     @Override
     public float attack(Player caster, LivingEntity target, int modifier) {
-        return Float.MIN_VALUE;
+        return BAD_SITUATION;
     }
 
     /**

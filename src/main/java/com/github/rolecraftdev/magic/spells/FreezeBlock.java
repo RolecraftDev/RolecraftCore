@@ -140,10 +140,10 @@ public class FreezeBlock implements Spell {
         BlockBreakEvent bbe = new BlockBreakEvent(targetBlock, ply);
         Bukkit.getPluginManager().callEvent(bbe);
         if (bbe.isCancelled()) {
-            return Float.MIN_VALUE;
+            return CAST_FAILURE;
         }
-        float retVal = Float.MIN_VALUE;
 
+        float retVal = CAST_FAILURE;
         if (targetBlock != null) {
             BlockState state = targetBlock.getState();
 
@@ -184,7 +184,7 @@ public class FreezeBlock implements Spell {
      */
     @Override
     public float attack(Player caster, LivingEntity target, int modifier) {
-        return Float.MIN_VALUE;
+        return BAD_SITUATION;
     }
 
     /**
@@ -203,7 +203,6 @@ public class FreezeBlock implements Spell {
         recipe.shape("SSI", "SIS", "ISS");
         recipe.setIngredient('S', Material.SNOW_BALL);
         recipe.setIngredient('I', Material.IRON_INGOT);
-
         return recipe;
     }
 

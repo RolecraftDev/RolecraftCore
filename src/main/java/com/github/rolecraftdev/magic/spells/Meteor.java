@@ -136,11 +136,11 @@ public class Meteor implements Spell {
             if (temp != null) {
                 target = temp;
             } else {
-                return Float.MIN_VALUE;
+                return CAST_FAILURE;
             }
         }
-        Block index = target;
 
+        Block index = target;
         boolean isTop = true;
 
         loop:
@@ -161,7 +161,7 @@ public class Meteor implements Spell {
 
         if (!isTop) {
             caster.sendMessage("You must aim above ground to shoot a meteor!");
-            return Float.MIN_VALUE;
+            return CAST_FAILURE;
         }
         Location center = new Location(target.getWorld(),
                 target.getX(), target.getY() + 20, target.getZ());
@@ -181,7 +181,7 @@ public class Meteor implements Spell {
     @Override
     public float leftClick(Player caster, Block block, int modifier,
             BlockFace face) {
-        return Float.MIN_VALUE;
+        return BAD_SITUATION;
     }
 
     /**
@@ -189,7 +189,7 @@ public class Meteor implements Spell {
      */
     @Override
     public float attack(Player caster, LivingEntity target, int modifier) {
-        return Float.MIN_VALUE;
+        return BAD_SITUATION;
     }
 
     /**
@@ -208,7 +208,6 @@ public class Meteor implements Spell {
         recipe.shape("SSI", "SIS", "ISS");
         recipe.setIngredient('S', Material.TNT);
         recipe.setIngredient('I', Material.EMERALD);
-
         return recipe;
     }
 

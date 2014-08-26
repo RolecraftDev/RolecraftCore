@@ -111,7 +111,7 @@ public class Farbreak implements Spell {
         if (block == null) {
             toBreak = caster.getTargetBlock(null, spellManager.getRange());
             if (toBreak == null) {
-                return Float.MIN_VALUE;
+                return CAST_FAILURE;
             }
             retVal = 3;
         } else {
@@ -123,7 +123,7 @@ public class Farbreak implements Spell {
             BlockBreakEvent event = new BlockBreakEvent(toBreak, caster);
             Bukkit.getServer().getPluginManager().callEvent(event);
             if (event.isCancelled()) {
-                return Float.MIN_VALUE;
+                return CAST_FAILURE;
             }
         }
 
@@ -137,7 +137,7 @@ public class Farbreak implements Spell {
     @Override
     public float leftClick(Player caster, Block block, int modifier,
             BlockFace face) {
-        return Float.MIN_VALUE;
+        return BAD_SITUATION;
     }
 
     /**
@@ -145,7 +145,7 @@ public class Farbreak implements Spell {
      */
     @Override
     public float attack(Player caster, LivingEntity target, int modifier) {
-        return Float.MIN_VALUE;
+        return BAD_SITUATION;
     }
 
     /**

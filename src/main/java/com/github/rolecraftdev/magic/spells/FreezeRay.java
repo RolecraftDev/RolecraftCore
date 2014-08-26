@@ -67,7 +67,6 @@ public class FreezeRay implements Spell {
      */
     static {
         // declare it so water isn't transparent
-
         transparency = new HashSet<Byte>();
         transparency.add((byte) Material.AIR.getId());
         transparency.add((byte) Material.GLASS.getId());
@@ -146,7 +145,7 @@ public class FreezeRay implements Spell {
         BlockBreakEvent bbe = new BlockBreakEvent(targetBlock, ply);
         Bukkit.getPluginManager().callEvent(bbe);
         if (bbe.isCancelled()) {
-            return Float.MIN_VALUE;
+            return CAST_FAILURE;
         }
         float retVal = 0;
 
@@ -202,7 +201,6 @@ public class FreezeRay implements Spell {
         recipe.shape("SSI", "SIS", "ISS");
         recipe.setIngredient('S', Material.ICE);
         recipe.setIngredient('I', Material.IRON_BLOCK);
-
         return recipe;
     }
 
@@ -228,6 +226,6 @@ public class FreezeRay implements Spell {
      */
     @Override
     public float attack(Player caster, LivingEntity target, int modifier) {
-        return 0;
+        return BAD_SITUATION;
     }
 }

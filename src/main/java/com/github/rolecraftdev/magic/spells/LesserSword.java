@@ -117,7 +117,7 @@ public class LesserSword implements Spell {
     }
 
     private float click() {
-        return Float.MIN_VALUE;
+        return BAD_SITUATION;
     }
 
     /**
@@ -150,7 +150,6 @@ public class LesserSword implements Spell {
         recipe.shape("SSI", "SIS", "ISS");
         recipe.setIngredient('S', Material.WOOD_SWORD);
         recipe.setIngredient('I', Material.IRON_INGOT);
-
         return recipe;
     }
 

@@ -131,7 +131,7 @@ public class FarbreakSilkTouch implements Spell {
         if (block == null) {
             toBreak = ply.getTargetBlock(null, spellManager.getRange());
             if (toBreak == null) {
-                return Float.MIN_VALUE;
+                return CAST_FAILURE;
             }
             retVal = 10;
         } else {
@@ -143,7 +143,7 @@ public class FarbreakSilkTouch implements Spell {
             BlockBreakEvent event = new BlockBreakEvent(toBreak, ply);
             Bukkit.getServer().getPluginManager().callEvent(event);
             if (event.isCancelled()) {
-                return Float.MIN_VALUE;
+                return CAST_FAILURE;
             }
         }
 
@@ -160,7 +160,7 @@ public class FarbreakSilkTouch implements Spell {
      */
     @Override
     public float attack(Player caster, LivingEntity target, int modifier) {
-        return 0;
+        return BAD_SITUATION;
     }
 
     /**

@@ -99,7 +99,7 @@ public class Fly implements Spell {
     @Override
     public float rightClick(Player caster, Block block, int modifier,
             BlockFace face) {
-        return Float.MIN_VALUE;
+        return BAD_SITUATION;
     }
 
     /**
@@ -108,7 +108,7 @@ public class Fly implements Spell {
     @Override
     public float leftClick(Player caster, Block block, int modifier,
             BlockFace face) {
-        return Float.MIN_VALUE;
+        return BAD_SITUATION;
     }
 
     /**
@@ -116,7 +116,7 @@ public class Fly implements Spell {
      */
     @Override
     public float attack(Player caster, LivingEntity target, int modifier) {
-        return Float.MIN_VALUE;
+        return BAD_SITUATION;
     }
 
     /**

@@ -81,7 +81,6 @@ public class AvadaKedavra implements Spell {
     @Override
     public float estimateAttackMana(Player caster, LivingEntity target,
             int modifier) {
-
         if (target != null) {
             if (target instanceof Player) {
                 return 1000;
@@ -128,12 +127,11 @@ public class AvadaKedavra implements Spell {
         LivingEntity toKill = Utils.getLivingTarget(caster, spellManager
                 .getRange());
         if (toKill == null) {
-            return Float.MIN_VALUE;
+            return CAST_FAILURE;
         }
 
         EntityDamageByEntityEvent edbee = new EntityDamageByEntityEvent(caster,
-                toKill,
-                DamageCause.MAGIC, Double.MAX_VALUE);
+                toKill, DamageCause.MAGIC, Double.MAX_VALUE);
         Bukkit.getPluginManager().callEvent(edbee);
         if (!edbee.isCancelled()) {
             toKill.setHealth(0D); // pwnt
@@ -144,8 +142,7 @@ public class AvadaKedavra implements Spell {
                 return 800 - modifier;
             }
         }
-
-        return 0;
+        return BAD_SITUATION;
     }
 
     /**
@@ -154,7 +151,7 @@ public class AvadaKedavra implements Spell {
     @Override
     public float leftClick(Player caster, Block block, int modifier,
             BlockFace face) {
-        return Float.MIN_VALUE;
+        return BAD_SITUATION;
     }
 
     /**
@@ -162,10 +159,8 @@ public class AvadaKedavra implements Spell {
      */
     @Override
     public float attack(Player caster, LivingEntity target, int modifier) {
-
         EntityDamageByEntityEvent edbee = new EntityDamageByEntityEvent(caster,
-                target,
-                DamageCause.MAGIC, Double.MAX_VALUE);
+                target, DamageCause.MAGIC, Double.MAX_VALUE);
         Bukkit.getPluginManager().callEvent(edbee);
         if (!edbee.isCancelled()) {
             target.setHealth(0D); // pwnt
@@ -177,7 +172,7 @@ public class AvadaKedavra implements Spell {
             }
         }
 
-        return Float.MIN_VALUE;
+        return BAD_SITUATION;
     }
 
     /**
@@ -196,7 +191,6 @@ public class AvadaKedavra implements Spell {
         recipe.setIngredient('O', Material.SKULL);
         recipe.setIngredient('E', Material.EMERALD_BLOCK);
         recipe.setIngredient('C', Material.DIAMOND_BLOCK);
-
         return recipe;
     }
 

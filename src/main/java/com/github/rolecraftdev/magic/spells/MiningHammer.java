@@ -141,8 +141,9 @@ public class MiningHammer implements Spell {
 
     private float click(Player ply, Block block, int modifier, BlockFace face) {
         if (block == null) {
-            return Float.MIN_VALUE;
+            return CAST_FAILURE;
         }
+
         List<Block> blocks;
         if (face == BlockFace.DOWN || face == BlockFace.UP) {
             blocks = getBlocksAround(block, Orientation.FLAT);
@@ -151,7 +152,7 @@ public class MiningHammer implements Spell {
         } else if (face == BlockFace.NORTH || face == BlockFace.SOUTH) {
             blocks = getBlocksAround(block, Orientation.NORTHSOUTH);
         } else {
-            return Float.MIN_VALUE;
+            return CAST_FAILURE;
         }
 
         for (Block toBreak : blocks) {
@@ -172,7 +173,7 @@ public class MiningHammer implements Spell {
      */
     @Override
     public float attack(Player caster, LivingEntity target, int modifier) {
-        return Float.MIN_VALUE;
+        return BAD_SITUATION;
     }
 
     /**

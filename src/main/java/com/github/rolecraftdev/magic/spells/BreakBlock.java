@@ -114,7 +114,7 @@ public class BreakBlock implements Spell {
             }
             return 3;
         }
-        return 0;
+        return BAD_SITUATION;
     }
 
     /**
@@ -131,7 +131,7 @@ public class BreakBlock implements Spell {
             }
             return 3;
         }
-        return 0;
+        return BAD_SITUATION;
     }
 
     /**
@@ -139,7 +139,7 @@ public class BreakBlock implements Spell {
      */
     @Override
     public float attack(Player caster, LivingEntity target, int modifier) {
-        return Float.MIN_VALUE;
+        return BAD_SITUATION;
     }
 
     /**

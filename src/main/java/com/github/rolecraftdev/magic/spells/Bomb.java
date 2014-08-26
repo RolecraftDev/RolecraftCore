@@ -116,7 +116,7 @@ public class Bomb implements Spell {
     @Override
     public float leftClick(Player caster, Block block, int modifier,
             BlockFace face) {
-        return Float.MIN_VALUE;
+        return BAD_SITUATION;
     }
 
     /**
@@ -124,7 +124,7 @@ public class Bomb implements Spell {
      */
     @Override
     public float attack(Player caster, LivingEntity target, int modifier) {
-        return Float.MIN_VALUE;
+        return BAD_SITUATION;
     }
 
     /**
@@ -143,7 +143,6 @@ public class Bomb implements Spell {
         recipe.shape("SSI", "SIS", "ISS");
         recipe.setIngredient('S', Material.TNT);
         recipe.setIngredient('I', Material.EMERALD);
-
         return recipe;
     }
 

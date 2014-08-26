@@ -109,14 +109,14 @@ public class BurnBlock implements Spell {
         Block toIgnite = caster.getLastTwoTargetBlocks(null, 5)
                 .get(0);
         if (toIgnite == null) {
-            return Float.MIN_VALUE;
+            return CAST_FAILURE;
         }
         BlockState state = toIgnite.getState();
         BlockPlaceEvent bpe = new BlockPlaceEvent(toIgnite, state, block, null,
                 caster, true);
         Bukkit.getServer().getPluginManager().callEvent(bpe);
         if (bpe.isCancelled()) {
-            return Float.MIN_VALUE;
+            return CAST_FAILURE;
         }
 
         toIgnite.setType(Material.FIRE);
@@ -129,7 +129,7 @@ public class BurnBlock implements Spell {
     @Override
     public float leftClick(Player caster, Block block, int modifier,
             BlockFace face) {
-        return Float.MIN_VALUE;
+        return BAD_SITUATION;
     }
 
     /**
@@ -137,7 +137,7 @@ public class BurnBlock implements Spell {
      */
     @Override
     public float attack(Player caster, LivingEntity target, int modifier) {
-        return Float.MIN_VALUE;
+        return BAD_SITUATION;
     }
 
     /**
@@ -156,7 +156,6 @@ public class BurnBlock implements Spell {
         recipe.shape("NNI", "NIN", "INN");
         recipe.setIngredient('N', Material.FLINT_AND_STEEL);
         recipe.setIngredient('I', Material.IRON_INGOT);
-
         return recipe;
     }
 

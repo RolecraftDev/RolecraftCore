@@ -128,7 +128,7 @@ public class DestroyBlock implements Spell {
      */
     @Override
     public float attack(Player caster, LivingEntity target, int modifier) {
-        return 0;
+        return BAD_SITUATION;
     }
 
     /**

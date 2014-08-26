@@ -118,13 +118,13 @@ public class SilkTouch implements Spell {
     @SuppressWarnings("deprecation")
     private float click(Player ply, Block block, int modifier, BlockFace face) {
         if (block == null) {
-            return Float.MIN_VALUE;
+            return CAST_FAILURE;
         }
 
         BlockBreakEvent event = new BlockBreakEvent(block, ply);
         Bukkit.getPluginManager().callEvent(event);
         if (event.isCancelled()) {
-            return Float.MIN_VALUE;
+            return CAST_FAILURE;
         }
 
         ItemStack i = new ItemStack(block.getType(), 1, (short) 1,
@@ -140,7 +140,7 @@ public class SilkTouch implements Spell {
      */
     @Override
     public float attack(Player caster, LivingEntity target, int modifier) {
-        return Float.MIN_VALUE;
+        return BAD_SITUATION;
     }
 
     /**

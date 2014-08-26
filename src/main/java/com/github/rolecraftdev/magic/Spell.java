@@ -44,6 +44,17 @@ import javax.annotation.Nullable;
  * @since 0.0.5
  */
 public interface Spell {
+    /**
+     * Returned by attack, leftClick, rightClick if it isn't the right type of
+     * action for the spell to be cast
+     */
+    public static final float BAD_SITUATION = Float.MIN_NORMAL;
+    /**
+     * Returned by attack, leftClick, rightClick if there is a failure to cast
+     * the spell
+     */
+    public static final float CAST_FAILURE = Float.MIN_VALUE;
+
     // TODO: elaborate on the mana return value
     /**
      * Get the name of this {@link Spell}.

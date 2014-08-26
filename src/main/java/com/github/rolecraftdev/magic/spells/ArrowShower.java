@@ -118,7 +118,8 @@ public class ArrowShower implements Spell {
      * @since 0.0.5
      */
     @Override
-    public float estimateRightClickMana(Player caster, Block block, int modifier,
+    public float estimateRightClickMana(Player caster, Block block,
+            int modifier,
             BlockFace face) {
         return (200f - modifier / 100f > 0) ? 200f - modifier / 100f : 0;
     }
@@ -139,7 +140,7 @@ public class ArrowShower implements Spell {
             if (temp != null) {
                 target = temp;
             } else {
-                return Float.MIN_VALUE;
+                return CAST_FAILURE;
             }
         }
         Block index = target;
@@ -165,7 +166,7 @@ public class ArrowShower implements Spell {
         if (!isTop) {
             caster.sendMessage(spellManager.getPlugin().getMessage(
                     Messages.ARROW_BELOW_GROUND_FAILURE));
-            return Float.MIN_VALUE;
+            return CAST_FAILURE;
         }
 
         Location center = new Location(target.getWorld(),
@@ -178,10 +179,8 @@ public class ArrowShower implements Spell {
 
         for (int x = -5; x <= 5; x++) {
             for (int z = -5; z < 5; z++) {
-                Arrow arrow = world
-                        .spawn(new Location(world, center.getX() + x
-                                        , center.getY(), center.getZ() + z),
-                                Arrow.class);
+                Arrow arrow = world.spawn(new Location(world, center.getX() + x,
+                        center.getY(), center.getZ() + z), Arrow.class);
                 arrow.setVelocity(Utils.velocityRandomiser(velocity));
             }
         }
@@ -195,7 +194,7 @@ public class ArrowShower implements Spell {
     @Override
     public float leftClick(Player caster, Block block, int modifier,
             BlockFace face) {
-        return Float.MIN_VALUE;
+        return BAD_SITUATION;
     }
 
     /**
@@ -203,7 +202,7 @@ public class ArrowShower implements Spell {
      */
     @Override
     public float attack(Player caster, LivingEntity target, int modifier) {
-        return Float.MIN_VALUE;
+        return BAD_SITUATION;
     }
 
     /**

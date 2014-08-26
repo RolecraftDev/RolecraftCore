@@ -95,7 +95,8 @@ public class FireBeam implements Spell {
      * @since 0.0.5
      */
     @Override
-    public float estimateRightClickMana(Player caster, Block block, int modifier,
+    public float estimateRightClickMana(Player caster, Block block,
+            int modifier,
             BlockFace face) {
         return 10;
     }
@@ -111,14 +112,14 @@ public class FireBeam implements Spell {
                 spellManager.getRange())
                 .get(0);
         if (toIgnite == null) {
-            return Float.MIN_VALUE;
+            return CAST_FAILURE;
         }
         BlockState state = toIgnite.getState();
         BlockPlaceEvent bpe = new BlockPlaceEvent(toIgnite, state, block, null,
                 caster, true);
         Bukkit.getServer().getPluginManager().callEvent(bpe);
         if (bpe.isCancelled()) {
-            return Float.MIN_VALUE;
+            return CAST_FAILURE;
         }
 
         toIgnite.setType(Material.FIRE);
@@ -132,7 +133,7 @@ public class FireBeam implements Spell {
     @Override
     public float leftClick(Player caster, Block block, int modifier,
             BlockFace face) {
-        return Float.MIN_VALUE;
+        return BAD_SITUATION;
     }
 
     /**
@@ -140,7 +141,7 @@ public class FireBeam implements Spell {
      */
     @Override
     public float attack(Player caster, LivingEntity target, int modifier) {
-        return Float.MIN_VALUE;
+        return BAD_SITUATION;
     }
 
     /**
@@ -160,7 +161,6 @@ public class FireBeam implements Spell {
         recipe.setIngredient('N', Material.FLINT_AND_STEEL);
         recipe.setIngredient('D', Material.DIAMOND);
         recipe.setIngredient('I', Material.IRON_BLOCK);
-
         return recipe;
     }
 

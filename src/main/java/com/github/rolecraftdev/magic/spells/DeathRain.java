@@ -142,11 +142,11 @@ public class DeathRain implements Spell {
             if (temp != null) {
                 target = temp;
             } else {
-                return Float.MIN_VALUE;
+                return CAST_FAILURE;
             }
         }
-        Block index = target;
 
+        Block index = target;
         boolean isTop = true;
 
         loop:
@@ -168,12 +168,11 @@ public class DeathRain implements Spell {
         if (!isTop) {
             caster.sendMessage(spellManager.getPlugin().getMessage(
                     Messages.ARROW_BELOW_GROUND_FAILURE));
-            return Float.MIN_VALUE;
+            return CAST_FAILURE;
         }
 
         Location center = new Location(target.getWorld(), target.getX(),
                 target.getY() + 40, target.getZ());
-
         Vector velocity = target.getLocation().toVector()
                 .subtract(center.toVector()).normalize().multiply(0.5d);
         World world = target.getWorld();
@@ -200,7 +199,7 @@ public class DeathRain implements Spell {
     @Override
     public float leftClick(Player caster, Block block, int modifier,
             BlockFace face) {
-        return 0;
+        return BAD_SITUATION;
     }
 
     /**
@@ -208,7 +207,7 @@ public class DeathRain implements Spell {
      */
     @Override
     public float attack(Player caster, LivingEntity target, int modifier) {
-        return 0;
+        return BAD_SITUATION;
     }
 
     /**
