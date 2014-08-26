@@ -31,6 +31,7 @@ import org.apache.commons.lang.Validate;
 import org.bukkit.Bukkit;
 import org.bukkit.entity.Player;
 
+import javax.annotation.Nonnull;
 import java.util.EnumSet;
 import java.util.HashSet;
 import java.util.Set;
@@ -47,15 +48,18 @@ public final class GuildRank {
     /**
      * The name of this {@link GuildRank}.
      */
+    @Nonnull
     private final String name;
     /**
      * The {@link GuildAction}s the players with this {@link GuildRank} are
      * allowed to perform.
      */
+    @Nonnull
     private final Set<GuildAction> permitted;
     /**
      * All players who are a part of this {@link GuildRank}.
      */
+    @Nonnull
     private final Set<UUID> members;
 
     /**
@@ -66,8 +70,9 @@ public final class GuildRank {
      * @param members the predefined members of this {@link GuildRank}
      * @since 0.0.5
      */
-    public GuildRank(final String name, final Set<GuildAction> permitted,
-            final Set<UUID> members) {
+    public GuildRank(@Nonnull final String name,
+            @Nonnull final Set<GuildAction> permitted,
+            @Nonnull final Set<UUID> members) {
         this.name = name;
         this.permitted = permitted;
         this.members = members;
@@ -79,6 +84,7 @@ public final class GuildRank {
      * @return the name
      * @since 0.0.5
      */
+    @Nonnull
     public String getName() {
         return name;
     }
@@ -90,6 +96,7 @@ public final class GuildRank {
      * @return the permitted {@link GuildAction}s
      * @since 0.0.5
      */
+    @Nonnull
     public Set<GuildAction> getPermittedActions() {
         return EnumSet.copyOf(permitted);
     }
@@ -100,6 +107,7 @@ public final class GuildRank {
      * @return the members
      * @since 0.0.5
      */
+    @Nonnull
     public Set<UUID> getMembers() {
         return new HashSet<UUID>(members);
     }
@@ -113,7 +121,7 @@ public final class GuildRank {
      *         {@link GuildRank}
      * @since 0.0.5
      */
-    public boolean hasPlayer(final UUID player) {
+    public boolean hasPlayer(@Nonnull final UUID player) {
         Validate.notNull(player);
         return members.contains(player);
     }
@@ -127,7 +135,7 @@ public final class GuildRank {
      *         {@code false} otherwise
      * @since 0.0.5
      */
-    public boolean can(final GuildAction action) {
+    public boolean can(@Nonnull final GuildAction action) {
         Validate.notNull(action);
         return permitted.contains(action);
     }
@@ -139,7 +147,7 @@ public final class GuildRank {
      * @param message the message that should be sent to all members
      * @since 0.0.5
      */
-    public void broadcastMessage(final String message) {
+    public void broadcastMessage(@Nonnull final String message) {
         Validate.notNull(message);
         for (final UUID playerId : members) {
             final Player player = Bukkit.getPlayer(playerId);
@@ -155,7 +163,7 @@ public final class GuildRank {
      * @param member the {@link UUID} of the player to add
      * @since 0.0.5
      */
-    public void addMember(final UUID member) {
+    public void addMember(@Nonnull final UUID member) {
         Validate.notNull(member);
         members.add(member);
     }
@@ -166,7 +174,7 @@ public final class GuildRank {
      * @param member the {@link UUID} of the player to remove
      * @since 0.0.5
      */
-    public void removeMember(final UUID member) {
+    public void removeMember(@Nonnull final UUID member) {
         Validate.notNull(member);
         members.remove(member);
     }
@@ -178,7 +186,7 @@ public final class GuildRank {
      * @param perm the {@link GuildAction} that should be granted permissions to
      * @since 0.0.5
      */
-    public void allowAction(final GuildAction perm) {
+    public void allowAction(@Nonnull final GuildAction perm) {
         Validate.notNull(perm);
         permitted.add(perm);
     }
@@ -191,7 +199,7 @@ public final class GuildRank {
      * @param perm the {@link GuildAction} that should be refused permissions to
      * @since 0.0.5
      */
-    public void disallowAction(final GuildAction perm) {
+    public void disallowAction(@Nonnull final GuildAction perm) {
         Validate.notNull(perm);
         permitted.remove(perm);
     }
@@ -202,6 +210,7 @@ public final class GuildRank {
      * @return the serialised version
      * @since 0.0.5
      */
+    @Nonnull
     public String serialize() {
         StringBuilder res = new StringBuilder();
         res.append(name);
@@ -223,18 +232,23 @@ public final class GuildRank {
      * Attempt to deserialise the given string. It is strongly recommended to
      * not build these strings yourself, but instead use {@link #serialize()}.
      *
-     * @param s the string to deserialise
+     * @param serialized the string to deserialise
      * @return the deserialised version
      * @since 0.0.5
      */
-    public static GuildRank deserialize(String serialized) {
-        String[] data = serialized.split(":");
-        Set<GuildAction> actions = new HashSet<GuildAction>();
-        Set<UUID> members = new HashSet<UUID>();
+    @Nonnull
+    public static GuildRank deserialize(@Nonnull final String serialized) {
+        Validate.notNull(serialized);
+
+        final String[] data = serialized.split(":");
+        final Set<GuildAction> actions = new HashSet<GuildAction>();
+        final Set<UUID> members = new HashSet<UUID>();
+
         for (String action : data[1].split("#")) {
             int actionValue = Integer.parseInt(action);
             actions.add(GuildAction.values()[actionValue]);
         }
+
         for (String member : data[2].split("#")) {
             if (!member.equals("")) {
                 members.add(UUID.fromString(member));

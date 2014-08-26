@@ -100,7 +100,7 @@ public class GuildDisbandCommand extends CommandHandler {
                 sender.sendMessage(plugin.getMessage(Messages.NO_GUILD));
                 return;
             } else {
-                if (!guild.getLeader().equals(player)) {
+                if (!player.equals(guild.getLeader())) {
                     sender.sendMessage(plugin.getMessage(
                             Messages.NOT_GUILD_LEADER));
                     return;

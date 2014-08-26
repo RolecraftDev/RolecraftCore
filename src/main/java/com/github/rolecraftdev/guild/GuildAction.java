@@ -28,6 +28,7 @@ package com.github.rolecraftdev.guild;
 
 import org.bukkit.Location;
 
+import javax.annotation.Nonnull;
 import java.util.UUID;
 
 /**
@@ -83,9 +84,10 @@ public enum GuildAction {
     /**
      * The player-readable version of the name of this {@link GuildAction}.
      */
+    @Nonnull
     private final String playerReadable;
 
-    GuildAction(final String playerReadable) {
+    GuildAction(@Nonnull final String playerReadable) {
         this.playerReadable = playerReadable;
         GuildManager.actionMap.put(playerReadable, this);
     }
@@ -96,6 +98,7 @@ public enum GuildAction {
      * @return the player-readable name
      * @since 0.0.5
      */
+    @Nonnull
     public String getPlayerReadableName() {
         return playerReadable;
     }
@@ -111,7 +114,7 @@ public enum GuildAction {
      * @since 0.0.5
      * @see Guild#can(UUID, GuildAction)
      */
-    public boolean can(final UUID player, final Guild guild) {
+    public boolean can(@Nonnull final UUID player, @Nonnull final Guild guild) {
         return guild.can(player, this);
     }
 

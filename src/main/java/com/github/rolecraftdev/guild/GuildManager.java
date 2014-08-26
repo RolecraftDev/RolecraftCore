@@ -43,6 +43,7 @@ import org.bukkit.Bukkit;
 import org.bukkit.ChatColor;
 import org.bukkit.scheduler.BukkitRunnable;
 
+import javax.annotation.Nonnull;
 import javax.annotation.Nullable;
 import java.util.HashMap;
 import java.util.HashSet;
@@ -208,25 +209,31 @@ public final class GuildManager {
      *         otherwise
      * @since 0.0.5
      */
-    public boolean addGuild(final Guild guild, boolean fromDatabase) {
+    public boolean addGuild(@Nonnull final Guild guild, boolean fromDatabase) {
+        // If a Guild is constructed with a null GuildManager, every getter
+        // method will return null - make sure there isn't a 'null' guild given
+        String name = guild.getName();
+        Validate.notNull(name);
+
         if (fromDatabase) {
             guilds.add(guild);
             channelBatch.addChannel(guild.getChannel());
             return true;
         }
+
         for (final Guild cur : guilds) {
-            if (cur.getName().equalsIgnoreCase(guild.getName())) {
-                Bukkit.getPlayer(guild.getLeader())
-                        .sendMessage(ChatColor.DARK_RED
-                                + "A guild by that name already exists!");
+            if (name.equalsIgnoreCase(cur.getName())) {
+                Bukkit.getPlayer(guild.getLeader()).sendMessage(
+                        ChatColor.DARK_RED +
+                                "A guild by that name already exists!");
                 return false;
             }
         }
 
         GuildCreateEvent event = RolecraftEventFactory.guildCreated(guild);
         if (event.isCancelled()) {
-            event.getFounder().sendMessage(
-                    ChatColor.DARK_RED + event.getCancelMessage());
+            event.getFounder().sendMessage(ChatColor.DARK_RED +
+                    event.getCancelMessage());
             return false;
         } else {
             guilds.add(guild);
@@ -245,7 +252,7 @@ public final class GuildManager {
      * @return only {@code true} if the {@link Guild} has truly been removed
      * @since 0.0.5
      */
-    public boolean removeGuild(final Guild guild) {
+    public boolean removeGuild(@Nonnull final Guild guild) {
         if (loaded) {
             RolecraftEventFactory.guildDisbanded(guild);
             plugin.getDataStore().deleteGuild(guild);
@@ -265,11 +272,11 @@ public final class GuildManager {
      * @since 0.0.5
      */
     @Nullable
-    public Guild getGuild(final String name) {
+    public Guild getGuild(@Nonnull final String name) {
         Validate.notNull(name);
         if (loaded) {
             for (final Guild guild : guilds) {
-                if (guild.getName().equalsIgnoreCase(name)) {
+                if (name.equalsIgnoreCase(guild.getName())) {
                     return guild;
                 }
             }
@@ -291,7 +298,7 @@ public final class GuildManager {
         Validate.notNull(uuid);
         if (loaded) {
             for (final Guild guild : guilds) {
-                if (guild.getId().equals(uuid)) {
+                if (uuid.equals(guild.getId())) {
                     return guild;
                 }
             }
@@ -309,7 +316,7 @@ public final class GuildManager {
      * @since 0.0.5
      */
     @Nullable
-    public Guild getPlayerGuild(final UUID player) {
+    public Guild getPlayerGuild(@Nonnull final UUID player) {
         Validate.notNull(player);
         if (loaded) {
             for (final Guild guild : guilds) {
@@ -459,7 +466,9 @@ public final class GuildManager {
      * @return the appropriate {@link GuildAction}
      * @since 0.0.5
      */
-    public static GuildAction fromHumanReadable(final String humanReadable) {
+    @Nullable
+    public static GuildAction fromHumanReadable(
+            @Nonnull final String humanReadable) {
         Validate.notNull(humanReadable);
         return actionMap.get(humanReadable);
     }

@@ -37,6 +37,8 @@ import com.github.rolecraftdev.util.LevelUtil;
 
 import org.bukkit.Bukkit;
 
+import javax.annotation.Nonnull;
+import javax.annotation.Nullable;
 import java.net.URISyntaxException;
 import java.util.HashMap;
 import java.util.Map;
@@ -115,8 +117,8 @@ public final class PlayerData {
      * @param name the username of the owner of this data
      * @since 0.0.5
      */
-    public PlayerData(final RolecraftCore plugin, final UUID playerId,
-            final String name) {
+    public PlayerData(final RolecraftCore plugin, @Nonnull final UUID playerId,
+            @Nonnull final String name) {
         this.playerId = playerId;
         this.name = name;
         this.plugin = plugin;
@@ -131,6 +133,7 @@ public final class PlayerData {
      * @return the owner's {@link UUID}
      * @since 0.0.5
      */
+    @Nonnull
     public UUID getPlayerId() {
         return playerId;
     }
@@ -141,6 +144,7 @@ public final class PlayerData {
      * @return the owner's username
      * @since 0.0.5
      */
+    @Nonnull
     public String getPlayerName() {
         return name;
     }
@@ -151,6 +155,7 @@ public final class PlayerData {
      * @return the owner's {@link PlayerSettings}
      * @since 0.0.5
      */
+    @Nonnull
     public PlayerSettings getSettings() {
         return settings;
     }
@@ -184,6 +189,7 @@ public final class PlayerData {
      * @return the {@link UUID} of the owner's {@link Guild}
      * @since 0.0.5
      */
+    @Nullable
     public UUID getGuild() {
         if (loaded) {
             return guild;
@@ -198,6 +204,7 @@ public final class PlayerData {
      * @return the {@link UUID} of the owner's primary {@link Profession}
      * @since 0.0.5
      */
+    @Nullable
     public UUID getProfession() {
         if (loaded) {
             return profession;
@@ -212,6 +219,7 @@ public final class PlayerData {
      * @return the {@link Quest} progression of the owner
      * @since 0.0.5
      */
+    @Nullable
     public Map<UUID, String> getQuestProgression() {
         return questProgression;
     }
@@ -363,7 +371,7 @@ public final class PlayerData {
      * @param influence the amount of influence that should be added to the
      *        current amount
      * @since 0.0.5
-     * @see #setInfluence(float)
+     * @see #setInfluence(int)
      * @see #getInfluence()
      */
     public void addInfluence(final int influence) {
@@ -378,7 +386,7 @@ public final class PlayerData {
      * @param influence the amount of influence that should be subtracted from
      *        the current amount
      * @since 0.0.5
-     * @see #setInfluence(float)
+     * @see #setInfluence(int)
      * @see #getInfluence()
      */
     public void subtractInfluence(final int influence) {
@@ -455,7 +463,8 @@ public final class PlayerData {
      * @see #setExperience(float, ChangeReason)
      * @see #getExperience()
      */
-    public void addExperience(final float amount, ChangeReason reason) {
+    public void addExperience(final float amount,
+            @Nonnull final ChangeReason reason) {
         setExperience(getExperience() + amount, reason);
     }
 
@@ -690,6 +699,7 @@ public final class PlayerData {
      * @return the {@link UUID} of the owner's secondary {@link Profession}
      * @since 0.0.5
      */
+    @Nullable
     public UUID getSecondProfession() {
         if (loaded) {
             return secondProfession;

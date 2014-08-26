@@ -77,6 +77,11 @@ public class GCCommand extends PlayerCommandHandler {
         }
 
         final Channel channel = guild.getChannel();
+        if (channel == null) {
+            // only happens if the guild is a 'null' guild - shouldn't be ever
+            // here, in theory
+            return;
+        }
 
         if (args.length() > 0) {
             final StringBuilder message = new StringBuilder();

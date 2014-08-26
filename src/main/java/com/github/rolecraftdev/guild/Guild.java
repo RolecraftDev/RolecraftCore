@@ -42,6 +42,7 @@ import org.bukkit.Location;
 import org.bukkit.entity.Entity;
 import org.bukkit.entity.Player;
 
+import javax.annotation.Nonnull;
 import javax.annotation.Nullable;
 import java.util.EnumSet;
 import java.util.HashSet;
@@ -49,7 +50,7 @@ import java.util.Set;
 import java.util.UUID;
 
 /**
- * Represents a player-createable guild.
+ * Represents a player-creatable guild.
  *
  * @since 0.0.5
  */
@@ -61,9 +62,7 @@ public final class Guild {
     /**
      * The chat {@link Channel} for this {@link Guild}.
      */
-    private final Channel channel = new DefaultChannel(
-            new DefaultChannelConfig()
-                    .setOption(ChannelOption.PREFIX, "[GC] "));
+    private final Channel channel;
     /**
      * The {@link GuildManager} this {@link Guild} is registered to.
      */
@@ -125,6 +124,7 @@ public final class Guild {
             ranks = null;
             guildId = null;
             this.guildManager = null;
+            channel = null;
             return;
         }
 
@@ -137,7 +137,9 @@ public final class Guild {
         ranks.add(new GuildRank("Leader", EnumSet.allOf(GuildAction.class),
                 new HashSet<UUID>()));
         ranks.add(new GuildRank("Default", EnumSet.noneOf(GuildAction.class),
-                new HashSet<UUID>()));
+                        new HashSet<UUID>()));
+        channel = new DefaultChannel(new DefaultChannelConfig()
+                .setOption(ChannelOption.PREFIX, "[GC] "));
     }
 
     /**
@@ -171,6 +173,8 @@ public final class Guild {
         this.influence = influence;
         this.hallRegion = hallRegion;
         this.open = open;
+        channel = new DefaultChannel(new DefaultChannelConfig()
+                .setOption(ChannelOption.PREFIX, "[GC] "));
     }
 
     /**
@@ -179,6 +183,7 @@ public final class Guild {
      * @return the associated {@link Channel}
      * @since 0.0.5
      */
+    @Nullable
     public Channel getChannel() {
         return channel;
     }
@@ -190,6 +195,7 @@ public final class Guild {
      * @return the {@link GuildManager} this {@link Guild} is registered to
      * @since 0.0.5
      */
+    @Nullable
     public GuildManager getManager() {
         return guildManager;
     }
@@ -204,7 +210,8 @@ public final class Guild {
      *         specified {@link GuildAction}; {@code false} otherwise
      * @since 0.0.5
      */
-    public boolean can(final UUID player, final GuildAction action) {
+    public boolean can(@Nonnull final UUID player,
+            @Nonnull final GuildAction action) {
         Validate.notNull(player);
         Validate.notNull(action);
 
@@ -225,9 +232,8 @@ public final class Guild {
      *         {@link Guild}
      * @since 0.0.5
      */
-    public boolean isMember(final UUID player) {
+    public boolean isMember(@Nonnull final UUID player) {
         Validate.notNull(player);
-
         return members.contains(player);
     }
 
@@ -242,7 +248,7 @@ public final class Guild {
      * @since 0.0.5
      */
     @Nullable
-    public Set<GuildRank> getPlayerRanks(final UUID player) {
+    public Set<GuildRank> getPlayerRanks(@Nonnull final UUID player) {
         final Set<GuildRank> result = new HashSet<GuildRank>();
         for (final GuildRank rank : ranks) {
             if (rank.hasPlayer(player)) {
@@ -270,7 +276,7 @@ public final class Guild {
      * @param entity the {@link Entity} to teleport
      * @since 0.0.5
      */
-    public void teleportToHome(final Entity entity) {
+    public void teleportToHome(@Nonnull final Entity entity) {
         Validate.notNull(entity);
 
         if (getHomeLocation() != null) {
@@ -284,6 +290,7 @@ public final class Guild {
      * @return the {@link UUID}
      * @since 0.0.5
      */
+    @Nullable
     public UUID getId() {
         return guildId;
     }
@@ -294,6 +301,7 @@ public final class Guild {
      * @return the name
      * @since 0.0.5
      */
+    @Nullable
     public String getName() {
         return name;
     }
@@ -316,6 +324,7 @@ public final class Guild {
      * @return the leader's {@link UUID}
      * @since 0.0.5
      */
+    @Nullable
     public UUID getLeader() {
         return leader;
     }
@@ -326,7 +335,11 @@ public final class Guild {
      * @return the members
      * @since 0.0.5
      */
+    @Nullable
     public Set<UUID> getMembers() {
+        if (members == null) {
+            return null;
+        }
         return new HashSet<UUID>(members);
     }
 
@@ -336,7 +349,11 @@ public final class Guild {
      * @return the {@link GuildRank}s
      * @since 0.0.5
      */
+    @Nullable
     public Set<GuildRank> getRanks() {
+        if (ranks == null) {
+            return null;
+        }
         return new HashSet<GuildRank>(ranks);
     }
 
@@ -348,7 +365,8 @@ public final class Guild {
      * @return the applicable {@link GuildRank}
      * @since 0.0.5
      */
-    public GuildRank getRank(final String name) {
+    @Nullable
+    public GuildRank getRank(@Nonnull final String name) {
         for (final GuildRank rank : ranks) {
             if (rank.getName().equalsIgnoreCase(name)) {
                 return rank;
@@ -407,7 +425,7 @@ public final class Guild {
      * @param message the message that should be sent to all members
      * @since 0.0.5
      */
-    public void broadcastMessage(final String message) {
+    public void broadcastMessage(@Nonnull final String message) {
         Validate.notNull(message);
 
         for (final UUID uuid : getMembers()) {
@@ -427,7 +445,7 @@ public final class Guild {
      * @param ranks the {@link GuildRank}s the message should be broadcasted for
      * @since 0.0.5
      */
-    public void broadcastMessage(final String message,
+    public void broadcastMessage(@Nonnull final String message,
             final GuildRank... ranks) {
         Validate.notNull(message);
 
@@ -442,7 +460,7 @@ public final class Guild {
      * @param name the new name. Cannot be null
      * @since 0.0.5
      */
-    public void setName(final String name) {
+    public void setName(@Nonnull final String name) {
         Validate.notNull(name);
 
         this.name = name;
@@ -458,7 +476,7 @@ public final class Guild {
      * @param leader the {@link UUID} of the leader
      * @since 0.0.5
      */
-    public void setLeader(final UUID leader) {
+    public void setLeader(@Nonnull final UUID leader) {
         Validate.notNull(leader);
 
         if (this.leader != null) {
@@ -482,7 +500,8 @@ public final class Guild {
      * @param rank the start {@link GuildRank} of the player
      * @since 0.0.5
      */
-    public void addMember(final UUID member, final GuildRank rank) {
+    public void addMember(@Nonnull final UUID member,
+            @Nonnull final GuildRank rank) {
         Validate.notNull(member);
         Validate.notNull(rank);
 
@@ -504,7 +523,7 @@ public final class Guild {
      * @since 0.0.5
      * @see {@link #removeMember(UUID, boolean}
      */
-    public void removeMember(final UUID member) {
+    public void removeMember(@Nonnull final UUID member) {
         removeMember(member, false);
     }
 
@@ -515,7 +534,7 @@ public final class Guild {
      * @param kicked whether the leave is due to a kick
      * @since 0.0.5
      */
-    public void removeMember(final UUID member, final boolean kicked) {
+    public void removeMember(@Nonnull final UUID member, final boolean kicked) {
         Validate.notNull(member);
 
         if (kicked) {
@@ -579,7 +598,7 @@ public final class Guild {
      * @param home the new home {@link Location}
      * @since 0.0.5
      */
-    public void setHomeLocation(@Nullable Location home) {
+    public void setHomeLocation(@Nullable final Location home) {
         this.home = home;
         plugin.getDataStore().updateGuildData(this);
     }
@@ -603,7 +622,8 @@ public final class Guild {
             return false;
         }
         final Guild other = (Guild) o;
-        return guildId.equals(other.getId());
+        return !(guildId == null || other.guildId == null) && guildId
+                .equals(other.getId());
     }
 
     /**
@@ -611,7 +631,7 @@ public final class Guild {
      */
     @Override
     public int hashCode() {
-        return guildId.hashCode();
+        return guildId == null ? -1 : guildId.hashCode();
     }
 
     /**
