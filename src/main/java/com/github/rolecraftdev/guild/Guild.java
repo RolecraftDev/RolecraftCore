@@ -31,6 +31,7 @@ import org.apache.commons.lang.Validate;
 import com.github.rolecraftdev.RolecraftCore;
 import com.github.rolecraftdev.data.Region2D;
 import com.github.rolecraftdev.event.RolecraftEventFactory;
+import com.github.rolecraftdev.util.messages.Messages;
 
 import com.traksag.channels.Channel;
 import com.traksag.channels.ChannelOption;
@@ -134,10 +135,10 @@ public final class Guild {
         members = new HashSet<UUID>();
         ranks = new HashSet<GuildRank>();
 
-        ranks.add(new GuildRank("Leader", EnumSet.allOf(GuildAction.class),
-                new HashSet<UUID>()));
-        ranks.add(new GuildRank("Default", EnumSet.noneOf(GuildAction.class),
-                        new HashSet<UUID>()));
+        ranks.add(new GuildRank(plugin.getMessage(Messages.GUILD_LEADER_RANK),
+                EnumSet.allOf(GuildAction.class), new HashSet<UUID>()));
+        ranks.add(new GuildRank(plugin.getMessage(Messages.GUILD_DEFAULT_RANK),
+                EnumSet.noneOf(GuildAction.class), new HashSet<UUID>()));
         channel = new DefaultChannel(new DefaultChannelConfig()
                 .setOption(ChannelOption.PREFIX, "[GC] "));
     }
@@ -394,7 +395,7 @@ public final class Guild {
      * @since 0.0.5
      */
     public GuildRank getLeaderRank() {
-        return getRank("Leader");
+        return getRank(Messages.GUILD_LEADER_RANK);
     }
 
     /**
@@ -404,7 +405,7 @@ public final class Guild {
      * @since 0.0.5
      */
     public GuildRank getDefaultRank() {
-        return getRank("Default");
+        return getRank(plugin.getMessage(Messages.GUILD_DEFAULT_RANK));
     }
 
     /**

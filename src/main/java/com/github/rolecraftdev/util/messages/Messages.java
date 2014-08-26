@@ -31,6 +31,7 @@ import net.minecraft.util.org.apache.commons.io.FileUtils;
 import com.github.rolecraftdev.RolecraftCore;
 import com.github.rolecraftdev.command.CommandHelper;
 import com.github.rolecraftdev.data.storage.PropertiesFile;
+import com.github.rolecraftdev.guild.GuildRank;
 
 import org.bukkit.ChatColor;
 
@@ -329,6 +330,18 @@ public class Messages {
      */
     // Sent to players who don't have a guild invitation
     public static final String NO_GUILD_INVITE = "no-guild-invite";
+    /**
+     * The name of the leader {@link GuildRank} in a guild
+     *
+     * @since 0.0.5
+     */
+    public static final String GUILD_LEADER_RANK = "guild-leader-rank";
+    /**
+     * The name of the default {@link GuildRank} in a guild
+     *
+     * @since 0.0.5
+     */
+    public static final String GUILD_DEFAULT_RANK = "guild-default-rank";
 
     /**
      * Persistent, general variables.

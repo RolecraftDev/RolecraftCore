@@ -188,7 +188,7 @@ public class GuildRankCommand extends PlayerCommandHandler {
             } else {
                 value = "false";
                 // Leader must always have all permissions
-                if (rank.getName().equals("Leader")) {
+                if (rank.equals(guild.getLeaderRank())) {
                     player.sendMessage(plugin.getMessage(
                             Messages.CANNOT_MODIFY_RANK,
                             MsgVar.create("$rank", rank.getName())));
