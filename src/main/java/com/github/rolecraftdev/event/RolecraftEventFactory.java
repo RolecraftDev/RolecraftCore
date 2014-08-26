@@ -17,20 +17,21 @@ import org.bukkit.entity.Player;
 import org.bukkit.event.Event;
 
 /**
- * A utility factory for constructing and calling Bukkit {@link Event}s easily
+ * A utility factory for constructing and calling {@link Event}s easily.
  *
  * @since 0.0.5
  */
 public class RolecraftEventFactory {
     /**
      * Calls a {@link GuildPlayerJoinEvent} with the {@link RolecraftCore}
-     * object and the given parameters
+     * instance and the given parameters.
      *
      * @param guild the {@link Guild} the player is joining
      * @param player the {@link Player} joining the guild
      * @param rank the {@link GuildRank} the player is allocated to
      * @return a {@link GuildPlayerJoinEvent} constructed and called with the
      *         given parameters
+     * @since 0.0.5
      */
     public static GuildPlayerJoinEvent guildPlayerJoined(Guild guild,
             Player player, GuildRank rank) {
@@ -38,38 +39,41 @@ public class RolecraftEventFactory {
     }
 
     /**
-     * Calls a {@link GuildDisbandEvent} with the {@link RolecraftCore} object
-     * and the given {@link Guild}
+     * Calls a {@link GuildDisbandEvent} with the {@link RolecraftCore} instance
+     * and the given {@link Guild}.
      *
      * @param guild the {@link Guild} being disbanded
      * @return a {@link GuildDisbandEvent} constructed and called with the given
      *         parameters
+     * @since 0.0.5
      */
     public static GuildDisbandEvent guildDisbanded(Guild guild) {
         return callEvent(new GuildDisbandEvent(plugin, guild));
     }
 
     /**
-     * Calls a {@link GuildCreateEvent} with the {@link RolecraftCore} object
-     * and the given {@link Guild}
+     * Calls a {@link GuildCreateEvent} with the {@link RolecraftCore} instance
+     * and the given {@link Guild}.
      *
      * @param guild the {@link Guild} being created
      * @return a {@link GuildCreateEvent} constructed and called with the given
      *         parameters
+     * @since 0.0.5
      */
     public static GuildCreateEvent guildCreated(Guild guild) {
         return callEvent(new GuildCreateEvent(plugin, guild));
     }
 
     /**
-     * Calls a {@link SpellCastEvent} with the {@link RolecraftCore} object and
-     * the given parameters
+     * Calls a {@link SpellCastEvent} with the {@link RolecraftCore} instance
+     * and the given parameters.
      *
      * @param spell the {@link Spell} being cast
      * @param caster the {@link Entity} casting the {@link Spell}
-     * @param manaCost the cost in mana of the spell
+     * @param manaCost the cost in mana of the {@link Spell}
      * @return a {@link SpellCastEvent} constructed and called with the given
      *         parameters
+     * @since 0.0.5
      */
     public static SpellCastEvent spellCast(Spell spell, Entity caster,
             float manaCost) {
@@ -77,30 +81,39 @@ public class RolecraftEventFactory {
     }
 
     /**
-     * Calls the given event and returns that event, making it easier to call an
-     * event and then check the values set by any {@link
-     * org.bukkit.event.Listener} objects who may have made use of setters in
-     * the {@link Event} object
+     * Calls the given {@link Event} and returns that {@link Event}, making it
+     * easier to call an {@link Event} and then check the values set by any
+     * {@link Listener} objects that may have made use of setters in the
+     * {@link Event} object.
      *
      * @param event the {@link Event} to call and return
      * @param <T> the type which the {@link Event} returned is
      * @return the given {@link Event} after it has been called
+     * @since 0.0.5
      */
     public static <T extends Event> T callEvent(T event) {
         Bukkit.getPluginManager().callEvent(event);
         return event;
     }
 
-    // Reference to the plugin object - set in onEnable()
+    /**
+     * The associated {@link RolecraftCore} instance.
+     */
     private static RolecraftCore plugin;
 
+    /**
+     * Set the associated {@link RolecraftCore} instance.
+     *
+     * @param plugin the new associated {@link RolecraftCore} instance
+     * @since 0.0.5
+     */
     public static void setPlugin(RolecraftCore plugin) {
         Validate.notNull(plugin);
         RolecraftEventFactory.plugin = plugin;
     }
 
     /**
-     * Should never be called.
+     * @since 0.0.5
      */
     private RolecraftEventFactory() {
         throw new UnsupportedOperationException();
