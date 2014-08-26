@@ -117,8 +117,6 @@ public class HandCannon implements Spell {
                 .getPlugin(), 6f));
         arrow.setMetadata("Knockback", new FixedMetadataValue(spellManager
                 .getPlugin(), 1f));
-        // Make a loud bang when used
-
         return (300f - modifier / 100f > 0) ? 300f - modifier / 100f : 0;
     }
 
