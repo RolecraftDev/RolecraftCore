@@ -146,5 +146,4 @@ public class RCExpChangeEvent extends RCExpEvent {
     public static HandlerList getHandlerList() {
         return handlers;
     }
-
 }

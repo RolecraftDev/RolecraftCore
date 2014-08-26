@@ -71,5 +71,4 @@ public class DebugCommand extends PlayerCommandHandler {
             player.updateInventory();
         }
     }
-
 }

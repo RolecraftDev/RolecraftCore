@@ -36,8 +36,6 @@ import com.github.rolecraftdev.RolecraftCore;
 public final class QuestManager {
     /**
      * The associated {@link RolecraftCore} instance.
-     *
-     * @since 0.0.5
      */
     private final RolecraftCore plugin;
 
