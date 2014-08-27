@@ -344,7 +344,7 @@ public class Messages {
     public static final String GUILD_DEFAULT_RANK = "guild-default-rank";
 
     /**
-     * Persistent, general variables.
+     * General variables such as colours and styles.
      */
     private static final MsgVar[] CONSTANTS = {
             MsgVar.create("$darkred", ChatColor.DARK_RED.toString()),
@@ -372,6 +372,27 @@ public class Messages {
             MsgVar.create("$italic", ChatColor.ITALIC.toString()),
             MsgVar.create("$bold", ChatColor.BOLD.toString())
     };
+
+    /**
+     * Applies the values of the specified {@link MsgVar}s in the given message.
+     *
+     * @param message the affected message
+     * @param vars the {@link MsgVar}s that should be applied
+     * @return the given message after the {@link MsgVar}s have been applied
+     * @since 0.0.5
+     */
+    public static String applyVars(String message, final MsgVar... vars) {
+        if (vars == null || vars.length < 1) {
+            return message;
+        }
+        for (final MsgVar constant : CONSTANTS) {
+            message = constant.apply(message);
+        }
+        for (final MsgVar var : vars) {
+            message = var.apply(message);
+        }
+        return message;
+    }
 
     /**
      * The associated {@link RolecraftCore} instance.
@@ -403,7 +424,7 @@ public class Messages {
      * @since 0.0.5
      */
     public String get(final String key, final MsgVar... vars) {
-        return CommandHelper.applyVars(applyConstants(messages.get(key)), vars);
+        return applyVars(messages.get(key), vars);
     }
 
     /**
@@ -469,16 +490,5 @@ public class Messages {
 
             field.setAccessible(false);
         }
-    }
-
-    /**
-     * Apply all the {@link MsgVar}s in {@link #CONSTANTS} to the given string.
-     *
-     * @param original the string to which the general {@link MsgVar}s should be
-     *        applied
-     * @return the edited given string
-     */
-    private static String applyConstants(final String original) {
-        return CommandHelper.applyVars(original, CONSTANTS);
     }
 }

@@ -95,24 +95,6 @@ public final class CommandHelper {
     }
 
     /**
-     * Applies the values of the specified {@link MsgVar}s in the given message.
-     *
-     * @param message the affected message
-     * @param vars the {@link MsgVar}s that should be applied
-     * @return the given message after the {@link MsgVar}s have been applied
-     * @since 0.0.5
-     */
-    public static String applyVars(String message, final MsgVar... vars) {
-        if (vars == null || vars.length < 1) {
-            return message;
-        }
-        for (final MsgVar var : vars) {
-            message = var.apply(message);
-        }
-        return message;
-    }
-
-    /**
      * Joins all of the arguments in the given {@link Arguments}, starting from
      * the specified start index. All arguments are separated from each other by
      * a single whitespace character.
