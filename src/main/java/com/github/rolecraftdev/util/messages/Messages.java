@@ -246,89 +246,115 @@ public class Messages {
     // Sent if someone specifies a profession which doesn't exist
     public static final String PROFESSION_NOT_EXISTS = "profession-not-exists";
     /**
+     * Sent to somebody who tries to select a profession they aren't allowed
+     *
      * @since 0.0.5
      */
-    // Sent to somebody who tries to select a profession they aren't allowed
     public static final String PROFESSION_NO_PERMS = "profession-no-perms";
     /**
+     * Sent when a player picks a profession
+     *
      * @since 0.0.5
      */
-    // Sent when a player picks a profession
     public static final String PROFESSION_SELECTED = "profession-selected";
     /**
+     * Sent if a player tries to select a profession when they already have one
+     *
      * @since 0.0.5
      */
-    // Sent if a player tries to select a profession when they already have one
     public static final String PROFESSION_ALREADY_SELECTED = "profession-already-selected";
     /**
+     * Sent to players who try to cast a spell they aren't allowed to cast
+     *
      * @since 0.0.5
      */
-    // Sent to players who try to cast a spell they aren't allowed to cast
     public static final String CANNOT_CAST_SPELL = "cannot-cast-spell";
     /**
+     * Sent when a player casts a spell
+     *
      * @since 0.0.5
      */
-    // Sent when a player casts a spell
     public static final String SPELL_CAST = "spell-cast";
     /**
+     * Sent when a player cannot wear armor due to their profession
+     *
      * @since 0.0.5
      */
-    // Sent when a player cannot wear armor due to their profession
     public static final String PROFESSION_DENY_ARMOR = "profession-deny-armor";
     /**
+     * Sent when a player cannot wear enchanted / use enchanted things due to
+     * their profession's restrictions
+     *
      * @since 0.0.5
      */
-    // Sent when a player cannot wear enchanted/ use enchanted due to their profession
     public static final String PROFESSION_DENY_ENCHANTMENT = "profession-deny-enchantment";
     /**
+     * Sent when a player cannot equip weapons due to their profession
+     *
      * @since 0.0.5
      */
-    // Sent when a player cannot equip weapons due to their profession
     public static final String PROFESSION_DENY_ITEM = "profession-deny-item";
     /**
+     * Send when a player aims below the ground when casting an arrow rain spell
+     *
      * @since 0.0.5
      */
-    // Send when a player aims below the ground when casting an arrow rain spell
     public static final String ARROW_BELOW_GROUND_FAILURE = "arrow-below-ground-failure";
     /**
+     * A template for general information about a guild
+     *
      * @since 0.0.5
      */
     public static final String GUILD_INFO = "guild-info";
     /**
+     * A template for information about the members of a guild
+     *
      * @since 0.0.5
      */
     public static final String GUILD_MEMBERS = "guild-info-members";
     /**
+     * A template for information about a guild's influence
+     *
      * @since 0.0.5
      */
     public static final String GUILD_INFLUENCE = "guild-info-influence";
     /**
+     * A template for information about the guild leader
+     *
      * @since 0.0.5
      */
     public static final String GUIlD_LEADER = "guild-info-leader";
     /**
+     * A template for information about a guild rank
+     *
      * @since 0.0.5
      */
     public static final String GUILD_RANK = "guild-info-rank";
     /**
+     * Sent if somebody tries to create a guild with a name which is already
+     * taken
+     *
      * @since 0.0.5
      */
-    // Sent if someone tries to create a guild with a name which already exists
     public static final String GUILD_ALREADY_EXISTS = "guild-already-exists";
     /**
+     * Sent if someone tries to broadcast a guild message when they don't have
+     * permission to do so
+     *
      * @since 0.0.5
      */
-    // Sent if someone who doesn't have permission tries to broadcast a message
     public static final String BROADCAST_NO_PERMS = "broadcast-no-perms";
     /**
+     * Sent when a player leaves a guild
+     *
      * @since 0.0.5
      */
-    // Sent when a player leaves a guild
     public static final String GUILD_LEAVE = "guild-leave";
     /**
+     * Sent to players who try to join a guild without an invitation
+     *
      * @since 0.0.5
      */
-    // Sent to players who don't have a guild invitation
     public static final String NO_GUILD_INVITE = "no-guild-invite";
     /**
      * The name of the leader {@link GuildRank} in a guild
