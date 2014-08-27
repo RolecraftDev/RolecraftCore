@@ -629,9 +629,6 @@ public final class PlayerData {
      */
     public void addQuestProgression(final UUID questId,
             final String progression) {
-        if (questProgression.containsKey(questId)) {
-            questProgression.remove(questId);
-        }
         questProgression.put(questId, progression);
     }
 
