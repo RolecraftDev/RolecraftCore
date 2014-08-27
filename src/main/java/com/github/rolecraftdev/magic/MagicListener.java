@@ -170,8 +170,8 @@ public class MagicListener implements Listener {
             float manaCost = spell.leftClick(player, clicked,
                     spellManager.getMagicModifier(player), e.getBlockFace());
 
-            // MIN_VALUE = error, MIN_NORMAL = can't be cast right now
-            if (manaCost == Float.MIN_VALUE || manaCost == Float.MIN_NORMAL) {
+            if (manaCost == Spell.CAST_FAILURE
+                    || manaCost == Spell.BAD_SITUATION) {
                 return;
             }
 
@@ -211,8 +211,8 @@ public class MagicListener implements Listener {
             float manaCost = spell.rightClick(player, clicked,
                     spellManager.getMagicModifier(player), e.getBlockFace());
 
-            // MIN_VALUE = error, MIN_NORMAL = can't be cast right now
-            if (manaCost == Float.MIN_VALUE || manaCost == Float.MIN_NORMAL) {
+            if (manaCost == Spell.CAST_FAILURE
+                    || manaCost == Spell.BAD_SITUATION) {
                 return;
             }
 
@@ -281,8 +281,8 @@ public class MagicListener implements Listener {
         float manaCost = spell.attack(player, (LivingEntity) e.getEntity(),
                 spellManager.getMagicModifier(player));
 
-        // MIN_VALUE = error, MIN_NORMAL = can't be cast right now
-        if (manaCost == Float.MIN_VALUE || manaCost == Float.MIN_NORMAL) {
+        if (manaCost == Spell.CAST_FAILURE
+                || manaCost == Spell.BAD_SITUATION) {
             return;
         }
 
