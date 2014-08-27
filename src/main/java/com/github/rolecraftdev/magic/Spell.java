@@ -46,17 +46,17 @@ import javax.annotation.Nullable;
  */
 public interface Spell {
     /**
-     * Returned by attack, leftClick, rightClick if it isn't the right type of
-     * action for the spell to be cast
+     * It isn't the right type of action for the spell to be cast.
+     *
+     * @since 0.0.5
      */
     float BAD_SITUATION = Float.MIN_NORMAL;
     /**
-     * Returned by attack, leftClick, rightClick if there is a failure to cast
-     * the spell
+     * There is a failure to cast the spell.
+     *
+     * @since 0.0.5
      */
     float CAST_FAILURE = Float.MIN_VALUE;
-
-    // TODO: elaborate on the mana return value
 
     /**
      * Get the name of this {@link Spell}.
@@ -116,7 +116,7 @@ public interface Spell {
      * @param block the {@link Block} that has been clicked
      * @param modifier the magic modifier for the given player
      * @param face the {@link BlockFace} that has been clicked
-     * @return the mana cost
+     * @return the mana cost, {@link #BAD_SITUATION} or {@link #CAST_FAILURE}
      * @since 0.0.5
      * @see #estimateRightClickMana(Player, Block, int, BlockFace)
      */
@@ -129,7 +129,7 @@ public interface Spell {
      * @param block the {@link Block} that has been clicked
      * @param modifier the magic modifier for the given player
      * @param face the {@link BlockFace} that has been clicked
-     * @return the mana cost
+     * @return the mana cost, {@link #BAD_SITUATION} or {@link #CAST_FAILURE}
      * @since 0.0.5
      * @see #estimateLeftClickMana(Player, Block, int, BlockFace)
      */
@@ -141,7 +141,7 @@ public interface Spell {
      * @param caster the executor of the {@link Spell}
      * @param target the attacked {@link Entity}
      * @param modifier the magic modifier for the given player
-     * @return the mana cost
+     * @return the mana cost, {@link #BAD_SITUATION} or {@link #CAST_FAILURE}
      * @since 0.0.5
      * @see #estimateAttackMana(Player, LivingEntity, int)
      */
