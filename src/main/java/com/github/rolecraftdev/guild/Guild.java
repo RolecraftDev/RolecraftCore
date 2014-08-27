@@ -111,11 +111,12 @@ public final class Guild {
 
     /**
      * Create a new {@link Guild}, automatically generating a semi-random
-     * {@link UUID} and the leader and default {@link GuildRank}s.
+     * {@link UUID}; and the leader and default {@link GuildRank}s. When the
+     * given {@link GuildManager} is {@code null}, all fields will be assigned
+     * {@code null}.
      *
      * @param guildManager the {@link GuildManager} this {@link Guild} will be
-     *                     registered to. Providing null as this argument will
-     *                     cause all fields to be initialised to null
+     *        registered to
      * @since 0.0.5
      */
     public Guild(final GuildManager guildManager) {
