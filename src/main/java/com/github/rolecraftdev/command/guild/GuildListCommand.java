@@ -45,6 +45,11 @@ import java.util.Set;
  * @since 0.0.5
  */
 public class GuildListCommand extends CommandHandler {
+    /**
+     * The amount of guilds to display on each page
+     */
+    private static final int GUILDS_PER_PAGE = 6;
+
     private final GuildManager guildMgr;
 
     /**
@@ -76,7 +81,8 @@ public class GuildListCommand extends CommandHandler {
 
         final List<Guild> onPage = CommandHelper
                 .getPageFromArgs(sender, new ArrayList<Guild>(guilds),
-                        args.length() > 0 ? args.get(0) : null, 6);
+                        args.length() > 0 ? args.get(0) : null,
+                        GUILDS_PER_PAGE);
         if (onPage == null) {
             // No need to send an error message - getPageFromArgs does that for
             // us already, so we can just return here.

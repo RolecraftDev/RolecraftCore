@@ -81,14 +81,15 @@ public final class CommandHelper {
             final List<CommandHandler> commands, final ChatSection pageArg) {
         final List<CommandHandler> list = getPageFromArgs(sender, commands,
                 pageArg, COMMANDS_PER_PAGE);
+        if (list == null) {
+            return;
+        }
 
-        if (list != null) {
-            sender.sendMessage(ChatColor.GOLD + "[Commands]");
-            for (final CommandHandler sub : list) {
-                if (sender.hasPermission(sub.getPermission())) {
-                    sender.sendMessage(ChatColor.GOLD + sub.getUsage() + " - "
-                            + sub.getDescription());
-                }
+        sender.sendMessage(ChatColor.GOLD + "[Commands]");
+        for (final CommandHandler sub : list) {
+            if (sender.hasPermission(sub.getPermission())) {
+                sender.sendMessage(ChatColor.GOLD + sub.getUsage() + " - "
+                        + sub.getDescription());
             }
         }
     }
@@ -102,12 +103,11 @@ public final class CommandHelper {
      * @since 0.0.5
      */
     public static String applyVars(String message, final MsgVar... vars) {
-        if (vars == null) {
+        if (vars == null || vars.length < 1) {
             return message;
         }
-
         for (final MsgVar var : vars) {
-            message = var.replace(message);
+            message = var.apply(message);
         }
         return message;
     }
@@ -200,14 +200,14 @@ public final class CommandHelper {
             if (pageArg.isInt()) {
                 page = pageArg.asInt();
             } else {
-                sender.sendMessage(ChatColor.DARK_RED +
-                        "Invalid page argument!");
+                sender.sendMessage(ChatColor.DARK_RED + "Invalid page!");
                 return null;
             }
 
             if (page > pages || page < 1) {
-                sender.sendMessage(
-                        ChatColor.DARK_RED + "That page doesn't exist!");
+                sender.sendMessage(ChatColor.DARK_RED +
+                        "That page doesn't exist (there are " + pages
+                        + " pages)!");
                 return null;
             }
         }
@@ -232,13 +232,14 @@ public final class CommandHelper {
                 "Members: " + rank.getMembers().size());
 
         // Create a human readable version of the permitted actions Set
+        final String separator = ", ";
         final StringBuilder permitted = new StringBuilder();
         for (final GuildAction action : rank.getPermittedActions()) {
-            permitted.append(action.getPlayerReadableName()).append(", ");
+            permitted.append(action.getPlayerReadableName()).append(separator);
         }
-        permitted.setLength(permitted.length() - 2);
+        permitted.setLength(permitted.length() - separator.length());
 
-        sender.sendMessage(ChatColor.GRAY +
-                "Permitted Actions: " + permitted.toString());
+        sender.sendMessage(ChatColor.GRAY + "Permitted Actions: "
+                + permitted.toString());
     }
 }

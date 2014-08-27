@@ -39,29 +39,18 @@ public class MsgVar {
     /**
      * The value of this {@link MsgVar}.
      */
-    private String val;
+    private final String val;
 
     /**
      * Constructor.
      *
      * @param var the key that should be replaced
+     * @param val the value of the variable
      * @since 0.0.5
      */
-    private MsgVar(final String var) {
+    private MsgVar(final String var, final String val) {
         this.var = var;
-    }
-
-    /**
-     * Set the replacing value.
-     *
-     * @param val the replacing value
-     * @return a {@link MsgVar} with the predefined replaceable key and newly
-     *         set replacing value
-     * @since 0.0.5
-     */
-    public MsgVar set(final String val) {
         this.val = val;
-        return this;
     }
 
     /**
@@ -71,7 +60,7 @@ public class MsgVar {
      * @return the edited given string
      * @since 0.0.5
      */
-    public String replace(final String string) {
+    public String apply(final String string) {
         return string.replace(var, val);
     }
 
@@ -82,22 +71,8 @@ public class MsgVar {
      * @param val the replacing value
      * @return a new {@link MsgVar} with the given key and value
      * @since 0.0.5
-     * @see #named(String)
      */
     public static MsgVar create(final String var, final String val) {
-        return new MsgVar(var).set(val);
-    }
-
-    /**
-     * Create a new {@link MsgVar} of which the replacing value is not yet
-     * defined.
-     *
-     * @param name the replaceable key
-     * @return a new {@link MsgVar} with the given key
-     * @since 0.0.5
-     * @see #create(String, String)
-     */
-    public static MsgVar named(final String name) {
-        return new MsgVar(name);
+        return new MsgVar(var, val);
     }
 }
