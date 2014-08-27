@@ -30,6 +30,7 @@ import com.github.rolecraftdev.RolecraftCore;
 import com.github.rolecraftdev.data.PlayerData;
 import com.github.rolecraftdev.event.RolecraftEventFactory;
 import com.github.rolecraftdev.event.spell.SpellCastEvent;
+import com.github.rolecraftdev.event.spell.SpellCastEvent.SpellCastType;
 import com.github.rolecraftdev.util.SoundWrapper;
 import com.github.rolecraftdev.util.messages.Messages;
 import com.github.rolecraftdev.util.messages.MsgVar;
@@ -156,28 +157,33 @@ public class MagicListener implements Listener {
                 || action == Action.LEFT_CLICK_BLOCK) {
             final float estimate = spell.estimateLeftClickMana(player, clicked,
                     spellManager.getMagicModifier(player), e.getBlockFace());
-            if (estimate > spellManager.getMana(player)) {
-                return;
-            }
-
             final SpellCastEvent event = RolecraftEventFactory.spellCast(spell,
-                    player, estimate);
+                    player, estimate, SpellCastType.LEFT_CLICK);
+
             if (event.isCancelled()) {
                 player.sendMessage(event.getCancelMessage());
                 return;
-            }
-
-            final float evtMana = event.getManaCost();
-            float retVal = spell.leftClick(player, clicked,
-                    spellManager.getMagicModifier(player), e.getBlockFace());
-
-            // MIN_VALUE = error, MIN_NORMAL = can't be cast right now
-            if (retVal == Float.MIN_VALUE || retVal == Float.MIN_NORMAL) {
+            } else if (event.getManaCost() > spellManager.getMana(player)) {
                 return;
             }
 
-            retVal = evtMana;
-            spellManager.subtractMana(player, retVal);
+            float manaCost = spell.leftClick(player, clicked,
+                    spellManager.getMagicModifier(player), e.getBlockFace());
+
+            // MIN_VALUE = error, MIN_NORMAL = can't be cast right now
+            if (manaCost == Float.MIN_VALUE || manaCost == Float.MIN_NORMAL) {
+                return;
+            }
+
+            // Only take into account event changes if the estimate was accurate
+            // otherwise there could be unintended consequences. The estimate should
+            // pretty much always be accurate anyway without a failure (which is
+            // already accounted for - we return in that event)
+            if (manaCost == estimate) {
+                manaCost = event.getManaCost();
+            }
+
+            spellManager.subtractMana(player, manaCost);
 
             if (plugin.getDataManager().getPlayerData(player.getUniqueId())
                     .getSettings().isSpellChatMessage()) {
@@ -192,27 +198,33 @@ public class MagicListener implements Listener {
         } else {
             final float estimate = spell.estimateRightClickMana(player, clicked,
                     spellManager.getMagicModifier(player), e.getBlockFace());
-            if (estimate > spellManager.getMana(player)) {
-                return;
-            }
-
             final SpellCastEvent event = RolecraftEventFactory.spellCast(spell,
-                    player, estimate);
+                    player, estimate, SpellCastType.RIGHT_CLICK);
+
             if (event.isCancelled()) {
                 player.sendMessage(event.getCancelMessage());
                 return;
-            }
-
-            float retVal = spell.rightClick(player, clicked,
-                    spellManager.getMagicModifier(player), e.getBlockFace());
-
-            // MIN_VALUE = error, MIN_NORMAL = can't be cast right now
-            if (retVal == Float.MIN_VALUE || retVal == Float.MIN_NORMAL) {
+            } else if (event.getManaCost() > spellManager.getMana(player)) {
                 return;
             }
 
-            retVal = event.getManaCost();
-            spellManager.subtractMana(player, retVal);
+            float manaCost = spell.rightClick(player, clicked,
+                    spellManager.getMagicModifier(player), e.getBlockFace());
+
+            // MIN_VALUE = error, MIN_NORMAL = can't be cast right now
+            if (manaCost == Float.MIN_VALUE || manaCost == Float.MIN_NORMAL) {
+                return;
+            }
+
+            // Only take into account event changes if the estimate was accurate
+            // otherwise there could be unintended consequences. The estimate should
+            // pretty much always be accurate anyway without a failure (which is
+            // already accounted for - we return in that event)
+            if (manaCost == estimate) {
+                manaCost = event.getManaCost();
+            }
+
+            spellManager.subtractMana(player, manaCost);
 
             if (plugin.getDataManager().getPlayerData(player.getUniqueId())
                     .getSettings().isSpellChatMessage()) {
@@ -256,28 +268,33 @@ public class MagicListener implements Listener {
         final float estimate = spell.estimateAttackMana(player,
                 (LivingEntity) e.getEntity(),
                 spellManager.getMagicModifier(player));
-        if (estimate > spellManager.getMana(player)) {
-            return;
-        }
-
         final SpellCastEvent event = RolecraftEventFactory.spellCast(
-                spell, e.getDamager(), estimate);
+                spell, e.getDamager(), estimate, SpellCastType.ATTACK);
+
         if (event.isCancelled()) {
             player.sendMessage(event.getCancelMessage());
             return;
-        }
-
-        float retVal = spell.attack(player, (LivingEntity) e.getEntity(),
-                spellManager.getMagicModifier(player));
-
-        // MIN_VALUE = error, MIN_NORMAL = can't be cast right now
-        if (retVal == Float.MIN_VALUE
-                || retVal == Float.MIN_NORMAL) {
+        } else if (event.getManaCost() > spellManager.getMana(player)) {
             return;
         }
 
-        retVal = event.getManaCost();
-        spellManager.subtractMana(player, retVal);
+        float manaCost = spell.attack(player, (LivingEntity) e.getEntity(),
+                spellManager.getMagicModifier(player));
+
+        // MIN_VALUE = error, MIN_NORMAL = can't be cast right now
+        if (manaCost == Float.MIN_VALUE || manaCost == Float.MIN_NORMAL) {
+            return;
+        }
+
+        // Only take into account event changes if the estimate was accurate
+        // otherwise there could be unintended consequences. The estimate should
+        // pretty much always be accurate anyway without a failure (which is
+        // already accounted for - we return in that event)
+        if (manaCost == estimate) {
+            manaCost = event.getManaCost();
+        }
+
+        spellManager.subtractMana(player, manaCost);
 
         if (plugin.getDataManager().getPlayerData(player.getUniqueId())
                 .getSettings().isSpellChatMessage()) {

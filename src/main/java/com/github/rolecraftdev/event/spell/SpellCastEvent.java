@@ -44,6 +44,7 @@ public class SpellCastEvent extends SpellEvent implements Cancellable {
     private static final HandlerList handlers = new HandlerList();
 
     private final Entity caster;
+    private final SpellCastType type;
 
     private float manaCost;
     private boolean cancelled;
@@ -62,10 +63,16 @@ public class SpellCastEvent extends SpellEvent implements Cancellable {
      * @since 0.0.5
      */
     public SpellCastEvent(final RolecraftCore plugin, final Spell spell,
-            final Entity caster, final float manaCost) {
+            final Entity caster, final float manaCost,
+            final SpellCastType type) {
         super(plugin, spell);
         this.caster = caster;
         this.manaCost = manaCost;
+        this.type = type;
+    }
+
+    public enum SpellCastType {
+        LEFT_CLICK, RIGHT_CLICK, ATTACK
     }
 
     /**
@@ -76,6 +83,16 @@ public class SpellCastEvent extends SpellEvent implements Cancellable {
      */
     public Entity getCaster() {
         return caster;
+    }
+
+    /**
+     * Gets the type of spell cast for this {@link SpellCastEvent}. Returns one
+     * of RIGHT_CLICK, LEFT_CLICK or ATTACK.
+     *
+     * @return this event's {@link SpellCastType}
+     */
+    public SpellCastType getCastType() {
+        return type;
     }
 
     /**

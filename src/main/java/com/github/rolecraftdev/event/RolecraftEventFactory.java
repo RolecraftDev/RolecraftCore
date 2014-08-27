@@ -38,6 +38,7 @@ import com.github.rolecraftdev.event.guild.GuildRankCreateEvent;
 import com.github.rolecraftdev.event.guild.GuildRankModifyEvent;
 import com.github.rolecraftdev.event.guild.GuildRankRemoveEvent;
 import com.github.rolecraftdev.event.spell.SpellCastEvent;
+import com.github.rolecraftdev.event.spell.SpellCastEvent.SpellCastType;
 import com.github.rolecraftdev.guild.Guild;
 import com.github.rolecraftdev.guild.GuildAction;
 import com.github.rolecraftdev.guild.GuildRank;
@@ -47,6 +48,7 @@ import org.bukkit.Bukkit;
 import org.bukkit.entity.Entity;
 import org.bukkit.entity.Player;
 import org.bukkit.event.Event;
+import org.bukkit.event.Listener;
 
 /**
  * A utility factory for constructing and calling {@link Event}s easily.
@@ -197,8 +199,10 @@ public class RolecraftEventFactory {
      * @since 0.0.5
      */
     public static SpellCastEvent spellCast(final Spell spell,
-            final Entity caster, final float manaCost) {
-        return callEvent(new SpellCastEvent(plugin, spell, caster, manaCost));
+            final Entity caster, final float manaCost,
+            final SpellCastType type) {
+        return callEvent(new SpellCastEvent(plugin, spell, caster, manaCost,
+                type));
     }
 
     /**
