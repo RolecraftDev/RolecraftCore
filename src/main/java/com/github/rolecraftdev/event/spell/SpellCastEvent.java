@@ -159,7 +159,7 @@ public class SpellCastEvent extends SpellEvent implements Cancellable {
      *
      * @param sound the {@link Spell}s sound for this cast
      */
-    public void setSound(final SoundWrapper sound) {
+    public void setSound(@Nullable final SoundWrapper sound) {
         this.sound = sound;
     }
 
