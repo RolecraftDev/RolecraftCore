@@ -83,10 +83,6 @@ public final class RolecraftCore extends AlbPlugin {
      */
     private Messages messages;
     /**
-     * The data storage solution used by Rolecraft.
-     */
-    private DataStore dataStore;
-    /**
      * Manages Rolecraft's persistent data.
      */
     private DataManager dataManager;
@@ -164,7 +160,16 @@ public final class RolecraftCore extends AlbPlugin {
         extraEvents = config.getBoolean("extraevents");
         originalSin = (float) config.getDouble("originalsin");
 
-        // Set up the plugin's data store
+        // Set the plugin object for event construction in RolecraftEventFactory
+        RolecraftEventFactory.setPlugin(this);
+
+        // Get all plugin messages from the messages file
+        messages = new Messages(this);
+        messages.load();
+
+        // Set up the Rolecraft database solution
+        final DataStore dataStore;
+
         if (dbType.equals("sqlite")) {
             dataStore = new SQLiteDataStore(this);
         } else if (dbType.equals("mysql")) {
@@ -175,25 +180,17 @@ public final class RolecraftCore extends AlbPlugin {
             dataStore = new SQLiteDataStore(this);
         }
 
-        // Initialise DataStore
-        dataStore.initialise();
-
-        // Set the plugin object for event construction in RolecraftEventFactory
-        RolecraftEventFactory.setPlugin(this);
-
         // Log the data store we are using
         logger.info("Using " + dataStore.getStoreTypeName()
                 + " for Rolecraft data!");
 
+        // Initialise DataStore
+        dataStore.initialise();
         // Cleanup quests in database
-        //        dataStore.finalizeQuests(questManager);
-
-        // Get all plugin messages from the messages file
-        messages = new Messages(this);
-        messages.load();
+        // dataStore.finalizeQuests(questManager);
 
         // Create all the manager objects / load data
-        dataManager = new DataManager(this);
+        dataManager = new DataManager(this, dataStore);
         guildManager = new GuildManager(this);
         questManager = new QuestManager(this);
         professionManager = new ProfessionManager(this);
@@ -252,7 +249,7 @@ public final class RolecraftCore extends AlbPlugin {
      * @since 0.0.5
      */
     public DataStore getDataStore() {
-        return dataStore;
+        return dataManager.getStore();
     }
 
     /**

@@ -64,13 +64,14 @@ public final class DataManager {
 
     /**
      * Constructor.
-     *
+     * 
      * @param plugin the linked {@link RolecraftCore} object
+     * @param store the used {@link DataStore} implementation
      * @since 0.0.5
      */
-    public DataManager(final RolecraftCore plugin) {
+    public DataManager(final RolecraftCore plugin, final DataStore store) {
         this.plugin = plugin;
-        store = plugin.getDataStore();
+        this.store = store;
         // Thread safe operations!
         loadedPlayerData = new ConcurrentHashMap<UUID, PlayerData>();
     }
