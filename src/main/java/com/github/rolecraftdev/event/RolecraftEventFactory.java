@@ -51,6 +51,8 @@ import org.bukkit.entity.Player;
 import org.bukkit.event.Event;
 import org.bukkit.event.Listener;
 
+import javax.annotation.Nonnull;
+
 /**
  * A utility factory for constructing and calling {@link Event}s easily.
  *
@@ -228,7 +230,7 @@ public class RolecraftEventFactory {
      * @param plugin the new associated {@link RolecraftCore} instance
      * @since 0.0.5
      */
-    public static void setPlugin(final RolecraftCore plugin) {
+    public static void setPlugin(@Nonnull final RolecraftCore plugin) {
         Validate.notNull(plugin);
         RolecraftEventFactory.plugin = plugin;
     }

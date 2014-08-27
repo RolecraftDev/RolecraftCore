@@ -237,6 +237,7 @@ public final class RolecraftCore extends AlbPlugin {
      * @return the configured message for the given key
      * @since 0.0.5
      */
+    @Nullable
     public String getMessage(final String key, final MsgVar... vars) {
         return getMessages().get(key, vars);
     }

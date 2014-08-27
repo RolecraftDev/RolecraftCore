@@ -35,6 +35,7 @@ import com.github.rolecraftdev.guild.GuildRank;
 
 import org.bukkit.ChatColor;
 
+import javax.annotation.Nullable;
 import java.io.File;
 import java.io.IOException;
 import java.lang.reflect.Field;
@@ -448,7 +449,7 @@ public class Messages {
      * @since 0.0.5
      */
     public static String applyVars(String message, final MsgVar... vars) {
-        if (vars == null || vars.length < 1) {
+        if (message == null || vars == null || vars.length < 1) {
             return message;
         }
         for (final MsgVar constant : CONSTANTS) {
@@ -489,6 +490,7 @@ public class Messages {
      * @return the edited message value
      * @since 0.0.5
      */
+    @Nullable
     public String get(final String key, final MsgVar... vars) {
         return applyVars(messages.get(key), vars);
     }
