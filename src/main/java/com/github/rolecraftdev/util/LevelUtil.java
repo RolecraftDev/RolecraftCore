@@ -27,6 +27,7 @@
 package com.github.rolecraftdev.util;
 
 import org.bukkit.entity.EntityType;
+import org.bukkit.entity.Player;
 
 /**
  * A utility class for player experience and levels.
@@ -52,7 +53,8 @@ public final class LevelUtil {
      */
     public static int getLevel(final float experience) {
         // TODO: make this a function that can, within reason, be solved for X
-        // short circut to prevent "bottoming out"
+
+        // shortcut to prevent "bottoming out"
         if (experience < 0.025) {
             return 1;
         }
@@ -75,6 +77,13 @@ public final class LevelUtil {
     public static float expToNextLevel(final float experience) {
         // TODO: make this return the experience to the next level
         return -1;
+    }
+
+    public static float expFromPlayerKill(final Player killer,
+            final Player killed) {
+        // TODO: make this compare the levels of the two players and get an exp
+        // value from that comparison
+        return 1000;
     }
 
     /**
@@ -101,14 +110,17 @@ public final class LevelUtil {
                 return 50;
             case PLAYER:
                 return 1000;
-            case BAT:
-                return 5;
             case BLAZE:
                 return 50;
             case CAVE_SPIDER:
                 return 100;
             case CHICKEN:
             case COW:
+            case PIG:
+            case SHEEP:
+            case BAT:
+            case SQUID:
+            case SNOWMAN:
                 return 5;
             case ENDERMAN:
                 return 50;
@@ -128,28 +140,26 @@ public final class LevelUtil {
                 return 100;
             case OCELOT:
                 return 50;
-            case PIG:
-                return 5;
             case PIG_ZOMBIE:
                 return 40;
-            case SHEEP:
-                return 5;
             case SILVERFISH:
                 return 100;
-            case SNOWMAN:
-                return 5;
             case SPIDER:
                 return 30;
-            case SQUID:
-                return 5;
             case VILLAGER:
                 return 30;
             case WITCH:
                 return 50;
             case WOLF:
                 return 10;
-            default:
+            case SNOWBALL:
+            case EGG:
+            case DROPPED_ITEM:
                 return 0;
+            default:
+                // account for other added EntityTypes, or hacks to add entity
+                // type values to the enum (this is possible)
+                return 20;
         }
     }
 }

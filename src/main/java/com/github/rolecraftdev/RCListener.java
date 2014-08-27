@@ -95,12 +95,20 @@ public final class RCListener implements Listener {
         if (dmg instanceof EntityDamageByEntityEvent) {
             final EntityDamageByEntityEvent e = (EntityDamageByEntityEvent) dmg;
             if (e.getDamager() instanceof Player) {
-                final UUID id = e.getDamager().getUniqueId();
-                final EntityType entityType = deadEntity.getType();
-                final PlayerData pd = plugin.getDataManager().getPlayerData(id);
+                final Player damager = (Player) e.getDamager();
+                final float expFromKill;
 
-                pd.addExperience(LevelUtil.expFromKill(entityType),
-                        RCExpEvent.ChangeReason.KILLING);
+                if (e.getEntity() instanceof Player) {
+                    expFromKill = LevelUtil
+                            .expFromPlayerKill(damager, (Player) e.getEntity());
+                } else {
+                    final EntityType entityType = deadEntity.getType();
+                    expFromKill = LevelUtil.expFromKill(entityType);
+                }
+
+                final UUID id = e.getDamager().getUniqueId();
+                final PlayerData pd = plugin.getDataManager().getPlayerData(id);
+                pd.addExperience(expFromKill, RCExpEvent.ChangeReason.KILLING);
             }
         }
     }
