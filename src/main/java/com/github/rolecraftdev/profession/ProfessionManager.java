@@ -174,7 +174,7 @@ public final class ProfessionManager {
     public void loadProfessions() {
         final File directory = new File(plugin.getDataFolder(), "professions");
 
-        if (directory.isFile()) {
+        if (!directory.isDirectory()) {
             directory.delete();
         }
         if (!directory.exists()) {
