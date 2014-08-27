@@ -34,6 +34,7 @@ import com.github.rolecraftdev.guild.GuildRank;
 import com.github.rolecraftdev.util.messages.Messages;
 import com.github.rolecraftdev.util.messages.MsgVar;
 
+import org.bukkit.Bukkit;
 import org.bukkit.command.CommandSender;
 
 import pw.ian.albkit.command.CommandHandler;
@@ -78,8 +79,8 @@ public class GuildShowCommand extends CommandHandler {
             final StringBuilder members = new StringBuilder();
             int onlineMembers = 0;
             for (final UUID id : guild.getMembers()) {
-                if (plugin.getServer().getPlayer(id) != null) {
-                    members.append(plugin.getServer().getPlayer(id));
+                if (Bukkit.getPlayer(id) != null) {
+                    members.append(Bukkit.getPlayer(id));
                     members.append(',');
                     onlineMembers++;
                 }

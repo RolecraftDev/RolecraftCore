@@ -169,8 +169,8 @@ public final class GuildManager {
         }
 
         // Register the guild listener with Bukkit
-        plugin.getServer().getPluginManager()
-                .registerEvents(new GuildListener(this), plugin);
+        Bukkit.getPluginManager().registerEvents(new GuildListener(this),
+                plugin);
     }
 
     /**

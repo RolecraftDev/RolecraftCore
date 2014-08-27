@@ -406,9 +406,8 @@ public final class PlayerData {
     @Deprecated
     public void setExperience(final float amount) {
         if (loaded && !unloading) {
-            final RCExpChangeEvent event = RCExpEventFactory
-                    .callRCExpEvent(plugin, Bukkit.getServer()
-                                    .getPlayer(playerId), amount - experience,
+            final RCExpChangeEvent event = RCExpEventFactory.callRCExpEvent(
+                    plugin, Bukkit.getPlayer(playerId), amount - experience,
                             ChangeReason.DEFAULT);
             if (!event.isCancelled()) {
                 experience = event.getNewExperience();
@@ -429,8 +428,8 @@ public final class PlayerData {
     public void setExperience(final float amount, final ChangeReason reason) {
         if (loaded && !unloading) {
             final RCExpChangeEvent event = RCExpEventFactory.callRCExpEvent(
-                    plugin, Bukkit.getServer().getPlayer(playerId), amount
-                            - experience, reason);
+                    plugin, Bukkit.getPlayer(playerId), amount - experience,
+                    reason);
             if (!event.isCancelled()) {
                 experience = event.getNewExperience();
             }
@@ -497,8 +496,7 @@ public final class PlayerData {
      * @see #setExperience(float, ChangeReason)
      * @see #getExperience()
      */
-    public void
-            subtractExperience(final float amount, final ChangeReason reason) {
+    public void subtractExperience(final float amount, final ChangeReason reason) {
         setExperience(getExperience() - amount, reason);
     }
 

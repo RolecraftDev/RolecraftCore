@@ -116,7 +116,7 @@ public class FireBeam implements Spell {
         final BlockState state = toIgnite.getState();
         final BlockPlaceEvent bpe = new BlockPlaceEvent(toIgnite, state, block,
                 null, caster, true);
-        Bukkit.getServer().getPluginManager().callEvent(bpe);
+        Bukkit.getPluginManager().callEvent(bpe);
         if (bpe.isCancelled()) {
             return CAST_FAILURE;
         }

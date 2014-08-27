@@ -121,7 +121,7 @@ public class Farbreak implements Spell {
 
         if (spellManager.getPlugin().isExtraEvents()) {
             final BlockBreakEvent event = new BlockBreakEvent(toBreak, caster);
-            Bukkit.getServer().getPluginManager().callEvent(event);
+            Bukkit.getPluginManager().callEvent(event);
             if (event.isCancelled()) {
                 return CAST_FAILURE;
             }
