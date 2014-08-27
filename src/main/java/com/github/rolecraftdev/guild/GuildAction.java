@@ -82,25 +82,25 @@ public enum GuildAction {
     BROADCAST_MESSAGE("broadcast-message");
 
     /**
-     * The player-readable version of the name of this {@link GuildAction}.
+     * The human-readable version of the name of this {@link GuildAction}.
      */
     @Nonnull
-    private final String playerReadable;
+    private final String humanReadable;
 
-    GuildAction(@Nonnull final String playerReadable) {
-        this.playerReadable = playerReadable;
-        GuildManager.actionMap.put(playerReadable, this);
+    GuildAction(@Nonnull final String humanReadable) {
+        this.humanReadable = humanReadable;
+        GuildManager.actionMap.put(humanReadable, this);
     }
 
     /**
-     * Get the player-readable version of the name of this {@link GuildAction}.
+     * Get the human-readable version of the name of this {@link GuildAction}.
      *
-     * @return the player-readable name
+     * @return the human-readable name
      * @since 0.0.5
      */
     @Nonnull
-    public String getPlayerReadableName() {
-        return playerReadable;
+    public String getHumanReadableName() {
+        return humanReadable;
     }
 
     /**

@@ -235,7 +235,7 @@ public final class CommandHelper {
         final String separator = ", ";
         final StringBuilder permitted = new StringBuilder();
         for (final GuildAction action : rank.getPermittedActions()) {
-            permitted.append(action.getPlayerReadableName()).append(separator);
+            permitted.append(action.getHumanReadableName()).append(separator);
         }
         permitted.setLength(permitted.length() - separator.length());
 

@@ -78,7 +78,7 @@ public class GuildHelpCommand extends PlayerCommandHandler {
                     builder.append(", ");
                 }
                 first = false;
-                builder.append(action.getPlayerReadableName());
+                builder.append(action.getHumanReadableName());
             }
             Messaging.sendBanner(ColorScheme.DEFAULT, player,
                     "Actions:",
