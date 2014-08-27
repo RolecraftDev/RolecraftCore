@@ -30,6 +30,8 @@ import com.github.rolecraftdev.RolecraftCore;
 
 import org.bukkit.event.Event;
 
+import javax.annotation.Nonnull;
+
 /**
  * Represents a Rolecraft {@link Event}.
  *
@@ -39,6 +41,7 @@ public abstract class RolecraftEvent extends Event {
     /**
      * The associated {@link RolecraftCore} instance.
      */
+    @Nonnull
     private final RolecraftCore plugin;
 
     /**
@@ -47,7 +50,7 @@ public abstract class RolecraftEvent extends Event {
      * @param plugin the associated {@link RolecraftCore} instance
      * @since 0.0.5
      */
-    protected RolecraftEvent(final RolecraftCore plugin) {
+    protected RolecraftEvent(@Nonnull final RolecraftCore plugin) {
         this.plugin = plugin;
     }
 
@@ -57,6 +60,7 @@ public abstract class RolecraftEvent extends Event {
      * @return the associated {@link RolecraftCore} instance
      * @since 0.0.5
      */
+    @Nonnull
     public final RolecraftCore getRolecraftPlugin() {
         return plugin;
     }

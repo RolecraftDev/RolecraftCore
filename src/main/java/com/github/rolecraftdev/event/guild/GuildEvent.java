@@ -30,6 +30,8 @@ import com.github.rolecraftdev.RolecraftCore;
 import com.github.rolecraftdev.event.RolecraftEvent;
 import com.github.rolecraftdev.guild.Guild;
 
+import javax.annotation.Nonnull;
+
 /**
  * A {@link RolecraftEvent} that gets called when a {@link Guild} is somehow
  * affected.
@@ -40,6 +42,7 @@ public abstract class GuildEvent extends RolecraftEvent {
     /**
      * The affected {@link Guild}.
      */
+    @Nonnull
     private final Guild guild;
 
     /**
@@ -49,7 +52,7 @@ public abstract class GuildEvent extends RolecraftEvent {
      * @param guild the affected {@link Guild}
      * @since 0.0.5
      */
-    GuildEvent(final RolecraftCore plugin, final Guild guild) {
+    GuildEvent(final RolecraftCore plugin, @Nonnull final Guild guild) {
         super(plugin);
         this.guild = guild;
     }
@@ -60,6 +63,7 @@ public abstract class GuildEvent extends RolecraftEvent {
      * @return the affected {@link Guild}
      * @since 0.0.5
      */
+    @Nonnull
     public final Guild getGuild() {
         return guild;
     }

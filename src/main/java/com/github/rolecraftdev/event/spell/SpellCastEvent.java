@@ -28,11 +28,15 @@ package com.github.rolecraftdev.event.spell;
 
 import com.github.rolecraftdev.RolecraftCore;
 import com.github.rolecraftdev.magic.Spell;
+import com.github.rolecraftdev.util.SoundWrapper;
 
 import org.bukkit.ChatColor;
 import org.bukkit.entity.Entity;
 import org.bukkit.event.Cancellable;
 import org.bukkit.event.HandlerList;
+
+import javax.annotation.Nonnull;
+import javax.annotation.Nullable;
 
 /**
  * A {@link SpellEvent} that is called when a {@link Spell} is on the brink of
@@ -48,6 +52,7 @@ public class SpellCastEvent extends SpellEvent implements Cancellable {
 
     private float manaCost;
     private boolean cancelled;
+    private SoundWrapper sound;
     /**
      * The message sent to the caster when this event is cancelled.
      */
@@ -63,12 +68,14 @@ public class SpellCastEvent extends SpellEvent implements Cancellable {
      * @since 0.0.5
      */
     public SpellCastEvent(final RolecraftCore plugin, final Spell spell,
-            final Entity caster, final float manaCost,
-            final SpellCastType type) {
+            @Nonnull final Entity caster, final float manaCost,
+            @Nonnull final SpellCastType type,
+            @Nullable final SoundWrapper sound) {
         super(plugin, spell);
         this.caster = caster;
         this.manaCost = manaCost;
         this.type = type;
+        this.sound = sound;
     }
 
     public enum SpellCastType {
@@ -81,6 +88,7 @@ public class SpellCastEvent extends SpellEvent implements Cancellable {
      * @return the executor of the {@link Spell}
      * @since 0.0.5
      */
+    @Nonnull
     public Entity getCaster() {
         return caster;
     }
@@ -91,6 +99,7 @@ public class SpellCastEvent extends SpellEvent implements Cancellable {
      *
      * @return this event's {@link SpellCastType}
      */
+    @Nonnull
     public SpellCastType getCastType() {
         return type;
     }
@@ -104,6 +113,16 @@ public class SpellCastEvent extends SpellEvent implements Cancellable {
      */
     public float getManaCost() {
         return manaCost;
+    }
+
+    /**
+     * Gets the {@link SoundWrapper} sound to be played when the spell is cast
+     *
+     * @return the {@link Spell}s sound
+     */
+    @Nullable
+    public SoundWrapper getSound() {
+        return sound;
     }
 
     /**
@@ -133,6 +152,15 @@ public class SpellCastEvent extends SpellEvent implements Cancellable {
      */
     public void setManaCost(final float manaCost) {
         this.manaCost = manaCost;
+    }
+
+    /**
+     * Sets the {@link SoundWrapper} sound to be played when the spell is cast
+     *
+     * @param sound the {@link Spell}s sound for this cast
+     */
+    public void setSound(final SoundWrapper sound) {
+        this.sound = sound;
     }
 
     /**

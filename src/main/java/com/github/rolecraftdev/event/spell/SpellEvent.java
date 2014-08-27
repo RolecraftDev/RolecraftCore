@@ -30,6 +30,8 @@ import com.github.rolecraftdev.RolecraftCore;
 import com.github.rolecraftdev.event.RolecraftEvent;
 import com.github.rolecraftdev.magic.Spell;
 
+import javax.annotation.Nonnull;
+
 /**
  * A {@link RolecraftEvent} called in coherence with a {@link Spell}.
  *
@@ -39,6 +41,7 @@ public abstract class SpellEvent extends RolecraftEvent {
     /**
      * The affected {@link Spell}.
      */
+    @Nonnull
     private final Spell spell;
 
     /**
@@ -48,7 +51,7 @@ public abstract class SpellEvent extends RolecraftEvent {
      * @param spell the affected {@link Spell}
      * @since 0.0.5
      */
-    SpellEvent(final RolecraftCore plugin, final Spell spell) {
+    SpellEvent(final RolecraftCore plugin, @Nonnull final Spell spell) {
         super(plugin);
         this.spell = spell;
     }
@@ -59,6 +62,7 @@ public abstract class SpellEvent extends RolecraftEvent {
      * @return the affected {@link Spell}
      * @since 0.0.5
      */
+    @Nonnull
     public Spell getSpell() {
         return spell;
     }
