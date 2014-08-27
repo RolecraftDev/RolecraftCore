@@ -86,6 +86,33 @@ public class SoundWrapper {
     }
 
     /**
+     * Gets the Bukkit {@link Sound} object for this SoundWrapper
+     *
+     * @return this SoundWrappers Bukkit {@link Sound}
+     */
+    public Sound getSound() {
+        return sound;
+    }
+
+    /**
+     * Gets the volume for this SoundWrapper
+     *
+     * @return this SoundWrappers volume
+     */
+    public float getVolume() {
+        return volume;
+    }
+
+    /**
+     * Gets the pitch of this SoundWrapper
+     *
+     * @return this SoundWrappers pitch
+     */
+    public float getPitch() {
+        return pitch;
+    }
+
+    /**
      * Play the embedded {@link Sound} at the predefined volume with the
      * predefined pitch at the given {@link Location}.
      *
