@@ -71,7 +71,7 @@ public final class PlayerSettings {
      * @param showMana the new <em>show mana</em> value
      * @since 0.0.5
      */
-    public void setShowMana(boolean showMana) {
+    public void setShowMana(final boolean showMana) {
         this.showMana = showMana;
     }
 
@@ -81,7 +81,7 @@ public final class PlayerSettings {
      * @param spellChatMessage the new <em>spell chat message</em> value
      * @since 0.0.5
      */
-    public void setSpellChatMessage(boolean spellChatMessage) {
+    public void setSpellChatMessage(final boolean spellChatMessage) {
         this.spellChatMessage = spellChatMessage;
     }
 
@@ -123,7 +123,7 @@ public final class PlayerSettings {
      * @param guildSpy the new <em>guild spy</em> value
      * @since 0.0.5
      */
-    public void setGuildSpy(boolean guildSpy) {
+    public void setGuildSpy(final boolean guildSpy) {
         this.guildSpy = guildSpy;
     }
 
@@ -154,9 +154,9 @@ public final class PlayerSettings {
      * @return the constructed {@link PlayerSettings}
      * @since 0.0.5
      */
-    public static PlayerSettings fromString(String string) {
-        String[] strings = string.split(",");
-        PlayerSettings temp = new PlayerSettings();
+    public static PlayerSettings fromString(final String string) {
+        final String[] strings = string.split(",");
+        final PlayerSettings temp = new PlayerSettings();
         temp.showMana = strings[0].equals("true");
         temp.spellChatMessage = strings[1].equals("true");
         temp.guildSpy = strings[2].equals("true");

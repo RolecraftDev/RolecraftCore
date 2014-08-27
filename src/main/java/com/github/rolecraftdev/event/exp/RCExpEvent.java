@@ -95,7 +95,7 @@ public abstract class RCExpEvent extends RolecraftEvent implements Cancellable {
      * @param player the affected player
      * @since 0.0.5
      */
-    protected RCExpEvent(RolecraftCore plugin, Player player) {
+    protected RCExpEvent(final RolecraftCore plugin, final Player player) {
         super(plugin);
         concern = player;
     }
@@ -122,7 +122,7 @@ public abstract class RCExpEvent extends RolecraftEvent implements Cancellable {
      * @since 0.0.5
      */
     @Override
-    public void setCancelled(boolean cancel) {
+    public void setCancelled(final boolean cancel) {
         cancelled = cancel;
     }
 }

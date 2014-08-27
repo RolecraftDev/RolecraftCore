@@ -124,7 +124,7 @@ public final class DataManager {
      * @since 0.0.5
      */
     public PlayerData getPlayerData(final UUID player) {
-        PlayerData result = loadedPlayerData.get(player);
+        final PlayerData result = loadedPlayerData.get(player);
         if (result != null) {
             return result;
         }

@@ -55,11 +55,11 @@ public class RCExpEventFactory {
      * @return the appropriate {@link RCExpChangeEvent} after calling it
      * @since 0.0.5
      */
-    public static RCExpChangeEvent callRCExpEvent(RolecraftCore plugin,
-            Player player, float amount, ChangeReason reason) {
-        RCExpChangeEvent temp;
+    public static RCExpChangeEvent callRCExpEvent(final RolecraftCore plugin,
+            final Player player, final float amount, final ChangeReason reason) {
+        final RCExpChangeEvent temp;
 
-        float experience = plugin.getDataManager()
+        final float experience = plugin.getDataManager()
                 .getPlayerData(player.getUniqueId()).getExperience();
 
         if (LevelUtil.getLevel(experience) !=

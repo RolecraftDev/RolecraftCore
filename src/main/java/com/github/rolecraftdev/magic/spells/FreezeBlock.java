@@ -80,7 +80,7 @@ public class FreezeBlock implements Spell {
      *        implementation will be registered to
      * @since 0.0.5
      */
-    public FreezeBlock(SpellManager spellManager) {
+    public FreezeBlock(final SpellManager spellManager) {
     }
 
     /**
@@ -95,9 +95,9 @@ public class FreezeBlock implements Spell {
      * @since 0.0.5
      */
     @Override
-    public float estimateLeftClickMana(Player caster, Block block, int modifier,
-            BlockFace face) {
-        Block targetBlock = caster.getTargetBlock(transparency, 5);
+    public float estimateLeftClickMana(final Player caster, final Block block,
+            final int modifier, final BlockFace face) {
+        final Block targetBlock = caster.getTargetBlock(transparency, 5);
         if (targetBlock.getType() == Material.STATIONARY_LAVA) {
             return 50;
         }
@@ -108,9 +108,9 @@ public class FreezeBlock implements Spell {
      * @since 0.0.5
      */
     @Override
-    public float estimateRightClickMana(Player caster, Block block, int modifier,
-            BlockFace face) {
-        Block targetBlock = caster.getTargetBlock(transparency, 5);
+    public float estimateRightClickMana(final Player caster, final Block block,
+            final int modifier, final BlockFace face) {
+        final Block targetBlock = caster.getTargetBlock(transparency, 5);
         if (targetBlock.getType() == Material.STATIONARY_LAVA) {
             return 50;
         }
@@ -121,8 +121,8 @@ public class FreezeBlock implements Spell {
      * @since 0.0.5
      */
     @Override
-    public float rightClick(Player caster, Block block, int modifier,
-            BlockFace face) {
+    public float rightClick(final Player caster, final Block block,
+            final int modifier, final BlockFace face) {
         return click(caster, block, modifier, face);
     }
 
@@ -130,14 +130,15 @@ public class FreezeBlock implements Spell {
      * @since 0.0.5
      */
     @Override
-    public float leftClick(Player caster, Block block, int modifier,
-            BlockFace face) {
+    public float leftClick(final Player caster, final Block block,
+            final int modifier, final BlockFace face) {
         return click(caster, block, modifier, face);
     }
 
-    private float click(Player ply, Block block, int modifier, BlockFace face) {
-        Block targetBlock = ply.getTargetBlock(transparency, 5);
-        BlockBreakEvent bbe = new BlockBreakEvent(targetBlock, ply);
+    private float click(final Player ply, final Block block,
+            final int modifier, final BlockFace face) {
+        final Block targetBlock = ply.getTargetBlock(transparency, 5);
+        final BlockBreakEvent bbe = new BlockBreakEvent(targetBlock, ply);
         Bukkit.getPluginManager().callEvent(bbe);
         if (bbe.isCancelled()) {
             return CAST_FAILURE;
@@ -145,7 +146,7 @@ public class FreezeBlock implements Spell {
 
         float retVal = CAST_FAILURE;
         if (targetBlock != null) {
-            BlockState state = targetBlock.getState();
+            final BlockState state = targetBlock.getState();
 
             switch (targetBlock.getType()) {
                 case STATIONARY_WATER:
@@ -169,7 +170,7 @@ public class FreezeBlock implements Spell {
                     retVal = 5;
                     break;
             }
-            BlockPlaceEvent bpe = new BlockPlaceEvent(targetBlock, state,
+            final BlockPlaceEvent bpe = new BlockPlaceEvent(targetBlock, state,
                     null, null, ply, true);
             Bukkit.getPluginManager().callEvent(bpe);
             if (bpe.isCancelled()) {
@@ -183,7 +184,8 @@ public class FreezeBlock implements Spell {
      * @since 0.0.5
      */
     @Override
-    public float attack(Player caster, LivingEntity target, int modifier) {
+    public float attack(final Player caster, final LivingEntity target,
+            final int modifier) {
         return BAD_SITUATION;
     }
 
@@ -193,12 +195,12 @@ public class FreezeBlock implements Spell {
     @Override
     public Recipe getWandRecipe() {
         // same for each
-        ItemStack result = new ItemStack(Material.STICK);
-        ItemMeta meta = result.getItemMeta();
+        final ItemStack result = new ItemStack(Material.STICK);
+        final ItemMeta meta = result.getItemMeta();
         meta.setDisplayName(ChatColor.AQUA + getName());
         meta.addEnchant(Enchantment.LUCK, 10, true);
         result.setItemMeta(meta);
-        ShapedRecipe recipe = new ShapedRecipe(result);
+        final ShapedRecipe recipe = new ShapedRecipe(result);
         // custom recipe stuff
         recipe.shape("SSI", "SIS", "ISS");
         recipe.setIngredient('S', Material.SNOW_BALL);
@@ -218,8 +220,8 @@ public class FreezeBlock implements Spell {
      * @since 0.0.5
      */
     @Override
-    public float estimateAttackMana(Player caster, LivingEntity target,
-            int modifier) {
+    public float estimateAttackMana(final Player caster,
+            final LivingEntity target, final int modifier) {
         return 0;
     }
 }

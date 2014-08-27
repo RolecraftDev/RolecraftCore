@@ -151,7 +151,7 @@ public final class ProfessionManager {
      * @since 0.0.5
      */
     public boolean addProfession(final Profession profession) {
-        boolean result = professions.add(profession);
+        final boolean result = professions.add(profession);
         if (result) {
             Bukkit.getPluginManager().addPermission(
                     new Permission("rolecraft.profession."

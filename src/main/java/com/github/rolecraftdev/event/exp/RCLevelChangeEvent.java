@@ -52,8 +52,8 @@ public class RCLevelChangeEvent extends RCExpChangeEvent {
      * @param reason the reason for this change
      * @since 0.0.5
      */
-    protected RCLevelChangeEvent(RolecraftCore plugin, Player player,
-            float amount, ChangeReason reason) {
+    protected RCLevelChangeEvent(final RolecraftCore plugin,
+            final Player player, final float amount, final ChangeReason reason) {
         super(plugin, player, amount, reason);
         newLevel = LevelUtil.getLevel(getNewExperience());
     }
@@ -62,7 +62,7 @@ public class RCLevelChangeEvent extends RCExpChangeEvent {
      * @since 0.0.5
      */
     @Override
-    public void setAmount(float experience) {
+    public void setAmount(final float experience) {
         super.setAmount(experience);
         newLevel = LevelUtil.getLevel(getNewExperience());
     }

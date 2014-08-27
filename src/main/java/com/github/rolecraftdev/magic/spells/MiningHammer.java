@@ -98,8 +98,8 @@ public class MiningHammer implements Spell {
      * @since 0.0.5
      */
     @Override
-    public float estimateAttackMana(Player caster, LivingEntity target,
-            int modifier) {
+    public float estimateAttackMana(final Player caster,
+            final LivingEntity target, final int modifier) {
         return 0;
     }
 
@@ -107,8 +107,8 @@ public class MiningHammer implements Spell {
      * @since 0.0.5
      */
     @Override
-    public float estimateLeftClickMana(Player caster, Block block, int modifier,
-            BlockFace face) {
+    public float estimateLeftClickMana(final Player caster, final Block block,
+            final int modifier, final BlockFace face) {
         return (30f - modifier / 100f > 0) ? 30f - modifier / 100f : 0;
     }
 
@@ -116,8 +116,8 @@ public class MiningHammer implements Spell {
      * @since 0.0.5
      */
     @Override
-    public float estimateRightClickMana(Player caster, Block block, int modifier,
-            BlockFace face) {
+    public float estimateRightClickMana(final Player caster, final Block block,
+            final int modifier, final BlockFace face) {
         return (30f - modifier / 100f > 0) ? 30f - modifier / 100f : 0;
     }
 
@@ -125,8 +125,8 @@ public class MiningHammer implements Spell {
      * @since 0.0.5
      */
     @Override
-    public float rightClick(Player caster, Block block, int modifier,
-            BlockFace face) {
+    public float rightClick(final Player caster, final Block block,
+            final int modifier, final BlockFace face) {
         return click(caster, block, modifier, face);
     }
 
@@ -134,12 +134,13 @@ public class MiningHammer implements Spell {
      * @since 0.0.5
      */
     @Override
-    public float leftClick(Player caster, Block block, int modifier,
-            BlockFace face) {
+    public float leftClick(final Player caster, final Block block,
+            final int modifier, final BlockFace face) {
         return click(caster, block, modifier, face);
     }
 
-    private float click(Player ply, Block block, int modifier, BlockFace face) {
+    private float click(final Player ply, final Block block,
+            final int modifier, final BlockFace face) {
         if (block == null) {
             return CAST_FAILURE;
         }
@@ -155,9 +156,9 @@ public class MiningHammer implements Spell {
             return CAST_FAILURE;
         }
 
-        for (Block toBreak : blocks) {
+        for (final Block toBreak : blocks) {
             if (spellManager.getPlugin().isExtraEvents()) {
-                BlockBreakEvent event = new BlockBreakEvent(toBreak, ply);
+                final BlockBreakEvent event = new BlockBreakEvent(toBreak, ply);
                 Bukkit.getPluginManager().callEvent(event);
                 if (event.isCancelled()) {
                     continue;
@@ -172,7 +173,8 @@ public class MiningHammer implements Spell {
      * @since 0.0.5
      */
     @Override
-    public float attack(Player caster, LivingEntity target, int modifier) {
+    public float attack(final Player caster, final LivingEntity target,
+            final int modifier) {
         return BAD_SITUATION;
     }
 
@@ -187,28 +189,29 @@ public class MiningHammer implements Spell {
      * @return the {@link Block}s around the given center {@link Block} in a
      *         plane
      */
-    private List<Block> getBlocksAround(Block center, Orientation orientation) {
+    private List<Block> getBlocksAround(final Block center,
+            final Orientation orientation) {
         if (center == null) {
             return null;
         }
 
-        List<Block> temp = new ArrayList<Block>(9);
+        final List<Block> temp = new ArrayList<Block>(9);
         if (orientation == Orientation.NORTHSOUTH) {
-            int z = center.getZ();
+            final int z = center.getZ();
             for (int y = center.getY() - 1; y <= center.getY() + 1; y++) {
                 for (int x = center.getX() - 1; x <= center.getX() + 1; x++) {
                     temp.add(center.getWorld().getBlockAt(x, y, z));
                 }
             }
         } else if (orientation == Orientation.EASTWEST) {
-            int x = center.getX();
+            final int x = center.getX();
             for (int y = center.getY() - 1; y <= center.getY() + 1; y++) {
                 for (int z = center.getZ() - 1; z <= center.getZ() + 1; z++) {
                     temp.add(center.getWorld().getBlockAt(x, y, z));
                 }
             }
         } else if (orientation == Orientation.FLAT) {
-            int y = center.getY();
+            final int y = center.getY();
             for (int z = center.getZ() - 1; z <= center.getZ() + 1; z++) {
                 for (int x = center.getX() - 1; x <= center.getX() + 1; x++) {
                     temp.add(center.getWorld().getBlockAt(x, y, z));
@@ -226,12 +229,12 @@ public class MiningHammer implements Spell {
      */
     @Override
     public Recipe getWandRecipe() {
-        ItemStack result = new ItemStack(Material.STICK);
-        ItemMeta meta = result.getItemMeta();
+        final ItemStack result = new ItemStack(Material.STICK);
+        final ItemMeta meta = result.getItemMeta();
         meta.setDisplayName(ChatColor.AQUA + getName());
         meta.addEnchant(Enchantment.LUCK, 10, true);
         result.setItemMeta(meta);
-        ShapedRecipe recipe = new ShapedRecipe(result);
+        final ShapedRecipe recipe = new ShapedRecipe(result);
         // custom recipe stuff
         recipe.shape("APB",
                 "PBP",

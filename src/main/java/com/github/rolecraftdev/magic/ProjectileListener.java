@@ -48,7 +48,7 @@ public class ProjectileListener implements Listener {
      * @since 0.0.5
      */
     @EventHandler(priority = EventPriority.HIGHEST)
-    public void onDamage(EntityDamageByEntityEvent e) {
+    public void onDamage(final EntityDamageByEntityEvent e) {
         final Entity damager = e.getDamager();
         if (!(damager instanceof Arrow)) {
             return;
@@ -68,7 +68,7 @@ public class ProjectileListener implements Listener {
      * @since 0.0.5
      */
     @EventHandler(priority = EventPriority.HIGH)
-    public void onHit(ProjectileHitEvent e) {
+    public void onHit(final ProjectileHitEvent e) {
         final Entity entity = e.getEntity();
         if (!(entity instanceof Arrow)) {
             return;

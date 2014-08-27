@@ -215,13 +215,13 @@ public final class GuildRank {
         StringBuilder res = new StringBuilder();
         res.append(name);
         res.append(":");
-        for (GuildAction action : permitted) {
+        for (final GuildAction action : permitted) {
             res.append(action.ordinal());
             res.append("#");
         }
         res = new StringBuilder(res.substring(0, res.length() - 1));
         res.append(":");
-        for (UUID id : members) {
+        for (final UUID id : members) {
             res.append(id.toString());
             res.append("#");
         }
@@ -244,12 +244,12 @@ public final class GuildRank {
         final Set<GuildAction> actions = new HashSet<GuildAction>();
         final Set<UUID> members = new HashSet<UUID>();
 
-        for (String action : data[1].split("#")) {
-            int actionValue = Integer.parseInt(action);
+        for (final String action : data[1].split("#")) {
+            final int actionValue = Integer.parseInt(action);
             actions.add(GuildAction.values()[actionValue]);
         }
 
-        for (String member : data[2].split("#")) {
+        for (final String member : data[2].split("#")) {
             if (!member.equals("")) {
                 members.add(UUID.fromString(member));
             }

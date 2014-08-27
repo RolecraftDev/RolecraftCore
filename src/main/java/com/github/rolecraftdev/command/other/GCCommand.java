@@ -86,7 +86,7 @@ public class GCCommand extends PlayerCommandHandler {
         if (args.length() > 0) {
             final StringBuilder message = new StringBuilder();
 
-            for (String arg : args.toStringArray()) {
+            for (final String arg : args.toStringArray()) {
                 message.append(arg).append(" ");
             }
 

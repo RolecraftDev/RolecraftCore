@@ -72,9 +72,9 @@ public class FlyingListener implements Listener {
      * @since 0.0.5
      */
     @EventHandler(priority = EventPriority.HIGHEST)
-    public void onJoin(PlayerJoinEvent event) {
-        Player player = event.getPlayer();
-        ItemStack hand = player.getInventory().getItemInHand();
+    public void onJoin(final PlayerJoinEvent event) {
+        final Player player = event.getPlayer();
+        final ItemStack hand = player.getInventory().getItemInHand();
         if (isFly(hand)) {
             enableFly(player);
         }
@@ -84,9 +84,10 @@ public class FlyingListener implements Listener {
      * @since 0.0.5
      */
     @EventHandler(priority = EventPriority.HIGHEST)
-    public void onItemChange(PlayerItemHeldEvent event) {
-        Player player = event.getPlayer();
-        ItemStack stack = player.getInventory().getItem(event.getNewSlot());
+    public void onItemChange(final PlayerItemHeldEvent event) {
+        final Player player = event.getPlayer();
+        final ItemStack stack = player.getInventory().getItem(
+                event.getNewSlot());
         if (isFly(stack)) {
             enableFly(player);
         } else if (event.getPlayer().hasMetadata("rolecraftfly")) {
@@ -102,7 +103,7 @@ public class FlyingListener implements Listener {
      *
      * @param player the {@link Player} to enable flight capabilities for
      */
-    private void enableFly(Player player) {
+    private void enableFly(final Player player) {
         player.setAllowFlight(true);
         player.setFlying(true);
         player.setMetadata(FLY_METADATA, new FixedMetadataValue(plugin, true));
@@ -117,7 +118,7 @@ public class FlyingListener implements Listener {
      * @return {@code true} if the given {@link ItemStack} can indeed be used
      *         for the {@link Fly} spell
      */
-    private boolean isFly(ItemStack stack) {
+    private boolean isFly(final ItemStack stack) {
         if (stack == null || stack.getType() != Material.STICK) {
             return false;
         }

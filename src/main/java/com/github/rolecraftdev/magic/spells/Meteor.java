@@ -98,8 +98,8 @@ public class Meteor implements Spell {
      * @since 0.0.5
      */
     @Override
-    public float estimateAttackMana(Player caster, LivingEntity target,
-            int modifier) {
+    public float estimateAttackMana(final Player caster,
+            final LivingEntity target, final int modifier) {
         return 0;
     }
 
@@ -107,8 +107,8 @@ public class Meteor implements Spell {
      * @since 0.0.5
      */
     @Override
-    public float estimateLeftClickMana(Player caster, Block block, int modifier,
-            BlockFace face) {
+    public float estimateLeftClickMana(final Player caster, final Block block,
+            final int modifier, final BlockFace face) {
         return 0;
     }
 
@@ -116,8 +116,8 @@ public class Meteor implements Spell {
      * @since 0.0.5
      */
     @Override
-    public float estimateRightClickMana(Player caster, Block block, int modifier,
-            BlockFace face) {
+    public float estimateRightClickMana(final Player caster, final Block block,
+            final int modifier, final BlockFace face) {
         return (200f - modifier / 100f > 0) ? 200f - modifier / 100f : 0;
     }
 
@@ -125,13 +125,13 @@ public class Meteor implements Spell {
      * @since 0.0.5
      */
     @Override
-    public float rightClick(Player caster, Block block, int modifier,
-            BlockFace face) {
+    public float rightClick(final Player caster, final Block block,
+            final int modifier, final BlockFace face) {
         Block target;
         if (block != null) {
             target = block;
         } else {
-            Block temp = caster.getTargetBlock(transparency, spellManager
+            final Block temp = caster.getTargetBlock(transparency, spellManager
                     .getRange());
             if (temp != null) {
                 target = temp;
@@ -163,12 +163,12 @@ public class Meteor implements Spell {
             caster.sendMessage("You must aim above ground to shoot a meteor!");
             return CAST_FAILURE;
         }
-        Location center = new Location(target.getWorld(),
+        final Location center = new Location(target.getWorld(),
                 target.getX(), target.getY() + 20, target.getZ());
-        Vector velocity = target.getLocation().toVector()
+        final Vector velocity = target.getLocation().toVector()
                 .subtract(center.toVector())
                 .normalize().multiply(0.2d);
-        Entity tnt = caster.getWorld().spawn(
+        final Entity tnt = caster.getWorld().spawn(
                 new Location(caster.getWorld(), target.getX(), center.getY(),
                         target.getZ()), TNTPrimed.class);
         tnt.setVelocity(velocity);
@@ -179,8 +179,8 @@ public class Meteor implements Spell {
      * @since 0.0.5
      */
     @Override
-    public float leftClick(Player caster, Block block, int modifier,
-            BlockFace face) {
+    public float leftClick(final Player caster, final Block block,
+            final int modifier, final BlockFace face) {
         return BAD_SITUATION;
     }
 
@@ -188,7 +188,8 @@ public class Meteor implements Spell {
      * @since 0.0.5
      */
     @Override
-    public float attack(Player caster, LivingEntity target, int modifier) {
+    public float attack(final Player caster, final LivingEntity target,
+            final int modifier) {
         return BAD_SITUATION;
     }
 
@@ -198,12 +199,12 @@ public class Meteor implements Spell {
     @Override
     public Recipe getWandRecipe() {
         // same for each
-        ItemStack result = new ItemStack(Material.STICK);
-        ItemMeta meta = result.getItemMeta();
+        final ItemStack result = new ItemStack(Material.STICK);
+        final ItemMeta meta = result.getItemMeta();
         meta.setDisplayName(ChatColor.AQUA + getName());
         meta.addEnchant(Enchantment.LUCK, 10, true);
         result.setItemMeta(meta);
-        ShapedRecipe recipe = new ShapedRecipe(result);
+        final ShapedRecipe recipe = new ShapedRecipe(result);
         // custom recipe stuff
         recipe.shape("SSI", "SIS", "ISS");
         recipe.setIngredient('S', Material.TNT);

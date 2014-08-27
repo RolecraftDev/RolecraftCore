@@ -430,7 +430,7 @@ public class Messages {
                 // (overwrites!)
                 FileUtils.copyInputStreamToFile(plugin.getClass()
                         .getResourceAsStream(langName), configuredFile);
-            } catch (IOException e) {
+            } catch (final IOException e) {
                 e.printStackTrace();
             }
         }
@@ -444,7 +444,7 @@ public class Messages {
 
         try {
             langProps.load(plugin.getClass().getResourceAsStream(langName));
-        } catch (IOException e) {
+        } catch (final IOException e) {
             e.printStackTrace();
         }
 

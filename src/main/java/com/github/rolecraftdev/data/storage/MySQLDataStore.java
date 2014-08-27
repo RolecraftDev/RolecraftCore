@@ -142,10 +142,11 @@ public final class MySQLDataStore extends DataStore {
             @SuppressWarnings("JDBCResourceOpenedButNotSafelyClosed")
             @Override
             public void run() {
-                Iterator<Entry<Connection, Entry<Boolean, Long>>> iter = connections
+                final Iterator<Entry<Connection, Entry<Boolean, Long>>> iter = connections
                         .entrySet().iterator();
                 while (iter.hasNext()) {
-                    Entry<Connection, Entry<Boolean, Long>> conn = iter.next();
+                    final Entry<Connection, Entry<Boolean, Long>> conn = iter
+                            .next();
                     try {
                         if (conn.getKey() == null || conn.getKey().isClosed()) {
                             // if in use, reset timer
@@ -190,7 +191,7 @@ public final class MySQLDataStore extends DataStore {
         new BukkitRunnable() {
             @Override
             public void run() {
-                Connection connection = getConnection();
+                final Connection connection = getConnection();
                 PreparedStatement ps = null;
                 ResultSet rs = null;
                 try {
@@ -243,9 +244,9 @@ public final class MySQLDataStore extends DataStore {
             @SuppressWarnings("deprecation")
             @Override
             public void run() {
-                Connection connection = getConnection();
+                final Connection connection = getConnection();
                 PreparedStatement ps = null;
-                ResultSet rs = null;
+                final ResultSet rs = null;
                 try {
                     ps = connection.prepareStatement("DELETE FROM " + pt
                             + " WHERE uuid = ?");
@@ -258,7 +259,7 @@ public final class MySQLDataStore extends DataStore {
                     ps.setString(2, data.getPlayerName());
                     ps.execute();
                     data.clear();
-                } catch (SQLException ex) {
+                } catch (final SQLException ex) {
                     ex.printStackTrace();
                 } finally {
                     close(ps, rs);
@@ -275,25 +276,26 @@ public final class MySQLDataStore extends DataStore {
     protected Connection getConnection() {
         try {
             Class.forName("com.mysql.jdbc.Driver");
-            Iterator<Entry<Connection, Entry<Boolean, Long>>> iter = connections
+            final Iterator<Entry<Connection, Entry<Boolean, Long>>> iter = connections
                     .entrySet().iterator();
             while (iter.hasNext()) {
-                Entry<Connection, Entry<Boolean, Long>> conn = iter.next();
+                final Entry<Connection, Entry<Boolean, Long>> conn = iter
+                        .next();
                 if (!conn.getValue().getKey()) {
                     conn.setValue(new SimpleEntry<Boolean, Long>(true,
                             System.currentTimeMillis()));
                     return conn.getKey();
                 }
             }
-            Connection conn = DriverManager.getConnection(
+            final Connection conn = DriverManager.getConnection(
                     "jdbc:mysql://" + uri + ":" + port + "/" + databaseName
                             + "?user=" + user + "&password=" + password);
             connections.put(conn, new SimpleEntry<Boolean, Long>(true,
                     System.currentTimeMillis()));
             return conn;
-        } catch (SQLException ex) {
+        } catch (final SQLException ex) {
             ex.printStackTrace();
-        } catch (ClassNotFoundException e) {
+        } catch (final ClassNotFoundException e) {
             e.printStackTrace();
         }
         return null;
@@ -311,7 +313,7 @@ public final class MySQLDataStore extends DataStore {
      * @since 0.0.5
      */
     @Override
-    public void freeConnection(Connection connection) {
+    public void freeConnection(final Connection connection) {
         connections.put(connection, new SimpleEntry<Boolean, Long>(false,
                 System.currentTimeMillis()));
     }

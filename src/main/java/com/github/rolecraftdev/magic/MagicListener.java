@@ -90,8 +90,8 @@ public class MagicListener implements Listener {
      * @since 0.0.5
      */
     @EventHandler(priority = EventPriority.HIGHEST)
-    public void handleManaScoreboard(PlayerInteractEvent e) {
-        ItemStack stack = e.getItem();
+    public void handleManaScoreboard(final PlayerInteractEvent e) {
+        final ItemStack stack = e.getItem();
         boolean shown = false;
         if (stack != null && stack.getType() == Material.STICK) {
             final Spell spell = spellManager.getSpellFromItem(stack);
@@ -103,8 +103,8 @@ public class MagicListener implements Listener {
                             .getObjective("Mana").getScore("Mana")
                             .setScore((int) data.getMana());
                 } else {
-                    Scoreboard board = scoreboardMgr.getNewScoreboard();
-                    Objective mana = board.registerNewObjective("Mana",
+                    final Scoreboard board = scoreboardMgr.getNewScoreboard();
+                    final Objective mana = board.registerNewObjective("Mana",
                             String.valueOf(data.getMana()));
                     mana.getScore("Mana").setScore((int) data.getMana());
                     mana.setDisplayName("Mana");
@@ -125,7 +125,7 @@ public class MagicListener implements Listener {
      * @since 0.0.5
      */
     @EventHandler(priority = EventPriority.HIGHEST)
-    public void onInteract(PlayerInteractEvent e) {
+    public void onInteract(final PlayerInteractEvent e) {
         final ItemStack stack = e.getItem();
         if (stack == null || stack.getType() != Material.STICK) {
             return;
@@ -231,7 +231,7 @@ public class MagicListener implements Listener {
      * @since 0.0.5
      */
     @EventHandler(priority = EventPriority.HIGHEST)
-    public void onDamage(EntityDamageByEntityEvent e) {
+    public void onDamage(final EntityDamageByEntityEvent e) {
         if (e.getCause() == DamageCause.MAGIC || !(e
                 .getDamager() instanceof Player)) {
             return;

@@ -75,8 +75,8 @@ public class RolecraftEventFactory {
      *         given parameters
      * @since 0.0.5
      */
-    public static GuildRankRemoveEvent guildRankRemoved(Guild guild,
-            GuildRank rank) {
+    public static GuildRankRemoveEvent guildRankRemoved(final Guild guild,
+            final GuildRank rank) {
         return callEvent(new GuildRankRemoveEvent(plugin, guild, rank));
     }
 
@@ -92,8 +92,8 @@ public class RolecraftEventFactory {
      *         given parameters
      * @since 0.0.5
      */
-    public static GuildRankModifyEvent guildRankModified(Guild guild,
-            GuildRank rank, GuildAction perm, boolean value) {
+    public static GuildRankModifyEvent guildRankModified(final Guild guild,
+            final GuildRank rank, final GuildAction perm, final boolean value) {
         return callEvent(new GuildRankModifyEvent(plugin, guild, rank, perm,
                 value));
     }
@@ -108,8 +108,8 @@ public class RolecraftEventFactory {
      *         given parameters
      * @since 0.0.5
      */
-    public static GuildRankCreateEvent guildRankCreated(Guild guild,
-            GuildRank rank) {
+    public static GuildRankCreateEvent guildRankCreated(final Guild guild,
+            final GuildRank rank) {
         return callEvent(new GuildRankCreateEvent(plugin, guild, rank));
     }
 
@@ -123,8 +123,8 @@ public class RolecraftEventFactory {
      *         given parameters
      * @since 0.0.5
      */
-    public static GuildPlayerLeaveEvent guildPlayerLeave(Guild guild,
-            Player player) {
+    public static GuildPlayerLeaveEvent guildPlayerLeave(final Guild guild,
+            final Player player) {
         return callEvent(new GuildPlayerLeaveEvent(plugin, guild, player));
     }
 
@@ -138,8 +138,8 @@ public class RolecraftEventFactory {
      *         given parameters
      * @since 0.0.5
      */
-    public static GuildPlayerKickedEvent guildPlayerKicked(Guild guild,
-            Player player) {
+    public static GuildPlayerKickedEvent guildPlayerKicked(final Guild guild,
+            final Player player) {
         return callEvent(new GuildPlayerKickedEvent(plugin, guild, player));
     }
 
@@ -154,8 +154,8 @@ public class RolecraftEventFactory {
      *         given parameters
      * @since 0.0.5
      */
-    public static GuildPlayerJoinEvent guildPlayerJoined(Guild guild,
-            Player player, GuildRank rank) {
+    public static GuildPlayerJoinEvent guildPlayerJoined(final Guild guild,
+            final Player player, final GuildRank rank) {
         return callEvent(new GuildPlayerJoinEvent(plugin, guild, player, rank));
     }
 
@@ -168,7 +168,7 @@ public class RolecraftEventFactory {
      *         parameters
      * @since 0.0.5
      */
-    public static GuildDisbandEvent guildDisbanded(Guild guild) {
+    public static GuildDisbandEvent guildDisbanded(final Guild guild) {
         return callEvent(new GuildDisbandEvent(plugin, guild));
     }
 
@@ -181,7 +181,7 @@ public class RolecraftEventFactory {
      *         parameters
      * @since 0.0.5
      */
-    public static GuildCreateEvent guildCreated(Guild guild) {
+    public static GuildCreateEvent guildCreated(final Guild guild) {
         return callEvent(new GuildCreateEvent(plugin, guild));
     }
 
@@ -196,8 +196,8 @@ public class RolecraftEventFactory {
      *         parameters
      * @since 0.0.5
      */
-    public static SpellCastEvent spellCast(Spell spell, Entity caster,
-            float manaCost) {
+    public static SpellCastEvent spellCast(final Spell spell,
+            final Entity caster, final float manaCost) {
         return callEvent(new SpellCastEvent(plugin, spell, caster, manaCost));
     }
 
@@ -212,7 +212,7 @@ public class RolecraftEventFactory {
      * @return the given {@link Event} after it has been called
      * @since 0.0.5
      */
-    public static <T extends Event> T callEvent(T event) {
+    public static <T extends Event> T callEvent(final T event) {
         Bukkit.getPluginManager().callEvent(event);
         return event;
     }
@@ -223,7 +223,7 @@ public class RolecraftEventFactory {
      * @param plugin the new associated {@link RolecraftCore} instance
      * @since 0.0.5
      */
-    public static void setPlugin(RolecraftCore plugin) {
+    public static void setPlugin(final RolecraftCore plugin) {
         Validate.notNull(plugin);
         RolecraftEventFactory.plugin = plugin;
     }

@@ -75,9 +75,9 @@ public class GuildShowCommand extends CommandHandler {
         if (guild != null) {
             sender.sendMessage(plugin.getMessage(Messages.GUILD_INFO,
                     MsgVar.create("$guild", guild.getName())));
-            StringBuilder members = new StringBuilder();
+            final StringBuilder members = new StringBuilder();
             int onlineMembers = 0;
-            for (UUID id : guild.getMembers()) {
+            for (final UUID id : guild.getMembers()) {
                 if (plugin.getServer().getPlayer(id) != null) {
                     members.append(plugin.getServer().getPlayer(id));
                     members.append(',');
@@ -97,8 +97,8 @@ public class GuildShowCommand extends CommandHandler {
                             String.valueOf(guild.getInfluence()))));
             sender.sendMessage(plugin.getMessage(Messages.GUIlD_LEADER,
                     MsgVar.create("$leader", guild.getLeader().toString())));
-            StringBuilder ranks = new StringBuilder();
-            for (GuildRank rank : guild.getRanks()) {
+            final StringBuilder ranks = new StringBuilder();
+            for (final GuildRank rank : guild.getRanks()) {
                 ranks.append(rank.getName());
                 ranks.append(',');
             }

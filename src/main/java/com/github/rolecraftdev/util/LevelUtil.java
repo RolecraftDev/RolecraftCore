@@ -50,7 +50,7 @@ public final class LevelUtil {
      * @return the level that corresponds to the given experience
      * @since 0.0.5
      */
-    public static int getLevel(float experience) {
+    public static int getLevel(final float experience) {
         // TODO: make this a function that can, within reason, be solved for X
         // short circut to prevent "bottoming out"
         if (experience < 0.025) {
@@ -72,7 +72,7 @@ public final class LevelUtil {
      * @return the experience that is required to level up
      * @since 0.0.5
      */
-    public static float expToNextLevel(float experience) {
+    public static float expToNextLevel(final float experience) {
         // TODO: make this return the experience to the next level
         return -1;
     }

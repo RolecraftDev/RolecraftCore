@@ -126,7 +126,7 @@ public final class GuildListener implements Listener {
             return;
         }
 
-        for (PlayerData data : guildManager.getPlugin().getDataManager()
+        for (final PlayerData data : guildManager.getPlugin().getDataManager()
                 .getPlayerDatum()) {
             // Null becomes non-null, never the other way around -> this is safe
             if (data.getSettings() != null
@@ -173,7 +173,8 @@ public final class GuildListener implements Listener {
                         .getDamager())
                         .getShooter()).getUniqueId();
 
-                final Guild damagerGuild = guildManager.getPlayerGuild(damagerId);
+                final Guild damagerGuild = guildManager
+                        .getPlayerGuild(damagerId);
                 final Guild playerGuild = guildManager.getPlayerGuild(playerId);
                 if (damagerGuild != null && damagerGuild.equals(playerGuild)) {
                     event.setCancelled(true);
@@ -450,8 +451,8 @@ public final class GuildListener implements Listener {
      */
     @EventHandler(priority = EventPriority.NORMAL)
     @SuppressWarnings("deprecation")
-    public void onCreatureSpawn(CreatureSpawnEvent event) {
-        Guild guild = getGuildFromHall(event.getLocation());
+    public void onCreatureSpawn(final CreatureSpawnEvent event) {
+        final Guild guild = getGuildFromHall(event.getLocation());
         if (guild != null) {
             if (guild == nullGuild) {
                 event.setCancelled(true);

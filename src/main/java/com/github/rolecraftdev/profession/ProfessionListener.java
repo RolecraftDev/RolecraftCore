@@ -63,7 +63,7 @@ public class ProfessionListener implements Listener {
      *        {@link Profession}s should be handled by this {@link Listener}
      * @since 0.0.5
      */
-    public ProfessionListener(ProfessionManager professionManager) {
+    public ProfessionListener(final ProfessionManager professionManager) {
         parent = professionManager;
     }
 
@@ -71,7 +71,7 @@ public class ProfessionListener implements Listener {
      * @since 0.0.5
      */
     @EventHandler(priority = EventPriority.HIGHEST)
-    public void enforceArmorRules(InventoryClickEvent event) {
+    public void enforceArmorRules(final InventoryClickEvent event) {
         if (event.getWhoClicked() instanceof Player) {
             final Player player = (Player) event.getWhoClicked();
             if (parent.getPlayerProfession(player.getUniqueId()) == null) {
@@ -140,7 +140,7 @@ public class ProfessionListener implements Listener {
      * @since 0.0.5
      */
     @EventHandler(priority = EventPriority.LOW)
-    public void enforceEnchantRules(EnchantItemEvent event) {
+    public void enforceEnchantRules(final EnchantItemEvent event) {
         if (parent.getPlayerProfession(event.getEnchanter().getUniqueId())
                 == null) {
             if (!parent.getPlugin().getConfig()
@@ -176,8 +176,8 @@ public class ProfessionListener implements Listener {
      * @since 0.0.5
      */
     @EventHandler(priority = EventPriority.LOW)
-    public void enforceItemChange(PlayerItemHeldEvent event) {
-        ItemStack stack = event.getPlayer().getInventory()
+    public void enforceItemChange(final PlayerItemHeldEvent event) {
+        final ItemStack stack = event.getPlayer().getInventory()
                 .getItem(event.getNewSlot());
         if (parent.getPlayerProfession(event.getPlayer().getUniqueId())
                 == null) {
@@ -244,7 +244,7 @@ public class ProfessionListener implements Listener {
      * @return {@code true} if the given player is allowed to use the given
      *         {@link ItemStack}; {@code false} otherwise
      */
-    private boolean checkEnchantments(Player ply, ItemStack stack) {
+    private boolean checkEnchantments(final Player ply, final ItemStack stack) {
         if (stack == null || stack.getType() == Material.AIR) {
             return true;
         }
@@ -252,9 +252,10 @@ public class ProfessionListener implements Listener {
                 || stack.getEnchantments().isEmpty()) {
             return true;
         }
-        Profession prof = parent.getPlayerProfession(ply.getUniqueId());
+        final Profession prof = parent.getPlayerProfession(ply.getUniqueId());
 
-        List<?> rules = prof.getRuleValue(ProfessionRule.USABLE_ENCHANTMENTS);
+        final List<?> rules = prof
+                .getRuleValue(ProfessionRule.USABLE_ENCHANTMENTS);
         if (rules == null || rules.isEmpty()) {
             return parent.getPlugin().getConfig()
                     .getBoolean("professiondefaults.enchantments");
@@ -262,8 +263,8 @@ public class ProfessionListener implements Listener {
 
         boolean allow;
 
-        for (Entry<Enchantment, Integer> enchantment : stack.getEnchantments()
-                .entrySet()) {
+        for (final Entry<Enchantment, Integer> enchantment : stack
+                .getEnchantments().entrySet()) {
             boolean enchantmentAllowed = false;
             boolean levelAllowed = false;
             boolean levelOverride = false;
@@ -315,11 +316,13 @@ public class ProfessionListener implements Listener {
      * @return {@code true} if the given player is allowed to use the given
      *         {@link Material}; {@code false} otherwise
      */
-    private boolean checkMaterial(Material mat, Player ply, List<?> rules) {
+    private boolean checkMaterial(final Material mat, final Player ply,
+            final List<?> rules) {
         if (mat == null) {
             return true;
         }
-        String material = mat.toString().replace("Material.", "").toLowerCase();
+        final String material = mat.toString().replace("Material.", "")
+                .toLowerCase();
         if (rules == null || rules.isEmpty()) {
             // ifndef return default
             return parent.getPlugin().getConfig()

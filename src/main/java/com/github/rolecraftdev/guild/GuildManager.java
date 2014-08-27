@@ -210,10 +210,10 @@ public final class GuildManager {
      *         otherwise
      * @since 0.0.5
      */
-    public boolean addGuild(@Nonnull final Guild guild, boolean fromDatabase) {
+    public boolean addGuild(@Nonnull final Guild guild, final boolean fromDatabase) {
         // If a Guild is constructed with a null GuildManager, every getter
         // method will return null - make sure there isn't a 'null' guild given
-        String name = guild.getName();
+        final String name = guild.getName();
         Validate.notNull(name);
 
         if (fromDatabase) {
@@ -231,7 +231,7 @@ public final class GuildManager {
             }
         }
 
-        GuildCreateEvent event = RolecraftEventFactory.guildCreated(guild);
+        final GuildCreateEvent event = RolecraftEventFactory.guildCreated(guild);
         if (event.isCancelled()) {
             event.getFounder().sendMessage(ChatColor.DARK_RED +
                     event.getCancelMessage());

@@ -58,7 +58,7 @@ public class MultiArrow implements Spell {
      *        implementation will be registered to
      * @since 0.0.5
      */
-    public MultiArrow(SpellManager spellManager) {
+    public MultiArrow(final SpellManager spellManager) {
     }
 
     /**
@@ -73,8 +73,8 @@ public class MultiArrow implements Spell {
      * @since 0.0.5
      */
     @Override
-    public float estimateAttackMana(Player caster, LivingEntity target,
-            int modifier) {
+    public float estimateAttackMana(final Player caster,
+            final LivingEntity target, final int modifier) {
         return 0;
     }
 
@@ -82,8 +82,8 @@ public class MultiArrow implements Spell {
      * @since 0.0.5
      */
     @Override
-    public float estimateLeftClickMana(Player caster, Block block, int modifier,
-            BlockFace face) {
+    public float estimateLeftClickMana(final Player caster, final Block block,
+            final int modifier, final BlockFace face) {
         return 0;
     }
 
@@ -91,8 +91,8 @@ public class MultiArrow implements Spell {
      * @since 0.0.5
      */
     @Override
-    public float estimateRightClickMana(Player caster, Block block, int modifier,
-            BlockFace face) {
+    public float estimateRightClickMana(final Player caster, final Block block,
+            final int modifier, final BlockFace face) {
         return (50f - modifier / 100f > 0) ? 50f - modifier / 100f : 0;
     }
 
@@ -100,14 +100,14 @@ public class MultiArrow implements Spell {
      * @since 0.0.5
      */
     @Override
-    public float rightClick(Player caster, Block block, int modifier,
-            BlockFace face) {
+    public float rightClick(final Player caster, final Block block,
+            final int modifier, final BlockFace face) {
         if (block != null) {
             return CAST_FAILURE;
         }
 
         for (int i = 0; i < 4; i++) {
-            Arrow arrow = caster.launchProjectile(Arrow.class);
+            final Arrow arrow = caster.launchProjectile(Arrow.class);
             arrow.setVelocity(
                     Utils.smallVelocityRandomiser(arrow.getVelocity()));
         }
@@ -119,8 +119,8 @@ public class MultiArrow implements Spell {
      * @since 0.0.5
      */
     @Override
-    public float leftClick(Player caster, Block block, int modifier,
-            BlockFace face) {
+    public float leftClick(final Player caster, final Block block,
+            final int modifier, final BlockFace face) {
         return BAD_SITUATION;
     }
 
@@ -128,7 +128,8 @@ public class MultiArrow implements Spell {
      * @since 0.0.5
      */
     @Override
-    public float attack(Player caster, LivingEntity target, int modifier) {
+    public float attack(final Player caster, final LivingEntity target,
+            final int modifier) {
         return BAD_SITUATION;
     }
 
@@ -137,12 +138,12 @@ public class MultiArrow implements Spell {
      */
     @Override
     public Recipe getWandRecipe() {
-        ItemStack result = new ItemStack(Material.STICK);
-        ItemMeta meta = result.getItemMeta();
+        final ItemStack result = new ItemStack(Material.STICK);
+        final ItemMeta meta = result.getItemMeta();
         meta.setDisplayName(ChatColor.AQUA + getName());
         meta.addEnchant(Enchantment.LUCK, 10, true);
         result.setItemMeta(meta);
-        ShapedRecipe recipe = new ShapedRecipe(result);
+        final ShapedRecipe recipe = new ShapedRecipe(result);
         // custom recipe stuff
         recipe.shape("AAC", "ACB", "CBB");
         recipe.setIngredient('A', Material.ARROW);

@@ -79,7 +79,7 @@ public class SoundWrapper {
      * @param pitch the pitch of the {@link Sound}
      * @since 0.0.5
      */
-    public SoundWrapper(Sound sound, float volume, float pitch) {
+    public SoundWrapper(final Sound sound, final float volume, final float pitch) {
         this.volume = volume;
         this.pitch = pitch;
         this.sound = sound;
@@ -92,7 +92,7 @@ public class SoundWrapper {
      * @param location the {@link Location} at which the note should be played
      * @since 0.0.5
      */
-    public void play(Location location) {
+    public void play(final Location location) {
         location.getWorld().playSound(location, sound, volume, pitch);
     }
 }

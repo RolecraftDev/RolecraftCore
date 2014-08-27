@@ -309,7 +309,7 @@ public final class PlayerData {
      * @param unload the new unloading status
      * @since 0.0.5
      */
-    public void setUnloading(boolean unload) {
+    public void setUnloading(final boolean unload) {
         unloading = unload;
     }
 
@@ -320,7 +320,7 @@ public final class PlayerData {
      * @param loaded the new loading status
      * @since 0.0.5
      */
-    public void setLoaded(boolean loaded) {
+    public void setLoaded(final boolean loaded) {
         this.loaded = loaded;
     }
 
@@ -406,7 +406,7 @@ public final class PlayerData {
     @Deprecated
     public void setExperience(final float amount) {
         if (loaded && !unloading) {
-            RCExpChangeEvent event = RCExpEventFactory
+            final RCExpChangeEvent event = RCExpEventFactory
                     .callRCExpEvent(plugin, Bukkit.getServer()
                                     .getPlayer(playerId), amount - experience,
                             ChangeReason.DEFAULT);
@@ -426,11 +426,11 @@ public final class PlayerData {
      * @param reason the reason for this change
      * @since 0.0.5
      */
-    public void setExperience(final float amount, ChangeReason reason) {
+    public void setExperience(final float amount, final ChangeReason reason) {
         if (loaded && !unloading) {
-            RCExpChangeEvent event = RCExpEventFactory.callRCExpEvent(plugin,
-                    Bukkit.getServer().getPlayer(playerId),
-                    amount - experience, reason);
+            final RCExpChangeEvent event = RCExpEventFactory.callRCExpEvent(
+                    plugin, Bukkit.getServer().getPlayer(playerId), amount
+                            - experience, reason);
             if (!event.isCancelled()) {
                 experience = event.getNewExperience();
             }
@@ -497,7 +497,8 @@ public final class PlayerData {
      * @see #setExperience(float, ChangeReason)
      * @see #getExperience()
      */
-    public void subtractExperience(final float amount, ChangeReason reason) {
+    public void
+            subtractExperience(final float amount, final ChangeReason reason) {
         setExperience(getExperience() - amount, reason);
     }
 
@@ -508,7 +509,7 @@ public final class PlayerData {
      * @param karma the owner's new karma level
      * @since 0.0.5
      */
-    public void setKarma(float karma) {
+    public void setKarma(final float karma) {
         if (loaded && !unloading) {
             this.karma = karma;
         }
@@ -524,7 +525,7 @@ public final class PlayerData {
      * @see #setKarma(float)
      * @see #getKarma()
      */
-    public void addKarma(float amount) {
+    public void addKarma(final float amount) {
         setKarma(getKarma() + amount);
     }
 
@@ -538,7 +539,7 @@ public final class PlayerData {
      * @see #setKarma(float)
      * @see #getKarma()
      */
-    public void subtractKarma(float amount) {
+    public void subtractKarma(final float amount) {
         setKarma(getKarma() - amount);
     }
 
@@ -559,7 +560,7 @@ public final class PlayerData {
                     return Float.MAX_VALUE;
                 }
             }
-        } catch (URISyntaxException e) {
+        } catch (final URISyntaxException e) {
             Bukkit.getLogger().warning("Problem in get exceptions - ignore");
         }
         if (loaded) {
@@ -576,7 +577,7 @@ public final class PlayerData {
      * @param newMana the owner's new mana level
      * @since 0.0.5
      */
-    public void setMana(float newMana) {
+    public void setMana(final float newMana) {
         if (loaded && !unloading) {
             mana = newMana;
         }
@@ -592,7 +593,7 @@ public final class PlayerData {
      * @see #setMana(float)
      * @see #getMana()
      */
-    public void addMana(float amount) {
+    public void addMana(final float amount) {
         setMana(getMana() + amount);
     }
 
@@ -606,7 +607,7 @@ public final class PlayerData {
      * @see #setMana(float)
      * @see #getMana()
      */
-    public void subtractMana(float amount) {
+    public void subtractMana(final float amount) {
         setMana(getMana() - amount);
     }
 
@@ -677,8 +678,8 @@ public final class PlayerData {
     @Deprecated
     public void initialise(final UUID guild, final UUID profession,
             final UUID secondProfession, final int influence, final float exp,
-            final float karma, float mana, final Map<UUID, String> progression,
-            final PlayerSettings settings) {
+            final float karma, final float mana,
+            final Map<UUID, String> progression, final PlayerSettings settings) {
         this.guild = guild;
         this.profession = profession;
         this.influence = influence;
@@ -716,7 +717,7 @@ public final class PlayerData {
      *        {@link Profession}
      * @since 0.0.5
      */
-    public void setSecondProfession(UUID secondProfession) {
+    public void setSecondProfession(final UUID secondProfession) {
         if (loaded && !unloading) {
             this.secondProfession = secondProfession;
         }

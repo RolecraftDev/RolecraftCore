@@ -49,7 +49,7 @@ public class ManaRegenTask extends BukkitRunnable {
      * @param plugin the associated {@link RolecraftCore} instance
      * @since 0.0.5
      */
-    public ManaRegenTask(RolecraftCore plugin) {
+    public ManaRegenTask(final RolecraftCore plugin) {
         this.plugin = plugin;
     }
 

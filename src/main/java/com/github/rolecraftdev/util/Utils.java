@@ -64,11 +64,11 @@ public final class Utils {
      */
     public static Entity getTarget(final Player player, final int range) {
         @SuppressWarnings("deprecation")
-        List<Block> blocks = player.getLineOfSight(null, range);
-        Block[] blockArray = blocks.toArray(new Block[blocks.size()]);
-        List<Entity> near = player.getNearbyEntities(range, range, range);
-        for (Block block : blockArray) {
-            for (Entity e : near) {
+        final List<Block> blocks = player.getLineOfSight(null, range);
+        final Block[] blockArray = blocks.toArray(new Block[blocks.size()]);
+        final List<Entity> near = player.getNearbyEntities(range, range, range);
+        for (final Block block : blockArray) {
+            for (final Entity e : near) {
                 if (e.getLocation().distance(block.getLocation()) < 2) {
                     return e;
                 }
@@ -90,11 +90,12 @@ public final class Utils {
     public static LivingEntity getLivingTarget(final Player player,
             final int range) {
         @SuppressWarnings("deprecation")
+        final
         List<Block> blocks = player.getLineOfSight(null, range);
-        Block[] blockArray = blocks.toArray(new Block[blocks.size()]);
-        List<Entity> near = player.getNearbyEntities(range, range, range);
-        for (Block block : blockArray) {
-            for (Entity e : near) {
+        final Block[] blockArray = blocks.toArray(new Block[blocks.size()]);
+        final List<Entity> near = player.getNearbyEntities(range, range, range);
+        for (final Block block : blockArray) {
+            for (final Entity e : near) {
                 if (e.getLocation().distance(block.getLocation()) < 2) {
                     if (e instanceof LivingEntity) {
                         return (LivingEntity) e;
@@ -113,11 +114,11 @@ public final class Utils {
      * @since 0.0.5
      */
     public static Vector getUnitVectorFacing(final Player ply) {
-        double x = -Math.sin(Math.toRadians(ply.getLocation().getYaw())) *
+        final double x = -Math.sin(Math.toRadians(ply.getLocation().getYaw())) *
                 Math.cos(Math.toRadians(ply.getLocation().getPitch()));
-        double z = Math.cos(Math.toRadians(ply.getLocation().getYaw())) *
+        final double z = Math.cos(Math.toRadians(ply.getLocation().getYaw())) *
                 Math.cos(Math.toRadians(ply.getLocation().getPitch()));
-        double y = -Math.sin(Math.toRadians(ply.getLocation().getPitch()));
+        final double y = -Math.sin(Math.toRadians(ply.getLocation().getPitch()));
         return new Vector(x, y, z);
     }
 

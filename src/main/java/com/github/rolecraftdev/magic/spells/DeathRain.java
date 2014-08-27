@@ -104,8 +104,8 @@ public class DeathRain implements Spell {
      * @since 0.0.5
      */
     @Override
-    public float estimateAttackMana(Player caster, LivingEntity target,
-            int modifier) {
+    public float estimateAttackMana(final Player caster,
+            final LivingEntity target, final int modifier) {
         return 0;
     }
 
@@ -113,8 +113,8 @@ public class DeathRain implements Spell {
      * @since 0.0.5
      */
     @Override
-    public float estimateLeftClickMana(Player caster, Block block, int modifier,
-            BlockFace face) {
+    public float estimateLeftClickMana(final Player caster, final Block block,
+            final int modifier, final BlockFace face) {
         return 0;
     }
 
@@ -122,8 +122,8 @@ public class DeathRain implements Spell {
      * @since 0.0.5
      */
     @Override
-    public float estimateRightClickMana(Player caster, Block block, int modifier,
-            BlockFace face) {
+    public float estimateRightClickMana(final Player caster, final Block block,
+            final int modifier, final BlockFace face) {
         return (800f - modifier / 200f > 0) ? 800f - modifier / 200f : 0;
     }
 
@@ -131,13 +131,13 @@ public class DeathRain implements Spell {
      * @since 0.0.5
      */
     @Override
-    public float rightClick(Player caster, Block block, int modifier,
-            BlockFace face) {
+    public float rightClick(final Player caster, final Block block,
+            final int modifier, final BlockFace face) {
         Block target;
         if (block != null) {
             target = block;
         } else {
-            Block temp = caster.getTargetBlock(transparency, spellManager
+            final Block temp = caster.getTargetBlock(transparency, spellManager
                     .getRange());
             if (temp != null) {
                 target = temp;
@@ -171,15 +171,15 @@ public class DeathRain implements Spell {
             return CAST_FAILURE;
         }
 
-        Location center = new Location(target.getWorld(), target.getX(),
+        final Location center = new Location(target.getWorld(), target.getX(),
                 target.getY() + 40, target.getZ());
-        Vector velocity = target.getLocation().toVector()
+        final Vector velocity = target.getLocation().toVector()
                 .subtract(center.toVector()).normalize().multiply(0.5d);
-        World world = target.getWorld();
+        final World world = target.getWorld();
 
         for (int x = -5; x <= 5; x++) {
             for (int z = -5; z < 5; z++) {
-                Arrow arrow = world.spawn(
+                final Arrow arrow = world.spawn(
                         new Location(world, center.getX() + x, center.getY(),
                                 center.getZ() + z), Arrow.class);
                 arrow.setMetadata("Multiplier", new FixedMetadataValue(
@@ -197,8 +197,8 @@ public class DeathRain implements Spell {
      * @since 0.0.5
      */
     @Override
-    public float leftClick(Player caster, Block block, int modifier,
-            BlockFace face) {
+    public float leftClick(final Player caster, final Block block,
+            final int modifier, final BlockFace face) {
         return BAD_SITUATION;
     }
 
@@ -206,7 +206,8 @@ public class DeathRain implements Spell {
      * @since 0.0.5
      */
     @Override
-    public float attack(Player caster, LivingEntity target, int modifier) {
+    public float attack(final Player caster, final LivingEntity target,
+            final int modifier) {
         return BAD_SITUATION;
     }
 
@@ -216,16 +217,16 @@ public class DeathRain implements Spell {
     @Override
     public Recipe getWandRecipe() {
         // same for each
-        ItemStack result = new ItemStack(Material.STICK);
-        ItemMeta meta = result.getItemMeta();
+        final ItemStack result = new ItemStack(Material.STICK);
+        final ItemMeta meta = result.getItemMeta();
         meta.setDisplayName(ChatColor.AQUA + getName());
         meta.addEnchant(Enchantment.LUCK, 10, true);
-        String[] lore = {
+        final String[] lore = {
                 "A virtual airstrike, this wand is capabale of bringing an",
                 "army to their knees with one cast" };
         meta.setLore(Arrays.asList(lore));
         result.setItemMeta(meta);
-        ShapedRecipe recipe = new ShapedRecipe(result);
+        final ShapedRecipe recipe = new ShapedRecipe(result);
         // custom recipe stuff
         recipe.shape("WPB",
                 "PEP",

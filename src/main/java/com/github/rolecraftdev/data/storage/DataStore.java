@@ -106,7 +106,7 @@ public abstract class DataStore {
      * @param bool the new {@link Quest} loading status
      * @since 0.0.5
      */
-    public void setQuestsLoaded(boolean bool) {
+    public void setQuestsLoaded(final boolean bool) {
         questsLoaded = bool;
     }
 
@@ -191,8 +191,8 @@ public abstract class DataStore {
      * @since 0.0.5
      */
     public void updateGuildRanks(final Guild guild) {
-        StringBuilder sb = new StringBuilder();
-        for (GuildRank rank : guild.getRanks()) {
+        final StringBuilder sb = new StringBuilder();
+        for (final GuildRank rank : guild.getRanks()) {
             sb.append(rank.serialize());
             sb.append(",");
         }
@@ -201,9 +201,9 @@ public abstract class DataStore {
         new BukkitRunnable() {
             @Override
             public void run() {
-                Connection connection = getConnection();
+                final Connection connection = getConnection();
                 PreparedStatement ps = null;
-                ResultSet rs = null;
+                final ResultSet rs = null;
                 try {
                     ps = connection.prepareStatement(
                             "UPDATE " + gt + " SET ranks = ? WHERE uuid = ?");
@@ -236,7 +236,7 @@ public abstract class DataStore {
             if (rs != null) {
                 rs.close();
             }
-        } catch (SQLException e) {
+        } catch (final SQLException e) {
             // swallow exception
         }
     }
@@ -253,13 +253,13 @@ public abstract class DataStore {
         final String name = guild.getName();
         final String leader = guild.getLeader().toString();
         StringBuilder sb = new StringBuilder();
-        for (UUID id : guild.getMembers()) {
+        for (final UUID id : guild.getMembers()) {
             sb.append(id.toString());
             sb.append(",");
         }
         final String members = sb.substring(0, sb.length() - 1);
         sb = new StringBuilder();
-        for (GuildRank rank : guild.getRanks()) {
+        for (final GuildRank rank : guild.getRanks()) {
             sb.append(rank.serialize());
             sb.append(",");
         }
@@ -278,9 +278,9 @@ public abstract class DataStore {
         new BukkitRunnable() {
             @Override
             public void run() {
-                Connection connection = getConnection();
+                final Connection connection = getConnection();
                 PreparedStatement ps = null;
-                ResultSet rs = null;
+                final ResultSet rs = null;
                 try {
                     ps = connection.prepareStatement("UPDATE " + gt + " SET "
                             + "name = ?, "
@@ -322,9 +322,9 @@ public abstract class DataStore {
         new BukkitRunnable() {
             @Override
             public void run() {
-                Connection connection = getConnection();
+                final Connection connection = getConnection();
                 PreparedStatement ps = null;
-                ResultSet rs = null;
+                final ResultSet rs = null;
                 try {
                     ps = connection.prepareStatement(
                             "DELETE FROM " + gt + " WHERE uuid = ?");
@@ -353,9 +353,9 @@ public abstract class DataStore {
         new BukkitRunnable() {
             @Override
             public void run() {
-                Connection connection = getConnection();
+                final Connection connection = getConnection();
                 PreparedStatement ps = null;
-                ResultSet rs = null;
+                final ResultSet rs = null;
                 try {
                     ps = connection.prepareStatement(
                             "DELETE FROM " + pt + " WHERE uuid = ?");
@@ -393,9 +393,9 @@ public abstract class DataStore {
         new BukkitRunnable() {
             @Override
             public void run() {
-                Connection connection = getConnection();
+                final Connection connection = getConnection();
                 PreparedStatement ps = null;
-                ResultSet rs = null;
+                final ResultSet rs = null;
                 try {
                     ps = connection.prepareStatement("INSERT INTO " + gt
                             + " (uuid, name, leader, members, ranks) VALUES (?,?,?,?,?)");
@@ -427,43 +427,44 @@ public abstract class DataStore {
         new BukkitRunnable() {
             @Override
             public void run() {
-                Connection connection = getConnection();
+                final Connection connection = getConnection();
                 PreparedStatement ps = null;
                 ResultSet rs = null;
                 try {
                     ps = connection.prepareStatement("SELECT * FROM " + gt);
                     rs = ps.executeQuery();
                     while (rs.next()) {
-                        UUID id = UUID.fromString(rs.getString("uuid"));
-                        String name = rs.getString("name");
-                        UUID leader = (!(rs.getString("leader") == null) && !rs
-                                .getString("leader").equals("")) ?
-                                UUID.fromString(rs.getString("leader")) :
-                                null;
-                        Set<UUID> members = new HashSet<UUID>();
-                        for (String s : rs.getString("members").split(",")) {
+                        final UUID id = UUID.fromString(rs.getString("uuid"));
+                        final String name = rs.getString("name");
+                        final UUID leader = (!(rs.getString("leader") == null) && !rs
+                                .getString("leader").equals("")) ? UUID
+                                .fromString(rs.getString("leader")) : null;
+                        final Set<UUID> members = new HashSet<UUID>();
+                        for (final String s : rs.getString("members")
+                                .split(",")) {
                             if (s != null && !s.equals("")) {
                                 members.add(UUID.fromString(s));
                             }
                         }
-                        Set<GuildRank> ranks = new HashSet<GuildRank>();
-                        for (String s : rs.getString("ranks").split(",")) {
+                        final Set<GuildRank> ranks = new HashSet<GuildRank>();
+                        for (final String s : rs.getString("ranks").split(",")) {
                             ranks.add(GuildRank.deserialize(s));
                         }
-                        Location home = LocationSerializer
+                        final Location home = LocationSerializer
                                 .deserialize(rs.getString("home"));
-                        Region2D hall = Region2D
+                        final Region2D hall = Region2D
                                 .fromString(rs.getString("hall"));
-                        int influence = rs.getInt("influence");
-                        boolean open = rs.getBoolean("open");
+                        final int influence = rs.getInt("influence");
+                        final boolean open = rs.getBoolean("open");
 
-                        Guild guild = new Guild(callback, id, name, leader,
-                                members, ranks, home, influence, hall, open);
+                        final Guild guild = new Guild(callback, id, name,
+                                leader, members, ranks, home, influence, hall,
+                                open);
                         callback.addGuild(guild, true);
                     }
 
                     callback.completeLoad();
-                } catch (SQLException ex) {
+                } catch (final SQLException ex) {
                     ex.printStackTrace();
                 } finally {
                     close(ps, rs);
@@ -485,7 +486,7 @@ public abstract class DataStore {
         new BukkitRunnable() {
             @Override
             public void run() {
-                Connection connection = getConnection();
+                final Connection connection = getConnection();
                 PreparedStatement ps = null;
                 ResultSet rs = null;
                 try {
@@ -517,7 +518,7 @@ public abstract class DataStore {
                         Bukkit.getLogger().warning(
                                 "SEVERE ERROR OCCURRED: could not load expected guild from SQL");
                     }
-                } catch (SQLException ex) {
+                } catch (final SQLException ex) {
                     ex.printStackTrace();
                 } finally {
                     close(ps, rs);
@@ -539,7 +540,7 @@ public abstract class DataStore {
         new BukkitRunnable() {
             @Override
             public void run() {
-                Connection connection = getConnection();
+                final Connection connection = getConnection();
                 PreparedStatement ps = null;
                 ResultSet rs = null;
                 try {
@@ -576,7 +577,7 @@ public abstract class DataStore {
                         Bukkit.getLogger().warning(
                                 "SEVERE ERROR OCCURRED: could not load expected guild from SQL");
                     }
-                } catch (SQLException ex) {
+                } catch (final SQLException ex) {
                     ex.printStackTrace();
                 } finally {
                     close(ps, rs);
@@ -599,9 +600,9 @@ public abstract class DataStore {
         new BukkitRunnable() {
             @Override
             public void run() {
-                Connection connection = getConnection();
+                final Connection connection = getConnection();
                 PreparedStatement ps = null;
-                ResultSet rs = null;
+                final ResultSet rs = null;
                 try {
                     ps = connection
                             .prepareStatement("UPDATE "
@@ -615,7 +616,7 @@ public abstract class DataStore {
                     ps.setInt(5, commit.getInfluence());
                     ps.setString(6, commit.getPlayerId().toString());
                     ps.execute();
-                } catch (SQLException ex) {
+                } catch (final SQLException ex) {
                     ex.printStackTrace();
                 } finally {
                     close(ps, rs);
@@ -634,9 +635,9 @@ public abstract class DataStore {
      * @since 0.0.5
      */
     public void commitPlayerDataSync(final PlayerData commit) {
-        Connection connection = getConnection();
+        final Connection connection = getConnection();
         PreparedStatement ps = null;
-        ResultSet rs = null;
+        final ResultSet rs = null;
         try {
             ps = connection
                     .prepareStatement("UPDATE "
@@ -650,7 +651,7 @@ public abstract class DataStore {
             ps.setFloat(6, commit.getKarma());
             ps.setString(7, commit.getPlayerId().toString());
             ps.execute();
-        } catch (SQLException ex) {
+        } catch (final SQLException ex) {
             ex.printStackTrace();
         } finally {
             close(ps, rs);
@@ -669,13 +670,13 @@ public abstract class DataStore {
      */
     @SuppressWarnings("deprecation")
     public void requestPlayerData(final PlayerData callback,
-            boolean recursive) {
+            final boolean recursive) {
         if (isQuestsLoaded()) {
             final String uuid = callback.getPlayerId().toString();
             final String name = callback.getPlayerName();
             final float originalSin = plugin.getOriginalSin();
             if (recursive) {
-                Connection connection = getConnection();
+                final Connection connection = getConnection();
                 PreparedStatement ps = null;
                 ResultSet rs = null;
                 try {
@@ -716,7 +717,7 @@ public abstract class DataStore {
                                 0, null, PlayerSettings.DEFAULT_SETTINGS);
                     }
 
-                } catch (SQLException ex) {
+                } catch (final SQLException ex) {
                     ex.printStackTrace();
                 } finally {
                     close(ps, rs);
@@ -726,7 +727,7 @@ public abstract class DataStore {
                 new BukkitRunnable() {
                     @Override
                     public void run() {
-                        Connection connection = getConnection();
+                        final Connection connection = getConnection();
                         PreparedStatement ps = null;
                         ResultSet rs = null;
                         try {
@@ -737,8 +738,8 @@ public abstract class DataStore {
                             rs = ps.executeQuery();
 
                             if (rs.next()) {
-                                ResultSetMetaData rsmd = rs.getMetaData();
-                                Map<UUID, String> questData = new HashMap<UUID, String>();
+                                final ResultSetMetaData rsmd = rs.getMetaData();
+                                final Map<UUID, String> questData = new HashMap<UUID, String>();
                                 for (int i = 0;
                                      i < rsmd.getColumnCount(); i++) {
                                     if (rsmd.getColumnName(i)
@@ -774,7 +775,7 @@ public abstract class DataStore {
                                         PlayerSettings.DEFAULT_SETTINGS);
                             }
 
-                        } catch (SQLException ex) {
+                        } catch (final SQLException ex) {
                             ex.printStackTrace();
                         } finally {
                             close(ps, rs);

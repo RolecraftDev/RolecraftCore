@@ -162,7 +162,7 @@ public class Profession {
      * @since 0.0.5
      */
     @Override
-    public boolean equals(Object object) {
+    public boolean equals(final Object object) {
         if (object == null || !(object instanceof Profession)) {
             return false;
         }

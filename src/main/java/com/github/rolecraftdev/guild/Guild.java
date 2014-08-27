@@ -162,7 +162,7 @@ public final class Guild {
     public Guild(final GuildManager guildManager, final UUID guildId,
             final String name, final UUID leader, final Set<UUID> members,
             final Set<GuildRank> ranks, final Location home,
-            final int influence, final Region2D hallRegion, boolean open) {
+            final int influence, final Region2D hallRegion, final boolean open) {
         plugin = guildManager.getPlugin();
         this.guildManager = guildManager;
         this.guildId = guildId;
@@ -567,7 +567,8 @@ public final class Guild {
     public boolean addRank(final GuildRank rank) {
         Validate.notNull(rank);
 
-        boolean retVal = getRank(rank.getName()) == null && ranks.add(rank);
+        final boolean retVal = getRank(rank.getName()) == null
+                && ranks.add(rank);
         plugin.getDataStore().updateGuildRanks(this);
         return retVal;
     }
@@ -585,9 +586,9 @@ public final class Guild {
         Validate.notNull(rank);
 
         final String name = rank.getName().toLowerCase();
-        boolean retVal =
-                !(name.equals("leader") || name.equals("default")) && ranks
-                        .remove(rank);
+        final boolean retVal = !(name.equals("leader") || name
+                .equals("default"))
+                && ranks.remove(rank);
         plugin.getDataStore().updateGuildRanks(this);
         return retVal;
     }
@@ -610,7 +611,7 @@ public final class Guild {
      * @param open the new open status
      * @since 0.0.5
      */
-    public void setOpen(boolean open) {
+    public void setOpen(final boolean open) {
         this.open = open;
     }
 
@@ -618,7 +619,7 @@ public final class Guild {
      * @since 0.0.5
      */
     @Override
-    public boolean equals(Object o) {
+    public boolean equals(final Object o) {
         if (o == null || !(o instanceof Guild)) {
             return false;
         }

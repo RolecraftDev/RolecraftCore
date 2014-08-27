@@ -59,7 +59,7 @@ public class Bomb implements Spell {
      *        implementation will be registered to
      * @since 0.0.5
      */
-    public Bomb(SpellManager spellManager) {
+    public Bomb(final SpellManager spellManager) {
     }
 
     /**
@@ -74,8 +74,8 @@ public class Bomb implements Spell {
      * @since 0.0.5
      */
     @Override
-    public float estimateAttackMana(Player caster, LivingEntity target,
-            int modifier) {
+    public float estimateAttackMana(final Player caster,
+            final LivingEntity target, final int modifier) {
         return 0;
     }
 
@@ -83,8 +83,8 @@ public class Bomb implements Spell {
      * @since 0.0.5
      */
     @Override
-    public float estimateLeftClickMana(Player caster, Block block, int modifier,
-            BlockFace face) {
+    public float estimateLeftClickMana(final Player caster, final Block block,
+            final int modifier, final BlockFace face) {
         return 0;
     }
 
@@ -92,8 +92,8 @@ public class Bomb implements Spell {
      * @since 0.0.5
      */
     @Override
-    public float estimateRightClickMana(Player caster, Block block, int modifier,
-            BlockFace face) {
+    public float estimateRightClickMana(final Player caster, final Block block,
+            final int modifier, final BlockFace face) {
         return 200 - modifier;
     }
 
@@ -101,9 +101,9 @@ public class Bomb implements Spell {
      * @since 0.0.5
      */
     @Override
-    public float rightClick(Player caster, Block block, int modifier,
-            BlockFace face) {
-        Entity tnt = caster.getWorld()
+    public float rightClick(final Player caster, final Block block,
+            final int modifier, final BlockFace face) {
+        final Entity tnt = caster.getWorld()
                 .spawn(caster.getEyeLocation().add(0, 1, 0), TNTPrimed.class);
         tnt.setVelocity(Utils.getUnitVectorFacing(caster)
                 .multiply(10f * modifier / 100f + 2f));
@@ -114,8 +114,8 @@ public class Bomb implements Spell {
      * @since 0.0.5
      */
     @Override
-    public float leftClick(Player caster, Block block, int modifier,
-            BlockFace face) {
+    public float leftClick(final Player caster, final Block block,
+            final int modifier, final BlockFace face) {
         return BAD_SITUATION;
     }
 
@@ -123,7 +123,8 @@ public class Bomb implements Spell {
      * @since 0.0.5
      */
     @Override
-    public float attack(Player caster, LivingEntity target, int modifier) {
+    public float attack(final Player caster, final LivingEntity target,
+            final int modifier) {
         return BAD_SITUATION;
     }
 
@@ -133,12 +134,12 @@ public class Bomb implements Spell {
     @Override
     public Recipe getWandRecipe() {
         // same for each
-        ItemStack result = new ItemStack(Material.STICK);
-        ItemMeta meta = result.getItemMeta();
+        final ItemStack result = new ItemStack(Material.STICK);
+        final ItemMeta meta = result.getItemMeta();
         meta.setDisplayName(ChatColor.AQUA + getName());
         meta.addEnchant(Enchantment.LUCK, 10, true);
         result.setItemMeta(meta);
-        ShapedRecipe recipe = new ShapedRecipe(result);
+        final ShapedRecipe recipe = new ShapedRecipe(result);
         // custom recipe stuff
         recipe.shape("SSI", "SIS", "ISS");
         recipe.setIngredient('S', Material.TNT);

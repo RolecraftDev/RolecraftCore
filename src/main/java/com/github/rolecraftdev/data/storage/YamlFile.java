@@ -96,9 +96,9 @@ public class YamlFile extends YamlConfiguration {
     public void reload() {
         try {
             load(getFile());
-        } catch (IOException e) {
+        } catch (final IOException e) {
             e.printStackTrace();
-        } catch (InvalidConfigurationException e) {
+        } catch (final InvalidConfigurationException e) {
             e.printStackTrace();
         }
     }
@@ -113,7 +113,7 @@ public class YamlFile extends YamlConfiguration {
     public void save() {
         try {
             save(getFile());
-        } catch (IOException e) {
+        } catch (final IOException e) {
             e.printStackTrace();
         }
     }

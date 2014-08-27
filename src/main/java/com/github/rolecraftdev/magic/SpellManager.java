@@ -151,7 +151,8 @@ public class SpellManager {
      * @param spell the {@link Spell} to register
      */
     // TODO: Make public when we support anyone registering spells
-    private void register(@Nonnull String wandName, @Nonnull Spell spell) {
+    private void register(@Nonnull final String wandName,
+            @Nonnull final Spell spell) {
         Validate.isTrue(!spells.containsKey(wandName));
 
         spells.put(wandName, spell);
@@ -172,7 +173,8 @@ public class SpellManager {
      *         {@link Spell}; {@code false} otherwise
      * @since 0.0.5
      */
-    public boolean canCast(@Nonnull Player player, @Nonnull Spell spell) {
+    public boolean canCast(@Nonnull final Player player,
+            @Nonnull final Spell spell) {
         Validate.notNull(player);
         Validate.notNull(spell);
 
@@ -186,7 +188,7 @@ public class SpellManager {
                     return true;
                 }
             }
-        } catch (URISyntaxException e) {
+        } catch (final URISyntaxException e) {
             Bukkit.getLogger().warning("Problem in check exceptions - ignore");
         }
 
@@ -221,7 +223,7 @@ public class SpellManager {
      * @since 0.0.5
      */
     @Nullable
-    public Spell getSpell(@Nonnull String wandName) {
+    public Spell getSpell(@Nonnull final String wandName) {
         return spells.get(wandName);
     }
 
@@ -259,9 +261,9 @@ public class SpellManager {
      * @return the player's current amount of mana
      * @since 0.0.5
      */
-    public float getMana(Player ply) {
-        float mana = plugin.getDataManager().getPlayerData(ply.getUniqueId())
-                .getMana();
+    public float getMana(final Player ply) {
+        final float mana = plugin.getDataManager().getPlayerData(
+                ply.getUniqueId()).getMana();
         if (mana == -1) {
             return 0;
         } else {
@@ -277,7 +279,7 @@ public class SpellManager {
      * @param amount the amount of mana that should be removed
      * @since 0.0.5
      */
-    public void subtractMana(Player ply, float amount) {
+    public void subtractMana(final Player ply, final float amount) {
         plugin.getDataManager().getPlayerData(ply.getUniqueId())
                 .subtractMana(amount);
     }
@@ -290,7 +292,7 @@ public class SpellManager {
      * @param mana the new amount of mana
      * @since 0.0.5
      */
-    public void setMana(Player ply, float mana) {
+    public void setMana(final Player ply, final float mana) {
         plugin.getDataManager().getPlayerData(ply.getUniqueId()).setMana(mana);
     }
 
@@ -302,7 +304,7 @@ public class SpellManager {
      * @return the {@link Profession}- and level-based number
      * @since 0.0.5
      */
-    public int getMagicModifier(Player ply) {
+    public int getMagicModifier(final Player ply) {
         // TODO: make this work
         return 0;
     }

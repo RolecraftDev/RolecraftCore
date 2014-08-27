@@ -112,7 +112,7 @@ public class ProfessionDeserializer {
 
         try {
             return UUID.fromString(id);
-        } catch (IllegalArgumentException e) {
+        } catch (final IllegalArgumentException e) {
             Bukkit.getLogger()
                     .warning("[WARNING] [Rolecraft] Invalid ID for profession "
                             + getProfessionName() + ", generating a new one");

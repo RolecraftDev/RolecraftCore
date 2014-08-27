@@ -382,7 +382,7 @@ public final class RolecraftCore extends AlbPlugin {
      * @param loaded the new state of the used storage mechanism
      * @since 0.0.5
      */
-    public void setSqlLoaded(boolean loaded) {
+    public void setSqlLoaded(final boolean loaded) {
         sqlLoaded = loaded;
     }
 
@@ -405,7 +405,7 @@ public final class RolecraftCore extends AlbPlugin {
         } catch (final IOException ignore) {
         }
 
-        InputStream input = getClass().getResourceAsStream("/" + name);
+        final InputStream input = getClass().getResourceAsStream("/" + name);
         if (input == null) {
             logger.warning("Couldn't get config file: " + name + " from jar");
             return;
@@ -414,7 +414,7 @@ public final class RolecraftCore extends AlbPlugin {
         FileOutputStream output = null;
         try {
             output = new FileOutputStream(actual);
-            byte[] buf = new byte[8192];
+            final byte[] buf = new byte[8192];
             int length;
             while ((length = input.read(buf)) > 0) {
                 output.write(buf, 0, length);
@@ -425,7 +425,7 @@ public final class RolecraftCore extends AlbPlugin {
         } finally {
             try {
                 input.close();
-            } catch (IOException ignored) {
+            } catch (final IOException ignored) {
             }
             try {
                 if (output != null) {

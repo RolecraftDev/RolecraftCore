@@ -59,7 +59,7 @@ public class SilkTouch implements Spell {
      *        implementation will be registered to
      * @since 0.0.5
      */
-    public SilkTouch(SpellManager spellManager) {
+    public SilkTouch(final SpellManager spellManager) {
     }
 
     /**
@@ -74,8 +74,8 @@ public class SilkTouch implements Spell {
      * @since 0.0.5
      */
     @Override
-    public float estimateAttackMana(Player caster, LivingEntity target,
-            int modifier) {
+    public float estimateAttackMana(final Player caster,
+            final LivingEntity target, final int modifier) {
         return 0;
     }
 
@@ -83,8 +83,8 @@ public class SilkTouch implements Spell {
      * @since 0.0.5
      */
     @Override
-    public float estimateLeftClickMana(Player caster, Block block, int modifier,
-            BlockFace face) {
+    public float estimateLeftClickMana(final Player caster, final Block block,
+            final int modifier, final BlockFace face) {
         return 10;
     }
 
@@ -92,8 +92,8 @@ public class SilkTouch implements Spell {
      * @since 0.0.5
      */
     @Override
-    public float estimateRightClickMana(Player caster, Block block, int modifier,
-            BlockFace face) {
+    public float estimateRightClickMana(final Player caster, final Block block,
+            final int modifier, final BlockFace face) {
         return 10;
     }
 
@@ -101,8 +101,8 @@ public class SilkTouch implements Spell {
      * @since 0.0.5
      */
     @Override
-    public float rightClick(Player caster, Block block, int modifier,
-            BlockFace face) {
+    public float rightClick(final Player caster, final Block block,
+            final int modifier, final BlockFace face) {
         return click(caster, block, modifier, face);
     }
 
@@ -110,24 +110,25 @@ public class SilkTouch implements Spell {
      * @since 0.0.5
      */
     @Override
-    public float leftClick(Player caster, Block block, int modifier,
-            BlockFace face) {
+    public float leftClick(final Player caster, final Block block,
+            final int modifier, final BlockFace face) {
         return click(caster, block, modifier, face);
     }
 
     @SuppressWarnings("deprecation")
-    private float click(Player ply, Block block, int modifier, BlockFace face) {
+    private float click(final Player ply, final Block block,
+            final int modifier, final BlockFace face) {
         if (block == null) {
             return CAST_FAILURE;
         }
 
-        BlockBreakEvent event = new BlockBreakEvent(block, ply);
+        final BlockBreakEvent event = new BlockBreakEvent(block, ply);
         Bukkit.getPluginManager().callEvent(event);
         if (event.isCancelled()) {
             return CAST_FAILURE;
         }
 
-        ItemStack i = new ItemStack(block.getType(), 1, (short) 1,
+        final ItemStack i = new ItemStack(block.getType(), 1, (short) 1,
                 block.getData());
         block.setType(Material.AIR);
         block.getWorld().dropItemNaturally(block.getLocation(), i);
@@ -139,7 +140,8 @@ public class SilkTouch implements Spell {
      * @since 0.0.5
      */
     @Override
-    public float attack(Player caster, LivingEntity target, int modifier) {
+    public float attack(final Player caster, final LivingEntity target,
+            final int modifier) {
         return BAD_SITUATION;
     }
 
@@ -148,12 +150,12 @@ public class SilkTouch implements Spell {
      */
     @Override
     public Recipe getWandRecipe() {
-        ItemStack result = new ItemStack(Material.STICK);
-        ItemMeta meta = result.getItemMeta();
+        final ItemStack result = new ItemStack(Material.STICK);
+        final ItemMeta meta = result.getItemMeta();
         meta.setDisplayName(ChatColor.AQUA + getName());
         meta.addEnchant(Enchantment.LUCK, 10, true);
         result.setItemMeta(meta);
-        ShapedRecipe recipe = new ShapedRecipe(result);
+        final ShapedRecipe recipe = new ShapedRecipe(result);
         // custom recipe stuff
         recipe.shape("WPB", "PBP", "BPW");
         recipe.setIngredient('W', Material.DIAMOND_PICKAXE);

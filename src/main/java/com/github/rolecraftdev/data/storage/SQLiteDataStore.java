@@ -104,7 +104,7 @@ public final class SQLiteDataStore extends DataStore {
      * @param plugin the associated {@link RolecraftCore} instance
      * @since 0.0.5
      */
-    public SQLiteDataStore(RolecraftCore plugin) {
+    public SQLiteDataStore(final RolecraftCore plugin) {
         super(plugin);
     }
 
@@ -117,7 +117,7 @@ public final class SQLiteDataStore extends DataStore {
         new BukkitRunnable() {
             @Override
             public void run() {
-                Connection connection = getConnection();
+                final Connection connection = getConnection();
                 PreparedStatement ps = null;
                 ResultSet rs = null;
                 try {
@@ -155,7 +155,7 @@ public final class SQLiteDataStore extends DataStore {
                     }
 
                     parent.setSqlLoaded(true);
-                } catch (SQLException ex) {
+                } catch (final SQLException ex) {
                     ex.printStackTrace();
                 } finally {
                     close(ps, rs);
@@ -169,12 +169,13 @@ public final class SQLiteDataStore extends DataStore {
      */
     @Override
     protected Connection getConnection() {
-        File dataFile = new File(getParent().getDataFolder(), dbname + ".db");
+        final File dataFile = new File(getParent().getDataFolder(), dbname
+                + ".db");
         if (!dataFile.exists()) {
             try {
                 //noinspection ResultOfMethodCallIgnored
                 dataFile.createNewFile();
-            } catch (IOException e) {
+            } catch (final IOException e) {
                 getParent().getLogger().log(Level.SEVERE,
                         "File write error: " + dbname + ".db");
             }
@@ -186,10 +187,10 @@ public final class SQLiteDataStore extends DataStore {
             Class.forName("org.sqlite.JDBC");
             connection = DriverManager.getConnection("jdbc:sqlite:" + dataFile);
             return connection;
-        } catch (SQLException ex) {
+        } catch (final SQLException ex) {
             getParent().getLogger().log(Level.SEVERE,
                     "SQLite exception on initialize", ex);
-        } catch (ClassNotFoundException ex) {
+        } catch (final ClassNotFoundException ex) {
             getParent().getLogger()
                     .log(Level.SEVERE, "CraftBukkit build error");
         }
@@ -214,16 +215,16 @@ public final class SQLiteDataStore extends DataStore {
         new BukkitRunnable() {
             @Override
             public void run() {
-                Connection connection = getConnection();
+                final Connection connection = getConnection();
                 PreparedStatement ps = null;
-                ResultSet rs = null;
+                final ResultSet rs = null;
                 try {
                     ps = connection.prepareStatement("INSERT INTO " + pt
                             + " (uuid, name) VALUES (?,?)");
                     ps.setString(1, data.getPlayerId().toString());
                     ps.setString(2, data.getPlayerName());
                     ps.execute();
-                } catch (SQLException ex) {
+                } catch (final SQLException ex) {
                     ex.printStackTrace();
                 } finally {
                     close(ps, rs);
@@ -236,7 +237,7 @@ public final class SQLiteDataStore extends DataStore {
      * @since 0.0.5
      */
     @Override
-    public void freeConnection(Connection connection) {
+    public void freeConnection(final Connection connection) {
         // Method left intentionally blank
     }
 

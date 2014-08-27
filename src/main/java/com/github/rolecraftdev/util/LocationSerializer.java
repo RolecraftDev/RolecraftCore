@@ -99,7 +99,7 @@ public class LocationSerializer {
      * @return the constructed string
      * @since 0.0.5
      */
-    public static String serialize(Location loc) {
+    public static String serialize(final Location loc) {
         if (loc == null) {
             return null;
         }
