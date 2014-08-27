@@ -51,199 +51,239 @@ import java.util.Properties;
  */
 public class Messages {
     /**
+     * Sent to players who don't have permission to perform a command
+     *
      * @since 0.0.5
      */
-    // Sent to players who don't have permission to perform a command
     public static final String NO_PERMISSION = "no-permission";
     /**
+     * Sent to non-players who try to execute a player-only command
+     *
      * @since 0.0.5
      */
-    // Sent to non-players who try to execute a player-only command
     public static final String NOT_PLAYER = "not-player";
     /**
+     * Sent to players with no guild trying to execute commands which need one
+     *
      * @since 0.0.5
      */
-    // Sent to players with no guild trying to execute commands which need one
     public static final String NO_GUILD = "no-guild";
     /**
+     * Sent to players who aren't the guild leader when they need to be
+     *
      * @since 0.0.5
      */
-    // Sent to players who aren't the guild leader when they need to be
     public static final String NOT_GUILD_LEADER = "not-guild-leader";
     /**
+     * Sent to players who specify an invalid guild rank
+     *
      * @since 0.0.5
      */
-    // Sent to players who specify an invalid guild rank
     public static final String RANK_NOT_EXISTS = "rank-not-exists";
     /**
+     * Sent to players who specify an invalid guild name
+     *
      * @since 0.0.5
      */
-    // Sent to players who specify an invalid guild name
     public static final String GUILD_NOT_EXISTS = "guild-not-exists";
     /**
+     * Sent to players who try to join a guild if they're already in one
+     *
      * @since 0.0.5
      */
-    // Sent to players who try to join a guild if they're already in one
     public static final String ALREADY_IN_GUILD = "already-in-guild";
     /**
+     * Sent to players who can't afford what they're trying to do
+     *
      * @since 0.0.5
      */
-    // Sent to players who can't afford what they're trying to do
     public static final String CANNOT_AFFORD = "cannot-afford";
     /**
+     * Sent to players who create a guild
+     *
      * @since 0.0.5
      */
-    // Sent to players who create a guild
     public static final String GUILD_CREATED = "guild-created";
     /**
+     * Sent to players who disband a guild
+     *
      * @since 0.0.5
      */
-    // Sent to players who disband a guild
     public static final String GUILD_DISBANDED = "guild-disbanded";
     /**
+     * Sent to players when they set the home of their guild
+     *
      * @since 0.0.5
      */
-    // Sent to players when they set the home of their guild
     public static final String SET_GUILD_HOME = "guild-home-set";
     /**
+     * Sent to players who teleport to their guild home
+     *
      * @since 0.0.5
      */
-    // Sent to players who teleport to their guild home
     public static final String GUILD_TP_HOME = "guild-tp-home";
     /**
+     * Sent to players who try to join a guild they aren't invited to
+     *
      * @since 0.0.5
      */
-    // Sent to players who try to join a guild they aren't invited to
     public static final String GUILD_NOT_INVITED = "guild-not-invited";
     /**
+     * Sent to someone who has rejected an invitation to a guild
+     *
      * @since 0.0.5
      */
-    // Sent to someone who has rejected an invitation to a guild
     public static final String GUILD_INVITE_REJECTED = "guild-invite-rejected";
     /**
+     * Sent to a player who has just joined a guild
+     *
      * @since 0.0.5
      */
-    // Sent to a player who has just joined a guild
     public static final String GUILD_JOINED_PLAYER = "guild-joined-player";
     /**
+     * Sent to every member of the guild when a player joins
+     *
      * @since 0.0.5
      */
-    // Sent to every member of the guild when a player joins
     public static final String GUILD_JOINED_OTHERS = "guild-joined-others";
     /**
+     * Sent if someone gives the name of someone who's not played on the server
+     *
      * @since 0.0.5
      */
-    // Sent if someone gives the name of someone who's not played on the server
     public static final String PLAYER_NOT_EXISTS = "player-not-exists";
     /**
+     * Sent if someone specifies a player who isn't online
+     *
      * @since 0.0.5
      */
-    // Sent if someone specifies a player who isn't online
     public static final String PLAYER_NOT_ONLINE = "player-not-online";
     /**
+     * Sent if someone tries to invite a player who already has an invitation
+     *
      * @since 0.0.5
      */
-    // Sent if someone tries to invite a player who already has an invitation
     public static final String PLAYER_CONSIDERING_INVITE = "player-considering-invite";
     /**
+     * Sent to a player who has just been invited to a guild
+     *
      * @since 0.0.5
      */
-    // Sent to a player who has just been invited to a guild
     public static final String PLAYER_INVITED_RECEIVER = "player-invited-receiver";
     /**
+     * Sent to the sender of a guild invitation when it is sent
+     *
      * @since 0.0.5
      */
-    // Sent to the sender of a guild invitation when it is sent
     public static final String PLAYER_INVITED_SENDER = "player-invited-sender";
     /**
+     * Sent if someone specifies someone not in their guild for a guild-related
+     * action
+     *
      * @since 0.0.5
      */
-    // Sent if someone specifies someone not in their guild for a guild-related action
     public static final String PLAYER_NOT_IN_GUILD = "player-not-in-guild";
     /**
+     * Sent if someone specifies an invalid action to perform on a guild member
+     *
      * @since 0.0.5
      */
-    // Sent if someone specifies an invalid action to perform on a guild member
     public static final String INVALID_MEMBER_ACTION = "invalid-member-action";
     /**
+     * Sent to a player who has been added to a rank within a guild
+     *
      * @since 0.0.5
      */
-    // Sent to a player who has been added to a rank within a guild
     public static final String PLAYER_ADDED_TO_RANK = "player-added-to-rank";
     /**
+     * Sent to someone who has added a player to a guild rank
+     *
      * @since 0.0.5
      */
-    // Sent to someone who has added a player to a guild rank
     public static final String ADDED_PLAYER_TO_RANK = "added-player-to-rank";
     /**
+     * Sent to a player who has been removed from a rank within a guild
+     *
      * @since 0.0.5
      */
-    // Sent to a player who has been removed from a rank within a guild
     public static final String PLAYER_REMOVED_FROM_RANK = "player-removed-from-rank";
     /**
+     * Sent to someone who has removed a player from a guild rank
+     *
      * @since 0.0.5
      */
-    // Sent to someone who has removed a player from a guild rank
     public static final String REMOVED_PLAYER_FROM_RANK = "removed-player-from-rank";
     /**
+     * Sent to someone who has been kicked from their guild
+     *
      * @since 0.0.5
      */
-    // Sent to someone who has been kicked from their guild
     public static final String KICKED_FROM_GUILD = "kicked-from-guild";
     /**
+     * Sent to the person who kicked a player from their guild
+     *
      * @since 0.0.5
      */
-    // Sent to the person who kicked a player from their guild
     public static final String PLAYER_KICKED = "player-kicked";
     /**
+     * Sent to someone who has created a guild rank
+     *
      * @since 0.0.5
      */
-    // Sent to someone who has created a guild rank
     public static final String RANK_CREATED = "rank-created";
     /**
+     * Sent to someone who tries to create a rank which already exists
+     *
      * @since 0.0.5
      */
-    // Sent to someone who tries to create a rank which already exists
     public static final String RANK_ALREADY_EXISTS = "rank-already-exists";
     /**
+     * Sent to someone who removes a rank from their guild
+     *
      * @since 0.0.5
      */
-    // Sent to someone who removes a rank from their guild
     public static final String RANK_REMOVED = "rank-removed";
     /**
+     * Sent to someone who tries to remove a rank they can't remove
+     *
      * @since 0.0.5
      */
-    // Sent to someone who tries to remove a rank they can't remove
     public static final String CANNOT_REMOVE_RANK = "cannot-remove-rank";
     /**
+     * Sent to somebody who specifies an invalid guild action
+     *
      * @since 0.0.5
      */
-    // Sent to somebody who specifies an invalid guild action
     public static final String INVALID_ACTION = "invalid-action";
     /**
+     * Sent to somebody who specifies an invalid guild action permission value
+     *
      * @since 0.0.5
      */
-    // Sent to somebody who specifies an invalid guild action permission value
     public static final String INVALID_VALUE = "invalid-value";
     /**
+     * Sent to somebody who has set a value for a rank's permission
+     *
      * @since 0.0.5
      */
-    // Sent to somebody who has set a value for a rank's permission
     public static final String VALUE_SET = "value-set";
     /**
+     * Sent to somebody who tries to modify permissions for a rank they can't
+     *
      * @since 0.0.5
      */
-    // Sent to somebody who tries to modify permissions for a rank they can't
     public static final String CANNOT_MODIFY_RANK = "cannot-modify-rank";
     /**
+     * Sent if someone tries /rcconfirm when they have nothing to confirm
+     *
      * @since 0.0.5
      */
-    // Sent if someone tries /rcconfirm when they have nothing to confirm
     public static final String NOTHING_TO_CONFIRM = "nothing-to-confirm";
     /**
+     * Sent if someone specifies a profession which doesn't exist
+     *
      * @since 0.0.5
      */
-    // Sent if someone specifies a profession which doesn't exist
     public static final String PROFESSION_NOT_EXISTS = "profession-not-exists";
     /**
      * Sent to somebody who tries to select a profession they aren't allowed
