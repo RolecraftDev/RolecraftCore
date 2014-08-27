@@ -66,8 +66,9 @@ public final class ProfessionManager {
     public ProfessionManager(final RolecraftCore plugin) {
         this.plugin = plugin;
         professions = new HashSet<Profession>();
-        plugin.getServer().getPluginManager()
-                .registerEvents(new ProfessionListener(this), plugin);
+
+        Bukkit.getPluginManager().registerEvents(new ProfessionListener(this),
+                plugin);
     }
 
     /**

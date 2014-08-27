@@ -34,6 +34,8 @@ import java.util.Map;
 import java.util.UUID;
 import java.util.concurrent.ConcurrentHashMap;
 
+import org.bukkit.Bukkit;
+
 /**
  * A helper class for managing persistent data associated to Rolecraft.
  *
@@ -64,7 +66,7 @@ public final class DataManager {
 
     /**
      * Constructor.
-     * 
+     *
      * @param plugin the linked {@link RolecraftCore} object
      * @param store the used {@link DataStore} implementation
      * @since 0.0.5
@@ -85,8 +87,8 @@ public final class DataManager {
      * @since 0.0.5
      */
     public void loadOrCreateData(final UUID player) {
-        final PlayerData data = new PlayerData(plugin, player,
-                plugin.getServer().getPlayer(player).getName());
+        final PlayerData data = new PlayerData(plugin, player, Bukkit
+                .getPlayer(player).getName());
         loadedPlayerData.put(player, data);
         store.requestPlayerData(data, false);
     }

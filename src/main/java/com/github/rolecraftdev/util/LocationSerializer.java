@@ -65,8 +65,7 @@ public class LocationSerializer {
                     "ID:1 " + serial + " is not a valid serialization!");
         }
 
-        final World world = Bukkit.getServer().getWorld(
-                UUID.fromString(values[0]));
+        final World world = Bukkit.getWorld(UUID.fromString(values[0]));
         if (world == null) {
             throw new IllegalArgumentException(
                     "ID:2 " + values[0] + " is not a world on this server!");

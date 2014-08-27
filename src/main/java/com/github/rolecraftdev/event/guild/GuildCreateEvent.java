@@ -29,6 +29,7 @@ package com.github.rolecraftdev.event.guild;
 import com.github.rolecraftdev.RolecraftCore;
 import com.github.rolecraftdev.guild.Guild;
 
+import org.bukkit.Bukkit;
 import org.bukkit.entity.Player;
 import org.bukkit.event.Cancellable;
 import org.bukkit.event.HandlerList;
@@ -66,8 +67,7 @@ public class GuildCreateEvent extends GuildEvent implements Cancellable {
      * @since 0.0.5
      */
     public Player getFounder() {
-        return getRolecraftPlugin().getServer()
-                .getPlayer(getGuild().getLeader());
+        return Bukkit.getPlayer(getGuild().getLeader());
     }
 
     /**

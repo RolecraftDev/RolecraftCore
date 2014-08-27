@@ -116,7 +116,7 @@ public class DestroyBlock implements Spell {
 
     private float click(final Player ply, final Block block) {
         final BlockBreakEvent event = new BlockBreakEvent(block, ply);
-        Bukkit.getServer().getPluginManager().callEvent(event);
+        Bukkit.getPluginManager().callEvent(event);
         if (!event.isCancelled()) {
             block.setType(Material.AIR);
         }

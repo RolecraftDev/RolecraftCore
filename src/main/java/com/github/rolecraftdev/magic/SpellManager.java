@@ -118,15 +118,15 @@ public class SpellManager {
         register("Avada Kedavra", new AvadaKedavra(this));
         register("Death Rain", new DeathRain(this));
 
-        plugin.getServer().getPluginManager()
-                .registerEvents(new MagicListener(plugin, this), plugin);
-        plugin.getServer().getPluginManager()
-                .registerEvents(new ProjectileListener(), plugin);
-        plugin.getServer().getPluginManager()
-                .registerEvents(new FlyingListener(plugin), plugin);
+        Bukkit.getPluginManager().registerEvents(
+                new MagicListener(plugin, this), plugin);
+        Bukkit.getPluginManager().registerEvents(new ProjectileListener(),
+                plugin);
+        Bukkit.getPluginManager().registerEvents(new FlyingListener(plugin),
+                plugin);
 
-        plugin.getServer().getScheduler()
-                .runTaskTimer(plugin, new ManaRegenTask(plugin), 20L, 40L);
+        Bukkit.getScheduler().runTaskTimer(plugin, new ManaRegenTask(plugin),
+                20L, 40L);
     }
 
     /**

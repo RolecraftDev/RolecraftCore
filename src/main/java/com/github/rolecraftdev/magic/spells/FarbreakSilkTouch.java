@@ -142,7 +142,7 @@ public class FarbreakSilkTouch implements Spell {
 
         if (spellManager.getPlugin().isExtraEvents()) {
             final BlockBreakEvent event = new BlockBreakEvent(toBreak, ply);
-            Bukkit.getServer().getPluginManager().callEvent(event);
+            Bukkit.getPluginManager().callEvent(event);
             if (event.isCancelled()) {
                 return CAST_FAILURE;
             }
