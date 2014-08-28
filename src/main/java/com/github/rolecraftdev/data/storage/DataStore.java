@@ -425,6 +425,7 @@ public abstract class DataStore {
      */
     public void loadGuilds(final GuildManager callback) {
         new BukkitRunnable() {
+            @SuppressWarnings("deprecation")
             @Override
             public void run() {
                 final Connection connection = getConnection();

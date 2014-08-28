@@ -58,7 +58,6 @@ public class BreakBlock implements Spell {
      *        implementation will be registered to
      * @since 0.0.5
      */
-    @SuppressWarnings("unused")
     public BreakBlock(final SpellManager spellManager) {
     }
 

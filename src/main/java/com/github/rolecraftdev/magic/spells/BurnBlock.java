@@ -60,7 +60,6 @@ public class BurnBlock implements Spell {
      *        implementation will be registered to
      * @since 0.0.5
      */
-    @SuppressWarnings("unused")
     public BurnBlock(final SpellManager spellManager) {
     }
 
