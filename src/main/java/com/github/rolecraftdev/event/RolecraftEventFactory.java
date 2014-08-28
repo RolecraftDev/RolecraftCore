@@ -29,6 +29,9 @@ package com.github.rolecraftdev.event;
 import org.apache.commons.lang.Validate;
 
 import com.github.rolecraftdev.RolecraftCore;
+import com.github.rolecraftdev.event.exp.RCExpChangeEvent;
+import com.github.rolecraftdev.event.exp.RCExpEvent;
+import com.github.rolecraftdev.event.exp.RCLevelChangeEvent;
 import com.github.rolecraftdev.event.guild.GuildCreateEvent;
 import com.github.rolecraftdev.event.guild.GuildDisbandEvent;
 import com.github.rolecraftdev.event.guild.GuildPlayerJoinEvent;
@@ -43,6 +46,7 @@ import com.github.rolecraftdev.guild.Guild;
 import com.github.rolecraftdev.guild.GuildAction;
 import com.github.rolecraftdev.guild.GuildRank;
 import com.github.rolecraftdev.magic.Spell;
+import com.github.rolecraftdev.util.LevelUtil;
 import com.github.rolecraftdev.util.SoundWrapper;
 
 import org.bukkit.Bukkit;
@@ -233,5 +237,34 @@ public class RolecraftEventFactory {
     public static void setPlugin(@Nonnull final RolecraftCore plugin) {
         Validate.notNull(plugin);
         RolecraftEventFactory.plugin = plugin;
+    }
+
+    /**
+     * Creates and calls the appropriate event given the parameter values.
+     *
+     * @param plugin the associated {@link com.github.rolecraftdev.RolecraftCore} instance
+     * @param player the affected player
+     * @param amount the additional experience (may be negative)
+     * @param reason the reason for this change
+     * @return the appropriate {@link com.github.rolecraftdev.event.exp.RCExpChangeEvent} after calling it
+     * @since 0.0.5
+     */
+    public static RCExpChangeEvent callRCExpEvent(final RolecraftCore plugin,
+            final Player player, final float amount, final RCExpEvent.ChangeReason reason) {
+        final RCExpChangeEvent temp;
+
+        final float experience = plugin.getDataManager()
+                .getPlayerData(player.getUniqueId()).getExperience();
+
+        if (LevelUtil.getLevel(experience) !=
+                LevelUtil.getLevel(experience + amount)) {
+            temp = new RCLevelChangeEvent(plugin, player, experience, reason);
+        } else {
+            temp = new RCExpChangeEvent(plugin, player, experience, reason);
+        }
+
+        Bukkit.getPluginManager().callEvent(temp);
+
+        return temp;
     }
 }

@@ -55,7 +55,7 @@ public class RCExpChangeEvent extends RCExpEvent {
      * @param reason the reason for this change
      * @since 0.0.5
      */
-    protected RCExpChangeEvent(final RolecraftCore plugin, final Player player,
+    public RCExpChangeEvent(final RolecraftCore plugin, final Player player,
             final float amount, final ChangeReason reason) {
         super(plugin, player);
         this.amount = amount;

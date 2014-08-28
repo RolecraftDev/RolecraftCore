@@ -27,9 +27,9 @@
 package com.github.rolecraftdev.data;
 
 import com.github.rolecraftdev.RolecraftCore;
+import com.github.rolecraftdev.event.RolecraftEventFactory;
 import com.github.rolecraftdev.event.exp.RCExpChangeEvent;
 import com.github.rolecraftdev.event.exp.RCExpEvent.ChangeReason;
-import com.github.rolecraftdev.event.exp.RCExpEventFactory;
 import com.github.rolecraftdev.guild.Guild;
 import com.github.rolecraftdev.profession.Profession;
 import com.github.rolecraftdev.quest.Quest;
@@ -405,7 +405,7 @@ public final class PlayerData {
      */
     public void setExperience(final float amount, final ChangeReason reason) {
         if (loaded && !unloading) {
-            final RCExpChangeEvent event = RCExpEventFactory.callRCExpEvent(
+            final RCExpChangeEvent event = RolecraftEventFactory.callRCExpEvent(
                     plugin, Bukkit.getPlayer(playerId), amount - experience,
                     reason);
             if (!event.isCancelled()) {
