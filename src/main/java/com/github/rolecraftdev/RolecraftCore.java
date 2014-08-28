@@ -35,6 +35,7 @@ import com.github.rolecraftdev.data.DataManager;
 import com.github.rolecraftdev.data.storage.DataStore;
 import com.github.rolecraftdev.data.storage.MySQLDataStore;
 import com.github.rolecraftdev.data.storage.SQLiteDataStore;
+import com.github.rolecraftdev.data.storage.YamlFile;
 import com.github.rolecraftdev.event.RolecraftEventFactory;
 import com.github.rolecraftdev.guild.Guild;
 import com.github.rolecraftdev.guild.GuildManager;
@@ -49,17 +50,11 @@ import com.github.rolecraftdev.util.messages.MsgVar;
 
 import net.milkbowl.vault.economy.Economy;
 
-import org.bukkit.configuration.file.FileConfiguration;
 import org.bukkit.plugin.RegisteredServiceProvider;
 
 import pw.ian.albkit.AlbPlugin;
 
-import javax.annotation.Nonnull;
 import javax.annotation.Nullable;
-import java.io.File;
-import java.io.FileOutputStream;
-import java.io.IOException;
-import java.io.InputStream;
 import java.util.logging.Logger;
 
 /**
@@ -150,11 +145,8 @@ public final class RolecraftCore extends AlbPlugin {
             logger.warning("Couldn't find Vault, disabling economy support");
         }
 
-        // Create default config if it doesn't exist already
-        createDefaultConfiguration("config.yml");
-        // Get the configuration object
-        final FileConfiguration config = getConfig();
-
+        // Create default configuration file if it doesn't exist already
+        final YamlFile config = new YamlFile(this, "config.yml", false);
         // Get options from the config
         dbType = config.getString("sqlserver").toLowerCase();
         extraEvents = config.getBoolean("extraevents");
@@ -382,55 +374,5 @@ public final class RolecraftCore extends AlbPlugin {
      */
     public void setSqlLoaded(final boolean loaded) {
         sqlLoaded = loaded;
-    }
-
-    /**
-     * Create a default configuration file, which contrary to {@link
-     * #saveDefaultConfig()} maintains comments.
-     *
-     * @param name the name of the new default configuration file
-     * @since 0.0.5
-     */
-    private void createDefaultConfiguration(@Nonnull final String name) {
-        getDataFolder().mkdirs();
-        final File actual = new File(getDataFolder(), name);
-        if (actual.exists()) {
-            return;
-        }
-
-        try {
-            actual.createNewFile();
-        } catch (final IOException ignore) {
-        }
-
-        final InputStream input = getClass().getResourceAsStream("/" + name);
-        if (input == null) {
-            logger.warning("Couldn't get config file: " + name + " from jar");
-            return;
-        }
-
-        FileOutputStream output = null;
-        try {
-            output = new FileOutputStream(actual);
-            final byte[] buf = new byte[8192];
-            int length;
-            while ((length = input.read(buf)) > 0) {
-                output.write(buf, 0, length);
-            }
-            logger.info("Default configuration file written: " + name);
-        } catch (final IOException e) {
-            e.printStackTrace();
-        } finally {
-            try {
-                input.close();
-            } catch (final IOException ignored) {
-            }
-            try {
-                if (output != null) {
-                    output.close();
-                }
-            } catch (final IOException ignored) {
-            }
-        }
     }
 }
