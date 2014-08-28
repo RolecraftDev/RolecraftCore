@@ -400,28 +400,6 @@ public final class PlayerData {
      * the unloading phase.
      *
      * @param amount the owner's new experience amount
-     * @since 0.0.5
-     * @deprecated use {@link #setExperience(float, ChangeReason)}
-     */
-    @Deprecated
-    public void setExperience(final float amount) {
-        if (loaded && !unloading) {
-            final RCExpChangeEvent event = RCExpEventFactory.callRCExpEvent(
-                    plugin, Bukkit.getPlayer(playerId), amount - experience,
-                            ChangeReason.DEFAULT);
-            if (!event.isCancelled()) {
-                experience = event.getNewExperience();
-            }
-        }
-    }
-
-    /**
-     * Set the experience of the owner. When invoked, a new
-     * {@link RCExpChangeEvent} will be called and used to decide upon further
-     * execution. All of this will only happen when this is loaded and not in
-     * the unloading phase.
-     *
-     * @param amount the owner's new experience amount
      * @param reason the reason for this change
      * @since 0.0.5
      */
@@ -442,22 +420,6 @@ public final class PlayerData {
      *
      * @param amount the amount of experience that should be added to the
      *        current amount
-     * @since 0.0.5
-     * @see #setExperience(float)
-     * @see #getExperience()
-     * @deprecated use {@link #addExperience(float, ChangeReason)}
-     */
-    @Deprecated
-    public void addExperience(final float amount) {
-        setExperience(getExperience() + amount);
-    }
-
-    /**
-     * Add the given experience to the current experience amount. This action
-     * may not be completed when this is not loaded or in the unloading phase.
-     *
-     * @param amount the amount of experience that should be added to the
-     *        current amount
      * @param reason the reason for this change
      * @see #setExperience(float, ChangeReason)
      * @see #getExperience()
@@ -465,23 +427,6 @@ public final class PlayerData {
     public void addExperience(final float amount,
             @Nonnull final ChangeReason reason) {
         setExperience(getExperience() + amount, reason);
-    }
-
-    /**
-     * Subtract the given experience from the current experience amount. This
-     * action may not be completed when this is not loaded or in the unloading
-     * phase.
-     *
-     * @param amount the amount of experience that should be added to the
-     *        current amount
-     * @since 0.0.5
-     * @see #setExperience(float)
-     * @see #getExperience()
-     * @deprecated use {@link #subtractExperience(float, ChangeReason)}
-     */
-    @Deprecated
-    public void subtractExperience(final float amount) {
-        setExperience(getExperience() - amount);
     }
 
     /**

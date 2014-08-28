@@ -74,14 +74,7 @@ public abstract class RCExpEvent extends RolecraftEvent implements Cancellable {
          *
          * @since 0.0.5
          */
-        COMMAND,
-        /**
-         * Defaults to this when nothing is specified.
-         *
-         * @since 0.0.5
-         * @deprecated a reason is required
-         */
-        DEFAULT
+        COMMAND
     }
 
     private final Player concern;
