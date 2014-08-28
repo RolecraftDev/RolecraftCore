@@ -113,7 +113,7 @@ public final class SQLiteDataStore extends DataStore {
      */
     @Override
     public void initialise() {
-        final RolecraftCore parent = getParent();
+        final RolecraftCore parent = getPlugin();
         new BukkitRunnable() {
             @Override
             public void run() {
@@ -161,7 +161,7 @@ public final class SQLiteDataStore extends DataStore {
                     close(ps, rs);
                 }
             }
-        }.runTaskAsynchronously(getParent());
+        }.runTaskAsynchronously(getPlugin());
     }
 
     /**
@@ -169,14 +169,14 @@ public final class SQLiteDataStore extends DataStore {
      */
     @Override
     protected Connection getConnection() {
-        final File dataFile = new File(getParent().getDataFolder(), dbname
+        final File dataFile = new File(getPlugin().getDataFolder(), dbname
                 + ".db");
         if (!dataFile.exists()) {
             try {
                 //noinspection ResultOfMethodCallIgnored
                 dataFile.createNewFile();
             } catch (final IOException e) {
-                getParent().getLogger().log(Level.SEVERE,
+                getPlugin().getLogger().log(Level.SEVERE,
                         "File write error: " + dbname + ".db");
             }
         }
@@ -188,10 +188,10 @@ public final class SQLiteDataStore extends DataStore {
             connection = DriverManager.getConnection("jdbc:sqlite:" + dataFile);
             return connection;
         } catch (final SQLException ex) {
-            getParent().getLogger().log(Level.SEVERE,
+            getPlugin().getLogger().log(Level.SEVERE,
                     "SQLite exception on initialize", ex);
         } catch (final ClassNotFoundException ex) {
-            getParent().getLogger()
+            getPlugin().getLogger()
                     .log(Level.SEVERE, "CraftBukkit build error");
         }
         return null;
@@ -230,7 +230,7 @@ public final class SQLiteDataStore extends DataStore {
                     close(ps, rs);
                 }
             }
-        }.runTaskAsynchronously(getParent());
+        }.runTaskAsynchronously(getPlugin());
     }
 
     /**

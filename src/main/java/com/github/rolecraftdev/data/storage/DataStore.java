@@ -136,7 +136,7 @@ public abstract class DataStore {
      * @return the associated {@link RolecraftCore} instance
      * @since 0.0.5
      */
-    public RolecraftCore getParent() {
+    public RolecraftCore getPlugin() {
         return plugin;
     }
 
@@ -217,7 +217,7 @@ public abstract class DataStore {
                     freeConnection(connection);
                 }
             }
-        }.runTaskAsynchronously(getParent());
+        }.runTaskAsynchronously(getPlugin());
     }
 
     /**
@@ -309,7 +309,7 @@ public abstract class DataStore {
                     freeConnection(connection);
                 }
             }
-        }.runTaskAsynchronously(getParent());
+        }.runTaskAsynchronously(getPlugin());
     }
 
     /**
@@ -337,7 +337,7 @@ public abstract class DataStore {
                     freeConnection(connection);
                 }
             }
-        }.runTaskAsynchronously(getParent());
+        }.runTaskAsynchronously(getPlugin());
 
     }
 
@@ -368,7 +368,7 @@ public abstract class DataStore {
                     freeConnection(connection);
                 }
             }
-        }.runTaskAsynchronously(getParent());
+        }.runTaskAsynchronously(getPlugin());
 
     }
 
@@ -412,7 +412,7 @@ public abstract class DataStore {
                     freeConnection(connection);
                 }
             }
-        }.runTaskAsynchronously(getParent());
+        }.runTaskAsynchronously(getPlugin());
     }
 
     /**
@@ -472,7 +472,7 @@ public abstract class DataStore {
                     freeConnection(connection);
                 }
             }
-        }.runTaskAsynchronously(getParent());
+        }.runTaskAsynchronously(getPlugin());
     }
 
     /**
@@ -526,7 +526,7 @@ public abstract class DataStore {
                     freeConnection(connection);
                 }
             }
-        }.runTaskAsynchronously(getParent());
+        }.runTaskAsynchronously(getPlugin());
     }
 
     /**
@@ -585,7 +585,7 @@ public abstract class DataStore {
                     freeConnection(connection);
                 }
             }
-        }.runTaskAsynchronously(getParent());
+        }.runTaskAsynchronously(getPlugin());
     }
 
     /**
@@ -624,7 +624,7 @@ public abstract class DataStore {
                     freeConnection(connection);
                 }
             }
-        }.runTaskAsynchronously(getParent());
+        }.runTaskAsynchronously(getPlugin());
     }
 
     /**
@@ -783,7 +783,7 @@ public abstract class DataStore {
                             freeConnection(connection);
                         }
                     }
-                }.runTaskAsynchronously(getParent());
+                }.runTaskAsynchronously(getPlugin());
             }
         } else {
             new BukkitRunnable() {
@@ -794,7 +794,7 @@ public abstract class DataStore {
                         requestPlayerData(callback, true);
                     }
                 }
-            }.runTaskTimerAsynchronously(getParent(), 2, 2);
+            }.runTaskTimerAsynchronously(getPlugin(), 2, 2);
         }
     }
 }

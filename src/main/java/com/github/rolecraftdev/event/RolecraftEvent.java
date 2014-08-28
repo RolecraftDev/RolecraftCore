@@ -61,7 +61,7 @@ public abstract class RolecraftEvent extends Event {
      * @since 0.0.5
      */
     @Nonnull
-    public final RolecraftCore getRolecraftPlugin() {
+    public final RolecraftCore getPlugin() {
         return plugin;
     }
 }

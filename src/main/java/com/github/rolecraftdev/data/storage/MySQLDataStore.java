@@ -179,7 +179,7 @@ public final class MySQLDataStore extends DataStore {
                     }
                 }
             }
-        }.runTaskTimerAsynchronously(getParent(), 20 * 20, 20 * 20);
+        }.runTaskTimerAsynchronously(getPlugin(), 20 * 20, 20 * 20);
     }
 
     /**
@@ -187,7 +187,7 @@ public final class MySQLDataStore extends DataStore {
      */
     @Override
     public void initialise() {
-        final RolecraftCore parent = getParent();
+        final RolecraftCore parent = getPlugin();
         new BukkitRunnable() {
             @Override
             public void run() {
@@ -230,7 +230,7 @@ public final class MySQLDataStore extends DataStore {
                     close(ps, rs);
                 }
             }
-        }.runTaskAsynchronously(getParent());
+        }.runTaskAsynchronously(getPlugin());
     }
 
     /**
@@ -266,7 +266,7 @@ public final class MySQLDataStore extends DataStore {
                     freeConnection(connection);
                 }
             }
-        }.runTaskAsynchronously(getParent());
+        }.runTaskAsynchronously(getPlugin());
     }
 
     /**
