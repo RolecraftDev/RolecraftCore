@@ -38,6 +38,7 @@ import org.bukkit.block.BlockFace;
 import org.bukkit.block.BlockState;
 import org.bukkit.entity.AnimalTamer;
 import org.bukkit.entity.Arrow;
+import org.bukkit.entity.Entity;
 import org.bukkit.entity.Player;
 import org.bukkit.entity.Projectile;
 import org.bukkit.event.Event;
@@ -66,7 +67,6 @@ import org.bukkit.event.player.PlayerEggThrowEvent;
 import org.bukkit.event.player.PlayerInteractEvent;
 import org.bukkit.event.world.StructureGrowEvent;
 
-import java.util.List;
 import java.util.Set;
 import java.util.UUID;
 
@@ -129,8 +129,8 @@ public final class GuildListener implements Listener {
         for (final PlayerData data : guildManager.getPlugin().getDataManager()
                 .getPlayerDatum()) {
             // Null becomes non-null, never the other way around -> this is safe
-            if (data.getSettings() != null
-                    && data.getSettings().isGuildChatSpy()) {
+            if (data.getSettings() != null && data.getSettings()
+                    .isGuildChatSpy()) {
                 event.getRecipients().add(Bukkit.getPlayer(data.getPlayerId()));
             }
         }
@@ -143,40 +143,34 @@ public final class GuildListener implements Listener {
     public void onEntityDamageByEntity(final EntityDamageByEntityEvent event) {
         if (event.getDamager() instanceof Player
                 && event.getEntity() instanceof Player) {
-            if (guildManager.disallowHallPvp()
-                    && getGuildFromHall(event.getEntity().getLocation())
-                    != null) {
+            if (guildManager.disallowHallPvp() && getGuildFromHall(
+                    event.getEntity()) != null) {
                 event.setCancelled(true);
                 return;
             }
 
-            final UUID playerId = event.getEntity().getUniqueId();
-            final UUID damagerId = event.getDamager().getUniqueId();
-            final Guild damagerGuild = guildManager.getPlayerGuild(damagerId);
-            final Guild playerGuild = guildManager.getPlayerGuild(playerId);
-            if (damagerGuild != null && damagerGuild.equals(playerGuild)) {
+            final Guild damagerGuild = guildManager.getPlayerGuild(
+                    event.getDamager().getUniqueId());
+            if (damagerGuild != null && damagerGuild.equals(guildManager
+                    .getPlayerGuild(event.getDamager().getUniqueId()))) {
                 event.setCancelled(true);
             }
         } else if (event.getDamager() instanceof Arrow
                 && event.getEntity() instanceof Player) {
-            if (guildManager.disallowHallPvp()
-                    && getGuildFromHall(event.getEntity().getLocation())
-                    != null) {
+            if (guildManager.disallowHallPvp() && getGuildFromHall(
+                    event.getEntity()) != null) {
                 event.setCancelled(true);
                 return;
             }
 
-            final UUID playerId = event.getEntity().getUniqueId();
-            if (((Projectile) event.getDamager())
-                    .getShooter() instanceof Player) {
+            if (((Projectile) event.getDamager()).getShooter()
+                    instanceof Player) {
                 final UUID damagerId = ((AnimalTamer) ((Projectile) event
-                        .getDamager())
-                        .getShooter()).getUniqueId();
-
+                        .getDamager()).getShooter()).getUniqueId();
                 final Guild damagerGuild = guildManager
                         .getPlayerGuild(damagerId);
-                final Guild playerGuild = guildManager.getPlayerGuild(playerId);
-                if (damagerGuild != null && damagerGuild.equals(playerGuild)) {
+                if (damagerGuild != null && damagerGuild.equals(guildManager
+                        .getPlayerGuild(event.getEntity().getUniqueId()))) {
                     event.setCancelled(true);
                 }
             }
@@ -211,6 +205,7 @@ public final class GuildListener implements Listener {
         if (event.getBlockClicked() == null) {
             return;
         }
+
         final BlockFace face = event.getBlockFace();
         event.setCancelled(cancel(
                 event.getBlockClicked().getLocation()
@@ -227,6 +222,7 @@ public final class GuildListener implements Listener {
         if (event.getBlockClicked() == null) {
             return;
         }
+
         event.setCancelled(cancel(event.getBlockClicked().getLocation(), event
                         .getPlayer().getUniqueId(), event.isCancelled(),
                 GuildAction.CHANGE_BLOCK));
@@ -259,8 +255,7 @@ public final class GuildListener implements Listener {
                 return;
             }
 
-            final Guild guild = getGuildFromHall(
-                    event.getBlock().getLocation());
+            final Guild guild = getGuildFromHall(event.getBlock());
             if (guild != null) {
                 event.setCancelled(true);
             }
@@ -276,8 +271,7 @@ public final class GuildListener implements Listener {
             if (!guildManager.protectFromEnvironment()) {
                 return;
             }
-            final Guild guild = getGuildFromHall(
-                    event.getBlock().getLocation());
+            final Guild guild = getGuildFromHall(event.getBlock());
             if (guild != null) {
                 event.setCancelled(true);
             }
@@ -293,8 +287,7 @@ public final class GuildListener implements Listener {
             return;
         }
 
-        final Guild guild = getGuildFromHall(event.getBlock().getLocation());
-        if (guild != null) {
+        if (getGuildFromHall(event.getBlock()) != null) {
             event.setCancelled(true);
         }
     }
@@ -308,8 +301,7 @@ public final class GuildListener implements Listener {
             return;
         }
 
-        final Guild guild = getGuildFromHall(event.getBlock().getLocation());
-        if (guild != null) {
+        if (getGuildFromHall(event.getBlock()) != null) {
             event.setCancelled(true);
         }
     }
@@ -323,8 +315,7 @@ public final class GuildListener implements Listener {
             return;
         }
 
-        final Guild guild = getGuildFromHall(event.getToBlock().getLocation());
-        if (guild != null) {
+        if (getGuildFromHall(event.getToBlock().getLocation()) != null) {
             event.setCancelled(true);
         }
     }
@@ -335,8 +326,7 @@ public final class GuildListener implements Listener {
     @EventHandler(priority = EventPriority.HIGHEST)
     public void onBlockPistonExtend(final BlockPistonExtendEvent event) {
         for (final Block block : event.getBlocks()) {
-            final Guild guild = getGuildFromHall(block.getLocation());
-            if (guild != null) {
+            if (getGuildFromHall(block) != null) {
                 event.setCancelled(true);
             }
         }
@@ -348,7 +338,7 @@ public final class GuildListener implements Listener {
     @EventHandler(priority = EventPriority.HIGHEST)
     public void onBlockPistonRetract(final BlockPistonRetractEvent event) {
         if (getGuildFromHall(event.getRetractLocation()) != null
-                || getGuildFromHall(event.getBlock().getLocation()) != null) {
+                || getGuildFromHall(event.getBlock()) != null) {
             event.setCancelled(true);
         }
     }
@@ -358,10 +348,8 @@ public final class GuildListener implements Listener {
      */
     @EventHandler(priority = EventPriority.HIGHEST)
     public void onStructureGrow(final StructureGrowEvent event) {
-        final List<BlockState> blocks = event.getBlocks();
-        for (final BlockState block : blocks) {
-            final Guild guild = getGuildFromHall(block.getLocation());
-            if (guild != null) {
+        for (final BlockState block : event.getBlocks()) {
+            if (getGuildFromHall(block) != null) {
                 event.setCancelled(true);
             }
         }
@@ -376,8 +364,7 @@ public final class GuildListener implements Listener {
             return;
         }
 
-        final Guild guild = getGuildFromHall(event.getLocation());
-        if (guild != null) {
+        if (getGuildFromHall(event.getLocation()) != null) {
             event.setCancelled(true);
         }
     }
@@ -397,9 +384,7 @@ public final class GuildListener implements Listener {
                 return;
             }
 
-            final Guild guild = getGuildFromHall(event.getIgnitingBlock()
-                    .getLocation());
-            if (guild != null) {
+            if (getGuildFromHall(event.getIgnitingBlock()) != null) {
                 event.setCancelled(true);
             }
         }
@@ -431,11 +416,10 @@ public final class GuildListener implements Listener {
      */
     @EventHandler(priority = EventPriority.HIGHEST)
     public void onHangingBreakByEntity(final HangingBreakByEntityEvent event) {
-        if (!(event.getRemover() instanceof Player)) {
-            if (guildManager.protectFromEnvironment()) {
-                if (getGuildFromHall(event.getEntity().getLocation()) != null) {
-                    event.setCancelled(true);
-                }
+        if (!(event.getRemover() instanceof Player) && guildManager
+                .protectFromEnvironment()) {
+            if (getGuildFromHall(event.getEntity()) != null) {
+                event.setCancelled(true);
             }
             return;
         }
@@ -511,7 +495,7 @@ public final class GuildListener implements Listener {
      * @param loc the {@link Location} that should be investigated
      * @return the appropriate {@link Guild} of which the hall is at the given
      *         {@link Location} or a special constant {@link Guild} instance.
-     * @see #nullGuild
+     * @see {@link #nullGuild}
      */
     private Guild getGuildFromHall(final Location loc) {
         final Set<Guild> guilds = guildManager.getGuilds();
@@ -526,5 +510,56 @@ public final class GuildListener implements Listener {
             }
         }
         return null;
+    }
+
+    /**
+     * Retrieve the {@link Guild} from the location of its hall. A special
+     * constant instance of {@link Guild} is returned when the
+     * {@link GuildManager} registered to this {@link Listener} is not yet
+     * wholly loaded, that is, when {@link GuildManager#isLoaded()} returns
+     * {@code false}.
+     *
+     * @param block the {@link Block} whose {@link Location} should be
+     *        investigated
+     * @return the appropriate {@link Guild} of which the hall is at the given
+     *         {@link Location} or a special constant {@link Guild} instance.
+     * @see {@link #nullGuild}
+     */
+    private Guild getGuildFromHall(final Block block) {
+        return getGuildFromHall(block.getLocation());
+    }
+
+    /**
+     * Retrieve the {@link Guild} from the location of its hall. A special
+     * constant instance of {@link Guild} is returned when the
+     * {@link GuildManager} registered to this {@link Listener} is not yet
+     * wholly loaded, that is, when {@link GuildManager#isLoaded()} returns
+     * {@code false}.
+     *
+     * @param block the {@link BlockState} whose {@link Location} should be
+     *        investigated
+     * @return the appropriate {@link Guild} of which the hall is at the given
+     *         {@link Location} or a special constant {@link Guild} instance.
+     * @see {@link #nullGuild}
+     */
+    private Guild getGuildFromHall(final BlockState block) {
+        return getGuildFromHall(block.getLocation());
+    }
+
+    /**
+     * Retrieve the {@link Guild} from the location of its hall. A special
+     * constant instance of {@link Guild} is returned when the
+     * {@link GuildManager} registered to this {@link Listener} is not yet
+     * wholly loaded, that is, when {@link GuildManager#isLoaded()} returns
+     * {@code false}.
+     *
+     * @param entity the {@link Entity} whose {@link Location} should be
+     *        investigated
+     * @return the appropriate {@link Guild} of which the hall is at the given
+     *         {@link Location} or a special constant {@link Guild} instance.
+     * @see {@link #nullGuild}
+     */
+    private Guild getGuildFromHall(final Entity entity) {
+        return getGuildFromHall(entity.getLocation());
     }
 }
