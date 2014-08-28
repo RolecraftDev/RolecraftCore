@@ -79,7 +79,8 @@ public class SoundWrapper {
      * @param pitch the pitch of the {@link Sound}
      * @since 0.0.5
      */
-    public SoundWrapper(final Sound sound, final float volume, final float pitch) {
+    public SoundWrapper(final Sound sound, final float volume,
+            final float pitch) {
         this.volume = volume;
         this.pitch = pitch;
         this.sound = sound;

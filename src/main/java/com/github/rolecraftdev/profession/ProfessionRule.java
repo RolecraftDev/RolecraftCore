@@ -28,13 +28,12 @@ package com.github.rolecraftdev.profession;
 
 import com.github.rolecraftdev.magic.Spell;
 
-import java.util.HashSet;
-import java.util.List;
-import java.util.Set;
-
 import org.bukkit.enchantments.Enchantment;
 
 import javax.annotation.Nullable;
+import java.util.HashSet;
+import java.util.List;
+import java.util.Set;
 
 /**
  * Represents a configurable rule, which is used for {@link Profession}s.

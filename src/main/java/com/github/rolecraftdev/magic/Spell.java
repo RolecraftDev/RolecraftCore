@@ -153,8 +153,7 @@ public interface Spell {
      * @return the wand {@link Recipe}
      * @since 0.0.5
      */
-    @Nonnull
-    Recipe getWandRecipe();
+    @Nonnull Recipe getWandRecipe();
 
     /**
      * Get the {@link Sound}, indirectly, that should be played whenever the
@@ -163,6 +162,5 @@ public interface Spell {
      * @return the {@link Sound}, indirectly, that should be played on complete
      * @since 0.0.5
      */
-    @Nullable
-    SoundWrapper getSound();
+    @Nullable SoundWrapper getSound();
 }

@@ -437,7 +437,8 @@ public abstract class DataStore {
                     while (rs.next()) {
                         final UUID id = UUID.fromString(rs.getString("uuid"));
                         final String name = rs.getString("name");
-                        final UUID leader = (!(rs.getString("leader") == null) && !rs
+                        final UUID leader = (!(rs.getString("leader") == null)
+                                && !rs
                                 .getString("leader").equals("")) ? UUID
                                 .fromString(rs.getString("leader")) : null;
                         final Set<UUID> members = new HashSet<UUID>();
@@ -448,7 +449,8 @@ public abstract class DataStore {
                             }
                         }
                         final Set<GuildRank> ranks = new HashSet<GuildRank>();
-                        for (final String s : rs.getString("ranks").split(",")) {
+                        for (final String s : rs.getString("ranks")
+                                .split(",")) {
                             ranks.add(GuildRank.deserialize(s));
                         }
                         final Location home = LocationSerializer

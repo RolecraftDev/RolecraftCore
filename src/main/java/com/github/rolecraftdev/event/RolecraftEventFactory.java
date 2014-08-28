@@ -250,9 +250,9 @@ public class RolecraftEventFactory {
      * @since 0.0.5
      */
     public static RCExpChangeEvent callRCExpEvent(final RolecraftCore plugin,
-            final Player player, final float amount, final RCExpEvent.ChangeReason reason) {
+            final Player player, final float amount,
+            final RCExpEvent.ChangeReason reason) {
         final RCExpChangeEvent temp;
-
         final float experience = plugin.getDataManager()
                 .getPlayerData(player.getUniqueId()).getExperience();
 

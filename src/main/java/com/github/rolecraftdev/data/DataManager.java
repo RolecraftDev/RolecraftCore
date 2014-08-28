@@ -29,12 +29,12 @@ package com.github.rolecraftdev.data;
 import com.github.rolecraftdev.RolecraftCore;
 import com.github.rolecraftdev.data.storage.DataStore;
 
+import org.bukkit.Bukkit;
+
 import java.util.Collection;
 import java.util.Map;
 import java.util.UUID;
 import java.util.concurrent.ConcurrentHashMap;
-
-import org.bukkit.Bukkit;
 
 /**
  * A helper class for managing persistent data associated to Rolecraft.

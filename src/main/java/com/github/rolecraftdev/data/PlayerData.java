@@ -441,7 +441,8 @@ public final class PlayerData {
      * @see #setExperience(float, ChangeReason)
      * @see #getExperience()
      */
-    public void subtractExperience(final float amount, final ChangeReason reason) {
+    public void subtractExperience(final float amount,
+            final ChangeReason reason) {
         setExperience(getExperience() - amount, reason);
     }
 
@@ -619,7 +620,8 @@ public final class PlayerData {
     public void initialise(final UUID guild, final UUID profession,
             final UUID secondProfession, final int influence, final float exp,
             final float karma, final float mana,
-            final Map<UUID, String> progression, final PlayerSettings settings) {
+            final Map<UUID, String> progression,
+            final PlayerSettings settings) {
         this.guild = guild;
         this.profession = profession;
         this.influence = influence;

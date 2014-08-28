@@ -50,7 +50,8 @@ public final class Utils {
     /**
      * @since 0.0.5
      */
-    private Utils() {}
+    private Utils() {
+    }
 
     /**
      * Retrieve the {@link Entity} that is targeted by the given player within
@@ -118,7 +119,8 @@ public final class Utils {
                 Math.cos(Math.toRadians(ply.getLocation().getPitch()));
         final double z = Math.cos(Math.toRadians(ply.getLocation().getYaw())) *
                 Math.cos(Math.toRadians(ply.getLocation().getPitch()));
-        final double y = -Math.sin(Math.toRadians(ply.getLocation().getPitch()));
+        final double y = -Math
+                .sin(Math.toRadians(ply.getLocation().getPitch()));
         return new Vector(x, y, z);
     }
 

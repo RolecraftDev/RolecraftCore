@@ -131,7 +131,8 @@ public class FlyingListener implements Listener {
 
         final String name = stack.getItemMeta().getDisplayName();
 
-        if (name == null || !ChatColor.stripColor(name).equalsIgnoreCase("fly")) {
+        if (name == null || !ChatColor.stripColor(name)
+                .equalsIgnoreCase("fly")) {
             return false;
         }
         return !stack.getEnchantments().isEmpty()

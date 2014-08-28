@@ -163,7 +163,8 @@ public final class Guild {
     public Guild(final GuildManager guildManager, final UUID guildId,
             final String name, final UUID leader, final Set<UUID> members,
             final Set<GuildRank> ranks, final Location home,
-            final int influence, final Region2D hallRegion, final boolean open) {
+            final int influence, final Region2D hallRegion,
+            final boolean open) {
         plugin = guildManager.getPlugin();
         this.guildManager = guildManager;
         this.guildId = guildId;
