@@ -105,10 +105,6 @@ public final class RolecraftCore extends AlbPlugin {
     // Configuration options
 
     /**
-     * The name of the storage solution being used.
-     */
-    private String dbType;
-    /**
      * The amount of negative karma a player starts with.
      */
     private float originalSin;
@@ -136,14 +132,14 @@ public final class RolecraftCore extends AlbPlugin {
         // Create default configuration file if it doesn't exist already
         final YamlFile config = new YamlFile(this, "config.yml", false);
         // Get options from the config
-        dbType = config.getString("sqlserver").toLowerCase();
+        final String dbType = config.getString("sqlserver").toLowerCase();
         extraEvents = config.getBoolean("extraevents");
         originalSin = (float) config.getDouble("originalsin");
 
         // Set the plugin object for event construction in RolecraftEventFactory
         RolecraftEventFactory.setPlugin(this);
 
-        // Get all plugin messages from the messages file
+        // Load all plugin messages from the messages file
         messages = new Messages(this);
         messages.load();
 
@@ -178,7 +174,7 @@ public final class RolecraftCore extends AlbPlugin {
 
         professionManager.loadProfessions();
 
-        // Register listeners
+        // Register listener
         register(new RCListener(this));
 
         // Register commands
@@ -307,16 +303,6 @@ public final class RolecraftCore extends AlbPlugin {
      */
     public boolean doesUseEconomy() {
         return vaultEconHooked();
-    }
-
-    /**
-     * Get the name of the storage solution that is currently in use.
-     *
-     * @return the name of the used storage solution
-     * @since 0.0.5
-     */
-    public String getDbType() {
-        return dbType;
     }
 
     /**
