@@ -88,7 +88,7 @@ public class GuildCreateCommand extends PlayerCommandHandler {
             }
         }
 
-        final String name = args.getArgument(0).rawString();
+        final String name = args.getRaw(0);
         final Guild guild = new Guild(guildManager);
 
         guild.setName(name);

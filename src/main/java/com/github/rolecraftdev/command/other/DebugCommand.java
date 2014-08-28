@@ -61,12 +61,10 @@ public class DebugCommand extends PlayerCommandHandler {
         if (args.length() == 0) {
             return;
         }
-        if (args.getArgument(0).rawString().equalsIgnoreCase("wand")) {
+        if (args.getRaw(0).equalsIgnoreCase("wand")) {
             for (final Spell spell : plugin.getSpellManager().getSpells()) {
-                if (spell.getWandRecipe() != null) {
-                    player.getInventory()
-                            .addItem(spell.getWandRecipe().getResult());
-                }
+                player.getInventory().addItem(
+                        spell.getWandRecipe().getResult());
             }
             player.updateInventory();
         }

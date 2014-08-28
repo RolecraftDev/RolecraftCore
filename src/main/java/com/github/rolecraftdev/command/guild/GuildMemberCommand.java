@@ -86,8 +86,8 @@ public class GuildMemberCommand extends PlayerCommandHandler {
             return;
         }
 
-        final String command = args.getArgument(1).rawString();
-        final ChatSection targetArg = args.getArgument(0);
+        final String command = args.getRaw(1);
+        final ChatSection targetArg = args.get(0);
         final OfflinePlayer offline = targetArg.asOfflinePlayer();
 
         if (!offline.hasPlayedBefore()) {
@@ -165,8 +165,8 @@ public class GuildMemberCommand extends PlayerCommandHandler {
                     return;
                 }
 
-                final String action = args.getArgument(2).rawString();
-                final String rankArg = args.getArgument(3).rawString();
+                final String action = args.getRaw(2);
+                final String rankArg = args.getRaw(3);
                 final GuildRank rank = guild.getRank(rankArg);
 
                 if (rank == null) {

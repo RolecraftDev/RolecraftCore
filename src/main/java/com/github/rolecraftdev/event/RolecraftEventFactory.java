@@ -213,33 +213,6 @@ public class RolecraftEventFactory {
     }
 
     /**
-     * Calls the given {@link Event} and returns that {@link Event}, making it
-     * easier to call an {@link Event} and then check the values set by any
-     * {@link Listener} objects that may have made use of setters in the
-     * {@link Event} object.
-     *
-     * @param event the {@link Event} to call and return
-     * @param <T> the type which the {@link Event} returned is
-     * @return the given {@link Event} after it has been called
-     * @since 0.0.5
-     */
-    public static <T extends Event> T callEvent(final T event) {
-        Bukkit.getPluginManager().callEvent(event);
-        return event;
-    }
-
-    /**
-     * Set the associated {@link RolecraftCore} instance.
-     *
-     * @param plugin the new associated {@link RolecraftCore} instance
-     * @since 0.0.5
-     */
-    public static void setPlugin(@Nonnull final RolecraftCore plugin) {
-        Validate.notNull(plugin);
-        RolecraftEventFactory.plugin = plugin;
-    }
-
-    /**
      * Creates and calls the appropriate event given the parameter values.
      *
      * @param plugin the associated {@link RolecraftCore} instance
@@ -265,5 +238,32 @@ public class RolecraftEventFactory {
 
         Bukkit.getPluginManager().callEvent(temp);
         return temp;
+    }
+
+    /**
+     * Calls the given {@link Event} and returns that {@link Event}, making it
+     * easier to call an {@link Event} and then check the values set by any
+     * {@link Listener} objects that may have made use of setters in the
+     * {@link Event} object.
+     *
+     * @param event the {@link Event} to call and return
+     * @param <T> the type which the {@link Event} returned is
+     * @return the given {@link Event} after it has been called
+     * @since 0.0.5
+     */
+    public static <T extends Event> T callEvent(final T event) {
+        Bukkit.getPluginManager().callEvent(event);
+        return event;
+    }
+
+    /**
+     * Set the associated {@link RolecraftCore} instance.
+     *
+     * @param plugin the new associated {@link RolecraftCore} instance
+     * @since 0.0.5
+     */
+    public static void setPlugin(@Nonnull final RolecraftCore plugin) {
+        Validate.notNull(plugin);
+        RolecraftEventFactory.plugin = plugin;
     }
 }

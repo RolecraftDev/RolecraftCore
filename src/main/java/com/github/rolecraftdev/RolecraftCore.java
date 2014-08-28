@@ -98,10 +98,6 @@ public final class RolecraftCore extends AlbPlugin {
      */
     private SpellManager spellManager;
     /**
-     * Whether to use economy.
-     */
-    private boolean useEconomy = false;
-    /**
      * The Vault {@link Economy} instance.
      */
     private Economy economy;
@@ -131,16 +127,8 @@ public final class RolecraftCore extends AlbPlugin {
         logger = getLogger();
 
         // Check for Vault to decide whether to enable economy support
-        if (pluginMgr.isPluginEnabled("Vault")) {
-            final RegisteredServiceProvider<Economy> rsp = servicesMgr
-                    .getRegistration(Economy.class);
-            if (rsp != null) {
-                economy = rsp.getProvider();
-                useEconomy = economy != null;
-            }
-        }
-
-        if (!useEconomy) {
+        economy = hookVaultEcon();
+        if (!vaultEconHooked()) {
             // Warn the admin that no economy was found
             logger.warning("Couldn't find Vault, disabling economy support");
         }
@@ -318,7 +306,7 @@ public final class RolecraftCore extends AlbPlugin {
      * @since 0.0.5
      */
     public boolean doesUseEconomy() {
-        return useEconomy;
+        return vaultEconHooked();
     }
 
     /**
