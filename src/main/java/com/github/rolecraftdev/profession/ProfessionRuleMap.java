@@ -80,6 +80,9 @@ public final class ProfessionRuleMap {
      */
     @Nullable
     public <T> T get(final ProfessionRule<T> key) {
+        if (!rules.containsKey(key)) {
+            return null;
+        }
         return key.cast(rules.get(key));
     }
 
