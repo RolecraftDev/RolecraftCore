@@ -242,11 +242,11 @@ public class RolecraftEventFactory {
     /**
      * Creates and calls the appropriate event given the parameter values.
      *
-     * @param plugin the associated {@link com.github.rolecraftdev.RolecraftCore} instance
+     * @param plugin the associated {@link RolecraftCore} instance
      * @param player the affected player
      * @param amount the additional experience (may be negative)
      * @param reason the reason for this change
-     * @return the appropriate {@link com.github.rolecraftdev.event.exp.RCExpChangeEvent} after calling it
+     * @return the appropriate {@link RCExpChangeEvent} after calling it
      * @since 0.0.5
      */
     public static RCExpChangeEvent callRCExpEvent(final RolecraftCore plugin,
@@ -264,7 +264,6 @@ public class RolecraftEventFactory {
         }
 
         Bukkit.getPluginManager().callEvent(temp);
-
         return temp;
     }
 }
