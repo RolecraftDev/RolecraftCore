@@ -72,11 +72,12 @@ public class FlyingListener implements Listener {
      * @since 0.0.5
      */
     @EventHandler(priority = EventPriority.HIGHEST)
-    public void onJoin(final PlayerJoinEvent event) {
+    public void onPlayerJoin(final PlayerJoinEvent event) {
         final Player player = event.getPlayer();
         final ItemStack hand = player.getInventory().getItemInHand();
+
         if (isFly(hand)) {
-            enableFly(player);
+            setFlight(player, true);
         }
     }
 
@@ -84,29 +85,34 @@ public class FlyingListener implements Listener {
      * @since 0.0.5
      */
     @EventHandler(priority = EventPriority.HIGHEST)
-    public void onItemChange(final PlayerItemHeldEvent event) {
+    public void onPlayerItemHeld(final PlayerItemHeldEvent event) {
         final Player player = event.getPlayer();
         final ItemStack stack = player.getInventory().getItem(
                 event.getNewSlot());
+
         if (isFly(stack)) {
-            enableFly(player);
-        } else if (event.getPlayer().hasMetadata("rolecraftfly")) {
-            event.getPlayer().removeMetadata("rolecraftfly", plugin);
-            event.getPlayer().setFlying(false);
-            event.getPlayer().setAllowFlight(false);
-            event.getPlayer().setFallDistance(0f);
+            setFlight(player, true);
+        } else if (event.getPlayer().hasMetadata(FLY_METADATA)) {
+            setFlight(player, false);
         }
     }
 
     /**
-     * Enables Rolecraft flight for the given {@link Player}
+     * Allow the given player to fly or not.
      *
-     * @param player the {@link Player} to enable flight capabilities for
+     * @param player the player of which flight should be enabled or disabled
+     * @param fly enable flight or disable it
      */
-    private void enableFly(final Player player) {
-        player.setAllowFlight(true);
-        player.setFlying(true);
-        player.setMetadata(FLY_METADATA, new FixedMetadataValue(plugin, true));
+    private void setFlight(final Player player, final boolean fly) {
+        if (fly) {
+            player.setMetadata(FLY_METADATA, new FixedMetadataValue(plugin,
+                    true));
+        } else {
+            player.removeMetadata(FLY_METADATA, plugin);
+        }
+
+        player.setAllowFlight(fly);
+        player.setFlying(fly);
         player.setFallDistance(0f);
     }
 
@@ -122,14 +128,13 @@ public class FlyingListener implements Listener {
         if (stack == null || stack.getType() != Material.STICK) {
             return false;
         }
-        if (stack.hasItemMeta() && stack.getItemMeta().hasDisplayName()) {
-            if (ChatColor
-                    .stripColor(stack.getItemMeta().getDisplayName())
-                    .equalsIgnoreCase("fly")) {
-                return !stack.getEnchantments().isEmpty()
-                        && stack.getEnchantments().get(Enchantment.LUCK) == 10;
-            }
+
+        final String name = stack.getItemMeta().getDisplayName();
+
+        if (name == null || !ChatColor.stripColor(name).equalsIgnoreCase("fly")) {
+            return false;
         }
-        return false;
+        return !stack.getEnchantments().isEmpty()
+                && stack.getEnchantments().get(Enchantment.LUCK) == 10;
     }
 }
