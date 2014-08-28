@@ -149,7 +149,7 @@ public class MagicListener implements Listener {
         final Block clicked = e.getClickedBlock();
         if (!(spellManager.canCast(player, spell))) {
             player.sendMessage(plugin.getMessage(Messages.CANNOT_CAST_SPELL,
-                    MsgVar.create("$spell", spell.getName())));
+                    MsgVar.SPELL.value(spell.getName())));
             return;
         }
 
@@ -189,7 +189,7 @@ public class MagicListener implements Listener {
             if (plugin.getDataManager().getPlayerData(player.getUniqueId())
                     .getSettings().isSpellChatMessage()) {
                 player.sendMessage(plugin.getMessage(Messages.SPELL_CAST,
-                        MsgVar.create("$spell", spell.getName())));
+                        MsgVar.SPELL.value(spell.getName())));
             }
 
             final SoundWrapper sound = event.getSound();
@@ -231,7 +231,7 @@ public class MagicListener implements Listener {
             if (plugin.getDataManager().getPlayerData(player.getUniqueId())
                     .getSettings().isSpellChatMessage()) {
                 player.sendMessage(plugin.getMessage(Messages.SPELL_CAST,
-                        MsgVar.create("$spell", spell.getName())));
+                        MsgVar.SPELL.value(spell.getName())));
             }
 
             final SoundWrapper sound = event.getSound();
@@ -261,8 +261,9 @@ public class MagicListener implements Listener {
         if (!(spellManager.canCast(player, spell))) {
             if (plugin.getDataManager().getPlayerData(player.getUniqueId())
                     .getSettings().isSpellChatMessage()) {
-                player.sendMessage(plugin.getMessage(Messages.CANNOT_CAST_SPELL,
-                        MsgVar.create("$spell", spell.getName())));
+                player.sendMessage(plugin.getMessage(
+                        Messages.CANNOT_CAST_SPELL, MsgVar.SPELL.value(spell
+                                .getName())));
             }
             return;
         }
@@ -302,7 +303,7 @@ public class MagicListener implements Listener {
         if (plugin.getDataManager().getPlayerData(player.getUniqueId())
                 .getSettings().isSpellChatMessage()) {
             player.sendMessage(plugin.getMessage(Messages.SPELL_CAST,
-                    MsgVar.create("$spell", spell.getName())));
+                    MsgVar.SPELL.value(spell.getName())));
         }
 
         final SoundWrapper sound = event.getSound();

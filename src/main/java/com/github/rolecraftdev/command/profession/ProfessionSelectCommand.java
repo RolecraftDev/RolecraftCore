@@ -93,12 +93,12 @@ public class ProfessionSelectCommand extends PlayerCommandHandler {
         if (!player.hasPermission("rolecraft.profession." + profession
                 .getName())) {
             player.sendMessage(plugin.getMessage(Messages.PROFESSION_NO_PERMS,
-                    MsgVar.create("$profession", profession.getName())));
+                    MsgVar.PROFESSION.value(profession.getName())));
             return;
         }
 
         data.setProfession(profession.getId());
         player.sendMessage(plugin.getMessage(Messages.PROFESSION_SELECTED,
-                MsgVar.create("$profession", profession.getName())));
+                MsgVar.PROFESSION.value(profession.getName())));
     }
 }

@@ -117,7 +117,7 @@ public class GuildDisbandCommand extends CommandHandler {
         } else {
             guildManager.removeGuild(guild);
             sender.sendMessage(plugin.getMessage(Messages.GUILD_DISBANDED,
-                    MsgVar.create("$name", guild.getName())));
+                    MsgVar.GUILD.value(guild.getName())));
         }
     }
 
@@ -155,7 +155,7 @@ public class GuildDisbandCommand extends CommandHandler {
             mgr.removeGuild(guild);
             sender.sendMessage(mgr.getPlugin().getMessage(
                     Messages.GUILD_DISBANDED,
-                    MsgVar.create("$name", guild.getName())));
+                    MsgVar.GUILD.value(guild.getName())));
         }
     }
 }

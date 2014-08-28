@@ -75,7 +75,7 @@ public class GuildShowCommand extends CommandHandler {
 
         if (guild != null) {
             sender.sendMessage(plugin.getMessage(Messages.GUILD_INFO,
-                    MsgVar.create("$guild", guild.getName())));
+                    MsgVar.GUILD.value(guild.getName())));
             final StringBuilder members = new StringBuilder();
             int onlineMembers = 0;
             for (final UUID id : guild.getMembers()) {
@@ -88,16 +88,13 @@ public class GuildShowCommand extends CommandHandler {
             // remove trailing comma
             members.deleteCharAt(members.length() - 1);
             sender.sendMessage(plugin.getMessage(Messages.GUILD_MEMBERS,
-                    MsgVar.create("$totalnumber",
-                            String.valueOf(guild.getMembers().size())),
-                    MsgVar.create("$onlinenumber",
-                            String.valueOf(onlineMembers)),
-                    MsgVar.create("$members", members.toString())));
+                    new MsgVar("$totalnumber", guild.getMembers().size()),
+                    new MsgVar("$onlinenumber", onlineMembers), new MsgVar(
+                            "$members", members)));
             sender.sendMessage(plugin.getMessage(Messages.GUILD_INFLUENCE,
-                    MsgVar.create("$influence",
-                            String.valueOf(guild.getInfluence()))));
+                    new MsgVar("$influence", guild.getInfluence())));
             sender.sendMessage(plugin.getMessage(Messages.GUIlD_LEADER,
-                    MsgVar.create("$leader", guild.getLeader().toString())));
+                    new MsgVar("$leader", guild.getLeader())));
             final StringBuilder ranks = new StringBuilder();
             for (final GuildRank rank : guild.getRanks()) {
                 ranks.append(rank.getName());
@@ -105,7 +102,7 @@ public class GuildShowCommand extends CommandHandler {
             }
             ranks.deleteCharAt(members.length() - 1);
             sender.sendMessage(plugin.getMessage(Messages.GUILD_RANK,
-                    MsgVar.create("$ranks", ranks.toString())));
+                    new MsgVar("$ranks", ranks)));
         }
     }
 }

@@ -84,8 +84,7 @@ public class GuildBroadcastCommand extends PlayerCommandHandler {
                 final GuildRank rank = guild.getRank(name);
                 if (rank == null) {
                     player.sendMessage(plugin.getMessage(
-                            Messages.RANK_NOT_EXISTS,
-                            MsgVar.create("$rank", name)));
+                            Messages.RANK_NOT_EXISTS, MsgVar.RANK.value(name)));
                     return;
                 }
 

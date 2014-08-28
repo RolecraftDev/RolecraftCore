@@ -413,30 +413,30 @@ public class Messages {
      * General variables such as colours and styles.
      */
     private static final MsgVar[] CONSTANTS = {
-            MsgVar.create("$darkred", ChatColor.DARK_RED.toString()),
-            MsgVar.create("$gray", ChatColor.GRAY.toString()),
-            MsgVar.create("$white", ChatColor.WHITE.toString()),
-            MsgVar.create("$red", ChatColor.RED.toString()),
-            MsgVar.create("$green", ChatColor.GREEN.toString()),
-            MsgVar.create("$darkgreen", ChatColor.DARK_GREEN.toString()),
-            MsgVar.create("$purple", ChatColor.DARK_PURPLE.toString()),
-            MsgVar.create("$lightpurple", ChatColor.LIGHT_PURPLE.toString()),
-            MsgVar.create("$black", ChatColor.BLACK.toString()),
-            MsgVar.create("$blue", ChatColor.BLUE.toString()),
-            MsgVar.create("$darkblue", ChatColor.DARK_BLUE.toString()),
-            MsgVar.create("$magic", ChatColor.MAGIC.toString()),
-            MsgVar.create("$gold", ChatColor.GOLD.toString()),
-            MsgVar.create("$aqua", ChatColor.AQUA.toString()),
-            MsgVar.create("$yellow", ChatColor.YELLOW.toString()),
-            MsgVar.create("$darkaqua", ChatColor.DARK_AQUA.toString()),
-            MsgVar.create("$darkgray", ChatColor.DARK_GRAY.toString()),
-            MsgVar.create("$reset", ChatColor.RESET.toString()),
+            new MsgVar("$darkred", ChatColor.DARK_RED),
+            new MsgVar("$gray", ChatColor.GRAY),
+            new MsgVar("$white", ChatColor.WHITE),
+            new MsgVar("$red", ChatColor.RED),
+            new MsgVar("$green", ChatColor.GREEN),
+            new MsgVar("$darkgreen", ChatColor.DARK_GREEN),
+            new MsgVar("$purple", ChatColor.DARK_PURPLE),
+            new MsgVar("$lightpurple", ChatColor.LIGHT_PURPLE),
+            new MsgVar("$black", ChatColor.BLACK),
+            new MsgVar("$blue", ChatColor.BLUE),
+            new MsgVar("$darkblue", ChatColor.DARK_BLUE),
+            new MsgVar("$magic", ChatColor.MAGIC),
+            new MsgVar("$gold", ChatColor.GOLD),
+            new MsgVar("$aqua", ChatColor.AQUA),
+            new MsgVar("$yellow", ChatColor.YELLOW),
+            new MsgVar("$darkaqua", ChatColor.DARK_AQUA),
+            new MsgVar("$darkgray", ChatColor.DARK_GRAY),
+            new MsgVar("$reset", ChatColor.RESET),
             // Support all colours which aren't here by allowing $col1 etc
-            MsgVar.create("$col", String.valueOf(ChatColor.COLOR_CHAR)),
-            MsgVar.create("$strike", ChatColor.STRIKETHROUGH.toString()),
-            MsgVar.create("$underline", ChatColor.UNDERLINE.toString()),
-            MsgVar.create("$italic", ChatColor.ITALIC.toString()),
-            MsgVar.create("$bold", ChatColor.BOLD.toString())
+            new MsgVar("$col", ChatColor.COLOR_CHAR),
+            new MsgVar("$strike", ChatColor.STRIKETHROUGH),
+            new MsgVar("$underline", ChatColor.UNDERLINE),
+            new MsgVar("$italic", ChatColor.ITALIC),
+            new MsgVar("$bold", ChatColor.BOLD)
     };
 
     /**

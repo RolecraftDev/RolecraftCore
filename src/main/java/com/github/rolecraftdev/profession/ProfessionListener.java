@@ -87,24 +87,24 @@ public class ProfessionListener implements Listener {
                 && !isMaterialEquipable(current, profession)) {
             clicker.sendMessage(professionManager.getPlugin().getMessage(
                     Messages.PROFESSION_DENY_ARMOR,
-                    MsgVar.create("$profession", profession.getName())));
+                    MsgVar.PROFESSION.value(profession.getName())));
             event.setCancelled(true);
         } else if (event.getSlotType() == SlotType.QUICKBAR
                 && !isMaterialUsable(current, profession)) {
             clicker.sendMessage(professionManager.getPlugin().getMessage(
                     Messages.PROFESSION_DENY_ITEM,
-                    MsgVar.create("$profession", profession.getName())));
+                    MsgVar.PROFESSION.value(profession.getName())));
             event.setCancelled(true);
         } else if (event instanceof CraftItemEvent
                 && !isMaterialUsable(current, profession)) {
             clicker.sendMessage(professionManager.getPlugin().getMessage(
                     Messages.PROFESSION_DENY_ITEM,
-                    MsgVar.create("$profession", profession.getName())));
+                    MsgVar.PROFESSION.value(profession.getName())));
             event.setCancelled(true);
         } else if (!isEnchantable(current, profession)) {
             clicker.sendMessage(professionManager.getPlugin().getMessage(
                     Messages.PROFESSION_DENY_ENCHANTMENT,
-                    MsgVar.create("$profession", profession.getName())));
+                    MsgVar.PROFESSION.value(profession.getName())));
             event.setCancelled(true);
         }
     }
@@ -125,7 +125,7 @@ public class ProfessionListener implements Listener {
         if (!isEnchantable(event.getEnchantsToAdd(), profession)) {
             enchanter.sendMessage(professionManager.getPlugin().getMessage(
                     Messages.PROFESSION_DENY_ENCHANTMENT,
-                    MsgVar.create("$profession", profession.getName())));
+                    MsgVar.PROFESSION.value(profession.getName())));
             event.setCancelled(true);
         }
     }

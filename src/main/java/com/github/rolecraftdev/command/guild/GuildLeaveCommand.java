@@ -75,8 +75,8 @@ public class GuildLeaveCommand extends PlayerCommandHandler {
             player.sendMessage(plugin.getMessage(Messages.NO_GUILD));
             return;
         }
-        player.sendMessage(plugin.getMessage(Messages.GUILD_LEAVE,
-                MsgVar.create("$guild", guild.getName())));
+        player.sendMessage(plugin.getMessage(Messages.GUILD_LEAVE, MsgVar.GUILD
+                .value(guild.getName())));
         guild.removeMember(playerId, false);
         dataMgr.getPlayerData(playerId).setGuild(null);
     }

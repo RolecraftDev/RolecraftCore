@@ -33,6 +33,35 @@ package com.github.rolecraftdev.util.messages;
  */
 public class MsgVar {
     /**
+     * @since 0.0.5
+     */
+    public static final MsgVar SPELL = new MsgVar("$spell", "");
+    /**
+     * @since 0.0.5
+     */
+    public static final MsgVar PROFESSION = new MsgVar("$profession", "");
+    /**
+     * @since 0.0.5
+     */
+    public static final MsgVar GUILD = new MsgVar("$guild", "");
+    /**
+     * @since 0.0.5
+     */
+    public static final MsgVar PLAYER = new MsgVar("$player", "");
+    /**
+     * @since 0.0.5
+     */
+    public static final MsgVar RANK = new MsgVar("$rank", "");
+    /**
+     * @since 0.0.5
+     */
+    public static final MsgVar ACTION = new MsgVar("$action", "");
+    /**
+     * @since 0.0.5
+     */
+    public static final MsgVar VALUE = new MsgVar("$value", "");
+
+    /**
      * The key of this {@link MsgVar}.
      */
     private final String var;
@@ -42,13 +71,35 @@ public class MsgVar {
     private final String val;
 
     /**
+     * Create a new {@link MsgVar}, in which the given value will be converted
+     * to a string representation.
+     *
+     * @since 0.0.5
+     * @see #MsgVar(String, String)
+     */
+    public MsgVar(final String var, final int val) {
+        this(var, String.valueOf(val));
+    }
+
+    /**
+     * Create a new {@link MsgVar}, in which the given value will be converted
+     * to a string representation.
+     *
+     * @since 0.0.5
+     * @see #MsgVar(String, String)
+     */
+    public MsgVar(final String var, final Object val) {
+        this(var, String.valueOf(val));
+    }
+
+    /**
      * Constructor.
      *
      * @param var the key that should be replaced
      * @param val the value of the variable
      * @since 0.0.5
      */
-    private MsgVar(final String var, final String val) {
+    public MsgVar(final String var, final String val) {
         this.var = var;
         this.val = val;
     }
@@ -65,14 +116,14 @@ public class MsgVar {
     }
 
     /**
-     * Create a new {@link MsgVar} with the given key and replacing value.
+     * Create a new {@link MsgVar} with the same key, but with a different
+     * value.
      *
-     * @param var the replaceable key
-     * @param val the replacing value
-     * @return a new {@link MsgVar} with the given key and value
+     * @param val the new value
+     * @return a new {@link MsgVar} with the old key and new value
      * @since 0.0.5
      */
-    public static MsgVar create(final String var, final String val) {
+    public MsgVar value(final String val) {
         return new MsgVar(var, val);
     }
 }

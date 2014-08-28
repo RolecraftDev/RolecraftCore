@@ -127,9 +127,9 @@ public class GuildJoinCommand extends PlayerCommandHandler {
         dataMgr.getPlayerData(player.getUniqueId()).setGuild(guild.getId());
         guild.addMember(pid, guild.getDefaultRank());
         player.sendMessage(plugin.getMessage(Messages.GUILD_JOINED_PLAYER,
-                MsgVar.create("$guild", guild.getName())));
+                MsgVar.GUILD.value(guild.getName())));
         guild.broadcastMessage(plugin.getMessage(Messages.GUILD_JOINED_OTHERS,
-                MsgVar.create("$guild", guild.getName()),
-                MsgVar.create("$player", player.getName())));
+                MsgVar.GUILD.value(guild.getName()), MsgVar.PLAYER.value(player
+                        .getName())));
     }
 }

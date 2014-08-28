@@ -95,7 +95,7 @@ public class GuildCreateCommand extends PlayerCommandHandler {
         guild.setLeader(playerId);
         if (guildManager.addGuild(guild, false)) {
             player.sendMessage(plugin.getMessage(Messages.GUILD_CREATED,
-                    MsgVar.create("$name", name)));
+                    MsgVar.GUILD.value(name)));
 
             if (plugin.doesUseEconomy()) {
                 plugin.getEconomy().bankWithdraw(player.getName(),
@@ -103,7 +103,7 @@ public class GuildCreateCommand extends PlayerCommandHandler {
             }
         } else {
             player.sendMessage(plugin.getMessage(Messages.GUILD_ALREADY_EXISTS,
-                    MsgVar.create("$name", name)));
+                    MsgVar.GUILD.value(name)));
         }
     }
 }

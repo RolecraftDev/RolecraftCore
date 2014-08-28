@@ -96,8 +96,8 @@ public class GuildHomeCommand extends PlayerCommandHandler {
                     plugin.getConfig().getInt("teleportdelay") * 20);
 
             player.sendMessage(plugin.getMessage(Messages.GUILD_TP_HOME,
-                    MsgVar.create("$time", String.valueOf(plugin.getConfig()
-                            .getInt("teleportdelay")))));
+                    new MsgVar("$time", plugin.getConfig().getInt(
+                            "teleportdelay"))));
         }
     }
 }
