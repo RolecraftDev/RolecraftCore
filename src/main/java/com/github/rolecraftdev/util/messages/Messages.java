@@ -29,7 +29,6 @@ package com.github.rolecraftdev.util.messages;
 import net.minecraft.util.org.apache.commons.io.FileUtils;
 
 import com.github.rolecraftdev.RolecraftCore;
-import com.github.rolecraftdev.command.CommandHelper;
 import com.github.rolecraftdev.data.storage.PropertiesFile;
 import com.github.rolecraftdev.guild.GuildRank;
 
