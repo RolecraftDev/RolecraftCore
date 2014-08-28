@@ -50,8 +50,6 @@ import com.github.rolecraftdev.util.messages.MsgVar;
 
 import net.milkbowl.vault.economy.Economy;
 
-import org.bukkit.plugin.RegisteredServiceProvider;
-
 import pw.ian.albkit.AlbPlugin;
 
 import javax.annotation.Nullable;
