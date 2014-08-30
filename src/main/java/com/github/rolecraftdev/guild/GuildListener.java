@@ -472,6 +472,7 @@ public final class GuildListener implements Listener {
                     GuildAction.CHANGE_BLOCK)) {
                 event.setCancelled(true);
             }
+            return;
         }
         if (!guildManager.protectFromEnvironment()) {
             return;
