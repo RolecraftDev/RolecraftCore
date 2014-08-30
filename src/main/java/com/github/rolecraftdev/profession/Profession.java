@@ -163,7 +163,7 @@ public class Profession {
      */
     @Override
     public boolean equals(final Object object) {
-        if (object == null || !(object instanceof Profession)) {
+        if (!(object instanceof Profession)) {
             return false;
         }
 

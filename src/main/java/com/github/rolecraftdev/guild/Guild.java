@@ -622,7 +622,7 @@ public final class Guild {
      */
     @Override
     public boolean equals(final Object o) {
-        if (o == null || !(o instanceof Guild)) {
+        if (!(o instanceof Guild)) {
             return false;
         }
         final Guild other = (Guild) o;
