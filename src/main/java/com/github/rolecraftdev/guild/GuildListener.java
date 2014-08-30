@@ -146,7 +146,8 @@ public final class GuildListener implements Listener {
         if (!(damagee instanceof Player)) {
             return;
         }
-        if(guildManager.disallowHallPvp() && inGuildHall(damagee.getLocation())) {
+        if (guildManager.disallowHallPvp()
+                && inGuildHall(damagee.getLocation())) {
             event.setCancelled(true);
             return;
         }
@@ -172,8 +173,9 @@ public final class GuildListener implements Listener {
                 .getUniqueId());
         final Guild damagerGuild = guildManager.getPlayerGuild(damagerId);
 
-        event.setCancelled(damageeGuild != null
-                && damageeGuild.equals(damagerGuild));
+        if (damageeGuild != null && damageeGuild.equals(damagerGuild)) {
+            event.setCancelled(true);
+        }
     }
 
     /**
@@ -181,9 +183,10 @@ public final class GuildListener implements Listener {
      */
     @EventHandler(priority = EventPriority.HIGHEST)
     public void onBlockBreak(final BlockBreakEvent event) {
-        event.setCancelled(cancel(event.getBlock().getLocation(), event
-                        .getPlayer().getUniqueId(), event.isCancelled(),
-                GuildAction.CHANGE_BLOCK));
+        if (cancel(event.getBlock().getLocation(), event.getPlayer()
+                .getUniqueId(), GuildAction.CHANGE_BLOCK)) {
+            event.setCancelled(true);
+        }
     }
 
     /**
@@ -191,9 +194,10 @@ public final class GuildListener implements Listener {
      */
     @EventHandler(priority = EventPriority.HIGHEST)
     public void onBlockPlace(final BlockPlaceEvent event) {
-        event.setCancelled(cancel(event.getBlock().getLocation(), event
-                        .getPlayer().getUniqueId(), event.isCancelled(),
-                GuildAction.CHANGE_BLOCK));
+        if (cancel(event.getBlock().getLocation(), event.getPlayer()
+                .getUniqueId(), GuildAction.CHANGE_BLOCK)) {
+            event.setCancelled(true);
+        }
     }
 
     /**
@@ -206,11 +210,12 @@ public final class GuildListener implements Listener {
         }
 
         final BlockFace face = event.getBlockFace();
-        event.setCancelled(cancel(
-                event.getBlockClicked().getLocation()
-                        .add(face.getModX(), face.getModY(), face.getModZ()),
-                event.getPlayer().getUniqueId(), event.isCancelled(),
-                GuildAction.CHANGE_BLOCK));
+
+        if (cancel(event.getBlockClicked().getLocation().add(face.getModX(),
+                face.getModY(), face.getModZ()), event.getPlayer()
+                .getUniqueId(), GuildAction.CHANGE_BLOCK)) {
+            event.setCancelled(true);
+        }
     }
 
     /**
@@ -221,10 +226,10 @@ public final class GuildListener implements Listener {
         if (event.getBlockClicked() == null) {
             return;
         }
-
-        event.setCancelled(cancel(event.getBlockClicked().getLocation(), event
-                        .getPlayer().getUniqueId(), event.isCancelled(),
-                GuildAction.CHANGE_BLOCK));
+        if (cancel(event.getBlockClicked().getLocation(), event.getPlayer()
+                .getUniqueId(), GuildAction.CHANGE_BLOCK)) {
+            event.setCancelled(true);
+        }
     }
 
     /**
@@ -235,9 +240,10 @@ public final class GuildListener implements Listener {
         if (event.getClickedBlock() == null) {
             return;
         }
-        event.setCancelled(cancel(event.getClickedBlock().getLocation(), event
-                        .getPlayer().getUniqueId(), event.isCancelled(),
-                GuildAction.CHANGE_BLOCK));
+        if (cancel(event.getClickedBlock().getLocation(), event.getPlayer()
+                .getUniqueId(), GuildAction.CHANGE_BLOCK)) {
+            event.setCancelled(true);
+        }
     }
 
     /**
@@ -246,11 +252,17 @@ public final class GuildListener implements Listener {
     @EventHandler(priority = EventPriority.HIGHEST)
     public void onEntityChangeBlock(final EntityChangeBlockEvent event) {
         if (event.getEntity() instanceof Player) {
-            event.setCancelled(cancel(event.getBlock().getLocation(),
-                    event.getEntity().getUniqueId(),
-                    event.isCancelled(), GuildAction.CHANGE_BLOCK));
-        } else if (guildManager.protectFromEnvironment()) {
-            event.setCancelled(inGuildHall(event.getBlock().getLocation()));
+            if (cancel(event.getBlock().getLocation(), event.getEntity()
+                    .getUniqueId(), GuildAction.CHANGE_BLOCK)) {
+                event.setCancelled(true);
+            }
+            return;
+        }
+        if (!guildManager.protectFromEnvironment()) {
+            return;
+        }
+        if (inGuildHall(event.getBlock().getLocation())) {
+            event.setCancelled(true);
         }
     }
 
@@ -261,8 +273,12 @@ public final class GuildListener implements Listener {
     public void onEntityBlockForm(final EntityBlockFormEvent event) {
         if (event.getEntity() instanceof Player) {
             return;
-        } else if (guildManager.protectFromEnvironment()) {
-            event.setCancelled(inGuildHall(event.getBlock().getLocation()));
+        }
+        if (!guildManager.protectFromEnvironment()) {
+            return;
+        }
+        if (inGuildHall(event.getBlock().getLocation())) {
+            event.setCancelled(true);
         }
     }
 
@@ -271,8 +287,11 @@ public final class GuildListener implements Listener {
      */
     @EventHandler(priority = EventPriority.HIGHEST)
     public void onBlockSpread(final BlockSpreadEvent event) {
-        if (guildManager.protectFromEnvironment()) {
-            event.setCancelled(inGuildHall(event.getBlock().getLocation()));
+        if (!guildManager.protectFromEnvironment()) {
+            return;
+        }
+        if (inGuildHall(event.getBlock().getLocation())) {
+            event.setCancelled(true);
         }
     }
 
@@ -281,8 +300,11 @@ public final class GuildListener implements Listener {
      */
     @EventHandler(priority = EventPriority.HIGHEST)
     public void onBlockForm(final BlockFormEvent event) {
-        if (guildManager.protectFromEnvironment()) {
-            event.setCancelled(inGuildHall(event.getBlock().getLocation()));
+        if (!guildManager.protectFromEnvironment()) {
+            return;
+        }
+        if (inGuildHall(event.getBlock().getLocation())) {
+            event.setCancelled(true);
         }
     }
 
@@ -291,8 +313,11 @@ public final class GuildListener implements Listener {
      */
     @EventHandler(priority = EventPriority.HIGHEST)
     public void onBlockFromTo(final BlockFromToEvent event) {
-        if (guildManager.protectFromEnvironment()) {
-            event.setCancelled(inGuildHall(event.getToBlock().getLocation()));
+        if (!guildManager.protectFromEnvironment()) {
+            return;
+        }
+        if (inGuildHall(event.getToBlock().getLocation())) {
+            event.setCancelled(true);
         }
     }
 
@@ -347,7 +372,9 @@ public final class GuildListener implements Listener {
         final Guild to = getGuildFromHall(event.getBlock().getRelative(
                 event.getDirection()));
 
-        event.setCancelled(!areGuildsEqual(from, to));
+        if (!areGuildsEqual(from, to)) {
+            event.setCancelled(true);
+        }
     }
 
     /**
@@ -371,7 +398,7 @@ public final class GuildListener implements Listener {
         if (event.getPlayer() != null) {
             for(final BlockState block : event.getBlocks()) {
                 if (cancel(block.getLocation(),
-                        event.getPlayer().getUniqueId(), false,
+                        event.getPlayer().getUniqueId(),
                         GuildAction.CHANGE_BLOCK)) {
                     event.setCancelled(true);
                     // We don't need to check any more blocks
@@ -394,8 +421,11 @@ public final class GuildListener implements Listener {
      */
     @EventHandler(priority = EventPriority.HIGHEST)
     public void onEntityExplode(final EntityExplodeEvent event) {
-        if (guildManager.protectFromEnvironment()) {
-            event.setCancelled(inGuildHall(event.getLocation()));
+        if (!guildManager.protectFromEnvironment()) {
+            return;
+        }
+        if (inGuildHall(event.getLocation())) {
+            event.setCancelled(true);
         }
     }
 
@@ -405,11 +435,17 @@ public final class GuildListener implements Listener {
     @EventHandler(priority = EventPriority.HIGHEST)
     public void onBlockIgnite(final BlockIgniteEvent event) {
         if (event.getPlayer() != null) {
-            event.setCancelled(cancel(event.getBlock().getLocation(), event
-                    .getPlayer().getUniqueId(), event.isCancelled(),
-                    GuildAction.IGNITE_BLOCK));
-        } else if (guildManager.protectFromEnvironment()) {
-            event.setCancelled(inGuildHall(event.getBlock().getLocation()));
+            if (cancel(event.getBlock().getLocation(), event.getPlayer()
+                    .getUniqueId(), GuildAction.IGNITE_BLOCK)) {
+                event.setCancelled(true);
+            }
+            return;
+        }
+        if (!guildManager.protectFromEnvironment()) {
+            return;
+        }
+        if (inGuildHall(event.getBlock().getLocation())) {
+            event.setCancelled(true);
         }
     }
 
@@ -418,9 +454,10 @@ public final class GuildListener implements Listener {
      */
     @EventHandler(priority = EventPriority.HIGHEST)
     public void onHangingPlace(final HangingPlaceEvent event) {
-        event.setCancelled(cancel(event.getEntity().getLocation(), event
-                        .getPlayer().getUniqueId(), event.isCancelled(),
-                GuildAction.CHANGE_BLOCK));
+        if (cancel(event.getEntity().getLocation(), event.getPlayer()
+                .getUniqueId(), GuildAction.CHANGE_BLOCK)) {
+            event.setCancelled(true);
+        }
     }
 
     /**
@@ -431,11 +468,16 @@ public final class GuildListener implements Listener {
         if (event.getRemover() instanceof Player) {
             final Player player = (Player) event.getRemover();
 
-            event.setCancelled(cancel(event.getEntity().getLocation(), player
-                    .getUniqueId(), event.isCancelled(),
-                    GuildAction.CHANGE_BLOCK));
-        } else if (!guildManager.protectFromEnvironment()) {
-            event.setCancelled(inGuildHall(event.getEntity().getLocation()));
+            if (cancel(event.getEntity().getLocation(), player.getUniqueId(),
+                    GuildAction.CHANGE_BLOCK)) {
+                event.setCancelled(true);
+            }
+        }
+        if (!guildManager.protectFromEnvironment()) {
+            return;
+        }
+        if (inGuildHall(event.getEntity().getLocation())) {
+            event.setCancelled(true);
         }
     }
 
@@ -479,23 +521,22 @@ public final class GuildListener implements Listener {
      *
      * @param loc the {@link Location} the {@link GuildAction} occured at
      * @param player the performer of the {@link GuildAction}
-     * @param def the default return value, in the case of no justified
-     *        preference
      * @param action the executed {@link GuildAction}
      * @return {@code true} if the event should be cancelled; {@code false}
      *         otherwise
      */
     private boolean cancel(final Location loc, final UUID player,
-            final boolean def, final GuildAction action) {
+            final GuildAction action) {
         final Guild guild;
         guild = getGuildFromHall(loc);
+
         if (guild == nullGuild) {
             return true;
-        }
-        if (guild != null) {
+        } else if (guild != null) {
             return !(guild.isMember(player) && guild.can(player, action));
+        } else {
+            return false;
         }
-        return def;
     }
 
     /**
