@@ -6,3 +6,5 @@ economy:
 hall: 
   protect-from-environment: true
   disallow-pvp: true
+  anti-grief: true
+  no-pistons: false

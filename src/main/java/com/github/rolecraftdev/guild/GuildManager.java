@@ -108,6 +108,15 @@ public final class GuildManager {
      * Disallow PvP in guild-halls.
      */
     private final boolean disallowHallPvp;
+    /**
+     * Whether to disallow block-breaks for people without guild permissions in
+     * a guild hall.
+     */
+    private final boolean hallAntiGrief;
+    /**
+     * Whether to prevent piston usage in guild halls.
+     */
+    private final boolean hallNoPistons;
 
     /**
      * The price for making a new {@link Guild}.
@@ -146,6 +155,8 @@ public final class GuildManager {
         protectFromEnvironment = guildConfig
                 .getBoolean("hall.protect-from-environment", true);
         disallowHallPvp = guildConfig.getBoolean("hall.disallow-pvp", true);
+        hallAntiGrief = guildConfig.getBoolean("hall.anti-grief", true);
+        hallNoPistons = guildConfig.getBoolean("hall.no-pistons", false);
 
         loaded = false;
 
@@ -390,11 +401,31 @@ public final class GuildManager {
     /**
      * Check whether PvP is disallowed in guild-halls.
      *
-     * @return the state disallowance of PvP in guild-halls
+     * @return the state of disallowance of PvP in guild-halls
      * @since 0.0.5
      */
     public boolean disallowHallPvp() {
         return disallowHallPvp;
+    }
+
+    /**
+     * Check whether griefing is disallowed in guild-halls
+     *
+     * @return the state of disallowance of griefing in guild-halls
+     * @since 0.0.5
+     */
+    public boolean hallAntiGrief() {
+        return hallAntiGrief;
+    }
+
+    /**
+     * Check whether pistons are disallowed in guild-halls
+     *
+     * @return the state of disallowance of pistons in guild-halls
+     * @since 0.0.5
+     */
+    public boolean disallowHallPistons() {
+        return hallNoPistons;
     }
 
     /**
