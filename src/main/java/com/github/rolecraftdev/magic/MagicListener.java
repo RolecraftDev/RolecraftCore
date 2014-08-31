@@ -158,8 +158,7 @@ public class MagicListener implements Listener {
             final float estimate = spell.estimateLeftClickMana(player, clicked,
                     spellManager.getMagicModifier(player), e.getBlockFace());
             final SpellCastEvent event = RolecraftEventFactory.spellCast(spell,
-                    player, estimate, SpellCastType.LEFT_CLICK,
-                    spell.getSound());
+                    player, estimate, SpellCastType.LEFT_CLICK);
 
             if (event.isCancelled()) {
                 player.sendMessage(event.getCancelMessage());
@@ -200,8 +199,7 @@ public class MagicListener implements Listener {
             final float estimate = spell.estimateRightClickMana(player, clicked,
                     spellManager.getMagicModifier(player), e.getBlockFace());
             final SpellCastEvent event = RolecraftEventFactory.spellCast(spell,
-                    player, estimate, SpellCastType.RIGHT_CLICK,
-                    spell.getSound());
+                    player, estimate, SpellCastType.RIGHT_CLICK);
 
             if (event.isCancelled()) {
                 player.sendMessage(event.getCancelMessage());
@@ -271,9 +269,8 @@ public class MagicListener implements Listener {
         final float estimate = spell.estimateAttackMana(player,
                 (LivingEntity) e.getEntity(),
                 spellManager.getMagicModifier(player));
-        final SpellCastEvent event = RolecraftEventFactory.spellCast(spell,
-                e.getDamager(), estimate, SpellCastType.ATTACK,
-                spell.getSound());
+        final SpellCastEvent event = RolecraftEventFactory.spellCast(spell, e
+                .getDamager(), estimate, SpellCastType.ATTACK);
 
         if (event.isCancelled()) {
             player.sendMessage(event.getCancelMessage());

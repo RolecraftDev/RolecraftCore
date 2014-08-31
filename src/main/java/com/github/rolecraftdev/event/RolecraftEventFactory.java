@@ -47,8 +47,6 @@ import com.github.rolecraftdev.guild.GuildAction;
 import com.github.rolecraftdev.guild.GuildRank;
 import com.github.rolecraftdev.magic.Spell;
 import com.github.rolecraftdev.util.LevelUtil;
-import com.github.rolecraftdev.util.SoundWrapper;
-
 import org.bukkit.Bukkit;
 import org.bukkit.entity.Entity;
 import org.bukkit.entity.Player;
@@ -206,10 +204,9 @@ public class RolecraftEventFactory {
      * @since 0.0.5
      */
     public static SpellCastEvent spellCast(final Spell spell,
-            final Entity caster, final float manaCost,
-            final SpellCastType type, final SoundWrapper sound) {
+            final Entity caster, final float manaCost, final SpellCastType type) {
         return callEvent(new SpellCastEvent(plugin, spell, caster, manaCost,
-                type, sound));
+                type));
     }
 
     /**

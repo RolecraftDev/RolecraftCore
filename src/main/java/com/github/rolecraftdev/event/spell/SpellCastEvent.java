@@ -69,13 +69,12 @@ public class SpellCastEvent extends SpellEvent implements Cancellable {
      */
     public SpellCastEvent(final RolecraftCore plugin, final Spell spell,
             @Nonnull final Entity caster, final float manaCost,
-            @Nonnull final SpellCastType type,
-            @Nullable final SoundWrapper sound) {
+            @Nonnull final SpellCastType type) {
         super(plugin, spell);
         this.caster = caster;
         this.manaCost = manaCost;
         this.type = type;
-        this.sound = sound;
+        sound = spell.getSound();
     }
 
     public enum SpellCastType {
