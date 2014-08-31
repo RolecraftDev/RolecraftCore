@@ -44,6 +44,7 @@ import org.bukkit.inventory.ItemStack;
 import org.bukkit.inventory.Recipe;
 import org.bukkit.permissions.Permission;
 import org.bukkit.permissions.PermissionDefault;
+import org.bukkit.plugin.PluginManager;
 import org.bukkit.scheduler.BukkitRunnable;
 
 import javax.annotation.Nonnull;
@@ -118,15 +119,12 @@ public class SpellManager {
         register("Avada Kedavra", new AvadaKedavra(this));
         register("Death Rain", new DeathRain(this));
 
-        Bukkit.getPluginManager().registerEvents(
-                new MagicListener(plugin, this), plugin);
-        Bukkit.getPluginManager().registerEvents(new ProjectileListener(),
-                plugin);
-        Bukkit.getPluginManager().registerEvents(new FlyingListener(plugin),
-                plugin);
+        final PluginManager pluginManager = Bukkit.getPluginManager();
 
-        Bukkit.getScheduler().runTaskTimer(plugin, new ManaRegenTask(plugin),
-                20L, 40L);
+        pluginManager.registerEvents(new MagicListener(plugin, this), plugin);
+        pluginManager.registerEvents(new ProjectileListener(), plugin);
+        pluginManager.registerEvents(new FlyingListener(plugin), plugin);
+        new ManaRegenTask(plugin).runTaskTimer(plugin, 20, 40);
     }
 
     /**
@@ -199,18 +197,18 @@ public class SpellManager {
 
         final Profession profession = plugin.getProfessionManager()
                 .getPlayerProfession(player.getUniqueId());
+
         if (profession == null) {
             return false;
         }
 
         final List<?> usable = profession
                 .getRuleValue(ProfessionRule.USABLE_SPELLS);
-        // if the usable spells is not defined in profession,
-        // use the default value
+
+        // Use the default value when none is set for the player's profession
         if (usable == null) {
             return plugin.getConfig().getBoolean("professiondefaults.spells");
         }
-
         return usable.contains(spell.getName()) || (usable.contains("*") &&
                 !usable.contains("-" + spell.getName()));
     }
@@ -237,19 +235,16 @@ public class SpellManager {
     public Spell getSpellFromItem(@Nonnull final ItemStack stack) {
         Validate.notNull(stack);
 
-        if (stack.getType() != Material.STICK || !stack.hasItemMeta() ||
-                !stack.getItemMeta().hasDisplayName()) {
+        // Item meta is only null if the material is air -> no item meta check
+        if (stack.getType() != Material.STICK
+                || !stack.getItemMeta().hasDisplayName()) {
             return null;
         }
-
-        final Spell temp = getSpell(ChatColor.stripColor(
-                stack.getItemMeta().getDisplayName()));
-        if (!stack.getEnchantments().isEmpty()
-                && stack.getEnchantments().get(Enchantment.LUCK) == 10) {
-            return temp;
+        if (stack.getEnchantmentLevel(Enchantment.LUCK) != 10) {
+            return null;
         }
-
-        return null;
+        return getSpell(ChatColor.stripColor(stack.getItemMeta()
+                .getDisplayName()));
     }
 
     /**
@@ -264,6 +259,7 @@ public class SpellManager {
     public float getMana(final Player ply) {
         final float mana = plugin.getDataManager().getPlayerData(
                 ply.getUniqueId()).getMana();
+
         if (mana == -1) {
             return 0;
         } else {
@@ -280,8 +276,8 @@ public class SpellManager {
      * @since 0.0.5
      */
     public void subtractMana(final Player ply, final float amount) {
-        plugin.getDataManager().getPlayerData(ply.getUniqueId())
-                .subtractMana(amount);
+        plugin.getDataManager().getPlayerData(ply.getUniqueId()).subtractMana(
+                amount);
     }
 
     /**
