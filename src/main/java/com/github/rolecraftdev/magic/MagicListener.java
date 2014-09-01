@@ -31,12 +31,10 @@ import com.github.rolecraftdev.data.PlayerData;
 import com.github.rolecraftdev.event.RolecraftEventFactory;
 import com.github.rolecraftdev.event.spell.SpellCastEvent;
 import com.github.rolecraftdev.event.spell.SpellCastEvent.SpellCastType;
-import com.github.rolecraftdev.util.SoundWrapper;
 import com.github.rolecraftdev.util.messages.Messages;
 import com.github.rolecraftdev.util.messages.MsgVar;
 
 import org.bukkit.Bukkit;
-import org.bukkit.Material;
 import org.bukkit.block.Block;
 import org.bukkit.entity.LivingEntity;
 import org.bukkit.entity.Player;
@@ -70,7 +68,6 @@ public class MagicListener implements Listener {
     private final RolecraftCore plugin;
     private final SpellManager spellManager;
     private final Map<UUID, Scoreboard> scoreboards;
-    private final ScoreboardManager scoreboardMgr;
 
     /**
      * Constructor.
@@ -84,41 +81,43 @@ public class MagicListener implements Listener {
         this.plugin = plugin;
         this.spellManager = spellManager;
         scoreboards = new HashMap<UUID, Scoreboard>();
-        scoreboardMgr = Bukkit.getScoreboardManager();
     }
 
     /**
      * @since 0.0.5
      */
     @EventHandler(priority = EventPriority.HIGHEST)
-    public void handleManaScoreboard(final PlayerInteractEvent e) {
-        final ItemStack stack = e.getItem();
+    public void handleManaScoreboard(final PlayerInteractEvent event) {
+        final ScoreboardManager boardManager = Bukkit.getScoreboardManager();
         boolean shown = false;
-        if (stack != null && stack.getType() == Material.STICK) {
-            final Spell spell = spellManager.getSpellFromItem(stack);
-            if (spell != null) {
-                final PlayerData data = plugin.getDataManager().getPlayerData(
-                        e.getPlayer().getUniqueId());
-                if (scoreboards.containsKey(e.getPlayer().getUniqueId())) {
-                    scoreboards.get(e.getPlayer().getUniqueId())
-                            .getObjective("Mana").getScore("Mana")
-                            .setScore((int) data.getMana());
+
+        if (event.getItem() != null) {
+            final Spell cast = spellManager.getSpellFromItem(event.getItem());
+
+            if (cast != null) {
+                final UUID casterId = event.getPlayer().getUniqueId();
+                final PlayerData casterData = plugin.getDataManager()
+                        .getPlayerData(casterId);
+
+                if (scoreboards.containsKey(casterId)) {
+                    scoreboards.get(casterId).getObjective("Mana").getScore(
+                            "Mana").setScore((int) casterData.getMana());
                 } else {
-                    final Scoreboard board = scoreboardMgr.getNewScoreboard();
+                    final Scoreboard board = boardManager.getNewScoreboard();
                     final Objective mana = board.registerNewObjective("Mana",
-                            String.valueOf(data.getMana()));
-                    mana.getScore("Mana").setScore((int) data.getMana());
+                            "dummy");
+
+                    mana.getScore("Mana").setScore((int) casterData.getMana());
                     mana.setDisplayName("Mana");
-                    mana.getScore(String.valueOf(data.getMana()));
-                    e.getPlayer().setScoreboard(board);
-                    scoreboards.put(e.getPlayer().getUniqueId(), board);
+                    event.getPlayer().setScoreboard(board);
+                    scoreboards.put(casterId, board);
                 }
+
                 shown = true;
             }
         }
-
         if (!shown) {
-            e.getPlayer().setScoreboard(scoreboardMgr.getNewScoreboard());
+            event.getPlayer().setScoreboard(boardManager.getNewScoreboard());
         }
     }
 
@@ -126,13 +125,9 @@ public class MagicListener implements Listener {
      * @since 0.0.5
      */
     @EventHandler(priority = EventPriority.HIGHEST)
-    public void onInteract(final PlayerInteractEvent e) {
-        final ItemStack stack = e.getItem();
-        if (stack == null || stack.getType() != Material.STICK) {
-            return;
-        }
+    public void onInteract(final PlayerInteractEvent event) {
+        final Action action = event.getAction();
 
-        final Action action = e.getAction();
         if (action != Action.RIGHT_CLICK_AIR
                 && action != Action.RIGHT_CLICK_BLOCK
                 && action != Action.LEFT_CLICK_AIR
@@ -140,102 +135,37 @@ public class MagicListener implements Listener {
             return;
         }
 
-        final Spell spell = spellManager.getSpellFromItem(e.getItem());
-        if (spell == null) {
-            return;
-        }
+        final Player caster = event.getPlayer();
+        final Block clicked = event.getClickedBlock();
+        final Spell cast = getAvailableSpell(caster, event.getItem());
+        final int casterModifier = spellManager.getMagicModifier(caster);
 
-        final Player player = e.getPlayer();
-        final Block clicked = e.getClickedBlock();
-        if (!(spellManager.canCast(player, spell))) {
-            player.sendMessage(plugin.getMessage(Messages.CANNOT_CAST_SPELL,
-                    MsgVar.SPELL.value(spell.getName())));
+        if (cast == null) {
             return;
         }
 
         if (action == Action.LEFT_CLICK_AIR
                 || action == Action.LEFT_CLICK_BLOCK) {
-            final float estimate = spell.estimateLeftClickMana(player, clicked,
-                    spellManager.getMagicModifier(player), e.getBlockFace());
-            final SpellCastEvent event = RolecraftEventFactory.spellCast(spell,
-                    player, estimate, SpellCastType.LEFT_CLICK);
+            final float estimate = cast.estimateLeftClickMana(caster, clicked,
+                    casterModifier, event.getBlockFace());
+            final SpellCastEvent castEvent = initiateCasting(cast,
+                    caster, estimate, SpellCastType.LEFT_CLICK);
+            // Cast the spell with the most up-to-date values
+            final float castCost = cast.leftClick(caster, clicked, spellManager
+                    .getMagicModifier(caster), event.getBlockFace());
 
-            if (event.isCancelled()) {
-                player.sendMessage(event.getCancelMessage());
-                return;
-            } else if (event.getManaCost() > spellManager.getMana(player)) {
-                return;
-            }
-
-            float manaCost = spell.leftClick(player, clicked,
-                    spellManager.getMagicModifier(player), e.getBlockFace());
-
-            if (manaCost == Spell.CAST_FAILURE
-                    || manaCost == Spell.BAD_SITUATION) {
-                return;
-            }
-
-            // Only take into account event changes if the estimate was accurate
-            // otherwise there could be unintended consequences. The estimate should
-            // pretty much always be accurate anyway without a failure (which is
-            // already accounted for - we return in that event)
-            if (manaCost == estimate) {
-                manaCost = event.getManaCost();
-            }
-
-            spellManager.subtractMana(player, manaCost);
-
-            if (plugin.getDataManager().getPlayerData(player.getUniqueId())
-                    .getSettings().isSpellChatMessage()) {
-                player.sendMessage(plugin.getMessage(Messages.SPELL_CAST,
-                        MsgVar.SPELL.value(spell.getName())));
-            }
-
-            final SoundWrapper sound = event.getSound();
-            if (sound != null) {
-                sound.play(player.getLocation());
-            }
+            finaliseCasting(castEvent, castCost, estimate);
         } else {
-            final float estimate = spell.estimateRightClickMana(player, clicked,
-                    spellManager.getMagicModifier(player), e.getBlockFace());
-            final SpellCastEvent event = RolecraftEventFactory.spellCast(spell,
-                    player, estimate, SpellCastType.RIGHT_CLICK);
+            final float estimate = cast.estimateRightClickMana(caster, clicked,
+                    casterModifier, event.getBlockFace());
+            final SpellCastEvent castEvent = initiateCasting(cast,
+                    caster, estimate, SpellCastType.RIGHT_CLICK);
+            // Cast the spell with the most up-to-date values
+            final float castCost = cast
+                    .rightClick(caster, clicked, spellManager
+                            .getMagicModifier(caster), event.getBlockFace());
 
-            if (event.isCancelled()) {
-                player.sendMessage(event.getCancelMessage());
-                return;
-            } else if (event.getManaCost() > spellManager.getMana(player)) {
-                return;
-            }
-
-            float manaCost = spell.rightClick(player, clicked,
-                    spellManager.getMagicModifier(player), e.getBlockFace());
-
-            if (manaCost == Spell.CAST_FAILURE
-                    || manaCost == Spell.BAD_SITUATION) {
-                return;
-            }
-
-            // Only take into account event changes if the estimate was accurate
-            // otherwise there could be unintended consequences. The estimate should
-            // pretty much always be accurate anyway without a failure (which is
-            // already accounted for - we return in that event)
-            if (manaCost == estimate) {
-                manaCost = event.getManaCost();
-            }
-
-            spellManager.subtractMana(player, manaCost);
-
-            if (plugin.getDataManager().getPlayerData(player.getUniqueId())
-                    .getSettings().isSpellChatMessage()) {
-                player.sendMessage(plugin.getMessage(Messages.SPELL_CAST,
-                        MsgVar.SPELL.value(spell.getName())));
-            }
-
-            final SoundWrapper sound = event.getSound();
-            if (sound != null) {
-                sound.play(player.getLocation());
-            }
+            finaliseCasting(castEvent, castCost, estimate);
         }
     }
 
@@ -243,69 +173,120 @@ public class MagicListener implements Listener {
      * @since 0.0.5
      */
     @EventHandler(priority = EventPriority.HIGHEST)
-    public void onDamage(final EntityDamageByEntityEvent e) {
-        if (e.getCause() == DamageCause.MAGIC || !(e
-                .getDamager() instanceof Player)) {
+    public void onDamage(final EntityDamageByEntityEvent event) {
+        if (event.getCause() == DamageCause.MAGIC) {
+            return;
+        }
+        if (!(event.getDamager() instanceof Player)
+                || !(event.getEntity() instanceof LivingEntity)) {
             return;
         }
 
-        final Player player = (Player) e.getDamager();
-        final Spell spell = spellManager.getSpellFromItem(
-                player.getItemInHand());
+        final Player caster = (Player) event.getDamager();
+        final LivingEntity target = (LivingEntity) event.getEntity();
+        final Spell cast = getAvailableSpell(caster, caster.getItemInHand());
+
+        if (cast == null) {
+            return;
+        }
+
+        final float estimate = cast.estimateAttackMana(caster, target,
+                spellManager.getMagicModifier(caster));
+        final SpellCastEvent castEvent = initiateCasting(cast, caster,
+                estimate, SpellCastType.ATTACK);
+        // Cast the spell with the most up-to-date values
+        final float castCost = cast.attack(caster, target, spellManager
+                .getMagicModifier(caster));
+
+        finaliseCasting(castEvent, castCost, estimate);
+    }
+
+    /**
+     * Gets the spell that is available for use given the specified wand. If
+     * {@code player} cannot use the wand to cast a spell one way or another,
+     * {@code null} is returned.
+     *
+     * @param player the player to investigate
+     * @param stack the wand the player uses
+     * @return the spell that is available to the player given the wand
+     */
+    private Spell getAvailableSpell(final Player player, final ItemStack stack) {
+        if (stack == null) {
+            return null;
+        }
+
+        final Spell spell = spellManager.getSpellFromItem(stack);
+
         if (spell == null) {
-            return;
+            return null;
         }
-
-        if (!(spellManager.canCast(player, spell))) {
-            if (plugin.getDataManager().getPlayerData(player.getUniqueId())
-                    .getSettings().isSpellChatMessage()) {
-                player.sendMessage(plugin.getMessage(
-                        Messages.CANNOT_CAST_SPELL, MsgVar.SPELL.value(spell
-                                .getName())));
-            }
-            return;
-        }
-
-        final float estimate = spell.estimateAttackMana(player,
-                (LivingEntity) e.getEntity(),
-                spellManager.getMagicModifier(player));
-        final SpellCastEvent event = RolecraftEventFactory.spellCast(spell, e
-                .getDamager(), estimate, SpellCastType.ATTACK);
-
-        if (event.isCancelled()) {
-            player.sendMessage(event.getCancelMessage());
-            return;
-        } else if (event.getManaCost() > spellManager.getMana(player)) {
-            return;
-        }
-
-        float manaCost = spell.attack(player, (LivingEntity) e.getEntity(),
-                spellManager.getMagicModifier(player));
-
-        if (manaCost == Spell.CAST_FAILURE
-                || manaCost == Spell.BAD_SITUATION) {
-            return;
-        }
-
-        // Only take into account event changes if the estimate was accurate
-        // otherwise there could be unintended consequences. The estimate should
-        // pretty much always be accurate anyway without a failure (which is
-        // already accounted for - we return in that event)
-        if (manaCost == estimate) {
-            manaCost = event.getManaCost();
-        }
-
-        spellManager.subtractMana(player, manaCost);
-
-        if (plugin.getDataManager().getPlayerData(player.getUniqueId())
-                .getSettings().isSpellChatMessage()) {
-            player.sendMessage(plugin.getMessage(Messages.SPELL_CAST,
+        if (!spellManager.canCast(player, spell)) {
+            player.sendMessage(plugin.getMessage(Messages.CANNOT_CAST_SPELL,
                     MsgVar.SPELL.value(spell.getName())));
+            return null;
+        } else {
+            return spell;
+        }
+    }
+
+    /**
+     * Calls a cast spell event and handle it. If the event shoudln't be built
+     * on further, {@code null} will be returned. Note that this doesn't perform
+     * the spell.
+     *
+     * @param spell the spell to cast in the event
+     * @param caster the caster of the spell
+     * @param manaCost the cost of performing this spell in its current context
+     * @param type the manor in which the spell has been performed
+     * @return the appropriate cast spell event if there's no reason to
+     *         discontinue, {@code null} otherwise
+     */
+    private SpellCastEvent initiateCasting(final Spell spell,
+            final Player caster, final float manaCost, final SpellCastType type) {
+        final SpellCastEvent castEvent = RolecraftEventFactory.spellCast(spell,
+                caster, manaCost, type);
+
+        if (castEvent.isCancelled()) {
+            caster.sendMessage(castEvent.getCancelMessage());
+            return null;
+        } else if (castEvent.getManaCost() > spellManager.getMana(caster)) {
+            return null;
+        } else {
+            return castEvent;
+        }
+    }
+
+    /**
+     * Finish up the cast spell event after it has been performed.
+     *
+     * @param castEvent the appropriate cast spell event
+     * @param castCost the cost of the spell when it is performed
+     * @param estimate the predefined casting cast
+     */
+    private void finaliseCasting(final SpellCastEvent castEvent,
+            float castCost, final float estimate) {
+        if (!(castEvent.getCaster() instanceof Player)) {
+            return;
+        }
+        if (castCost == Spell.CAST_FAILURE || castCost == Spell.BAD_SITUATION) {
+            return;
+        }
+        // Use the estimate if it was incorrect, the event cost otherwise
+        if (castCost == estimate) {
+            castCost = castEvent.getManaCost();
         }
 
-        final SoundWrapper sound = event.getSound();
-        if (sound != null) {
-            sound.play(player.getLocation());
+        final Player caster = (Player) castEvent.getCaster();
+
+        spellManager.subtractMana(caster, castCost);
+
+        if (plugin.getDataManager().getPlayerData(caster.getUniqueId())
+                .getSettings().isSpellChatMessage()) {
+            caster.sendMessage(plugin.getMessage(Messages.SPELL_CAST,
+                    MsgVar.SPELL.value(castEvent.getSpell().getName())));
+        }
+        if (castEvent.getSound() != null) {
+            castEvent.getSound().play(caster.getLocation());
         }
     }
 }
