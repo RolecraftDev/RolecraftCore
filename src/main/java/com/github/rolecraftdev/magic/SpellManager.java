@@ -171,6 +171,7 @@ public class SpellManager {
      * @param player the player to investigate
      * @return {@code true} if the specified player somewhere has a
      *         magic-allowing property defined
+     * @since 0.0.5
      */
     public boolean canCast(@Nonnull final Player player) {
         Validate.notNull(player);
@@ -274,6 +275,7 @@ public class SpellManager {
      *
      * @param stack the wand {@link ItemStack} to get the {@link Spell} from
      * @return the given {@link ItemStack}s {@link Spell}, or {@code null}
+     * @since 0.0.5
      */
     @Nullable
     public Spell getSpellFromItem(@Nonnull final ItemStack stack) {
