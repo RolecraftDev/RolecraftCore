@@ -27,14 +27,12 @@
 package com.github.rolecraftdev.magic;
 
 import com.github.rolecraftdev.RolecraftCore;
-import com.github.rolecraftdev.data.PlayerData;
 import com.github.rolecraftdev.event.RolecraftEventFactory;
 import com.github.rolecraftdev.event.spell.SpellCastEvent;
 import com.github.rolecraftdev.event.spell.SpellCastEvent.SpellCastType;
 import com.github.rolecraftdev.util.messages.Messages;
 import com.github.rolecraftdev.util.messages.MsgVar;
 
-import org.bukkit.Bukkit;
 import org.bukkit.block.Block;
 import org.bukkit.entity.LivingEntity;
 import org.bukkit.entity.Player;
@@ -46,14 +44,10 @@ import org.bukkit.event.block.Action;
 import org.bukkit.event.entity.EntityDamageByEntityEvent;
 import org.bukkit.event.entity.EntityDamageEvent.DamageCause;
 import org.bukkit.event.player.PlayerInteractEvent;
+import org.bukkit.event.player.PlayerJoinEvent;
+import org.bukkit.event.player.PlayerKickEvent;
+import org.bukkit.event.player.PlayerQuitEvent;
 import org.bukkit.inventory.ItemStack;
-import org.bukkit.scoreboard.Objective;
-import org.bukkit.scoreboard.Scoreboard;
-import org.bukkit.scoreboard.ScoreboardManager;
-
-import java.util.HashMap;
-import java.util.Map;
-import java.util.UUID;
 
 /**
  * A {@link Listener} for {@link Event}s that can be used to perform
@@ -67,7 +61,6 @@ public class MagicListener implements Listener {
      */
     private final RolecraftCore plugin;
     private final SpellManager spellManager;
-    private final Map<UUID, Scoreboard> scoreboards;
 
     /**
      * Constructor.
@@ -80,45 +73,43 @@ public class MagicListener implements Listener {
     MagicListener(final RolecraftCore plugin, final SpellManager spellManager) {
         this.plugin = plugin;
         this.spellManager = spellManager;
-        scoreboards = new HashMap<UUID, Scoreboard>();
+    }
+
+    /*
+     * @since 0.0.5
+     */
+    @EventHandler
+    public void onPlayerJoin(final PlayerJoinEvent event) {
+        // Only create the mana-display if the player can perform magic
+        if (spellManager.canCast(event.getPlayer())) {
+            spellManager.getManaUpdater().createDisplayFor(event.getPlayer());
+        }
+    }
+
+    /*
+     * @since 0.0.5
+     */
+    @EventHandler
+    public void onPlayerQuit(final PlayerQuitEvent event) {
+        onPlayerLeave(event.getPlayer());
+    }
+
+    /*
+     * @since 0.0.5
+     */
+    @EventHandler
+    public void onPlayerKick(final PlayerKickEvent event) {
+        onPlayerLeave(event.getPlayer());
     }
 
     /**
-     * @since 0.0.5
+     * Runs functions that should be ran when a player leaves the Minecraft
+     * server.
+     *
+     * @param player the player who leaves
      */
-    @EventHandler(priority = EventPriority.HIGHEST)
-    public void handleManaScoreboard(final PlayerInteractEvent event) {
-        final ScoreboardManager boardManager = Bukkit.getScoreboardManager();
-        boolean shown = false;
-
-        if (event.getItem() != null) {
-            final Spell cast = spellManager.getSpellFromItem(event.getItem());
-
-            if (cast != null) {
-                final UUID casterId = event.getPlayer().getUniqueId();
-                final PlayerData casterData = plugin.getDataManager()
-                        .getPlayerData(casterId);
-
-                if (scoreboards.containsKey(casterId)) {
-                    scoreboards.get(casterId).getObjective("Mana").getScore(
-                            "Mana").setScore((int) casterData.getMana());
-                } else {
-                    final Scoreboard board = boardManager.getNewScoreboard();
-                    final Objective mana = board.registerNewObjective("Mana",
-                            "dummy");
-
-                    mana.getScore("Mana").setScore((int) casterData.getMana());
-                    mana.setDisplayName("Mana");
-                    event.getPlayer().setScoreboard(board);
-                    scoreboards.put(casterId, board);
-                }
-
-                shown = true;
-            }
-        }
-        if (!shown) {
-            event.getPlayer().setScoreboard(boardManager.getNewScoreboard());
-        }
+    private void onPlayerLeave(final Player player) {
+        spellManager.getManaUpdater().disposeDisplayOf(player);
     }
 
     /**

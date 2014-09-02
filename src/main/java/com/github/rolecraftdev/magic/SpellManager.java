@@ -70,6 +70,7 @@ public class SpellManager {
     private final Map<String, Spell> spells;
     private final int maxRange;
     private final Map<String, Boolean> emptyMap;
+    private final ManaUpdater manaUpdater;
 
     /**
      * Create a new {@link SpellManager} and load certain configurable options
@@ -86,6 +87,7 @@ public class SpellManager {
         spells = new HashMap<String, Spell>();
         maxRange = plugin.getConfig().getInt("magicrange", 100);
         emptyMap = new HashMap<String, Boolean>();
+        manaUpdater = new ManaUpdater(plugin);
 
         // Tier 1 spells
         register("Freeze Block", new FreezeBlock(this));
@@ -125,7 +127,6 @@ public class SpellManager {
         pluginManager.registerEvents(new MagicListener(plugin, this), plugin);
         pluginManager.registerEvents(new ProjectileListener(), plugin);
         pluginManager.registerEvents(new FlyingListener(plugin), plugin);
-        new ManaRegenTask(plugin).runTaskTimer(plugin, 20, 40);
     }
 
     /**
@@ -288,6 +289,16 @@ public class SpellManager {
         }
         return getSpell(ChatColor.stripColor(stack.getItemMeta()
                 .getDisplayName()));
+    }
+
+    /**
+     * Gets the current updater for magic mana.
+     *
+     * @return the used mana updater
+     * @since 0.0.5
+     */
+    public ManaUpdater getManaUpdater() {
+        return manaUpdater;
     }
 
     /**
