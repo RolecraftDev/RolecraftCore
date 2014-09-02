@@ -43,6 +43,7 @@ import org.bukkit.event.Listener;
 import org.bukkit.inventory.ItemStack;
 import org.bukkit.inventory.Recipe;
 import org.bukkit.permissions.Permission;
+import org.bukkit.permissions.PermissionAttachmentInfo;
 import org.bukkit.permissions.PermissionDefault;
 import org.bukkit.plugin.PluginManager;
 import org.bukkit.scheduler.BukkitRunnable;
@@ -159,6 +160,48 @@ public class SpellManager {
                 "Allows access to the spell '" + wandName + "'",
                 PermissionDefault.TRUE, emptyMap));
         Bukkit.addRecipe(spell.getWandRecipe());
+    }
+
+    /**
+     * Checks whether the given player is allowed to perform spells. This
+     * requires the specified player to have at least one spell permission node
+     * and his {@link Profession} should also allow magic.
+     *
+     * @param player the player to investigate
+     * @return {@code true} if the specified player somewhere has a
+     *         magic-allowing property defined
+     */
+    public boolean canCast(@Nonnull final Player player) {
+        Validate.notNull(player);
+
+        boolean hasPermission = false;
+
+        for (final PermissionAttachmentInfo permission : player
+                .getEffectivePermissions()) {
+            if (permission.getPermission().startsWith("rolecraft.spell.")) {
+                hasPermission = true;
+            }
+        }
+
+        if (!hasPermission) {
+            return false;
+        }
+
+        final Profession profession = plugin.getProfessionManager()
+                .getPlayerProfession(player.getUniqueId());
+
+        if (profession == null) {
+            return false;
+        }
+
+        final List<?> usable = profession
+                .getRuleValue(ProfessionRule.USABLE_SPELLS);
+
+        // Use the default value when none is set for the player's profession
+        if (usable == null) {
+            return plugin.getConfig().getBoolean("professiondefaults.spells");
+        }
+        return true;
     }
 
     /**
