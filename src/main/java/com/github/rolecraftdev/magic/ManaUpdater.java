@@ -9,7 +9,6 @@ import java.util.UUID;
 
 import org.bukkit.Bukkit;
 import org.bukkit.entity.Player;
-import org.bukkit.event.Listener;
 import org.bukkit.scheduler.BukkitRunnable;
 import org.bukkit.scoreboard.DisplaySlot;
 import org.bukkit.scoreboard.Objective;
@@ -20,7 +19,7 @@ import org.bukkit.scoreboard.Objective;
  *
  * @since 0.0.5
  */
-public class ManaUpdater implements Listener {
+public class ManaUpdater {
     /**
      * The name of the mana-objective and -score.
      */
