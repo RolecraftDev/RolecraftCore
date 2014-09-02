@@ -70,8 +70,8 @@ public class MagicListener implements Listener {
      *        should be handled by this {@link Listener}
      * @since 0.0.5
      */
-    MagicListener(final RolecraftCore plugin, final SpellManager spellManager) {
-        this.plugin = plugin;
+    MagicListener(final SpellManager spellManager) {
+        plugin = spellManager.getPlugin();
         this.spellManager = spellManager;
     }
 

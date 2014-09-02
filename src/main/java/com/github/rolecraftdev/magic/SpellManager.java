@@ -124,7 +124,7 @@ public class SpellManager {
 
         final PluginManager pluginManager = Bukkit.getPluginManager();
 
-        pluginManager.registerEvents(new MagicListener(plugin, this), plugin);
+        pluginManager.registerEvents(new MagicListener(this), plugin);
         pluginManager.registerEvents(new ProjectileListener(), plugin);
         pluginManager.registerEvents(new FlyingListener(plugin), plugin);
     }
