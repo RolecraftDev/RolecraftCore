@@ -3,6 +3,10 @@
 # The SQL driver to use, must either be SQLite or MySQL
 sqlserver: sqlite
 
+# If a message isn't defined in the messages file, the value in the default
+# localised file is used
+default-locale: en-GB
+
 # Only needed if you're using RolecraftAfterlife
 originalsin: 1000
 

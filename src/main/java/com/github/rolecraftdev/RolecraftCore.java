@@ -103,6 +103,10 @@ public final class RolecraftCore extends AlbPlugin {
     // Configuration options
 
     /**
+     * The default messages locale, used when there are unspecified values.
+     */
+    private String defaultLocale;
+    /**
      * The amount of negative karma a player starts with.
      */
     private float originalSin;
@@ -131,6 +135,7 @@ public final class RolecraftCore extends AlbPlugin {
         final YamlFile config = new YamlFile(this, "config.yml", false);
         // Get options from the config
         final String dbType = config.getString("sqlserver").toLowerCase();
+        defaultLocale = config.getString("default-locale");
         extraEvents = config.getBoolean("extraevents");
         originalSin = (float) config.getDouble("originalsin");
 
@@ -301,6 +306,16 @@ public final class RolecraftCore extends AlbPlugin {
      */
     public boolean doesUseEconomy() {
         return vaultEconHooked();
+    }
+
+    /**
+     * Gets the default messages locale, used for unspecified values.
+     *
+     * @return the default messages locale
+     * @since 0.0.5
+     */
+    public String getDefaultLocale() {
+        return defaultLocale;
     }
 
     /**

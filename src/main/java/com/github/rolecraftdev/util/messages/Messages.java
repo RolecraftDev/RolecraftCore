@@ -503,7 +503,8 @@ public class Messages {
      * @since 0.0.5
      */
     public void load() {
-        final String langName = "/messages/en-US.properties";
+        final String langName = "/messages/" + plugin.getDefaultLocale()
+                + ".properties";
         // Get the file configured by the user
         final File configuredFile = new File(plugin.getDataFolder(),
                 "messages.properties");
@@ -520,6 +521,11 @@ public class Messages {
                         .getResourceAsStream(langName), configuredFile);
             } catch (final IOException e) {
                 e.printStackTrace();
+            } catch (final NullPointerException e) {
+                plugin.getLogger().warning(
+                        "Messages locale " + plugin.getDefaultLocale()
+                                + " is not available");
+                return;
             }
         }
 
