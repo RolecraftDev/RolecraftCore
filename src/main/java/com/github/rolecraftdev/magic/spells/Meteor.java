@@ -34,6 +34,7 @@ import org.bukkit.ChatColor;
 import org.bukkit.Location;
 import org.bukkit.Material;
 import org.bukkit.Sound;
+import org.bukkit.World;
 import org.bukkit.block.Block;
 import org.bukkit.block.BlockFace;
 import org.bukkit.enchantments.Enchantment;
@@ -140,26 +141,9 @@ public class Meteor implements Spell {
             }
         }
 
-        Block index = target;
-        boolean isTop = true;
+        final World world = target.getWorld();
 
-        loop:
-        for (int i = 0; i < 40; i++) {
-            index = index.getRelative(BlockFace.UP);
-            switch (index.getType()) {
-                case AIR:
-                    continue;
-                case LEAVES:
-                    continue;
-                case DEAD_BUSH:
-                    continue;
-                default:
-                    isTop = false;
-                    break loop;
-            }
-        }
-
-        if (!isTop) {
+        if (world.getHighestBlockYAt(target.getLocation()) > target.getY()) {
             caster.sendMessage("You must aim above ground to shoot a meteor!");
             return CAST_FAILURE;
         }

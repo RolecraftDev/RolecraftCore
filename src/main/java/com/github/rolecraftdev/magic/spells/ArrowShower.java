@@ -142,27 +142,10 @@ public class ArrowShower implements Spell {
                 return CAST_FAILURE;
             }
         }
-        Block index = target;
 
-        boolean isTop = true;
+        final World world = target.getWorld();
 
-        loop:
-        for (int i = 0; i < 40; i++) {
-            index = index.getRelative(BlockFace.UP);
-            switch (index.getType()) {
-                case AIR:
-                    continue;
-                case LEAVES:
-                    continue;
-                case DEAD_BUSH:
-                    continue;
-                default:
-                    isTop = false;
-                    break loop;
-            }
-        }
-
-        if (!isTop) {
+        if (world.getHighestBlockYAt(target.getLocation()) > target.getY()) {
             caster.sendMessage(spellManager.getPlugin().getMessage(
                     Messages.ARROW_BELOW_GROUND_FAILURE));
             return CAST_FAILURE;
@@ -174,7 +157,6 @@ public class ArrowShower implements Spell {
         final Vector velocity = target.getLocation().toVector()
                 .subtract(center.toVector())
                 .normalize().multiply(0.2d);
-        final World world = target.getWorld();
 
         for (int x = -5; x <= 5; x++) {
             for (int z = -5; z < 5; z++) {
