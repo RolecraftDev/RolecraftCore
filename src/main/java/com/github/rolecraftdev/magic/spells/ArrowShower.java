@@ -184,8 +184,7 @@ public class ArrowShower implements Spell {
                 arrow.setVelocity(Utils.velocityRandomiser(velocity));
             }
         }
-
-        return (200f - modifier / 100f > 0) ? 200f - modifier / 100f : 0;
+        return estimateRightClickMana(caster, block, modifier, face);
     }
 
     /**

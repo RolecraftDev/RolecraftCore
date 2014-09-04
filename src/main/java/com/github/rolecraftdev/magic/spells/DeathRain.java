@@ -190,7 +190,7 @@ public class DeathRain implements Spell {
             }
         }
 
-        return (800f - modifier / 200f > 0) ? 800f - modifier / 200f : 0;
+        return estimateRightClickMana(caster, block, modifier, face);
     }
 
     /**

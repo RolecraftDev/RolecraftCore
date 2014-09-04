@@ -107,7 +107,7 @@ public class Bomb implements Spell {
                 .spawn(caster.getEyeLocation().add(0, 1, 0), TNTPrimed.class);
         tnt.setVelocity(Utils.getUnitVectorFacing(caster)
                 .multiply(10f * modifier / 100f + 2f));
-        return 200 - modifier;
+        return estimateRightClickMana(caster, block, modifier, face);
     }
 
     /**

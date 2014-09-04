@@ -172,7 +172,7 @@ public class Meteor implements Spell {
                 new Location(caster.getWorld(), target.getX(), center.getY(),
                         target.getZ()), TNTPrimed.class);
         tnt.setVelocity(velocity);
-        return (200f - modifier / 100f > 0) ? 200f - modifier / 100f : 0;
+        return estimateRightClickMana(caster, block, modifier, face);
     }
 
     /**

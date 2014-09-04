@@ -123,7 +123,7 @@ public class FireBeam implements Spell {
 
         toIgnite.setType(Material.FIRE);
 
-        return 10;
+        return estimateRightClickMana(caster, block, modifier, face);
     }
 
     /**

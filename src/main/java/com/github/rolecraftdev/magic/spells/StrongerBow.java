@@ -109,7 +109,7 @@ public class StrongerBow implements Spell {
         //arrow.setMetadata("Multiplier", new FixedMetadataValue(
         //        manager.getPlugin(), new Float(2f)));
 
-        return (50f - modifier / 100f > 0) ? 50f - modifier / 100f : 0;
+        return estimateRightClickMana(caster, block, modifier, face);
     }
 
     /**

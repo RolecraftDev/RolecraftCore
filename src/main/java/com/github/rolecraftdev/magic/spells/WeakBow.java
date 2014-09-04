@@ -110,7 +110,7 @@ public class WeakBow implements Spell {
         ent.setVelocity(ent.getVelocity().multiply(0.5f));
         ent.setMetadata("Multiplier", new FixedMetadataValue(spellManager
                 .getPlugin(), 0.5f));
-        return (40f - modifier / 10f > 0) ? (40f - modifier / 10f) : 0f;
+        return estimateRightClickMana(caster, block, modifier, face);
     }
 
     /**

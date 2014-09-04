@@ -109,7 +109,7 @@ public class MiningHammer implements Spell {
     @Override
     public float estimateLeftClickMana(final Player caster, final Block block,
             final int modifier, final BlockFace face) {
-        return (30f - modifier / 100f > 0) ? 30f - modifier / 100f : 0;
+        return estimateClickMana(caster, block, modifier, face);
     }
 
     /**
@@ -117,6 +117,11 @@ public class MiningHammer implements Spell {
      */
     @Override
     public float estimateRightClickMana(final Player caster, final Block block,
+            final int modifier, final BlockFace face) {
+        return estimateClickMana(caster, block, modifier, face);
+    }
+
+    private float estimateClickMana(final Player caster, final Block block,
             final int modifier, final BlockFace face) {
         return (30f - modifier / 100f > 0) ? 30f - modifier / 100f : 0;
     }
@@ -166,7 +171,7 @@ public class MiningHammer implements Spell {
             }
             toBreak.breakNaturally();
         }
-        return (30f - modifier / 100f > 0) ? 30f - modifier / 100f : 0;
+        return estimateClickMana(ply, block, modifier, face);
     }
 
     /**

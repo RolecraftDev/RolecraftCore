@@ -132,7 +132,7 @@ public class LesserSword implements Spell {
         if (!edbee.isCancelled()) {
             target.damage(2.0);
         }
-        return (20f - modifier / 10f > 0) ? (20f - modifier / 10f) : 0f;
+        return estimateAttackMana(caster, target, modifier);
     }
 
     /**

@@ -111,7 +111,7 @@ public class BreakBlock implements Spell {
             if (!event.isCancelled()) {
                 block.breakNaturally();
             }
-            return 3;
+            return estimateRightClickMana(caster, block, modifier, face);
         }
         return BAD_SITUATION;
     }
@@ -128,7 +128,7 @@ public class BreakBlock implements Spell {
             if (!event.isCancelled()) {
                 block.breakNaturally();
             }
-            return 3;
+            return estimateLeftClickMana(caster, block, modifier, face);
         }
         return BAD_SITUATION;
     }

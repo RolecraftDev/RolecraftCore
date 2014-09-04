@@ -112,7 +112,7 @@ public class MultiArrow implements Spell {
                     Utils.smallVelocityRandomiser(arrow.getVelocity()));
         }
 
-        return (50f - modifier / 100f > 0) ? 50f - modifier / 100f : 0;
+        return estimateRightClickMana(caster, block, modifier, face);
     }
 
     /**

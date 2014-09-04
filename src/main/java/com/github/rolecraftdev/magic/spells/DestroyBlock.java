@@ -84,7 +84,7 @@ public class DestroyBlock implements Spell {
     @Override
     public float estimateLeftClickMana(final Player caster, final Block block,
             final int modifier, final BlockFace face) {
-        return 3;
+        return estimateClickMana(caster, block, modifier, face);
     }
 
     /**
@@ -92,6 +92,11 @@ public class DestroyBlock implements Spell {
      */
     @Override
     public float estimateRightClickMana(final Player caster, final Block block,
+            final int modifier, final BlockFace face) {
+        return estimateClickMana(caster, block, modifier, face);
+    }
+
+    private float estimateClickMana(final Player caster, final Block block,
             final int modifier, final BlockFace face) {
         return 3;
     }
@@ -102,7 +107,7 @@ public class DestroyBlock implements Spell {
     @Override
     public float rightClick(final Player caster, final Block block,
             final int modifier, final BlockFace face) {
-        return click(caster, block);
+        return click(caster, block, modifier, face);
     }
 
     /**
@@ -111,16 +116,17 @@ public class DestroyBlock implements Spell {
     @Override
     public float leftClick(final Player caster, final Block block,
             final int modifier, final BlockFace face) {
-        return click(caster, block);
+        return click(caster, block, modifier, face);
     }
 
-    private float click(final Player ply, final Block block) {
-        final BlockBreakEvent event = new BlockBreakEvent(block, ply);
+    private float click(final Player caster, final Block block,
+            final int modifier, final BlockFace face) {
+        final BlockBreakEvent event = new BlockBreakEvent(block, caster);
         Bukkit.getPluginManager().callEvent(event);
         if (!event.isCancelled()) {
             block.setType(Material.AIR);
         }
-        return 3;
+        return estimateClickMana(caster, block, modifier, face);
     }
 
     /**

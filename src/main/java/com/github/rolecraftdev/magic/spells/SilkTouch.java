@@ -85,7 +85,7 @@ public class SilkTouch implements Spell {
     @Override
     public float estimateLeftClickMana(final Player caster, final Block block,
             final int modifier, final BlockFace face) {
-        return 10;
+        return estimateClickMana(caster, block, modifier, face);
     }
 
     /**
@@ -93,6 +93,11 @@ public class SilkTouch implements Spell {
      */
     @Override
     public float estimateRightClickMana(final Player caster, final Block block,
+            final int modifier, final BlockFace face) {
+        return estimateClickMana(caster, block, modifier, face);
+    }
+
+    private float estimateClickMana(final Player caster, final Block block,
             final int modifier, final BlockFace face) {
         return 10;
     }
@@ -132,8 +137,7 @@ public class SilkTouch implements Spell {
                 block.getData());
         block.setType(Material.AIR);
         block.getWorld().dropItemNaturally(block.getLocation(), i);
-
-        return 10;
+        return estimateClickMana(ply, block, modifier, face);
     }
 
     /**

@@ -119,7 +119,7 @@ public class BurnBlock implements Spell {
         }
 
         toIgnite.setType(Material.FIRE);
-        return 5;
+        return estimateRightClickMana(caster, block, modifier, face);
     }
 
     /**
