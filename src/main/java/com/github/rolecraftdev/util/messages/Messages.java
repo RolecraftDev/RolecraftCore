@@ -483,6 +483,10 @@ public class Messages {
      * Get the value of the given message after applying the specified
      * {@link MsgVar}s.
      *
+     * Note: Though {@code null} is a potential return value for an invocation
+     * of this method, it shouldn't be returned if this method is called using a
+     * constants in {@link Messages} as the {@code key} argument.
+     *
      * @param key the message of which the configured value should be retrieved
      * @param vars the {@link MsgVar}s that should be applied
      * @return the edited message value
@@ -508,7 +512,7 @@ public class Messages {
         final File configuredFile = new File(plugin.getDataFolder(),
                 "messages.properties");
 
-        // Avoid IOException in FileUtils#copyInputStreamToFile
+        // Avoid IOException in Utils#copyInputStreamToFile
         if (!configuredFile.isFile()) {
             configuredFile.delete();
         }

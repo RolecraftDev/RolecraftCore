@@ -396,8 +396,9 @@ public final class Guild {
      * @return the leader {@link GuildRank}
      * @since 0.0.5
      */
+    @Nonnull
     public GuildRank getLeaderRank() {
-        return getRank(Messages.GUILD_LEADER_RANK);
+        return getRank(plugin.getMessage(Messages.GUILD_LEADER_RANK));
     }
 
     /**
@@ -406,6 +407,7 @@ public final class Guild {
      * @return the default {@link GuildRank}
      * @since 0.0.5
      */
+    @Nonnull
     public GuildRank getDefaultRank() {
         return getRank(plugin.getMessage(Messages.GUILD_DEFAULT_RANK));
     }
