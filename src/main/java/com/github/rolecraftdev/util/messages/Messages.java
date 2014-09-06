@@ -546,7 +546,7 @@ public class Messages {
         }
 
         for (final Field field : getClass().getDeclaredFields()) {
-            boolean prev = field.isAccessible();
+            final boolean prev = field.isAccessible();
             field.setAccessible(true);
 
             final int mods = field.getModifiers();

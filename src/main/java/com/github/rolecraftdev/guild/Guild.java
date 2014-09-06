@@ -93,6 +93,8 @@ public final class Guild {
     private UUID leader;
     /**
      * The home point of this {@link Guild}, which is used for teleportation.
+     * This may be {@code null} during normal execution if the guild doesn't
+     * have a home {@link Location}.
      */
     private Location home;
     /**
@@ -101,11 +103,14 @@ public final class Guild {
      */
     private int influence;
     /**
-     * The hall of this {@link Guild}.
+     * The guild hall of this {@link Guild}. This may be {@code null} during
+     * normal execution if this {@link Guild} doesn't have a guild hall.
      */
     private Region2D hallRegion;
     /**
-     * Whether anyone can join this guild without an invitation
+     * Whether or not this {@link Guild} is open. If this is {@code true}, the
+     * {@link Guild} is open, and can be joined <em>without invitation</em>. If
+     * {@code false}, invitation is required to join the {@link Guild}.
      */
     private boolean open;
 
@@ -121,11 +126,11 @@ public final class Guild {
      */
     public Guild(final GuildManager guildManager) {
         if (guildManager == null) {
+            this.guildManager = null;
             plugin = null;
             members = null;
             ranks = null;
             guildId = null;
-            this.guildManager = null;
             channel = null;
             return;
         }
@@ -433,7 +438,12 @@ public final class Guild {
     public void broadcastMessage(@Nonnull final String message) {
         Validate.notNull(message);
 
-        for (final UUID uuid : getMembers()) {
+        final Set<UUID> members = getMembers();
+        if (members == null || members.isEmpty()) {
+            return;
+        }
+
+        for (final UUID uuid : members) {
             final Player player = Bukkit.getPlayer(uuid);
             if (player != null) {
                 player.sendMessage(message);
@@ -447,12 +457,13 @@ public final class Guild {
      *
      * @param message the message that should be sent to all members of the
      *        specified {@link GuildRank}(s)
-     * @param ranks the {@link GuildRank}s the message should be broadcasted for
+     * @param ranks the {@link GuildRank}s the message should be broadcast for
      * @since 0.0.5
      */
     public void broadcastMessage(@Nonnull final String message,
-            final GuildRank... ranks) {
+            @Nonnull final GuildRank... ranks) {
         Validate.notNull(message);
+        Validate.notNull(ranks);
 
         for (final GuildRank rank : ranks) {
             rank.broadcastMessage(message);
@@ -541,6 +552,7 @@ public final class Guild {
      */
     public void removeMember(@Nonnull final UUID member, final boolean kicked) {
         Validate.notNull(member);
+        Validate.isTrue(getMembers().contains(member));
 
         if (kicked) {
             RolecraftEventFactory.guildPlayerKicked(this,
@@ -570,9 +582,9 @@ public final class Guild {
      */
     public boolean addRank(final GuildRank rank) {
         Validate.notNull(rank);
+        Validate.isTrue(getRank(rank.getName()) == null);
 
-        final boolean retVal = getRank(rank.getName()) == null
-                && ranks.add(rank);
+        final boolean retVal = ranks.add(rank);
         plugin.getDataStore().updateGuildRanks(this);
         return retVal;
     }
@@ -591,8 +603,7 @@ public final class Guild {
 
         final String name = rank.getName().toLowerCase();
         final boolean retVal = !(name.equals("leader") || name
-                .equals("default"))
-                && ranks.remove(rank);
+                .equals("default")) && ranks.remove(rank);
         plugin.getDataStore().updateGuildRanks(this);
         return retVal;
     }
