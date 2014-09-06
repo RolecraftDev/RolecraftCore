@@ -546,6 +546,7 @@ public class Messages {
         }
 
         for (final Field field : getClass().getDeclaredFields()) {
+            boolean prev = field.isAccessible();
             field.setAccessible(true);
 
             final int mods = field.getModifiers();
@@ -564,7 +565,7 @@ public class Messages {
                 }
             }
 
-            field.setAccessible(false);
+            field.setAccessible(prev);
         }
     }
 }
