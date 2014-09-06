@@ -34,6 +34,10 @@ import org.bukkit.util.Vector;
 
 import pw.ian.albkit.util.Rand;
 
+import java.io.File;
+import java.io.FileOutputStream;
+import java.io.IOException;
+import java.io.InputStream;
 import java.util.List;
 import java.util.Random;
 
@@ -51,6 +55,26 @@ public final class Utils {
      * @since 0.0.5
      */
     private Utils() {
+    }
+
+    public static void copyInputStreamToFile(InputStream stream, File dest)
+            throws IOException {
+        if (stream == null || dest == null) {
+            throw new IllegalArgumentException();
+        }
+
+        final byte[] buffer = new byte[1024 * 4];
+
+        try {
+            final FileOutputStream output = new FileOutputStream(dest);
+            int n;
+            while ((n = stream.read(buffer)) != -1) {
+                output.write(buffer, 0, n);
+            }
+            output.close();
+        } finally {
+            stream.close();
+        }
     }
 
     /**

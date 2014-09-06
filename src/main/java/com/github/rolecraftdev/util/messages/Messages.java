@@ -26,11 +26,10 @@
  */
 package com.github.rolecraftdev.util.messages;
 
-import net.minecraft.util.org.apache.commons.io.FileUtils;
-
 import com.github.rolecraftdev.RolecraftCore;
 import com.github.rolecraftdev.data.storage.PropertiesFile;
 import com.github.rolecraftdev.guild.GuildRank;
+import com.github.rolecraftdev.util.Utils;
 
 import org.bukkit.ChatColor;
 
@@ -517,7 +516,7 @@ public class Messages {
             try {
                 // Creates the target file and writes the source to it
                 // (overwrites!)
-                FileUtils.copyInputStreamToFile(plugin.getClass()
+                Utils.copyInputStreamToFile(plugin.getClass()
                         .getResourceAsStream(langName), configuredFile);
             } catch (final IOException e) {
                 e.printStackTrace();
