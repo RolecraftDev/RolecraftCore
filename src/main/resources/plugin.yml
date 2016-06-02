@@ -2,7 +2,7 @@ name: RolecraftCore
 version: '${project.version}'
 
 description: Roleplaying plugin for Bukkit
-authors: [PandazNWafflez, mythbusterma, TraksAG, LaughingQuoll]
+authors: [DziNeIT, mythbusterma, TraksAG, LaughingQuoll]
 
 main: com.github.rolecraftdev.RolecraftCore
 softdepend: [Vault]

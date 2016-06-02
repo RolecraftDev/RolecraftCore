@@ -27,6 +27,7 @@
 package com.github.rolecraftdev.event.exp;
 
 import com.github.rolecraftdev.RolecraftCore;
+import com.github.rolecraftdev.level.ExperienceHelper;
 
 import org.bukkit.entity.Player;
 import org.bukkit.event.HandlerList;
@@ -130,6 +131,47 @@ public class RCExpChangeEvent extends RCExpEvent {
      */
     public float getNewExperience() {
         return experience + amount;
+    }
+
+    /**
+     * Check whether the change in experience in this event has resulted in the
+     * player changing in level.
+     *
+     * @return whether the player involved has levelled up during this event
+     * @since 0.0.5
+     */
+    public boolean hasLevelChanged() {
+        return this instanceof RCLevelChangeEvent;
+    }
+
+    /**
+     * Check whether this experience change has resulted in a level up.
+     *
+     * @return whether this event has resulted in a level up
+     * @since 0.0.5
+     */
+    public boolean isLevelUp() {
+        if (!hasLevelChanged()) {
+            return false;
+        }
+
+        return ((RCLevelChangeEvent) this).getNewLevel() > (ExperienceHelper
+                .getLevel(this.getNewExperience() - this.getAmount()));
+    }
+
+    /**
+     * Check whether this experience change has resulted in a level decrease.
+     *
+     * @return whether this experience change has resulted in a level decrease
+     * @since 0.0.5
+     */
+    public boolean isLevelDecrease() {
+        if (!hasLevelChanged()) {
+            return false;
+        }
+
+        return ((RCLevelChangeEvent) this).getNewLevel() < (ExperienceHelper
+                .getLevel(this.getNewExperience() - this.getAmount()));
     }
 
     /**
