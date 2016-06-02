@@ -27,8 +27,7 @@
 package com.github.rolecraftdev.command.profession;
 
 import com.github.rolecraftdev.RolecraftCore;
-
-import pw.ian.albkit.command.TreeCommandHandler;
+import com.github.rolecraftdev.command.TreeCommandHandler;
 
 /**
  * @since 0.0.5

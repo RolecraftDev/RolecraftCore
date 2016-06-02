@@ -1,0 +1,33 @@
+package com.github.rolecraftdev.command.parser;
+
+/**
+ * A flag which simply has a name and a value.
+ */
+public class Flag {
+    /**
+     * Information about the flag
+     */
+    private final String flag;
+    /**
+     * The ChatSection representing the value of this flag, which provides
+     * various methods to use the value
+     */
+    private final ChatSection valArg;
+
+    public Flag(final String flag, final String value) {
+        this.flag = flag;
+        valArg = new ChatSection(value);
+    }
+
+    public String getName() {
+        return flag;
+    }
+
+    public ChatSection getValue() {
+        return valArg;
+    }
+
+    public String getRawValue() {
+        return getValue().rawString();
+    }
+}

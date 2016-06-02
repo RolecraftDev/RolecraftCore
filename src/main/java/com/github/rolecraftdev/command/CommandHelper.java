@@ -28,6 +28,8 @@ package com.github.rolecraftdev.command;
 
 import org.apache.commons.lang.StringUtils;
 
+import com.github.rolecraftdev.command.parser.Arguments;
+import com.github.rolecraftdev.command.parser.ChatSection;
 import com.github.rolecraftdev.guild.Guild;
 import com.github.rolecraftdev.guild.GuildAction;
 import com.github.rolecraftdev.guild.GuildManager;
@@ -36,11 +38,9 @@ import com.github.rolecraftdev.util.messages.MsgVar;
 
 import org.bukkit.ChatColor;
 import org.bukkit.command.CommandSender;
+import org.bukkit.command.PluginCommand;
 import org.bukkit.entity.Player;
-
-import pw.ian.albkit.command.CommandHandler;
-import pw.ian.albkit.command.parser.Arguments;
-import pw.ian.albkit.command.parser.ChatSection;
+import org.bukkit.plugin.java.JavaPlugin;
 
 import java.util.List;
 
@@ -63,6 +63,22 @@ public final class CommandHelper {
      * @since 0.0.5
      */
     private CommandHelper() {
+    }
+
+    /**
+     * Registers a command handler with a custom name.
+     *
+     * @param plugin the plugin to register the command to
+     * @param name the name of the command
+     * @param handler the handler for the command
+     * @since 0.0.5
+     */
+    public static void registerCommand(JavaPlugin plugin, String name, CommandHandler handler) {
+        PluginCommand cmd = plugin.getCommand(name);
+        cmd.setExecutor(handler);
+        if (handler instanceof TreeCommandHandler) {
+            ((TreeCommandHandler) handler).setupSubcommands();
+        }
     }
 
     /**

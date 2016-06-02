@@ -27,14 +27,13 @@
 package com.github.rolecraftdev.command.guild;
 
 import com.github.rolecraftdev.RolecraftCore;
+import com.github.rolecraftdev.command.PlayerCommandHandler;
+import com.github.rolecraftdev.command.parser.Arguments;
 import com.github.rolecraftdev.guild.GuildAction;
+import com.github.rolecraftdev.util.messages.ColourScheme;
+import com.github.rolecraftdev.util.messages.MessageHelper;
 
 import org.bukkit.entity.Player;
-
-import pw.ian.albkit.command.PlayerCommandHandler;
-import pw.ian.albkit.command.parser.Arguments;
-import pw.ian.albkit.util.ColorScheme;
-import pw.ian.albkit.util.Messaging;
 
 /**
  * @since 0.0.5
@@ -60,7 +59,7 @@ public class GuildHelpCommand extends PlayerCommandHandler {
     @Override
     public void onCommand(final Player player, final Arguments args) {
         if (args.length() == 0) {
-            Messaging.sendBanner(ColorScheme.DEFAULT, player,
+            MessageHelper.sendBanner(ColourScheme.DEFAULT, player,
                     "Guilds",
                     "/guild help actions - Help with guild actions",
                     "/guild help commands - Help with commands",
@@ -79,13 +78,13 @@ public class GuildHelpCommand extends PlayerCommandHandler {
                 first = false;
                 builder.append(action.getHumanReadableName());
             }
-            Messaging.sendBanner(ColorScheme.DEFAULT, player,
+            MessageHelper.sendBanner(ColourScheme.DEFAULT, player,
                     "Actions:",
                     builder.toString());
         } else if (sub.equals("commands")) {
             // TODO: show command help
         } else if (sub.equals("halls")) {
-            Messaging.sendBanner(ColorScheme.DEFAULT, player,
+            MessageHelper.sendBanner(ColourScheme.DEFAULT, player,
                     "Guild Halls:",
                     "Guild Halls are predefined areas which only members of the guild can access.",
                     "Guild Halls allow for battles between guilds, storage for items and more.");

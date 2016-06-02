@@ -26,6 +26,8 @@
  */
 package com.github.rolecraftdev;
 
+import com.github.rolecraftdev.command.CommandHandler;
+import com.github.rolecraftdev.command.CommandHelper;
 import com.github.rolecraftdev.command.guild.GuildCommand;
 import com.github.rolecraftdev.command.other.DebugCommand;
 import com.github.rolecraftdev.command.other.GCCommand;
@@ -52,7 +54,11 @@ import com.github.rolecraftdev.util.messages.MsgVar;
 
 import net.milkbowl.vault.economy.Economy;
 
-import pw.ian.albkit.AlbPlugin;
+import org.bukkit.Server;
+import org.bukkit.command.PluginCommand;
+import org.bukkit.plugin.PluginManager;
+import org.bukkit.plugin.RegisteredServiceProvider;
+import org.bukkit.plugin.java.JavaPlugin;
 
 import javax.annotation.Nullable;
 import java.util.logging.Logger;
@@ -62,7 +68,7 @@ import java.util.logging.Logger;
  *
  * @since 0.0.5
  */
-public final class RolecraftCore extends AlbPlugin {
+public final class RolecraftCore extends JavaPlugin {
     /**
      * Whether the storage solution has finished initialisation and is thus
      * fully loaded.
@@ -122,7 +128,8 @@ public final class RolecraftCore extends AlbPlugin {
      */
     @Override
     public void onEnable() {
-        super.init();
+        final Server server = this.getServer();
+        final PluginManager pluginManager = server.getPluginManager();
 
         logger = getLogger();
 
@@ -181,8 +188,8 @@ public final class RolecraftCore extends AlbPlugin {
 
         // Register listeners
         // magic related listeners are registered in SpellManager
-        register(new DataListener(this));
-        register(new ExperienceListener(this));
+        pluginManager.registerEvents(new DataListener(this), this);
+        pluginManager.registerEvents(new ExperienceListener(this), this);
 
         // Register commands
         register(new GuildCommand(this));
@@ -313,6 +320,65 @@ public final class RolecraftCore extends AlbPlugin {
     }
 
     /**
+     * Gets the {@link RegisteredServiceProvider} for the given type
+     *
+     * @param clazz The class to get the {@link RegisteredServiceProvider} for
+     * @param <T>   The type of {@link RegisteredServiceProvider} to be returned
+     * @return The {@link RegisteredServiceProvider} for the given type
+     */
+    protected <T> RegisteredServiceProvider<T> getRegistration(Class<T> clazz) {
+        return this.getServer().getServicesManager().getRegistration(clazz);
+    }
+
+    /**
+     * Gets the providing object for the {@link RegisteredServiceProvider} for
+     * the given type
+     *
+     * @param clazz The class to get the providing object for
+     * @param <T>   The type of provider to get
+     * @return The registered provider for the given type
+     */
+    protected <T> T getProvider(Class<T> clazz) {
+        RegisteredServiceProvider<T> rsp = getRegistration(clazz);
+        if (rsp == null) {
+            return null;
+        }
+        return getRegistration(clazz).getProvider();
+    }
+
+    /**
+     * Attempts to hook Vault's {@link Economy}. Note that this can fail if
+     * Vault isn't present and/or there isn't an economy plugin on the server.
+     * If this fails, null is returned
+     *
+     * @return The hooked {@link Economy} object
+     */
+    protected Economy hookVaultEcon() {
+        return economy = getProvider(Economy.class);
+    }
+
+    /**
+     * Gets Vault's {@link Economy} implementation, returning null if Vault's
+     * economy hasn't been hooked successfully. To attempt to hook Vault's
+     * economy, call {@link #hookVaultEcon()}
+     *
+     * @return Vault's {@link Economy} object
+     */
+    protected Economy getVaultEcon() {
+        return economy;
+    }
+
+    /**
+     * Checks whether Vault economy has been successfully hooked
+     *
+     * @return {@code true} if Vault's economy have been hooked, else
+     *         {@code false}
+     */
+    protected boolean vaultEconHooked() {
+        return getVaultEcon() != null;
+    }
+
+    /**
      * Gets the default messages locale, used for unspecified values.
      *
      * @return the default messages locale
@@ -365,5 +431,9 @@ public final class RolecraftCore extends AlbPlugin {
      */
     public void setSqlLoaded(final boolean loaded) {
         sqlLoaded = loaded;
+    }
+
+    private void register(CommandHandler handler) {
+        CommandHelper.registerCommand(this, handler.getName(), handler);
     }
 }

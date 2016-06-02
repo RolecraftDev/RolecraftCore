@@ -32,8 +32,6 @@ import org.bukkit.entity.LivingEntity;
 import org.bukkit.entity.Player;
 import org.bukkit.util.Vector;
 
-import pw.ian.albkit.util.Rand;
-
 import java.io.File;
 import java.io.FileOutputStream;
 import java.io.IOException;
@@ -47,7 +45,7 @@ import java.util.Random;
  * @since 0.0.5
  */
 public final class GeneralUtil {
-    private static final Random rand = Rand.r;
+    private static final Random rand = new Random();
     private static final float VELOCITY_FACTOR = 0.2f;
     private static final float SMALL_VELOCITY_FACTOR = 0.05f;
 
