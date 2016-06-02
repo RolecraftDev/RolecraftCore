@@ -13,5 +13,5 @@ dependency-reduced-pom.xml
 
 # IntelliJ
 .idea/
-RolecraftCore.iml
+*.iml
 out/

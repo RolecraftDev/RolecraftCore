@@ -28,7 +28,7 @@ package com.github.rolecraftdev.profession;
 
 import com.github.rolecraftdev.RolecraftCore;
 import com.github.rolecraftdev.data.storage.YamlFile;
-import com.github.rolecraftdev.util.ProfessionDeserializer;
+import com.github.rolecraftdev.util.serial.ProfessionDeserializer;
 
 import org.bukkit.Bukkit;
 import org.bukkit.event.Listener;

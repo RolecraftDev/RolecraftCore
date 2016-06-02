@@ -24,7 +24,7 @@
  * DISCLAIMER: This is a human-readable summary of (and not a substitute for) the
  * license.
  */
-package com.github.rolecraftdev.util;
+package com.github.rolecraftdev.util.serial;
 
 import com.github.rolecraftdev.data.storage.YamlFile;
 import com.github.rolecraftdev.profession.Profession;

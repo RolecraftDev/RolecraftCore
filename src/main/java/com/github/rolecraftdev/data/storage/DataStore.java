@@ -34,7 +34,7 @@ import com.github.rolecraftdev.guild.Guild;
 import com.github.rolecraftdev.guild.GuildManager;
 import com.github.rolecraftdev.guild.GuildRank;
 import com.github.rolecraftdev.quest.Quest;
-import com.github.rolecraftdev.util.LocationSerializer;
+import com.github.rolecraftdev.util.serial.LocationSerializer;
 
 import org.bukkit.Bukkit;
 import org.bukkit.Location;
