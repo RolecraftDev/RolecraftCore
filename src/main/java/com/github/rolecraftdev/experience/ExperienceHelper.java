@@ -51,6 +51,8 @@ public final class ExperienceHelper {
             final Player killed) {
         // TODO: make this compare the levels of the two players and get an exp
         // value from that comparison
+        // for now this is a reasonable amount compared to the values for other
+        // creature types
         return 1000;
     }
 

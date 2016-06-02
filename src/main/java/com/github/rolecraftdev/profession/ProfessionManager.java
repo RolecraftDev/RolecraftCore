@@ -58,17 +58,17 @@ public final class ProfessionManager {
 
     /**
      * Create a new {@link ProfessionManager}. This automatically registers the
-     * proper {@link Listener}s.
+     * proper {@link Listener}(s).
      *
      * @param plugin the associated {@link RolecraftCore} instance
      * @since 0.0.5
      */
     public ProfessionManager(final RolecraftCore plugin) {
         this.plugin = plugin;
-        professions = new HashSet<Profession>();
+        this.professions = new HashSet<Profession>();
 
-        Bukkit.getPluginManager().registerEvents(new ProfessionListener(this),
-                plugin);
+        plugin.getServer().getPluginManager().registerEvents(
+                new ProfessionListener(this), plugin);
     }
 
     /**

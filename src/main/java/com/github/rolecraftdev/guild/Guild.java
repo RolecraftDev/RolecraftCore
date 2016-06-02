@@ -29,7 +29,7 @@ package com.github.rolecraftdev.guild;
 import org.apache.commons.lang.Validate;
 
 import com.github.rolecraftdev.RolecraftCore;
-import com.github.rolecraftdev.data.Region2D;
+import com.github.rolecraftdev.util.Region2D;
 import com.github.rolecraftdev.event.RolecraftEventFactory;
 import com.github.rolecraftdev.util.messages.Messages;
 

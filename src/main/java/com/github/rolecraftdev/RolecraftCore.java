@@ -87,10 +87,6 @@ public final class RolecraftCore extends JavaPlugin {
      */
     private GuildManager guildManager;
     /**
-     * Manages Rolecraft's {@link Quest}s.
-     */
-    private QuestManager questManager;
-    /**
      * Manages Rolecraft's {@link Profession}s.
      */
     private ProfessionManager professionManager;
@@ -174,7 +170,6 @@ public final class RolecraftCore extends JavaPlugin {
         // Create all the manager objects / load data
         dataManager = new DataManager(this, dataStore);
         guildManager = new GuildManager(this);
-        questManager = new QuestManager(this);
         professionManager = new ProfessionManager(this);
         spellManager = new SpellManager(this);
 
@@ -267,17 +262,6 @@ public final class RolecraftCore extends JavaPlugin {
      */
     public ProfessionManager getProfessionManager() {
         return professionManager;
-    }
-
-    /**
-     * Get the {@link QuestManager} that is responsible for managing all
-     * available {@link Quest}s.
-     *
-     * @return the used {@link QuestManager}
-     * @since 0.0.5
-     */
-    public QuestManager getQuestManager() {
-        return questManager;
     }
 
     /**

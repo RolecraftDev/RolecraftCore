@@ -29,7 +29,7 @@ package com.github.rolecraftdev.data.storage;
 import com.github.rolecraftdev.RolecraftCore;
 import com.github.rolecraftdev.data.PlayerData;
 import com.github.rolecraftdev.data.PlayerSettings;
-import com.github.rolecraftdev.data.Region2D;
+import com.github.rolecraftdev.util.Region2D;
 import com.github.rolecraftdev.guild.Guild;
 import com.github.rolecraftdev.guild.GuildManager;
 import com.github.rolecraftdev.guild.GuildRank;
