@@ -31,6 +31,7 @@ import com.github.rolecraftdev.command.other.DebugCommand;
 import com.github.rolecraftdev.command.other.GCCommand;
 import com.github.rolecraftdev.command.other.RCConfirmCommand;
 import com.github.rolecraftdev.command.profession.ProfessionCommand;
+import com.github.rolecraftdev.data.DataListener;
 import com.github.rolecraftdev.data.DataManager;
 import com.github.rolecraftdev.data.storage.DataStore;
 import com.github.rolecraftdev.data.storage.MySQLDataStore;
@@ -39,6 +40,7 @@ import com.github.rolecraftdev.data.storage.YamlFile;
 import com.github.rolecraftdev.event.RolecraftEventFactory;
 import com.github.rolecraftdev.guild.Guild;
 import com.github.rolecraftdev.guild.GuildManager;
+import com.github.rolecraftdev.level.ExperienceListener;
 import com.github.rolecraftdev.magic.Spell;
 import com.github.rolecraftdev.magic.SpellManager;
 import com.github.rolecraftdev.profession.Profession;
@@ -177,8 +179,10 @@ public final class RolecraftCore extends AlbPlugin {
 
         professionManager.loadProfessions();
 
-        // Register listener
-        register(new RCListener(this));
+        // Register listeners
+        // magic related listeners are registered in SpellManager
+        register(new DataListener(this));
+        register(new ExperienceListener(this));
 
         // Register commands
         register(new GuildCommand(this));

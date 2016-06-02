@@ -45,8 +45,9 @@ import com.github.rolecraftdev.event.spell.SpellCastEvent.SpellCastType;
 import com.github.rolecraftdev.guild.Guild;
 import com.github.rolecraftdev.guild.GuildAction;
 import com.github.rolecraftdev.guild.GuildRank;
+import com.github.rolecraftdev.level.ExperienceHelper;
 import com.github.rolecraftdev.magic.Spell;
-import com.github.rolecraftdev.util.LevelUtil;
+
 import org.bukkit.Bukkit;
 import org.bukkit.entity.Entity;
 import org.bukkit.entity.Player;
@@ -226,8 +227,8 @@ public class RolecraftEventFactory {
         final float experience = plugin.getDataManager()
                 .getPlayerData(player.getUniqueId()).getExperience();
 
-        if (LevelUtil.getLevel(experience) !=
-                LevelUtil.getLevel(experience + amount)) {
+        if (ExperienceHelper.getLevel(experience) !=
+                ExperienceHelper.getLevel(experience + amount)) {
             temp = new RCLevelChangeEvent(plugin, player, experience, reason);
         } else {
             temp = new RCExpChangeEvent(plugin, player, experience, reason);

@@ -24,12 +24,14 @@
  * DISCLAIMER: This is a human-readable summary of (and not a substitute for) the
  * license.
  */
-package com.github.rolecraftdev.magic;
+package com.github.rolecraftdev.magic.listener;
 
 import com.github.rolecraftdev.RolecraftCore;
 import com.github.rolecraftdev.event.RolecraftEventFactory;
 import com.github.rolecraftdev.event.spell.SpellCastEvent;
 import com.github.rolecraftdev.event.spell.SpellCastEvent.SpellCastType;
+import com.github.rolecraftdev.magic.Spell;
+import com.github.rolecraftdev.magic.SpellManager;
 import com.github.rolecraftdev.util.messages.Messages;
 import com.github.rolecraftdev.util.messages.MsgVar;
 
@@ -66,13 +68,11 @@ public class MagicListener implements Listener {
      * Constructor.
      *
      * @param plugin the associated {@link RolecraftCore} instance
-     * @param spellManager the {@link SpellManager} of which the {@link Spell}s
-     *        should be handled by this {@link Listener}
      * @since 0.0.5
      */
-    MagicListener(final SpellManager spellManager) {
-        plugin = spellManager.getPlugin();
-        this.spellManager = spellManager;
+   public MagicListener(final RolecraftCore plugin) {
+        this.plugin = plugin;
+        this.spellManager = plugin.getSpellManager();
     }
 
     /*

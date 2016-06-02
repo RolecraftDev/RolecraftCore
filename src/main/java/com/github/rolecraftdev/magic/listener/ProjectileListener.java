@@ -24,7 +24,7 @@
  * DISCLAIMER: This is a human-readable summary of (and not a substitute for) the
  * license.
  */
-package com.github.rolecraftdev.magic;
+package com.github.rolecraftdev.magic.listener;
 
 import org.bukkit.Effect;
 import org.bukkit.Sound;

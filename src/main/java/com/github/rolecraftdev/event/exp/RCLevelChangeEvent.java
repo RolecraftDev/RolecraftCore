@@ -27,7 +27,7 @@
 package com.github.rolecraftdev.event.exp;
 
 import com.github.rolecraftdev.RolecraftCore;
-import com.github.rolecraftdev.util.LevelUtil;
+import com.github.rolecraftdev.level.ExperienceHelper;
 
 import org.bukkit.entity.Player;
 import org.bukkit.event.HandlerList;
@@ -56,7 +56,7 @@ public class RCLevelChangeEvent extends RCExpChangeEvent {
             final Player player, final float amount,
             final ChangeReason reason) {
         super(plugin, player, amount, reason);
-        newLevel = LevelUtil.getLevel(getNewExperience());
+        newLevel = ExperienceHelper.getLevel(getNewExperience());
     }
 
     /**
@@ -65,7 +65,7 @@ public class RCLevelChangeEvent extends RCExpChangeEvent {
     @Override
     public void setAmount(final float experience) {
         super.setAmount(experience);
-        newLevel = LevelUtil.getLevel(getNewExperience());
+        newLevel = ExperienceHelper.getLevel(getNewExperience());
     }
 
     /**

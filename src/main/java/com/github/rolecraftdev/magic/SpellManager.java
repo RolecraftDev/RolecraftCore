@@ -30,6 +30,9 @@ import org.apache.commons.lang.Validate;
 
 import com.github.rolecraftdev.RolecraftCore;
 import com.github.rolecraftdev.data.PlayerData;
+import com.github.rolecraftdev.magic.listener.FlyingListener;
+import com.github.rolecraftdev.magic.listener.MagicListener;
+import com.github.rolecraftdev.magic.listener.ProjectileListener;
 import com.github.rolecraftdev.magic.spells.*;
 import com.github.rolecraftdev.profession.Profession;
 import com.github.rolecraftdev.profession.ProfessionRule;
@@ -124,7 +127,7 @@ public class SpellManager {
 
         final PluginManager pluginManager = Bukkit.getPluginManager();
 
-        pluginManager.registerEvents(new MagicListener(this), plugin);
+        pluginManager.registerEvents(new MagicListener(plugin), plugin);
         pluginManager.registerEvents(new ProjectileListener(), plugin);
         pluginManager.registerEvents(new FlyingListener(plugin), plugin);
     }

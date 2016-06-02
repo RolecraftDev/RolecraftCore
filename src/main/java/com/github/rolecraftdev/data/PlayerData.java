@@ -31,9 +31,9 @@ import com.github.rolecraftdev.event.RolecraftEventFactory;
 import com.github.rolecraftdev.event.exp.RCExpChangeEvent;
 import com.github.rolecraftdev.event.exp.RCExpEvent.ChangeReason;
 import com.github.rolecraftdev.guild.Guild;
+import com.github.rolecraftdev.level.ExperienceHelper;
 import com.github.rolecraftdev.profession.Profession;
 import com.github.rolecraftdev.quest.Quest;
-import com.github.rolecraftdev.util.LevelUtil;
 
 import org.bukkit.Bukkit;
 
@@ -249,7 +249,7 @@ public final class PlayerData {
      */
     public int getLevel() {
         if (loaded) {
-            return LevelUtil.getLevel(experience);
+            return ExperienceHelper.getLevel(experience);
         } else {
             return -1;
         }
@@ -265,7 +265,7 @@ public final class PlayerData {
      */
     public float getExpToNextLevel() {
         if (loaded) {
-            return LevelUtil.expToNextLevel(experience);
+            return ExperienceHelper.expToNextLevel(experience);
         } else {
             return -1;
         }
