@@ -2,7 +2,6 @@ package com.github.rolecraftdev.command;
 
 import com.github.rolecraftdev.command.parser.Arguments;
 import com.github.rolecraftdev.util.messages.ColourScheme;
-import com.github.rolecraftdev.util.messages.MessageHelper;
 
 import org.bukkit.ChatColor;
 import org.bukkit.command.CommandSender;
@@ -63,7 +62,7 @@ public abstract class TreeCommandHandler extends CommandHandler {
             }
         }
 
-        MessageHelper.sendBanner(colourScheme, sender, msgs.toArray());
+        CommandHelper.sendBanner(colourScheme, sender, msgs.toArray());
     }
 
     protected void addSubcommand(CommandHandler handler) {

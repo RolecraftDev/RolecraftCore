@@ -75,10 +75,6 @@ public final class RolecraftCore extends JavaPlugin {
     private volatile boolean sqlLoaded;
 
     /**
-     * The Rolecraft {@link Logger}.
-     */
-    private Logger logger;
-    /**
      * All the messages used by Rolecraft.
      */
     private Messages messages;
@@ -129,8 +125,7 @@ public final class RolecraftCore extends JavaPlugin {
     public void onEnable() {
         final Server server = this.getServer();
         final PluginManager pluginManager = server.getPluginManager();
-
-        logger = getLogger();
+        final Logger logger = getLogger();
 
         // Check for Vault to decide whether to enable economy support
         economy = hookVaultEcon();

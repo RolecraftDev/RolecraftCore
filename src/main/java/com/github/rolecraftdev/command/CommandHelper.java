@@ -34,6 +34,7 @@ import com.github.rolecraftdev.guild.Guild;
 import com.github.rolecraftdev.guild.GuildAction;
 import com.github.rolecraftdev.guild.GuildManager;
 import com.github.rolecraftdev.guild.GuildRank;
+import com.github.rolecraftdev.util.messages.ColourScheme;
 import com.github.rolecraftdev.util.messages.MessageVariable;
 
 import org.bukkit.ChatColor;
@@ -239,5 +240,13 @@ public final class CommandHelper {
 
         sender.sendMessage(ChatColor.GRAY + "Permitted Actions: "
                 + permitted.toString());
+    }
+
+    public static void sendBanner(ColourScheme scheme, CommandSender sender, Object... message) {
+        sender.sendMessage(ChatColor.GRAY + " " + ChatColor.STRIKETHROUGH + "-" + ChatColor.DARK_GRAY + ChatColor.STRIKETHROUGH + "--------------------------------------------------" + ChatColor.GRAY + ChatColor.STRIKETHROUGH + "-");
+        for (Object line : message) {
+            sender.sendMessage(scheme.getLight() + " " + line.toString());
+        }
+        sender.sendMessage(ChatColor.GRAY + " " + ChatColor.STRIKETHROUGH + "-" + ChatColor.DARK_GRAY + ChatColor.STRIKETHROUGH + "--------------------------------------------------" + ChatColor.GRAY + ChatColor.STRIKETHROUGH + "-");
     }
 }
