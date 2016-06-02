@@ -30,7 +30,7 @@ import org.apache.commons.lang.Validate;
 
 import com.github.rolecraftdev.RolecraftCore;
 import com.github.rolecraftdev.data.storage.DataStore;
-import com.github.rolecraftdev.data.storage.YamlFile;
+import com.github.rolecraftdev.util.serial.YamlFile;
 import com.github.rolecraftdev.event.RolecraftEventFactory;
 import com.github.rolecraftdev.event.guild.GuildCreateEvent;
 import com.github.rolecraftdev.event.guild.GuildDisbandEvent;

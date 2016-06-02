@@ -26,7 +26,6 @@
  */
 package com.github.rolecraftdev.util.serial;
 
-import com.github.rolecraftdev.data.storage.YamlFile;
 import com.github.rolecraftdev.profession.Profession;
 import com.github.rolecraftdev.profession.ProfessionManager;
 import com.github.rolecraftdev.profession.ProfessionRule;

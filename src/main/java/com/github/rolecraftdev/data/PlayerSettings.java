@@ -147,7 +147,7 @@ public final class PlayerSettings {
      * <li>spell chat message</li>
      * <li>guild spy</li>
      * </ol>
-     * This works in accordance with {@link #toString()}.
+     * This works as the reverse of {@link #toString()}.
      *
      * @param string the string that should be parsed to construct a new
      *        {@link PlayerSettings} object

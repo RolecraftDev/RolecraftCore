@@ -47,14 +47,33 @@ import javax.annotation.Nullable;
 public class SpellCastEvent extends SpellEvent implements Cancellable {
     private static final HandlerList handlers = new HandlerList();
 
+    /**
+     * The {@link Entity} who cast the {@link Spell}.
+     */
     private final Entity caster;
+    /**
+     * The manner of {@link Spell} being cast, which may be left click, right
+     * click, or attack.
+     */
     private final SpellCastType type;
 
+    /**
+     * The quantity of mana to be consumed in the {@link Spell}'s usage.
+     */
     private float manaCost;
+    /**
+     * Whether or not this event is cancelled; if this is true, the {@link Spell}
+     * will not be cast.
+     */
     private boolean cancelled;
+    /**
+     * The {@link SoundWrapper} object associated with the sound produced when
+     * the spell is cast.
+     */
     private SoundWrapper sound;
     /**
      * The message sent to the caster when this event is cancelled.
+     *
      */
     private String cancelMessage = ChatColor.DARK_RED + "You can't do that!";
 
@@ -77,8 +96,24 @@ public class SpellCastEvent extends SpellEvent implements Cancellable {
         sound = spell.getSound();
     }
 
+    /**
+     * The different categories of {@link Spell} which may be cast.
+     *
+     * @since 0.0.5
+     */
     public enum SpellCastType {
-        LEFT_CLICK, RIGHT_CLICK, ATTACK
+        /**
+         * A spell cast by a left click.
+         */
+        LEFT_CLICK,
+        /**
+         * A spell cast by a right click.
+         */
+        RIGHT_CLICK,
+        /**
+         * A spell cast by attacking.
+         */
+        ATTACK;
     }
 
     /**
@@ -97,6 +132,7 @@ public class SpellCastEvent extends SpellEvent implements Cancellable {
      * of RIGHT_CLICK, LEFT_CLICK or ATTACK.
      *
      * @return this event's {@link SpellCastType}
+     * @since 0.0.5
      */
     @Nonnull
     public SpellCastType getCastType() {
@@ -118,6 +154,7 @@ public class SpellCastEvent extends SpellEvent implements Cancellable {
      * Gets the {@link SoundWrapper} sound to be played when the spell is cast
      *
      * @return the {@link Spell}s sound
+     * @since 0.0.5
      */
     @Nullable
     public SoundWrapper getSound() {
@@ -157,6 +194,7 @@ public class SpellCastEvent extends SpellEvent implements Cancellable {
      * Sets the {@link SoundWrapper} sound to be played when the spell is cast
      *
      * @param sound the {@link Spell}s sound for this cast
+     * @since 0.0.5
      */
     public void setSound(@Nullable final SoundWrapper sound) {
         this.sound = sound;

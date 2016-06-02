@@ -51,12 +51,6 @@ public final class GeneralUtil {
     private static final float VELOCITY_FACTOR = 0.2f;
     private static final float SMALL_VELOCITY_FACTOR = 0.05f;
 
-    /**
-     * @since 0.0.5
-     */
-    private GeneralUtil() {
-    }
-
     public static void copyInputStreamToFile(InputStream stream, File dest)
             throws IOException {
         if (stream == null || dest == null) {
@@ -208,5 +202,12 @@ public final class GeneralUtil {
         return new Vector(smallVelocityRandomiser((float) original.getX()),
                 smallVelocityRandomiser((float) original.getY()),
                 smallVelocityRandomiser((float) original.getZ()));
+    }
+
+    /**
+     * @since 0.0.5
+     */
+    private GeneralUtil() {
+        throw new UnsupportedOperationException();
     }
 }

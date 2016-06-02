@@ -11,7 +11,7 @@ import java.util.UUID;
 
 /**
  * The data listener for Rolecraft which saves and loads {@link PlayerData}
- * objects when a player quits or joins, respectively.
+ * objects from storage when a player quits or joins, respectively.
  *
  * @since 0.0.5
  */

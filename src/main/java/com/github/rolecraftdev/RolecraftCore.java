@@ -36,7 +36,7 @@ import com.github.rolecraftdev.data.DataManager;
 import com.github.rolecraftdev.data.storage.DataStore;
 import com.github.rolecraftdev.data.storage.MySQLDataStore;
 import com.github.rolecraftdev.data.storage.SQLiteDataStore;
-import com.github.rolecraftdev.data.storage.YamlFile;
+import com.github.rolecraftdev.util.serial.YamlFile;
 import com.github.rolecraftdev.event.RolecraftEventFactory;
 import com.github.rolecraftdev.guild.Guild;
 import com.github.rolecraftdev.guild.GuildManager;

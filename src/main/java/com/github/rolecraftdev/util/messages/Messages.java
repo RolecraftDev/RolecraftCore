@@ -27,7 +27,7 @@
 package com.github.rolecraftdev.util.messages;
 
 import com.github.rolecraftdev.RolecraftCore;
-import com.github.rolecraftdev.data.storage.PropertiesFile;
+import com.github.rolecraftdev.util.serial.PropertiesFile;
 import com.github.rolecraftdev.guild.GuildRank;
 import com.github.rolecraftdev.util.GeneralUtil;
 

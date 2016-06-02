@@ -29,7 +29,7 @@ package com.github.rolecraftdev.data;
 import org.bukkit.Location;
 
 /**
- * Represents a 2-dimensional region on the horizontal plane.
+ * Represents a rectangular 2-dimensional region on the horizontal plane.
  *
  * @since 0.0.5
  */

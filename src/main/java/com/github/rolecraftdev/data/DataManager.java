@@ -157,7 +157,7 @@ public final class DataManager {
     }
 
     /**
-     * Obtain all currently loaded {@link PlayerData}.
+     * Obtain all currently loaded {@link PlayerData} objects.
      *
      * @return all loaded {@link PlayerData}
      * @since 0.0.5
