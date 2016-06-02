@@ -33,7 +33,7 @@ import com.github.rolecraftdev.data.PlayerData;
 import com.github.rolecraftdev.profession.Profession;
 import com.github.rolecraftdev.profession.ProfessionManager;
 import com.github.rolecraftdev.util.messages.Messages;
-import com.github.rolecraftdev.util.messages.MsgVar;
+import com.github.rolecraftdev.util.messages.MessageVariable;
 
 import org.bukkit.entity.Player;
 
@@ -92,12 +92,12 @@ public class ProfessionSelectCommand extends PlayerCommandHandler {
         if (!player.hasPermission("rolecraft.profession." + profession
                 .getName())) {
             player.sendMessage(plugin.getMessage(Messages.PROFESSION_NO_PERMS,
-                    MsgVar.PROFESSION.value(profession.getName())));
+                    MessageVariable.PROFESSION.value(profession.getName())));
             return;
         }
 
         data.setProfession(profession.getId());
         player.sendMessage(plugin.getMessage(Messages.PROFESSION_SELECTED,
-                MsgVar.PROFESSION.value(profession.getName())));
+                MessageVariable.PROFESSION.value(profession.getName())));
     }
 }

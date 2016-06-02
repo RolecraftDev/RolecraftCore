@@ -32,87 +32,87 @@ package com.github.rolecraftdev.util.messages;
  *
  * @since 0.0.5
  * @see {@link Messages#CONSTANTS}
- * @see {@link Messages#applyVars(String, MsgVar...)}
+ * @see {@link Messages#applyVars(String, MessageVariable...)}
  */
-public class MsgVar {
+public class MessageVariable {
     /**
-     * The base for {@link MsgVar} objects representing the relevant spell in a
+     * The base for {@link MessageVariable} objects representing the relevant spell in a
      * configurable message.
      *
      * @since 0.0.5
      */
-    public static final MsgVar SPELL = new MsgVar("$spell", "");
+    public static final MessageVariable SPELL = new MessageVariable("$spell", "");
     /**
-     * The base for {@link MsgVar} objects representing the relevant profession
+     * The base for {@link MessageVariable} objects representing the relevant profession
      * in a configurable message.
      *
      * @since 0.0.5
      */
-    public static final MsgVar PROFESSION = new MsgVar("$profession", "");
+    public static final MessageVariable PROFESSION = new MessageVariable("$profession", "");
     /**
-     * The base for {@link MsgVar} objects representing the relevant guild in a
+     * The base for {@link MessageVariable} objects representing the relevant guild in a
      * configurable message.
      *
      * @since 0.0.5
      */
-    public static final MsgVar GUILD = new MsgVar("$guild", "");
+    public static final MessageVariable GUILD = new MessageVariable("$guild", "");
     /**
-     * The base for {@link MsgVar} objects representing the relevant player in a
+     * The base for {@link MessageVariable} objects representing the relevant player in a
      * configurable message.
      *
      * @since 0.0.5
      */
-    public static final MsgVar PLAYER = new MsgVar("$player", "");
+    public static final MessageVariable PLAYER = new MessageVariable("$player", "");
     /**
-     * The base for {@link MsgVar} objects representing the relevant guild rank
+     * The base for {@link MessageVariable} objects representing the relevant guild rank
      * in a configurable message.
      *
      * @since 0.0.5
      */
-    public static final MsgVar RANK = new MsgVar("$rank", "");
+    public static final MessageVariable RANK = new MessageVariable("$rank", "");
     /**
-     * The base for {@link MsgVar} objects representing the relevant action in a
+     * The base for {@link MessageVariable} objects representing the relevant action in a
      * configurable message.
      *
      * @since 0.0.5
      */
-    public static final MsgVar ACTION = new MsgVar("$action", "");
+    public static final MessageVariable ACTION = new MessageVariable("$action", "");
     /**
-     * The base for {@link MsgVar} objects representing the relevant value in a
+     * The base for {@link MessageVariable} objects representing the relevant value in a
      * configurable message.
      *
      * @since 0.0.5
      */
-    public static final MsgVar VALUE = new MsgVar("$value", "");
+    public static final MessageVariable VALUE = new MessageVariable("$value", "");
 
     /**
-     * The key of this {@link MsgVar}.
+     * The key of this {@link MessageVariable}.
      */
     private final String var;
     /**
-     * The value of this {@link MsgVar}.
+     * The value of this {@link MessageVariable}.
      */
     private final String val;
 
     /**
-     * Create a new {@link MsgVar}, in which the given value will be converted
+     * Create a new {@link MessageVariable}, in which the given value will be converted
      * to a string representation.
      *
      * @since 0.0.5
-     * @see #MsgVar(String, String)
+     * @see #MessageVariable(String, String)
      */
-    public MsgVar(final String var, final int val) {
+    public MessageVariable(final String var, final int val) {
         this(var, String.valueOf(val));
     }
 
     /**
-     * Create a new {@link MsgVar}, in which the given value will be converted
+     * Create a new {@link MessageVariable}, in which the given value will be converted
      * to a string representation.
      *
      * @since 0.0.5
-     * @see #MsgVar(String, String)
+     * @see #MessageVariable(String, String)
      */
-    public MsgVar(final String var, final Object val) {
+    public MessageVariable(final String var, final Object val) {
         this(var, String.valueOf(val));
     }
 
@@ -123,7 +123,7 @@ public class MsgVar {
      * @param val the value of the variable
      * @since 0.0.5
      */
-    public MsgVar(final String var, final String val) {
+    public MessageVariable(final String var, final String val) {
         this.var = var;
         this.val = val;
     }
@@ -140,14 +140,14 @@ public class MsgVar {
     }
 
     /**
-     * Create a new {@link MsgVar} with the same key, but with a different
+     * Create a new {@link MessageVariable} with the same key, but with a different
      * value.
      *
-     * @param val the value for the new {@link MsgVar} object
-     * @return a new {@link MsgVar} with the same key but a new value
+     * @param val the value for the new {@link MessageVariable} object
+     * @return a new {@link MessageVariable} with the same key but a new value
      * @since 0.0.5
      */
-    public MsgVar value(final String val) {
-        return new MsgVar(var, val);
+    public MessageVariable value(final String val) {
+        return new MessageVariable(var, val);
     }
 }

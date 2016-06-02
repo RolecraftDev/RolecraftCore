@@ -33,7 +33,7 @@ import com.github.rolecraftdev.event.spell.SpellCastEvent.SpellCastType;
 import com.github.rolecraftdev.magic.Spell;
 import com.github.rolecraftdev.magic.SpellManager;
 import com.github.rolecraftdev.util.messages.Messages;
-import com.github.rolecraftdev.util.messages.MsgVar;
+import com.github.rolecraftdev.util.messages.MessageVariable;
 
 import org.bukkit.block.Block;
 import org.bukkit.entity.LivingEntity;
@@ -213,7 +213,7 @@ public class MagicListener implements Listener {
         }
         if (!spellManager.canCast(player, spell)) {
             player.sendMessage(plugin.getMessage(Messages.CANNOT_CAST_SPELL,
-                    MsgVar.SPELL.value(spell.getName())));
+                    MessageVariable.SPELL.value(spell.getName())));
             return null;
         } else {
             return spell;
@@ -274,7 +274,7 @@ public class MagicListener implements Listener {
         if (plugin.getDataManager().getPlayerData(caster.getUniqueId())
                 .getSettings().isSpellChatMessage()) {
             caster.sendMessage(plugin.getMessage(Messages.SPELL_CAST,
-                    MsgVar.SPELL.value(castEvent.getSpell().getName())));
+                    MessageVariable.SPELL.value(castEvent.getSpell().getName())));
         }
         if (castEvent.getSound() != null) {
             castEvent.getSound().play(caster.getLocation());

@@ -27,7 +27,7 @@
 package com.github.rolecraftdev.profession;
 
 import com.github.rolecraftdev.util.messages.Messages;
-import com.github.rolecraftdev.util.messages.MsgVar;
+import com.github.rolecraftdev.util.messages.MessageVariable;
 
 import org.bukkit.Material;
 import org.bukkit.enchantments.Enchantment;
@@ -87,24 +87,24 @@ public class ProfessionListener implements Listener {
                 && !isMaterialEquipable(current, profession)) {
             clicker.sendMessage(professionManager.getPlugin().getMessage(
                     Messages.PROFESSION_DENY_ARMOR,
-                    MsgVar.PROFESSION.value(profession.getName())));
+                    MessageVariable.PROFESSION.value(profession.getName())));
             event.setCancelled(true);
         } else if (event.getSlotType() == SlotType.QUICKBAR
                 && !isMaterialUsable(current, profession)) {
             clicker.sendMessage(professionManager.getPlugin().getMessage(
                     Messages.PROFESSION_DENY_ITEM,
-                    MsgVar.PROFESSION.value(profession.getName())));
+                    MessageVariable.PROFESSION.value(profession.getName())));
             event.setCancelled(true);
         } else if (event instanceof CraftItemEvent
                 && !isMaterialUsable(current, profession)) {
             clicker.sendMessage(professionManager.getPlugin().getMessage(
                     Messages.PROFESSION_DENY_ITEM,
-                    MsgVar.PROFESSION.value(profession.getName())));
+                    MessageVariable.PROFESSION.value(profession.getName())));
             event.setCancelled(true);
         } else if (!isEnchantable(current, profession)) {
             clicker.sendMessage(professionManager.getPlugin().getMessage(
                     Messages.PROFESSION_DENY_ENCHANTMENT,
-                    MsgVar.PROFESSION.value(profession.getName())));
+                    MessageVariable.PROFESSION.value(profession.getName())));
             event.setCancelled(true);
         }
     }
@@ -125,7 +125,7 @@ public class ProfessionListener implements Listener {
         if (!isEnchantable(event.getEnchantsToAdd(), profession)) {
             enchanter.sendMessage(professionManager.getPlugin().getMessage(
                     Messages.PROFESSION_DENY_ENCHANTMENT,
-                    MsgVar.PROFESSION.value(profession.getName())));
+                    MessageVariable.PROFESSION.value(profession.getName())));
             event.setCancelled(true);
         }
     }

@@ -36,7 +36,7 @@ import com.github.rolecraftdev.guild.GuildAction;
 import com.github.rolecraftdev.guild.GuildManager;
 import com.github.rolecraftdev.guild.GuildRank;
 import com.github.rolecraftdev.util.messages.Messages;
-import com.github.rolecraftdev.util.messages.MsgVar;
+import com.github.rolecraftdev.util.messages.MessageVariable;
 
 import org.bukkit.ChatColor;
 import org.bukkit.entity.Player;
@@ -107,7 +107,7 @@ public class GuildRankCommand extends PlayerCommandHandler {
                     RolecraftEventFactory.guildRankCreated(guild, newRank);
                     // Notify the sender that the rank was created
                     player.sendMessage(plugin.getMessage(Messages.RANK_CREATED,
-                            MsgVar.RANK.value(newRank.getName())));
+                            MessageVariable.RANK.value(newRank.getName())));
                 } else {
                     // Notify the sender that the rank already exists
                     player.sendMessage(plugin.getMessage(
@@ -131,11 +131,11 @@ public class GuildRankCommand extends PlayerCommandHandler {
                 RolecraftEventFactory.guildRankRemoved(guild, rank);
                 // Alert the sender that the rank was removed
                 player.sendMessage(plugin.getMessage(Messages.RANK_REMOVED,
-                        MsgVar.RANK.value(rank.getName())));
+                        MessageVariable.RANK.value(rank.getName())));
             } else {
                 // Alert the sender that the rank wasn't removed
                 player.sendMessage(plugin.getMessage(
-                        Messages.CANNOT_REMOVE_RANK, MsgVar.RANK.value(rank
+                        Messages.CANNOT_REMOVE_RANK, MessageVariable.RANK.value(rank
                                 .getName())));
             }
 
@@ -155,7 +155,7 @@ public class GuildRankCommand extends PlayerCommandHandler {
 
             if (perm == null) { // The entered permission doesn't exist
                 player.sendMessage(plugin.getMessage(Messages.INVALID_ACTION,
-                        MsgVar.ACTION.value(permission)));
+                        MessageVariable.ACTION.value(permission)));
                 return;
             }
 
@@ -170,7 +170,7 @@ public class GuildRankCommand extends PlayerCommandHandler {
             if (!valid) {
                 // Value isn't valid
                 player.sendMessage(plugin.getMessage(Messages.INVALID_VALUE,
-                        MsgVar.VALUE.value(value)));
+                        MessageVariable.VALUE.value(value)));
                 return;
             }
 
@@ -179,14 +179,14 @@ public class GuildRankCommand extends PlayerCommandHandler {
                 // Set the value of the permission to true
                 rank.allowAction(perm);
                 player.sendMessage(plugin.getMessage(Messages.VALUE_SET,
-                        MsgVar.ACTION.value(permission), MsgVar.VALUE
+                        MessageVariable.ACTION.value(permission), MessageVariable.VALUE
                                 .value(value)));
             } else {
                 value = "false";
                 // Leader must always have all permissions
                 if (rank.equals(guild.getLeaderRank())) {
                     player.sendMessage(plugin.getMessage(
-                            Messages.CANNOT_MODIFY_RANK, MsgVar.RANK.value(rank
+                            Messages.CANNOT_MODIFY_RANK, MessageVariable.RANK.value(rank
                                     .getName())));
                     return;
                 }
@@ -194,7 +194,7 @@ public class GuildRankCommand extends PlayerCommandHandler {
                 // Remove the permission from the rank + notify sender
                 rank.disallowAction(perm);
                 player.sendMessage(plugin.getMessage(Messages.VALUE_SET,
-                        MsgVar.ACTION.value(permission), MsgVar.VALUE
+                        MessageVariable.ACTION.value(permission), MessageVariable.VALUE
                                 .value(value)));
             }
 

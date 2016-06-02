@@ -32,7 +32,7 @@ import com.github.rolecraftdev.command.parser.Arguments;
 import com.github.rolecraftdev.guild.Guild;
 import com.github.rolecraftdev.guild.GuildManager;
 import com.github.rolecraftdev.util.messages.Messages;
-import com.github.rolecraftdev.util.messages.MsgVar;
+import com.github.rolecraftdev.util.messages.MessageVariable;
 
 import net.milkbowl.vault.economy.EconomyResponse;
 
@@ -94,7 +94,7 @@ public class GuildCreateCommand extends PlayerCommandHandler {
         guild.setLeader(playerId);
         if (guildManager.addGuild(guild, false)) {
             player.sendMessage(plugin.getMessage(Messages.GUILD_CREATED,
-                    MsgVar.GUILD.value(name)));
+                    MessageVariable.GUILD.value(name)));
 
             if (plugin.doesUseEconomy()) {
                 plugin.getEconomy().bankWithdraw(player.getName(),
@@ -102,7 +102,7 @@ public class GuildCreateCommand extends PlayerCommandHandler {
             }
         } else {
             player.sendMessage(plugin.getMessage(Messages.GUILD_ALREADY_EXISTS,
-                    MsgVar.GUILD.value(name)));
+                    MessageVariable.GUILD.value(name)));
         }
     }
 }

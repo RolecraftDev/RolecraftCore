@@ -411,49 +411,49 @@ public class Messages {
     /**
      * General variables such as colours and styles.
      */
-    private static final MsgVar[] CONSTANTS = {
-            new MsgVar("$darkred", ChatColor.DARK_RED),
-            new MsgVar("$gray", ChatColor.GRAY),
-            new MsgVar("$white", ChatColor.WHITE),
-            new MsgVar("$red", ChatColor.RED),
-            new MsgVar("$green", ChatColor.GREEN),
-            new MsgVar("$darkgreen", ChatColor.DARK_GREEN),
-            new MsgVar("$purple", ChatColor.DARK_PURPLE),
-            new MsgVar("$lightpurple", ChatColor.LIGHT_PURPLE),
-            new MsgVar("$black", ChatColor.BLACK),
-            new MsgVar("$blue", ChatColor.BLUE),
-            new MsgVar("$darkblue", ChatColor.DARK_BLUE),
-            new MsgVar("$magic", ChatColor.MAGIC),
-            new MsgVar("$gold", ChatColor.GOLD),
-            new MsgVar("$aqua", ChatColor.AQUA),
-            new MsgVar("$yellow", ChatColor.YELLOW),
-            new MsgVar("$darkaqua", ChatColor.DARK_AQUA),
-            new MsgVar("$darkgray", ChatColor.DARK_GRAY),
-            new MsgVar("$reset", ChatColor.RESET),
+    private static final MessageVariable[] CONSTANTS = {
+            new MessageVariable("$darkred", ChatColor.DARK_RED),
+            new MessageVariable("$gray", ChatColor.GRAY),
+            new MessageVariable("$white", ChatColor.WHITE),
+            new MessageVariable("$red", ChatColor.RED),
+            new MessageVariable("$green", ChatColor.GREEN),
+            new MessageVariable("$darkgreen", ChatColor.DARK_GREEN),
+            new MessageVariable("$purple", ChatColor.DARK_PURPLE),
+            new MessageVariable("$lightpurple", ChatColor.LIGHT_PURPLE),
+            new MessageVariable("$black", ChatColor.BLACK),
+            new MessageVariable("$blue", ChatColor.BLUE),
+            new MessageVariable("$darkblue", ChatColor.DARK_BLUE),
+            new MessageVariable("$magic", ChatColor.MAGIC),
+            new MessageVariable("$gold", ChatColor.GOLD),
+            new MessageVariable("$aqua", ChatColor.AQUA),
+            new MessageVariable("$yellow", ChatColor.YELLOW),
+            new MessageVariable("$darkaqua", ChatColor.DARK_AQUA),
+            new MessageVariable("$darkgray", ChatColor.DARK_GRAY),
+            new MessageVariable("$reset", ChatColor.RESET),
             // Support all colours which aren't here by allowing $col1 etc
-            new MsgVar("$col", ChatColor.COLOR_CHAR),
-            new MsgVar("$strike", ChatColor.STRIKETHROUGH),
-            new MsgVar("$underline", ChatColor.UNDERLINE),
-            new MsgVar("$italic", ChatColor.ITALIC),
-            new MsgVar("$bold", ChatColor.BOLD)
+            new MessageVariable("$col", ChatColor.COLOR_CHAR),
+            new MessageVariable("$strike", ChatColor.STRIKETHROUGH),
+            new MessageVariable("$underline", ChatColor.UNDERLINE),
+            new MessageVariable("$italic", ChatColor.ITALIC),
+            new MessageVariable("$bold", ChatColor.BOLD)
     };
 
     /**
-     * Applies the values of the specified {@link MsgVar}s in the given message.
+     * Applies the values of the specified {@link MessageVariable}s in the given message.
      *
      * @param message the affected message
-     * @param vars the {@link MsgVar}s that should be applied
-     * @return the given message after the {@link MsgVar}s have been applied
+     * @param vars the {@link MessageVariable}s that should be applied
+     * @return the given message after the {@link MessageVariable}s have been applied
      * @since 0.0.5
      */
-    public static String applyVars(String message, final MsgVar... vars) {
+    public static String applyVars(String message, final MessageVariable... vars) {
         if (message == null || vars == null || vars.length < 1) {
             return message;
         }
-        for (final MsgVar constant : CONSTANTS) {
+        for (final MessageVariable constant : CONSTANTS) {
             message = constant.apply(message);
         }
-        for (final MsgVar var : vars) {
+        for (final MessageVariable var : vars) {
             message = var.apply(message);
         }
         return message;
@@ -481,19 +481,19 @@ public class Messages {
 
     /**
      * Get the value of the given message after applying the specified
-     * {@link MsgVar}s.
+     * {@link MessageVariable}s.
      *
      * Note: Though {@code null} is a potential return value for an invocation
      * of this method, it shouldn't be returned if this method is called using a
      * constants in {@link Messages} as the {@code key} argument.
      *
      * @param key the message of which the configured value should be retrieved
-     * @param vars the {@link MsgVar}s that should be applied
+     * @param vars the {@link MessageVariable}s that should be applied
      * @return the edited message value
      * @since 0.0.5
      */
     @Nullable
-    public String get(final String key, final MsgVar... vars) {
+    public String get(final String key, final MessageVariable... vars) {
         return applyVars(messages.get(key), vars);
     }
 

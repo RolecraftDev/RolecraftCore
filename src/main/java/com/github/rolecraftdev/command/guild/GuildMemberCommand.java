@@ -36,7 +36,7 @@ import com.github.rolecraftdev.guild.GuildAction;
 import com.github.rolecraftdev.guild.GuildManager;
 import com.github.rolecraftdev.guild.GuildRank;
 import com.github.rolecraftdev.util.messages.Messages;
-import com.github.rolecraftdev.util.messages.MsgVar;
+import com.github.rolecraftdev.util.messages.MessageVariable;
 
 import org.bukkit.Bukkit;
 import org.bukkit.ChatColor;
@@ -120,10 +120,10 @@ public class GuildMemberCommand extends PlayerCommandHandler {
             target.setMetadata(GuildManager.GUILD_INVITE_METADATA,
                     new FixedMetadataValue(plugin, guild.getId()));
             target.sendMessage(plugin.getMessage(
-                    Messages.PLAYER_INVITED_RECEIVER, MsgVar.GUILD.value(guild
+                    Messages.PLAYER_INVITED_RECEIVER, MessageVariable.GUILD.value(guild
                             .getName())));
             player.sendMessage(plugin.getMessage(
-                    Messages.PLAYER_INVITED_SENDER, MsgVar.PLAYER.value(target
+                    Messages.PLAYER_INVITED_SENDER, MessageVariable.PLAYER.value(target
                             .getName())));
         } else {
             final UUID id = offline.getUniqueId();
@@ -150,7 +150,7 @@ public class GuildMemberCommand extends PlayerCommandHandler {
                 new KickPlayerTask(plugin, targetData)
                         .runTaskAsynchronously(plugin);
                 player.sendMessage(plugin.getMessage(Messages.PLAYER_KICKED,
-                        MsgVar.PLAYER.value(targetData.getPlayerName())));
+                        MessageVariable.PLAYER.value(targetData.getPlayerName())));
             } else if (command.equalsIgnoreCase("rank")) {
                 if (!guild.can(
                         player.getUniqueId(), GuildAction.MODIFY_RANKS)) {
@@ -170,7 +170,7 @@ public class GuildMemberCommand extends PlayerCommandHandler {
 
                 if (rank == null) {
                     player.sendMessage(plugin.getMessage(
-                            Messages.RANK_NOT_EXISTS, MsgVar.RANK
+                            Messages.RANK_NOT_EXISTS, MessageVariable.RANK
                                     .value(rankArg)));
                     return;
                 }
@@ -188,25 +188,25 @@ public class GuildMemberCommand extends PlayerCommandHandler {
                 if (add) {
                     rank.addMember(offline.getUniqueId());
                     player.sendMessage(plugin.getMessage(
-                            Messages.ADDED_PLAYER_TO_RANK, MsgVar.RANK
-                                    .value(rank.getName()), MsgVar.PLAYER
+                            Messages.ADDED_PLAYER_TO_RANK, MessageVariable.RANK
+                                    .value(rank.getName()), MessageVariable.PLAYER
                                     .value(offline.getName())));
 
                     if (target != null) {
                         target.sendMessage(plugin.getMessage(
-                                Messages.PLAYER_ADDED_TO_RANK, MsgVar.RANK
+                                Messages.PLAYER_ADDED_TO_RANK, MessageVariable.RANK
                                         .value(rank.getName())));
                     }
                 } else {
                     rank.removeMember(offline.getUniqueId());
                     player.sendMessage(plugin.getMessage(
-                            Messages.REMOVED_PLAYER_FROM_RANK, MsgVar.RANK
-                                    .value(rank.getName()), MsgVar.PLAYER
+                            Messages.REMOVED_PLAYER_FROM_RANK, MessageVariable.RANK
+                                    .value(rank.getName()), MessageVariable.PLAYER
                                     .value(offline.getName())));
 
                     if (target != null) {
                         target.sendMessage(plugin.getMessage(
-                                Messages.PLAYER_REMOVED_FROM_RANK, MsgVar.RANK
+                                Messages.PLAYER_REMOVED_FROM_RANK, MessageVariable.RANK
                                         .value(rank.getName())));
                     }
                 }
@@ -256,7 +256,7 @@ public class GuildMemberCommand extends PlayerCommandHandler {
                     final Player player = Bukkit.getPlayer(data.getPlayerId());
                     if (player != null) {
                         player.sendMessage(plugin.getMessage(
-                                Messages.KICKED_FROM_GUILD, MsgVar.PLAYER
+                                Messages.KICKED_FROM_GUILD, MessageVariable.PLAYER
                                         .value(data.getPlayerName())));
                     } else {
                         // If the player is offline we unload the data because

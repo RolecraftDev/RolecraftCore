@@ -34,7 +34,7 @@ import com.github.rolecraftdev.guild.Guild;
 import com.github.rolecraftdev.guild.GuildManager;
 import com.github.rolecraftdev.guild.GuildRank;
 import com.github.rolecraftdev.util.messages.Messages;
-import com.github.rolecraftdev.util.messages.MsgVar;
+import com.github.rolecraftdev.util.messages.MessageVariable;
 
 import org.bukkit.Bukkit;
 import org.bukkit.command.CommandSender;
@@ -74,7 +74,7 @@ public class GuildShowCommand extends CommandHandler {
 
         if (guild != null) {
             sender.sendMessage(plugin.getMessage(Messages.GUILD_INFO,
-                    MsgVar.GUILD.value(guild.getName())));
+                    MessageVariable.GUILD.value(guild.getName())));
             final StringBuilder members = new StringBuilder();
             int onlineMembers = 0;
             for (final UUID id : guild.getMembers()) {
@@ -87,13 +87,13 @@ public class GuildShowCommand extends CommandHandler {
             // remove trailing comma
             members.deleteCharAt(members.length() - 1);
             sender.sendMessage(plugin.getMessage(Messages.GUILD_MEMBERS,
-                    new MsgVar("$totalnumber", guild.getMembers().size()),
-                    new MsgVar("$onlinenumber", onlineMembers), new MsgVar(
+                    new MessageVariable("$totalnumber", guild.getMembers().size()),
+                    new MessageVariable("$onlinenumber", onlineMembers), new MessageVariable(
                             "$members", members)));
             sender.sendMessage(plugin.getMessage(Messages.GUILD_INFLUENCE,
-                    new MsgVar("$influence", guild.getInfluence())));
+                    new MessageVariable("$influence", guild.getInfluence())));
             sender.sendMessage(plugin.getMessage(Messages.GUIlD_LEADER,
-                    new MsgVar("$leader", guild.getLeader())));
+                    new MessageVariable("$leader", guild.getLeader())));
             final StringBuilder ranks = new StringBuilder();
             for (final GuildRank rank : guild.getRanks()) {
                 ranks.append(rank.getName());
@@ -101,7 +101,7 @@ public class GuildShowCommand extends CommandHandler {
             }
             ranks.deleteCharAt(members.length() - 1);
             sender.sendMessage(plugin.getMessage(Messages.GUILD_RANK,
-                    new MsgVar("$ranks", ranks)));
+                    new MessageVariable("$ranks", ranks)));
         }
     }
 }

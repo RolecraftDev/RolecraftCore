@@ -50,12 +50,11 @@ import com.github.rolecraftdev.profession.ProfessionManager;
 import com.github.rolecraftdev.quest.Quest;
 import com.github.rolecraftdev.quest.QuestManager;
 import com.github.rolecraftdev.util.messages.Messages;
-import com.github.rolecraftdev.util.messages.MsgVar;
+import com.github.rolecraftdev.util.messages.MessageVariable;
 
 import net.milkbowl.vault.economy.Economy;
 
 import org.bukkit.Server;
-import org.bukkit.command.PluginCommand;
 import org.bukkit.plugin.PluginManager;
 import org.bukkit.plugin.RegisteredServiceProvider;
 import org.bukkit.plugin.java.JavaPlugin;
@@ -222,13 +221,13 @@ public final class RolecraftCore extends JavaPlugin {
      * applies the specified variables to it.
      *
      * @param key the key of which the value (message) should be returned
-     * @param vars the {@link MsgVar}s that should be applied to the message for
+     * @param vars the {@link MessageVariable}s that should be applied to the message for
      *        the specified key
      * @return the configured message for the given key
      * @since 0.0.5
      */
     @Nullable
-    public String getMessage(final String key, final MsgVar... vars) {
+    public String getMessage(final String key, final MessageVariable... vars) {
         return getMessages().get(key, vars);
     }
 

@@ -34,7 +34,7 @@ import com.github.rolecraftdev.guild.Guild;
 import com.github.rolecraftdev.guild.GuildAction;
 import com.github.rolecraftdev.guild.GuildManager;
 import com.github.rolecraftdev.guild.GuildRank;
-import com.github.rolecraftdev.util.messages.MsgVar;
+import com.github.rolecraftdev.util.messages.MessageVariable;
 
 import org.bukkit.ChatColor;
 import org.bukkit.command.CommandSender;
@@ -46,7 +46,7 @@ import java.util.List;
 
 /**
  * This class provides various utility methods for dealing with commands, help
- * messages and {@link MsgVar}s.
+ * messages and {@link MessageVariable}s.
  *
  * @since 0.0.5
  */

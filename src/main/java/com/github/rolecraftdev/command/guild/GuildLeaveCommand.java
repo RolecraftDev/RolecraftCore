@@ -33,7 +33,7 @@ import com.github.rolecraftdev.data.DataManager;
 import com.github.rolecraftdev.guild.Guild;
 import com.github.rolecraftdev.guild.GuildManager;
 import com.github.rolecraftdev.util.messages.Messages;
-import com.github.rolecraftdev.util.messages.MsgVar;
+import com.github.rolecraftdev.util.messages.MessageVariable;
 
 import org.bukkit.entity.Player;
 
@@ -74,7 +74,7 @@ public class GuildLeaveCommand extends PlayerCommandHandler {
             player.sendMessage(plugin.getMessage(Messages.NO_GUILD));
             return;
         }
-        player.sendMessage(plugin.getMessage(Messages.GUILD_LEAVE, MsgVar.GUILD
+        player.sendMessage(plugin.getMessage(Messages.GUILD_LEAVE, MessageVariable.GUILD
                 .value(guild.getName())));
         guild.removeMember(playerId, false);
         dataMgr.getPlayerData(playerId).setGuild(null);

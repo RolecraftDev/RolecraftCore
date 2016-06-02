@@ -33,7 +33,7 @@ import com.github.rolecraftdev.guild.Guild;
 import com.github.rolecraftdev.guild.GuildAction;
 import com.github.rolecraftdev.guild.GuildManager;
 import com.github.rolecraftdev.util.messages.Messages;
-import com.github.rolecraftdev.util.messages.MsgVar;
+import com.github.rolecraftdev.util.messages.MessageVariable;
 
 import org.bukkit.entity.Player;
 import org.bukkit.scheduler.BukkitRunnable;
@@ -95,7 +95,7 @@ public class GuildHomeCommand extends PlayerCommandHandler {
                     plugin.getConfig().getInt("teleportdelay") * 20);
 
             player.sendMessage(plugin.getMessage(Messages.GUILD_TP_HOME,
-                    new MsgVar("$time", plugin.getConfig().getInt(
+                    new MessageVariable("$time", plugin.getConfig().getInt(
                             "teleportdelay"))));
         }
     }

@@ -33,7 +33,7 @@ import com.github.rolecraftdev.data.DataManager;
 import com.github.rolecraftdev.guild.Guild;
 import com.github.rolecraftdev.guild.GuildManager;
 import com.github.rolecraftdev.util.messages.Messages;
-import com.github.rolecraftdev.util.messages.MsgVar;
+import com.github.rolecraftdev.util.messages.MessageVariable;
 
 import org.bukkit.ChatColor;
 import org.bukkit.command.CommandSender;
@@ -116,7 +116,7 @@ public class GuildDisbandCommand extends CommandHandler {
         } else {
             guildManager.removeGuild(guild);
             sender.sendMessage(plugin.getMessage(Messages.GUILD_DISBANDED,
-                    MsgVar.GUILD.value(guild.getName())));
+                    MessageVariable.GUILD.value(guild.getName())));
         }
     }
 
@@ -154,7 +154,7 @@ public class GuildDisbandCommand extends CommandHandler {
             mgr.removeGuild(guild);
             sender.sendMessage(mgr.getPlugin().getMessage(
                     Messages.GUILD_DISBANDED,
-                    MsgVar.GUILD.value(guild.getName())));
+                    MessageVariable.GUILD.value(guild.getName())));
         }
     }
 }
