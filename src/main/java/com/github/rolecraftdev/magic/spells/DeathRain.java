@@ -30,7 +30,7 @@ package com.github.rolecraftdev.magic.spells;
 import com.github.rolecraftdev.magic.Spell;
 import com.github.rolecraftdev.magic.SpellManager;
 import com.github.rolecraftdev.util.SoundWrapper;
-import com.github.rolecraftdev.util.Utils;
+import com.github.rolecraftdev.util.GeneralUtil;
 import com.github.rolecraftdev.util.messages.Messages;
 
 import org.bukkit.ChatColor;
@@ -168,7 +168,7 @@ public class DeathRain implements Spell {
                         spellManager.getPlugin(), 6f));
                 arrow.setMetadata("Explosion", new FixedMetadataValue(
                         spellManager.getPlugin(), true));
-                arrow.setVelocity(Utils.velocityRandomiser(velocity));
+                arrow.setVelocity(GeneralUtil.velocityRandomiser(velocity));
             }
         }
 

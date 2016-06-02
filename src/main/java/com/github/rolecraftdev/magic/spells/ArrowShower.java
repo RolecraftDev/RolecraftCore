@@ -29,7 +29,7 @@ package com.github.rolecraftdev.magic.spells;
 import com.github.rolecraftdev.magic.Spell;
 import com.github.rolecraftdev.magic.SpellManager;
 import com.github.rolecraftdev.util.SoundWrapper;
-import com.github.rolecraftdev.util.Utils;
+import com.github.rolecraftdev.util.GeneralUtil;
 import com.github.rolecraftdev.util.messages.Messages;
 
 import org.bukkit.ChatColor;
@@ -163,7 +163,7 @@ public class ArrowShower implements Spell {
                 final Arrow arrow = world.spawn(new Location(world, center
                         .getX()
                         + x, center.getY(), center.getZ() + z), Arrow.class);
-                arrow.setVelocity(Utils.velocityRandomiser(velocity));
+                arrow.setVelocity(GeneralUtil.velocityRandomiser(velocity));
             }
         }
         return estimateRightClickMana(caster, block, modifier, face);

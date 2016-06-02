@@ -46,7 +46,7 @@ import java.util.Random;
  *
  * @since 0.0.5
  */
-public final class Utils {
+public final class GeneralUtil {
     private static final Random rand = Rand.r;
     private static final float VELOCITY_FACTOR = 0.2f;
     private static final float SMALL_VELOCITY_FACTOR = 0.05f;
@@ -54,7 +54,7 @@ public final class Utils {
     /**
      * @since 0.0.5
      */
-    private Utils() {
+    private GeneralUtil() {
     }
 
     public static void copyInputStreamToFile(InputStream stream, File dest)

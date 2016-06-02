@@ -29,7 +29,7 @@ package com.github.rolecraftdev.magic.spells;
 import com.github.rolecraftdev.magic.Spell;
 import com.github.rolecraftdev.magic.SpellManager;
 import com.github.rolecraftdev.util.SoundWrapper;
-import com.github.rolecraftdev.util.Utils;
+import com.github.rolecraftdev.util.GeneralUtil;
 
 import org.bukkit.ChatColor;
 import org.bukkit.Material;
@@ -105,7 +105,7 @@ public class Bomb implements Spell {
             final int modifier, final BlockFace face) {
         final Entity tnt = caster.getWorld()
                 .spawn(caster.getEyeLocation().add(0, 1, 0), TNTPrimed.class);
-        tnt.setVelocity(Utils.getUnitVectorFacing(caster)
+        tnt.setVelocity(GeneralUtil.getUnitVectorFacing(caster)
                 .multiply(10f * modifier / 100f + 2f));
         return estimateRightClickMana(caster, block, modifier, face);
     }

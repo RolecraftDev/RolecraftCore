@@ -29,7 +29,7 @@ package com.github.rolecraftdev.magic.spells;
 import com.github.rolecraftdev.magic.Spell;
 import com.github.rolecraftdev.magic.SpellManager;
 import com.github.rolecraftdev.util.SoundWrapper;
-import com.github.rolecraftdev.util.Utils;
+import com.github.rolecraftdev.util.GeneralUtil;
 
 import org.bukkit.Bukkit;
 import org.bukkit.ChatColor;
@@ -106,8 +106,9 @@ public class AvadaKedavra implements Spell {
     @Override
     public float estimateRightClickMana(final Player caster, final Block block,
             final int modifier, final BlockFace face) {
-        final LivingEntity toKill = Utils.getLivingTarget(caster, spellManager
-                .getRange());
+        final LivingEntity toKill = GeneralUtil
+                .getLivingTarget(caster, spellManager
+                        .getRange());
         if (toKill != null) {
             if (toKill instanceof Player) {
                 return 1500;
@@ -124,8 +125,9 @@ public class AvadaKedavra implements Spell {
     @Override
     public float rightClick(final Player caster, final Block block,
             final int modifier, final BlockFace face) {
-        final LivingEntity toKill = Utils.getLivingTarget(caster, spellManager
-                .getRange());
+        final LivingEntity toKill = GeneralUtil
+                .getLivingTarget(caster, spellManager
+                        .getRange());
         if (toKill == null) {
             return CAST_FAILURE;
         }
