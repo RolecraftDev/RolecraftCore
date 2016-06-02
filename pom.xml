@@ -87,10 +87,6 @@
             <id>channels-repo</id>
             <url>http://maven.traksag.com/</url>
         </repository>
-        <repository>
-            <id>sonatype-snapshots</id>
-            <url>https://oss.sonatype.org/content/repositories/snapshots/</url>
-        </repository>
     </repositories>
 
     <dependencies>
