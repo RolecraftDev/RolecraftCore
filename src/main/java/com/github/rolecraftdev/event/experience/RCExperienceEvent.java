@@ -24,7 +24,7 @@
  * DISCLAIMER: This is a human-readable summary of (and not a substitute for) the
  * license.
  */
-package com.github.rolecraftdev.event.exp;
+package com.github.rolecraftdev.event.experience;
 
 import com.github.rolecraftdev.RolecraftCore;
 import com.github.rolecraftdev.event.RolecraftEvent;
@@ -38,7 +38,7 @@ import org.bukkit.event.Cancellable;
  *
  * @since 0.0.5
  */
-public abstract class RCExpEvent extends RolecraftEvent implements Cancellable {
+public abstract class RCExperienceEvent extends RolecraftEvent implements Cancellable {
     /**
      * A reason as to why the experience of a player is affected.
      *
@@ -88,7 +88,7 @@ public abstract class RCExpEvent extends RolecraftEvent implements Cancellable {
      * @param player the affected player
      * @since 0.0.5
      */
-    protected RCExpEvent(final RolecraftCore plugin, final Player player) {
+    protected RCExperienceEvent(final RolecraftCore plugin, final Player player) {
         super(plugin);
         concern = player;
     }

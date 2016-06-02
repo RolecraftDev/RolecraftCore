@@ -24,21 +24,21 @@
  * DISCLAIMER: This is a human-readable summary of (and not a substitute for) the
  * license.
  */
-package com.github.rolecraftdev.event.exp;
+package com.github.rolecraftdev.event.experience;
 
 import com.github.rolecraftdev.RolecraftCore;
-import com.github.rolecraftdev.level.ExperienceHelper;
+import com.github.rolecraftdev.experience.ExperienceHelper;
 
 import org.bukkit.entity.Player;
 import org.bukkit.event.HandlerList;
 
 /**
- * A {@link RCExpChangeEvent} that gets called when a player's level is
+ * A {@link RCExperienceChangeEvent} that gets called when a player's level is
  * anticipated to change.
  *
  * @since 0.0.5
  */
-public class RCLevelChangeEvent extends RCExpChangeEvent {
+public class RCLevelChangeEvent extends RCExperienceChangeEvent {
     private static final HandlerList handlers = new HandlerList();
 
     private int newLevel;

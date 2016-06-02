@@ -28,10 +28,10 @@ package com.github.rolecraftdev.data;
 
 import com.github.rolecraftdev.RolecraftCore;
 import com.github.rolecraftdev.event.RolecraftEventFactory;
-import com.github.rolecraftdev.event.exp.RCExpChangeEvent;
-import com.github.rolecraftdev.event.exp.RCExpEvent.ChangeReason;
+import com.github.rolecraftdev.event.experience.RCExperienceChangeEvent;
+import com.github.rolecraftdev.event.experience.RCExperienceEvent.ChangeReason;
 import com.github.rolecraftdev.guild.Guild;
-import com.github.rolecraftdev.level.ExperienceHelper;
+import com.github.rolecraftdev.experience.ExperienceHelper;
 import com.github.rolecraftdev.profession.Profession;
 import com.github.rolecraftdev.quest.Quest;
 
@@ -395,7 +395,7 @@ public final class PlayerData {
 
     /**
      * Set the experience of the owner. When invoked, a new
-     * {@link RCExpChangeEvent} will be called and used to decide upon further
+     * {@link RCExperienceChangeEvent} will be called and used to decide upon further
      * execution. All of this will only happen when this is loaded and not in
      * the unloading phase.
      *
@@ -405,7 +405,7 @@ public final class PlayerData {
      */
     public void setExperience(final float amount, final ChangeReason reason) {
         if (loaded && !unloading) {
-            final RCExpChangeEvent event = RolecraftEventFactory.callRCExpEvent(
+            final RCExperienceChangeEvent event = RolecraftEventFactory.callRCExpEvent(
                     plugin, Bukkit.getPlayer(playerId), amount - experience,
                     reason);
             if (!event.isCancelled()) {

@@ -40,7 +40,7 @@ import com.github.rolecraftdev.data.storage.YamlFile;
 import com.github.rolecraftdev.event.RolecraftEventFactory;
 import com.github.rolecraftdev.guild.Guild;
 import com.github.rolecraftdev.guild.GuildManager;
-import com.github.rolecraftdev.level.ExperienceListener;
+import com.github.rolecraftdev.experience.ExperienceListener;
 import com.github.rolecraftdev.magic.Spell;
 import com.github.rolecraftdev.magic.SpellManager;
 import com.github.rolecraftdev.profession.Profession;

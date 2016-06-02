@@ -1,8 +1,8 @@
-package com.github.rolecraftdev.level;
+package com.github.rolecraftdev.experience;
 
 import com.github.rolecraftdev.RolecraftCore;
 import com.github.rolecraftdev.data.PlayerData;
-import com.github.rolecraftdev.event.exp.RCExpEvent;
+import com.github.rolecraftdev.event.experience.RCExperienceEvent;
 
 import org.bukkit.entity.Entity;
 import org.bukkit.entity.EntityType;
@@ -61,7 +61,7 @@ public final class ExperienceListener implements Listener {
 
                 final UUID id = e.getDamager().getUniqueId();
                 final PlayerData pd = plugin.getDataManager().getPlayerData(id);
-                pd.addExperience(expFromKill, RCExpEvent.ChangeReason.KILLING);
+                pd.addExperience(expFromKill, RCExperienceEvent.ChangeReason.KILLING);
             }
         }
     }

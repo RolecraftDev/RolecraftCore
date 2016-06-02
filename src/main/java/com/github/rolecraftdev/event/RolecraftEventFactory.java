@@ -29,9 +29,9 @@ package com.github.rolecraftdev.event;
 import org.apache.commons.lang.Validate;
 
 import com.github.rolecraftdev.RolecraftCore;
-import com.github.rolecraftdev.event.exp.RCExpChangeEvent;
-import com.github.rolecraftdev.event.exp.RCExpEvent;
-import com.github.rolecraftdev.event.exp.RCLevelChangeEvent;
+import com.github.rolecraftdev.event.experience.RCExperienceChangeEvent;
+import com.github.rolecraftdev.event.experience.RCExperienceEvent;
+import com.github.rolecraftdev.event.experience.RCLevelChangeEvent;
 import com.github.rolecraftdev.event.guild.GuildCreateEvent;
 import com.github.rolecraftdev.event.guild.GuildDisbandEvent;
 import com.github.rolecraftdev.event.guild.GuildPlayerJoinEvent;
@@ -45,7 +45,7 @@ import com.github.rolecraftdev.event.spell.SpellCastEvent.SpellCastType;
 import com.github.rolecraftdev.guild.Guild;
 import com.github.rolecraftdev.guild.GuildAction;
 import com.github.rolecraftdev.guild.GuildRank;
-import com.github.rolecraftdev.level.ExperienceHelper;
+import com.github.rolecraftdev.experience.ExperienceHelper;
 import com.github.rolecraftdev.magic.Spell;
 
 import org.bukkit.Bukkit;
@@ -217,13 +217,13 @@ public class RolecraftEventFactory {
      * @param player the affected player
      * @param amount the additional experience (may be negative)
      * @param reason the reason for this change
-     * @return the appropriate {@link RCExpChangeEvent} after calling it
+     * @return the appropriate {@link RCExperienceChangeEvent} after calling it
      * @since 0.0.5
      */
-    public static RCExpChangeEvent callRCExpEvent(final RolecraftCore plugin,
+    public static RCExperienceChangeEvent callRCExpEvent(final RolecraftCore plugin,
             final Player player, final float amount,
-            final RCExpEvent.ChangeReason reason) {
-        final RCExpChangeEvent temp;
+            final RCExperienceEvent.ChangeReason reason) {
+        final RCExperienceChangeEvent temp;
         final float experience = plugin.getDataManager()
                 .getPlayerData(player.getUniqueId()).getExperience();
 
@@ -231,7 +231,7 @@ public class RolecraftEventFactory {
                 ExperienceHelper.getLevel(experience + amount)) {
             temp = new RCLevelChangeEvent(plugin, player, experience, reason);
         } else {
-            temp = new RCExpChangeEvent(plugin, player, experience, reason);
+            temp = new RCExperienceChangeEvent(plugin, player, experience, reason);
         }
 
         Bukkit.getPluginManager().callEvent(temp);

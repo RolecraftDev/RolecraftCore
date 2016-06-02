@@ -1,4 +1,4 @@
-package com.github.rolecraftdev.level;
+package com.github.rolecraftdev.experience;
 
 import org.bukkit.entity.EntityType;
 import org.bukkit.entity.Player;
