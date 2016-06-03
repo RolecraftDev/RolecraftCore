@@ -27,7 +27,7 @@
 package com.github.rolecraftdev.data;
 
 /**
- * Holds persistent settings of a player.
+ * Holds persistent and non-persistent settings of a player.
  *
  * @since 0.0.5
  */
@@ -41,16 +41,23 @@ public final class PlayerSettings {
 
     /**
      * Whether the player is spying on guild chat - volatile to ensure thread
-     * safety in Bukkit's AsyncPlayerChatEvent
+     * safety in Bukkit's AsyncPlayerChatEvent. Persistent.
      */
     private volatile boolean guildSpy;
 
     /**
-     * Whether to show mana for the player on a scoreboard
+     * Whether the player is currently speaking in guild chat. This is not
+     * persistent.
+     */
+    private volatile boolean guildChat;
+
+    /**
+     * Whether to show mana for the player on a scoreboard. Persistent.
      */
     private boolean showMana;
     /**
-     * Whether to send a chat message to the player when they cast a spell
+     * Whether to send a chat message to the player when they cast a spell.
+     * Persistent.
      */
     private boolean spellChatMessage;
 
@@ -107,7 +114,7 @@ public final class PlayerSettings {
 
     /**
      * Get the value of the <em>guild spy</em> setting. This setting is volatile
-     * and thus thread-safe to some extend.
+     * and thus thread-safe to some extent.
      *
      * @return the value of <em>guild spy</em>
      * @since 0.0.5
@@ -117,14 +124,36 @@ public final class PlayerSettings {
     }
 
     /**
+     * Get the value of the <em>guild chat</em> setting. This setting is
+     * volatile and thus thread-safe to some extent.
+     *
+     * @return the value of <em>guild chat</em>
+     * @since 0.0.5
+     */
+    public boolean isGuildChat() {
+        return guildChat;
+    }
+
+    /**
      * Set the <em>guild spy</em> setting. This setting is volatile and thus
-     * thread-safe to some extend.
+     * thread-safe to some extent.
      *
      * @param guildSpy the new <em>guild spy</em> value
      * @since 0.0.5
      */
     public void setGuildSpy(final boolean guildSpy) {
         this.guildSpy = guildSpy;
+    }
+
+    /**
+     * Set the <em>guild chat</em> setting. This setting is volatile and thus
+     * thread-safe to some extent.
+     *
+     * @param guildChat the new <em>guild chat</em> value
+     * @since 0.0.5
+     */
+    public void setGuildChat(final boolean guildChat) {
+        this.guildChat = guildChat;
     }
 
     /**

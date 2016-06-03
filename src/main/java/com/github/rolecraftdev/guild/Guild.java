@@ -29,14 +29,10 @@ package com.github.rolecraftdev.guild;
 import org.apache.commons.lang.Validate;
 
 import com.github.rolecraftdev.RolecraftCore;
+import com.github.rolecraftdev.chat.GuildChannel;
 import com.github.rolecraftdev.event.RolecraftEventFactory;
 import com.github.rolecraftdev.util.Region2D;
 import com.github.rolecraftdev.util.messages.Messages;
-
-import com.traksag.channels.Channel;
-import com.traksag.channels.ChannelOption;
-import com.traksag.channels.DefaultChannel;
-import com.traksag.channels.DefaultChannelConfig;
 
 import org.bukkit.Bukkit;
 import org.bukkit.Location;
@@ -61,9 +57,9 @@ public final class Guild {
      */
     private final RolecraftCore plugin;
     /**
-     * The chat {@link Channel} for this {@link Guild}.
+     * The chat {@link GuildChannel} for this {@link Guild}.
      */
-    private final Channel channel;
+    private final GuildChannel channel;
     /**
      * The {@link GuildManager} this {@link Guild} is registered to.
      */
@@ -145,8 +141,7 @@ public final class Guild {
                 EnumSet.allOf(GuildAction.class), new HashSet<UUID>()));
         ranks.add(new GuildRank(plugin.getMessage(Messages.GUILD_DEFAULT_RANK),
                 EnumSet.noneOf(GuildAction.class), new HashSet<UUID>()));
-        channel = new DefaultChannel(new DefaultChannelConfig()
-                .setOption(ChannelOption.PREFIX, "[GC] "));
+        channel = new GuildChannel(guildManager.getPlugin(), guildId);
     }
 
     /**
@@ -181,18 +176,17 @@ public final class Guild {
         this.influence = influence;
         this.hallRegion = hallRegion;
         this.open = open;
-        channel = new DefaultChannel(new DefaultChannelConfig()
-                .setOption(ChannelOption.PREFIX, "[GC] "));
+        channel = new GuildChannel(guildManager.getPlugin(), guildId);
     }
 
     /**
-     * Get the associated {@link Channel}.
+     * Get the associated {@link GuildChannel}.
      *
-     * @return the associated {@link Channel}
+     * @return the associated {@link GuildChannel}
      * @since 0.0.5
      */
-    @Nullable
-    public Channel getChannel() {
+    @Nonnull
+    public GuildChannel getChannel() {
         return channel;
     }
 

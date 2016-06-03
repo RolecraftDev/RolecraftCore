@@ -27,17 +27,16 @@
 package com.github.rolecraftdev.command.other;
 
 import com.github.rolecraftdev.RolecraftCore;
+import com.github.rolecraftdev.chat.GuildChannel;
 import com.github.rolecraftdev.command.PlayerCommandHandler;
 import com.github.rolecraftdev.command.parser.Arguments;
+import com.github.rolecraftdev.data.PlayerData;
+import com.github.rolecraftdev.data.PlayerSettings;
 import com.github.rolecraftdev.guild.Guild;
 import com.github.rolecraftdev.guild.GuildManager;
 import com.github.rolecraftdev.util.messages.Messages;
 
-import com.traksag.channels.Channel;
-
-import org.bukkit.Bukkit;
 import org.bukkit.entity.Player;
-import org.bukkit.event.player.AsyncPlayerChatEvent;
 
 /**
  * @since 0.0.5
@@ -73,7 +72,7 @@ public class GCCommand extends PlayerCommandHandler {
             return;
         }
 
-        final Channel channel = guild.getChannel();
+        final GuildChannel channel = guild.getChannel();
         if (channel == null) {
             // only happens if the guild is a 'null' guild - shouldn't be ever
             // here, in theory
@@ -88,16 +87,16 @@ public class GCCommand extends PlayerCommandHandler {
             }
 
             // Add, send message, remove
-            channel.onConnect(player);
-            Bukkit.getPluginManager().callEvent(
-                            new AsyncPlayerChatEvent(false, player, message
-                                    .toString(), null));
-            channel.onDisconnect(player);
+            channel.onMessage(player.getDisplayName(), message.toString());
         } else {
-            if (channel.contains(player)) {
-                channel.onDisconnect(player);
+            final PlayerData data = this.plugin.getDataManager()
+                    .getPlayerData(player.getUniqueId());
+            final PlayerSettings settings = data.getSettings();
+
+            if (settings.isGuildChat()) {
+                settings.setGuildChat(false);
             } else {
-                channel.onConnect(player);
+                settings.setGuildChat(true);
             }
         }
     }

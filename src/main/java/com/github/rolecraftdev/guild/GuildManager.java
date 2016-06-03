@@ -35,10 +35,6 @@ import com.github.rolecraftdev.event.guild.GuildCreateEvent;
 import com.github.rolecraftdev.event.guild.GuildDisbandEvent;
 import com.github.rolecraftdev.util.serial.YamlFile;
 
-import com.traksag.channels.Channel;
-import com.traksag.channels.ChannelBatch;
-import com.traksag.channels.DefaultChannelBatch;
-
 import org.bukkit.Bukkit;
 import org.bukkit.ChatColor;
 import org.bukkit.scheduler.BukkitRunnable;
@@ -82,12 +78,6 @@ public final class GuildManager {
      * The linked configuration file.
      */
     private final YamlFile guildConfig;
-    /**
-     * The {@link ChannelBatch} that manages all {@link Channel}s for the
-     * {@link Guild}s.
-     */
-    // DefaultChannelBatch ensures thread-safety for AsyncPlayerChatEvent
-    private final ChannelBatch channelBatch = new DefaultChannelBatch();
     /**
      * All available {@link Guild}s.
      */
@@ -185,17 +175,6 @@ public final class GuildManager {
     }
 
     /**
-     * Get the {@link ChannelBatch} that is used for handling the
-     * {@link Channel}s of the {@link Guild}s.
-     *
-     * @return the used {@link ChannelBatch}
-     * @since 0.0.5
-     */
-    public ChannelBatch getChannelBatch() {
-        return channelBatch;
-    }
-
-    /**
      * Get the linked {@link YamlFile} that is used for global {@link Guild}
      * configuration.
      *
@@ -230,7 +209,6 @@ public final class GuildManager {
 
         if (fromDatabase) {
             guilds.add(guild);
-            channelBatch.addChannel(guild.getChannel());
             return true;
         }
 
@@ -251,7 +229,6 @@ public final class GuildManager {
             return false;
         } else {
             guilds.add(guild);
-            channelBatch.addChannel(guild.getChannel());
             plugin.getDataStore().createGuild(guild);
             return true;
         }
@@ -270,7 +247,6 @@ public final class GuildManager {
         if (loaded) {
             RolecraftEventFactory.guildDisbanded(guild);
             plugin.getDataStore().deleteGuild(guild);
-            channelBatch.removeChannel(guild.getChannel());
             return guilds.remove(guild);
         } else {
             return false;

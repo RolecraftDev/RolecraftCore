@@ -26,12 +26,6 @@
  */
 package com.github.rolecraftdev.guild;
 
-import com.github.rolecraftdev.data.PlayerData;
-
-import com.traksag.channels.Channel;
-import com.traksag.channels.event.AsyncChannelChatEvent;
-
-import org.bukkit.Bukkit;
 import org.bukkit.Location;
 import org.bukkit.Material;
 import org.bukkit.block.Block;
@@ -91,47 +85,6 @@ public final class GuildListener implements Listener {
      */
     GuildListener(final GuildManager guildManager) {
         this.guildManager = guildManager;
-    }
-
-    /**
-     * @since 0.0.5
-     */
-    @EventHandler(priority = EventPriority.HIGHEST)
-    public void onAsyncPlayerChat(final AsyncPlayerChatEvent event) {
-        // All function calls in here should be thread safe
-        if (event.isCancelled() || !guildManager.getChannelBatch().isOpen()) {
-            return;
-        }
-
-        final Channel channel = guildManager.getChannelBatch().getChannel(
-                event.getPlayer());
-
-        if (channel != null && channel.isOpen()) {
-            // Send in channel
-            event.setCancelled(true);
-            channel.chat(event.isAsynchronous(), event.getPlayer(),
-                    event.getFormat(), event.getMessage());
-        }
-    }
-
-    /**
-     * @since 0.0.5
-     */
-    @EventHandler(priority = EventPriority.HIGHEST)
-    public void onAsyncChannelChat(final AsyncChannelChatEvent event) {
-        // All function calls in here should be thread safe
-        if (event.isCancelled()) {
-            return;
-        }
-
-        for (final PlayerData data : guildManager.getPlugin().getDataManager()
-                .getPlayerDatum()) {
-            // Null becomes non-null, never the other way around -> this is safe
-            if (data.getSettings() != null && data.getSettings()
-                    .isGuildChatSpy()) {
-                event.getRecipients().add(Bukkit.getPlayer(data.getPlayerId()));
-            }
-        }
     }
 
     /**
