@@ -59,6 +59,7 @@ public class GuildLeaveCommand extends PlayerCommandHandler {
 
         setUsage("/guild leave");
         setDescription("Leave your guild");
+        setSubcommand(true);
     }
 
     /**

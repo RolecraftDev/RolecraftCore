@@ -52,6 +52,7 @@ public class GuildRejectCommand extends PlayerCommandHandler {
         setPermission("rolecraft.guild.join");
         setDescription("Rejects an invitation to a guild");
         setUsage("/guild reject");
+        setSubcommand(true);
     }
 
     /**

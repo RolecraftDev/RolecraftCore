@@ -60,6 +60,7 @@ public final class ProfessionListCommand extends CommandHandler {
         setUsage("/profession list [page]");
         setDescription("View a list of permissions at the given page");
         setPermission("rolecraft.profession.list");
+        setSubcommand(true);
     }
 
     /**

@@ -56,6 +56,7 @@ public final class ProfessionShowCommand extends PlayerCommandHandler {
         setUsage("/profession show [profession]");
         setDescription(
                 "View information about the given profession, or your profession if no profession is specified");
+        setSubcommand(true);
     }
 
     @Override

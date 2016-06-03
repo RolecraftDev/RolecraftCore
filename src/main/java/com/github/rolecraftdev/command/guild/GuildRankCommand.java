@@ -63,6 +63,7 @@ public class GuildRankCommand extends PlayerCommandHandler {
         setUsage("/guild rank <rank> <new/delete/set> [args]");
         setDescription("Allows modification of guild ranks");
         setPermission("rolecraft.guild.create");
+        setSubcommand(true);
     }
 
     /**

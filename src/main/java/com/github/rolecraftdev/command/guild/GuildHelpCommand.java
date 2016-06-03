@@ -50,6 +50,7 @@ public class GuildHelpCommand extends PlayerCommandHandler {
         setDescription("Guild-related help");
         setUsage("/guild help [args...]");
         setPermission("rolecraft.guild.join");
+        setSubcommand(true);
     }
 
     /**

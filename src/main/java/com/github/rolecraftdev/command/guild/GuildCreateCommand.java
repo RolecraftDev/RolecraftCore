@@ -59,6 +59,7 @@ public class GuildCreateCommand extends PlayerCommandHandler {
         setUsage("/guild create <name>");
         setDescription("Create a guild");
         setPermission("rolecraft.guild.create");
+        setSubcommand(true);
     }
 
     /**

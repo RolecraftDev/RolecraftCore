@@ -55,6 +55,7 @@ public class GuildBroadcastCommand extends PlayerCommandHandler {
         setDescription("Broadcast a message to the guild");
         setPermission("rolecraft.guild.join");
         setValidateUsage(false);
+        setSubcommand(true);
     }
 
     /**

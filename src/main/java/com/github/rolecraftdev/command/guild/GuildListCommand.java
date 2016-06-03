@@ -64,6 +64,7 @@ public class GuildListCommand extends CommandHandler {
         setDescription("List all of the guilds available");
         setPermission("rolecraft.guild.show");
         setUsage("/guild list [page]");
+        setSubcommand(true);
     }
 
     /**

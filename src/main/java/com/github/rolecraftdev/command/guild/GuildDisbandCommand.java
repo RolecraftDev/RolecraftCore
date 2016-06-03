@@ -62,6 +62,7 @@ public class GuildDisbandCommand extends CommandHandler {
         setDescription(
                 "Disbands a guild, use /guild disband to disband your own");
         setPermission("rolecraft.guild.create");
+        setSubcommand(true);
     }
 
     /**

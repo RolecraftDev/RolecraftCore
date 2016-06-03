@@ -66,6 +66,7 @@ public class GuildMemberCommand extends PlayerCommandHandler {
         setUsage("/guild member <member> <invite/kick/rank> [args]");
         setDescription("Invite, kick, promote or demote guild members");
         setPermission("rolecraft.guild.create");
+        setSubcommand(true);
     }
 
     /**

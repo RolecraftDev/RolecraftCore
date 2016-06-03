@@ -58,6 +58,7 @@ public class ProfessionSelectCommand extends PlayerCommandHandler {
         setUsage("/profession select <profession>");
         setDescription("Selects a profession");
         setPermission("rolecraft.profession.use");
+        setSubcommand(true);
     }
 
     /**

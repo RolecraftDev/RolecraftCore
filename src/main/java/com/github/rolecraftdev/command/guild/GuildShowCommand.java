@@ -60,6 +60,7 @@ public class GuildShowCommand extends CommandHandler {
         setUsage("/guild show <name>");
         setDescription("Shows info about a guild");
         setPermission("rolecraft.guild.show");
+        setSubcommand(true);
     }
 
     /**

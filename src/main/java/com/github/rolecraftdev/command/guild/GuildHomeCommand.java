@@ -59,6 +59,7 @@ public class GuildHomeCommand extends PlayerCommandHandler {
         setUsage("/guild home");
         setDescription("Teleports to the guild home");
         setPermission("rolecraft.guild.home");
+        setSubcommand(true);
     }
 
     /**
