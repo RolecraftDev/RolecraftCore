@@ -43,7 +43,6 @@ import java.util.UUID;
  * @since 0.0.5
  */
 public class ProfessionSelectCommand extends PlayerCommandHandler {
-    private final RolecraftCore plugin;
     private final ProfessionManager professionMgr;
 
     /**
@@ -53,8 +52,7 @@ public class ProfessionSelectCommand extends PlayerCommandHandler {
      * @since 0.0.5
      */
     ProfessionSelectCommand(final RolecraftCore plugin) {
-        super("select");
-        this.plugin = plugin;
+        super(plugin, "select");
         professionMgr = plugin.getProfessionManager();
 
         setUsage("/profession select <profession>");

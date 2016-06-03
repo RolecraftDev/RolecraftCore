@@ -53,7 +53,7 @@ public final class ProfessionListCommand extends CommandHandler {
      * @since 0.0.5
      */
     ProfessionListCommand(final RolecraftCore plugin) {
-        super("list");
+        super(plugin, "list");
         profMgr = plugin.getProfessionManager();
 
         setUsage("/profession list [page]");

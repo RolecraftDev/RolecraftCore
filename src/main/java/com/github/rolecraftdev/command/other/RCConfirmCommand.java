@@ -41,8 +41,6 @@ import java.util.List;
  * @since 0.0.5
  */
 public class RCConfirmCommand extends PlayerCommandHandler {
-    private final RolecraftCore plugin;
-
     /**
      * Constructor.
      *
@@ -51,7 +49,6 @@ public class RCConfirmCommand extends PlayerCommandHandler {
      */
     public RCConfirmCommand(final RolecraftCore plugin) {
         super(plugin, "rcconfirm");
-        this.plugin = plugin;
 
         setUsage("/rcconfirm");
         setDescription("Used to confirm sensitive commands");

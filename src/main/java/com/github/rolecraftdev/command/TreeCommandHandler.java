@@ -1,10 +1,10 @@
 package com.github.rolecraftdev.command;
 
+import com.github.rolecraftdev.RolecraftCore;
 import com.github.rolecraftdev.command.parser.Arguments;
 
 import org.bukkit.ChatColor;
 import org.bukkit.command.CommandSender;
-import org.bukkit.plugin.java.JavaPlugin;
 
 import java.util.ArrayList;
 import java.util.Arrays;
@@ -17,11 +17,7 @@ import java.util.Map;
 public abstract class TreeCommandHandler extends CommandHandler {
     private final Map<String, CommandHandler> subcommands = new HashMap<String, CommandHandler>();
 
-    public TreeCommandHandler(String name) {
-        super(name);
-    }
-
-    public TreeCommandHandler(JavaPlugin plugin, String name) {
+    public TreeCommandHandler(RolecraftCore plugin, String name) {
         super(plugin, name);
     }
 

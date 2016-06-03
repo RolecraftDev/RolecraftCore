@@ -1,35 +1,81 @@
 package com.github.rolecraftdev.command;
 
+import com.github.rolecraftdev.RolecraftCore;
 import com.github.rolecraftdev.command.parser.Arguments;
 import com.github.rolecraftdev.command.parser.parameters.ParamsBase;
+import com.github.rolecraftdev.util.messages.Messages;
 
 import org.bukkit.ChatColor;
 import org.bukkit.command.Command;
 import org.bukkit.command.CommandExecutor;
 import org.bukkit.command.CommandSender;
-import org.bukkit.plugin.java.JavaPlugin;
 import org.bukkit.scheduler.BukkitRunnable;
 
+/**
+ * Handles a normal command in Rolecraft.
+ *
+ * @see {@link PlayerCommandHandler} for commands only executable by players
+ * @see {@link TreeCommandHandler} for commands with several subcommands
+ * @since 0.0.5
+ */
 public abstract class CommandHandler implements CommandExecutor {
-    private final JavaPlugin plugin;
+    /**
+     * The {@link RolecraftCore} plugin instance.
+     */
+    protected final RolecraftCore plugin;
+    /**
+     * The name of this command.
+     */
     private final String name;
 
+    /**
+     * Usage string for the command, to be sent to anyone who uses it
+     * incorrectly.
+     */
     private String usage;
+    /**
+     * A description of the command's functionality.
+     */
     private String description;
+    /**
+     * The permission node required to execute the command.
+     */
     private String permission;
-    private String noPermissionMessage = ChatColor.RED + "You don't have permission to use this command.";
-    private int minArgs, maxArgs;
+    /**
+     * The message sent to somebody who does not have the correct permission but
+     * attempts to execute the command anyway.
+     */
+    private String noPermissionMessage;
+    /**
+     * The minimum number of arguments required to successfully execute the
+     * command.
+     */
+    private int minArgs;
+    /**
+     * The maximum number of arguments permitted in the command's usage.
+     */
+    private int maxArgs;
+    /**
+     * Whether the command is to be executed asynchronously.
+     */
     private boolean async;
+    /**
+     * Whether to check the command against the correct usage before passing it
+     * on to the main executor method.
+     */
     private boolean validateUsage;
+
+    /**
+     * A template for the correct usage of the command with information about
+     * each required and optional parameter.
+     */
     protected ParamsBase paramsBase;
 
-    public CommandHandler(String name) {
-        this(null, name);
-    }
-
-    public CommandHandler(JavaPlugin plugin, String name) {
+    public CommandHandler(RolecraftCore plugin, String name) {
         this.plugin = plugin;
         this.name = name;
+
+        noPermissionMessage = plugin.getMessage(Messages.NO_PERMISSION);
         usage = "/" + name;
         description = usage;
         permission = null;
@@ -84,10 +130,6 @@ public abstract class CommandHandler implements CommandExecutor {
         return noPermissionMessage;
     }
 
-    public void setNoPermissionMessage(String noPermissionMessage) {
-        this.noPermissionMessage = noPermissionMessage;
-    }
-
     public int getMinArgs() {
         return minArgs;
     }
@@ -104,28 +146,31 @@ public abstract class CommandHandler implements CommandExecutor {
         this.maxArgs = maxArgs;
     }
 
-    public void setArgsBounds(int min, int max) {
-        setMinArgs(min);
-        setMaxArgs(max);
-    }
-
     public boolean isAsync() {
         return async;
     }
 
     public void setAsync(boolean async) {
         if (async && plugin == null) {
-            throw new IllegalArgumentException("Cannot make command async without a plugin specified in the constructor!");
+            throw new IllegalArgumentException(
+                    "Cannot make command async without a plugin specified in the constructor!");
         }
         this.async = async;
     }
 
+    /**
+     * Sends a message to the given {@link CommandSender} detailing the correct
+     * usage of this command.
+     *
+     * @param sender the {@link CommandSender} to send the usage to
+     */
     public void sendUsageMessage(CommandSender sender) {
         sender.sendMessage(ChatColor.RED + "Usage: " + usage);
     }
 
     @Override
-    public boolean onCommand(CommandSender sender, Command cmnd, String string, String[] args) {
+    public boolean onCommand(CommandSender sender, Command cmnd, String string,
+            String[] args) {
         if (permission != null && !sender.hasPermission(permission)) {
             sender.sendMessage(noPermissionMessage);
             return true;
@@ -142,8 +187,8 @@ public abstract class CommandHandler implements CommandExecutor {
     /**
      * Executes this command asynchronously.
      *
-     * @param sender
-     * @param args
+     * @param sender the sender of the command
+     * @param args the arguments inputted by the sender
      */
     private void executeAsync(final CommandSender sender, final String[] args) {
         (new BukkitRunnable() {
@@ -155,10 +200,10 @@ public abstract class CommandHandler implements CommandExecutor {
     }
 
     /**
-     * Command handler method.
+     * Executes the command, sync.
      *
-     * @param sender
-     * @param args
+     * @param sender the sender of the command
+     * @param args the arguments inputted by the sender
      */
     public void onCommand(final CommandSender sender, final String[] args) {
         if (args.length < getMinArgs()) {
@@ -174,7 +219,8 @@ public abstract class CommandHandler implements CommandExecutor {
         if (paramsBase != null) {
             newArgs.withParams(paramsBase.createParams(newArgs));
             if (doesValidateUsage() && !newArgs.getParams().valid()) {
-                sender.sendMessage(ChatColor.RED + "Invalid usage, " + getUsage());
+                sender.sendMessage(
+                        ChatColor.RED + "Invalid usage, " + getUsage());
                 return;
             }
         }
@@ -182,10 +228,10 @@ public abstract class CommandHandler implements CommandExecutor {
     }
 
     /**
-     * Command handler method using the Arguments API.
+     * Command handler method for subclasses using the Arguments API.
      *
-     * @param sender
-     * @param args
+     * @param sender the sender of the command
+     * @param args the arguments inputted by the sender
      */
     public void onCommand(final CommandSender sender, final Arguments args) {
     }

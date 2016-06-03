@@ -43,7 +43,6 @@ import org.bukkit.event.player.AsyncPlayerChatEvent;
  * @since 0.0.5
  */
 public class GCCommand extends PlayerCommandHandler {
-    private final RolecraftCore plugin;
     private final GuildManager guildManager;
 
     /**
@@ -54,7 +53,6 @@ public class GCCommand extends PlayerCommandHandler {
      */
     public GCCommand(final RolecraftCore plugin) {
         super(plugin, "gc");
-        this.plugin = plugin;
         guildManager = plugin.getGuildManager();
 
         setUsage("/gc [message]");

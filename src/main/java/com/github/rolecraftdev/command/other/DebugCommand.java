@@ -46,7 +46,7 @@ public class DebugCommand extends PlayerCommandHandler {
      * @since 0.0.5
      */
     public DebugCommand(final RolecraftCore plugin) {
-        super("debug");
+        super(plugin, "debug");
         setUsage("/debug wand");
         this.plugin = plugin;
     }

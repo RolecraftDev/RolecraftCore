@@ -44,7 +44,6 @@ import java.util.UUID;
  * @since 0.0.5
  */
 public class GuildHomeCommand extends PlayerCommandHandler {
-    private final RolecraftCore plugin;
     private final GuildManager guildManager;
 
     /**
@@ -55,7 +54,6 @@ public class GuildHomeCommand extends PlayerCommandHandler {
      */
     GuildHomeCommand(final RolecraftCore plugin) {
         super(plugin, "home");
-        this.plugin = plugin;
         guildManager = plugin.getGuildManager();
 
         setUsage("/guild home");

@@ -1,29 +1,29 @@
 package com.github.rolecraftdev.command;
 
+import com.github.rolecraftdev.RolecraftCore;
 import com.github.rolecraftdev.command.parser.Arguments;
+import com.github.rolecraftdev.util.messages.Messages;
 
 import org.bukkit.ChatColor;
 import org.bukkit.command.CommandSender;
 import org.bukkit.entity.Player;
-import org.bukkit.plugin.java.JavaPlugin;
 
+/**
+ * Base command handler for commands which may only be executed by players.
+ *
+ * @since 0.0.5
+ */
 public abstract class PlayerCommandHandler extends CommandHandler {
-    private String notPlayerMessage = ChatColor.RED + "You must be a player to use this command.";
+    private String notPlayerMessage;
 
-    public PlayerCommandHandler(String name) {
-        super(name);
-    }
-
-    public PlayerCommandHandler(JavaPlugin plugin, String name) {
+    public PlayerCommandHandler(RolecraftCore plugin, String name) {
         super(plugin, name);
+
+        notPlayerMessage = plugin.getMessage(Messages.NOT_PLAYER);
     }
 
     public String getNotPlayerMessage() {
         return notPlayerMessage;
-    }
-
-    public void setNotPlayerMessage(String notPlayerMessage) {
-        this.notPlayerMessage = notPlayerMessage;
     }
 
     @Override

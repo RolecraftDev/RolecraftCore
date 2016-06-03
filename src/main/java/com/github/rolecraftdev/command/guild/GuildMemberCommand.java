@@ -51,7 +51,6 @@ import java.util.UUID;
  * @since 0.0.5
  */
 public class GuildMemberCommand extends PlayerCommandHandler {
-    private final RolecraftCore plugin;
     private final GuildManager guildMgr;
 
     /**
@@ -62,7 +61,6 @@ public class GuildMemberCommand extends PlayerCommandHandler {
      */
     GuildMemberCommand(final RolecraftCore plugin) {
         super(plugin, "member");
-        this.plugin = plugin;
         guildMgr = plugin.getGuildManager();
 
         setUsage("/guild member <member> <invite/kick/rank> [args]");

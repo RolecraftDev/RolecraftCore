@@ -48,7 +48,6 @@ import java.util.UUID;
  * @since 0.0.5
  */
 public class GuildRankCommand extends PlayerCommandHandler {
-    private final RolecraftCore plugin;
     private final GuildManager guildManager;
 
     /**
@@ -59,7 +58,6 @@ public class GuildRankCommand extends PlayerCommandHandler {
      */
     GuildRankCommand(final RolecraftCore plugin) {
         super(plugin, "rank");
-        this.plugin = plugin;
         guildManager = plugin.getGuildManager();
 
         setUsage("/guild rank <rank> <new/delete/set> [args]");

@@ -33,8 +33,6 @@ import com.github.rolecraftdev.command.TreeCommandHandler;
  * @since 0.0.5
  */
 public class ProfessionCommand extends TreeCommandHandler {
-    private final RolecraftCore plugin;
-
     /**
      * Constructor.
      *
@@ -43,7 +41,6 @@ public class ProfessionCommand extends TreeCommandHandler {
      */
     public ProfessionCommand(final RolecraftCore plugin) {
         super(plugin, "profession");
-        this.plugin = plugin;
     }
 
     @Override

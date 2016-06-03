@@ -33,8 +33,6 @@ import com.github.rolecraftdev.command.TreeCommandHandler;
  * @since 0.0.5
  */
 public class GuildCommand extends TreeCommandHandler {
-    private final RolecraftCore plugin;
-
     /**
      * Constructor.
      *
@@ -43,7 +41,6 @@ public class GuildCommand extends TreeCommandHandler {
      */
     public GuildCommand(final RolecraftCore plugin) {
         super(plugin, "guild");
-        this.plugin = plugin;
     }
 
     @Override

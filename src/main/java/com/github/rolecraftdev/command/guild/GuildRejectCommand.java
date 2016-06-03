@@ -40,8 +40,6 @@ import org.bukkit.metadata.MetadataValue;
  * @since 0.0.5
  */
 public class GuildRejectCommand extends PlayerCommandHandler {
-    private final RolecraftCore plugin;
-
     /**
      * Constructor.
      *
@@ -49,8 +47,7 @@ public class GuildRejectCommand extends PlayerCommandHandler {
      * @since 0.0.5
      */
     GuildRejectCommand(final RolecraftCore plugin) {
-        super("reject");
-        this.plugin = plugin;
+        super(plugin, "reject");
 
         setPermission("rolecraft.guild.join");
         setDescription("Rejects an invitation to a guild");

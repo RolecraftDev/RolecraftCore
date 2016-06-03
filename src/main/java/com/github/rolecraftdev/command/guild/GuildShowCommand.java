@@ -46,7 +46,6 @@ import java.util.UUID;
  */
 public class GuildShowCommand extends CommandHandler {
     private final GuildManager guildManager;
-    private final RolecraftCore plugin;
 
     /**
      * Constructor.
@@ -57,7 +56,6 @@ public class GuildShowCommand extends CommandHandler {
     GuildShowCommand(final RolecraftCore plugin) {
         super(plugin, "show");
         guildManager = plugin.getGuildManager();
-        this.plugin = plugin;
 
         setUsage("/guild show <name>");
         setDescription("Shows info about a guild");

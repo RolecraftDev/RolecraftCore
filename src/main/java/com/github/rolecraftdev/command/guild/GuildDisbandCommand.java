@@ -46,7 +46,6 @@ import java.util.UUID;
  * @since 0.0.5
  */
 public class GuildDisbandCommand extends CommandHandler {
-    private final RolecraftCore plugin;
     private final GuildManager guildManager;
 
     /**
@@ -57,7 +56,6 @@ public class GuildDisbandCommand extends CommandHandler {
      */
     GuildDisbandCommand(final RolecraftCore plugin) {
         super(plugin, "disband");
-        this.plugin = plugin;
         guildManager = plugin.getGuildManager();
 
         setUsage("/guild disband [name]");

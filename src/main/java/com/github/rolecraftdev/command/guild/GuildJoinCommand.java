@@ -46,7 +46,6 @@ import java.util.UUID;
  * @since 0.0.5
  */
 public class GuildJoinCommand extends PlayerCommandHandler {
-    private final RolecraftCore plugin;
     private final DataManager dataMgr;
     private final GuildManager guildMgr;
 
@@ -57,8 +56,7 @@ public class GuildJoinCommand extends PlayerCommandHandler {
      * @since 0.0.5
      */
     GuildJoinCommand(final RolecraftCore plugin) {
-        super("join");
-        this.plugin = plugin;
+        super(plugin, "join");
         dataMgr = plugin.getDataManager();
         guildMgr = plugin.getGuildManager();
 

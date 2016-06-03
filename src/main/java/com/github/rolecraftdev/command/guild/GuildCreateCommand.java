@@ -44,7 +44,6 @@ import java.util.UUID;
  * @since 0.0.5
  */
 public class GuildCreateCommand extends PlayerCommandHandler {
-    private final RolecraftCore plugin;
     private final GuildManager guildManager;
 
     /**
@@ -55,7 +54,6 @@ public class GuildCreateCommand extends PlayerCommandHandler {
      */
     GuildCreateCommand(final RolecraftCore plugin) {
         super(plugin, "create");
-        this.plugin = plugin;
         guildManager = plugin.getGuildManager();
 
         setUsage("/guild create <name>");

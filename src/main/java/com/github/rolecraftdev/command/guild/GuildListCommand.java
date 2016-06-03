@@ -58,7 +58,7 @@ public class GuildListCommand extends CommandHandler {
      * @since 0.0.5
      */
     GuildListCommand(final RolecraftCore plugin) {
-        super("list");
+        super(plugin, "list");
         guildMgr = plugin.getGuildManager();
 
         setDescription("List all of the guilds available");

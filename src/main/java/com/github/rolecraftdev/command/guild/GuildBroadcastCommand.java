@@ -42,8 +42,6 @@ import org.bukkit.entity.Player;
  * @since 0.0.5
  */
 public class GuildBroadcastCommand extends PlayerCommandHandler {
-    private final RolecraftCore plugin;
-
     /**
      * Constructor.
      *
@@ -51,8 +49,7 @@ public class GuildBroadcastCommand extends PlayerCommandHandler {
      * @since 0.0.5
      */
     GuildBroadcastCommand(final RolecraftCore plugin) {
-        super("broadcast");
-        this.plugin = plugin;
+        super(plugin, "broadcast");
 
         setUsage("/guild broadcast [-r rank] <message>");
         setDescription("Broadcast a message to the guild");

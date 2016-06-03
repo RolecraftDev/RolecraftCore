@@ -43,7 +43,6 @@ import java.util.UUID;
  * @since 0.0.5
  */
 public class GuildLeaveCommand extends PlayerCommandHandler {
-    private final RolecraftCore plugin;
     private final GuildManager guildMgr;
     private final DataManager dataMgr;
 
@@ -54,8 +53,7 @@ public class GuildLeaveCommand extends PlayerCommandHandler {
      * @since 0.0.5
      */
     GuildLeaveCommand(final RolecraftCore plugin) {
-        super("leave");
-        this.plugin = plugin;
+        super(plugin, "leave");
         guildMgr = plugin.getGuildManager();
         dataMgr = plugin.getDataManager();
 
