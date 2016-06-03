@@ -31,7 +31,6 @@ import com.github.rolecraftdev.command.CommandHelper;
 import com.github.rolecraftdev.command.PlayerCommandHandler;
 import com.github.rolecraftdev.command.parser.Arguments;
 import com.github.rolecraftdev.guild.GuildAction;
-import com.github.rolecraftdev.util.messages.ColourScheme;
 
 import org.bukkit.entity.Player;
 
@@ -59,8 +58,7 @@ public class GuildHelpCommand extends PlayerCommandHandler {
     @Override
     public void onCommand(final Player player, final Arguments args) {
         if (args.length() == 0) {
-            CommandHelper.sendBanner(ColourScheme.DEFAULT, player,
-                    "Guilds",
+            CommandHelper.sendBanner(player, "Guilds",
                     "/guild help actions - Help with guild actions",
                     "/guild help commands - Help with commands",
                     "/guild help halls - Help with guild halls");
@@ -78,14 +76,11 @@ public class GuildHelpCommand extends PlayerCommandHandler {
                 first = false;
                 builder.append(action.getHumanReadableName());
             }
-            CommandHelper.sendBanner(ColourScheme.DEFAULT, player,
-                    "Actions:",
-                    builder.toString());
+            CommandHelper.sendBanner(player, "Actions:", builder.toString());
         } else if (sub.equals("commands")) {
             // TODO: show command help
         } else if (sub.equals("halls")) {
-            CommandHelper.sendBanner(ColourScheme.DEFAULT, player,
-                    "Guild Halls:",
+            CommandHelper.sendBanner(player, "Guild Halls:",
                     "Guild Halls are predefined areas which only members of the guild can access.",
                     "Guild Halls allow for battles between guilds, storage for items and more.");
         }

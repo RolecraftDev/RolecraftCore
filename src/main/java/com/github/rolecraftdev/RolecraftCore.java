@@ -298,11 +298,12 @@ public final class RolecraftCore extends JavaPlugin {
     }
 
     /**
-     * Gets the {@link RegisteredServiceProvider} for the given type
+     * Gets the {@link RegisteredServiceProvider} for the given type.
      *
-     * @param clazz The class to get the {@link RegisteredServiceProvider} for
-     * @param <T>   The type of {@link RegisteredServiceProvider} to be returned
-     * @return The {@link RegisteredServiceProvider} for the given type
+     * @param clazz the class to get the {@link RegisteredServiceProvider} for
+     * @param <T> the type of {@link RegisteredServiceProvider} to be returned
+     * @return the {@link RegisteredServiceProvider} for the given type
+     * @since 0.0.5
      */
     protected <T> RegisteredServiceProvider<T> getRegistration(Class<T> clazz) {
         return this.getServer().getServicesManager().getRegistration(clazz);
@@ -312,9 +313,10 @@ public final class RolecraftCore extends JavaPlugin {
      * Gets the providing object for the {@link RegisteredServiceProvider} for
      * the given type
      *
-     * @param clazz The class to get the providing object for
-     * @param <T>   The type of provider to get
-     * @return The registered provider for the given type
+     * @param clazz the class to get the providing object for
+     * @param <T> the type of provider to get
+     * @return the registered provider for the given type
+     * @since 0.0.5
      */
     protected <T> T getProvider(Class<T> clazz) {
         RegisteredServiceProvider<T> rsp = getRegistration(clazz);
@@ -327,9 +329,10 @@ public final class RolecraftCore extends JavaPlugin {
     /**
      * Attempts to hook Vault's {@link Economy}. Note that this can fail if
      * Vault isn't present and/or there isn't an economy plugin on the server.
-     * If this fails, null is returned
+     * If this fails, {@code null} is returned.
      *
-     * @return The hooked {@link Economy} object
+     * @return the hooked {@link Economy} object
+     * @since 0.0.5
      */
     protected Economy hookVaultEcon() {
         return economy = getProvider(Economy.class);
@@ -341,6 +344,7 @@ public final class RolecraftCore extends JavaPlugin {
      * economy, call {@link #hookVaultEcon()}
      *
      * @return Vault's {@link Economy} object
+     * @since 0.0.5
      */
     protected Economy getVaultEcon() {
         return economy;
@@ -351,6 +355,7 @@ public final class RolecraftCore extends JavaPlugin {
      *
      * @return {@code true} if Vault's economy have been hooked, else
      *         {@code false}
+     * @since 0.0.5
      */
     protected boolean vaultEconHooked() {
         return getVaultEcon() != null;
@@ -411,6 +416,9 @@ public final class RolecraftCore extends JavaPlugin {
         sqlLoaded = loaded;
     }
 
+    /**
+     * @since 0.0.5
+     */
     private void register(CommandHandler handler) {
         CommandHelper.registerCommand(this, handler.getName(), handler);
     }

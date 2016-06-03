@@ -34,7 +34,6 @@ import com.github.rolecraftdev.guild.Guild;
 import com.github.rolecraftdev.guild.GuildAction;
 import com.github.rolecraftdev.guild.GuildManager;
 import com.github.rolecraftdev.guild.GuildRank;
-import com.github.rolecraftdev.util.messages.ColourScheme;
 import com.github.rolecraftdev.util.messages.MessageVariable;
 
 import org.bukkit.ChatColor;
@@ -74,7 +73,8 @@ public final class CommandHelper {
      * @param handler the handler for the command
      * @since 0.0.5
      */
-    public static void registerCommand(JavaPlugin plugin, String name, CommandHandler handler) {
+    public static void registerCommand(JavaPlugin plugin, String name,
+            CommandHandler handler) {
         PluginCommand cmd = plugin.getCommand(name);
         cmd.setExecutor(handler);
         if (handler instanceof TreeCommandHandler) {
@@ -242,11 +242,17 @@ public final class CommandHelper {
                 + permitted.toString());
     }
 
-    public static void sendBanner(ColourScheme scheme, CommandSender sender, Object... message) {
-        sender.sendMessage(ChatColor.GRAY + " " + ChatColor.STRIKETHROUGH + "-" + ChatColor.DARK_GRAY + ChatColor.STRIKETHROUGH + "--------------------------------------------------" + ChatColor.GRAY + ChatColor.STRIKETHROUGH + "-");
+    public static void sendBanner(CommandSender sender, Object... message) {
+        sender.sendMessage(ChatColor.GRAY + " " + ChatColor.STRIKETHROUGH + "-"
+                + ChatColor.DARK_GRAY + ChatColor.STRIKETHROUGH
+                + "--------------------------------------------------"
+                + ChatColor.GRAY + ChatColor.STRIKETHROUGH + "-");
         for (Object line : message) {
-            sender.sendMessage(scheme.getLight() + " " + line.toString());
+            sender.sendMessage(ChatColor.GREEN + " " + line.toString());
         }
-        sender.sendMessage(ChatColor.GRAY + " " + ChatColor.STRIKETHROUGH + "-" + ChatColor.DARK_GRAY + ChatColor.STRIKETHROUGH + "--------------------------------------------------" + ChatColor.GRAY + ChatColor.STRIKETHROUGH + "-");
+        sender.sendMessage(ChatColor.GRAY + " " + ChatColor.STRIKETHROUGH + "-"
+                + ChatColor.DARK_GRAY + ChatColor.STRIKETHROUGH
+                + "--------------------------------------------------"
+                + ChatColor.GRAY + ChatColor.STRIKETHROUGH + "-");
     }
 }

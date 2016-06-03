@@ -45,10 +45,21 @@ import java.util.Random;
  * @since 0.0.5
  */
 public final class GeneralUtil {
-    private static final Random rand = new Random();
+    /**
+     * Instance of {@link Random} for usage anywhere in the plugin.
+     *
+     * @since 0.0.5
+     */
+    public static final Random random = new Random();
+
     private static final float VELOCITY_FACTOR = 0.2f;
     private static final float SMALL_VELOCITY_FACTOR = 0.05f;
 
+    /**
+     * @since 0.0.5
+     * @throws {@link IOException} if input stream cannot be written to file or
+     *         cannot be successfully closed
+     */
     public static void copyInputStreamToFile(InputStream stream, File dest)
             throws IOException {
         if (stream == null || dest == null) {
@@ -151,7 +162,7 @@ public final class GeneralUtil {
      */
     public static float velocityRandomiser(final float original) {
         float velocity = original - VELOCITY_FACTOR;
-        velocity += (2 * VELOCITY_FACTOR) * rand.nextFloat();
+        velocity += (2 * VELOCITY_FACTOR) * random.nextFloat();
         return velocity;
     }
 
@@ -182,7 +193,7 @@ public final class GeneralUtil {
      */
     public static float smallVelocityRandomiser(final float original) {
         float velocity = original - SMALL_VELOCITY_FACTOR;
-        velocity += (2 * SMALL_VELOCITY_FACTOR) * rand.nextFloat();
+        velocity += (2 * SMALL_VELOCITY_FACTOR) * random.nextFloat();
         return velocity;
     }
 

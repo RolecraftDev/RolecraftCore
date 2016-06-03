@@ -1,7 +1,6 @@
 package com.github.rolecraftdev.command;
 
 import com.github.rolecraftdev.command.parser.Arguments;
-import com.github.rolecraftdev.util.messages.ColourScheme;
 
 import org.bukkit.ChatColor;
 import org.bukkit.command.CommandSender;
@@ -18,18 +17,12 @@ import java.util.Map;
 public abstract class TreeCommandHandler extends CommandHandler {
     private final Map<String, CommandHandler> subcommands = new HashMap<String, CommandHandler>();
 
-    private ColourScheme colourScheme = ColourScheme.DEFAULT;
-
     public TreeCommandHandler(String name) {
         super(name);
     }
 
     public TreeCommandHandler(JavaPlugin plugin, String name) {
         super(plugin, name);
-    }
-
-    public void setColourScheme(ColourScheme colourScheme) {
-        this.colourScheme = colourScheme;
     }
 
     public abstract void setupSubcommands();
@@ -62,7 +55,7 @@ public abstract class TreeCommandHandler extends CommandHandler {
             }
         }
 
-        CommandHelper.sendBanner(colourScheme, sender, msgs.toArray());
+        CommandHelper.sendBanner(sender, msgs.toArray());
     }
 
     protected void addSubcommand(CommandHandler handler) {
