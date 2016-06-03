@@ -37,6 +37,7 @@ import org.bukkit.ChatColor;
 import org.bukkit.command.CommandSender;
 
 import java.util.ArrayList;
+import java.util.Set;
 
 /**
  * @since 0.0.5
@@ -44,7 +45,7 @@ import java.util.ArrayList;
 public final class ProfessionListCommand extends CommandHandler {
     private static final int PROFESSIONS_PER_PAGE = 7;
 
-    private final ProfessionManager profMgr;
+    private final ProfessionManager professionManager;
 
     /**
      * Constructor.
@@ -54,7 +55,7 @@ public final class ProfessionListCommand extends CommandHandler {
      */
     ProfessionListCommand(final RolecraftCore plugin) {
         super(plugin, "list");
-        profMgr = plugin.getProfessionManager();
+        professionManager = plugin.getProfessionManager();
 
         setUsage("/profession list [page]");
         setDescription("View a list of permissions at the given page");
@@ -66,9 +67,16 @@ public final class ProfessionListCommand extends CommandHandler {
      */
     @Override
     public void onCommand(final CommandSender sender, final Arguments args) {
+        final Set<Profession> professions = professionManager.getProfessions();
+        if (professions == null || professions.size() == 0) {
+            // TODO: add to messages system
+            sender.sendMessage("There are no currently known professions");
+            return;
+        }
+
         sender.sendMessage(ChatColor.GOLD + "[Professions]");
         for (final Profession profession : CommandHelper.getPageFromArgs(sender,
-                new ArrayList<Profession>(profMgr.getProfessions()),
+                new ArrayList<Profession>(professionManager.getProfessions()),
                 args.length() > 0 ? args.get(0) : null, PROFESSIONS_PER_PAGE)) {
             sender.sendMessage(ChatColor.GRAY + profession.getName());
         }

@@ -62,7 +62,6 @@ public class MagicListener implements Listener {
      * The associated {@link RolecraftCore} instance.
      */
     private final RolecraftCore plugin;
-    private final SpellManager spellManager;
 
     /**
      * Constructor.
@@ -72,7 +71,6 @@ public class MagicListener implements Listener {
      */
     public MagicListener(final RolecraftCore plugin) {
         this.plugin = plugin;
-        this.spellManager = plugin.getSpellManager();
     }
 
     /*
@@ -80,6 +78,7 @@ public class MagicListener implements Listener {
      */
     @EventHandler
     public void onPlayerJoin(final PlayerJoinEvent event) {
+        final SpellManager spellManager = this.plugin.getSpellManager();
         // Only create the mana-display if the player can perform magic
         if (spellManager.canCast(event.getPlayer())) {
             spellManager.getManaUpdater().createDisplayFor(event.getPlayer());
@@ -109,6 +108,7 @@ public class MagicListener implements Listener {
      * @param player the player who leaves
      */
     private void onPlayerLeave(final Player player) {
+        final SpellManager spellManager = this.plugin.getSpellManager();
         spellManager.getManaUpdater().disposeDisplayOf(player);
     }
 
@@ -117,6 +117,7 @@ public class MagicListener implements Listener {
      */
     @EventHandler(priority = EventPriority.HIGHEST)
     public void onInteract(final PlayerInteractEvent event) {
+        final SpellManager spellManager = this.plugin.getSpellManager();
         final Action action = event.getAction();
 
         if (action != Action.RIGHT_CLICK_AIR
@@ -173,6 +174,7 @@ public class MagicListener implements Listener {
             return;
         }
 
+        final SpellManager spellManager = this.plugin.getSpellManager();
         final Player caster = (Player) event.getDamager();
         final LivingEntity target = (LivingEntity) event.getEntity();
         final Spell cast = getAvailableSpell(caster, caster.getItemInHand());
@@ -207,6 +209,7 @@ public class MagicListener implements Listener {
             return null;
         }
 
+        final SpellManager spellManager = this.plugin.getSpellManager();
         final Spell spell = spellManager.getSpellFromItem(stack);
 
         if (spell == null) {
@@ -239,6 +242,7 @@ public class MagicListener implements Listener {
         final SpellCastEvent castEvent = RolecraftEventFactory.spellCast(spell,
                 caster, manaCost, type);
 
+        final SpellManager spellManager = this.plugin.getSpellManager();
         if (castEvent.isCancelled()) {
             caster.sendMessage(castEvent.getCancelMessage());
             return null;
@@ -264,6 +268,8 @@ public class MagicListener implements Listener {
         if (castCost == Spell.CAST_FAILURE || castCost == Spell.BAD_SITUATION) {
             return;
         }
+
+        final SpellManager spellManager = this.plugin.getSpellManager();
         // Use the estimate if it was incorrect, the event cost otherwise
         if (castCost == estimate) {
             castCost = castEvent.getManaCost();
