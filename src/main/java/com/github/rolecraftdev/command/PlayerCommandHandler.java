@@ -77,7 +77,8 @@ public abstract class PlayerCommandHandler extends CommandHandler {
 
         Arguments newArgs = new Arguments(args);
         if (paramsBase != null) {
-            newArgs.withParams(paramsBase.createParams(newArgs));
+            newArgs.withParams(
+                    paramsBase.createParams(newArgs, isSubcommand()));
             if (doesValidateUsage() && !newArgs.getParams().valid()) {
                 // TODO: add to messages system
                 player.sendMessage(

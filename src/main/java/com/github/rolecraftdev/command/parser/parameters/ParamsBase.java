@@ -155,6 +155,19 @@ public class ParamsBase {
      * @since 0.0.5
      */
     public Params createParams(Arguments args) {
+        return createParams(args, false);
+    }
+
+    /**
+     * Creates a set of {@link Params} for this base using the given
+     * {@link Arguments}.
+     *
+     * @param args the arguments to create the parameters from
+     * @param subcommand whether the parameters are for a subcommand
+     * @return {@link Params} for the given arguments
+     * @since 0.0.5
+     */
+    public Params createParams(Arguments args, boolean subcommand) {
         Map<String, Parameter> paramsMap = new HashMap<String, Parameter>();
         int curArgument = argsBeforeParams;
         int curParam = 0;
@@ -183,7 +196,8 @@ public class ParamsBase {
         }
 
         Params params = new Params(this, paramsMap);
-        if (invalid || amtRequired > paramsMap.size()) {
+        if (invalid || (subcommand ? amtRequired - 1 : amtRequired) > paramsMap
+                .size()) {
             params.invalidate();
         }
 

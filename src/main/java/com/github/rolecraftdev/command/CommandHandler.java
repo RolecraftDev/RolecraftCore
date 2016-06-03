@@ -273,7 +273,8 @@ public abstract class CommandHandler implements CommandExecutor {
 
         final Arguments newArgs = new Arguments(args);
         if (paramsBase != null) {
-            newArgs.withParams(paramsBase.createParams(newArgs));
+            newArgs.withParams(
+                    paramsBase.createParams(newArgs, isSubcommand()));
             if (doesValidateUsage() && !newArgs.getParams().valid()) {
                 sender.sendMessage(
                         ChatColor.RED + "Invalid usage, " + getUsage());

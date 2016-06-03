@@ -108,7 +108,8 @@ public abstract class TreeCommandHandler extends CommandHandler {
         if (handler != null) {
             Arguments newArgs = new Arguments(Arrays.copyOfRange
                     (args.toStringArray(), 1, args.length()));
-            newArgs.withParams(handler.getParamsBase().createParams(newArgs));
+            newArgs.withParams(handler.getParamsBase()
+                    .createParams(newArgs, isSubcommand()));
             if (doesValidateUsage() && !newArgs.getParams().valid()) {
                 sender.sendMessage(
                         ChatColor.RED + "Invalid usage, " + getUsage());
