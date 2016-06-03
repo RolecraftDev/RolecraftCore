@@ -201,7 +201,9 @@ public final class CommandHelper {
             @Nonnull final CommandSender sender, @Nonnull final List<T> list,
             @Nullable final ChatSection pageArg, final int elementsPerPage) {
         final int amount = list.size();
-        final int pages = (int) Math.ceil(amount / elementsPerPage);
+        if (amount <= elementsPerPage) {
+            return list;
+        }
 
         int page = 1;
         if (pageArg != null) {
@@ -212,17 +214,18 @@ public final class CommandHelper {
                 sender.sendMessage(ChatColor.DARK_RED + "Invalid page!");
                 return null;
             }
-
-            if (page > pages || page < 1) {
-                // TODO: add to messages system
-                sender.sendMessage(ChatColor.DARK_RED +
-                        "That page doesn't exist (there are " + pages
-                        + " pages)!");
-                return null;
-            }
         }
 
-        return list.subList(elementsPerPage * (page - 1), list.size() - 1);
+        int from = Math.max(0, (page - 1) * elementsPerPage);
+        int to = Math.min(amount, (page) * elementsPerPage);
+
+        try {
+            return list.subList(from, to);
+        } catch (ArrayIndexOutOfBoundsException e) {
+            // TODO: add to messages system
+            sender.sendMessage(ChatColor.DARK_RED + "That page doesn't exist!");
+            return null;
+        }
     }
 
     /**

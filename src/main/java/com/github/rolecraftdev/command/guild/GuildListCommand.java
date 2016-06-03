@@ -96,7 +96,8 @@ public class GuildListCommand extends CommandHandler {
             return;
         }
 
-        sender.sendMessage(ChatColor.GOLD + "Guilds");
+        sender.sendMessage(ChatColor.GOLD + "Guilds" + (args.length() > 0 ?
+                (" - Page" + args.get(0).rawString()) : ""));
         for (final Guild guild : onPage) {
             sender.sendMessage(ChatColor.GRAY + guild.getName());
         }
