@@ -11,7 +11,7 @@ public class Parameter extends ChatSection {
     /**
      * The information (name, whether it is optional) for this parameter.
      */
-    private final ParamInfo info;
+    private final ParamsBase.ParamInfo info;
 
     /**
      * Creates a new Parameter, using the given {@link String} argument as a raw
@@ -21,18 +21,18 @@ public class Parameter extends ChatSection {
      * @param info information about this parameter
      * @since 0.0.5
      */
-    public Parameter(String arg, ParamInfo info) {
+    public Parameter(String arg, ParamsBase.ParamInfo info) {
         super(arg);
         this.info = info;
     }
 
     /**
-     * Gets the {@link ParamInfo} for this Parameter.
+     * Gets the {@link ParamsBase.ParamInfo} for this Parameter.
      *
-     * @return This Parameter's {@link ParamInfo} object
+     * @return This Parameter's {@link ParamsBase.ParamInfo} object
      * @since 0.0.5
      */
-    public ParamInfo getInfo() {
+    public ParamsBase.ParamInfo getInfo() {
         return info;
     }
 }

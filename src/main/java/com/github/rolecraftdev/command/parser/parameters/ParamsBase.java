@@ -255,4 +255,98 @@ public class ParamsBase {
 
         return new ParamsBase(res, before, amtRequired, flags);
     }
+
+    /**
+     * Basic flag information.
+     */
+    public static class FlagInfo {
+        /**
+         * Name of the flag
+         */
+        private final String name;
+        /**
+         * One-word description.
+         */
+        private final String desc;
+        /**
+         * Whether or not the flag is optional.
+         */
+        private final boolean optional;
+
+        public FlagInfo(String name, String desc, boolean optional) {
+            this.name = name;
+            this.desc = desc;
+            this.optional = optional;
+        }
+
+        /**
+         * @since 0.0.5
+         */
+        public String getName() {
+            return name;
+        }
+
+        /**
+         * @since 0.0.5
+         */
+        public String getDesc() {
+            return desc;
+        }
+
+        /**
+         * @since 0.0.5
+         */
+        public boolean isOptional() {
+            return optional;
+        }
+    }
+
+    /**
+     * Represents information about a parameter, which can be required or optional.
+     *
+     * @since 0.0.5
+     */
+    public static class ParamInfo {
+        /**
+         * The name of this parameter.
+         */
+        private final String name;
+        /**
+         * Whether this parameter is optional.
+         */
+        private final boolean optional;
+
+        /**
+         * Constructs a new ParamInfo with the given name.
+         *
+         * @param name the name of this Parameter
+         * @param optional whether this parameter is optional
+         * @since 0.0.5
+         */
+        public ParamInfo(String name, boolean optional) {
+            this.name = name;
+            this.optional = optional;
+        }
+
+        /**
+         * Gets the name of this parameter.
+         *
+         * @return the name of this parameter
+         * @since 0.0.5
+         */
+        public String getName() {
+            return name;
+        }
+
+        /**
+         * Returns whether this parameter is optional.
+         *
+         * @return {@code true} if the parameter is optional, {@code false} if it is
+         *          required
+         * @since 0.0.5
+         */
+        public boolean isOptional() {
+            return optional;
+        }
+    }
 }
