@@ -58,6 +58,7 @@ public class DebugCommand extends PlayerCommandHandler {
     @Override
     public void onCommand(final Player player, final Arguments args) {
         if (args.length() == 0) {
+            sendUsageMessage(player);
             return;
         }
         if (args.getRaw(0).equalsIgnoreCase("wand")) {
