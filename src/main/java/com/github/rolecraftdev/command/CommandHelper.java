@@ -42,6 +42,8 @@ import org.bukkit.command.PluginCommand;
 import org.bukkit.entity.Player;
 import org.bukkit.plugin.java.JavaPlugin;
 
+import javax.annotation.Nonnull;
+import javax.annotation.Nullable;
 import java.util.List;
 
 /**
@@ -73,8 +75,12 @@ public final class CommandHelper {
      * @param handler the handler for the command
      * @since 0.0.5
      */
-    public static void registerCommand(JavaPlugin plugin, String name,
-            CommandHandler handler) {
+    public static void registerCommand(@Nonnull final JavaPlugin plugin,
+            @Nullable String name, @Nonnull final CommandHandler handler) {
+        if (name == null) {
+            name = handler.getName();
+        }
+
         PluginCommand cmd = plugin.getCommand(name);
         cmd.setExecutor(handler);
         if (handler instanceof TreeCommandHandler) {
@@ -94,8 +100,9 @@ public final class CommandHelper {
      *        page number from
      * @since 0.0.5
      */
-    public static void displayCommandList(final CommandSender sender,
-            final List<CommandHandler> commands, final ChatSection pageArg) {
+    public static void displayCommandList(@Nonnull final CommandSender sender,
+            @Nonnull final List<CommandHandler> commands,
+            @Nullable final ChatSection pageArg) {
         final List<CommandHandler> list = getPageFromArgs(sender, commands,
                 pageArg, COMMANDS_PER_PAGE);
         if (list == null) {
@@ -122,7 +129,8 @@ public final class CommandHelper {
      *         starting at the specified start index
      * @since 0.0.5
      */
-    public static String joinFrom(final int start, final Arguments args) {
+    public static String joinFrom(final int start,
+            @Nonnull final Arguments args) {
         if (args.length() <= start) {
             return null;
         }
@@ -148,8 +156,9 @@ public final class CommandHelper {
      *         {@link CommandSender}'s when it is {@code null}
      * @since 0.0.5
      */
-    public static Guild getGuildFromArgs(final GuildManager mgr,
-            final CommandSender sender, final ChatSection guildArg) {
+    public static Guild getGuildFromArgs(@Nonnull final GuildManager mgr,
+            @Nonnull final CommandSender sender,
+            @Nullable final ChatSection guildArg) {
         final Guild result;
         if (guildArg != null) {
             result = mgr.getGuild(guildArg.get());
@@ -188,9 +197,9 @@ public final class CommandHelper {
      *         constructed by using the other given parameter values
      * @since 0.0.5
      */
-    public static <T> List<T> getPageFromArgs(final CommandSender sender,
-            final List<T> list, final ChatSection pageArg,
-            final int elementsPerPage) {
+    public static <T> List<T> getPageFromArgs(
+            @Nonnull final CommandSender sender, @Nonnull final List<T> list,
+            @Nullable final ChatSection pageArg, final int elementsPerPage) {
         final int amount = list.size();
         final int pages = (int) Math.ceil(amount / elementsPerPage);
 
@@ -199,11 +208,13 @@ public final class CommandHelper {
             if (pageArg.isInt()) {
                 page = pageArg.asInt();
             } else {
+                // TODO: add to messages system
                 sender.sendMessage(ChatColor.DARK_RED + "Invalid page!");
                 return null;
             }
 
             if (page > pages || page < 1) {
+                // TODO: add to messages system
                 sender.sendMessage(ChatColor.DARK_RED +
                         "That page doesn't exist (there are " + pages
                         + " pages)!");
@@ -223,8 +234,8 @@ public final class CommandHelper {
      * @param rank the {@link GuildRank} information should be gathered about
      * @since 0.0.5
      */
-    public static void sendRankInfo(final CommandSender sender,
-            final Guild guild, final GuildRank rank) {
+    public static void sendRankInfo(@Nonnull final CommandSender sender,
+            @Nonnull final Guild guild, @Nonnull final GuildRank rank) {
         sender.sendMessage(ChatColor.GOLD +
                 "Rank " + rank.getName() + " in guild " + guild.getName());
         sender.sendMessage(ChatColor.GRAY +
@@ -236,8 +247,8 @@ public final class CommandHelper {
         for (final GuildAction action : rank.getPermittedActions()) {
             permitted.append(action.getHumanReadableName()).append(separator);
         }
-        permitted.setLength(permitted.length() - separator.length());
 
+        permitted.setLength(permitted.length() - separator.length());
         sender.sendMessage(ChatColor.GRAY + "Permitted Actions: "
                 + permitted.toString());
     }
@@ -250,12 +261,13 @@ public final class CommandHelper {
      * @param message each line of the message to send
      * @since 0.0.5
      */
-    public static void sendBanner(CommandSender sender, Object... message) {
+    public static void sendBanner(@Nonnull final CommandSender sender,
+            @Nonnull final Object... message) {
         sender.sendMessage(ChatColor.GRAY + " " + ChatColor.STRIKETHROUGH + "-"
                 + ChatColor.DARK_GRAY + ChatColor.STRIKETHROUGH
                 + "--------------------------------------------------"
                 + ChatColor.GRAY + ChatColor.STRIKETHROUGH + "-");
-        for (Object line : message) {
+        for (final Object line : message) {
             sender.sendMessage(ChatColor.GREEN + " " + line.toString());
         }
         sender.sendMessage(ChatColor.GRAY + " " + ChatColor.STRIKETHROUGH + "-"

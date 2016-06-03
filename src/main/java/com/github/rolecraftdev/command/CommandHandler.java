@@ -11,6 +11,9 @@ import org.bukkit.command.CommandExecutor;
 import org.bukkit.command.CommandSender;
 import org.bukkit.scheduler.BukkitRunnable;
 
+import javax.annotation.Nonnull;
+import javax.annotation.Nullable;
+
 /**
  * Handles a normal command in Rolecraft.
  *
@@ -22,29 +25,35 @@ public abstract class CommandHandler implements CommandExecutor {
     /**
      * The {@link RolecraftCore} plugin instance.
      */
+    @Nonnull
     protected final RolecraftCore plugin;
     /**
      * The name of this command.
      */
+    @Nonnull
     private final String name;
 
     /**
      * Usage string for the command, to be sent to anyone who uses it
      * incorrectly.
      */
+    @Nullable
     private String usage;
     /**
      * A description of the command's functionality.
      */
+    @Nullable
     private String description;
     /**
      * The permission node required to execute the command.
      */
+    @Nullable
     private String permission;
     /**
      * The message sent to somebody who does not have the correct permission but
      * attempts to execute the command anyway.
      */
+    @Nullable
     private String noPermissionMessage;
     /**
      * The minimum number of arguments required to successfully execute the
@@ -69,9 +78,11 @@ public abstract class CommandHandler implements CommandExecutor {
      * A template for the correct usage of the command with information about
      * each required and optional parameter.
      */
+    @Nullable
     protected ParamsBase paramsBase;
 
-    public CommandHandler(RolecraftCore plugin, String name) {
+    public CommandHandler(@Nonnull final RolecraftCore plugin,
+            @Nonnull final String name) {
         this.plugin = plugin;
         this.name = name;
 
@@ -85,10 +96,12 @@ public abstract class CommandHandler implements CommandExecutor {
         validateUsage = true;
     }
 
+    @Nonnull
     public String getName() {
         return name;
     }
 
+    @Nullable
     public String getUsage() {
         return usage;
     }
@@ -97,35 +110,39 @@ public abstract class CommandHandler implements CommandExecutor {
         return validateUsage;
     }
 
+    @Nullable
     public ParamsBase getParamsBase() {
         return paramsBase;
     }
 
-    public void setUsage(String usage) {
+    public void setUsage(@Nullable final String usage) {
         this.usage = usage;
         paramsBase = ParamsBase.fromUsageString(usage);
     }
 
-    public void setValidateUsage(boolean validateUsage) {
+    public void setValidateUsage(final boolean validateUsage) {
         this.validateUsage = validateUsage;
     }
 
+    @Nullable
     public String getDescription() {
         return description;
     }
 
-    public void setDescription(String description) {
+    public void setDescription(@Nullable final String description) {
         this.description = description;
     }
 
+    @Nullable
     public String getPermission() {
         return permission;
     }
 
-    public void setPermission(String permission) {
+    public void setPermission(@Nullable final String permission) {
         this.permission = permission;
     }
 
+    @Nullable
     public String getNoPermissionMessage() {
         return noPermissionMessage;
     }
@@ -218,7 +235,7 @@ public abstract class CommandHandler implements CommandExecutor {
             return;
         }
 
-        Arguments newArgs = new Arguments(args);
+        final Arguments newArgs = new Arguments(args);
         if (paramsBase != null) {
             newArgs.withParams(paramsBase.createParams(newArgs));
             if (doesValidateUsage() && !newArgs.getParams().valid()) {

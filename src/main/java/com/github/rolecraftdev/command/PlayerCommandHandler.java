@@ -8,22 +8,25 @@ import org.bukkit.ChatColor;
 import org.bukkit.command.CommandSender;
 import org.bukkit.entity.Player;
 
+import javax.annotation.Nonnull;
+
 /**
  * Base command handler for commands which may only be executed by players.
  *
  * @since 0.0.5
  */
 public abstract class PlayerCommandHandler extends CommandHandler {
+    /**
+     * The message sent to someone who tries to execute the command but is not a
+     * player. Loaded from messages config.
+     */
     private String notPlayerMessage;
 
-    public PlayerCommandHandler(RolecraftCore plugin, String name) {
+    public PlayerCommandHandler(@Nonnull final RolecraftCore plugin,
+            @Nonnull final String name) {
         super(plugin, name);
 
         notPlayerMessage = plugin.getMessage(Messages.NOT_PLAYER);
-    }
-
-    public String getNotPlayerMessage() {
-        return notPlayerMessage;
     }
 
     @Override
@@ -50,7 +53,9 @@ public abstract class PlayerCommandHandler extends CommandHandler {
         if (paramsBase != null) {
             newArgs.withParams(paramsBase.createParams(newArgs));
             if (doesValidateUsage() && !newArgs.getParams().valid()) {
-                player.sendMessage(ChatColor.RED + "Invalid usage, " + getUsage());
+                // TODO: add to messages system
+                player.sendMessage(
+                        ChatColor.RED + "Invalid usage, " + getUsage());
                 return;
             }
         }

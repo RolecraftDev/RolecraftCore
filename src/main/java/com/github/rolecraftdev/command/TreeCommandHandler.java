@@ -6,6 +6,8 @@ import com.github.rolecraftdev.command.parser.Arguments;
 import org.bukkit.ChatColor;
 import org.bukkit.command.CommandSender;
 
+import javax.annotation.Nonnull;
+import javax.annotation.Nullable;
 import java.util.ArrayList;
 import java.util.Arrays;
 import java.util.Collections;
@@ -17,22 +19,24 @@ import java.util.Map;
 public abstract class TreeCommandHandler extends CommandHandler {
     private final Map<String, CommandHandler> subcommands = new HashMap<String, CommandHandler>();
 
-    public TreeCommandHandler(RolecraftCore plugin, String name) {
+    public TreeCommandHandler(@Nonnull final RolecraftCore plugin,
+            @Nonnull final String name) {
         super(plugin, name);
     }
 
     public abstract void setupSubcommands();
 
-    public void onCommandNoArgs(CommandSender sender) {
+    public void onCommandNoArgs(@Nonnull final CommandSender sender) {
         sendHelpMenu(sender);
     }
 
-    public void onCommandInvalidArgs(CommandSender sender) {
+    public void onCommandInvalidArgs(@Nonnull final CommandSender sender) {
         sendHelpMenu(sender);
     }
 
-    public void sendHelpMenu(CommandSender sender) {
-        List<CommandHandler> cmds = new ArrayList<CommandHandler>(subcommands.values());
+    public void sendHelpMenu(@Nonnull final CommandSender sender) {
+        List<CommandHandler> cmds = new ArrayList<CommandHandler>(
+                subcommands.values());
         Collections.sort(cmds, new Comparator<CommandHandler>() {
             @Override
             public int compare(CommandHandler t, CommandHandler t1) {
@@ -54,28 +58,34 @@ public abstract class TreeCommandHandler extends CommandHandler {
         CommandHelper.sendBanner(sender, msgs.toArray());
     }
 
-    protected void addSubcommand(CommandHandler handler) {
+    protected void addSubcommand(@Nonnull final CommandHandler handler) {
         addSubcommand(handler.getName(), handler);
     }
 
-    protected void addSubcommand(String name, CommandHandler handler) {
-        subcommands.put(handler.getName(), handler);
+    protected void addSubcommand(@Nullable String name,
+            @Nonnull final CommandHandler handler) {
+        if (name == null) {
+            name = handler.getName();
+        }
+        subcommands.put(name, handler);
     }
 
     @Override
-    public void onCommand(CommandSender sender, Arguments args) {
+    public void onCommand(@Nonnull final CommandSender sender,
+            @Nonnull final Arguments args) {
         if (args.length() == 0) {
             onCommandNoArgs(sender);
             return;
         }
 
-        CommandHandler handler = subcommands.get(args.getRaw(0));
+        final CommandHandler handler = subcommands.get(args.getRaw(0));
         if (handler != null) {
             Arguments newArgs = new Arguments(Arrays.copyOfRange
                     (args.toStringArray(), 1, args.length()));
             newArgs.withParams(handler.getParamsBase().createParams(newArgs));
             if (doesValidateUsage() && !newArgs.getParams().valid()) {
-                sender.sendMessage(ChatColor.RED + "Invalid usage, " + getUsage());
+                sender.sendMessage(
+                        ChatColor.RED + "Invalid usage, " + getUsage());
                 return;
             }
             handler.onCommand(sender, newArgs);
@@ -86,7 +96,8 @@ public abstract class TreeCommandHandler extends CommandHandler {
     }
 
     @Override
-    public void onCommand(CommandSender sender, String[] args) {
+    public void onCommand(@Nonnull final CommandSender sender,
+            @Nonnull final String[] args) {
         if (args.length == 0) {
             onCommandNoArgs(sender);
             return;
