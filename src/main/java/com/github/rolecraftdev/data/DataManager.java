@@ -101,20 +101,31 @@ public final class DataManager {
      * @since 0.0.5
      */
     public void unloadAndSaveData(final UUID player) {
+        this.unloadAndSaveData(player, false);
+    }
+
+    private void unloadAndSaveData(final UUID player, final boolean sync) {
         final PlayerData data = loadedPlayerData.remove(player);
-        if (data != null) {
+        if (data == null) {
+            return;
+        }
+
+        if (sync) {
+            store.commitPlayerDataSync(data);
+        } else {
             store.commitPlayerData(data);
         }
     }
 
     /**
-     * Unload all currently loaded {@link PlayerData}.
+     * Unload all currently loaded {@link PlayerData}. Should only be used when
+     * the plugin is disabling as it saves data synchronously.
      *
      * @since 0.0.5
      */
     public void unloadAllPlayerData() {
         for (final UUID id : loadedPlayerData.keySet()) {
-            unloadAndSaveData(id);
+            unloadAndSaveData(id, true);
         }
     }
 
