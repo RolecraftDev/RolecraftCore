@@ -36,6 +36,8 @@ import org.bukkit.entity.Player;
 import org.bukkit.metadata.FixedMetadataValue;
 import org.bukkit.metadata.MetadataValue;
 
+import java.util.List;
+
 /**
  * @since 0.0.5
  */
@@ -60,6 +62,13 @@ public class GuildRejectCommand extends PlayerCommandHandler {
      */
     @Override
     public void onCommand(final Player player, final Arguments args) {
+        final List<MetadataValue> metadata = player
+                .getMetadata(GuildManager.GUILD_INVITE_METADATA);
+        if (metadata == null || metadata.size() == 0) {
+            player.sendMessage(plugin.getMessage(Messages.NO_GUILD_INVITE));
+            return;
+        }
+
         final MetadataValue val = player
                 .getMetadata(GuildManager.GUILD_INVITE_METADATA).get(0);
         if (val == null || !(val instanceof FixedMetadataValue)) {
