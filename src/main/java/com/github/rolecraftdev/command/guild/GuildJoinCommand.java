@@ -33,8 +33,8 @@ import com.github.rolecraftdev.data.DataManager;
 import com.github.rolecraftdev.data.PlayerData;
 import com.github.rolecraftdev.guild.Guild;
 import com.github.rolecraftdev.guild.GuildManager;
-import com.github.rolecraftdev.util.messages.Messages;
 import com.github.rolecraftdev.util.messages.MessageVariable;
+import com.github.rolecraftdev.util.messages.Messages;
 
 import org.bukkit.entity.Player;
 import org.bukkit.metadata.FixedMetadataValue;
@@ -126,7 +126,8 @@ public class GuildJoinCommand extends PlayerCommandHandler {
         player.sendMessage(plugin.getMessage(Messages.GUILD_JOINED_PLAYER,
                 MessageVariable.GUILD.value(guild.getName())));
         guild.broadcastMessage(plugin.getMessage(Messages.GUILD_JOINED_OTHERS,
-                MessageVariable.GUILD.value(guild.getName()), MessageVariable.PLAYER.value(player
+                MessageVariable.GUILD.value(guild.getName()),
+                MessageVariable.PLAYER.value(player
                         .getName())));
     }
 }

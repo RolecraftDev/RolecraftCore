@@ -42,10 +42,10 @@ import com.github.rolecraftdev.event.guild.GuildRankModifyEvent;
 import com.github.rolecraftdev.event.guild.GuildRankRemoveEvent;
 import com.github.rolecraftdev.event.spell.SpellCastEvent;
 import com.github.rolecraftdev.event.spell.SpellCastEvent.SpellCastType;
+import com.github.rolecraftdev.experience.ExperienceHelper;
 import com.github.rolecraftdev.guild.Guild;
 import com.github.rolecraftdev.guild.GuildAction;
 import com.github.rolecraftdev.guild.GuildRank;
-import com.github.rolecraftdev.experience.ExperienceHelper;
 import com.github.rolecraftdev.magic.Spell;
 
 import org.bukkit.Bukkit;
@@ -205,7 +205,8 @@ public class RolecraftEventFactory {
      * @since 0.0.5
      */
     public static SpellCastEvent spellCast(final Spell spell,
-            final Entity caster, final float manaCost, final SpellCastType type) {
+            final Entity caster, final float manaCost,
+            final SpellCastType type) {
         return callEvent(new SpellCastEvent(plugin, spell, caster, manaCost,
                 type));
     }
@@ -220,7 +221,8 @@ public class RolecraftEventFactory {
      * @return the appropriate {@link RCExperienceChangeEvent} after calling it
      * @since 0.0.5
      */
-    public static RCExperienceChangeEvent callRCExpEvent(final RolecraftCore plugin,
+    public static RCExperienceChangeEvent callRCExpEvent(
+            final RolecraftCore plugin,
             final Player player, final float amount,
             final RCExperienceEvent.ChangeReason reason) {
         final RCExperienceChangeEvent temp;
@@ -231,7 +233,8 @@ public class RolecraftEventFactory {
                 ExperienceHelper.getLevel(experience + amount)) {
             temp = new RCLevelChangeEvent(plugin, player, experience, reason);
         } else {
-            temp = new RCExperienceChangeEvent(plugin, player, experience, reason);
+            temp = new RCExperienceChangeEvent(plugin, player, experience,
+                    reason);
         }
 
         Bukkit.getPluginManager().callEvent(temp);

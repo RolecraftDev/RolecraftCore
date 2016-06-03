@@ -54,7 +54,8 @@ public final class ProfessionShowCommand extends PlayerCommandHandler {
         professionManager = plugin.getProfessionManager();
 
         setUsage("/profession show [profession]");
-        setDescription("View information about the given profession, or your profession if no profession is specified");
+        setDescription(
+                "View information about the given profession, or your profession if no profession is specified");
     }
 
     @Override

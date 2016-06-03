@@ -87,7 +87,8 @@ public final class ExperienceListener implements Listener {
 
                 final UUID id = e.getDamager().getUniqueId();
                 final PlayerData pd = plugin.getDataManager().getPlayerData(id);
-                pd.addExperience(expFromKill, RCExperienceEvent.ChangeReason.KILLING);
+                pd.addExperience(expFromKill,
+                        RCExperienceEvent.ChangeReason.KILLING);
             }
         }
     }

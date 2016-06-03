@@ -41,28 +41,32 @@ public class MessageVariable {
      *
      * @since 0.0.5
      */
-    public static final MessageVariable SPELL = new MessageVariable("$spell", "");
+    public static final MessageVariable SPELL = new MessageVariable("$spell",
+            "");
     /**
      * The base for {@link MessageVariable} objects representing the relevant profession
      * in a configurable message.
      *
      * @since 0.0.5
      */
-    public static final MessageVariable PROFESSION = new MessageVariable("$profession", "");
+    public static final MessageVariable PROFESSION = new MessageVariable(
+            "$profession", "");
     /**
      * The base for {@link MessageVariable} objects representing the relevant guild in a
      * configurable message.
      *
      * @since 0.0.5
      */
-    public static final MessageVariable GUILD = new MessageVariable("$guild", "");
+    public static final MessageVariable GUILD = new MessageVariable("$guild",
+            "");
     /**
      * The base for {@link MessageVariable} objects representing the relevant player in a
      * configurable message.
      *
      * @since 0.0.5
      */
-    public static final MessageVariable PLAYER = new MessageVariable("$player", "");
+    public static final MessageVariable PLAYER = new MessageVariable("$player",
+            "");
     /**
      * The base for {@link MessageVariable} objects representing the relevant guild rank
      * in a configurable message.
@@ -76,14 +80,16 @@ public class MessageVariable {
      *
      * @since 0.0.5
      */
-    public static final MessageVariable ACTION = new MessageVariable("$action", "");
+    public static final MessageVariable ACTION = new MessageVariable("$action",
+            "");
     /**
      * The base for {@link MessageVariable} objects representing the relevant value in a
      * configurable message.
      *
      * @since 0.0.5
      */
-    public static final MessageVariable VALUE = new MessageVariable("$value", "");
+    public static final MessageVariable VALUE = new MessageVariable("$value",
+            "");
 
     /**
      * The key of this {@link MessageVariable}.

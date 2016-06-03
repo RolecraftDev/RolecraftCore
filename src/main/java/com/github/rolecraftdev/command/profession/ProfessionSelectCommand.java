@@ -32,8 +32,8 @@ import com.github.rolecraftdev.command.parser.Arguments;
 import com.github.rolecraftdev.data.PlayerData;
 import com.github.rolecraftdev.profession.Profession;
 import com.github.rolecraftdev.profession.ProfessionManager;
-import com.github.rolecraftdev.util.messages.Messages;
 import com.github.rolecraftdev.util.messages.MessageVariable;
+import com.github.rolecraftdev.util.messages.Messages;
 
 import org.bukkit.entity.Player;
 

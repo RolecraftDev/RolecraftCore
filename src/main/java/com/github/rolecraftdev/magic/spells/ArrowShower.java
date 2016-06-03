@@ -28,8 +28,8 @@ package com.github.rolecraftdev.magic.spells;
 
 import com.github.rolecraftdev.magic.Spell;
 import com.github.rolecraftdev.magic.SpellManager;
-import com.github.rolecraftdev.util.SoundWrapper;
 import com.github.rolecraftdev.util.GeneralUtil;
+import com.github.rolecraftdev.util.SoundWrapper;
 import com.github.rolecraftdev.util.messages.Messages;
 
 import org.bukkit.ChatColor;

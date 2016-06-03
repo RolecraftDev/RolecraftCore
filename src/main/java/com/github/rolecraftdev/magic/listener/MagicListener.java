@@ -32,8 +32,8 @@ import com.github.rolecraftdev.event.spell.SpellCastEvent;
 import com.github.rolecraftdev.event.spell.SpellCastEvent.SpellCastType;
 import com.github.rolecraftdev.magic.Spell;
 import com.github.rolecraftdev.magic.SpellManager;
-import com.github.rolecraftdev.util.messages.Messages;
 import com.github.rolecraftdev.util.messages.MessageVariable;
+import com.github.rolecraftdev.util.messages.Messages;
 
 import org.bukkit.block.Block;
 import org.bukkit.entity.LivingEntity;
@@ -70,7 +70,7 @@ public class MagicListener implements Listener {
      * @param plugin the associated {@link RolecraftCore} instance
      * @since 0.0.5
      */
-   public MagicListener(final RolecraftCore plugin) {
+    public MagicListener(final RolecraftCore plugin) {
         this.plugin = plugin;
         this.spellManager = plugin.getSpellManager();
     }
@@ -201,7 +201,8 @@ public class MagicListener implements Listener {
      * @param stack the wand the player uses
      * @return the spell that is available to the player given the wand
      */
-    private Spell getAvailableSpell(final Player player, final ItemStack stack) {
+    private Spell getAvailableSpell(final Player player,
+            final ItemStack stack) {
         if (stack == null) {
             return null;
         }
@@ -233,7 +234,8 @@ public class MagicListener implements Listener {
      *         discontinue, {@code null} otherwise
      */
     private SpellCastEvent initiateCasting(final Spell spell,
-            final Player caster, final float manaCost, final SpellCastType type) {
+            final Player caster, final float manaCost,
+            final SpellCastType type) {
         final SpellCastEvent castEvent = RolecraftEventFactory.spellCast(spell,
                 caster, manaCost, type);
 
@@ -274,7 +276,8 @@ public class MagicListener implements Listener {
         if (plugin.getDataManager().getPlayerData(caster.getUniqueId())
                 .getSettings().isSpellChatMessage()) {
             caster.sendMessage(plugin.getMessage(Messages.SPELL_CAST,
-                    MessageVariable.SPELL.value(castEvent.getSpell().getName())));
+                    MessageVariable.SPELL
+                            .value(castEvent.getSpell().getName())));
         }
         if (castEvent.getSound() != null) {
             castEvent.getSound().play(caster.getLocation());

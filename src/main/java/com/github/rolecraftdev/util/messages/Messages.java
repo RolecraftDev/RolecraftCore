@@ -27,9 +27,9 @@
 package com.github.rolecraftdev.util.messages;
 
 import com.github.rolecraftdev.RolecraftCore;
-import com.github.rolecraftdev.util.serial.PropertiesFile;
 import com.github.rolecraftdev.guild.GuildRank;
 import com.github.rolecraftdev.util.GeneralUtil;
+import com.github.rolecraftdev.util.serial.PropertiesFile;
 
 import org.bukkit.ChatColor;
 
@@ -446,7 +446,8 @@ public class Messages {
      * @return the given message after the {@link MessageVariable}s have been applied
      * @since 0.0.5
      */
-    public static String applyVars(String message, final MessageVariable... vars) {
+    public static String applyVars(String message,
+            final MessageVariable... vars) {
         if (message == null || vars == null || vars.length < 1) {
             return message;
         }

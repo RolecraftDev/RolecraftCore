@@ -31,8 +31,8 @@ import com.github.rolecraftdev.command.PlayerCommandHandler;
 import com.github.rolecraftdev.command.parser.Arguments;
 import com.github.rolecraftdev.guild.Guild;
 import com.github.rolecraftdev.guild.GuildManager;
-import com.github.rolecraftdev.util.messages.Messages;
 import com.github.rolecraftdev.util.messages.MessageVariable;
+import com.github.rolecraftdev.util.messages.Messages;
 
 import net.milkbowl.vault.economy.EconomyResponse;
 

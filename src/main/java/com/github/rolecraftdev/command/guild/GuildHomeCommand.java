@@ -32,8 +32,8 @@ import com.github.rolecraftdev.command.parser.Arguments;
 import com.github.rolecraftdev.guild.Guild;
 import com.github.rolecraftdev.guild.GuildAction;
 import com.github.rolecraftdev.guild.GuildManager;
-import com.github.rolecraftdev.util.messages.Messages;
 import com.github.rolecraftdev.util.messages.MessageVariable;
+import com.github.rolecraftdev.util.messages.Messages;
 
 import org.bukkit.entity.Player;
 import org.bukkit.scheduler.BukkitRunnable;

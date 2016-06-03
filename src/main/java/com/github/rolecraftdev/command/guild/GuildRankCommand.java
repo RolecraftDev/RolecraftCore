@@ -35,8 +35,8 @@ import com.github.rolecraftdev.guild.Guild;
 import com.github.rolecraftdev.guild.GuildAction;
 import com.github.rolecraftdev.guild.GuildManager;
 import com.github.rolecraftdev.guild.GuildRank;
-import com.github.rolecraftdev.util.messages.Messages;
 import com.github.rolecraftdev.util.messages.MessageVariable;
+import com.github.rolecraftdev.util.messages.Messages;
 
 import org.bukkit.ChatColor;
 import org.bukkit.entity.Player;
@@ -133,7 +133,8 @@ public class GuildRankCommand extends PlayerCommandHandler {
             } else {
                 // Alert the sender that the rank wasn't removed
                 player.sendMessage(plugin.getMessage(
-                        Messages.CANNOT_REMOVE_RANK, MessageVariable.RANK.value(rank
+                        Messages.CANNOT_REMOVE_RANK,
+                        MessageVariable.RANK.value(rank
                                 .getName())));
             }
 
@@ -177,14 +178,16 @@ public class GuildRankCommand extends PlayerCommandHandler {
                 // Set the value of the permission to true
                 rank.allowAction(perm);
                 player.sendMessage(plugin.getMessage(Messages.VALUE_SET,
-                        MessageVariable.ACTION.value(permission), MessageVariable.VALUE
+                        MessageVariable.ACTION.value(permission),
+                        MessageVariable.VALUE
                                 .value(value)));
             } else {
                 value = "false";
                 // Leader must always have all permissions
                 if (rank.equals(guild.getLeaderRank())) {
                     player.sendMessage(plugin.getMessage(
-                            Messages.CANNOT_MODIFY_RANK, MessageVariable.RANK.value(rank
+                            Messages.CANNOT_MODIFY_RANK,
+                            MessageVariable.RANK.value(rank
                                     .getName())));
                     return;
                 }
@@ -192,7 +195,8 @@ public class GuildRankCommand extends PlayerCommandHandler {
                 // Remove the permission from the rank + notify sender
                 rank.disallowAction(perm);
                 player.sendMessage(plugin.getMessage(Messages.VALUE_SET,
-                        MessageVariable.ACTION.value(permission), MessageVariable.VALUE
+                        MessageVariable.ACTION.value(permission),
+                        MessageVariable.VALUE
                                 .value(value)));
             }
 

@@ -26,8 +26,8 @@
  */
 package com.github.rolecraftdev.profession;
 
-import com.github.rolecraftdev.util.messages.Messages;
 import com.github.rolecraftdev.util.messages.MessageVariable;
+import com.github.rolecraftdev.util.messages.Messages;
 
 import org.bukkit.Material;
 import org.bukkit.enchantments.Enchantment;

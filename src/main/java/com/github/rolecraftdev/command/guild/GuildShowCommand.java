@@ -33,8 +33,8 @@ import com.github.rolecraftdev.command.parser.Arguments;
 import com.github.rolecraftdev.guild.Guild;
 import com.github.rolecraftdev.guild.GuildManager;
 import com.github.rolecraftdev.guild.GuildRank;
-import com.github.rolecraftdev.util.messages.Messages;
 import com.github.rolecraftdev.util.messages.MessageVariable;
+import com.github.rolecraftdev.util.messages.Messages;
 
 import org.bukkit.Bukkit;
 import org.bukkit.command.CommandSender;
@@ -85,8 +85,10 @@ public class GuildShowCommand extends CommandHandler {
             // remove trailing comma
             members.deleteCharAt(members.length() - 1);
             sender.sendMessage(plugin.getMessage(Messages.GUILD_MEMBERS,
-                    new MessageVariable("$totalnumber", guild.getMembers().size()),
-                    new MessageVariable("$onlinenumber", onlineMembers), new MessageVariable(
+                    new MessageVariable("$totalnumber",
+                            guild.getMembers().size()),
+                    new MessageVariable("$onlinenumber", onlineMembers),
+                    new MessageVariable(
                             "$members", members)));
             sender.sendMessage(plugin.getMessage(Messages.GUILD_INFLUENCE,
                     new MessageVariable("$influence", guild.getInfluence())));
