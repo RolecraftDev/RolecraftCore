@@ -448,11 +448,14 @@ public class Messages {
      */
     public static String applyVars(String message,
             final MessageVariable... vars) {
-        if (message == null || vars == null || vars.length < 1) {
+        if (message == null) {
             return message;
         }
         for (final MessageVariable constant : CONSTANTS) {
             message = constant.apply(message);
+        }
+        if (vars == null || vars.length < 1) {
+            return message;
         }
         for (final MessageVariable var : vars) {
             message = var.apply(message);
