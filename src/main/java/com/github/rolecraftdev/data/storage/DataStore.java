@@ -612,12 +612,20 @@ public abstract class DataStore {
                                     + pt
                                     + " SET lastname = ?, guild = ?, exp = ?, profession = ?, influence = ? WHERE uuid = ?");
                     ps.setString(1, commit.getPlayerName());
-                    // TODO: null check all of this
-                    ps.setString(2, commit.getGuild().toString());
+                    if (commit.getGuild() != null) {
+                        ps.setString(2, commit.getGuild().toString());
+                    } else {
+                        ps.setString(2, "NULL"); // TODO: is this right?
+                    }
                     ps.setFloat(3, commit.getExperience());
-                    ps.setString(4, commit.getProfession().toString());
+                    if (commit.getProfession() != null) {
+                        ps.setString(4, commit.getProfession().toString());
+                    } else {
+                        ps.setString(4, "NULL"); // TODO: is this right?
+                    }
                     ps.setInt(5, commit.getInfluence());
-                    ps.setString(6, commit.getPlayerId().toString());
+                    ps.setFloat(6, commit.getKarma());
+                    ps.setString(7, commit.getPlayerId().toString());
                     ps.execute();
                 } catch (final SQLException ex) {
                     ex.printStackTrace();
@@ -647,9 +655,17 @@ public abstract class DataStore {
                             + pt
                             + " SET lastname = ?, guild = ?, exp = ?, profession = ?, influence = ?, karma = ? WHERE uuid = ?");
             ps.setString(1, commit.getPlayerName());
-            ps.setString(2, commit.getGuild().toString());
+            if (commit.getGuild() != null) {
+                ps.setString(2, commit.getGuild().toString());
+            } else {
+                ps.setString(2, "NULL"); // TODO: is this right?
+            }
             ps.setFloat(3, commit.getExperience());
-            ps.setString(4, commit.getProfession().toString());
+            if (commit.getProfession() != null) {
+                ps.setString(4, commit.getProfession().toString());
+            } else {
+                ps.setString(4, "NULL"); // TODO: is this right?
+            }
             ps.setInt(5, commit.getInfluence());
             ps.setFloat(6, commit.getKarma());
             ps.setString(7, commit.getPlayerId().toString());
