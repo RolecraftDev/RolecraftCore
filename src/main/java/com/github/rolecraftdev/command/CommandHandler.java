@@ -100,6 +100,8 @@ public abstract class CommandHandler implements CommandExecutor {
      */
     private boolean validateUsage;
 
+    private boolean subcommand;
+
     /**
      * A template for the correct usage of the command with information about
      * each required and optional parameter.
@@ -134,6 +136,14 @@ public abstract class CommandHandler implements CommandExecutor {
 
     public boolean doesValidateUsage() {
         return validateUsage;
+    }
+
+    protected void setSubcommand(boolean subcommand) {
+        this.subcommand = subcommand;
+    }
+
+    protected boolean isSubcommand() {
+        return this.subcommand;
     }
 
     @Nullable
@@ -252,11 +262,11 @@ public abstract class CommandHandler implements CommandExecutor {
      * @since 0.0.5
      */
     public void onCommand(final CommandSender sender, final String[] args) {
-        if (args.length < getMinArgs()) {
+        if ((isSubcommand() ? args.length + 1 : args.length) < getMinArgs()) {
             sendUsageMessage(sender);
             return;
         }
-        if (args.length > getMaxArgs()) {
+        if ((isSubcommand() ? args.length + 1 : args.length) > getMaxArgs()) {
             sendUsageMessage(sender);
             return;
         }
