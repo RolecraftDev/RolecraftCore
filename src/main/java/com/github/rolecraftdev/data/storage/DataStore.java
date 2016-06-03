@@ -610,7 +610,7 @@ public abstract class DataStore {
                     ps = connection
                             .prepareStatement("UPDATE "
                                     + pt
-                                    + " SET lastname = ?, guild = ?, exp = ?, profession = ?, influence = ? WHERE uuid = ?");
+                                    + " SET lastname = ?, guild = ?, exp = ?, profession = ?, influence = ?, karma = ? WHERE uuid = ?");
                     ps.setString(1, commit.getPlayerName());
                     if (commit.getGuild() != null) {
                         ps.setString(2, commit.getGuild().toString());
