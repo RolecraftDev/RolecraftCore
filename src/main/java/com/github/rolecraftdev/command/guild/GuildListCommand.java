@@ -79,6 +79,13 @@ public class GuildListCommand extends CommandHandler {
             return;
         }
 
+        if (guilds.size() == 0) {
+            // TODO: add to messages system
+            sender.sendMessage(ChatColor.DARK_RED
+                    + "There are no established guilds in this land!");
+            return;
+        }
+
         final List<Guild> onPage = CommandHelper
                 .getPageFromArgs(sender, new ArrayList<Guild>(guilds),
                         args.length() > 0 ? args.get(0) : null,

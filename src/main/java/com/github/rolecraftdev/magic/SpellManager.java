@@ -206,6 +206,7 @@ public class SpellManager {
         if (usable == null) {
             return plugin.getConfig().getBoolean("professiondefaults.spells");
         }
+
         return true;
     }
 
