@@ -3,20 +3,23 @@ package com.github.rolecraftdev.command.parser.parameters;
 import com.github.rolecraftdev.command.parser.ChatSection;
 
 /**
- * An extension of ChatSection, used for parameters.
+ * An extension of {@link ChatSection}, used for parameters.
+ *
+ * @since 0.0.5
  */
 public class Parameter extends ChatSection {
     /**
-     * The information (name, whether it is optional) for this parameter
+     * The information (name, whether it is optional) for this parameter.
      */
     private final ParamInfo info;
 
     /**
-     * Creates a new ParamChatSection, using the given String argument as a raw
-     * string
+     * Creates a new Parameter, using the given {@link String} argument as a raw
+     * string.
      *
-     * @param arg  The raw string for this ParamChatSection
-     * @param info Information about this parameter
+     * @param arg the raw string for this Parameter
+     * @param info information about this parameter
+     * @since 0.0.5
      */
     public Parameter(String arg, ParamInfo info) {
         super(arg);
@@ -24,9 +27,10 @@ public class Parameter extends ChatSection {
     }
 
     /**
-     * Gets the ParamInfo for this Parameter
+     * Gets the {@link ParamInfo} for this Parameter.
      *
-     * @return This Parameter's ParamInfo object
+     * @return This Parameter's {@link ParamInfo} object
+     * @since 0.0.5
      */
     public ParamInfo getInfo() {
         return info;

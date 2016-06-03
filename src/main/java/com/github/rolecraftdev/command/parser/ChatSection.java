@@ -9,6 +9,8 @@ import org.bukkit.entity.Player;
  * A wrapper around a String which allows for parsing of many primitive data
  * types as well as providing methods to check whether the argument is a valid
  * form of said primitive types.
+ *
+ * @since 0.0.5
  */
 public class ChatSection {
     /**
@@ -21,6 +23,7 @@ public class ChatSection {
      * string
      *
      * @param arg The raw string for this ChatSection
+     * @since 0.0.5
      */
     public ChatSection(final String arg) {
         this.raw = arg;
@@ -29,7 +32,8 @@ public class ChatSection {
     /**
      * Gets the raw string this ChatSection wraps
      *
-     * @return This ChatSection's raw String value
+     * @return this ChatSection's raw String value
+     * @since 0.0.5
      */
     public String get() {
         return rawString();
@@ -39,6 +43,7 @@ public class ChatSection {
      * Gets the raw string this ChatSection wraps
      *
      * @return This ChatSection's raw String value
+     * @since 0.0.5
      */
     public String rawString() {
         return raw;
@@ -49,6 +54,7 @@ public class ChatSection {
      *
      * @return This ChatSection's value parsed as an int
      * @throws NumberFormatException if the value isn't an int
+     * @since 0.0.5
      */
     public int asInt() {
         return Integer.parseInt(raw);
@@ -59,6 +65,7 @@ public class ChatSection {
      *
      * @return This ChatSection's value parsed as a double
      * @throws NumberFormatException if the value isn't a double
+     * @since 0.0.5
      */
     public double asDouble() {
         return Double.parseDouble(raw);
@@ -69,6 +76,7 @@ public class ChatSection {
      *
      * @return This ChatSection's value parsed as a float
      * @throws NumberFormatException if the argument isn't a float
+     * @since 0.0.5
      */
     public float asFloat() {
         return Float.parseFloat(raw);
@@ -79,6 +87,7 @@ public class ChatSection {
      *
      * @return This ChatSection's value parsed as a long
      * @throws NumberFormatException if the value isn't a long
+     * @since 0.0.5
      */
     public long asLong() {
         return Long.parseLong(raw);
@@ -89,6 +98,7 @@ public class ChatSection {
      *
      * @return This ChatSection's value parsed as a short
      * @throws NumberFormatException if the value isn't a short
+     * @since 0.0.5
      */
     public short asShort() {
         return Short.parseShort(raw);
@@ -99,6 +109,7 @@ public class ChatSection {
      *
      * @return This ChatSection's value parsed as a boolean. Note that if the
      * value of the ChatSection isn't a valid boolean, false is returned
+     * @since 0.0.5
      */
     public Boolean asBoolean() {
         return Boolean.valueOf(raw);
@@ -109,6 +120,7 @@ public class ChatSection {
      * online
      *
      * @return The player by the name of the raw raw - null if (s)he isn't online
+     * @since 0.0.5
      */
     public Player asPlayer() {
         return Bukkit.getPlayer(raw);
@@ -118,16 +130,19 @@ public class ChatSection {
      * Gets the offline player by the name of the argument
      *
      * @return The offline player by the name of the raw raw
+     * @since 0.0.5
      */
     public OfflinePlayer asOfflinePlayer() {
         return Bukkit.getOfflinePlayer(raw);
     }
 
     /**
-     * Gets the material whose name is the same as the raw value (ignores case)
+     * Gets the {@link Material} whose name is the same as the raw value. Names
+     * are not case sensitive.
      *
-     * @return The material whose name is the same as the raw value, or null if
-     * no material has that name
+     * @return the {@link Material} whose name is the same as the raw value, or
+     *         {@code null} if no {@link Material} has that name
+     * @since 0.0.5
      */
     public Material asMaterialFromName() {
         return Material.getMaterial(raw.toUpperCase());
@@ -138,6 +153,7 @@ public class ChatSection {
      *
      * @return The material whose id is the same as the raw value
      * @throws NumberFormatException If the value isn't a valid int
+     * @since 0.0.5
      */
     public Material asMaterialFromId() {
         return Material.getMaterial(asInt());
@@ -147,6 +163,7 @@ public class ChatSection {
      * Checks whether this ChatSection's value can be parsed as an integer
      *
      * @return Whether this ChatSection's value can be parsed as an integer
+     * @since 0.0.5
      */
     public boolean isInt() {
         try {
@@ -161,6 +178,7 @@ public class ChatSection {
      * Checks whether this ChatSection's value can be parsed as a double
      *
      * @return Whether this ChatSection's value can be parsed as a double
+     * @since 0.0.5
      */
     public boolean isDouble() {
         try {
@@ -175,6 +193,7 @@ public class ChatSection {
      * Checks whether this ChatSection's value can be parsed as a float
      *
      * @return Whether this ChatSection's value can be parsed as a float
+     * @since 0.0.5
      */
     public boolean isFloat() {
         try {
@@ -189,6 +208,7 @@ public class ChatSection {
      * Checks whether this ChatSection's value can be parsed as a long
      *
      * @return Whether this ChatSection's value can be parsed as a long
+     * @since 0.0.5
      */
     public boolean isLong() {
         try {
@@ -203,6 +223,7 @@ public class ChatSection {
      * Checks whether this ChatSection's value can be parsed as a short
      *
      * @return Whether this ChatSection's value can be parsed as a short
+     * @since 0.0.5
      */
     public boolean isShort() {
         try {
@@ -217,6 +238,7 @@ public class ChatSection {
      * Checks whether this ChatSection's value can be parsed as a boolean
      *
      * @return Whether this ChatSection's value can be parsed as a boolean
+     * @since 0.0.5
      */
     public boolean isBoolean() {
         return raw.equals("true") || raw.equals("false");
@@ -226,6 +248,7 @@ public class ChatSection {
      * Checks whether this ChatSection's value can be parsed as a player
      *
      * @return Whether this ChatSection's value can be parsed as a player
+     * @since 0.0.5
      */
     public boolean isPlayer() {
         return asPlayer() != null;
@@ -237,6 +260,7 @@ public class ChatSection {
      *
      * @return Whether this ChatSection's value can be parsed as an offline
      * player
+     * @since 0.0.5
      */
     public boolean isOfflinePlayer() {
         return asOfflinePlayer() != null;
@@ -248,6 +272,7 @@ public class ChatSection {
      *
      * @return Whether this ChatSection's value can be parsed as a material
      * from it's name
+     * @since 0.0.5
      */
     public boolean isMaterialName() {
         return asMaterialFromName() != null;
@@ -259,6 +284,7 @@ public class ChatSection {
      *
      * @return Whether this ChatSection's value can be parsed as a material
      * from it's ID
+     * @since 0.0.5
      */
     public boolean isMaterialId() {
         try {

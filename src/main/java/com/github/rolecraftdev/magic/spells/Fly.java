@@ -28,6 +28,7 @@ package com.github.rolecraftdev.magic.spells;
 
 import com.github.rolecraftdev.magic.Spell;
 import com.github.rolecraftdev.magic.SpellManager;
+import com.github.rolecraftdev.magic.listener.FlyingListener;
 import com.github.rolecraftdev.util.SoundWrapper;
 
 import org.bukkit.ChatColor;
@@ -46,6 +47,7 @@ import org.bukkit.inventory.meta.ItemMeta;
  * A {@link Spell} implementation that allows the holder to fly.
  *
  * @since 0.0.5
+ * @see {@link FlyingListener}
  */
 public class Fly implements Spell {
     /**

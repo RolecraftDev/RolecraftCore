@@ -4,54 +4,59 @@ import com.github.rolecraftdev.command.parser.parameters.Parameter;
 import com.github.rolecraftdev.command.parser.parameters.Params;
 
 import java.util.ArrayList;
+import java.util.HashSet;
 import java.util.List;
+import java.util.Set;
 
 /**
  * A simple and easy to use method of parsing arguments into different primitive
  * types and parsing flags.
+ *
+ * @since 0.0.5
  */
 public class Arguments {
     /**
-     * A List of all of the arguments in ChatSection form
+     * A List of all of the arguments in ChatSection form.
      */
     private final List<ChatSection> all;
     /**
-     * A List of arguments, not including flag arguments, in ChatSection form
+     * A List of arguments, not including flag arguments, in ChatSection form.
      */
     private final List<ChatSection> arguments;
     /**
      * A List of all flags prefixed with -
      */
-    private final List<Flag> flags;
+    private final Set<Flag> flags;
     /**
      * A List of all flags prefixed with --
      */
-    private final List<Flag> doubleFlags;
+    private final Set<Flag> doubleFlags;
     /**
      * The raw String[] of arguments for this Arguments object
      */
     private final String[] raw;
 
     /**
-     * The Params object for this Arguments object. This contains a Map of
-     * parameter names to ParamChatSection values for each registered parameter
-     * for the command
+     * The {@link Params} object for this Arguments object. This contains a
+     * {@link Map} of parameter names to {@link Parameter} values for each
+     * registered parameter.
      */
     private Params parameters;
 
     /**
      * Creates a new Arguments object and immediately parses the given String[]
-     * of arguments into ChatSections and Flags.
+     * of arguments into {@link ChatSection}s and {@link Flag}s.
      *
-     * @param parse The String[] of raw arguments to parse
+     * @param parse the raw arguments to parse in the form of {@link String}s
+     * @since 0.0.5
      */
     public Arguments(final String... parse) {
+        this.raw = parse;
         this.all = new ArrayList<ChatSection>();
         this.arguments = new ArrayList<ChatSection>();
-        this.flags = new ArrayList<Flag>();
-        this.doubleFlags = new ArrayList<Flag>();
+        this.flags = new HashSet<Flag>();
+        this.doubleFlags = new HashSet<Flag>();
 
-        raw = parse;
         for (int i = 0; i < raw.length; i++) {
             final String arg = raw[i];
             all.add(new ChatSection(arg));
@@ -89,21 +94,23 @@ public class Arguments {
     }
 
     /**
-     * Gets the ChatSection for the argument at the given index
+     * Gets the {@link ChatSection} for the argument at the given index.
      *
-     * @param index The index to get the argument from
-     * @return A ChatSection object for the argument at the given index
+     * @param index the index to get the argument from
+     * @return a {@link ChatSection} object for the argument at the given index
+     * @since 0.0.5
      */
     public ChatSection get(final int index) {
         return get(index, true);
     }
 
     /**
-     * Gets the ChatSection for the argument at the given index
+     * Gets the {@link ChatSection} for the argument at the given index.
      *
-     * @param index The index to get the argument from
-     * @param includeFlagArgs Whether to include flag args in the index
-     * @return A ChatSection object for the argument at the given index
+     * @param index the index to get the argument from
+     * @param includeFlagArgs whether to include flag args in the index
+     * @return a {@link ChatSection} object for the argument at the given index
+     * @since 0.0.5
      */
     public ChatSection get(final int index, final boolean includeFlagArgs) {
         if (includeFlagArgs) {
@@ -114,53 +121,59 @@ public class Arguments {
     }
 
     /**
-     * Gets the raw string for the argument at the given index
+     * Gets the raw {@link String} for the argument at the given index.
      *
-     * @param index The index to get the argument from
-     * @return A raw String for the argument at the given index
+     * @param index the index to get the argument from
+     * @return a raw {@link String} for the argument at the given index
+     * @since 0.0.5
      */
     public String getRaw(final int index) {
         return getRaw(index, true);
     }
 
     /**
-     * Gets the raw string for the argument at the given index
+     * Gets the raw {@link String} for the argument at the given index.
      *
-     * @param index The index to get the argument from
-     * @param includeFlagArgs Whether to include flag args in the index
-     * @return A raw String for the argument at the given index
+     * @param index the index to get the argument from
+     * @param includeFlagArgs whether to include flag args in the index
+     * @return a raw {@link String} for the argument at the given index
+     * @since 0.0.5
      */
     public String getRaw(final int index, final boolean includeFlagArgs) {
         return get(index, includeFlagArgs).rawString();
     }
 
     /**
-     * Gets the Params for this set of Arguments
+     * Gets the {@link Params} for this set of Arguments.
      *
-     * @return This Arguments object's Params object
+     * @return this Arguments object's {@link Params} object
+     * @since 0.0.5
      */
     public Params getParams() {
         return parameters;
     }
 
     /**
-     * Checks whether Params are available for these Arguments
+     * Checks whether {@link Params} are available for these Arguments.
      *
-     * @return True if this Arguments object has a Params object, otherwise false
+     * @return {@code true} if this Arguments object has a {@link Params}
+     *         object, otherwise {@code false}
+     * @since 0.0.5
      */
     public boolean hasParams() {
         return getParams() != null;
     }
 
     /**
-     * Gets a ParamChatSection value for the parameter with the given name, if
-     * there is a Params object available for these Arguments and said Params
-     * object contains a value for the given parameter. If either of these
-     * conditions are not true, null is returned
+     * Gets a {@link Parameter} value for the parameter with the given name, if
+     * there is a {@link Params} object available for these Arguments and said
+     * {@link Params} object contains a value for the given parameter. If either
+     * of these conditions are not true, {@code null} is returned.
      *
-     * @param parameter The parameter to get the ParamChatSection value for
-     * @return A ParamChatSection for the given parameter, or null if there isn't
-     * one
+     * @param parameter the parameter to get the {@link Parameter} value for
+     * @return a {@link Parameter} for the given parameter, or {@code null} if
+     *         there isn't one
+     * @since 0.0.5
      */
     public Parameter getParam(String parameter) {
         if (!hasParams()) {
@@ -170,29 +183,31 @@ public class Arguments {
     }
 
     /**
-     * Gets a ParamChatSection value for the parameter with the given name, if
-     * there is a Params object available for these Arguments and said Params
-     * object contains a value for the given parameter. If either of these
-     * conditions are not true, null is returned. This method is a redirect to
-     * {@link #getParam(String)}
+     * Gets a {@link Parameter} value for the parameter with the given name, if
+     * there is a {@link Params} object available for these Arguments and said
+     * Params object contains a value for the given parameter. If either of
+     * these conditions are not true, {@code null} is returned. This method is a
+     * redirect to {@link #getParam(String)}
      *
-     * @param parameter The parameter to get the ParamChatSection value for
-     * @return A ParamChatSection for the given parameter, or null if there isn't
-     * one
+     * @param parameter the parameter to get the {@link Parameter} value for
+     * @return a {@link Parameter} for the given parameter, or {@code null} if
+     *         there isn't one
+     * @since 0.0.5
      */
     public Parameter param(String parameter) {
         return getParam(parameter);
     }
 
     /**
-     * Gets the raw string value for the parameter with the given name, if there
-     * is a Params object available for these Arguments and said Params object
-     * contains a value for the given parameter. If either of these conditions
-     * are not true, null is returned
+     * Gets the raw {@link String} value for the parameter with the given name,
+     * if there is a {@link Params} object available for these Arguments and
+     * said Params object contains a value for the given parameter. If either of
+     * these conditions are not true, {@code null} is returned.
      *
-     * @param parameter The parameter to get the raw string value for
-     * @return A string value for the given parameter, or null if there isn't
-     * one
+     * @param parameter the parameter to get the raw string value for
+     * @return a string value for the given parameter, or {@code null} if there
+     *         isn't one
+     * @since 0.0.5
      */
     public String rawParam(String parameter) {
         Parameter param = getParam(parameter);
@@ -203,22 +218,25 @@ public class Arguments {
     }
 
     /**
-     * Checks whether the given parameter is available in this Arguments' Params
-     * object
+     * Checks whether the given parameter is available in this Arguments'
+     * {@link Params} object.
      *
-     * @param parameter The parameter to check for the presence of
-     * @return Whether the given parameter is available
+     * @param parameter the parameter to check for the presence of
+     * @return whether the given parameter is available
+     * @since 0.0.5
      */
-    public boolean hasParam(String parameter) {
+    public boolean hasParam(final String parameter) {
         return hasParams() && getParams().has(parameter);
     }
 
     /**
-     * Gets the Flag object with the given name, or null if it doesn't exist
+     * Gets the {@link Flag} object with the given name, or {@code null} if it
+     * doesn't exist.
      *
-     * @param flag The name of the flag to get the Flag object for
-     * @return The Flag object for the flag with the given name - null if there
-     * isn't one
+     * @param flag the name of the flag to get the Flag object for
+     * @return the {@link Flag} object for the flag with the given name or
+     *         {@code null} if there isn't one
+     * @since 0.0.5
      */
     public Flag getValueFlag(final String flag) {
         for (final Flag f : flags) {
@@ -231,10 +249,11 @@ public class Arguments {
 
     /**
      * Checks whether these arguments contain a flag with a value with the given
-     * name
+     * name.
      *
-     * @param flag The name of the flag to check for
-     * @return Whether these arguments contain a value flag with the given name
+     * @param flag the name of the flag to check for
+     * @return whether these arguments contain a value flag with the given name
+     * @since 0.0.5
      */
     public boolean hasValueFlag(final String flag) {
         for (final Flag f : flags) {
@@ -247,11 +266,12 @@ public class Arguments {
 
     /**
      * Checks whether these arguments contain a flag with no value with the
-     * given name
+     * given name.
      *
-     * @param flag The name of the flag to check for
-     * @return Whether these arguments contain a non-value flag with the given
-     * name
+     * @param flag the name of the flag to check for
+     * @return whether these arguments contain a non-value flag with the given
+     *         name
+     * @since 0.0.5
      */
     public boolean hasNonValueFlag(final String flag) {
         for (final Flag f : doubleFlags) {
@@ -263,19 +283,21 @@ public class Arguments {
     }
 
     /**
-     * Gets the length of the arguments
+     * Gets the length of the arguments.
      *
-     * @return The amount of arguments in this Arguments object
+     * @return the amount of arguments in this Arguments object
+     * @since 0.0.5
      */
     public int length() {
         return length(true);
     }
 
     /**
-     * Gets the length of the arguments
+     * Gets the length of the arguments.
      *
-     * @param includeFlagArgs Whether to include flag args in the arg count
-     * @return The amount of arguments in this Arguments object
+     * @param includeFlagArgs whether to include flag args in the arg count
+     * @return the amount of arguments in this Arguments object
+     * @since 0.0.5
      */
     public int length(boolean includeFlagArgs) {
         if (includeFlagArgs) {
@@ -286,9 +308,10 @@ public class Arguments {
     }
 
     /**
-     * Converts this Arguments object to a raw String[] of arguments
+     * Converts this Arguments object to a raw String[] of arguments.
      *
-     * @return A raw String[] of arguments for this object
+     * @return a raw String[] of arguments for this object
+     * @since 0.0.5
      */
     public String[] toStringArray() {
         String[] result = new String[raw.length];
@@ -297,12 +320,14 @@ public class Arguments {
     }
 
     /**
-     * Sets the Params object for this Arguments object. Should only be called
-     * directly after creation. If this is called multiple times an
-     * IllegalStateException will be thrown
+     * Sets the {@link Params} object for this Arguments object. Should only be
+     * called directly after creation. If this is called multiple times an
+     * {@link IllegalStateException} will be thrown.
      *
-     * @param parameters The Params to set for this Arguments object
-     * @return This Arguments object
+     * @param parameters the {@link Params} to set for this Arguments object
+     * @return this Arguments object
+     * @throws {@link IllegalStateException} if it is called multiple times
+     * @since 0.0.5
      */
     public Arguments withParams(final Params parameters) {
         if (this.parameters != null) {

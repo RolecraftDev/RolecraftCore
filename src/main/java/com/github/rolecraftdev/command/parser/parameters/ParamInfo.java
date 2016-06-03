@@ -1,23 +1,26 @@
 package com.github.rolecraftdev.command.parser.parameters;
 
 /**
- * Represents a parameter, which can be required or optional.
+ * Represents information about a parameter, which can be required or optional.
+ *
+ * @since 0.0.5
  */
 public class ParamInfo {
     /**
-     * The name of this parameter
+     * The name of this parameter.
      */
     private final String name;
     /**
-     * Whether this parameter is optional
+     * Whether this parameter is optional.
      */
     private final boolean optional;
 
     /**
-     * Constructs a new Parameter with the given name
+     * Constructs a new ParamInfo with the given name.
      *
-     * @param name     The name of this Parameter
-     * @param optional Whether this parameter is optional
+     * @param name the name of this Parameter
+     * @param optional whether this parameter is optional
+     * @since 0.0.5
      */
     public ParamInfo(String name, boolean optional) {
         this.name = name;
@@ -25,18 +28,21 @@ public class ParamInfo {
     }
 
     /**
-     * Gets the name of this parameter
+     * Gets the name of this parameter.
      *
-     * @return The name of this parameter
+     * @return the name of this parameter
+     * @since 0.0.5
      */
     public String getName() {
         return name;
     }
 
     /**
-     * Returns whether this parameter is optional
+     * Returns whether this parameter is optional.
      *
-     * @return True if the parameter is optional, false if it is required
+     * @return {@code true} if the parameter is optional, {@code false} if it is
+     *          required
+     * @since 0.0.5
      */
     public boolean isOptional() {
         return optional;

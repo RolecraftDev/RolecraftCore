@@ -45,6 +45,7 @@ import org.bukkit.metadata.FixedMetadataValue;
 /**
  * Listens for {@link Event}s to provide a handler for the {@link Fly} spell.
  *
+ * @see {@link Fly}
  * @since 0.0.5
  */
 public class FlyingListener implements Listener {

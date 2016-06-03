@@ -10,6 +10,8 @@ import java.util.Map;
 /**
  * A base to create Params objects from - used so that we don't parse the usage
  * string every time a command is executed.
+ *
+ * @since 0.0.5
  */
 public class ParamsBase {
     /**
@@ -34,32 +36,34 @@ public class ParamsBase {
     public static final char ARGUMENT_SEPARATOR = ' ';
 
     /**
-     * A list of all of the parameters
+     * A {@link List} of all of the parameters.
      */
     private final List<ParamInfo> params;
     /**
-     * The number of arguments before the first parameter
+     * The number of arguments before the first parameter.
      */
     private final int argsBeforeParams;
     /**
-     * The amount of arguments required for a valid Params object for this
-     * ParamsBase, used for argument validation
+     * The amount of arguments required for a valid {@link Params} object for
+     * this ParamsBase, used for argument validation.
      */
     private final int amtRequired;
     /**
-     * Flag information for validation
+     * Flag information for validation.
      */
     private final List<FlagInfo> flags;
 
     /**
-     * Creates a new ParamsBase for the given List of Parameters and the given
-     * amount of arguments before the first parameter
+     * Creates a new ParamsBase for the given {@link List} of parameters and the
+     * given amount of arguments before the first parameter.
      *
-     * @param params           The parameters for this ParamsBase
-     * @param argsBeforeParams The amount of arguments before the first param
-     * @param amtRequired      The amount of required parameters
+     * @param params the parameters for this ParamsBase
+     * @param argsBeforeParams the amount of arguments before the first param
+     * @param amtRequired the amount of required parameters
+     * @since 0.0.5
      */
-    private ParamsBase(List<ParamInfo> params, int argsBeforeParams, int amtRequired, List<FlagInfo> flags) {
+    private ParamsBase(List<ParamInfo> params, int argsBeforeParams,
+            int amtRequired, List<FlagInfo> flags) {
         this.params = params;
         this.argsBeforeParams = argsBeforeParams;
         this.amtRequired = amtRequired;
@@ -67,50 +71,62 @@ public class ParamsBase {
     }
 
     /**
-     * Gets the amount of parameters
+     * Gets the amount of parameters.
      *
-     * @return The amount of parameters in this ParamsBase
+     * @return the amount of parameters in this ParamsBase
+     * @since 0.0.5
      */
     public int length() {
         return params.size();
     }
 
     /**
-     * Gets the amount of arguments before the first parameter
+     * Gets the amount of arguments before the first parameter.
      *
-     * @return The amount of arguments before the first parameter
+     * @return the amount of arguments before the first parameter
+     * @since 0.0.5
      */
     public int getArgsBeforeParams() {
         return argsBeforeParams;
     }
 
     /**
-     * Gets the amount of required parameters
+     * Gets the amount of required parameters.
      *
-     * @return The amount of required parameters
+     * @return the amount of required parameters
+     * @since 0.0.5
      */
     public int getAmountRequired() {
         return amtRequired;
     }
 
     /**
-     * Gets the amount of non-required (optional) parameters
+     * Gets the amount of non-required (optional) parameters.
      *
-     * @return The amount of optional parameters
+     * @return the amount of optional parameters
+     * @since 0.0.5
      */
     public int getAmountOptional() {
         return length() - getAmountRequired();
     }
 
+    /**
+     * Gets the amount of flag-based parameters which can be inputted.
+     *
+     * @return the quantity of flag-based parameters
+     * @since 0.0.5
+     */
     public int getAmountFlags() {
         return flags.size();
     }
 
     /**
-     * Creates a set of parameters for this base using the given arguments
+     * Creates a set of {@link Params} for this base using the given
+     * {@link Arguments}.
      *
-     * @param args The arguments to create the parameters from
-     * @return A set of parameters for the given arguments
+     * @param args the arguments to create the parameters from
+     * @return {@link Params} for the given arguments
+     * @since 0.0.5
      */
     public Params createParams(Arguments args) {
         Map<String, Parameter> paramsMap = new HashMap<String, Parameter>();
@@ -149,10 +165,11 @@ public class ParamsBase {
     }
 
     /**
-     * Builds a new ParamsBase by parsing the given usage string for a command
+     * Builds a new ParamsBase by parsing the given usage string for a command.
      *
-     * @param usageString The command usage string to parse
-     * @return A new ParamsBase created from parsing the given usage string
+     * @param usageString the command usage string to parse
+     * @return a new ParamsBase created from parsing the given usage string
+     * @since 0.0.5
      */
     public static ParamsBase fromUsageString(String usageString) {
         List<ParamInfo> res = new ArrayList<ParamInfo>();
@@ -192,13 +209,16 @@ public class ParamsBase {
 
             if (required || optional) {
                 final char next = characters[i + 1];
-                if (ch == '-' && next != REQUIRED_CLOSE_DENOTATION && next != OPTIONAL_CLOSE_DENOTATION && characters[i + 2] == ' ') {
+                if (ch == '-' && next != REQUIRED_CLOSE_DENOTATION
+                        && next != OPTIONAL_CLOSE_DENOTATION
+                        && characters[i + 2] == ' ') {
                     StringBuilder desc = new StringBuilder();
                     int breakPoint = Integer.MAX_VALUE;
                     boolean isOptional = false;
                     for (int j = 3; j < breakPoint; j++) {
                         char toAppend = characters[i + j];
-                        if (toAppend == REQUIRED_CLOSE_DENOTATION || toAppend == OPTIONAL_CLOSE_DENOTATION) {
+                        if (toAppend == REQUIRED_CLOSE_DENOTATION
+                                || toAppend == OPTIONAL_CLOSE_DENOTATION) {
                             if (toAppend == OPTIONAL_CLOSE_DENOTATION) {
                                 isOptional = true;
                             }
@@ -208,7 +228,9 @@ public class ParamsBase {
 
                         desc.append(toAppend);
                     }
-                    flags.add(new FlagInfo(String.valueOf(next), desc.toString(), isOptional));
+                    flags.add(
+                            new FlagInfo(String.valueOf(next), desc.toString(),
+                                    isOptional));
 
                     i += 2;
                     required = false;

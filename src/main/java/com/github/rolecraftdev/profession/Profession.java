@@ -133,7 +133,7 @@ public class Profession {
     /**
      * Set the name of this {@link Profession}.
      *
-     * @param name the new name
+     * @param name the new name for the profession
      * @since 0.0.5
      */
     public void setName(final String name) {
