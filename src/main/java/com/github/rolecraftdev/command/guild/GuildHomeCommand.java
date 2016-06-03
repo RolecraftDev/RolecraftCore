@@ -85,6 +85,13 @@ public class GuildHomeCommand extends PlayerCommandHandler {
             guild.setHomeLocation(player.getLocation());
             player.sendMessage(plugin.getMessage(Messages.SET_GUILD_HOME));
         } else {
+            if (guild.getHomeLocation() == null) {
+                player.sendMessage(plugin.getMessage(Messages.NO_PERMISSION));
+                // TODO: add specific message for this instead of standard no
+                // TODO: permissions message
+                return;
+            }
+
             new BukkitRunnable() {
                 @Override
                 public void run() {
