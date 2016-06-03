@@ -47,12 +47,17 @@ public abstract class PlayerCommandHandler extends CommandHandler {
      * player. Loaded from messages config.
      */
     private String notPlayerMessage;
+    private boolean isSubcommand;
 
     public PlayerCommandHandler(@Nonnull final RolecraftCore plugin,
             @Nonnull final String name) {
         super(plugin, name);
 
         notPlayerMessage = plugin.getMessage(Messages.NOT_PLAYER);
+    }
+
+    protected void setSubcommand(boolean subcommand) {
+        this.isSubcommand = subcommand;
     }
 
     @Override
@@ -66,11 +71,11 @@ public abstract class PlayerCommandHandler extends CommandHandler {
     }
 
     public void onCommand(Player player, String[] args) {
-        if (args.length < getMinArgs()) {
+        if ((isSubcommand ? args.length + 1 : args.length) < getMinArgs()) {
             sendUsageMessage(player);
             return;
         }
-        if (args.length > getMaxArgs()) {
+        if ((isSubcommand ? args.length + 1 : args.length) > getMaxArgs()) {
             sendUsageMessage(player);
             return;
         }
