@@ -69,8 +69,7 @@ public class GuildRejectCommand extends PlayerCommandHandler {
             return;
         }
 
-        final MetadataValue val = player
-                .getMetadata(GuildManager.GUILD_INVITE_METADATA).get(0);
+        final MetadataValue val = metadata.get(0);
         if (val == null || !(val instanceof FixedMetadataValue)) {
             player.sendMessage(plugin.getMessage(Messages.NO_GUILD_INVITE));
             return;

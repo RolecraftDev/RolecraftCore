@@ -509,6 +509,30 @@ public final class Guild {
     }
 
     /**
+     * Called to create a guild by setting the name and leader for the new guild
+     * but should never be called outside of these circumstances, i.e if the
+     * guild already has a leader. This method MUST be called upon creation of a
+     * guild - if {@link Guild#setName(String)} and {@link Guild#setLeader(UUID)}
+     * are used instead there WILL be an exception thrown.
+     *
+     * @param name the new name of the guild. Not {@code null}
+     * @param leader the UUID of the new leader of the guild. Not {@code null}
+     */
+    public void create(@Nonnull final String name, @Nonnull final UUID leader) {
+        Validate.notNull(name);
+        Validate.notNull(leader);
+
+        this.name = name;
+        this.leader = leader;
+        if (!members.contains(leader)) {
+            members.add(leader);
+        }
+        getLeaderRank().addMember(leader);
+
+        plugin.getDataStore().updateGuildData(this);
+    }
+
+    /**
      * Adds the given member to this {@link Guild} along with the specified
      * {@link GuildRank}.
      *

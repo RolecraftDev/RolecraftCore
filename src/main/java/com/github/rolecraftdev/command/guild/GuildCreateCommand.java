@@ -78,8 +78,7 @@ public class GuildCreateCommand extends PlayerCommandHandler {
         }
         if (plugin.doesUseEconomy()) {
             final EconomyResponse response = plugin.getEconomy().bankHas(
-                    player.getName(),
-                    guildManager.getCreationCost());
+                    player.getName(), guildManager.getCreationCost());
             if (!response.transactionSuccess()) {
                 player.sendMessage(plugin.getMessage(Messages.CANNOT_AFFORD));
                 return;
@@ -89,8 +88,7 @@ public class GuildCreateCommand extends PlayerCommandHandler {
         final String name = args.getRaw(0);
         final Guild guild = new Guild(guildManager);
 
-        guild.setName(name);
-        guild.setLeader(playerId);
+        guild.create(name, playerId);
         if (guildManager.addGuild(guild, false)) {
             player.sendMessage(plugin.getMessage(Messages.GUILD_CREATED,
                     MessageVariable.GUILD.value(name)));
