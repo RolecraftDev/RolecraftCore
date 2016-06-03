@@ -28,8 +28,10 @@ package com.github.rolecraftdev.data;
 
 import com.github.rolecraftdev.RolecraftCore;
 import com.github.rolecraftdev.data.storage.DataStore;
+import com.github.rolecraftdev.data.storage.DataUpdateTask;
 
 import org.bukkit.Bukkit;
+import org.bukkit.scheduler.BukkitTask;
 
 import java.util.Collection;
 import java.util.Map;
@@ -63,6 +65,10 @@ public final class DataManager {
      * {@link PlayerData}.
      */
     private final Map<UUID, PlayerData> loadedPlayerData;
+    /**
+     * The {@link BukkitTask} used to periodically update the database.
+     */
+    private final BukkitTask automaticUpdaterTask;
 
     /**
      * Constructor.
@@ -76,6 +82,18 @@ public final class DataManager {
         this.store = store;
         // Thread safe operations!
         loadedPlayerData = new ConcurrentHashMap<UUID, PlayerData>();
+
+        final DataUpdateTask updateTask = new DataUpdateTask(plugin);
+        this.automaticUpdaterTask = updateTask
+                .runTaskTimerAsynchronously(plugin, 6000L, 6000L); // 5min timer
+    }
+
+    /**
+     * Only call from {@link RolecraftCore#onDisable()}.
+     */
+    public void cleanup() {
+        this.automaticUpdaterTask.cancel();
+        this.unloadAllPlayerData();
     }
 
     /**
@@ -126,6 +144,40 @@ public final class DataManager {
     public void unloadAllPlayerData() {
         for (final UUID id : loadedPlayerData.keySet()) {
             unloadAndSaveData(id, true);
+        }
+    }
+
+    /**
+     * Updates the database with all currently loaded {@link PlayerData}. Called
+     * periodically in async by {@link DataUpdateTask}.
+     *
+     * @param sync whether to save data on the current thread
+     * @since 0.0.5
+     */
+    public void saveAllPlayerData(boolean sync) {
+        for (final UUID id : loadedPlayerData.keySet()) {
+            savePlayerData(id, sync);
+        }
+    }
+
+    /**
+     * Saves, but does not unload, the {@link PlayerData} for the player with
+     * the given {@link UUID}.
+     *
+     * @param player the unique identifier of the player to save data for
+     * @param sync whether to save the data on the current thread
+     * @since 0.0.5
+     */
+    public void savePlayerData(final UUID player, boolean sync) {
+        final PlayerData data = this.loadedPlayerData.get(player);
+        if (data == null) {
+            return;
+        }
+
+        if (sync) {
+            store.commitPlayerDataSync(data);
+        } else {
+            store.commitPlayerData(data);
         }
     }
 

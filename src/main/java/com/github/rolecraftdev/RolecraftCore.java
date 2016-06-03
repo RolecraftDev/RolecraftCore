@@ -191,7 +191,7 @@ public final class RolecraftCore extends JavaPlugin {
      */
     @Override
     public void onDisable() {
-        dataManager.unloadAllPlayerData();
+        this.dataManager.cleanup();
     }
 
     /**

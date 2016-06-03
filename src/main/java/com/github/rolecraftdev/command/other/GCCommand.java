@@ -89,8 +89,7 @@ public class GCCommand extends PlayerCommandHandler {
 
             // Add, send message, remove
             channel.onConnect(player);
-            Bukkit.getPluginManager()
-                    .callEvent(
+            Bukkit.getPluginManager().callEvent(
                             new AsyncPlayerChatEvent(false, player, message
                                     .toString(), null));
             channel.onDisconnect(player);
