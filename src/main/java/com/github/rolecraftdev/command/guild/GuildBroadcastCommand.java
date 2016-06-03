@@ -63,7 +63,7 @@ public class GuildBroadcastCommand extends PlayerCommandHandler {
      */
     @Override
     public void onCommand(final Player player, final Arguments args) {
-        final String message = CommandHelper.joinFrom(1, args);
+        final String message = CommandHelper.joinFrom(0, args);
         if (message == null) {
             sendUsageMessage(player);
             return;
