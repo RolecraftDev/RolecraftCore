@@ -163,6 +163,7 @@ public abstract class CommandHandler implements CommandExecutor {
      * usage of this command.
      *
      * @param sender the {@link CommandSender} to send the usage to
+     * @since 0.0.5
      */
     public void sendUsageMessage(CommandSender sender) {
         sender.sendMessage(ChatColor.RED + "Usage: " + usage);
@@ -189,6 +190,7 @@ public abstract class CommandHandler implements CommandExecutor {
      *
      * @param sender the sender of the command
      * @param args the arguments inputted by the sender
+     * @since 0.0.5
      */
     private void executeAsync(final CommandSender sender, final String[] args) {
         (new BukkitRunnable() {
@@ -204,6 +206,7 @@ public abstract class CommandHandler implements CommandExecutor {
      *
      * @param sender the sender of the command
      * @param args the arguments inputted by the sender
+     * @since 0.0.5
      */
     public void onCommand(final CommandSender sender, final String[] args) {
         if (args.length < getMinArgs()) {
@@ -228,10 +231,11 @@ public abstract class CommandHandler implements CommandExecutor {
     }
 
     /**
-     * Command handler method for subclasses using the Arguments API.
+     * Command handler method for subclasses using the Arguments system.
      *
      * @param sender the sender of the command
      * @param args the arguments inputted by the sender
+     * @since 0.0.5
      */
     public void onCommand(final CommandSender sender, final Arguments args) {
     }

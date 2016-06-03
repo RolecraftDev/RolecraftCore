@@ -242,6 +242,14 @@ public final class CommandHelper {
                 + permitted.toString());
     }
 
+    /**
+     * Sends a banner-formatted message to the given {@link CommandSender} made
+     * up of the given {@link Object}s, using {@link Object#toString()}.
+     *
+     * @param sender the {@link CommandSender} to send the message to
+     * @param message each line of the message to send
+     * @since 0.0.5
+     */
     public static void sendBanner(CommandSender sender, Object... message) {
         sender.sendMessage(ChatColor.GRAY + " " + ChatColor.STRIKETHROUGH + "-"
                 + ChatColor.DARK_GRAY + ChatColor.STRIKETHROUGH
