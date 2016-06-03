@@ -131,7 +131,7 @@ public final class DataManager {
         if (sync) {
             store.commitPlayerDataSync(data);
         } else {
-            store.commitPlayerData(data);
+            store.commitPlayerData(data, true);
         }
     }
 
@@ -177,7 +177,7 @@ public final class DataManager {
         if (sync) {
             store.commitPlayerDataSync(data);
         } else {
-            store.commitPlayerData(data);
+            store.commitPlayerData(data, false);
         }
     }
 

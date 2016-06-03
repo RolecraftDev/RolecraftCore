@@ -89,11 +89,6 @@ public final class PlayerData {
      */
     private UUID secondProfession;
     /**
-     * The {@link UUID}s of the player's {@link Quest}s along with their
-     * progression.
-     */
-    private Map<UUID, String> questProgression;
-    /**
      * The player's influence value, which is calculated by his actions.
      */
     private int influence;
@@ -123,7 +118,6 @@ public final class PlayerData {
         this.name = name;
         this.plugin = plugin;
 
-        questProgression = new HashMap<UUID, String>();
         settings = PlayerSettings.DEFAULT_SETTINGS;
     }
 
@@ -211,17 +205,6 @@ public final class PlayerData {
         } else {
             return null;
         }
-    }
-
-    /**
-     * Get the owner's current {@link Quest} progression.
-     *
-     * @return the {@link Quest} progression of the owner
-     * @since 0.0.5
-     */
-    @Nullable
-    public Map<UUID, String> getQuestProgression() {
-        return questProgression;
     }
 
     /**
@@ -569,18 +552,6 @@ public final class PlayerData {
     }
 
     /**
-     * Set the current progression of a {@link Quest} for the owner.
-     *
-     * @param questId the {@link UUID} of the {@link Quest}
-     * @param progression its new progression value
-     * @since 0.0.5
-     */
-    public void addQuestProgression(final UUID questId,
-            final String progression) {
-        questProgression.put(questId, progression);
-    }
-
-    /**
      * Resets all values to their initial value. This should only be called by
      * DAO classes, doing otherwise might cause unknown problems.
      *
@@ -612,8 +583,6 @@ public final class PlayerData {
      * @param exp the owner's experience
      * @param karma the owner's karma level
      * @param mana the owner's mana level
-     * @param progression the owner's {@link Quest} along with their progression
-     *        data
      * @param settings the owner's {@link PlayerSettings}
      * @since 0.0.5
      * @deprecated for internal use only
@@ -622,7 +591,6 @@ public final class PlayerData {
     public void initialise(final UUID guild, final UUID profession,
             final UUID secondProfession, final int influence, final float exp,
             final float karma, final float mana,
-            final Map<UUID, String> progression,
             final PlayerSettings settings) {
         this.guild = guild;
         this.profession = profession;
@@ -630,7 +598,6 @@ public final class PlayerData {
         this.secondProfession = secondProfession;
         experience = exp;
         this.karma = karma;
-        questProgression = progression;
         this.mana = mana;
         this.settings = settings;
 

@@ -98,7 +98,9 @@ public abstract class DataStore {
     /**
      * Whether {@link Quest}s are wholly loaded.
      */
-    private volatile boolean questsLoaded;
+    // TODO: change to false when quests are implemented and thus it can be set
+    // to true when quests are actually loaded
+    private volatile boolean questsLoaded = true;
 
     /**
      * Set the loading status of {@link Quest}s.
@@ -597,8 +599,11 @@ public abstract class DataStore {
      * @param commit the {@link PlayerData} that should be saved
      * @since 0.0.5
      */
-    public void commitPlayerData(final PlayerData commit) {
-        commit.setUnloading(true);
+    public void commitPlayerData(final PlayerData commit,
+            final boolean unloading) {
+        if (unloading) {
+            commit.setUnloading(true);
+        }
 
         new BukkitRunnable() {
             @Override
@@ -690,21 +695,20 @@ public abstract class DataStore {
     @SuppressWarnings("deprecation")
     public void requestPlayerData(final PlayerData callback,
             final boolean recursive) {
-        if (isQuestsLoaded()) {
-            final String uuid = callback.getPlayerId().toString();
-            final String name = callback.getPlayerName();
-            final float originalSin = plugin.getOriginalSin();
-            if (recursive) {
-                final Connection connection = getConnection();
-                PreparedStatement ps = null;
-                ResultSet rs = null;
-                try {
-                    ps = connection.prepareStatement("SELECT * FROM " + pt
-                            + " WHERE uuid = ?");
-                    ps.setString(1, uuid);
-                    rs = ps.executeQuery();
+        final String uuid = callback.getPlayerId().toString();
+        final String name = callback.getPlayerName();
+        final float originalSin = plugin.getOriginalSin();
+        if (recursive) {
+            final Connection connection = getConnection();
+            PreparedStatement ps = null;
+            ResultSet rs = null;
+            try {
+                ps = connection.prepareStatement("SELECT * FROM " + pt
+                        + " WHERE uuid = ?");
+                ps.setString(1, uuid);
+                rs = ps.executeQuery();
 
-                    if (rs.next()) {
+                if (rs.next()) {
                        /* ResultSetMetaData rsmd = rs.getMetaData();
                         Map<UUID, String> questData = new HashMap<UUID, String>();
                         for (int i = 0; i < rsmd.getColumnCount(); i++) {
@@ -715,104 +719,89 @@ public abstract class DataStore {
                                         rs.getString(i));
                             }
                         }*/
-                        callback.initialise(
-                                UUID.fromString(rs.getString("guild")),
-                                UUID.fromString(rs.getString("profession")),
-                                UUID.fromString(
-                                        rs.getString("secondprofession")),
-                                rs.getInt("influence"), rs.getFloat("exp"),
-                                rs.getFloat("karma"), rs.getFloat("mana"),
-                                null, PlayerSettings
-                                        .fromString(rs.getString("settings")));
-                    } else {
-                        ps.close();
-                        ps = connection.prepareStatement("INSERT INTO " + pt
-                                + " (uuid, lastname) VALUES (?,?)");
-                        ps.setString(1, uuid);
-                        ps.setString(2, name);
-                        ps.execute();
-                        callback.initialise(null, null, null, 0, 0f,
-                                -originalSin,
-                                0, null, PlayerSettings.DEFAULT_SETTINGS);
-                    }
-
-                } catch (final SQLException ex) {
-                    ex.printStackTrace();
-                } finally {
-                    close(ps, rs);
-                    freeConnection(connection);
+                    callback.initialise(
+                            UUID.fromString(rs.getString("guild")),
+                            UUID.fromString(rs.getString("profession")),
+                            UUID.fromString(rs.getString("secondprofession")),
+                            rs.getInt("influence"), rs.getFloat("exp"),
+                            rs.getFloat("karma"), rs.getFloat("mana"),
+                            PlayerSettings.fromString(rs.getString("settings")));
+                } else {
+                    ps.close();
+                    ps = connection.prepareStatement("INSERT INTO " + pt
+                            + " (uuid, lastname) VALUES (?,?)");
+                    ps.setString(1, uuid);
+                    ps.setString(2, name);
+                    ps.execute();
+                    callback.initialise(null, null, null, 0, 0f, -originalSin,
+                            0, PlayerSettings.DEFAULT_SETTINGS);
                 }
-            } else {
-                new BukkitRunnable() {
-                    @Override
-                    public void run() {
-                        final Connection connection = getConnection();
-                        PreparedStatement ps = null;
-                        ResultSet rs = null;
-                        try {
-                            ps = connection
-                                    .prepareStatement("SELECT * FROM " + pt
-                                            + " WHERE uuid = ?");
-                            ps.setString(1, uuid);
-                            rs = ps.executeQuery();
 
-                            if (rs.next()) {
-                                final ResultSetMetaData rsmd = rs.getMetaData();
-                                final Map<UUID, String> questData = new HashMap<UUID, String>();
-                                for (int i = 0;
-                                     i < rsmd.getColumnCount(); i++) {
-                                    if (rsmd.getColumnName(i)
-                                            .startsWith("quest")) {
-                                        questData.put(UUID.fromString(
-                                                        rsmd.getColumnName(i)
-                                                                .substring(6)),
-                                                rs.getString(i));
-                                    }
-                                }
-                                callback.initialise(
-                                        UUID.fromString(rs.getString("guild")),
-                                        UUID.fromString(
-                                                rs.getString("profession")),
-                                        UUID.fromString(rs.getString(
-                                                "secondprofession")),
-                                        rs.getInt("influence"),
-                                        rs.getFloat("exp"),
-                                        rs.getFloat("karma"),
-                                        rs.getFloat("mana"), questData,
-                                        PlayerSettings.fromString(
-                                                rs.getString("settings")));
-                            } else {
-                                ps.close();
-                                ps = connection
-                                        .prepareStatement("INSERT INTO " + pt
-                                                + " (uuid, lastname) VALUES (?,?)");
-                                ps.setString(1, uuid);
-                                ps.setString(2, name);
-                                ps.execute();
-                                callback.initialise(null, null, null, 0, 0f,
-                                        -originalSin, 0, null,
-                                        PlayerSettings.DEFAULT_SETTINGS);
-                            }
-
-                        } catch (final SQLException ex) {
-                            ex.printStackTrace();
-                        } finally {
-                            close(ps, rs);
-                            freeConnection(connection);
-                        }
-                    }
-                }.runTaskAsynchronously(getPlugin());
+            } catch (final SQLException ex) {
+                ex.printStackTrace();
+            } finally {
+                close(ps, rs);
+                freeConnection(connection);
             }
         } else {
             new BukkitRunnable() {
                 @Override
                 public void run() {
-                    if (isQuestsLoaded()) {
-                        cancel();
-                        requestPlayerData(callback, true);
+                    final Connection connection = getConnection();
+                    PreparedStatement ps = null;
+                    ResultSet rs = null;
+                    try {
+                        ps = connection
+                                .prepareStatement("SELECT * FROM " + pt
+                                        + " WHERE uuid = ?");
+                        ps.setString(1, uuid);
+                        rs = ps.executeQuery();
+
+                        if (rs.next()) {
+                            /*final ResultSetMetaData rsmd = rs.getMetaData();
+                            final Map<UUID, String> questData = new HashMap<UUID, String>();
+                            for (int i = 0;
+                                 i < rsmd.getColumnCount(); i++) {
+                                if (rsmd.getColumnName(i)
+                                        .startsWith("quest")) {
+                                    questData.put(UUID.fromString(
+                                                    rsmd.getColumnName(i)
+                                                            .substring(6)),
+                                            rs.getString(i));
+                                }
+                            }*/
+                            callback.initialise(
+                                    UUID.fromString(rs.getString("guild")),
+                                    UUID.fromString(
+                                            rs.getString("profession")),
+                                    UUID.fromString(rs.getString(
+                                            "secondprofession")),
+                                    rs.getInt("influence"),
+                                    rs.getFloat("exp"),
+                                    rs.getFloat("karma"),
+                                    rs.getFloat("mana")/*, questData*/,
+                                    PlayerSettings.fromString(
+                                            rs.getString("settings")));
+                        } else {
+                            ps.close();
+                            ps = connection
+                                    .prepareStatement("INSERT INTO " + pt
+                                            + " (uuid, lastname) VALUES (?,?)");
+                            ps.setString(1, uuid);
+                            ps.setString(2, name);
+                            ps.execute();
+                            callback.initialise(null, null, null, 0, 0f,
+                                    -originalSin, 0,
+                                    PlayerSettings.DEFAULT_SETTINGS);
+                        }
+                    } catch (final SQLException ex) {
+                        ex.printStackTrace();
+                    } finally {
+                        close(ps, rs);
+                        freeConnection(connection);
                     }
                 }
-            }.runTaskTimerAsynchronously(getPlugin(), 2, 2);
+            }.runTaskAsynchronously(getPlugin());
         }
     }
 }
