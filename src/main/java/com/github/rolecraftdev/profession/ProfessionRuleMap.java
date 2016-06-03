@@ -29,7 +29,9 @@ package com.github.rolecraftdev.profession;
 import javax.annotation.Nonnull;
 import javax.annotation.Nullable;
 import java.util.HashMap;
+import java.util.HashSet;
 import java.util.Map;
+import java.util.Set;
 
 /**
  * A wrapper around a {@link Map} of {@link ProfessionRule}s and their
@@ -84,6 +86,15 @@ public final class ProfessionRuleMap {
             return null;
         }
         return key.cast(rules.get(key));
+    }
+
+    /**
+     * Obtain a {@link Set} of keys for this rule map's {@link ProfessionRule}s.
+     *
+     * @return a {@link Set} of keys for this rule map's {@link ProfessionRule}s
+     */
+    public Set<ProfessionRule<?>> getRuleKeys() {
+        return new HashSet<ProfessionRule<?>>(rules.keySet());
     }
 
     /**
