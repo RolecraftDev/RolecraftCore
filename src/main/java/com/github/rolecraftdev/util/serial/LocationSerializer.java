@@ -55,7 +55,7 @@ public class LocationSerializer {
      */
     public static Location deserialize(final String serial)
             throws IllegalArgumentException {
-        if (serial == null) {
+        if (serial == null || serial.equalsIgnoreCase("null")) {
             return null;
         }
 

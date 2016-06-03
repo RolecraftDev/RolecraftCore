@@ -142,6 +142,10 @@ public class Region2D {
      * @since 0.0.5
      */
     public static Region2D fromString(final String string) {
+        if (string == null || string.equalsIgnoreCase("null")) {
+            return null;
+        }
+
         final String[] split = string.split(":")[1].split(";");
         return new Region2D(Integer.parseInt(split[0]),
                 Integer.parseInt(split[1]), Integer.parseInt(split[2]),

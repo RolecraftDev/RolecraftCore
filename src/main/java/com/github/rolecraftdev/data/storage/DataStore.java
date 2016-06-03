@@ -449,8 +449,8 @@ public abstract class DataStore {
                             }
                         }
                         final Set<GuildRank> ranks = new HashSet<GuildRank>();
-                        for (final String s : rs.getString("ranks")
-                                .split(",")) {
+                        final String ranksString = rs.getString("ranks");
+                        for (final String s : ranksString.split(",")) {
                             ranks.add(GuildRank.deserialize(s));
                         }
                         final Location home = LocationSerializer

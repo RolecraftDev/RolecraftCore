@@ -100,7 +100,7 @@ public class GuildShowCommand extends CommandHandler {
                 ranks.append(rank.getName());
                 ranks.append(',');
             }
-            ranks.deleteCharAt(members.length() - 1);
+            ranks.setLength(ranks.length() - 1);
             sender.sendMessage(plugin.getMessage(Messages.GUILD_RANK,
                     new MessageVariable("$ranks", ranks)));
         }

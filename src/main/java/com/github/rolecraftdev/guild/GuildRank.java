@@ -36,6 +36,7 @@ import java.util.EnumSet;
 import java.util.HashSet;
 import java.util.Set;
 import java.util.UUID;
+import java.util.regex.Pattern;
 
 /**
  * Represents a player rank within a {@link Guild}. {@link GuildRank}s have
@@ -45,6 +46,9 @@ import java.util.UUID;
  * @since 0.0.5
  */
 public final class GuildRank {
+    private static final String SEPARATOR_ONE = Pattern.quote(":");
+    private static final String SEPARATOR_TWO = Pattern.quote("#");
+
     /**
      * The name of this {@link GuildRank}.
      */
@@ -219,7 +223,7 @@ public final class GuildRank {
             res.append(action.ordinal());
             res.append("#");
         }
-        res = new StringBuilder(res.substring(0, res.length() - 1));
+        res.setLength(res.length() - 1); // remove trailing #
         res.append(":");
         for (final UUID id : members) {
             res.append(id.toString());
@@ -240,21 +244,26 @@ public final class GuildRank {
     public static GuildRank deserialize(@Nonnull final String serialized) {
         Validate.notNull(serialized);
 
-        final String[] data = serialized.split(":");
+        final String[] data = serialized.split(SEPARATOR_ONE);
         final Set<GuildAction> actions = new HashSet<GuildAction>();
         final Set<UUID> members = new HashSet<UUID>();
 
-        for (final String action : data[1].split("#")) {
-            final int actionValue = Integer.parseInt(action);
-            actions.add(GuildAction.values()[actionValue]);
-        }
-
-        for (final String member : data[2].split("#")) {
-            if (!member.equals("")) {
-                members.add(UUID.fromString(member));
+        if (data.length > 1) {
+            for (final String action : data[1].split(SEPARATOR_TWO)) {
+                final int actionValue = Integer.parseInt(action);
+                actions.add(GuildAction.values()[actionValue]);
             }
-        }
 
-        return new GuildRank(data[0], actions, members);
+            if (data.length > 2) {
+                for (final String member : data[2].split(SEPARATOR_TWO)) {
+                    if (!member.equals("")) {
+                        members.add(UUID.fromString(member));
+                    }
+                }
+            }
+            return new GuildRank(data[0], actions, members);
+        } else {
+            return new GuildRank(serialized, actions, members);
+        }
     }
 }
