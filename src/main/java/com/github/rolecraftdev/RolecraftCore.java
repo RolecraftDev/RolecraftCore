@@ -26,6 +26,7 @@
  */
 package com.github.rolecraftdev;
 
+import com.github.rolecraftdev.chat.ChatListener;
 import com.github.rolecraftdev.command.CommandHandler;
 import com.github.rolecraftdev.command.CommandHelper;
 import com.github.rolecraftdev.command.guild.GuildCommand;
@@ -177,6 +178,7 @@ public final class RolecraftCore extends JavaPlugin {
         // magic related listeners are registered in SpellManager
         pluginManager.registerEvents(new DataListener(this), this);
         pluginManager.registerEvents(new ExperienceListener(this), this);
+        pluginManager.registerEvents(new ChatListener(this), this);
 
         // Register commands
         register(new GuildCommand(this));

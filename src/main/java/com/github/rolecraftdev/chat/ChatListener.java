@@ -37,7 +37,7 @@ import org.bukkit.entity.Player;
 import org.bukkit.event.EventHandler;
 import org.bukkit.event.EventPriority;
 import org.bukkit.event.Listener;
-import org.bukkit.event.player.PlayerChatEvent;
+import org.bukkit.event.player.AsyncPlayerChatEvent;
 
 import javax.annotation.Nonnull;
 import java.util.UUID;
@@ -55,7 +55,7 @@ public class ChatListener implements Listener {
     }
 
     @EventHandler(priority = EventPriority.HIGHEST, ignoreCancelled = true)
-    public void onPlayerChat(final PlayerChatEvent event) {
+    public void onAsyncPlayerChat(final AsyncPlayerChatEvent event) {
         final Player player = event.getPlayer();
         final UUID playerId = player.getUniqueId();
         final DataManager dataManager = this.plugin.getDataManager();
@@ -77,7 +77,6 @@ public class ChatListener implements Listener {
             }
 
             event.setCancelled(true);
-
             guild.getChannel()
                     .onMessage(player.getDisplayName(), event.getMessage());
         }
