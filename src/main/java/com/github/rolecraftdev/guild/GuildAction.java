@@ -87,6 +87,9 @@ public enum GuildAction {
     @Nonnull
     private final String humanReadable;
 
+    /**
+     * @since 0.0.5
+     */
     GuildAction(@Nonnull final String humanReadable) {
         this.humanReadable = humanReadable;
         GuildManager.actionMap.put(humanReadable, this);

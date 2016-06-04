@@ -92,6 +92,7 @@ public final class ProfessionRuleMap {
      * Obtain a {@link Set} of keys for this rule map's {@link ProfessionRule}s.
      *
      * @return a {@link Set} of keys for this rule map's {@link ProfessionRule}s
+     * @since 0.0.5
      */
     public Set<ProfessionRule<?>> getRuleKeys() {
         return new HashSet<ProfessionRule<?>>(rules.keySet());

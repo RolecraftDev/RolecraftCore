@@ -37,16 +37,24 @@ import java.util.UUID;
 /**
  * The task used to regenerate magic mana and update all available
  * mana-displays.
+ *
+ * @since 0.0.5
  */
-class DisplayUpdateTask extends BukkitRunnable {
+public class DisplayUpdateTask extends BukkitRunnable {
     private final DisplayUpdater displayUpdater;
     private final RolecraftCore plugin;
 
+    /**
+     * @since 0.0.5
+     */
     public DisplayUpdateTask(DisplayUpdater displayUpdater) {
         this.displayUpdater = displayUpdater;
         this.plugin = displayUpdater.getPlugin();
     }
 
+    /**
+     * @since 0.0.5
+     */
     @Override
     public void run() {
         for (final PlayerData data : plugin.getDataManager()

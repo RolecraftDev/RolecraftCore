@@ -45,13 +45,20 @@ import javax.annotation.Nonnull;
 public final class DataUpdateTask extends BukkitRunnable {
     private final RolecraftCore plugin;
 
+    /**
+     * @since 0.0.5
+     */
     public DataUpdateTask(@Nonnull final RolecraftCore plugin) {
         this.plugin = plugin;
     }
 
+    /**
+     * @since 0.0.5
+     */
     @Override
     public void run() {
         final DataManager dataManager = this.plugin.getDataManager();
-        dataManager.saveAllPlayerData(true); // sync param = true as task should be on a separate thread to the main thread
+        dataManager.saveAllPlayerData(
+                true); // sync param = true as task should be on a separate thread to the main thread
     }
 }

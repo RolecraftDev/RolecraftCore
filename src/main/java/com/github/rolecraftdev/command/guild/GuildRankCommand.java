@@ -215,6 +215,7 @@ public class GuildRankCommand extends PlayerCommandHandler {
      *
      * @param arg the string to check
      * @return {@code true} if it is a defined alias; {@code false} otherwise
+     * @since 0.0.5
      */
     private boolean isCreateAlias(final String arg) {
         return arg.equals("create") || arg.equals("new") || arg.equals("make")
@@ -226,6 +227,7 @@ public class GuildRankCommand extends PlayerCommandHandler {
      *
      * @param arg the string to check
      * @return {@code true} if it is a defined alias; {@code false} otherwise
+     * @since 0.0.5
      */
     private boolean isDeleteAlias(final String arg) {
         return arg.equals("delete") || arg.equals("remove") || arg

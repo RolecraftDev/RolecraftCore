@@ -50,10 +50,19 @@ import java.util.UUID;
 public class ChatListener implements Listener {
     private final RolecraftCore plugin;
 
+    /**
+     * Instantiates the chat listener for Rolecraft.
+     *
+     * @param plugin the main {@link RolecraftCore} plugin instance
+     * @since 0.0.5
+     */
     public ChatListener(@Nonnull final RolecraftCore plugin) {
         this.plugin = plugin;
     }
 
+    /**
+     * @since 0.0.5
+     */
     @EventHandler(priority = EventPriority.HIGHEST, ignoreCancelled = true)
     public void onAsyncPlayerChat(final AsyncPlayerChatEvent event) {
         final Player player = event.getPlayer();

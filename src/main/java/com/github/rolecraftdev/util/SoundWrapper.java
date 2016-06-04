@@ -90,6 +90,7 @@ public class SoundWrapper {
      * Gets the Bukkit {@link Sound} object for this SoundWrapper
      *
      * @return this SoundWrappers Bukkit {@link Sound}
+     * @since 0.0.5
      */
     public Sound getSound() {
         return sound;
@@ -99,6 +100,7 @@ public class SoundWrapper {
      * Gets the volume for this SoundWrapper
      *
      * @return this SoundWrappers volume
+     * @since 0.0.5
      */
     public float getVolume() {
         return volume;
@@ -108,6 +110,7 @@ public class SoundWrapper {
      * Gets the pitch of this SoundWrapper
      *
      * @return this SoundWrappers pitch
+     * @since 0.0.5
      */
     public float getPitch() {
         return pitch;

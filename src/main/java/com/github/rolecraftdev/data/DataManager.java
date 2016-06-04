@@ -90,6 +90,8 @@ public final class DataManager {
 
     /**
      * Only call from {@link RolecraftCore#onDisable()}.
+     *
+     * @since 0.0.5
      */
     public void cleanup() {
         this.automaticUpdaterTask.cancel();

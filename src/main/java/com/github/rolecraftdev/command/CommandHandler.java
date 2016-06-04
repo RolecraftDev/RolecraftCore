@@ -50,6 +50,8 @@ import javax.annotation.Nullable;
 public abstract class CommandHandler implements CommandExecutor {
     /**
      * The {@link RolecraftCore} plugin instance.
+     *
+     * @since 0.0.5
      */
     @Nonnull
     protected final RolecraftCore plugin;
@@ -99,16 +101,23 @@ public abstract class CommandHandler implements CommandExecutor {
      * on to the main executor method.
      */
     private boolean validateUsage;
-
+    /**
+     * Whether or not this handler is a handler for a subcommand.
+     */
     private boolean subcommand;
 
     /**
      * A template for the correct usage of the command with information about
      * each required and optional parameter.
+     *
+     * @since 0.0.5
      */
     @Nullable
     protected ParamsBase paramsBase;
 
+    /**
+     * @since 0.0.5
+     */
     public CommandHandler(@Nonnull final RolecraftCore plugin,
             @Nonnull final String name) {
         this.plugin = plugin;
@@ -124,85 +133,142 @@ public abstract class CommandHandler implements CommandExecutor {
         validateUsage = true;
     }
 
+    /**
+     * @since 0.0.5
+     */
     @Nonnull
     public String getName() {
         return name;
     }
 
+    /**
+     * @since 0.0.5
+     */
     @Nullable
     public String getUsage() {
         return usage;
     }
 
+    /**
+     * @since 0.0.5
+     */
     public boolean doesValidateUsage() {
         return validateUsage;
     }
 
+    /**
+     * @since 0.0.5
+     */
     protected void setSubcommand(boolean subcommand) {
         this.subcommand = subcommand;
     }
 
+    /**
+     * @since 0.0.5
+     */
     protected boolean isSubcommand() {
         return this.subcommand;
     }
 
+    /**
+     * @since 0.0.5
+     */
     @Nullable
     public ParamsBase getParamsBase() {
         return paramsBase;
     }
 
+    /**
+     * @since 0.0.5
+     */
     public void setUsage(@Nullable final String usage) {
         this.usage = usage;
         paramsBase = ParamsBase.fromUsageString(usage);
     }
 
+    /**
+     * @since 0.0.5
+     */
     public void setValidateUsage(final boolean validateUsage) {
         this.validateUsage = validateUsage;
     }
 
+    /**
+     * @since 0.0.5
+     */
     @Nullable
     public String getDescription() {
         return description;
     }
 
+    /**
+     * @since 0.0.5
+     */
     public void setDescription(@Nullable final String description) {
         this.description = description;
     }
 
+    /**
+     * @since 0.0.5
+     */
     @Nullable
     public String getPermission() {
         return permission;
     }
 
+    /**
+     * @since 0.0.5
+     */
     public void setPermission(@Nullable final String permission) {
         this.permission = permission;
     }
 
+    /**
+     * @since 0.0.5
+     */
     @Nullable
     public String getNoPermissionMessage() {
         return noPermissionMessage;
     }
 
+    /**
+     * @since 0.0.5
+     */
     public int getMinArgs() {
         return minArgs;
     }
 
+    /**
+     * @since 0.0.5
+     */
     public void setMinArgs(int minArgs) {
         this.minArgs = minArgs;
     }
 
+    /**
+     * @since 0.0.5
+     */
     public int getMaxArgs() {
         return maxArgs;
     }
 
+    /**
+     * @since 0.0.5
+     */
     public void setMaxArgs(int maxArgs) {
         this.maxArgs = maxArgs;
     }
 
+    /**
+     * @since 0.0.5
+     */
     public boolean isAsync() {
         return async;
     }
 
+    /**
+     * @since 0.0.5
+     */
     public void setAsync(boolean async) {
         if (async && plugin == null) {
             throw new IllegalArgumentException(
@@ -222,6 +288,9 @@ public abstract class CommandHandler implements CommandExecutor {
         sender.sendMessage(ChatColor.RED + "Usage: " + usage);
     }
 
+    /**
+     * @since 0.0.5
+     */
     @Override
     public boolean onCommand(CommandSender sender, Command cmnd, String string,
             String[] args) {

@@ -511,6 +511,7 @@ public final class Guild {
      *
      * @param name the new name of the guild. Not {@code null}
      * @param leader the UUID of the new leader of the guild. Not {@code null}
+     * @since 0.0.5
      */
     public void create(@Nonnull final String name, @Nonnull final UUID leader) {
         Validate.notNull(name);

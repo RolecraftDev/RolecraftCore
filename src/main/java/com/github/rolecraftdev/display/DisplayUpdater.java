@@ -49,11 +49,21 @@ import java.util.UUID;
 public class DisplayUpdater {
     /**
      * The name of the data objective.
+     *
+     * @since 0.0.5
      */
     public static final String DATA = "Data";
-
+    /**
+     * @since 0.0.5
+     */
     public static final String MANA = "Mana";
+    /**
+     * @since 0.0.5
+     */
     public static final String LEVEL = "Level";
+    /**
+     * @since 0.0.5
+     */
     public static final String REQUIRED_EXP = "LevelUp";
 
     /**
@@ -82,10 +92,16 @@ public class DisplayUpdater {
                 .registerEvents(new DisplayListener(plugin), plugin);
     }
 
+    /**
+     * @since 0.0.5
+     */
     public RolecraftCore getPlugin() {
         return plugin;
     }
 
+    /**
+     * @since 0.0.5
+     */
     public Objective getDisplay(@Nonnull final UUID playerId) {
         return this.displays.get(playerId);
     }
@@ -120,5 +136,4 @@ public class DisplayUpdater {
     public void disposeDisplayOf(final Player player) {
         displays.remove(player.getUniqueId());
     }
-
 }

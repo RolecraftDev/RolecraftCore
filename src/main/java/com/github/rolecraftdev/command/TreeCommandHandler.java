@@ -42,24 +42,42 @@ import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
 
+/**
+ * @since 0.0.5
+ */
 public abstract class TreeCommandHandler extends CommandHandler {
     private final Map<String, CommandHandler> subcommands = new HashMap<String, CommandHandler>();
 
+    /**
+     * @since 0.0.5
+     */
     public TreeCommandHandler(@Nonnull final RolecraftCore plugin,
             @Nonnull final String name) {
         super(plugin, name);
     }
 
+    /**
+     * @since 0.0.5
+     */
     public abstract void setupSubcommands();
 
+    /**
+     * @since 0.0.5
+     */
     public void onCommandNoArgs(@Nonnull final CommandSender sender) {
         sendHelpMenu(sender);
     }
 
+    /**
+     * @since 0.0.5
+     */
     public void onCommandInvalidArgs(@Nonnull final CommandSender sender) {
         sendHelpMenu(sender);
     }
 
+    /**
+     * @since 0.0.5
+     */
     public void sendHelpMenu(@Nonnull final CommandSender sender) {
         List<CommandHandler> cmds = new ArrayList<CommandHandler>(
                 subcommands.values());
@@ -84,10 +102,16 @@ public abstract class TreeCommandHandler extends CommandHandler {
         CommandHelper.sendBanner(sender, msgs.toArray());
     }
 
+    /**
+     * @since 0.0.5
+     */
     protected void addSubcommand(@Nonnull final CommandHandler handler) {
         addSubcommand(handler.getName(), handler);
     }
 
+    /**
+     * @since 0.0.5
+     */
     protected void addSubcommand(@Nullable String name,
             @Nonnull final CommandHandler handler) {
         if (name == null) {
@@ -96,6 +120,9 @@ public abstract class TreeCommandHandler extends CommandHandler {
         subcommands.put(name, handler);
     }
 
+    /**
+     * @since 0.0.5
+     */
     @Override
     public void onCommand(@Nonnull final CommandSender sender,
             @Nonnull final Arguments args) {
@@ -122,6 +149,9 @@ public abstract class TreeCommandHandler extends CommandHandler {
         onCommandInvalidArgs(sender);
     }
 
+    /**
+     * @since 0.0.5
+     */
     @Override
     public void onCommand(@Nonnull final CommandSender sender,
             @Nonnull final String[] args) {

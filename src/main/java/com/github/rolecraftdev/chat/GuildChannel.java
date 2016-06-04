@@ -42,7 +42,8 @@ import java.util.UUID;
 
 /**
  * Represents a chat channel for a guild - anybody in the guild receives
- * messages sent to the guild's channel.
+ * messages sent to the guild's channel. Note that this is not likely to be
+ * around for long.
  *
  * @since 0.0.5
  */
@@ -50,18 +51,42 @@ public class GuildChannel {
     private final RolecraftCore plugin;
     private final UUID guildId;
 
+    /**
+     * Creates a new guild chat channel. Should not be called from outside the
+     * Rolecraft plugin.
+     *
+     * @param plugin the {@link RolecraftCore} plugin instance
+     * @param guildId the {@link UUID} of the guild which owns this channel
+     * @since 0.0.5
+     */
     public GuildChannel(@Nonnull final RolecraftCore plugin,
             @Nonnull final UUID guildId) {
         this.plugin = plugin;
         this.guildId = guildId;
     }
 
+    /**
+     * Creates a new guild chat channel. Should not be called from outside the
+     * Rolecraft plugin.
+     *
+     * @param plugin the {@link RolecraftCore} plugin instance
+     * @param guild the {@link Guild} which owns this channel
+     * @since 0.0.5
+     */
     public GuildChannel(@Nonnull final RolecraftCore plugin,
             @Nonnull final Guild guild) {
         this.plugin = plugin;
         this.guildId = guild.getId();
     }
 
+    /**
+     * Broadcasts the given message from the given sender to everyone in the
+     * guild this channel belongs to.
+     *
+     * @param senderName the name of the person sending the message
+     * @param message the contents of the message
+     * @since 0.0.5
+     */
     public void onMessage(String senderName, String message) {
         final DataManager dataManager = this.plugin.getDataManager();
         final GuildManager guildManager = this.plugin.getGuildManager();

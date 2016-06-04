@@ -70,18 +70,26 @@ public class MiningHammer implements Spell {
 
     /**
      * Allows opposing directions to be easily handled as equal.
+     *
+     * @since 0.0.5
      */
     private enum Orientation {
         /**
          * Z axis - north or south.
+         *
+         * @since 0.0.5
          */
         NORTHSOUTH,
         /**
          * X axis - east or west.
+         *
+         * @since 0.0.5
          */
         EASTWEST,
         /**
          * Y axis - up or down.
+         *
+         * @since 0.0.5
          */
         FLAT
     }

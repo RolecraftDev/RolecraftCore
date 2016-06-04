@@ -90,6 +90,7 @@ public final class ProfessionRule<T> {
      *
      * @param name the {@link ProfessionRule}'s name
      * @param type the {@link ProfessionRule}'s type
+     * @since 0.0.5
      */
     private ProfessionRule(final String name, final Class<T> type) {
         this.name = name;

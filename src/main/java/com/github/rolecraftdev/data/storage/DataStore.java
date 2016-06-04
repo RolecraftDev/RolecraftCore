@@ -32,7 +32,6 @@ import com.github.rolecraftdev.data.PlayerSettings;
 import com.github.rolecraftdev.guild.Guild;
 import com.github.rolecraftdev.guild.GuildManager;
 import com.github.rolecraftdev.guild.GuildRank;
-import com.github.rolecraftdev.quest.Quest;
 import com.github.rolecraftdev.util.Region2D;
 import com.github.rolecraftdev.util.serial.LocationSerializer;
 
@@ -74,7 +73,6 @@ public abstract class DataStore {
      * @since 0.0.5
      */
     public static final String gt = "guildtable";
-    // TODO: JavaDoc
     /**
      * @since 0.0.5
      */
@@ -92,32 +90,6 @@ public abstract class DataStore {
      * The associated {@link RolecraftCore} instance.
      */
     private final RolecraftCore plugin;
-    /**
-     * Whether {@link Quest}s are wholly loaded.
-     */
-    // TODO: change to false when quests are implemented and thus it can be set
-    // to true when quests are actually loaded
-    private volatile boolean questsLoaded = true;
-
-    /**
-     * Set the loading status of {@link Quest}s.
-     *
-     * @param bool the new {@link Quest} loading status
-     * @since 0.0.5
-     */
-    public void setQuestsLoaded(final boolean bool) {
-        questsLoaded = bool;
-    }
-
-    /**
-     * Check whether {@link Quest}s are completely loaded.
-     *
-     * @return {@code true} if {@link Quest}s are fully loaded
-     * @since 0.0.5
-     */
-    public boolean isQuestsLoaded() {
-        return questsLoaded;
-    }
 
     /**
      * Constructor.

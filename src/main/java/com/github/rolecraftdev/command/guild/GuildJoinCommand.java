@@ -116,6 +116,7 @@ public class GuildJoinCommand extends PlayerCommandHandler {
      *
      * @param player the player to add
      * @param guild the {@link Guild} the given player should be added to
+     * @since 0.0.5
      */
     private void completeGuildAdd(final Player player, final Guild guild) {
         final UUID pid = player.getUniqueId();

@@ -73,7 +73,6 @@ public class SpellCastEvent extends SpellEvent implements Cancellable {
     private SoundWrapper sound;
     /**
      * The message sent to the caster when this event is cancelled.
-     *
      */
     private String cancelMessage = ChatColor.DARK_RED + "You can't do that!";
 

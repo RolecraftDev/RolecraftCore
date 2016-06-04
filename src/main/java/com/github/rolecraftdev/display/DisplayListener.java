@@ -36,14 +36,23 @@ import org.bukkit.event.player.PlayerJoinEvent;
 import org.bukkit.event.player.PlayerKickEvent;
 import org.bukkit.event.player.PlayerQuitEvent;
 
+/**
+ * Listens for logins and players leaving and creates and disposes scoreboards
+ * accordingly.
+ *
+ * @since 0.0.5
+ */
 public class DisplayListener implements Listener {
     private final RolecraftCore plugin;
 
+    /**
+     * @since 0.0.5
+     */
     public DisplayListener(final RolecraftCore plugin) {
         this.plugin = plugin;
     }
 
-    /*
+    /**
      * @since 0.0.5
      */
     // priority set as this MUST happen after DataListener.onPlayerJoin
@@ -52,7 +61,7 @@ public class DisplayListener implements Listener {
         plugin.getDisplayUpdater().createDisplayFor(event.getPlayer());
     }
 
-    /*
+    /**
      * @since 0.0.5
      */
     @EventHandler
@@ -60,7 +69,7 @@ public class DisplayListener implements Listener {
         onPlayerLeave(event.getPlayer());
     }
 
-    /*
+    /**
      * @since 0.0.5
      */
     @EventHandler

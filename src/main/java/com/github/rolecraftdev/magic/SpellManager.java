@@ -30,7 +30,6 @@ import org.apache.commons.lang.Validate;
 
 import com.github.rolecraftdev.RolecraftCore;
 import com.github.rolecraftdev.data.PlayerData;
-import com.github.rolecraftdev.display.DisplayUpdater;
 import com.github.rolecraftdev.magic.listener.FlyingListener;
 import com.github.rolecraftdev.magic.listener.MagicListener;
 import com.github.rolecraftdev.magic.listener.ProjectileListener;
@@ -151,6 +150,7 @@ public class SpellManager {
      * @param wandName the name of the wand that will execute the specified
      *        {@link Spell}
      * @param spell the {@link Spell} to register
+     * @since 0.0.5
      */
     // TODO: Make public when we support anyone registering spells
     private void register(@Nonnull final String wandName,

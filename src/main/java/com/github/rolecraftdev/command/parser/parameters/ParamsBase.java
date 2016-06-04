@@ -42,22 +42,32 @@ import java.util.Map;
 public class ParamsBase {
     /**
      * The character which implies the beginning of a required parameter
+     *
+     * @since 0.0.5
      */
     public static final char REQUIRED_OPEN_DENOTATION = '<';
     /**
      * The character which implies the closing of a required parameter
+     *
+     * @since 0.0.5
      */
     public static final char REQUIRED_CLOSE_DENOTATION = '>';
     /**
      * The character which implies the opening of an optional parameter
+     *
+     * @since 0.0.5
      */
     public static final char OPTIONAL_OPEN_DENOTATION = '[';
     /**
      * The character which implies the closing of an optional parameter
+     *
+     * @since 0.0.5
      */
     public static final char OPTIONAL_CLOSE_DENOTATION = ']';
     /**
      * The character which separates arguments
+     *
+     * @since 0.0.5
      */
     public static final char ARGUMENT_SEPARATOR = ' ';
 
@@ -298,6 +308,8 @@ public class ParamsBase {
 
     /**
      * Basic flag information.
+     *
+     * @since 0.0.5
      */
     public static class FlagInfo {
         /**
@@ -313,6 +325,9 @@ public class ParamsBase {
          */
         private final boolean optional;
 
+        /**
+         * @since 0.0.5
+         */
         public FlagInfo(String name, String desc, boolean optional) {
             this.name = name;
             this.desc = desc;

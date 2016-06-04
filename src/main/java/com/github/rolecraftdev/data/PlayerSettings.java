@@ -210,6 +210,12 @@ public final class PlayerSettings {
         return temp;
     }
 
+    /**
+     * Gets a set of default settings.
+     *
+     * @return default player settings
+     * @since 0.0.5
+     */
     public static PlayerSettings defaults() {
         return new PlayerSettings(DEFAULT_SETTINGS);
     }

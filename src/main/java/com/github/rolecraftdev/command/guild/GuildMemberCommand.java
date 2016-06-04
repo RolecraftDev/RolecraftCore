@@ -224,6 +224,8 @@ public class GuildMemberCommand extends PlayerCommandHandler {
     /**
      * Kick a player from his {@link Guild}. This will also send the player a
      * message if he's online.
+     *
+     * @since 0.0.5
      */
     private final class KickPlayerTask extends BukkitRunnable {
         /**
@@ -240,12 +242,16 @@ public class GuildMemberCommand extends PlayerCommandHandler {
          *
          * @param plugin the associated {@link RolecraftCore} instance
          * @param data the {@link PlayerData} of the player that will be kicked
+         * @since 0.0.5
          */
         KickPlayerTask(final RolecraftCore plugin, final PlayerData data) {
             this.plugin = plugin;
             this.data = data;
         }
 
+        /**
+         * @since 0.0.5
+         */
         @Override
         public void run() {
             // This is used because it is possible that the data will be loading

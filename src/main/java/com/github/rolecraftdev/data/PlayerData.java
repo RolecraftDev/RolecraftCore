@@ -33,15 +33,12 @@ import com.github.rolecraftdev.event.experience.RCExperienceEvent.ChangeReason;
 import com.github.rolecraftdev.experience.ExperienceHelper;
 import com.github.rolecraftdev.guild.Guild;
 import com.github.rolecraftdev.profession.Profession;
-import com.github.rolecraftdev.quest.Quest;
 
 import org.bukkit.Bukkit;
 
 import javax.annotation.Nonnull;
 import javax.annotation.Nullable;
 import java.net.URISyntaxException;
-import java.util.HashMap;
-import java.util.Map;
 import java.util.UUID;
 
 /**
@@ -406,6 +403,7 @@ public final class PlayerData {
      * @param reason the reason for this change
      * @see #setExperience(float, ChangeReason)
      * @see #getExperience()
+     * @since 0.0.5
      */
     public void addExperience(final float amount,
             @Nonnull final ChangeReason reason) {

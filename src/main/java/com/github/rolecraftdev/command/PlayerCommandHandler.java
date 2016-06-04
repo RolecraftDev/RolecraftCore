@@ -48,6 +48,9 @@ public abstract class PlayerCommandHandler extends CommandHandler {
      */
     private String notPlayerMessage;
 
+    /**
+     * @since 0.0.5
+     */
     public PlayerCommandHandler(@Nonnull final RolecraftCore plugin,
             @Nonnull final String name) {
         super(plugin, name);
@@ -55,6 +58,9 @@ public abstract class PlayerCommandHandler extends CommandHandler {
         notPlayerMessage = plugin.getMessage(Messages.NOT_PLAYER);
     }
 
+    /**
+     * @since 0.0.5
+     */
     @Override
     public void onCommand(CommandSender sender, String[] args) {
         if (!(sender instanceof Player)) {
@@ -65,6 +71,9 @@ public abstract class PlayerCommandHandler extends CommandHandler {
         onCommand((Player) sender, args);
     }
 
+    /**
+     * @since 0.0.5
+     */
     public void onCommand(Player player, String[] args) {
         if ((isSubcommand() ? args.length + 1 : args.length) < getMinArgs()) {
             sendUsageMessage(player);
@@ -89,6 +98,9 @@ public abstract class PlayerCommandHandler extends CommandHandler {
         this.onCommand(player, newArgs);
     }
 
+    /**
+     * @since 0.0.5
+     */
     public void onCommand(Player player, Arguments args) {
     }
 }

@@ -58,7 +58,7 @@ public final class ExperienceHelper {
         return (int) Math.floor(temp);
          */
 
-        for (int i = 1;; i++) {
+        for (int i = 1; ; i++) {
             if (getRequiredExp(i + 1) > experience) {
                 return i;
             }
@@ -82,6 +82,9 @@ public final class ExperienceHelper {
         return result;
     }
 
+    /**
+     * @since 0.0.5
+     */
     private static float expToNextLevel(int level) {
         return 500 * (level * level) - (500 * level);
     }
@@ -100,6 +103,9 @@ public final class ExperienceHelper {
         return required - experience;
     }
 
+    /**
+     * @since 0.0.5
+     */
     public static float expFromPlayerKill(final Player killer,
             final Player killed) {
         // TODO: make this compare the levels of the two players and get an exp
