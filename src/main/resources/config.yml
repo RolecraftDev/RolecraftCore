@@ -16,6 +16,9 @@ magicrange: 100
 # The maximum possible quantity of mana
 maximummana: 2000
 
+# The regeneration rate per 2 seconds of mana
+manaregen: 5
+
 # Leaving this to true will enforce area protection and block protection
 # plugins when players are casting spells, however this may cause problems
 # with certain other plugins like NoCheatPlus that will report a cheater

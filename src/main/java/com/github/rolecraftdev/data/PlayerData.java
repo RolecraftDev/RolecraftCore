@@ -548,7 +548,8 @@ public final class PlayerData {
      */
     public float getManaRegenRate() {
         // TODO: this is probably wayyyy too fast
-        return (float) Math.pow(getLevel(), 0.5) / 10 + 5;
+        /*return (float) Math.pow(getLevel(), 0.5) / 10 + 5;*/
+        return this.plugin.getManaRegenRate();
     }
 
     /**

@@ -116,6 +116,10 @@ public final class RolecraftCore extends JavaPlugin {
      * The maximum mana a player is allowed to have.
      */
     private float maximumMana;
+    /**
+     * The rate, per 2 seconds, at which mana regenerates.
+     */
+    private float manaRegen;
 
     /**
      * @since 0.0.5
@@ -141,6 +145,7 @@ public final class RolecraftCore extends JavaPlugin {
         extraEvents = config.getBoolean("extraevents");
         originalSin = (float) config.getDouble("originalsin");
         maximumMana = (float) config.getDouble("maximummana", 2000.0);
+        manaRegen = (float) config.getDouble("manaregen", 5);
 
         // Set the plugin object for event construction in RolecraftEventFactory
         RolecraftEventFactory.setPlugin(this);
@@ -406,6 +411,16 @@ public final class RolecraftCore extends JavaPlugin {
      */
     public float getMaximumMana() {
         return maximumMana;
+    }
+
+    /**
+     * Get the regeneration rate of mana per 2 seconds.
+     *
+     * @return the mana regeneration rate
+     * @since 0.0.5
+     */
+    public float getManaRegenRate() {
+        return manaRegen;
     }
 
     /**
