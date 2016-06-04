@@ -63,7 +63,7 @@ public class ChatListener implements Listener {
     /**
      * @since 0.0.5
      */
-    @EventHandler(priority = EventPriority.HIGHEST, ignoreCancelled = true)
+    @EventHandler(ignoreCancelled = true)
     public void onAsyncPlayerChat(final AsyncPlayerChatEvent event) {
         final Player player = event.getPlayer();
         final UUID playerId = player.getUniqueId();
