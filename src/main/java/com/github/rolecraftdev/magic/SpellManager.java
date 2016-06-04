@@ -53,7 +53,6 @@ import org.bukkit.scheduler.BukkitRunnable;
 
 import javax.annotation.Nonnull;
 import javax.annotation.Nullable;
-import java.net.URISyntaxException;
 import java.util.Collection;
 import java.util.HashMap;
 import java.util.List;
@@ -225,20 +224,6 @@ public class SpellManager {
             @Nonnull final Spell spell) {
         Validate.notNull(player);
         Validate.notNull(spell);
-
-        // workaround for testing
-        try {
-            if (RolecraftCore.class.getProtectionDomain().getCodeSource()
-                    .getLocation().toURI().toString().contains("testing")) {
-                if (player.getName().equals("alright2") ||
-                        player.getName().equals("TraksAG") ||
-                        player.getName().equals("DziNeIT")) {
-                    return true;
-                }
-            }
-        } catch (final URISyntaxException e) {
-            Bukkit.getLogger().warning("Problem in check exceptions - ignore");
-        }
 
         if (!player.hasPermission(
                 "rolecraft.spell." + spell.getName().toLowerCase())) {
