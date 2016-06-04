@@ -36,18 +36,16 @@ import org.bukkit.entity.Player;
  */
 public final class ExperienceHelper {
     /**
-     * Retrieve the level that the given amount of experience represents. The
-     * algorithm for levels is:
-     * <em>y = ln(0.8(x + 1.25)) * ((x + 1.25)^0.4) * 0.1 + 1</em>
+     * Retrieve the level that the given amount of experience represents.
      *
      * @param experience the amount of experience from which the appropriate
      *        level should be calculated
      * @return the level that corresponds to the given experience
      * @since 0.0.5
      */
+    // old formula: * <em>y = ln(0.8(x + 1.25)) * ((x + 1.25)^0.4) * 0.1 + 1</em>
     public static int getLevel(final float experience) {
-        // TODO: make this a function that can, within reason, be solved for X
-
+        /*
         // shortcut to prevent "bottoming out"
         if (experience < 0.025) {
             return 1;
@@ -58,6 +56,34 @@ public final class ExperienceHelper {
         temp *= 0.1f;
         temp += 1;
         return (int) Math.floor(temp);
+         */
+
+        for (int i = 1;; i++) {
+            if (getRequiredExp(i + 1) > experience) {
+                return i;
+            }
+        }
+    }
+
+    /**
+     * Retrieve the total amount of exp that the given level requires. The
+     * algorithm for exp from the last level is:
+     * <em>500 * (level^2) - (500 * level)</em>
+     *
+     * @param level the level for which required exp should be calculated
+     * @return the required exp for the given level
+     * @since 0.0.5
+     */
+    public static float getRequiredExp(final int level) {
+        float result = 0f;
+        for (int i = 0; i < level; i++) {
+            result += expToNextLevel(i);
+        }
+        return result;
+    }
+
+    private static float expToNextLevel(int level) {
+        return 500 * (level * level) - (500 * level);
     }
 
     /**
@@ -69,8 +95,9 @@ public final class ExperienceHelper {
      * @since 0.0.5
      */
     public static float expToNextLevel(final float experience) {
-        // TODO: make this return the experience to the next level
-        return -1;
+        final int curLevel = getLevel(experience);
+        final float required = getRequiredExp(curLevel + 1);
+        return required - experience;
     }
 
     public static float expFromPlayerKill(final Player killer,
@@ -94,22 +121,22 @@ public final class ExperienceHelper {
     public static float expFromKill(final EntityType entityType) {
         switch (entityType) {
             case ZOMBIE:
-                return 20;
+                return 50;
             case CREEPER:
             case SKELETON:
-                return 30;
+                return 100;
             case WITHER:
                 return 5000;
             case ENDER_DRAGON:
                 return 10000;
             case SLIME:
-                return 50;
+                return 150;
             case PLAYER:
                 return 1000;
             case BLAZE:
-                return 50;
+                return 250;
             case CAVE_SPIDER:
-                return 100;
+                return 150;
             case CHICKEN:
             case COW:
             case PIG:
@@ -119,35 +146,35 @@ public final class ExperienceHelper {
             case SNOWMAN:
                 return 5;
             case ENDERMAN:
-                return 50;
+                return 250;
             case ENDER_CRYSTAL:
                 return 150;
             case GHAST:
-                return 100;
+                return 500;
             case GIANT:
-                return 40;
+                return 100;
             case HORSE:
                 return 10;
             case IRON_GOLEM:
-                return 120;
+                return 200;
             case MAGMA_CUBE:
-                return 50;
-            case MUSHROOM_COW:
                 return 100;
+            case MUSHROOM_COW:
+                return 50;
             case OCELOT:
                 return 50;
             case PIG_ZOMBIE:
-                return 40;
+                return 100;
             case SILVERFISH:
                 return 100;
             case SPIDER:
-                return 30;
+                return 60;
             case VILLAGER:
-                return 30;
+                return 25;
             case WITCH:
-                return 50;
+                return 150;
             case WOLF:
-                return 10;
+                return 50;
             case SNOWBALL:
             case EGG:
             case DROPPED_ITEM:
@@ -155,7 +182,7 @@ public final class ExperienceHelper {
             default:
                 // account for other added EntityTypes, or hacks to add entity
                 // type values to the enum (this is possible)
-                return 20;
+                return 50;
         }
     }
 
