@@ -121,10 +121,10 @@ public final class ExperienceHelper {
     public static float expFromKill(final EntityType entityType) {
         switch (entityType) {
             case ZOMBIE:
-                return 50;
+                return 100;
             case CREEPER:
             case SKELETON:
-                return 100;
+                return 200;
             case WITHER:
                 return 5000;
             case ENDER_DRAGON:
@@ -134,9 +134,9 @@ public final class ExperienceHelper {
             case PLAYER:
                 return 1000;
             case BLAZE:
-                return 250;
+                return 300;
             case CAVE_SPIDER:
-                return 150;
+                return 200;
             case CHICKEN:
             case COW:
             case PIG:
@@ -144,37 +144,37 @@ public final class ExperienceHelper {
             case BAT:
             case SQUID:
             case SNOWMAN:
-                return 5;
+                return 10;
             case ENDERMAN:
-                return 250;
+                return 400;
             case ENDER_CRYSTAL:
                 return 150;
             case GHAST:
-                return 500;
+                return 600;
             case GIANT:
-                return 100;
+                return 200;
             case HORSE:
-                return 10;
+                return 20;
             case IRON_GOLEM:
                 return 200;
             case MAGMA_CUBE:
-                return 100;
+                return 150;
             case MUSHROOM_COW:
                 return 50;
             case OCELOT:
                 return 50;
             case PIG_ZOMBIE:
-                return 100;
+                return 150;
             case SILVERFISH:
                 return 100;
             case SPIDER:
-                return 60;
+                return 100;
             case VILLAGER:
                 return 25;
             case WITCH:
-                return 150;
+                return 250;
             case WOLF:
-                return 50;
+                return 100;
             case SNOWBALL:
             case EGG:
             case DROPPED_ITEM:
