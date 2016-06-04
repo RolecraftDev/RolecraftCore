@@ -29,6 +29,7 @@ package com.github.rolecraftdev.data;
 import com.github.rolecraftdev.RolecraftCore;
 
 import org.bukkit.event.EventHandler;
+import org.bukkit.event.EventPriority;
 import org.bukkit.event.Listener;
 import org.bukkit.event.player.PlayerJoinEvent;
 import org.bukkit.event.player.PlayerQuitEvent;
@@ -60,7 +61,7 @@ public final class DataListener implements Listener {
     /**
      * @since 0.0.5
      */
-    @EventHandler
+    @EventHandler(priority = EventPriority.LOWEST)
     public void onPlayerJoin(final PlayerJoinEvent event) {
         plugin.getDataManager().getPlayerData(event.getPlayer().getUniqueId());
     }
@@ -68,7 +69,7 @@ public final class DataListener implements Listener {
     /**
      * @since 0.0.5
      */
-    @EventHandler
+    @EventHandler(priority = EventPriority.LOWEST)
     public void onPlayerQuit(final PlayerQuitEvent event) {
         final UUID playerId = event.getPlayer().getUniqueId();
         plugin.getDataManager().unloadAndSaveData(playerId);

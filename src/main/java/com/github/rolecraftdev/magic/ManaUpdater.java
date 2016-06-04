@@ -53,6 +53,7 @@ public class ManaUpdater {
 
     private final RolecraftCore plugin;
     private final Map<UUID, Objective> manaDisplays;
+    private final float maximumMana;
 
     /**
      * Create an updater used for magic mana. This will automatically cause
@@ -64,6 +65,7 @@ public class ManaUpdater {
     public ManaUpdater(final RolecraftCore plugin) {
         this.plugin = plugin;
         manaDisplays = new HashMap<UUID, Objective>();
+        maximumMana = plugin.getMaximumMana();
 
         new RegenerationTask().runTaskTimer(plugin, 20, 40);
     }
@@ -107,6 +109,10 @@ public class ManaUpdater {
             for (final PlayerData data : plugin.getDataManager()
                     .getPlayerDatum()) {
                 data.addMana(data.getManaRegenRate());
+                // do not exceed maximum player mana
+                if (data.getMana() > maximumMana) {
+                    data.setMana(maximumMana);
+                }
 
                 if (manaDisplays.containsKey(data.getPlayerId())) {
                     manaDisplays.get(data.getPlayerId()).getScore(MANA)

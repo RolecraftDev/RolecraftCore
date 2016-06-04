@@ -50,6 +50,7 @@ import org.bukkit.event.player.PlayerJoinEvent;
 import org.bukkit.event.player.PlayerKickEvent;
 import org.bukkit.event.player.PlayerQuitEvent;
 import org.bukkit.inventory.ItemStack;
+import org.bukkit.scheduler.BukkitRunnable;
 
 /**
  * A {@link Listener} for {@link Event}s that can be used to perform
@@ -76,13 +77,23 @@ public class MagicListener implements Listener {
     /*
      * @since 0.0.5
      */
-    @EventHandler
+    // priority set as this MUST happen after DataListener.onPlayerJoin
+    @EventHandler(priority = EventPriority.MONITOR, ignoreCancelled = true)
     public void onPlayerJoin(final PlayerJoinEvent event) {
-        final SpellManager spellManager = this.plugin.getSpellManager();
-        // Only create the mana-display if the player can perform magic
-        if (spellManager.canCast(event.getPlayer())) {
-            spellManager.getManaUpdater().createDisplayFor(event.getPlayer());
-        }
+        final Player player = event.getPlayer();
+
+        new BukkitRunnable() {
+            @Override
+            public void run() {
+                final SpellManager spellManager = MagicListener.this.plugin
+                        .getSpellManager();
+                // Only create the mana-display if the player can perform magic
+                if (spellManager.canCast(player)) {
+                    spellManager.getManaUpdater()
+                            .createDisplayFor(player);
+                }
+            }
+        }.runTaskLater(MagicListener.this.plugin, 5L);
     }
 
     /*
@@ -142,6 +153,11 @@ public class MagicListener implements Listener {
                     casterModifier, event.getBlockFace());
             final SpellCastEvent castEvent = initiateCasting(cast,
                     caster, estimate, SpellCastType.LEFT_CLICK);
+
+            if (castEvent == null) {
+                return;
+            }
+
             // Cast the spell with the most up-to-date values
             final float castCost = cast.leftClick(caster, clicked, spellManager
                     .getMagicModifier(caster), event.getBlockFace());
@@ -152,6 +168,11 @@ public class MagicListener implements Listener {
                     casterModifier, event.getBlockFace());
             final SpellCastEvent castEvent = initiateCasting(cast,
                     caster, estimate, SpellCastType.RIGHT_CLICK);
+
+            if (castEvent == null) {
+                return;
+            }
+
             // Cast the spell with the most up-to-date values
             final float castCost = cast
                     .rightClick(caster, clicked, spellManager
@@ -187,6 +208,11 @@ public class MagicListener implements Listener {
                 spellManager.getMagicModifier(caster));
         final SpellCastEvent castEvent = initiateCasting(cast, caster,
                 estimate, SpellCastType.ATTACK);
+
+        if (castEvent == null) {
+            return;
+        }
+
         // Cast the spell with the most up-to-date values
         final float castCost = cast.attack(caster, target, spellManager
                 .getMagicModifier(caster));
@@ -247,6 +273,9 @@ public class MagicListener implements Listener {
             caster.sendMessage(castEvent.getCancelMessage());
             return null;
         } else if (castEvent.getManaCost() > spellManager.getMana(caster)) {
+            // TODO: add specific message for not enough mana
+            caster.sendMessage(plugin.getMessage(Messages.CANNOT_CAST_SPELL,
+                    MessageVariable.SPELL.value(spell.getName())));
             return null;
         } else {
             return castEvent;

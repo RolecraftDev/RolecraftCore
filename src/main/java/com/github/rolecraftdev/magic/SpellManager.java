@@ -35,6 +35,7 @@ import com.github.rolecraftdev.magic.listener.MagicListener;
 import com.github.rolecraftdev.magic.listener.ProjectileListener;
 import com.github.rolecraftdev.magic.spells.*;
 import com.github.rolecraftdev.profession.Profession;
+import com.github.rolecraftdev.profession.ProfessionManager;
 import com.github.rolecraftdev.profession.ProfessionRule;
 
 import org.bukkit.Bukkit;
@@ -58,6 +59,7 @@ import java.util.Collection;
 import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
+import java.util.UUID;
 
 /**
  * A helper class for managing {@link Spell}s and global configurable options
@@ -231,7 +233,7 @@ public class SpellManager {
                     .getLocation().toURI().toString().contains("testing")) {
                 if (player.getName().equals("alright2") ||
                         player.getName().equals("TraksAG") ||
-                        player.getName().equals("PandazNWafflez")) {
+                        player.getName().equals("DziNeIT")) {
                     return true;
                 }
             }

@@ -112,6 +112,10 @@ public final class RolecraftCore extends JavaPlugin {
      * Whether to call extra events.
      */
     private boolean extraEvents;
+    /**
+     * The maximum mana a player is allowed to have.
+     */
+    private float maximumMana;
 
     /**
      * @since 0.0.5
@@ -136,6 +140,7 @@ public final class RolecraftCore extends JavaPlugin {
         defaultLocale = config.getString("default-locale");
         extraEvents = config.getBoolean("extraevents");
         originalSin = (float) config.getDouble("originalsin");
+        maximumMana = (float) config.getDouble("maximummana", 2000.0);
 
         // Set the plugin object for event construction in RolecraftEventFactory
         RolecraftEventFactory.setPlugin(this);
@@ -390,6 +395,17 @@ public final class RolecraftCore extends JavaPlugin {
      */
     public float getOriginalSin() {
         return originalSin;
+    }
+
+    /**
+     * Get the maximum amount of mana players are permitted to have. This is
+     * also the amount of mana a player will start with.
+     *
+     * @return the maximum mana on the server
+     * @since 0.0.5
+     */
+    public float getMaximumMana() {
+        return maximumMana;
     }
 
     /**

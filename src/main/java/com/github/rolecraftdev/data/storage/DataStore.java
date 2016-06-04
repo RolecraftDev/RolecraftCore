@@ -741,7 +741,7 @@ public abstract class DataStore {
                     ps.setString(2, name);
                     ps.execute();
                     callback.initialise(null, null, null, 0, 0f, -originalSin,
-                            0, PlayerSettings.defaults());
+                            plugin.getMaximumMana(), PlayerSettings.defaults());
                 }
 
             } catch (final SQLException ex) {
@@ -815,7 +815,8 @@ public abstract class DataStore {
                             ps.setString(2, name);
                             ps.execute();
                             callback.initialise(null, null, null, 0, 0f,
-                                    -originalSin, 0, PlayerSettings.defaults());
+                                    -originalSin, plugin.getMaximumMana(),
+                                    PlayerSettings.defaults());
                         }
                     } catch (final SQLException ex) {
                         ex.printStackTrace();
