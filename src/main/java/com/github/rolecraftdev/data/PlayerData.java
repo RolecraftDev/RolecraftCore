@@ -389,12 +389,10 @@ public final class PlayerData {
     public void setExperience(final float amount, final ChangeReason reason) {
         if (loaded && !unloading) {
             final RCExperienceChangeEvent event = RolecraftEventFactory
-                    .callRCExpEvent(
-                            plugin, Bukkit.getPlayer(playerId),
-                            amount - experience,
-                            reason);
+                    .callRCExpEvent(plugin, Bukkit.getPlayer(playerId),
+                            amount - experience, reason);
             if (!event.isCancelled()) {
-                experience = event.getNewExperience();
+                this.experience = event.getNewExperience();
             }
         }
     }

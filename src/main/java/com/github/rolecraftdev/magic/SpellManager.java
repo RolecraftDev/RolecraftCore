@@ -30,12 +30,12 @@ import org.apache.commons.lang.Validate;
 
 import com.github.rolecraftdev.RolecraftCore;
 import com.github.rolecraftdev.data.PlayerData;
+import com.github.rolecraftdev.display.DisplayUpdater;
 import com.github.rolecraftdev.magic.listener.FlyingListener;
 import com.github.rolecraftdev.magic.listener.MagicListener;
 import com.github.rolecraftdev.magic.listener.ProjectileListener;
 import com.github.rolecraftdev.magic.spells.*;
 import com.github.rolecraftdev.profession.Profession;
-import com.github.rolecraftdev.profession.ProfessionManager;
 import com.github.rolecraftdev.profession.ProfessionRule;
 
 import org.bukkit.Bukkit;
@@ -59,7 +59,6 @@ import java.util.Collection;
 import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
-import java.util.UUID;
 
 /**
  * A helper class for managing {@link Spell}s and global configurable options
@@ -75,7 +74,6 @@ public class SpellManager {
     private final Map<String, Spell> spells;
     private final int maxRange;
     private final Map<String, Boolean> emptyMap;
-    private final ManaUpdater manaUpdater;
 
     /**
      * Create a new {@link SpellManager} and load certain configurable options
@@ -92,7 +90,6 @@ public class SpellManager {
         spells = new HashMap<String, Spell>();
         maxRange = plugin.getConfig().getInt("magicrange", 100);
         emptyMap = new HashMap<String, Boolean>();
-        manaUpdater = new ManaUpdater(plugin);
 
         // Tier 1 spells
         register("Freeze Block", new FreezeBlock(this));
@@ -166,6 +163,8 @@ public class SpellManager {
                 "Allows access to the spell '" + wandName + "'",
                 PermissionDefault.TRUE, emptyMap));
         Bukkit.addRecipe(spell.getWandRecipe());
+
+        new ManaRegenTask(plugin).runTaskTimer(plugin, 20L, 40L);
     }
 
     /**
@@ -297,16 +296,6 @@ public class SpellManager {
         }
         return getSpell(ChatColor.stripColor(stack.getItemMeta()
                 .getDisplayName()));
-    }
-
-    /**
-     * Gets the current updater for magic mana.
-     *
-     * @return the used mana updater
-     * @since 0.0.5
-     */
-    public ManaUpdater getManaUpdater() {
-        return manaUpdater;
     }
 
     /**

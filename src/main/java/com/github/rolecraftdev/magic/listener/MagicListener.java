@@ -74,55 +74,6 @@ public class MagicListener implements Listener {
         this.plugin = plugin;
     }
 
-    /*
-     * @since 0.0.5
-     */
-    // priority set as this MUST happen after DataListener.onPlayerJoin
-    @EventHandler(priority = EventPriority.MONITOR, ignoreCancelled = true)
-    public void onPlayerJoin(final PlayerJoinEvent event) {
-        final Player player = event.getPlayer();
-
-        new BukkitRunnable() {
-            @Override
-            public void run() {
-                final SpellManager spellManager = MagicListener.this.plugin
-                        .getSpellManager();
-                // Only create the mana-display if the player can perform magic
-                if (spellManager.canCast(player)) {
-                    spellManager.getManaUpdater()
-                            .createDisplayFor(player);
-                }
-            }
-        }.runTaskLater(MagicListener.this.plugin, 5L);
-    }
-
-    /*
-     * @since 0.0.5
-     */
-    @EventHandler
-    public void onPlayerQuit(final PlayerQuitEvent event) {
-        onPlayerLeave(event.getPlayer());
-    }
-
-    /*
-     * @since 0.0.5
-     */
-    @EventHandler
-    public void onPlayerKick(final PlayerKickEvent event) {
-        onPlayerLeave(event.getPlayer());
-    }
-
-    /**
-     * Runs functions that should be ran when a player leaves the Minecraft
-     * server.
-     *
-     * @param player the player who leaves
-     */
-    private void onPlayerLeave(final Player player) {
-        final SpellManager spellManager = this.plugin.getSpellManager();
-        spellManager.getManaUpdater().disposeDisplayOf(player);
-    }
-
     /**
      * @since 0.0.5
      */

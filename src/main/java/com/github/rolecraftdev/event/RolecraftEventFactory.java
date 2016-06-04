@@ -222,8 +222,7 @@ public class RolecraftEventFactory {
      * @since 0.0.5
      */
     public static RCExperienceChangeEvent callRCExpEvent(
-            final RolecraftCore plugin,
-            final Player player, final float amount,
+            final RolecraftCore plugin, final Player player, final float amount,
             final RCExperienceEvent.ChangeReason reason) {
         final RCExperienceChangeEvent temp;
         final float experience = plugin.getDataManager()
@@ -231,10 +230,9 @@ public class RolecraftEventFactory {
 
         if (ExperienceHelper.getLevel(experience) !=
                 ExperienceHelper.getLevel(experience + amount)) {
-            temp = new RCLevelChangeEvent(plugin, player, experience, reason);
+            temp = new RCLevelChangeEvent(plugin, player, amount, reason);
         } else {
-            temp = new RCExperienceChangeEvent(plugin, player, experience,
-                    reason);
+            temp = new RCExperienceChangeEvent(plugin, player, amount, reason);
         }
 
         Bukkit.getPluginManager().callEvent(temp);

@@ -76,7 +76,7 @@ public final class ExperienceHelper {
      */
     public static float getRequiredExp(final int level) {
         float result = 0f;
-        for (int i = 0; i < level; i++) {
+        for (int i = 0; i <= level; i++) {
             result += expToNextLevel(i);
         }
         return result;

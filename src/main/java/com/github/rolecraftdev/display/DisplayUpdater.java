@@ -24,17 +24,18 @@
  * DISCLAIMER: This is a human-readable summary of (and not a substitute for) the
  * license.
  */
-package com.github.rolecraftdev.magic;
+package com.github.rolecraftdev.display;
 
 import com.github.rolecraftdev.RolecraftCore;
 import com.github.rolecraftdev.data.PlayerData;
 
 import org.bukkit.Bukkit;
 import org.bukkit.entity.Player;
-import org.bukkit.scheduler.BukkitRunnable;
 import org.bukkit.scoreboard.DisplaySlot;
 import org.bukkit.scoreboard.Objective;
+import org.bukkit.scoreboard.Scoreboard;
 
+import javax.annotation.Nonnull;
 import java.util.HashMap;
 import java.util.Map;
 import java.util.UUID;
@@ -45,15 +46,25 @@ import java.util.UUID;
  *
  * @since 0.0.5
  */
-public class ManaUpdater {
+public class DisplayUpdater {
     /**
-     * The name of the mana-objective and -score.
+     * The name of the data objective.
      */
-    private static final String MANA = "Mana";
+    public static final String DATA = "Data";
 
+    public static final String MANA = "Mana";
+    public static final String LEVEL = "Level";
+    public static final String REQUIRED_EXP = "LevelUp";
+
+    /**
+     * The {@link RolecraftCore} plugin instance.
+     */
     private final RolecraftCore plugin;
-    private final Map<UUID, Objective> manaDisplays;
-    private final float maximumMana;
+    /**
+     * A {@link Map} of player {@link UUID}s to the display associated with that
+     * player.
+     */
+    private final Map<UUID, Objective> displays;
 
     /**
      * Create an updater used for magic mana. This will automatically cause
@@ -62,12 +73,21 @@ public class ManaUpdater {
      * @param plugin the associated {@link RolecraftCore} instance
      * @since 0.0.5
      */
-    public ManaUpdater(final RolecraftCore plugin) {
+    public DisplayUpdater(final RolecraftCore plugin) {
         this.plugin = plugin;
-        manaDisplays = new HashMap<UUID, Objective>();
-        maximumMana = plugin.getMaximumMana();
+        displays = new HashMap<UUID, Objective>();
 
-        new RegenerationTask().runTaskTimer(plugin, 20, 40);
+        new DisplayUpdateTask(this).runTaskTimer(plugin, 20L, 40L);
+        plugin.getServer().getPluginManager()
+                .registerEvents(new DisplayListener(plugin), plugin);
+    }
+
+    public RolecraftCore getPlugin() {
+        return plugin;
+    }
+
+    public Objective getDisplay(@Nonnull final UUID playerId) {
+        return this.displays.get(playerId);
     }
 
     /**
@@ -78,13 +98,15 @@ public class ManaUpdater {
      * @since 0.0.5
      */
     public void createDisplayFor(final Player player) {
-        // Name is display name if that remains undefined
-        final Objective display = Bukkit.getScoreboardManager()
-                .getNewScoreboard().registerNewObjective(MANA, "dummy");
+        final Scoreboard scoreboard = Bukkit.getScoreboardManager()
+                .getNewScoreboard();
 
+        final Objective display = scoreboard
+                .registerNewObjective(DATA, "dummy");
         display.setDisplaySlot(DisplaySlot.SIDEBAR);
-        manaDisplays.put(player.getUniqueId(), display);
-        player.setScoreboard(display.getScoreboard());
+
+        displays.put(player.getUniqueId(), display);
+        player.setScoreboard(scoreboard);
     }
 
     /**
@@ -96,29 +118,7 @@ public class ManaUpdater {
      * @since 0.0.5
      */
     public void disposeDisplayOf(final Player player) {
-        manaDisplays.remove(player.getUniqueId());
+        displays.remove(player.getUniqueId());
     }
 
-    /**
-     * The task used to regenerate magic mana and update all available
-     * mana-displays.
-     */
-    private class RegenerationTask extends BukkitRunnable {
-        @Override
-        public void run() {
-            for (final PlayerData data : plugin.getDataManager()
-                    .getPlayerDatum()) {
-                data.addMana(data.getManaRegenRate());
-                // do not exceed maximum player mana
-                if (data.getMana() > maximumMana) {
-                    data.setMana(maximumMana);
-                }
-
-                if (manaDisplays.containsKey(data.getPlayerId())) {
-                    manaDisplays.get(data.getPlayerId()).getScore(MANA)
-                            .setScore((int) data.getMana());
-                }
-            }
-        }
-    }
 }

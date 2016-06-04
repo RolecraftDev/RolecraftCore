@@ -57,8 +57,8 @@ public class RCExperienceChangeEvent extends RCExperienceEvent {
      * @since 0.0.5
      */
     public RCExperienceChangeEvent(final RolecraftCore plugin,
-            final Player player,
-            final float amount, final ChangeReason reason) {
+            final Player player, final float amount,
+            final ChangeReason reason) {
         super(plugin, player);
         this.amount = amount;
         this.reason = reason;

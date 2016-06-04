@@ -39,6 +39,7 @@ import com.github.rolecraftdev.data.DataManager;
 import com.github.rolecraftdev.data.storage.DataStore;
 import com.github.rolecraftdev.data.storage.MySQLDataStore;
 import com.github.rolecraftdev.data.storage.SQLiteDataStore;
+import com.github.rolecraftdev.display.DisplayUpdater;
 import com.github.rolecraftdev.event.RolecraftEventFactory;
 import com.github.rolecraftdev.experience.ExperienceListener;
 import com.github.rolecraftdev.guild.Guild;
@@ -94,6 +95,10 @@ public final class RolecraftCore extends JavaPlugin {
      */
     private SpellManager spellManager;
     /**
+     * Updates scoreboard displays for players.
+     */
+    private DisplayUpdater displayUpdater;
+    /**
      * The Vault {@link Economy} instance.
      */
     private Economy economy;
@@ -145,7 +150,7 @@ public final class RolecraftCore extends JavaPlugin {
         extraEvents = config.getBoolean("extraevents");
         originalSin = (float) config.getDouble("originalsin");
         maximumMana = (float) config.getDouble("maximummana", 2000.0);
-        manaRegen = (float) config.getDouble("manaregen", 5);
+        manaRegen = (float) config.getDouble("manaregen", 5.0);
 
         // Set the plugin object for event construction in RolecraftEventFactory
         RolecraftEventFactory.setPlugin(this);
@@ -183,6 +188,8 @@ public final class RolecraftCore extends JavaPlugin {
         spellManager = new SpellManager(this);
 
         professionManager.loadProfessions();
+
+        displayUpdater = new DisplayUpdater(this);
 
         // Register listeners
         // magic related listeners are registered in SpellManager
@@ -283,6 +290,16 @@ public final class RolecraftCore extends JavaPlugin {
      */
     public SpellManager getSpellManager() {
         return spellManager;
+    }
+
+    /**
+     * Gets the {@link DisplayUpdater} used by Rolecraft for player scoreboards.
+     *
+     * @return the used {@link DisplayUpdater}
+     * @since 0.0.5
+     */
+    public DisplayUpdater getDisplayUpdater() {
+        return displayUpdater;
     }
 
     /**
