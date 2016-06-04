@@ -84,11 +84,14 @@ public class GuildJoinCommand extends PlayerCommandHandler {
 
         if (guild.isOpen()) {
             completeGuildAdd(player, guild);
+            return;
         }
+
         if (!player.hasMetadata(GuildManager.GUILD_INVITE_METADATA)) {
             player.sendMessage(plugin.getMessage(Messages.GUILD_NOT_INVITED));
             return;
         }
+
         // TODO: fix this for multiple invites
         final MetadataValue val = player
                 .getMetadata(GuildManager.GUILD_INVITE_METADATA).get(0);

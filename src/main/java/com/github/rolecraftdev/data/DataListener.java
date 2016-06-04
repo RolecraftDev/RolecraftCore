@@ -62,8 +62,7 @@ public final class DataListener implements Listener {
      */
     @EventHandler
     public void onPlayerJoin(final PlayerJoinEvent event) {
-        plugin.getDataManager().loadOrCreateData(
-                event.getPlayer().getUniqueId());
+        plugin.getDataManager().getPlayerData(event.getPlayer().getUniqueId());
     }
 
     /**

@@ -118,7 +118,7 @@ public final class PlayerData {
         this.name = name;
         this.plugin = plugin;
 
-        settings = PlayerSettings.DEFAULT_SETTINGS;
+        settings = PlayerSettings.defaults();
     }
 
     /**

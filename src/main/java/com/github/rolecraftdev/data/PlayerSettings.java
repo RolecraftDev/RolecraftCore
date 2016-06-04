@@ -37,7 +37,7 @@ public final class PlayerSettings {
      *
      * @since 0.0.5
      */
-    public static final PlayerSettings DEFAULT_SETTINGS = new PlayerSettings();
+    private static final PlayerSettings DEFAULT_SETTINGS = new PlayerSettings();
 
     /**
      * Whether the player is spying on guild chat - volatile to ensure thread
@@ -69,7 +69,21 @@ public final class PlayerSettings {
     private PlayerSettings() {
         showMana = true;
         spellChatMessage = true;
-        guildSpy = true;
+        guildSpy = false;
+        guildChat = false;
+    }
+
+    /**
+     * Constructor based off another {@link PlayerSettings} object.
+     *
+     * @param base the settings to copy
+     * @since 0.0.5
+     */
+    public PlayerSettings(PlayerSettings base) {
+        this.guildSpy = base.guildSpy;
+        this.guildChat = base.guildChat;
+        this.showMana = base.showMana;
+        this.spellChatMessage = base.spellChatMessage;
     }
 
     /**
@@ -184,11 +198,19 @@ public final class PlayerSettings {
      * @since 0.0.5
      */
     public static PlayerSettings fromString(final String string) {
+        if (string == null || string.equalsIgnoreCase("null")) {
+            return defaults();
+        }
+
         final String[] strings = string.split(",");
         final PlayerSettings temp = new PlayerSettings();
         temp.showMana = strings[0].equals("true");
         temp.spellChatMessage = strings[1].equals("true");
         temp.guildSpy = strings[2].equals("true");
         return temp;
+    }
+
+    public static PlayerSettings defaults() {
+        return new PlayerSettings(DEFAULT_SETTINGS);
     }
 }

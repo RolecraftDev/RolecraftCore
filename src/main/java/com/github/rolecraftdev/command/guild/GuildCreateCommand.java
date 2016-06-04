@@ -29,6 +29,7 @@ package com.github.rolecraftdev.command.guild;
 import com.github.rolecraftdev.RolecraftCore;
 import com.github.rolecraftdev.command.PlayerCommandHandler;
 import com.github.rolecraftdev.command.parser.Arguments;
+import com.github.rolecraftdev.data.DataManager;
 import com.github.rolecraftdev.guild.Guild;
 import com.github.rolecraftdev.guild.GuildManager;
 import com.github.rolecraftdev.util.messages.MessageVariable;
@@ -45,6 +46,7 @@ import java.util.UUID;
  */
 public class GuildCreateCommand extends PlayerCommandHandler {
     private final GuildManager guildManager;
+    private final DataManager dataManager;
 
     /**
      * Constructor.
@@ -55,6 +57,7 @@ public class GuildCreateCommand extends PlayerCommandHandler {
     GuildCreateCommand(final RolecraftCore plugin) {
         super(plugin, "create");
         guildManager = plugin.getGuildManager();
+        dataManager = plugin.getDataManager();
 
         setUsage("/guild create <name>");
         setDescription("Create a guild");
@@ -92,6 +95,7 @@ public class GuildCreateCommand extends PlayerCommandHandler {
         if (guildManager.addGuild(guild, false)) {
             player.sendMessage(plugin.getMessage(Messages.GUILD_CREATED,
                     MessageVariable.GUILD.value(name)));
+            dataManager.getPlayerData(playerId).setGuild(guild.getId());
 
             if (plugin.doesUseEconomy()) {
                 plugin.getEconomy().bankWithdraw(player.getName(),

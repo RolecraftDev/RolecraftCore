@@ -58,7 +58,7 @@ public class ManaUpdater {
      * Create an updater used for magic mana. This will automatically cause
      * magic mana to be regenerated in a cycle.
      *
-     * @param spellManager the associated {@link RolecraftCore} instance
+     * @param plugin the associated {@link RolecraftCore} instance
      * @since 0.0.5
      */
     public ManaUpdater(final RolecraftCore plugin) {
@@ -69,7 +69,7 @@ public class ManaUpdater {
     }
 
     /**
-     * Creates a new mana-scoreboard and -objective, which are together referred
+     * Creates a new mana-scoreboard and objective, which are together referred
      * to as a mana-display, for the specified player.
      *
      * @param player the player for which a new mana-display should be created

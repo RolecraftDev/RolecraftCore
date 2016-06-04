@@ -44,11 +44,8 @@ import org.bukkit.scheduler.BukkitTask;
 import java.sql.Connection;
 import java.sql.PreparedStatement;
 import java.sql.ResultSet;
-import java.sql.ResultSetMetaData;
 import java.sql.SQLException;
-import java.util.HashMap;
 import java.util.HashSet;
-import java.util.Map;
 import java.util.Set;
 import java.util.UUID;
 
@@ -612,10 +609,8 @@ public abstract class DataStore {
                 PreparedStatement ps = null;
                 final ResultSet rs = null;
                 try {
-                    ps = connection
-                            .prepareStatement("UPDATE "
-                                    + pt
-                                    + " SET lastname = ?, guild = ?, exp = ?, profession = ?, influence = ?, karma = ? WHERE uuid = ?");
+                    ps = connection.prepareStatement("UPDATE " + pt
+                            + " SET lastname = ?, guild = ?, exp = ?, profession = ?, secondprofession = ?, influence = ?, karma = ?, settings = ? WHERE uuid = ?");
                     ps.setString(1, commit.getPlayerName());
                     if (commit.getGuild() != null) {
                         ps.setString(2, commit.getGuild().toString());
@@ -628,10 +623,17 @@ public abstract class DataStore {
                     } else {
                         ps.setString(4, "NULL"); // TODO: is this right?
                     }
-                    ps.setInt(5, commit.getInfluence());
-                    ps.setFloat(6, commit.getKarma());
-                    ps.setString(7, commit.getPlayerId().toString());
-                    ps.execute();
+                    if (commit.getSecondProfession() != null) {
+                        ps.setString(5,
+                                commit.getSecondProfession().toString());
+                    } else {
+                        ps.setString(5, "NULL"); // TODO: is this right?
+                    }
+                    ps.setInt(6, commit.getInfluence());
+                    ps.setFloat(7, commit.getKarma());
+                    ps.setString(8, commit.getSettings().toString());
+                    ps.setString(9, commit.getPlayerId().toString());
+                    ps.executeUpdate();
                 } catch (final SQLException ex) {
                     ex.printStackTrace();
                 } finally {
@@ -655,10 +657,8 @@ public abstract class DataStore {
         PreparedStatement ps = null;
         final ResultSet rs = null;
         try {
-            ps = connection
-                    .prepareStatement("UPDATE "
-                            + pt
-                            + " SET lastname = ?, guild = ?, exp = ?, profession = ?, influence = ?, karma = ? WHERE uuid = ?");
+            ps = connection.prepareStatement("UPDATE " + pt
+                    + " SET lastname = ?, guild = ?, exp = ?, profession = ?, secondprofession = ?, influence = ?, karma = ?, settings = ? WHERE uuid = ?");
             ps.setString(1, commit.getPlayerName());
             if (commit.getGuild() != null) {
                 ps.setString(2, commit.getGuild().toString());
@@ -671,10 +671,16 @@ public abstract class DataStore {
             } else {
                 ps.setString(4, "NULL"); // TODO: is this right?
             }
-            ps.setInt(5, commit.getInfluence());
-            ps.setFloat(6, commit.getKarma());
-            ps.setString(7, commit.getPlayerId().toString());
-            ps.execute();
+            if (commit.getSecondProfession() != null) {
+                ps.setString(5, commit.getSecondProfession().toString());
+            } else {
+                ps.setString(5, "NULL"); // TODO: is this right?
+            }
+            ps.setInt(6, commit.getInfluence());
+            ps.setFloat(7, commit.getKarma());
+            ps.setString(8, commit.getSettings().toString());
+            ps.setString(9, commit.getPlayerId().toString());
+            ps.executeUpdate();
         } catch (final SQLException ex) {
             ex.printStackTrace();
         } finally {
@@ -725,7 +731,8 @@ public abstract class DataStore {
                             UUID.fromString(rs.getString("secondprofession")),
                             rs.getInt("influence"), rs.getFloat("exp"),
                             rs.getFloat("karma"), rs.getFloat("mana"),
-                            PlayerSettings.fromString(rs.getString("settings")));
+                            PlayerSettings
+                                    .fromString(rs.getString("settings")));
                 } else {
                     ps.close();
                     ps = connection.prepareStatement("INSERT INTO " + pt
@@ -734,7 +741,7 @@ public abstract class DataStore {
                     ps.setString(2, name);
                     ps.execute();
                     callback.initialise(null, null, null, 0, 0f, -originalSin,
-                            0, PlayerSettings.DEFAULT_SETTINGS);
+                            0, PlayerSettings.defaults());
                 }
 
             } catch (final SQLException ex) {
@@ -770,12 +777,29 @@ public abstract class DataStore {
                                             rs.getString(i));
                                 }
                             }*/
-                            callback.initialise(
-                                    UUID.fromString(rs.getString("guild")),
-                                    UUID.fromString(
-                                            rs.getString("profession")),
-                                    UUID.fromString(rs.getString(
-                                            "secondprofession")),
+                            final String guildIdStr = rs.getString("guild");
+                            UUID guildId = null;
+                            if (guildIdStr != null && !guildIdStr
+                                    .equalsIgnoreCase("null")) {
+                                guildId = UUID.fromString(guildIdStr);
+                            }
+
+                            final String profIdStr = rs.getString("profession");
+                            UUID profId = null;
+                            if (profIdStr != null && !profIdStr
+                                    .equalsIgnoreCase("null")) {
+                                profId = UUID.fromString(profIdStr);
+                            }
+
+                            final String prof2IdStr = rs
+                                    .getString("secondprofession");
+                            UUID prof2Id = null;
+                            if (prof2IdStr != null && !prof2IdStr
+                                    .equalsIgnoreCase("null")) {
+                                prof2Id = UUID.fromString(prof2IdStr);
+                            }
+
+                            callback.initialise(guildId, profId, prof2Id,
                                     rs.getInt("influence"),
                                     rs.getFloat("exp"),
                                     rs.getFloat("karma"),
@@ -791,8 +815,7 @@ public abstract class DataStore {
                             ps.setString(2, name);
                             ps.execute();
                             callback.initialise(null, null, null, 0, 0f,
-                                    -originalSin, 0,
-                                    PlayerSettings.DEFAULT_SETTINGS);
+                                    -originalSin, 0, PlayerSettings.defaults());
                         }
                     } catch (final SQLException ex) {
                         ex.printStackTrace();
