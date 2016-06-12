@@ -48,6 +48,7 @@ import com.github.rolecraftdev.magic.Spell;
 import com.github.rolecraftdev.magic.SpellManager;
 import com.github.rolecraftdev.profession.Profession;
 import com.github.rolecraftdev.profession.ProfessionManager;
+import com.github.rolecraftdev.sign.RolecraftSignManager;
 import com.github.rolecraftdev.util.messages.MessageVariable;
 import com.github.rolecraftdev.util.messages.Messages;
 import com.github.rolecraftdev.util.serial.YamlFile;
@@ -82,6 +83,10 @@ public final class RolecraftCore extends JavaPlugin {
      * Manages Rolecraft's persistent data.
      */
     private DataManager dataManager;
+    /**
+     * Manages {@link RolecraftSign}s.
+     */
+    private RolecraftSignManager signManager;
     /**
      * Manages Rolecraft's {@link Guild}s.
      */
@@ -183,21 +188,25 @@ public final class RolecraftCore extends JavaPlugin {
 
         // Create all the manager objects / load data
         dataManager = new DataManager(this, dataStore);
+        signManager = new RolecraftSignManager(this); // must be instantiated prior to other managers as they register sign interaction handlers
         guildManager = new GuildManager(this);
         professionManager = new ProfessionManager(this);
         spellManager = new SpellManager(this);
 
         professionManager.loadProfessions();
+        signManager.loadSigns();
 
         displayUpdater = new DisplayUpdater(this);
 
         // Register listeners
         // magic related listeners are registered in SpellManager
+        // specific listeners are registered in their own manager e.g ProfessionListener in ProfessionManager
         pluginManager.registerEvents(new DataListener(this), this);
         pluginManager.registerEvents(new ExperienceListener(this), this);
         pluginManager.registerEvents(new ChatListener(this), this);
 
         // Register commands
+        // TODO: move to their own managers?
         register(new GuildCommand(this));
         register(new ProfessionCommand(this));
         register(new GCCommand(this));
@@ -210,7 +219,8 @@ public final class RolecraftCore extends JavaPlugin {
      */
     @Override
     public void onDisable() {
-        this.dataManager.cleanup();
+        dataManager.cleanup();
+        signManager.saveSigns();
     }
 
     /**
@@ -257,6 +267,16 @@ public final class RolecraftCore extends JavaPlugin {
      */
     public DataManager getDataManager() {
         return dataManager;
+    }
+
+    /**
+     * Gets the used {@link RolecraftSignManager}.
+     *
+     * @return the used {@link RolecraftSignManager}
+     * @since 0.1.0
+     */
+    public RolecraftSignManager getSignManager() {
+        return signManager;
     }
 
     /**

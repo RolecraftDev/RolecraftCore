@@ -26,6 +26,7 @@
  */
 package com.github.rolecraftdev.util;
 
+import org.bukkit.Material;
 import org.bukkit.block.Block;
 import org.bukkit.entity.Entity;
 import org.bukkit.entity.LivingEntity;
@@ -211,6 +212,19 @@ public final class GeneralUtil {
         return new Vector(smallVelocityRandomiser((float) original.getX()),
                 smallVelocityRandomiser((float) original.getY()),
                 smallVelocityRandomiser((float) original.getZ()));
+    }
+
+    /**
+     * Checks whether the given {@link Block} is a sign.
+     *
+     * @param block the {@link Block} to check
+     * @return whether the given block is a sign
+     * @since 0.1.0
+     */
+    public static boolean isSign(final Block block) {
+        return block.getType().equals(Material.SIGN_POST) || block.getType()
+                .equals(Material.WALL_SIGN) || block.getType()
+                .equals(Material.SIGN);
     }
 
     /**

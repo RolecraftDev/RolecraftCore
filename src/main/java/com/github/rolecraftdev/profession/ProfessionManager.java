@@ -48,6 +48,13 @@ import java.util.UUID;
  */
 public final class ProfessionManager {
     /**
+     * The type of sign associated with profession-related functions.
+     *
+     * @since 0.1.0
+     */
+    public static final String PROFEESSION_SIGN_TYPE = "Profession";
+
+    /**
      * The associated {@link RolecraftCore} instance.
      */
     private final RolecraftCore plugin;
@@ -66,6 +73,9 @@ public final class ProfessionManager {
     public ProfessionManager(final RolecraftCore plugin) {
         this.plugin = plugin;
         this.professions = new HashSet<Profession>();
+
+        plugin.getSignManager()
+                .registerHandler(new ProfessionSignInteractionHandler(plugin));
 
         plugin.getServer().getPluginManager().registerEvents(
                 new ProfessionListener(this), plugin);

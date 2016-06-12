@@ -2,7 +2,7 @@ name: RolecraftCore
 version: '${project.version}'
 
 description: Roleplaying plugin for Bukkit
-authors: [DziNeIT, mythbusterma, TraksAG, LaughingQuoll]
+authors: [DziNeIT, mythbusterma, TraksAG]
 
 main: com.github.rolecraftdev.RolecraftCore
 softdepend: [Vault]
@@ -22,6 +22,8 @@ commands:
         description: Commands used in the debugging of code, not included in release builds
 
 permissions:
+    rolecraft.sign.place:
+        description: Admin permission, allows placing signs for things such as selecting professions
     rolecraft.guild.show:
         description: Allows viewing information about a guild
     rolecraft.guild.create:

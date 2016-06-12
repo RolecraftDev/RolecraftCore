@@ -55,6 +55,12 @@ import java.util.UUID;
  */
 public final class GuildManager {
     /**
+     * The type of sign associated with guild-related functions.
+     *
+     * @since 0.1.0
+     */
+    public static final String GUILD_SIGN_TYPE = "Guild";
+    /**
      * The key used for metadata for when a player has been invited to join a
      * {@link Guild}.
      *
