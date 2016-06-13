@@ -45,6 +45,7 @@ import org.bukkit.entity.Player;
 import org.bukkit.event.Listener;
 import org.bukkit.inventory.ItemStack;
 import org.bukkit.inventory.Recipe;
+import org.bukkit.inventory.ShapedRecipe;
 import org.bukkit.permissions.Permission;
 import org.bukkit.permissions.PermissionAttachmentInfo;
 import org.bukkit.permissions.PermissionDefault;
@@ -55,6 +56,7 @@ import javax.annotation.Nonnull;
 import javax.annotation.Nullable;
 import java.util.Collection;
 import java.util.HashMap;
+import java.util.Iterator;
 import java.util.List;
 import java.util.Map;
 
@@ -163,6 +165,83 @@ public class SpellManager {
                 "Allows access to the spell '" + wandName + "'",
                 PermissionDefault.TRUE, emptyMap));
         Bukkit.addRecipe(spell.getWandRecipe());
+    }
+
+    /**
+     * Replaces a registered {@link Spell} with the given name with the given
+     * {@link Spell}. There <em>must</em> already be a spell registered with the
+     * given name for this to work (this can be checked with
+     * {@link #spellExists(String)}).
+     *
+     * @param wandName the name of the spell to replace
+     * @param spell the new {@link Spell}
+     * @since 0.1.0
+     */
+    public void replaceSpell(@Nonnull final String wandName,
+            @Nonnull final Spell spell) {
+        Validate.isTrue(spells.containsKey(wandName));
+
+        final Spell oldSpell = spells.remove(wandName);
+        this.removeRecipe(oldSpell.getWandRecipe());
+
+        spells.put(wandName, spell);
+        Bukkit.addRecipe(spell.getWandRecipe());
+    }
+
+    /**
+     * Checks whether a {@link Spell} is registered with the given name.
+     *
+     * @param spellName the name to check
+     * @return whether a spell with the given name exists
+     * @since 0.1.0
+     */
+    public boolean spellExists(@Nonnull final String spellName) {
+        return this.spells.containsKey(spellName);
+    }
+
+    /**
+     * Checks whether the given {@link Spell} is registered.
+     *
+     * @param spell the spell to check
+     * @return whether the given spell is registered with this manager
+     * @since 0.1.0
+     */
+    public boolean isRegistered(@Nonnull final Spell spell) {
+        return this.spells.containsValue(spell);
+    }
+
+    private void removeRecipe(final ShapedRecipe recipe) {
+        final Iterator<Recipe> it = plugin.getServer().recipeIterator();
+
+        whileLoop: while (it.hasNext()) {
+            final Recipe cur = it.next();
+            if (!(cur instanceof ShapedRecipe)) {
+                continue;
+            }
+
+            final ShapedRecipe curShaped = (ShapedRecipe) cur;
+            final Map<Character, ItemStack> ingredients = recipe.getIngredientMap();
+            final Map<Character, ItemStack> curIngredients = curShaped.getIngredientMap();
+
+            // sadly, we have to compare ingredients as we have no way to compare the results of the crafting
+            if (curIngredients.values().containsAll(ingredients.values())) {
+                // and now we must compare the exact shapes... sigh...
+                final String[] shape = recipe.getShape();
+                final String str = shape[0] + shape[1] + shape[2];
+
+                final String[] curShape = curShaped.getShape();
+                final String curStr = curShape[0] + curShape[1] + curShape[2];
+
+                for (int i = 0; i < curStr.length(); i++) {
+                    if (!curIngredients.get(curStr.charAt(i))
+                            .equals(ingredients.get(str.charAt(i)))) {
+                        continue whileLoop; // why is there no easy way to remove a recipe ffs. making me use gotos in java. smh
+                    }
+                }
+
+                it.remove();
+            }
+        }
     }
 
     /**

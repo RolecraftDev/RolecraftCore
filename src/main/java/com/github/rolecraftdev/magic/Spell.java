@@ -34,7 +34,7 @@ import org.bukkit.block.BlockFace;
 import org.bukkit.entity.Entity;
 import org.bukkit.entity.LivingEntity;
 import org.bukkit.entity.Player;
-import org.bukkit.inventory.Recipe;
+import org.bukkit.inventory.ShapedRecipe;
 
 import javax.annotation.Nonnull;
 import javax.annotation.Nullable;
@@ -148,12 +148,12 @@ public interface Spell {
     float attack(Player caster, LivingEntity target, int modifier);
 
     /**
-     * Get the {@link Recipe} used for creating the representing wand.
+     * Get the {@link ShapedRecipe} used for creating the representing wand.
      *
-     * @return the wand {@link Recipe}
+     * @return the wand {@link ShapedRecipe}
      * @since 0.0.5
      */
-    @Nonnull Recipe getWandRecipe();
+    @Nonnull ShapedRecipe getWandRecipe();
 
     /**
      * Get the {@link Sound}, indirectly, that should be played whenever the

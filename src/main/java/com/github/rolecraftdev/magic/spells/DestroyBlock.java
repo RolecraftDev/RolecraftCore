@@ -142,7 +142,7 @@ public class DestroyBlock implements Spell {
      * @since 0.0.5
      */
     @Override
-    public Recipe getWandRecipe() {
+    public ShapedRecipe getWandRecipe() {
         final ItemStack result = new ItemStack(Material.STICK);
         final ItemMeta meta = result.getItemMeta();
         meta.setDisplayName(ChatColor.AQUA + getName());

@@ -144,7 +144,7 @@ public class BurnBlock implements Spell {
      * @since 0.0.5
      */
     @Override
-    public Recipe getWandRecipe() {
+    public ShapedRecipe getWandRecipe() {
         // same for each
         final ItemStack result = new ItemStack(Material.STICK);
         final ItemMeta meta = result.getItemMeta();
