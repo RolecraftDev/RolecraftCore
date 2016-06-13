@@ -127,6 +127,8 @@ public class SpellManager {
         pluginManager.registerEvents(new MagicListener(plugin), plugin);
         pluginManager.registerEvents(new ProjectileListener(), plugin);
         pluginManager.registerEvents(new FlyingListener(plugin), plugin);
+
+        new ManaRegenTask(plugin).runTaskTimer(plugin, 20L, 40L);
     }
 
     /**
@@ -151,8 +153,7 @@ public class SpellManager {
      * @param spell the {@link Spell} to register
      * @since 0.0.5
      */
-    // TODO: Make public when we support anyone registering spells
-    private void register(@Nonnull final String wandName,
+    public void register(@Nonnull final String wandName,
             @Nonnull final Spell spell) {
         Validate.isTrue(!spells.containsKey(wandName));
 
@@ -162,8 +163,6 @@ public class SpellManager {
                 "Allows access to the spell '" + wandName + "'",
                 PermissionDefault.TRUE, emptyMap));
         Bukkit.addRecipe(spell.getWandRecipe());
-
-        new ManaRegenTask(plugin).runTaskTimer(plugin, 20L, 40L);
     }
 
     /**
