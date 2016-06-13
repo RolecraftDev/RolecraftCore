@@ -28,6 +28,7 @@ package com.github.rolecraftdev.sign;
 
 import com.github.rolecraftdev.util.GeneralUtil;
 import com.github.rolecraftdev.util.SimpleLocation;
+import com.github.rolecraftdev.util.messages.Messages;
 
 import org.bukkit.block.Block;
 import org.bukkit.block.BlockState;
@@ -96,7 +97,8 @@ public final class SignListener implements Listener {
         final RolecraftSign sign = new RolecraftSign(typeName, lines[1],
                 lines[2], new SimpleLocation(block.getLocation()));
         this.signManager.addSign(sign);
-        // TODO: add plugin message that the player has placed a Rolecraft sign
+        player.sendMessage(signManager.getPlugin()
+                .getMessage(Messages.SIGN_PLACED));
     }
 
     @EventHandler(priority = EventPriority.HIGHEST, ignoreCancelled = true)
@@ -107,6 +109,8 @@ public final class SignListener implements Listener {
         if (this.signManager.isSignAt(location)) {
             if (!event.getPlayer().hasPermission("rolecraft.sign.place")) {
                 event.setCancelled(true); // players who don't have permission to place these signs are also assumed not to have permission to break them
+                event.getPlayer().sendMessage(signManager.getPlugin()
+                        .getMessage(Messages.NO_PERMISSION));
                 return;
             }
             this.signManager.removeSignAt(location);

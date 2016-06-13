@@ -32,6 +32,7 @@ import com.github.rolecraftdev.command.CommandHelper;
 import com.github.rolecraftdev.command.parser.Arguments;
 import com.github.rolecraftdev.profession.Profession;
 import com.github.rolecraftdev.profession.ProfessionManager;
+import com.github.rolecraftdev.util.messages.Messages;
 
 import org.bukkit.ChatColor;
 import org.bukkit.command.CommandSender;
@@ -53,7 +54,7 @@ public final class ProfessionListCommand extends CommandHandler {
      * @param plugin the associated {@link RolecraftCore} instance
      * @since 0.0.5
      */
-    ProfessionListCommand(final RolecraftCore plugin) {
+    public ProfessionListCommand(final RolecraftCore plugin) {
         super(plugin, "list");
         professionManager = plugin.getProfessionManager();
 
@@ -70,14 +71,14 @@ public final class ProfessionListCommand extends CommandHandler {
     public void onCommand(final CommandSender sender, final Arguments args) {
         final Set<Profession> professions = professionManager.getProfessions();
         if (professions == null || professions.size() == 0) {
-            // TODO: add to messages system
-            sender.sendMessage("There are no currently known professions");
+            sender.sendMessage(plugin.getMessage(Messages.NO_PROFESSIONS));
             return;
         }
 
         sender.sendMessage(ChatColor.GOLD + "[Professions]");
-        for (final Profession profession : CommandHelper.getPageFromArgs(sender,
-                new ArrayList<Profession>(professionManager.getProfessions()),
+        for (final Profession profession : CommandHelper.getPageFromArgs(plugin,
+                sender, new ArrayList<Profession>(
+                        professionManager.getProfessions()),
                 args.length() > 0 ? args.get(0) : null, PROFESSIONS_PER_PAGE)) {
             sender.sendMessage(ChatColor.GRAY + profession.getName());
         }

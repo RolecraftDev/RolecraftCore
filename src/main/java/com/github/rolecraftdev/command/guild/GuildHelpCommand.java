@@ -60,8 +60,8 @@ public class GuildHelpCommand extends PlayerCommandHandler {
     public void onCommand(final Player player, final Arguments args) {
         if (args.length() == 0) {
             CommandHelper.sendBanner(player, "Guilds",
+                    "/guild - Help with guild commands",
                     "/guild help actions - Help with guild actions",
-                    "/guild help commands - Help with commands",
                     "/guild help halls - Help with guild halls");
             return;
         }
@@ -78,9 +78,8 @@ public class GuildHelpCommand extends PlayerCommandHandler {
                 builder.append(action.getHumanReadableName());
             }
             CommandHelper.sendBanner(player, "Actions:", builder.toString());
-        } else if (sub.equals("commands")) {
-            // TODO: show command help
         } else if (sub.equals("halls")) {
+            // TODO: messages (split by \n?)
             CommandHelper.sendBanner(player, "Guild Halls:",
                     "Guild Halls are predefined areas which only members of the guild can access.",
                     "Guild Halls allow for battles between guilds, storage for items and more.");

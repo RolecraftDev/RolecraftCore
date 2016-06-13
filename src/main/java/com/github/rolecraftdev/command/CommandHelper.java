@@ -28,6 +28,7 @@ package com.github.rolecraftdev.command;
 
 import org.apache.commons.lang.StringUtils;
 
+import com.github.rolecraftdev.RolecraftCore;
 import com.github.rolecraftdev.command.parser.Arguments;
 import com.github.rolecraftdev.command.parser.ChatSection;
 import com.github.rolecraftdev.guild.Guild;
@@ -35,6 +36,7 @@ import com.github.rolecraftdev.guild.GuildAction;
 import com.github.rolecraftdev.guild.GuildManager;
 import com.github.rolecraftdev.guild.GuildRank;
 import com.github.rolecraftdev.util.messages.MessageVariable;
+import com.github.rolecraftdev.util.messages.Messages;
 
 import org.bukkit.ChatColor;
 import org.bukkit.command.CommandSender;
@@ -100,11 +102,12 @@ public final class CommandHelper {
      *        page number from
      * @since 0.0.5
      */
-    public static void displayCommandList(@Nonnull final CommandSender sender,
+    public static void displayCommandList(@Nonnull final RolecraftCore plugin,
+            @Nonnull final CommandSender sender,
             @Nonnull final List<CommandHandler> commands,
             @Nullable final ChatSection pageArg) {
-        final List<CommandHandler> list = getPageFromArgs(sender, commands,
-                pageArg, COMMANDS_PER_PAGE);
+        final List<CommandHandler> list = getPageFromArgs(plugin, sender,
+                commands, pageArg, COMMANDS_PER_PAGE);
         if (list == null) {
             return;
         }
@@ -163,20 +166,20 @@ public final class CommandHelper {
         if (guildArg != null) {
             result = mgr.getGuild(guildArg.get());
             if (result == null) {
-                sender.sendMessage(
-                        ChatColor.DARK_RED + "That guild doesn't exist!");
+                sender.sendMessage(mgr.getPlugin().getMessage(
+                        Messages.GUILD_NOT_EXISTS));
             }
         } else {
             if (sender instanceof Player) {
                 result = mgr.getPlayerGuild(((Player) sender).getUniqueId());
                 if (result == null) {
-                    sender.sendMessage(
-                            ChatColor.DARK_RED + "You don't have a guild!");
+                    sender.sendMessage(mgr.getPlugin().getMessage(
+                            Messages.NO_GUILD));
                 }
             } else {
                 result = null;
-                sender.sendMessage(
-                        ChatColor.DARK_RED + "You must specify a guild name!");
+                sender.sendMessage(mgr.getPlugin().getMessage(
+                        Messages.INVALID_USAGE));
             }
         }
 
@@ -197,7 +200,7 @@ public final class CommandHelper {
      *         constructed by using the other given parameter values
      * @since 0.0.5
      */
-    public static <T> List<T> getPageFromArgs(
+    public static <T> List<T> getPageFromArgs(final RolecraftCore plugin,
             @Nonnull final CommandSender sender, @Nonnull final List<T> list,
             @Nullable final ChatSection pageArg, final int elementsPerPage) {
         final int amount = list.size();
@@ -210,8 +213,8 @@ public final class CommandHelper {
             if (pageArg.isInt()) {
                 page = pageArg.asInt();
             } else {
-                // TODO: add to messages system
-                sender.sendMessage(ChatColor.DARK_RED + "Invalid page!");
+                sender.sendMessage(plugin.getMessage(
+                        Messages.INVALID_PAGE_NUMBER));
                 return null;
             }
         }
@@ -222,8 +225,7 @@ public final class CommandHelper {
         try {
             return list.subList(from, to);
         } catch (ArrayIndexOutOfBoundsException e) {
-            // TODO: add to messages system
-            sender.sendMessage(ChatColor.DARK_RED + "That page doesn't exist!");
+            sender.sendMessage(plugin.getMessage(Messages.PAGE_NOT_EXISTS));
             return null;
         }
     }

@@ -220,8 +220,7 @@ public class MagicListener implements Listener {
             caster.sendMessage(castEvent.getCancelMessage());
             return null;
         } else if (castEvent.getManaCost() > spellManager.getMana(caster)) {
-            // TODO: add specific message for not enough mana
-            caster.sendMessage(plugin.getMessage(Messages.CANNOT_CAST_SPELL,
+            caster.sendMessage(plugin.getMessage(Messages.NOT_ENOUGH_MANA,
                     MessageVariable.SPELL.value(spell.getName())));
             return null;
         } else {

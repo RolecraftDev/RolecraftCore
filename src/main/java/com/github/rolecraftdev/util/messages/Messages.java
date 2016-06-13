@@ -33,6 +33,7 @@ import com.github.rolecraftdev.util.serial.PropertiesFile;
 
 import org.bukkit.ChatColor;
 
+import javax.annotation.Nonnull;
 import javax.annotation.Nullable;
 import java.io.File;
 import java.io.IOException;
@@ -407,9 +408,95 @@ public class Messages {
      * @since 0.0.5
      */
     public static final String GUILD_DEFAULT_RANK = "guild-default-rank";
+    /**
+     * Sent when a player attempts to perform a profession-specific command or
+     * action without having a profession.
+     *
+     * @since 0.1.0
+     */
+    public static final String NO_PROFESSION = "no-profession";
+    /**
+     * Sent as a prefix to a list of usable spells which is displayed when
+     * information about a profession is shown to a player.
+     *
+     * @since 0.1.0
+     */
+    public static final String USABLE_SPELLS = "usable-spells";
+    /**
+     * Sent as a prefix to a list of usable armour which is displayed when
+     * information about a profession is shown to a player.
+     *
+     * @since 0.1.0
+     */
+    public static final String USABLE_ARMOR = "usable-armour";
+    /**
+     * Sent as a prefix to a list of usable enchants which is displayed when
+     * information about a profession is shown to a player.
+     *
+     * @since 0.1.0
+     */
+    public static final String USABLE_ENCHANTMENTS = "usable-enchantments";
+    /**
+     * Sent as a prefix to a list of usable items which is displayed when
+     * information about a profession is shown to a player.
+     *
+     * @since 0.1.0
+     */
+    public static final String USABLE_ITEMS = "usable-items";
+    /**
+     * Sent as a prefix to the correct usage of a command if a player uses a
+     * command incorrectly.
+     *
+     * @since 0.1.0
+     */
+    public static final String INVALID_USAGE = "invalid-usage";
+    /**
+     * The message shown if a player attempts to view a list of guilds on the
+     * server but there are no guilds to view.
+     *
+     * @since 0.1.0
+     */
+    public static final String NO_GUILDS = "no-guilds";
+    /**
+     * The message shown if a player attempts to view a list of professions on
+     * the server but there are no professions to view.
+     *
+     * @since 0.1.0
+     */
+    public static final String NO_PROFESSIONS = "no-professions";
+    /**
+     * The message shown to a player who has successfully placed a Rolecraft
+     * sign.
+     *
+     * @since 0.1.0
+     */
+    public static final String SIGN_PLACED = "sign-placed";
+    /**
+     * The message shown to a player who enters a non-integer value as the page
+     * argument in a list command.
+     *
+     * @since 0.1.0
+     */
+    public static final String INVALID_PAGE_NUMBER = "invalid-page-number";
+    /**
+     * The message shown to a player who enters an integer which is too high or
+     * too low as the page argument in a list command.
+     *
+     * @since 0.1.0
+     */
+    public static final String PAGE_NOT_EXISTS = "page-not-exists";
+    /**
+     * The message shown to a player who attempts to cast a spell without having
+     * the required quantity of mana.
+     *
+     * @since 0.1.0
+     */
+    public static final String NOT_ENOUGH_MANA = "not-enough-mana";
 
     /**
      * General variables such as colours and styles.
+     *
+     * @since 0.0.5
      */
     private static final MessageVariable[] CONSTANTS = {
             new MessageVariable("$darkred", ChatColor.DARK_RED),
@@ -439,17 +526,21 @@ public class Messages {
     };
 
     /**
-     * Applies the values of the specified {@link MessageVariable}s in the given message.
+     * Applies the values of the specified {@link MessageVariable}s in the given
+     * message. This will never return {@code null} as if the input message
+     * {@link String} is {@code null}, an empty {@link String} is returned.
      *
      * @param message the affected message
      * @param vars the {@link MessageVariable}s that should be applied
-     * @return the given message after the {@link MessageVariable}s have been applied
+     * @return the given message after the {@link MessageVariable}s have been
+     *         applied
      * @since 0.0.5
      */
-    public static String applyVars(String message,
+    @Nonnull
+    public static String applyVars(@Nullable String message,
             final MessageVariable... vars) {
         if (message == null) {
-            return message;
+            return "";
         }
         for (final MessageVariable constant : CONSTANTS) {
             message = constant.apply(message);

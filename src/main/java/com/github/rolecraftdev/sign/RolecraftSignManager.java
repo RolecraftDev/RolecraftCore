@@ -104,6 +104,17 @@ public final class RolecraftSignManager {
     }
 
     /**
+     * Gets the {@link RolecraftCore} plugin instance associated with this
+     * manager.
+     *
+     * @return the {@link RolecraftCore} plugin instance
+     * @since 0.1.0
+     */
+    public RolecraftCore getPlugin() {
+        return this.plugin;
+    }
+
+    /**
      * Gets a {@link Set} of the names of types of sign which currently have a
      * registered {@link SignInteractionHandler} associated with them.
      *

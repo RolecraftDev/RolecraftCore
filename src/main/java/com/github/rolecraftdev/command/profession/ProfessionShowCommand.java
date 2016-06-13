@@ -49,6 +49,9 @@ import java.util.UUID;
 public final class ProfessionShowCommand extends PlayerCommandHandler {
     private final ProfessionManager professionManager;
 
+    /**
+     * @since 0.0.5
+     */
     public ProfessionShowCommand(@Nonnull final RolecraftCore plugin) {
         super(plugin, "show");
         professionManager = plugin.getProfessionManager();
@@ -59,6 +62,9 @@ public final class ProfessionShowCommand extends PlayerCommandHandler {
         setSubcommand(true);
     }
 
+    /**
+     * @since 0.0.5
+     */
     @Override
     public void onCommand(final Player player, final Arguments args) {
         if (args.length() == 0) {
@@ -68,8 +74,7 @@ public final class ProfessionShowCommand extends PlayerCommandHandler {
                     .getPlayerProfession(playerId);
 
             if (profession == null) {
-                // TODO: add to messages system
-                player.sendMessage("You don't have a profession!");
+                player.sendMessage(plugin.getMessage(Messages.NO_PROFESSION));
                 return;
             }
 
@@ -101,8 +106,7 @@ public final class ProfessionShowCommand extends PlayerCommandHandler {
 
             if (name.equals("usable-spells")) {
                 final List list = (List) value;
-                line.append("Usable Spells: ");
-                // TODO: add to messages system
+                line.append(plugin.getMessage(Messages.USABLE_SPELLS));
 
                 for (final Object obj : list) {
                     line.append(obj.toString()).append(", ");
@@ -111,8 +115,7 @@ public final class ProfessionShowCommand extends PlayerCommandHandler {
                 line.setLength(line.length() - 2); // remove final ", "
             } else if (name.equals("usable-armor")) {
                 final List list = (List) value;
-                line.append("Usable Armor: ");
-                // TODO: add to messages system
+                line.append(plugin.getMessage(Messages.USABLE_ARMOR));
 
                 for (final Object obj : list) {
                     line.append(obj.toString()).append(", ");
@@ -121,8 +124,7 @@ public final class ProfessionShowCommand extends PlayerCommandHandler {
                 line.setLength(line.length() - 2); // remove final ", "
             } else if (name.equals("usable-enchantments")) {
                 final List list = (List) value;
-                line.append("Usable Enchantments: ");
-                // TODO: add to messages system
+                line.append(plugin.getMessage(Messages.USABLE_ENCHANTMENTS));
 
                 for (final Object obj : list) {
                     line.append(obj.toString()).append(", ");
@@ -131,8 +133,7 @@ public final class ProfessionShowCommand extends PlayerCommandHandler {
                 line.setLength(line.length() - 2); // remove final ", "
             } else if (name.equals("usable-items")) {
                 final List list = (List) value;
-                line.append("Usable Items: ");
-                // TODO: add to messages system
+                line.append(plugin.getMessage(Messages.USABLE_ITEMS));
 
                 for (final Object obj : list) {
                     line.append(obj.toString()).append(", ");

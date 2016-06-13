@@ -89,9 +89,8 @@ public abstract class PlayerCommandHandler extends CommandHandler {
             newArgs.withParams(
                     paramsBase.createParams(newArgs, isSubcommand()));
             if (doesValidateUsage() && !newArgs.getParams().valid()) {
-                // TODO: add to messages system
-                player.sendMessage(
-                        ChatColor.RED + "Invalid usage, " + getUsage());
+                player.sendMessage(plugin.getMessage(Messages.INVALID_USAGE)
+                        + getUsage());
                 return;
             }
         }

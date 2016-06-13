@@ -32,6 +32,7 @@ import com.github.rolecraftdev.command.CommandHelper;
 import com.github.rolecraftdev.command.parser.Arguments;
 import com.github.rolecraftdev.guild.Guild;
 import com.github.rolecraftdev.guild.GuildManager;
+import com.github.rolecraftdev.util.messages.Messages;
 
 import org.bukkit.ChatColor;
 import org.bukkit.command.CommandSender;
@@ -57,7 +58,7 @@ public class GuildListCommand extends CommandHandler {
      * @param plugin the associated {@link RolecraftCore} instance
      * @since 0.0.5
      */
-    GuildListCommand(final RolecraftCore plugin) {
+    public GuildListCommand(final RolecraftCore plugin) {
         super(plugin, "list");
         guildMgr = plugin.getGuildManager();
 
@@ -74,20 +75,19 @@ public class GuildListCommand extends CommandHandler {
     public void onCommand(final CommandSender sender, final Arguments args) {
         final Set<Guild> guilds = guildMgr.getGuilds();
         if (guilds == null) {
+            // in theory shouldn't happen, this is more of a sanity check
             sender.sendMessage(ChatColor.DARK_RED +
                     "The plugin hasn't loaded yet!");
             return;
         }
 
         if (guilds.size() == 0) {
-            // TODO: add to messages system
-            sender.sendMessage(ChatColor.DARK_RED
-                    + "There are no established guilds in this land!");
+            sender.sendMessage(plugin.getMessage(Messages.NO_GUILDS));
             return;
         }
 
         final List<Guild> onPage = CommandHelper
-                .getPageFromArgs(sender, new ArrayList<Guild>(guilds),
+                .getPageFromArgs(plugin, sender, new ArrayList<Guild>(guilds),
                         args.length() > 0 ? args.get(0) : null,
                         GUILDS_PER_PAGE);
         if (onPage == null) {
