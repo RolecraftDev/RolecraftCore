@@ -48,6 +48,5 @@ public class ProfessionCommand extends TreeCommandHandler {
         addSubcommand("list", new ProfessionListCommand(plugin));
         addSubcommand("select", new ProfessionSelectCommand(plugin));
         addSubcommand("show", new ProfessionShowCommand(plugin));
-        // TODO more
     }
 }
