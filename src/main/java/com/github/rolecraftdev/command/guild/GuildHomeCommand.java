@@ -78,7 +78,8 @@ public class GuildHomeCommand extends PlayerCommandHandler {
         if (args.length() > 0 && args.getRaw(0).equalsIgnoreCase("set")) {
             if (!player.hasPermission("rolecraft.guild.sethome") || !guild.can(
                     id, GuildAction.SET_HOME)) {
-                player.sendMessage(plugin.getMessage(Messages.NO_PERMISSION));
+                player.sendMessage(
+                        plugin.getMessage(Messages.GUILD_NO_PERMISSION));
                 return;
             }
 
@@ -86,9 +87,8 @@ public class GuildHomeCommand extends PlayerCommandHandler {
             player.sendMessage(plugin.getMessage(Messages.SET_GUILD_HOME));
         } else {
             if (guild.getHomeLocation() == null) {
-                player.sendMessage(plugin.getMessage(Messages.NO_PERMISSION));
-                // TODO: add specific message for this instead of standard no
-                // TODO: permissions message
+                player.sendMessage(
+                        plugin.getMessage(Messages.GUILD_NO_PERMISSION));
                 return;
             }
 

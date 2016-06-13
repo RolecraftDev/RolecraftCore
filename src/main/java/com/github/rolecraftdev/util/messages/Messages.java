@@ -492,6 +492,13 @@ public class Messages {
      * @since 0.1.0
      */
     public static final String NOT_ENOUGH_MANA = "not-enough-mana";
+    /**
+     * The message shown to a player when their guild rank's permissions are not
+     * sufficient to perform the action they are attempting.
+     *
+     * @since 0.1.0
+     */
+    public static final String GUILD_NO_PERMISSION = "guild-no-permission";
 
     /**
      * General variables such as colours and styles.
