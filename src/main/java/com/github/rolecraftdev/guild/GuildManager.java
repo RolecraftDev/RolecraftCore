@@ -175,6 +175,9 @@ public final class GuildManager {
             }.runTaskTimer(plugin, 1, 5);
         }
 
+        plugin.getSignManager()
+                .registerHandler(new GuildSignInteractionHandler(plugin));
+
         // Register the guild listener with Bukkit
         Bukkit.getPluginManager().registerEvents(new GuildListener(this),
                 plugin);
