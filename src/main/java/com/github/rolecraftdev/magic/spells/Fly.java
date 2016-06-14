@@ -50,6 +50,8 @@ import org.bukkit.inventory.meta.ItemMeta;
  * @see {@link FlyingListener}
  */
 public class Fly implements Spell {
+    private final SpellManager spellManager;
+
     /**
      * Constructor.
      *
@@ -58,6 +60,7 @@ public class Fly implements Spell {
      * @since 0.0.5
      */
     public Fly(final SpellManager spellManager) {
+        this.spellManager = spellManager;
     }
 
     /**
@@ -65,6 +68,14 @@ public class Fly implements Spell {
      */
     @Override
     public String getName() {
+        return this.spellManager.getConfiguredName(this.getDefaultName());
+    }
+
+    /**
+     * @since 0.1.0
+     */
+    @Override
+    public String getDefaultName() {
         return "Fly";
     }
 

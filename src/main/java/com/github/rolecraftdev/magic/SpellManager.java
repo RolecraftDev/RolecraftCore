@@ -36,6 +36,8 @@ import com.github.rolecraftdev.magic.listener.ProjectileListener;
 import com.github.rolecraftdev.magic.spells.*;
 import com.github.rolecraftdev.profession.Profession;
 import com.github.rolecraftdev.profession.ProfessionRule;
+import com.github.rolecraftdev.util.GeneralUtil;
+import com.github.rolecraftdev.util.serial.PropertiesFile;
 
 import org.bukkit.Bukkit;
 import org.bukkit.ChatColor;
@@ -54,6 +56,8 @@ import org.bukkit.scheduler.BukkitRunnable;
 
 import javax.annotation.Nonnull;
 import javax.annotation.Nullable;
+import java.io.File;
+import java.io.IOException;
 import java.util.Collection;
 import java.util.HashMap;
 import java.util.Iterator;
@@ -74,6 +78,7 @@ public class SpellManager {
     private final Map<String, Spell> spells;
     private final int maxRange;
     private final Map<String, Boolean> emptyMap;
+    private final Map<String, String> names;
 
     /**
      * Create a new {@link SpellManager} and load certain configurable options
@@ -90,6 +95,31 @@ public class SpellManager {
         spells = new HashMap<String, Spell>();
         maxRange = plugin.getConfig().getInt("magicrange", 100);
         emptyMap = new HashMap<String, Boolean>();
+        names = new HashMap<String, String>();
+
+        final String filePath = "spells" + File.separator + "spells.properties";
+        final File dataFolder = plugin.getDataFolder();
+        final File spellsFile = new File(dataFolder, filePath);
+
+        // load spell names from configuration
+        if (!spellsFile.isFile()) {
+            spellsFile.delete();
+        }
+
+        if (!spellsFile
+                .exists()) { // load default spell name config from plugin JAR
+            try {
+                GeneralUtil.copyInputStreamToFile(plugin.getClass()
+                        .getResourceAsStream(filePath), spellsFile);
+            } catch (final IOException e) {
+                e.printStackTrace();
+            }
+        }
+
+        for (final Map.Entry<Object, Object> line : new PropertiesFile(
+                spellsFile).entrySet()) {
+            names.put(line.getKey().toString(), line.getValue().toString());
+        }
 
         // Tier 1 spells
         register("Freeze Block", new FreezeBlock(this));
@@ -144,6 +174,25 @@ public class SpellManager {
     }
 
     /**
+     * Gets the configured name of the {@link Spell} with the given default name.
+     *
+     * @param spellName the name of the {@link Spell} to get the config name for
+     * @return the configured name for the {@link Spell} with the given name
+     * @since 0.1.0
+     */
+    @Nullable
+    public String getConfiguredName(@Nonnull final String spellName) {
+        final String configKey = spellName.trim()
+                .replaceAll(" ", "-"); // convert name to config key
+
+        if (this.names.containsKey(configKey)) {
+            return this.names.get(configKey);
+        }
+
+        return spellName;
+    }
+
+    /**
      * Register a new {@link Spell} along with an appropriate wand name to this
      * {@link SpellManager}. This automatically registers an the {@link Recipe}
      * returned by {@link Spell#getWandRecipe()} and a new {@link Permission} in
@@ -157,9 +206,16 @@ public class SpellManager {
      */
     public void register(@Nonnull final String wandName,
             @Nonnull final Spell spell) {
+        String configuredWandName = wandName;
+        String configKey = wandName.toLowerCase().replaceAll(" ", "-");
+        if (this.names.containsKey(configKey)) {
+            configuredWandName = this.names.get(configKey);
+        }
+
         Validate.isTrue(!spells.containsKey(wandName));
 
-        spells.put(wandName, spell);
+        spells.put(configuredWandName, spell);
+        // wandName, not configuredWandName, is used for permissions as this is simpler
         Bukkit.getPluginManager().addPermission(new Permission(
                 "rolecraft.spell." + wandName.toLowerCase().replaceAll(" ", ""),
                 "Allows access to the spell '" + wandName + "'",
@@ -213,15 +269,18 @@ public class SpellManager {
     private void removeRecipe(final ShapedRecipe recipe) {
         final Iterator<Recipe> it = plugin.getServer().recipeIterator();
 
-        whileLoop: while (it.hasNext()) {
+        whileLoop:
+        while (it.hasNext()) {
             final Recipe cur = it.next();
             if (!(cur instanceof ShapedRecipe)) {
                 continue;
             }
 
             final ShapedRecipe curShaped = (ShapedRecipe) cur;
-            final Map<Character, ItemStack> ingredients = recipe.getIngredientMap();
-            final Map<Character, ItemStack> curIngredients = curShaped.getIngredientMap();
+            final Map<Character, ItemStack> ingredients = recipe
+                    .getIngredientMap();
+            final Map<Character, ItemStack> curIngredients = curShaped
+                    .getIngredientMap();
 
             // sadly, we have to compare ingredients as we have no way to compare the results of the crafting
             if (curIngredients.values().containsAll(ingredients.values())) {

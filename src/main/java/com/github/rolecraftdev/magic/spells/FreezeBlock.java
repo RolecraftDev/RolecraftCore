@@ -62,6 +62,8 @@ public class FreezeBlock implements Spell {
      */
     private static final HashSet<Byte> transparency;
 
+    private final SpellManager spellManager;
+
     /**
      * @since 0.0.5
      */
@@ -81,6 +83,7 @@ public class FreezeBlock implements Spell {
      * @since 0.0.5
      */
     public FreezeBlock(final SpellManager spellManager) {
+        this.spellManager = spellManager;
     }
 
     /**
@@ -88,6 +91,14 @@ public class FreezeBlock implements Spell {
      */
     @Override
     public String getName() {
+        return this.spellManager.getConfiguredName(this.getDefaultName());
+    }
+
+    /**
+     * @since 0.1.0
+     */
+    @Override
+    public String getDefaultName() {
         return "Freeze Block";
     }
 

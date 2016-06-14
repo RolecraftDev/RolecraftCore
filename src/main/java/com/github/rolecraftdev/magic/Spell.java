@@ -59,12 +59,22 @@ public interface Spell {
     float CAST_FAILURE = Float.MIN_VALUE;
 
     /**
-     * Get the name of this {@link Spell}.
+     * Get the name of this {@link Spell}. This will return the value from the
+     * configuration for spell names, if spell names have been configured.
      *
      * @return the name
      * @since 0.0.5
      */
     String getName();
+
+    /**
+     * Gets the default name of this {@link Spell}, to be used if spell names
+     * have not been configured.
+     *
+     * @return the default name of this spell
+     * @since 0.1.0
+     */
+    String getDefaultName();
 
     /**
      * Retrieve the amount of mana that is required when performing the

@@ -52,6 +52,8 @@ import org.bukkit.inventory.meta.ItemMeta;
  * @since 0.0.5
  */
 public class SilkTouch implements Spell {
+    private final SpellManager spellManager;
+
     /**
      * Constructor.
      *
@@ -60,6 +62,7 @@ public class SilkTouch implements Spell {
      * @since 0.0.5
      */
     public SilkTouch(final SpellManager spellManager) {
+        this.spellManager = spellManager;
     }
 
     /**
@@ -67,6 +70,14 @@ public class SilkTouch implements Spell {
      */
     @Override
     public String getName() {
+        return this.spellManager.getConfiguredName(this.getDefaultName());
+    }
+
+    /**
+     * @since 0.1.0
+     */
+    @Override
+    public String getDefaultName() {
         return "Silk Touch";
     }
 

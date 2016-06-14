@@ -69,6 +69,14 @@ public class ExcellentBow implements Spell {
      */
     @Override
     public String getName() {
+        return this.spellManager.getConfiguredName(this.getDefaultName());
+    }
+
+    /**
+     * @since 0.1.0
+     */
+    @Override
+    public String getDefaultName() {
         return "Excellent Bow";
     }
 
