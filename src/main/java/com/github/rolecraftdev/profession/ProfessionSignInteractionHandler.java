@@ -28,6 +28,8 @@ package com.github.rolecraftdev.profession;
 
 import com.github.rolecraftdev.RolecraftCore;
 import com.github.rolecraftdev.data.PlayerData;
+import com.github.rolecraftdev.event.RolecraftEventFactory;
+import com.github.rolecraftdev.event.profession.PlayerProfessionSelectEvent;
 import com.github.rolecraftdev.sign.RolecraftSign;
 import com.github.rolecraftdev.sign.SignInteractionHandler;
 import com.github.rolecraftdev.util.messages.MessageVariable;
@@ -88,12 +90,19 @@ public final class ProfessionSignInteractionHandler
                 return;
             }
 
-            // if the sign is correctly done this will never result in NPE
-            // TODO: handle NPE in case of bad admins :(
-            data.setProfession(plugin.getProfessionManager()
-                    .getProfession(profName).getId());
-            player.sendMessage(plugin.getMessage(Messages.PROFESSION_SELECTED,
-                    MessageVariable.PROFESSION.value(profName)));
+            final Profession profession = plugin.getProfessionManager()
+                    .getProfession(profName); // TODO: null check
+            final PlayerProfessionSelectEvent event = RolecraftEventFactory
+                    .professionSelected(plugin, profession, player);
+
+            if (event.isCancelled()) {
+                player.sendMessage(event.getCancelMessage());
+            } else {
+                data.setProfession(profession.getId());
+                player.sendMessage(
+                        plugin.getMessage(Messages.PROFESSION_SELECTED,
+                                MessageVariable.PROFESSION.value(profName)));
+            }
         }
         // TODO: add other functions e.g. abandon profession blah blah blah
     }

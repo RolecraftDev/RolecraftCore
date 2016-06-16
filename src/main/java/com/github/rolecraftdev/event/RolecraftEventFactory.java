@@ -40,6 +40,7 @@ import com.github.rolecraftdev.event.guild.GuildPlayerLeaveEvent;
 import com.github.rolecraftdev.event.guild.GuildRankCreateEvent;
 import com.github.rolecraftdev.event.guild.GuildRankModifyEvent;
 import com.github.rolecraftdev.event.guild.GuildRankRemoveEvent;
+import com.github.rolecraftdev.event.profession.PlayerProfessionSelectEvent;
 import com.github.rolecraftdev.event.spell.SpellCastEvent;
 import com.github.rolecraftdev.event.spell.SpellCastEvent.SpellCastType;
 import com.github.rolecraftdev.experience.ExperienceHelper;
@@ -47,6 +48,7 @@ import com.github.rolecraftdev.guild.Guild;
 import com.github.rolecraftdev.guild.GuildAction;
 import com.github.rolecraftdev.guild.GuildRank;
 import com.github.rolecraftdev.magic.Spell;
+import com.github.rolecraftdev.profession.Profession;
 
 import org.bukkit.Bukkit;
 import org.bukkit.entity.Entity;
@@ -237,6 +239,22 @@ public class RolecraftEventFactory {
 
         Bukkit.getPluginManager().callEvent(temp);
         return temp;
+    }
+
+    /**
+     * Calls a {@link PlayerProfessionSelectEvent} using the given data.
+     *
+     * @param plugin the {@link RolecraftCore} plugin instance
+     * @param profession the involved {@link Profession}
+     * @param player the involved {@link Player}
+     * @return the called {@link PlayerProfessionSelectEvent}
+     * @since 0.1.0
+     */
+    public static PlayerProfessionSelectEvent professionSelected(
+            final RolecraftCore plugin, final Profession profession,
+            final Player player) {
+        return callEvent(
+                new PlayerProfessionSelectEvent(plugin, profession, player));
     }
 
     /**

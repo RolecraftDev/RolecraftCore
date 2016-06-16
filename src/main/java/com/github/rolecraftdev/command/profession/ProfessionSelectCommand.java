@@ -30,6 +30,8 @@ import com.github.rolecraftdev.RolecraftCore;
 import com.github.rolecraftdev.command.PlayerCommandHandler;
 import com.github.rolecraftdev.command.parser.Arguments;
 import com.github.rolecraftdev.data.PlayerData;
+import com.github.rolecraftdev.event.RolecraftEventFactory;
+import com.github.rolecraftdev.event.profession.PlayerProfessionSelectEvent;
 import com.github.rolecraftdev.profession.Profession;
 import com.github.rolecraftdev.profession.ProfessionManager;
 import com.github.rolecraftdev.util.messages.MessageVariable;
@@ -95,8 +97,14 @@ public class ProfessionSelectCommand extends PlayerCommandHandler {
             return;
         }
 
-        data.setProfession(profession.getId());
-        player.sendMessage(plugin.getMessage(Messages.PROFESSION_SELECTED,
-                MessageVariable.PROFESSION.value(profession.getName())));
+        final PlayerProfessionSelectEvent event = RolecraftEventFactory
+                .professionSelected(plugin, profession, player);
+        if (event.isCancelled()) {
+            player.sendMessage(event.getCancelMessage());
+        } else {
+            data.setProfession(profession.getId());
+            player.sendMessage(plugin.getMessage(Messages.PROFESSION_SELECTED,
+                    MessageVariable.PROFESSION.value(profession.getName())));
+        }
     }
 }

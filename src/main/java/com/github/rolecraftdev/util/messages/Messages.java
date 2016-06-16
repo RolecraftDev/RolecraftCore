@@ -499,6 +499,13 @@ public class Messages {
      * @since 0.1.0
      */
     public static final String GUILD_NO_PERMISSION = "guild-no-permission";
+    /**
+     * The message sent to a player who is not allowed to perform an action but
+     * there is no specific message available.
+     *
+     * @since 0.1.0
+     */
+    public static final String NOT_ALLOWED = "not-allowed";
 
     /**
      * General variables such as colours and styles.

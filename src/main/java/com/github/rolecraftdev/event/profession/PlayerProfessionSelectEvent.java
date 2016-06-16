@@ -24,32 +24,33 @@
  * DISCLAIMER: This is a human-readable summary of (and not a substitute for) the
  * license.
  */
-package com.github.rolecraftdev.event.guild;
+package com.github.rolecraftdev.event.profession;
 
 import com.github.rolecraftdev.RolecraftCore;
 import com.github.rolecraftdev.event.RolecraftCancellable;
-import com.github.rolecraftdev.guild.Guild;
+import com.github.rolecraftdev.profession.Profession;
 import com.github.rolecraftdev.util.messages.Messages;
 
-import org.bukkit.Bukkit;
 import org.bukkit.entity.Player;
 import org.bukkit.event.HandlerList;
 
 import javax.annotation.Nonnull;
 
 /**
- * A {@link GuildEvent} that gets called just before a new {@link Guild} is
- * created.
+ * Called when a {@link Player} selects a {@link Profession}.
  *
- * @since 0.0.5
+ * @since 0.1.0
  */
-public class GuildCreateEvent extends GuildEvent
+public class PlayerProfessionSelectEvent extends PlayerProfessionEvent
         implements RolecraftCancellable {
     private static final HandlerList handlers = new HandlerList();
 
+    /**
+     * Whether the event is cancelled.
+     */
     private boolean cancelled;
     /**
-     * The message sent to the founder when this event is cancelled.
+     * The message to be sent to involved parties if the event is cancelled.
      */
     private String cancelMessage;
 
@@ -57,47 +58,30 @@ public class GuildCreateEvent extends GuildEvent
      * Constructor.
      *
      * @param plugin the associated {@link RolecraftCore} instance
-     * @param guild the affected {@link Guild}
-     * @since 0.0.5
+     * @param profession the involved {@link Profession}
+     * @param player the involved {@link Player}
+     * @since 0.1.0
      */
-    public GuildCreateEvent(final RolecraftCore plugin, final Guild guild) {
-        super(plugin, guild);
+    public PlayerProfessionSelectEvent(@Nonnull final RolecraftCore plugin,
+            @Nonnull final Profession profession,
+            @Nonnull final Player player) {
+        super(plugin, profession, player);
 
         this.cancelMessage = plugin.getMessage(Messages.NOT_ALLOWED);
     }
 
     /**
-     * Get the founder of the {@link Guild}.
-     *
-     * @return the founder of the {@link Guild}
-     * @since 0.0.5
-     */
-    public Player getFounder() {
-        return Bukkit.getPlayer(getGuild().getLeader());
-    }
-
-    /**
-     * @since 0.0.5
+     * {@inheritDoc}
+     * @since 0.1.0
      */
     @Override
     public boolean isCancelled() {
-        return cancelled;
+        return this.cancelled;
     }
 
     /**
-     * Obtain the message that will be sent to the founder on the occasion of
-     * this event being cancelled.
-     *
-     * @return the cancel message
-     * @since 0.0.5
-     */
-    @Override @Nonnull
-    public String getCancelMessage() {
-        return cancelMessage;
-    }
-
-    /**
-     * @since 0.0.5
+     * {@inheritDoc}
+     * @since 0.1.0
      */
     @Override
     public void setCancelled(final boolean cancelled) {
@@ -105,19 +89,26 @@ public class GuildCreateEvent extends GuildEvent
     }
 
     /**
-     * Set the message that will be sent to the founder when this event is
-     * cancelled.
-     *
-     * @param cancelMessage the new cancel message
-     * @since 0.0.5
+     * {@inheritDoc}
+     * @since 0.1.0
      */
-    @Override
-    public void setCancelMessage(@Nonnull final String cancelMessage) {
-        this.cancelMessage = cancelMessage;
+    @Nonnull @Override
+    public String getCancelMessage() {
+        return this.cancelMessage;
     }
 
     /**
-     * @since 0.0.5
+     * {@inheritDoc}
+     * @since 0.1.0
+     */
+    @Override
+    public void setCancelMessage(@Nonnull String message) {
+        this.cancelMessage = message;
+    }
+
+    /**
+     * {@inheritDoc}
+     * @since 0.1.0
      */
     @Override
     public HandlerList getHandlers() {
@@ -125,7 +116,7 @@ public class GuildCreateEvent extends GuildEvent
     }
 
     /**
-     * @since 0.0.5
+     * @since 0.1.0
      */
     public static HandlerList getHandlerList() {
         return handlers;

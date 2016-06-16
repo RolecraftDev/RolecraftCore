@@ -27,12 +27,13 @@
 package com.github.rolecraftdev.event.spell;
 
 import com.github.rolecraftdev.RolecraftCore;
+import com.github.rolecraftdev.event.RolecraftCancellable;
 import com.github.rolecraftdev.magic.Spell;
 import com.github.rolecraftdev.util.SoundWrapper;
+import com.github.rolecraftdev.util.messages.Messages;
 
 import org.bukkit.ChatColor;
 import org.bukkit.entity.Entity;
-import org.bukkit.event.Cancellable;
 import org.bukkit.event.HandlerList;
 
 import javax.annotation.Nonnull;
@@ -44,7 +45,7 @@ import javax.annotation.Nullable;
  *
  * @since 0.0.5
  */
-public class SpellCastEvent extends SpellEvent implements Cancellable {
+public class SpellCastEvent extends SpellEvent implements RolecraftCancellable {
     private static final HandlerList handlers = new HandlerList();
 
     /**
@@ -74,7 +75,7 @@ public class SpellCastEvent extends SpellEvent implements Cancellable {
     /**
      * The message sent to the caster when this event is cancelled.
      */
-    private String cancelMessage = ChatColor.DARK_RED + "You can't do that!";
+    private String cancelMessage;
 
     /**
      * Constructor.
@@ -93,6 +94,8 @@ public class SpellCastEvent extends SpellEvent implements Cancellable {
         this.manaCost = manaCost;
         this.type = type;
         sound = spell.getSound();
+
+        this.cancelMessage = plugin.getMessage(Messages.NOT_ALLOWED);
     }
 
     /**
@@ -175,6 +178,7 @@ public class SpellCastEvent extends SpellEvent implements Cancellable {
      * @return the cancel message
      * @since 0.0.5
      */
+    @Override @Nonnull
     public String getCancelMessage() {
         return cancelMessage;
     }
@@ -214,7 +218,8 @@ public class SpellCastEvent extends SpellEvent implements Cancellable {
      * @param cancelMessage the new cancel message
      * @since 0.0.5
      */
-    public void setCancelMessage(final String cancelMessage) {
+    @Override
+    public void setCancelMessage(@Nonnull final String cancelMessage) {
         this.cancelMessage = cancelMessage;
     }
 
