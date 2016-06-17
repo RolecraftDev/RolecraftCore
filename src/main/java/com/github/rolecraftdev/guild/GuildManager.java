@@ -223,6 +223,7 @@ public final class GuildManager {
 
         for (final Guild cur : guilds) {
             if (name.equalsIgnoreCase(cur.getName())) {
+                // TODO: plugin message
                 Bukkit.getPlayer(guild.getLeader()).sendMessage(
                         ChatColor.DARK_RED +
                                 "A guild by that name already exists!");
@@ -237,6 +238,10 @@ public final class GuildManager {
                     event.getCancelMessage());
             return false;
         } else {
+            // call an event for the guild leader 'joining' the guild (s)he has just created
+            RolecraftEventFactory.guildPlayerJoined(guild,
+                    Bukkit.getPlayer(guild.getLeader()), guild.getLeaderRank());
+
             guilds.add(guild);
             plugin.getDataStore().createGuild(guild);
             return true;
