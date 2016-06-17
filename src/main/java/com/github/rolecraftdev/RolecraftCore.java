@@ -48,6 +48,7 @@ import com.github.rolecraftdev.magic.Spell;
 import com.github.rolecraftdev.magic.SpellManager;
 import com.github.rolecraftdev.profession.Profession;
 import com.github.rolecraftdev.profession.ProfessionManager;
+import com.github.rolecraftdev.sign.RolecraftSign;
 import com.github.rolecraftdev.sign.RolecraftSignManager;
 import com.github.rolecraftdev.util.messages.MessageVariable;
 import com.github.rolecraftdev.util.messages.Messages;
