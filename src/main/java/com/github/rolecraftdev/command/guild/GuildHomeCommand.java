@@ -52,7 +52,7 @@ public class GuildHomeCommand extends PlayerCommandHandler {
      * @param plugin the associated {@link RolecraftCore} instance
      * @since 0.0.5
      */
-    GuildHomeCommand(final RolecraftCore plugin) {
+    public GuildHomeCommand(final RolecraftCore plugin) {
         super(plugin, "home");
         guildManager = plugin.getGuildManager();
 

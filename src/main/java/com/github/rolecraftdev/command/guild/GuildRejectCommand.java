@@ -48,7 +48,7 @@ public class GuildRejectCommand extends PlayerCommandHandler {
      * @param plugin the associated {@link RolecraftCore} instance
      * @since 0.0.5
      */
-    GuildRejectCommand(final RolecraftCore plugin) {
+    public GuildRejectCommand(final RolecraftCore plugin) {
         super(plugin, "reject");
 
         setPermission("rolecraft.guild.join");

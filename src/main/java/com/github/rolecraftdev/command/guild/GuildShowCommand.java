@@ -53,7 +53,7 @@ public class GuildShowCommand extends CommandHandler {
      * @param plugin the associated {@link RolecraftCore} instance
      * @since 0.0.5
      */
-    GuildShowCommand(final RolecraftCore plugin) {
+    public GuildShowCommand(final RolecraftCore plugin) {
         super(plugin, "show");
         guildManager = plugin.getGuildManager();
 

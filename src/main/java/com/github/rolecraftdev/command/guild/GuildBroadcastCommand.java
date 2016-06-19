@@ -48,7 +48,7 @@ public class GuildBroadcastCommand extends PlayerCommandHandler {
      * @param plugin the associated {@link RolecraftCore} instance
      * @since 0.0.5
      */
-    GuildBroadcastCommand(final RolecraftCore plugin) {
+    public GuildBroadcastCommand(final RolecraftCore plugin) {
         super(plugin, "broadcast");
 
         setUsage("/guild broadcast [-r rank] <message>");

@@ -54,7 +54,7 @@ public class GuildDisbandCommand extends CommandHandler {
      * @param plugin the associated {@link RolecraftCore} instance
      * @since 0.0.5
      */
-    GuildDisbandCommand(final RolecraftCore plugin) {
+    public GuildDisbandCommand(final RolecraftCore plugin) {
         super(plugin, "disband");
         guildManager = plugin.getGuildManager();
 

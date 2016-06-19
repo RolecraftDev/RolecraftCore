@@ -56,7 +56,7 @@ public class GuildRankCommand extends PlayerCommandHandler {
      * @param plugin the associated {@link RolecraftCore} instance
      * @since 0.0.5
      */
-    GuildRankCommand(final RolecraftCore plugin) {
+    public GuildRankCommand(final RolecraftCore plugin) {
         super(plugin, "rank");
         guildManager = plugin.getGuildManager();
 

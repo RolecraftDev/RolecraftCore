@@ -54,7 +54,7 @@ public class GuildCreateCommand extends PlayerCommandHandler {
      * @param plugin the associated {@link RolecraftCore} instance
      * @since 0.0.5
      */
-    GuildCreateCommand(final RolecraftCore plugin) {
+    public GuildCreateCommand(final RolecraftCore plugin) {
         super(plugin, "create");
         guildManager = plugin.getGuildManager();
         dataManager = plugin.getDataManager();

@@ -59,7 +59,7 @@ public class GuildMemberCommand extends PlayerCommandHandler {
      * @param plugin the associated {@link RolecraftCore} instance
      * @since 0.0.5
      */
-    GuildMemberCommand(final RolecraftCore plugin) {
+    public GuildMemberCommand(final RolecraftCore plugin) {
         super(plugin, "member");
         guildMgr = plugin.getGuildManager();
 

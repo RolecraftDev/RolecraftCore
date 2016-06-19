@@ -53,7 +53,7 @@ public class ProfessionSelectCommand extends PlayerCommandHandler {
      * @param plugin the associated {@link RolecraftCore} instance
      * @since 0.0.5
      */
-    ProfessionSelectCommand(final RolecraftCore plugin) {
+    public ProfessionSelectCommand(final RolecraftCore plugin) {
         super(plugin, "select");
         professionMgr = plugin.getProfessionManager();
 

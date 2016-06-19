@@ -44,7 +44,7 @@ public class GuildHelpCommand extends PlayerCommandHandler {
      * @param plugin the associated {@link RolecraftCore} instance
      * @since 0.0.5
      */
-    GuildHelpCommand(final RolecraftCore plugin) {
+    public GuildHelpCommand(final RolecraftCore plugin) {
         super(plugin, "help");
 
         setDescription("Guild-related help");

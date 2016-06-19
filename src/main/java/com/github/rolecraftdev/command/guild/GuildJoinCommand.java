@@ -55,7 +55,7 @@ public class GuildJoinCommand extends PlayerCommandHandler {
      * @param plugin the associated {@link RolecraftCore} instance
      * @since 0.0.5
      */
-    GuildJoinCommand(final RolecraftCore plugin) {
+    public GuildJoinCommand(final RolecraftCore plugin) {
         super(plugin, "join");
         dataMgr = plugin.getDataManager();
         guildMgr = plugin.getGuildManager();
