@@ -27,11 +27,15 @@
 package com.github.rolecraftdev.event.guild;
 
 import com.github.rolecraftdev.RolecraftCore;
+import com.github.rolecraftdev.event.RolecraftCancellable;
 import com.github.rolecraftdev.guild.Guild;
 import com.github.rolecraftdev.guild.GuildRank;
+import com.github.rolecraftdev.util.messages.Messages;
 
 import org.bukkit.entity.Player;
 import org.bukkit.event.HandlerList;
+
+import javax.annotation.Nonnull;
 
 /**
  * A {@link GuildEvent} that is called when a player is about to join a
@@ -39,7 +43,8 @@ import org.bukkit.event.HandlerList;
  *
  * @since 0.0.5
  */
-public class GuildPlayerJoinEvent extends GuildEvent {
+public class GuildPlayerJoinEvent extends GuildEvent
+        implements RolecraftCancellable {
     private static final HandlerList handlers = new HandlerList();
 
     /**
@@ -50,6 +55,15 @@ public class GuildPlayerJoinEvent extends GuildEvent {
      * The {@link GuildRank} the new {@link Player} has been allocated to
      */
     private final GuildRank rank;
+
+    /**
+     * Whether the event is cancelled.
+     */
+    private boolean cancelled;
+    /**
+     * The message to send to the involved party(s) if he event is cancelled.
+     */
+    private String cancelMessage;
 
     /**
      * Constructor.
@@ -65,6 +79,8 @@ public class GuildPlayerJoinEvent extends GuildEvent {
         super(plugin, guild);
         this.player = player;
         this.rank = rank;
+
+        this.cancelMessage = plugin.getMessage(Messages.NOT_ALLOWED);
     }
 
     /**
@@ -86,6 +102,46 @@ public class GuildPlayerJoinEvent extends GuildEvent {
      */
     public GuildRank getRank() {
         return rank;
+    }
+
+    /**
+     * {@inheritDoc}
+     * @since 0.1.0
+     */
+    @Nonnull @Override
+    public String getCancelMessage() {
+        return cancelMessage;
+    }
+
+    /**
+     * {@inheritDoc}
+     * @since 0.1.0
+     */
+    @Override
+    public void setCancelMessage(@Nonnull String message) {
+        this.cancelMessage = message;
+    }
+
+    /**
+     * {@inheritDoc}
+     * @since 0.1.0
+     */
+    @Override
+    public boolean isCancelled() {
+        return cancelled;
+    }
+
+    /**
+     * {@inheritDoc}
+     *
+     * Note that this will have no effect if the event pertains to the leader
+     * 'joining' the guild upon creation of the guild.
+     *
+     * @since 0.1.0
+     */
+    @Override
+    public void setCancelled(boolean cancelled) {
+        this.cancelled = cancelled;
     }
 
     /**

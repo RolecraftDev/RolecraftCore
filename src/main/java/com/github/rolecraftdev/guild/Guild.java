@@ -31,6 +31,7 @@ import org.apache.commons.lang.Validate;
 import com.github.rolecraftdev.RolecraftCore;
 import com.github.rolecraftdev.chat.GuildChannel;
 import com.github.rolecraftdev.event.RolecraftEventFactory;
+import com.github.rolecraftdev.event.guild.GuildPlayerJoinEvent;
 import com.github.rolecraftdev.util.Region2D;
 import com.github.rolecraftdev.util.messages.Messages;
 
@@ -535,18 +536,22 @@ public final class Guild {
      * @param rank the start {@link GuildRank} of the player
      * @since 0.0.5
      */
-    public void addMember(@Nonnull final UUID member,
+    public GuildPlayerJoinEvent addMember(@Nonnull final UUID member,
             @Nonnull final GuildRank rank) {
         Validate.notNull(member);
         Validate.notNull(rank);
 
-        RolecraftEventFactory.guildPlayerJoined(this, Bukkit.getPlayer(member),
-                rank);
+        final GuildPlayerJoinEvent event = RolecraftEventFactory
+                .guildPlayerJoined(this, Bukkit.getPlayer(member), rank);
+        if (event.isCancelled()) {
+            return event;
+        }
 
         members.add(member);
         rank.addMember(member);
         plugin.getDataStore().addPlayerToGuild(member, this);
         plugin.getDataStore().updateGuildRanks(this);
+        return event;
     }
 
     /**

@@ -31,6 +31,7 @@ import com.github.rolecraftdev.command.PlayerCommandHandler;
 import com.github.rolecraftdev.command.parser.Arguments;
 import com.github.rolecraftdev.data.DataManager;
 import com.github.rolecraftdev.data.PlayerData;
+import com.github.rolecraftdev.event.guild.GuildPlayerJoinEvent;
 import com.github.rolecraftdev.guild.Guild;
 import com.github.rolecraftdev.guild.GuildManager;
 import com.github.rolecraftdev.util.messages.MessageVariable;
@@ -126,8 +127,16 @@ public class GuildJoinCommand extends PlayerCommandHandler {
             return;
         }
 
-        dataMgr.getPlayerData(player.getUniqueId()).setGuild(guild.getId());
-        guild.addMember(pid, guild.getDefaultRank());
+        final PlayerData pData = dataMgr.getPlayerData(player.getUniqueId());
+        pData.setGuild(guild.getId());
+        final GuildPlayerJoinEvent event = guild
+                .addMember(pid, guild.getDefaultRank());
+        if (event.isCancelled()) {
+            pData.setGuild(null);
+            player.sendMessage(event.getCancelMessage());
+            return;
+        }
+
         player.sendMessage(plugin.getMessage(Messages.GUILD_JOINED_PLAYER,
                 MessageVariable.GUILD.value(guild.getName())));
         guild.broadcastMessage(plugin.getMessage(Messages.GUILD_JOINED_OTHERS,
