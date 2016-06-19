@@ -34,6 +34,8 @@ import com.github.rolecraftdev.event.experience.RCExperienceEvent;
 import com.github.rolecraftdev.event.experience.RCLevelChangeEvent;
 import com.github.rolecraftdev.event.guild.GuildCreateEvent;
 import com.github.rolecraftdev.event.guild.GuildDisbandEvent;
+import com.github.rolecraftdev.event.guild.GuildHomeSetEvent;
+import com.github.rolecraftdev.event.guild.GuildHomeTeleportEvent;
 import com.github.rolecraftdev.event.guild.GuildPlayerJoinEvent;
 import com.github.rolecraftdev.event.guild.GuildPlayerKickedEvent;
 import com.github.rolecraftdev.event.guild.GuildPlayerLeaveEvent;
@@ -51,6 +53,7 @@ import com.github.rolecraftdev.magic.Spell;
 import com.github.rolecraftdev.profession.Profession;
 
 import org.bukkit.Bukkit;
+import org.bukkit.Location;
 import org.bukkit.entity.Entity;
 import org.bukkit.entity.Player;
 import org.bukkit.event.Event;
@@ -193,6 +196,38 @@ public class RolecraftEventFactory {
      */
     public static GuildCreateEvent guildCreated(final Guild guild) {
         return callEvent(new GuildCreateEvent(plugin, guild));
+    }
+
+    /**
+     * Calls a {@link GuildHomeSetEvent} with the {@link RolecraftCore} instance
+     * and the given parameters.
+     *
+     * @param guild the {@link Guild} for which the home is being set
+     * @param setter the {@link Player} who is setting the guild's home
+     * @param location the new {@link Location} for the guild's home
+     * @return the called {@link GuildHomeSetEvent}
+     * @since 0.1.0
+     */
+    public static GuildHomeSetEvent guildHomeSet(final Guild guild,
+            final Player setter, final Location location) {
+        return callEvent(
+                new GuildHomeSetEvent(plugin, guild, setter, location));
+    }
+
+    /**
+     * Calls a {@link GuildHomeTeleportEvent} with the {@link RolecraftCore}
+     * plugin instance and the given parameters.
+     *
+     * @param guild the {@link Guild} the teleporting player is a member of
+     * @param teleporter the {@link Player} who is teleporting
+     * @param location the {@link Location} the player is teleporting to
+     * @return the called {@link GuildHomeTeleportEvent}
+     * @since 0.1.0
+     */
+    public static GuildHomeTeleportEvent guildHomeTeleport(final Guild guild,
+            final Player teleporter, final Location location) {
+        return callEvent(new GuildHomeTeleportEvent(plugin, guild, teleporter,
+                location));
     }
 
     /**

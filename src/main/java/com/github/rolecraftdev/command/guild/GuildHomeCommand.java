@@ -29,12 +29,16 @@ package com.github.rolecraftdev.command.guild;
 import com.github.rolecraftdev.RolecraftCore;
 import com.github.rolecraftdev.command.PlayerCommandHandler;
 import com.github.rolecraftdev.command.parser.Arguments;
+import com.github.rolecraftdev.event.RolecraftEventFactory;
+import com.github.rolecraftdev.event.guild.GuildHomeSetEvent;
+import com.github.rolecraftdev.event.guild.GuildHomeTeleportEvent;
 import com.github.rolecraftdev.guild.Guild;
 import com.github.rolecraftdev.guild.GuildAction;
 import com.github.rolecraftdev.guild.GuildManager;
 import com.github.rolecraftdev.util.messages.MessageVariable;
 import com.github.rolecraftdev.util.messages.Messages;
 
+import org.bukkit.Location;
 import org.bukkit.entity.Player;
 import org.bukkit.scheduler.BukkitRunnable;
 
@@ -83,6 +87,15 @@ public class GuildHomeCommand extends PlayerCommandHandler {
                 return;
             }
 
+            final Location location = player.getLocation();
+            final GuildHomeSetEvent event = RolecraftEventFactory
+                    .guildHomeSet(guild, player, location);
+
+            if (event.isCancelled()) {
+                player.sendMessage(event.getCancelMessage());
+                return;
+            }
+
             guild.setHomeLocation(player.getLocation());
             player.sendMessage(plugin.getMessage(Messages.SET_GUILD_HOME));
         } else {
@@ -92,10 +105,19 @@ public class GuildHomeCommand extends PlayerCommandHandler {
                 return;
             }
 
+            final Location homeLocation = guild.getHomeLocation();
+            final GuildHomeTeleportEvent event = RolecraftEventFactory
+                    .guildHomeTeleport(guild, player, guild.getHomeLocation());
+
+            if (event.isCancelled()) {
+                player.sendMessage(event.getCancelMessage());
+                return;
+            }
+
             new BukkitRunnable() {
                 @Override
                 public void run() {
-                    guild.teleportToHome(player);
+                    player.teleport(homeLocation);
                 }
             }.runTaskLater(plugin,
                     plugin.getConfig().getInt("teleportdelay") * 20);
