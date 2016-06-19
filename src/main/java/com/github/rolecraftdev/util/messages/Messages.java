@@ -506,6 +506,14 @@ public class Messages {
      * @since 0.1.0
      */
     public static final String NOT_ALLOWED = "not-allowed";
+    /**
+     * The message sent to a player who attempts to use a non-functional sign.
+     * This may be because a sign has been created for a profession which does
+     * not exist, amongst other reasons.
+     *
+     * @since 0.1.0
+     */
+    public static final String BROKEN_SIGN = "broken-sign";
 
     /**
      * General variables such as colours and styles.

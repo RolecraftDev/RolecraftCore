@@ -91,7 +91,12 @@ public final class ProfessionSignInteractionHandler
             }
 
             final Profession profession = plugin.getProfessionManager()
-                    .getProfession(profName); // TODO: null check
+                    .getProfession(profName);
+            if (profession == null) {
+                player.sendMessage(plugin.getMessage(Messages.BROKEN_SIGN));
+                return;
+            }
+
             final PlayerProfessionSelectEvent event = RolecraftEventFactory
                     .professionSelected(plugin, profession, player);
 

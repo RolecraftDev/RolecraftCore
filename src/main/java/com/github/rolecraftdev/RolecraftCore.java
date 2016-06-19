@@ -131,6 +131,10 @@ public final class RolecraftCore extends JavaPlugin {
      * The rate, per 2 seconds, at which mana regenerates.
      */
     private float manaRegen;
+    /**
+     * Whether second professions are enabled on this server.
+     */
+    private boolean secondProfessions;
 
     /**
      * @since 0.0.5
@@ -157,6 +161,7 @@ public final class RolecraftCore extends JavaPlugin {
         originalSin = (float) config.getDouble("originalsin");
         maximumMana = (float) config.getDouble("maximummana", 2000.0);
         manaRegen = (float) config.getDouble("manaregen", 5.0);
+        secondProfessions = config.getBoolean("secondprofessions", false);
 
         // Set the plugin object for event construction in RolecraftEventFactory
         RolecraftEventFactory.setPlugin(this);
@@ -459,6 +464,16 @@ public final class RolecraftCore extends JavaPlugin {
      */
     public float getManaRegenRate() {
         return manaRegen;
+    }
+
+    /**
+     * Whether the use of secondary professions is allowed on this server.
+     *
+     * @return whether second professions are allowed
+     * @since 0.1.0
+     */
+    public boolean allowSecondProfessions() {
+        return secondProfessions;
     }
 
     /**

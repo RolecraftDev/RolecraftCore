@@ -19,6 +19,11 @@ maximummana: 2000
 # The regeneration rate per 2 seconds of mana
 manaregen: 5
 
+# Whether to enable second professions on this server
+# TODO: make individual aspect of second professions configurable
+# Currently not implemented
+secondprofessions: false
+
 # Leaving this to true will enforce area protection and block protection
 # plugins when players are casting spells, however this may cause problems
 # with certain other plugins like NoCheatPlus that will report a cheater
