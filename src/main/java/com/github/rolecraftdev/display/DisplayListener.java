@@ -27,6 +27,7 @@
 package com.github.rolecraftdev.display;
 
 import com.github.rolecraftdev.RolecraftCore;
+import com.github.rolecraftdev.event.data.PlayerDataLoadedEvent;
 
 import org.bukkit.entity.Player;
 import org.bukkit.event.EventHandler;
@@ -57,8 +58,10 @@ public class DisplayListener implements Listener {
      */
     // priority set as this MUST happen after DataListener.onPlayerJoin
     @EventHandler(priority = EventPriority.MONITOR, ignoreCancelled = true)
-    public void onPlayerJoin(final PlayerJoinEvent event) {
-        plugin.getDisplayUpdater().createDisplayFor(event.getPlayer());
+    public void onPlayerDataLoaded(final PlayerDataLoadedEvent event) {
+        plugin.getDisplayUpdater().createDisplayFor(
+                plugin.getServer().getPlayer(
+                        event.getPlayerData().getPlayerId()));
     }
 
     /**

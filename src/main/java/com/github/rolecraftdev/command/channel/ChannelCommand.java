@@ -24,51 +24,37 @@
  * DISCLAIMER: This is a human-readable summary of (and not a substitute for) the
  * license.
  */
-package com.github.rolecraftdev.command.other;
+package com.github.rolecraftdev.command.channel;
 
 import com.github.rolecraftdev.RolecraftCore;
-import com.github.rolecraftdev.command.PlayerCommandHandler;
-import com.github.rolecraftdev.command.parser.Arguments;
-import com.github.rolecraftdev.guild.Guild;
-import com.github.rolecraftdev.guild.GuildManager;
-import com.github.rolecraftdev.util.messages.Messages;
-
-import org.bukkit.entity.Player;
+import com.github.rolecraftdev.command.TreeCommandHandler;
 
 /**
- * @since 0.0.5
+ * Deals with the 'channel' command and related subcommands.
+ *
+ * @since 0.1.0
  */
-public class GCCommand extends PlayerCommandHandler {
-    private final GuildManager guildManager;
-
+public class ChannelCommand extends TreeCommandHandler {
     /**
      * Constructor.
      *
      * @param plugin the associated {@link RolecraftCore} instance
-     * @since 0.0.5
+     * @since 0.1.0
      */
-    public GCCommand(final RolecraftCore plugin) {
-        super(plugin, "gc");
-        guildManager = plugin.getGuildManager();
-
-        setUsage("/gc [message]");
-        setDescription("Allows communicating in Guild chat");
-        setPermission("rolecraft.guild.chat");
-        setValidateUsage(false);
+    public ChannelCommand(final RolecraftCore plugin) {
+        super(plugin, "guild");
     }
 
     /**
-     * @since 0.0.5
+     * {@inheritDoc}
+     * @since 0.1.0
      */
     @Override
-    public void onCommand(final Player player, final Arguments args) {
-        final Guild guild = guildManager.getPlayerGuild(player.getUniqueId());
-
-        if (guild == null) {
-            player.sendMessage(plugin.getMessage(Messages.NO_GUILD));
-            return;
-        }
-
-        // TODO
+    public void setupSubcommands() {
+        this.addSubcommand(new ChannelCreateCommand(plugin));
+        this.addSubcommand(new ChannelDeleteCommand(plugin));
+        this.addSubcommand(new ChannelJoinCommand(plugin));
+        this.addSubcommand(new ChannelLeaveCommand(plugin));
+        this.addSubcommand(new ChannelSelectCommand(plugin));
     }
 }

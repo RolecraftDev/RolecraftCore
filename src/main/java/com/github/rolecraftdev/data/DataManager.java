@@ -31,6 +31,7 @@ import com.github.rolecraftdev.data.storage.DataStore;
 import com.github.rolecraftdev.data.storage.DataUpdateTask;
 
 import org.bukkit.Bukkit;
+import org.bukkit.entity.Player;
 import org.bukkit.scheduler.BukkitTask;
 
 import java.util.Collection;
@@ -198,6 +199,18 @@ public final class DataManager {
         }
         loadOrCreateData(player);
         return getPlayerData(player);
+    }
+
+    /**
+     * Get the {@link PlayerData} that is in correlation with the specified
+     * player.
+     *
+     * @param player the player
+     * @return the {@link PlayerData} of the specified player
+     * @since 0.1.0
+     */
+    public PlayerData getPlayerData(final Player player) {
+        return getPlayerData(player.getUniqueId());
     }
 
     /**

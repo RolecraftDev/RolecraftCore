@@ -302,6 +302,10 @@ public final class PlayerData {
      */
     public void setLoaded(final boolean loaded) {
         this.loaded = loaded;
+
+        if (loaded) {
+            RolecraftEventFactory.playerDataLoaded(this);
+        }
     }
 
     /**

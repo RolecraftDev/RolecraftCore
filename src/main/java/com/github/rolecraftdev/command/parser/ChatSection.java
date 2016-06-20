@@ -27,6 +27,7 @@
 package com.github.rolecraftdev.command.parser;
 
 import org.bukkit.Bukkit;
+import org.bukkit.ChatColor;
 import org.bukkit.Material;
 import org.bukkit.OfflinePlayer;
 import org.bukkit.entity.Player;
@@ -163,6 +164,16 @@ public class ChatSection {
     }
 
     /**
+     * Gets the {@link ChatColor} by the name of the argument.
+     *
+     * @return the chat color with the name of the argument
+     * @since 0.1.0
+     */
+    public ChatColor asChatColor() {
+        return ChatColor.valueOf(raw.toUpperCase());
+    }
+
+    /**
      * Gets the {@link Material} whose name is the same as the raw value. Names
      * are not case sensitive.
      *
@@ -290,6 +301,16 @@ public class ChatSection {
      */
     public boolean isOfflinePlayer() {
         return asOfflinePlayer() != null;
+    }
+
+    /**
+     * Checks whether this value can be parsed as a {@link ChatColor}.
+     *
+     * @return whether this argument is a valid chat color
+     * @since 0.1.0
+     */
+    public boolean isChatColor() {
+        return asChatColor() != null;
     }
 
     /**

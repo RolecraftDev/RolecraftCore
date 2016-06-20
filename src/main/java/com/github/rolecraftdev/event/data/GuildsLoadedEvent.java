@@ -24,51 +24,50 @@
  * DISCLAIMER: This is a human-readable summary of (and not a substitute for) the
  * license.
  */
-package com.github.rolecraftdev.command.other;
+package com.github.rolecraftdev.event.data;
 
 import com.github.rolecraftdev.RolecraftCore;
-import com.github.rolecraftdev.command.PlayerCommandHandler;
-import com.github.rolecraftdev.command.parser.Arguments;
-import com.github.rolecraftdev.guild.Guild;
+import com.github.rolecraftdev.event.RolecraftEvent;
 import com.github.rolecraftdev.guild.GuildManager;
-import com.github.rolecraftdev.util.messages.Messages;
 
-import org.bukkit.entity.Player;
+import org.bukkit.event.HandlerList;
+
+import javax.annotation.Nonnull;
 
 /**
- * @since 0.0.5
+ * A {@link RolecraftEvent} called when guild data has finished being loaded.
+ *
+ * @since 0.1.0
  */
-public class GCCommand extends PlayerCommandHandler {
-    private final GuildManager guildManager;
+public final class GuildsLoadedEvent extends RolecraftEvent {
+    private static final HandlerList handlers = new HandlerList();
 
     /**
      * Constructor.
      *
      * @param plugin the associated {@link RolecraftCore} instance
-     * @since 0.0.5
+     * @since 0.1.0
      */
-    public GCCommand(final RolecraftCore plugin) {
-        super(plugin, "gc");
-        guildManager = plugin.getGuildManager();
-
-        setUsage("/gc [message]");
-        setDescription("Allows communicating in Guild chat");
-        setPermission("rolecraft.guild.chat");
-        setValidateUsage(false);
+    public GuildsLoadedEvent(@Nonnull RolecraftCore plugin) {
+        super(plugin);
     }
 
     /**
-     * @since 0.0.5
+     * Gets the associated {@link GuildManager}.
+     *
+     * @return the associated {@link GuildManager}
+     * @since 0.1.0
      */
+    public GuildManager getGuildManager() {
+        return getPlugin().getGuildManager();
+    }
+
     @Override
-    public void onCommand(final Player player, final Arguments args) {
-        final Guild guild = guildManager.getPlayerGuild(player.getUniqueId());
+    public HandlerList getHandlers() {
+        return handlers;
+    }
 
-        if (guild == null) {
-            player.sendMessage(plugin.getMessage(Messages.NO_GUILD));
-            return;
-        }
-
-        // TODO
+    public static HandlerList getHandlerList() {
+        return handlers;
     }
 }

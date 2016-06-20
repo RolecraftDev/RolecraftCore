@@ -24,51 +24,65 @@
  * DISCLAIMER: This is a human-readable summary of (and not a substitute for) the
  * license.
  */
-package com.github.rolecraftdev.command.other;
+package com.github.rolecraftdev.command.channel;
 
 import com.github.rolecraftdev.RolecraftCore;
+import com.github.rolecraftdev.chat.ChatManager;
+import com.github.rolecraftdev.chat.channel.ChatChannel;
 import com.github.rolecraftdev.command.PlayerCommandHandler;
 import com.github.rolecraftdev.command.parser.Arguments;
-import com.github.rolecraftdev.guild.Guild;
-import com.github.rolecraftdev.guild.GuildManager;
+import com.github.rolecraftdev.util.messages.MessageVariable;
 import com.github.rolecraftdev.util.messages.Messages;
 
 import org.bukkit.entity.Player;
 
-/**
- * @since 0.0.5
- */
-public class GCCommand extends PlayerCommandHandler {
-    private final GuildManager guildManager;
+import javax.annotation.Nonnull;
+import java.util.UUID;
 
+/**
+ * Handles the 'select' subcommand of the 'channel' command.
+ *
+ * @since 0.1.0
+ */
+public class ChannelSelectCommand extends PlayerCommandHandler {
     /**
      * Constructor.
      *
-     * @param plugin the associated {@link RolecraftCore} instance
-     * @since 0.0.5
+     * @param plugin the {@link RolecraftCore} plugin instance
+     * @since 0.1.0
      */
-    public GCCommand(final RolecraftCore plugin) {
-        super(plugin, "gc");
-        guildManager = plugin.getGuildManager();
-
-        setUsage("/gc [message]");
-        setDescription("Allows communicating in Guild chat");
-        setPermission("rolecraft.guild.chat");
-        setValidateUsage(false);
+    public ChannelSelectCommand(@Nonnull final RolecraftCore plugin) {
+        super(plugin, "select");
     }
 
     /**
-     * @since 0.0.5
+     * @since 0.1.0
      */
     @Override
     public void onCommand(final Player player, final Arguments args) {
-        final Guild guild = guildManager.getPlayerGuild(player.getUniqueId());
-
-        if (guild == null) {
-            player.sendMessage(plugin.getMessage(Messages.NO_GUILD));
+        if (args.length() < 1) {
+            player.sendMessage(plugin.getMessage(Messages.INVALID_USAGE)
+                    + " /channel select <channel>");
             return;
         }
 
-        // TODO
+        final String channelName = args.getRaw(0);
+        final ChatManager chatManager = plugin.getChatManager();
+        final ChatChannel channel = chatManager.getChannel(channelName);
+        final UUID playerId = player.getUniqueId();
+
+        if (channel == null) {
+            player.sendMessage(plugin.getMessage(Messages.CHANNEL_NOT_EXISTS));
+            return;
+        }
+
+        if (!chatManager.getChannels(playerId).contains(channel)) {
+            player.sendMessage(plugin.getMessage(Messages.NOT_IN_CHANNEL));
+            return;
+        }
+
+        chatManager.setCurrentChannel(playerId, channel);
+        player.sendMessage(plugin.getMessage(Messages.CHANNEL_SELECTED,
+                MessageVariable.CHANNEL.value(channel.getName())));
     }
 }

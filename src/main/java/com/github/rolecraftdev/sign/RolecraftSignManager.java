@@ -34,6 +34,7 @@ import org.bukkit.configuration.ConfigurationSection;
 import org.bukkit.entity.Player;
 import org.bukkit.event.Listener;
 import org.bukkit.event.player.PlayerInteractEvent;
+import org.bukkit.scheduler.BukkitRunnable;
 
 import javax.annotation.Nonnull;
 import javax.annotation.Nullable;
@@ -51,6 +52,11 @@ import java.util.Set;
  * @since 0.1.0
  */
 public final class RolecraftSignManager {
+    /**
+     * The time (in ticks) between saves.
+     */
+    private static final long SAVE_PERIOD = 20 * 60 * 5;
+
     /**
      * The associated {@link RolecraftCore} instance.
      */
@@ -101,6 +107,14 @@ public final class RolecraftSignManager {
         } catch (IOException e) {
             e.printStackTrace();
         }
+
+        // save signs to file once every 5 minutes
+        new BukkitRunnable() {
+            @Override
+            public void run() {
+                RolecraftSignManager.this.saveSigns();
+            }
+        }.runTaskTimerAsynchronously(plugin, SAVE_PERIOD, SAVE_PERIOD);
     }
 
     /**

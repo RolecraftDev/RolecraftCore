@@ -256,7 +256,10 @@ public class GuildMemberCommand extends PlayerCommandHandler {
         public void run() {
             // This is used because it is possible that the data will be loading
             // if it was only loaded so that the player can be kicked
-            while (!data.isLoaded()) {
+            while (true) {
+                if (data.isLoaded()) {
+                    break;
+                }
             }
 
             new BukkitRunnable() {

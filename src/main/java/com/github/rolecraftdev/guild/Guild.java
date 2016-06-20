@@ -29,7 +29,6 @@ package com.github.rolecraftdev.guild;
 import org.apache.commons.lang.Validate;
 
 import com.github.rolecraftdev.RolecraftCore;
-import com.github.rolecraftdev.chat.GuildChannel;
 import com.github.rolecraftdev.event.RolecraftEventFactory;
 import com.github.rolecraftdev.event.guild.GuildPlayerJoinEvent;
 import com.github.rolecraftdev.util.Region2D;
@@ -57,10 +56,6 @@ public final class Guild {
      * The associated {@link RolecraftCore} instance.
      */
     private final RolecraftCore plugin;
-    /**
-     * The chat {@link GuildChannel} for this {@link Guild}.
-     */
-    private final GuildChannel channel;
     /**
      * The {@link GuildManager} this {@link Guild} is registered to.
      */
@@ -128,7 +123,6 @@ public final class Guild {
             members = null;
             ranks = null;
             guildId = null;
-            channel = null;
             return;
         }
 
@@ -142,7 +136,6 @@ public final class Guild {
                 EnumSet.allOf(GuildAction.class), new HashSet<UUID>()));
         ranks.add(new GuildRank(plugin.getMessage(Messages.GUILD_DEFAULT_RANK),
                 EnumSet.noneOf(GuildAction.class), new HashSet<UUID>()));
-        channel = new GuildChannel(guildManager.getPlugin(), guildId);
     }
 
     /**
@@ -177,18 +170,6 @@ public final class Guild {
         this.influence = influence;
         this.hallRegion = hallRegion;
         this.open = open;
-        channel = new GuildChannel(guildManager.getPlugin(), guildId);
-    }
-
-    /**
-     * Get the associated {@link GuildChannel}.
-     *
-     * @return the associated {@link GuildChannel}
-     * @since 0.0.5
-     */
-    @Nonnull
-    public GuildChannel getChannel() {
-        return channel;
     }
 
     /**

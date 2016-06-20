@@ -29,6 +29,11 @@ package com.github.rolecraftdev.event;
 import org.apache.commons.lang.Validate;
 
 import com.github.rolecraftdev.RolecraftCore;
+import com.github.rolecraftdev.chat.channel.ChatChannel;
+import com.github.rolecraftdev.data.PlayerData;
+import com.github.rolecraftdev.event.channel.ChannelPlayerChatEvent;
+import com.github.rolecraftdev.event.data.GuildsLoadedEvent;
+import com.github.rolecraftdev.event.data.PlayerDataLoadedEvent;
 import com.github.rolecraftdev.event.experience.RCExperienceChangeEvent;
 import com.github.rolecraftdev.event.experience.RCExperienceEvent;
 import com.github.rolecraftdev.event.experience.RCLevelChangeEvent;
@@ -228,6 +233,46 @@ public class RolecraftEventFactory {
             final Player teleporter, final Location location) {
         return callEvent(new GuildHomeTeleportEvent(plugin, guild, teleporter,
                 location));
+    }
+
+    /**
+     * Calls a {@link PlayerDataLoadedEvent} with the {@link RolecraftCore}
+     * plugin instance and the given parameters.
+     *
+     * @param data the newly loaded {@link PlayerData}
+     * @return the called {@link PlayerDataLoadedEvent}
+     * @since 0.1.0
+     */
+    public static PlayerDataLoadedEvent playerDataLoaded(
+            final PlayerData data) {
+        return callEvent(new PlayerDataLoadedEvent(plugin, data));
+    }
+
+    /**
+     * Calls a {@link GuildsLoadedEvent}.
+     *
+     * @return the called {@link GuildsLoadedEvent}
+     * @since 0.1.0
+     */
+    public static GuildsLoadedEvent guildsLoaded() {
+        return callEvent(new GuildsLoadedEvent(plugin));
+    }
+
+    /**
+     * Calls a {@link ChannelPlayerChatEvent} with the {@link RolecraftCore}
+     * instance and the given parameters.
+     *
+     * @param channel the involved {@link ChatChannel}
+     * @param player the {@link Player} sending the message
+     * @param message the contents of the message
+     * @return the called {@link ChannelPlayerChatEvent}
+     * @since 0.1.0
+     */
+    public static ChannelPlayerChatEvent channelPlayerChat(
+            final ChatChannel channel, final Player player,
+            final String message) {
+        return callEvent(
+                new ChannelPlayerChatEvent(plugin, channel, player, message));
     }
 
     /**

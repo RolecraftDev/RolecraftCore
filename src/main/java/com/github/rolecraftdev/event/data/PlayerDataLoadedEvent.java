@@ -24,51 +24,57 @@
  * DISCLAIMER: This is a human-readable summary of (and not a substitute for) the
  * license.
  */
-package com.github.rolecraftdev.command.other;
+package com.github.rolecraftdev.event.data;
 
 import com.github.rolecraftdev.RolecraftCore;
-import com.github.rolecraftdev.command.PlayerCommandHandler;
-import com.github.rolecraftdev.command.parser.Arguments;
-import com.github.rolecraftdev.guild.Guild;
-import com.github.rolecraftdev.guild.GuildManager;
-import com.github.rolecraftdev.util.messages.Messages;
+import com.github.rolecraftdev.data.PlayerData;
+import com.github.rolecraftdev.event.RolecraftEvent;
 
-import org.bukkit.entity.Player;
+import org.bukkit.event.HandlerList;
+
+import javax.annotation.Nonnull;
 
 /**
- * @since 0.0.5
+ * Event called when a {@link PlayerData} finishes loading.
+ *
+ * @since 0.1.0
  */
-public class GCCommand extends PlayerCommandHandler {
-    private final GuildManager guildManager;
+public final class PlayerDataLoadedEvent extends RolecraftEvent {
+    private static final HandlerList handlers = new HandlerList();
+
+    /**
+     * The newly loaded {@link PlayerData}.
+     */
+    private final PlayerData playerData;
 
     /**
      * Constructor.
      *
      * @param plugin the associated {@link RolecraftCore} instance
-     * @since 0.0.5
+     * @since 0.1.0
      */
-    public GCCommand(final RolecraftCore plugin) {
-        super(plugin, "gc");
-        guildManager = plugin.getGuildManager();
-
-        setUsage("/gc [message]");
-        setDescription("Allows communicating in Guild chat");
-        setPermission("rolecraft.guild.chat");
-        setValidateUsage(false);
+    public PlayerDataLoadedEvent(@Nonnull final RolecraftCore plugin,
+            @Nonnull final PlayerData data) {
+        super(plugin);
+        this.playerData = data;
     }
 
     /**
-     * @since 0.0.5
+     * Gets the newly loaded {@link PlayerData}.
+     *
+     * @return the newly loaded {@link PlayerData}
+     * @since 0.1.0
      */
+    public PlayerData getPlayerData() {
+        return playerData;
+    }
+
     @Override
-    public void onCommand(final Player player, final Arguments args) {
-        final Guild guild = guildManager.getPlayerGuild(player.getUniqueId());
+    public HandlerList getHandlers() {
+        return handlers;
+    }
 
-        if (guild == null) {
-            player.sendMessage(plugin.getMessage(Messages.NO_GUILD));
-            return;
-        }
-
-        // TODO
+    public static HandlerList getHandlerList() {
+        return handlers;
     }
 }

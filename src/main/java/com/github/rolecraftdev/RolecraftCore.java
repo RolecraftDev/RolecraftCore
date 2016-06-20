@@ -26,9 +26,10 @@
  */
 package com.github.rolecraftdev;
 
-import com.github.rolecraftdev.chat.ChatListener;
+import com.github.rolecraftdev.chat.ChatManager;
 import com.github.rolecraftdev.command.CommandHandler;
 import com.github.rolecraftdev.command.CommandHelper;
+import com.github.rolecraftdev.command.channel.ChannelCommand;
 import com.github.rolecraftdev.command.guild.GuildCommand;
 import com.github.rolecraftdev.command.other.DebugCommand;
 import com.github.rolecraftdev.command.other.GCCommand;
@@ -36,6 +37,7 @@ import com.github.rolecraftdev.command.other.RCConfirmCommand;
 import com.github.rolecraftdev.command.profession.ProfessionCommand;
 import com.github.rolecraftdev.data.DataListener;
 import com.github.rolecraftdev.data.DataManager;
+import com.github.rolecraftdev.data.PlayerData;
 import com.github.rolecraftdev.data.storage.DataStore;
 import com.github.rolecraftdev.data.storage.MySQLDataStore;
 import com.github.rolecraftdev.data.storage.SQLiteDataStore;
@@ -54,14 +56,18 @@ import com.github.rolecraftdev.util.messages.MessageVariable;
 import com.github.rolecraftdev.util.messages.Messages;
 import com.github.rolecraftdev.util.serial.YamlFile;
 
+import net.milkbowl.vault.chat.Chat;
 import net.milkbowl.vault.economy.Economy;
 
 import org.bukkit.Server;
+import org.bukkit.entity.Player;
 import org.bukkit.plugin.PluginManager;
 import org.bukkit.plugin.RegisteredServiceProvider;
 import org.bukkit.plugin.java.JavaPlugin;
 
+import javax.annotation.Nonnull;
 import javax.annotation.Nullable;
+import java.util.UUID;
 import java.util.logging.Logger;
 
 /**
@@ -79,35 +85,53 @@ public final class RolecraftCore extends JavaPlugin {
     /**
      * All the messages used by Rolecraft.
      */
+    @Nonnull
     private Messages messages;
     /**
      * Manages Rolecraft's persistent data.
      */
+    @Nonnull
     private DataManager dataManager;
     /**
      * Manages {@link RolecraftSign}s.
      */
+    @Nonnull
     private RolecraftSignManager signManager;
     /**
      * Manages Rolecraft's {@link Guild}s.
      */
+    @Nonnull
     private GuildManager guildManager;
     /**
      * Manages Rolecraft's {@link Profession}s.
      */
+    @Nonnull
     private ProfessionManager professionManager;
     /**
      * Manages Rolecraft's {@link Spell}s
      */
+    @Nonnull
     private SpellManager spellManager;
+    /**
+     * Manages Rolecraft's chat channel system.
+     */
+    @Nonnull
+    private ChatManager chatManager;
     /**
      * Updates scoreboard displays for players.
      */
+    @Nonnull
     private DisplayUpdater displayUpdater;
     /**
      * The Vault {@link Economy} instance.
      */
+    @Nullable
     private Economy economy;
+    /**
+     * The Vault {@link Chat} instance.
+     */
+    @Nullable
+    private Chat chat;
 
     // Configuration options
 
@@ -135,6 +159,10 @@ public final class RolecraftCore extends JavaPlugin {
      * Whether second professions are enabled on this server.
      */
     private boolean secondProfessions;
+    /**
+     * The configured chat format for the plugin.
+     */
+    private String chatFormat;
 
     /**
      * @since 0.0.5
@@ -149,7 +177,14 @@ public final class RolecraftCore extends JavaPlugin {
         economy = hookVaultEcon();
         if (!vaultEconHooked()) {
             // Warn the admin that no economy was found
-            logger.warning("Couldn't find Vault, disabling economy support");
+            logger.warning(
+                    "Couldn't hook Vault economy, disabling economy support");
+        }
+
+        chat = hookVaultChat();
+        if (!vaultChatHooked()) {
+            logger.warning(
+                    "Couldn't hook Vault chat, some chat features will not work");
         }
 
         // Create default configuration file if it doesn't exist already
@@ -162,6 +197,8 @@ public final class RolecraftCore extends JavaPlugin {
         maximumMana = (float) config.getDouble("maximummana", 2000.0);
         manaRegen = (float) config.getDouble("manaregen", 5.0);
         secondProfessions = config.getBoolean("secondprofessions", false);
+        chatFormat = config.getString("chatformat",
+                "[channel] prefix <player> suffix: msg");
 
         // Set the plugin object for event construction in RolecraftEventFactory
         RolecraftEventFactory.setPlugin(this);
@@ -194,10 +231,12 @@ public final class RolecraftCore extends JavaPlugin {
 
         // Create all the manager objects / load data
         dataManager = new DataManager(this, dataStore);
-        signManager = new RolecraftSignManager(this); // must be instantiated prior to other managers as they register sign interaction handlers
+        signManager = new RolecraftSignManager(
+                this); // must be instantiated prior to other managers as they register sign interaction handlers
         guildManager = new GuildManager(this);
         professionManager = new ProfessionManager(this);
         spellManager = new SpellManager(this);
+        chatManager = new ChatManager(this);
 
         professionManager.loadProfessions();
         signManager.loadSigns();
@@ -209,15 +248,14 @@ public final class RolecraftCore extends JavaPlugin {
         // specific listeners are registered in their own manager e.g ProfessionListener in ProfessionManager
         pluginManager.registerEvents(new DataListener(this), this);
         pluginManager.registerEvents(new ExperienceListener(this), this);
-        pluginManager.registerEvents(new ChatListener(this), this);
 
         // Register commands
-        // TODO: move to their own managers?
         register(new GuildCommand(this));
         register(new ProfessionCommand(this));
         register(new GCCommand(this));
         register(new RCConfirmCommand(this));
         register(new DebugCommand(this));
+        register(new ChannelCommand(this));
     }
 
     /**
@@ -227,6 +265,7 @@ public final class RolecraftCore extends JavaPlugin {
     public void onDisable() {
         dataManager.cleanup();
         signManager.saveSigns();
+        chatManager.saveChannels();
     }
 
     /**
@@ -235,6 +274,7 @@ public final class RolecraftCore extends JavaPlugin {
      * @return the configured {@link Messages}
      * @since 0.0.5
      */
+    @Nonnull
     public Messages getMessages() {
         return messages;
     }
@@ -261,6 +301,7 @@ public final class RolecraftCore extends JavaPlugin {
      * @return the used {@link DataStore} implementation
      * @since 0.0.5
      */
+    @Nonnull
     public DataStore getDataStore() {
         return dataManager.getStore();
     }
@@ -271,8 +312,32 @@ public final class RolecraftCore extends JavaPlugin {
      * @return the used {@link DataManager}
      * @since 0.0.5
      */
+    @Nonnull
     public DataManager getDataManager() {
         return dataManager;
+    }
+
+    /**
+     * Gets the Rolecraft {@link PlayerData} object for the player with the
+     * given {@link UUID}.
+     *
+     * @param playerId the unique id of the player to get data for
+     * @return the player data for the player with the given id
+     * @since 0.1.0
+     */
+    public PlayerData getPlayerData(final UUID playerId) {
+        return getDataManager().getPlayerData(playerId);
+    }
+
+    /**
+     * Gets the Rolecraft {@link PlayerData} object for the given {@link Player}.
+     *
+     * @param player the player to get data for
+     * @return the player data for the given player
+     * @since 0.1.0
+     */
+    public PlayerData getPlayerData(final Player player) {
+        return getPlayerData(player.getUniqueId());
     }
 
     /**
@@ -281,6 +346,7 @@ public final class RolecraftCore extends JavaPlugin {
      * @return the used {@link RolecraftSignManager}
      * @since 0.1.0
      */
+    @Nonnull
     public RolecraftSignManager getSignManager() {
         return signManager;
     }
@@ -292,8 +358,33 @@ public final class RolecraftCore extends JavaPlugin {
      * @return the used {@link GuildManager}
      * @since 0.0.5
      */
+    @Nonnull
     public GuildManager getGuildManager() {
         return guildManager;
+    }
+
+    /**
+     * Gets the {@link Guild} with the given {@link UUID}.
+     *
+     * @param guildId the id of the guild to get
+     * @return the guild with the given unique identifier
+     * @since 0.1.0
+     */
+    @Nullable
+    public Guild getGuild(final UUID guildId) {
+        return getGuildManager().getGuild(guildId);
+    }
+
+    /**
+     * Gets the {@link Guild} with the given name.
+     *
+     * @param guildName the name of the guild to get
+     * @return the guild with the given name
+     * @since 0.1.0
+     */
+    @Nullable
+    public Guild getGuild(final String guildName) {
+        return getGuildManager().getGuild(guildName);
     }
 
     /**
@@ -303,6 +394,7 @@ public final class RolecraftCore extends JavaPlugin {
      * @return the used {@link ProfessionManager}
      * @since 0.0.5
      */
+    @Nonnull
     public ProfessionManager getProfessionManager() {
         return professionManager;
     }
@@ -314,8 +406,21 @@ public final class RolecraftCore extends JavaPlugin {
      * @return the used {@link SpellManager}
      * @since 0.0.5
      */
+    @Nonnull
     public SpellManager getSpellManager() {
         return spellManager;
+    }
+
+    /**
+     * Gets the {@link ChatManager} responsible for managing all chat-related
+     * features of this Rolecraft plugin instance.
+     *
+     * @return the associated {@link ChatManager}
+     * @since 0.1.0
+     */
+    @Nonnull
+    public ChatManager getChatManager() {
+        return chatManager;
     }
 
     /**
@@ -324,19 +429,9 @@ public final class RolecraftCore extends JavaPlugin {
      * @return the used {@link DisplayUpdater}
      * @since 0.0.5
      */
+    @Nonnull
     public DisplayUpdater getDisplayUpdater() {
         return displayUpdater;
-    }
-
-    /**
-     * Gets Vault's {@link Economy} instance that is currently in use.
-     *
-     * @return Vault's {@link Economy}
-     * @since 0.0.5
-     */
-    @Nullable
-    public Economy getEconomy() {
-        return economy;
     }
 
     /**
@@ -358,7 +453,8 @@ public final class RolecraftCore extends JavaPlugin {
      * @return the {@link RegisteredServiceProvider} for the given type
      * @since 0.0.5
      */
-    protected <T> RegisteredServiceProvider<T> getRegistration(Class<T> clazz) {
+    @Nullable
+    public <T> RegisteredServiceProvider<T> getRegistration(Class<T> clazz) {
         return this.getServer().getServicesManager().getRegistration(clazz);
     }
 
@@ -371,7 +467,8 @@ public final class RolecraftCore extends JavaPlugin {
      * @return the registered provider for the given type
      * @since 0.0.5
      */
-    protected <T> T getProvider(Class<T> clazz) {
+    @Nullable
+    public <T> T getProvider(Class<T> clazz) {
         RegisteredServiceProvider<T> rsp = getRegistration(clazz);
         if (rsp == null) {
             return null;
@@ -387,7 +484,7 @@ public final class RolecraftCore extends JavaPlugin {
      * @return the hooked {@link Economy} object
      * @since 0.0.5
      */
-    protected Economy hookVaultEcon() {
+    private Economy hookVaultEcon() {
         return economy = getProvider(Economy.class);
     }
 
@@ -399,19 +496,55 @@ public final class RolecraftCore extends JavaPlugin {
      * @return Vault's {@link Economy} object
      * @since 0.0.5
      */
-    protected Economy getVaultEcon() {
+    @Nullable
+    public Economy getVaultEcon() {
         return economy;
     }
 
     /**
      * Checks whether Vault economy has been successfully hooked
      *
-     * @return {@code true} if Vault's economy have been hooked, else
+     * @return {@code true} if Vault's economy has been hooked, else
      *         {@code false}
      * @since 0.0.5
      */
-    protected boolean vaultEconHooked() {
+    public boolean vaultEconHooked() {
         return getVaultEcon() != null;
+    }
+
+    /**
+     * Attempts to hook Vault's {@link Chat}. Note that this can fail if Vault
+     * isn't present and/or there isn't an economy plugin on the server. If this
+     * fails, {@code null} is returned.
+     *
+     * @return the hooked {@link Chat} object
+     * @since 0.1.0
+     */
+    private Chat hookVaultChat() {
+        return chat = getProvider(Chat.class);
+    }
+
+    /**
+     * Gets Vault's {@link Chat} implementation, returning null if Vault's chat
+     * hasn't been hooked successfully. To attempt to hook Vault's chat, call
+     * {@link #hookVaultChat()}.
+     *
+     * @return Vault's {@link Chat} object
+     * @since 0.1.0
+     */
+    @Nullable
+    public Chat getVaultChat() {
+        return chat;
+    }
+
+    /**
+     * Checks whether Vault chat has been successfully hooked.
+     *
+     * @return {@code true} if Vault's chat has been hooked, else {@code false}
+     * @since 0.1.0
+     */
+    public boolean vaultChatHooked() {
+        return getVaultChat() != null;
     }
 
     /**
@@ -474,6 +607,16 @@ public final class RolecraftCore extends JavaPlugin {
      */
     public boolean allowSecondProfessions() {
         return secondProfessions;
+    }
+
+    /**
+     * Gets the configured chat format for the plugin.
+     *
+     * @return the plugin's configured chat format
+     * @since 0.1.0
+     */
+    public String getChatFormat() {
+        return chatFormat;
     }
 
     /**

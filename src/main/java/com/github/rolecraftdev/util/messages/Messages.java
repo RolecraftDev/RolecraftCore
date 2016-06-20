@@ -514,6 +514,50 @@ public class Messages {
      * @since 0.1.0
      */
     public static final String BROKEN_SIGN = "broken-sign";
+    /**
+     * The message sent to a player who attempts to join a chat channel which
+     * does not exist.
+     *
+     * @since 0.1.0
+     */
+    public static final String CHANNEL_NOT_EXISTS = "channel-not-exists";
+    /**
+     * The message sent to a player who has just joined a new channel.
+     *
+     * @since 0.1.0
+     */
+    public static final String CHANNEL_JOINED = "channel-joined";
+    /**
+     * The message sent to a player who has just created a new channel.
+     *
+     * @since 0.1.0
+     */
+    public static final String CHANNEL_CREATED = "channel-created";
+    /**
+     * The message sent to a player who has just deleted a channel.
+     *
+     * @since 0.1.0
+     */
+    public static final String CHANNEL_DELETED = "channel-deleted";
+    /**
+     * The message sent to a player who has just selected a channel to speak in.
+     *
+     * @since 0.1.0
+     */
+    public static final String CHANNEL_SELECTED = "channel-selected";
+    /**
+     * The message sent to a player who has just left a chat channel.
+     *
+     * @since 0.1.0
+     */
+    public static final String CHANNEL_LEFT = "channel-left";
+    /**
+     * The message sent to a player who attempts to select an active channel
+     * which they are not currently in.
+     *
+     * @since 0.1.0
+     */
+    public static final String NOT_IN_CHANNEL = "not-in-channel";
 
     /**
      * General variables such as colours and styles.

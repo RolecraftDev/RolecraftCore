@@ -24,51 +24,65 @@
  * DISCLAIMER: This is a human-readable summary of (and not a substitute for) the
  * license.
  */
-package com.github.rolecraftdev.command.other;
+package com.github.rolecraftdev.command.channel;
 
 import com.github.rolecraftdev.RolecraftCore;
+import com.github.rolecraftdev.chat.ChatManager;
+import com.github.rolecraftdev.chat.channel.ChatChannel;
 import com.github.rolecraftdev.command.PlayerCommandHandler;
 import com.github.rolecraftdev.command.parser.Arguments;
-import com.github.rolecraftdev.guild.Guild;
-import com.github.rolecraftdev.guild.GuildManager;
+import com.github.rolecraftdev.util.messages.MessageVariable;
 import com.github.rolecraftdev.util.messages.Messages;
 
 import org.bukkit.entity.Player;
 
+import javax.annotation.Nonnull;
+
 /**
- * @since 0.0.5
+ * Handles the 'leave' subcommand of the 'channel' command.
+ *
+ * @since 0.1.0
  */
-public class GCCommand extends PlayerCommandHandler {
-    private final GuildManager guildManager;
+public class ChannelLeaveCommand extends PlayerCommandHandler {
+    /**
+     * The {@link ChatManager} instance associated with the plugin.
+     */
+    private final ChatManager chatManager;
 
     /**
      * Constructor.
      *
-     * @param plugin the associated {@link RolecraftCore} instance
-     * @since 0.0.5
+     * @param plugin the {@link RolecraftCore} plugin instance
+     * @since 0.1.0
      */
-    public GCCommand(final RolecraftCore plugin) {
-        super(plugin, "gc");
-        guildManager = plugin.getGuildManager();
+    public ChannelLeaveCommand(@Nonnull final RolecraftCore plugin) {
+        super(plugin, "leave");
+        this.chatManager = plugin.getChatManager();
 
-        setUsage("/gc [message]");
-        setDescription("Allows communicating in Guild chat");
-        setPermission("rolecraft.guild.chat");
-        setValidateUsage(false);
+        this.setPermission("rolecraft.channels.join");
     }
 
     /**
-     * @since 0.0.5
+     * @since 0.1.0
      */
     @Override
     public void onCommand(final Player player, final Arguments args) {
-        final Guild guild = guildManager.getPlayerGuild(player.getUniqueId());
-
-        if (guild == null) {
-            player.sendMessage(plugin.getMessage(Messages.NO_GUILD));
+        if (args.length() < 1) {
+            player.sendMessage(plugin.getMessage(Messages.INVALID_USAGE)
+                    + " /channel leave <channel>");
             return;
         }
 
-        // TODO
+        final String name = args.getRaw(0);
+        final ChatChannel channel = chatManager.getChannel(name);
+
+        if (channel == null) {
+            player.sendMessage(plugin.getMessage(Messages.CHANNEL_NOT_EXISTS));
+            return;
+        }
+
+        chatManager.removeFromChannel(player.getUniqueId(), channel);
+        player.sendMessage(plugin.getMessage(Messages.CHANNEL_LEFT,
+                MessageVariable.CHANNEL.value(channel.getName())));
     }
 }

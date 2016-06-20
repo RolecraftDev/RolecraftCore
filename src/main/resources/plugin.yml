@@ -40,3 +40,13 @@ permissions:
         description: Allows having a profession and using profession features
     rolecraft.spell.*:
         description: Access to all magical spells
+    rolecraft.channels.join:
+        description: Denotes that the individual with the permission should be permitted to join non-default chat channels and leave channels
+    rolecraft.channels.mod:
+        description: Denotes that the individual with the permission should be a part of moderator-only chat channels
+    rolecraft.channels.admin:
+        description: Denotes that the individual with the permission should be a part of administrator-only chat channels
+    rolecraft.channels.create:
+        description: Denotes that the individual with the permission should be allowed to create new chat channels
+    rolecraft.channels.delete:
+        description: Denotes that the individual with the permission should be allowed to delete chat channels

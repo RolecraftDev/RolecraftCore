@@ -479,6 +479,8 @@ public final class GuildManager {
     @Deprecated
     public void completeLoad() {
         loaded = true;
+
+        RolecraftEventFactory.guildsLoaded();
     }
 
     /**

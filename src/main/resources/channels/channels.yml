@@ -1,0 +1,7 @@
+# Default chat channel (range -1 indicates infinite range)
+1:
+  name: Global
+  default: true
+  mod: false
+  admin: false
+  range: -1

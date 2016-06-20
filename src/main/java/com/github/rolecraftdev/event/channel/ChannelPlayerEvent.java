@@ -24,51 +24,48 @@
  * DISCLAIMER: This is a human-readable summary of (and not a substitute for) the
  * license.
  */
-package com.github.rolecraftdev.command.other;
+package com.github.rolecraftdev.event.channel;
 
 import com.github.rolecraftdev.RolecraftCore;
-import com.github.rolecraftdev.command.PlayerCommandHandler;
-import com.github.rolecraftdev.command.parser.Arguments;
-import com.github.rolecraftdev.guild.Guild;
-import com.github.rolecraftdev.guild.GuildManager;
-import com.github.rolecraftdev.util.messages.Messages;
+import com.github.rolecraftdev.chat.channel.ChatChannel;
 
 import org.bukkit.entity.Player;
 
+import javax.annotation.Nonnull;
+
 /**
- * @since 0.0.5
+ * Called in the event of a {@link Player} performing a {@link ChatChannel}
+ * related action.
+ *
+ * @since 0.1.0
  */
-public class GCCommand extends PlayerCommandHandler {
-    private final GuildManager guildManager;
+public abstract class ChannelPlayerEvent extends ChannelEvent {
+    /**
+     * The involved {@link Player}.
+     */
+    private final Player player;
 
     /**
      * Constructor.
      *
      * @param plugin the associated {@link RolecraftCore} instance
-     * @since 0.0.5
+     * @param channel the involved {@link ChatChannel}
+     * @param player the involed {@link Player}
+     * @since 0.1.0
      */
-    public GCCommand(final RolecraftCore plugin) {
-        super(plugin, "gc");
-        guildManager = plugin.getGuildManager();
-
-        setUsage("/gc [message]");
-        setDescription("Allows communicating in Guild chat");
-        setPermission("rolecraft.guild.chat");
-        setValidateUsage(false);
+    public ChannelPlayerEvent(@Nonnull final RolecraftCore plugin,
+            @Nonnull final ChatChannel channel, @Nonnull final Player player) {
+        super(plugin, channel);
+        this.player = player;
     }
 
     /**
-     * @since 0.0.5
+     * Gets the involved {@link Player}.
+     *
+     * @return the involved player
+     * @since 0.1.0
      */
-    @Override
-    public void onCommand(final Player player, final Arguments args) {
-        final Guild guild = guildManager.getPlayerGuild(player.getUniqueId());
-
-        if (guild == null) {
-            player.sendMessage(plugin.getMessage(Messages.NO_GUILD));
-            return;
-        }
-
-        // TODO
+    public Player getPlayer() {
+        return player;
     }
 }

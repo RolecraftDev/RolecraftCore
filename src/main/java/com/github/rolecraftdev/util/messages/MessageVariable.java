@@ -90,6 +90,8 @@ public class MessageVariable {
      */
     public static final MessageVariable VALUE = new MessageVariable("$value",
             "");
+    public static final MessageVariable CHANNEL = new MessageVariable(
+            "$channel", "");
 
     /**
      * The key of this {@link MessageVariable}.

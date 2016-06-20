@@ -24,6 +24,8 @@ manaregen: 5
 # Currently not implemented
 secondprofessions: false
 
+chatformat: [channel] prefix <player> suffix: msg
+
 # Leaving this to true will enforce area protection and block protection
 # plugins when players are casting spells, however this may cause problems
 # with certain other plugins like NoCheatPlus that will report a cheater

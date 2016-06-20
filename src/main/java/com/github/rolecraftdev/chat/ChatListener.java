@@ -27,11 +27,7 @@
 package com.github.rolecraftdev.chat;
 
 import com.github.rolecraftdev.RolecraftCore;
-import com.github.rolecraftdev.data.DataManager;
-import com.github.rolecraftdev.data.PlayerData;
-import com.github.rolecraftdev.data.PlayerSettings;
-import com.github.rolecraftdev.guild.Guild;
-import com.github.rolecraftdev.guild.GuildManager;
+import com.github.rolecraftdev.chat.channel.ChatChannel;
 
 import org.bukkit.entity.Player;
 import org.bukkit.event.EventHandler;
@@ -43,51 +39,57 @@ import javax.annotation.Nonnull;
 import java.util.UUID;
 
 /**
- * Listens to chat events for the purpose of redirecting them to guild chat.
+ * Listens to chat events for Rolecraft.
  *
- * @since 0.0.5
+ * @since 0.1.0
  */
 public class ChatListener implements Listener {
+    /**
+     * The associated {@link RolecraftCore} plugin instance.
+     */
+    @Nonnull
     private final RolecraftCore plugin;
+    /**
+     * The {@link ChatManager} instance for the associated plugin instance.
+     */
+    @Nonnull
+    private final ChatManager chatManager;
 
     /**
-     * Instantiates the chat listener for Rolecraft.
+     * Instantiates the Rolecraft chat listener.
      *
      * @param plugin the main {@link RolecraftCore} plugin instance
-     * @since 0.0.5
+     * @since 0.1.0
      */
     public ChatListener(@Nonnull final RolecraftCore plugin) {
         this.plugin = plugin;
+        this.chatManager = plugin.getChatManager();
     }
 
     /**
-     * @since 0.0.5
+     * @since 0.1.0
      */
-    @EventHandler(ignoreCancelled = true)
+    @EventHandler(priority = EventPriority.HIGHEST, ignoreCancelled = true)
     public void onAsyncPlayerChat(final AsyncPlayerChatEvent event) {
         final Player player = event.getPlayer();
-        final UUID playerId = player.getUniqueId();
-        final DataManager dataManager = this.plugin.getDataManager();
-        final PlayerData playerData = dataManager.getPlayerData(playerId);
-        final PlayerSettings settings = playerData.getSettings();
+        final UUID id = player.getUniqueId();
+        final String message = event.getMessage();
+        final ChatChannel currentChannel = chatManager.getCurrentChannel(id);
 
-        if (settings.isGuildChat()) {
-            final GuildManager guildManager = this.plugin.getGuildManager();
-            final UUID guildId = playerData.getGuild();
+        String prefix = null, suffix = null;
 
-            if (guildId == null) {
-                return;
-            }
+        if (plugin.vaultChatHooked()) {
+            prefix = plugin.getVaultChat().getPlayerPrefix(player);
+            suffix = plugin.getVaultChat().getPlayerSuffix(player);
+        }
 
-            final Guild guild = guildManager.getGuild(guildId);
-
-            if (guild == null) {
-                return;
-            }
-
-            event.setCancelled(true);
-            guild.getChannel()
-                    .onMessage(player.getDisplayName(), event.getMessage());
+        final String formattedMessage = chatManager.getFormatter()
+                .formatMessage(player, prefix, suffix, currentChannel, message);
+        if (currentChannel.getRange() < 0) { // channel has no range requirement
+            chatManager.sendToChannel(currentChannel, player, formattedMessage);
+        } else {
+            chatManager.sendToChannel(currentChannel, player, formattedMessage,
+                    player.getLocation());
         }
     }
 }

@@ -82,7 +82,7 @@ public final class GuildListener implements Listener {
      *        should be handled by this {@link Listener}
      * @since 0.0.5
      */
-    GuildListener(final GuildManager guildManager) {
+    public GuildListener(final GuildManager guildManager) {
         this.guildManager = guildManager;
     }
 
