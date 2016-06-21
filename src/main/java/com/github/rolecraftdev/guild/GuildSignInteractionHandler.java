@@ -27,12 +27,18 @@
 package com.github.rolecraftdev.guild;
 
 import com.github.rolecraftdev.RolecraftCore;
+import com.github.rolecraftdev.data.DataManager;
+import com.github.rolecraftdev.data.PlayerData;
+import com.github.rolecraftdev.event.guild.GuildPlayerJoinEvent;
 import com.github.rolecraftdev.sign.RolecraftSign;
 import com.github.rolecraftdev.sign.SignInteractionHandler;
+import com.github.rolecraftdev.util.messages.MessageVariable;
+import com.github.rolecraftdev.util.messages.Messages;
 
 import org.bukkit.entity.Player;
 
 import javax.annotation.Nonnull;
+import java.util.UUID;
 
 /**
  * Handles right-click interactions of {@link RolecraftSign}s of guildtype. Can
@@ -46,6 +52,14 @@ public final class GuildSignInteractionHandler
      * The {@link RolecraftCore} plugin instance.
      */
     private final RolecraftCore plugin;
+    /**
+     * The {@link RolecraftCore} plugin {@link DataManager} instance.
+     */
+    private final DataManager dataManager;
+    /**
+     * The {@link RolecraftCore} plugin {@link GuildManager} instance.
+     */
+    private final GuildManager guildManager;
 
     /**
      * Constructs a new handler for guild-related {@link RolecraftSign}
@@ -56,6 +70,8 @@ public final class GuildSignInteractionHandler
      */
     public GuildSignInteractionHandler(@Nonnull final RolecraftCore plugin) {
         this.plugin = plugin;
+        this.dataManager = plugin.getDataManager();
+        this.guildManager = plugin.getGuildManager();
     }
 
     /**
@@ -65,7 +81,19 @@ public final class GuildSignInteractionHandler
     @Override
     public void handleSignInteraction(@Nonnull final Player player,
             @Nonnull final RolecraftSign sign) {
-        // TODO
+        final String function = sign.getFunction().toLowerCase();
+
+        if (function.equals("join")) {
+            final String guildName = sign.getData();
+            final Guild guild = guildManager.getGuild(guildName);
+
+            if (guild == null || !guild.isOpen()) {
+                player.sendMessage(plugin.getMessage(Messages.BROKEN_SIGN));
+                return;
+            }
+
+            completeGuildAdd(player, guild);
+        }
     }
 
     /**
@@ -75,5 +103,39 @@ public final class GuildSignInteractionHandler
     @Nonnull @Override
     public String getType() {
         return GuildManager.GUILD_SIGN_TYPE;
+    }
+
+    /**
+     * Add the given player to the given {@link Guild}. This will automatically
+     * send the appropriate chat messages and update the player's
+     * {@link PlayerData}.
+     *
+     * @param player the player to add
+     * @param guild the {@link Guild} the given player should be added to
+     * @since 0.1.0
+     */
+    private void completeGuildAdd(final Player player, final Guild guild) {
+        final UUID pid = player.getUniqueId();
+        final PlayerData data = plugin.getPlayerData(pid);
+        if (data.getGuild() != null) {
+            player.sendMessage(plugin.getMessage(Messages.ALREADY_IN_GUILD));
+            return;
+        }
+
+        data.setGuild(guild.getId());
+        final GuildPlayerJoinEvent event = guild
+                .addMember(pid, guild.getDefaultRank());
+        if (event.isCancelled()) {
+            data.setGuild(null);
+            player.sendMessage(event.getCancelMessage());
+            return;
+        }
+
+        player.sendMessage(plugin.getMessage(Messages.GUILD_JOINED_PLAYER,
+                MessageVariable.GUILD.value(guild.getName())));
+        guild.broadcastMessage(plugin.getMessage(Messages.GUILD_JOINED_OTHERS,
+                MessageVariable.GUILD.value(guild.getName()),
+                MessageVariable.PLAYER.value(player
+                        .getName())));
     }
 }

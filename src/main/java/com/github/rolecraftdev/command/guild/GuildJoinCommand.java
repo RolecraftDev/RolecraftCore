@@ -93,7 +93,6 @@ public class GuildJoinCommand extends PlayerCommandHandler {
             return;
         }
 
-        // TODO: fix this for multiple invites
         final MetadataValue val = player
                 .getMetadata(GuildManager.GUILD_INVITE_METADATA).get(0);
         if (!(val instanceof FixedMetadataValue)) {
@@ -127,12 +126,11 @@ public class GuildJoinCommand extends PlayerCommandHandler {
             return;
         }
 
-        final PlayerData pData = dataMgr.getPlayerData(player.getUniqueId());
-        pData.setGuild(guild.getId());
+        data.setGuild(guild.getId());
         final GuildPlayerJoinEvent event = guild
                 .addMember(pid, guild.getDefaultRank());
         if (event.isCancelled()) {
-            pData.setGuild(null);
+            data.setGuild(null);
             player.sendMessage(event.getCancelMessage());
             return;
         }
