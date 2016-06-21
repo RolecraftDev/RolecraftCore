@@ -571,6 +571,25 @@ public class Messages {
      * @since 0.1.0
      */
     public static final String SECOND_PROFESSION_ALREADY_SELECTED = "second-profession-already-selected";
+    /**
+     * Sent when a player abandons their profession.
+     *
+     * @since 0.1.0
+     */
+    public static final String PROFESSION_ABANDONED = "profession-abandoned";
+    /**
+     * Sent when a player abandons their secondary profession.
+     *
+     * @since 0.1.0
+     */
+    public static final String SECOND_PROFESSION_ABANDONED = "second-profession-abandoned";
+    /**
+     * Sent when a player attempts to perform an action which requires a second
+     * profession despite not having one.
+     *
+     * @since 0.1.0
+     */
+    public static final String NO_SECOND_PROFESSION = "no-second-profession";
 
     /**
      * General variables such as colours and styles.

@@ -45,6 +45,10 @@ permissions:
         description: Allows having a profession and using profession features
     rolecraft.profession.secondary:
         description: Allows having a secondary profession
+    rolecraft.profession.abandon:
+        description: Allows abandoning a profession
+    rolecraft.profession.abandonsecondary:
+        description: Allows abandoning a secondary profession
     rolecraft.spell.*:
         description: Access to all magical spells
     rolecraft.channels.join:

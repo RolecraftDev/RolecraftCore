@@ -27,27 +27,46 @@
 package com.github.rolecraftdev.command.profession;
 
 import com.github.rolecraftdev.RolecraftCore;
-import com.github.rolecraftdev.command.TreeCommandHandler;
+import com.github.rolecraftdev.command.PlayerCommandHandler;
+import com.github.rolecraftdev.command.parser.Arguments;
+import com.github.rolecraftdev.data.PlayerData;
+import com.github.rolecraftdev.util.messages.Messages;
+
+import org.bukkit.entity.Player;
+
+import javax.annotation.Nonnull;
+import java.util.UUID;
 
 /**
- * @since 0.0.5
+ * @since 0.1.0
  */
-public class ProfessionCommand extends TreeCommandHandler {
+public class ProfessionAbandonCommand extends PlayerCommandHandler {
     /**
      * Constructor.
      *
-     * @param plugin the associated {@link RolecraftCore} instance
-     * @since 0.0.5
+     * @param plugin the {@link RolecraftCore} plugin instance
+     * @since 0.1.0
      */
-    public ProfessionCommand(final RolecraftCore plugin) {
-        super(plugin, "profession");
+    public ProfessionAbandonCommand(@Nonnull final RolecraftCore plugin) {
+        super(plugin, "abandon");
+
+        this.setPermission("rolecraft.profession.abandon");
     }
 
+    /**
+     * @since 0.1.0
+     */
     @Override
-    public void setupSubcommands() {
-        addSubcommand("list", new ProfessionListCommand(plugin));
-        addSubcommand("select", new ProfessionSelectCommand(plugin));
-        addSubcommand("show", new ProfessionShowCommand(plugin));
-        addSubcommand("abandon", new ProfessionAbandonCommand(plugin));
+    public void onCommand(final Player player, final Arguments args) {
+        final UUID playerId = player.getUniqueId();
+        final PlayerData data = plugin.getPlayerData(playerId);
+
+        if (data.getProfession() == null) {
+            player.sendMessage(plugin.getMessage(Messages.NO_PROFESSION));
+            return;
+        }
+
+        data.setProfession(null);
+        player.sendMessage(plugin.getMessage(Messages.PROFESSION_ABANDONED));
     }
 }
