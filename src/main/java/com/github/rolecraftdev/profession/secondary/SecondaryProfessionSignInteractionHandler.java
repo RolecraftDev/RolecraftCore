@@ -113,6 +113,16 @@ public final class SecondaryProfessionSignInteractionHandler
                         plugin.getMessage(Messages.SECOND_PROFESSION_SELECTED,
                                 MessageVariable.PROFESSION.value(data)));
             }
+        } else if (function.equals("abandon")) {
+            if (pData.getSecondProfession() == null) {
+                player.sendMessage(
+                        plugin.getMessage(Messages.NO_SECOND_PROFESSION));
+                return;
+            }
+
+            pData.setSecondProfession(null);
+            player.sendMessage(
+                    plugin.getMessage(Messages.SECOND_PROFESSION_ABANDONED));
         }
     }
 

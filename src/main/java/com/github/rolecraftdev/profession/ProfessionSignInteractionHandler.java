@@ -108,8 +108,15 @@ public final class ProfessionSignInteractionHandler
                         plugin.getMessage(Messages.PROFESSION_SELECTED,
                                 MessageVariable.PROFESSION.value(profName)));
             }
+        } else if (function.equals("abandon")) {
+            if (data.getProfession() == null) {
+                player.sendMessage(plugin.getMessage(Messages.NO_PROFESSION));
+                return;
+            }
+
+            data.setProfession(null);
+            player.sendMessage(plugin.getMessage(Messages.PROFESSION_ABANDONED));
         }
-        // TODO: add other functions e.g. abandon profession blah blah blah
     }
 
     /**
