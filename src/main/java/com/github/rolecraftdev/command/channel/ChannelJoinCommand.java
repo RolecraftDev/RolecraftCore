@@ -81,8 +81,9 @@ public class ChannelJoinCommand extends PlayerCommandHandler {
             return;
         }
 
-        chatManager.addToChannel(player.getUniqueId(), channel);
-        player.sendMessage(plugin.getMessage(Messages.CHANNEL_JOINED,
-                MessageVariable.CHANNEL.value(channel.getName())));
+        if (chatManager.addToChannel(player.getUniqueId(), channel)) {
+            player.sendMessage(plugin.getMessage(Messages.CHANNEL_JOINED,
+                    MessageVariable.CHANNEL.value(channel.getName())));
+        }
     }
 }

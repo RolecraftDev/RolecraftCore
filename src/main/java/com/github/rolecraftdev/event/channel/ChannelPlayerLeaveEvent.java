@@ -30,20 +30,17 @@ import com.github.rolecraftdev.RolecraftCore;
 import com.github.rolecraftdev.chat.channel.ChatChannel;
 
 import org.bukkit.entity.Player;
+import org.bukkit.event.HandlerList;
 
 import javax.annotation.Nonnull;
 
 /**
- * Called in the event of a {@link Player} performing a {@link ChatChannel}
- * related action.
+ * Called when a {@link Player} leaves a {@link ChatChannel}.
  *
  * @since 0.1.0
  */
-public abstract class ChannelPlayerEvent extends ChannelEvent {
-    /**
-     * The involved {@link Player}.
-     */
-    private final Player player;
+public class ChannelPlayerLeaveEvent extends ChannelPlayerEvent {
+    private static final HandlerList handlers = new HandlerList();
 
     /**
      * Constructor.
@@ -53,19 +50,24 @@ public abstract class ChannelPlayerEvent extends ChannelEvent {
      * @param player the involved {@link Player}
      * @since 0.1.0
      */
-    public ChannelPlayerEvent(@Nonnull final RolecraftCore plugin,
+    public ChannelPlayerLeaveEvent(@Nonnull final RolecraftCore plugin,
             @Nonnull final ChatChannel channel, @Nonnull final Player player) {
-        super(plugin, channel);
-        this.player = player;
+        super(plugin, channel, player);
     }
 
     /**
-     * Gets the involved {@link Player}.
-     *
-     * @return the involved player
+     * {@inheritDoc}
      * @since 0.1.0
      */
-    public Player getPlayer() {
-        return player;
+    @Override
+    public HandlerList getHandlers() {
+        return handlers;
+    }
+
+    /**
+     * @since 0.1.0
+     */
+    public static HandlerList getHandlerList() {
+        return handlers;
     }
 }

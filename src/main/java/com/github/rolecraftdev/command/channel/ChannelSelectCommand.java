@@ -31,6 +31,8 @@ import com.github.rolecraftdev.chat.ChatManager;
 import com.github.rolecraftdev.chat.channel.ChatChannel;
 import com.github.rolecraftdev.command.PlayerCommandHandler;
 import com.github.rolecraftdev.command.parser.Arguments;
+import com.github.rolecraftdev.event.RolecraftEventFactory;
+import com.github.rolecraftdev.event.channel.ChannelPlayerSelectEvent;
 import com.github.rolecraftdev.util.messages.MessageVariable;
 import com.github.rolecraftdev.util.messages.Messages;
 
@@ -78,6 +80,13 @@ public class ChannelSelectCommand extends PlayerCommandHandler {
 
         if (!chatManager.getChannels(playerId).contains(channel)) {
             player.sendMessage(plugin.getMessage(Messages.NOT_IN_CHANNEL));
+            return;
+        }
+
+        final ChannelPlayerSelectEvent event = RolecraftEventFactory
+                .channelPlayerSelect(channel, player);
+        if (event.isCancelled()) {
+            player.sendMessage(event.getCancelMessage());
             return;
         }
 

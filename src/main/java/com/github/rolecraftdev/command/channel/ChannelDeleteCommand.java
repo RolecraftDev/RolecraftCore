@@ -29,12 +29,14 @@ package com.github.rolecraftdev.command.channel;
 import com.github.rolecraftdev.RolecraftCore;
 import com.github.rolecraftdev.chat.ChatManager;
 import com.github.rolecraftdev.chat.channel.ChatChannel;
-import com.github.rolecraftdev.command.PlayerCommandHandler;
+import com.github.rolecraftdev.command.CommandHandler;
 import com.github.rolecraftdev.command.parser.Arguments;
+import com.github.rolecraftdev.event.RolecraftEventFactory;
+import com.github.rolecraftdev.event.channel.ChannelDeleteEvent;
 import com.github.rolecraftdev.util.messages.MessageVariable;
 import com.github.rolecraftdev.util.messages.Messages;
 
-import org.bukkit.entity.Player;
+import org.bukkit.command.CommandSender;
 
 import javax.annotation.Nonnull;
 
@@ -43,7 +45,7 @@ import javax.annotation.Nonnull;
  *
  * @since 0.1.0
  */
-public class ChannelDeleteCommand extends PlayerCommandHandler {
+public class ChannelDeleteCommand extends CommandHandler {
     /**
      * The {@link ChatManager} instance associated with the plugin.
      */
@@ -66,9 +68,9 @@ public class ChannelDeleteCommand extends PlayerCommandHandler {
      * @since 0.1.0
      */
     @Override
-    public void onCommand(final Player player, final Arguments args) {
+    public void onCommand(final CommandSender sender, final Arguments args) {
         if (args.length() < 1) {
-            player.sendMessage(plugin.getMessage(Messages.INVALID_USAGE)
+            sender.sendMessage(plugin.getMessage(Messages.INVALID_USAGE)
                     + " /channel create <name> [--a][--m][-r range][-c color]");
             return;
         }
@@ -76,12 +78,19 @@ public class ChannelDeleteCommand extends PlayerCommandHandler {
         final String name = args.getRaw(0);
         final ChatChannel channel = chatManager.getChannel(name);
         if (channel == null) {
-            player.sendMessage(plugin.getMessage(Messages.CHANNEL_NOT_EXISTS));
+            sender.sendMessage(plugin.getMessage(Messages.CHANNEL_NOT_EXISTS));
+            return;
+        }
+
+        final ChannelDeleteEvent event = RolecraftEventFactory
+                .channelDelete(channel, sender);
+        if (event.isCancelled()) {
+            sender.sendMessage(event.getCancelMessage());
             return;
         }
 
         chatManager.removeChannel(channel);
-        player.sendMessage(plugin.getMessage(Messages.CHANNEL_DELETED,
+        sender.sendMessage(plugin.getMessage(Messages.CHANNEL_DELETED,
                 MessageVariable.CHANNEL.value(channel.getName())));
     }
 }

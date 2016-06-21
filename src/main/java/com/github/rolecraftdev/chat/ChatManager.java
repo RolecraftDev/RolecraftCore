@@ -32,6 +32,7 @@ import com.github.rolecraftdev.chat.channel.ChatChannel;
 import com.github.rolecraftdev.data.PlayerData;
 import com.github.rolecraftdev.event.RolecraftEventFactory;
 import com.github.rolecraftdev.event.channel.AsyncChannelPlayerChatEvent;
+import com.github.rolecraftdev.event.channel.ChannelPlayerJoinEvent;
 import com.github.rolecraftdev.guild.Guild;
 import com.github.rolecraftdev.util.serial.YamlFile;
 
@@ -360,11 +361,20 @@ public final class ChatManager {
      * @param channel the channel to add the player to
      * @since 0.1.0
      */
-    public void addToChannel(@Nonnull final UUID player,
+    public boolean addToChannel(@Nonnull final UUID player,
             @Nonnull final ChatChannel channel) {
+        final ChannelPlayerJoinEvent event = RolecraftEventFactory
+                .channelPlayerJoin(channel, Bukkit.getPlayer(player));
+        if (event.isCancelled()) {
+            Bukkit.getPlayer(player).sendMessage(event.getCancelMessage());
+            return false;
+        }
+
         synchronized (playerChannels) {
             this.playerChannels.get(player).add(channel);
         }
+
+        return true;
     }
 
     /**
@@ -377,6 +387,9 @@ public final class ChatManager {
      */
     public void removeFromChannel(@Nonnull final UUID player,
             @Nonnull final ChatChannel channel) {
+        RolecraftEventFactory.channelPlayerLeave(channel,
+                Bukkit.getPlayer(player));
+
         synchronized (playerChannels) {
             this.playerChannels.get(player).remove(channel);
         }

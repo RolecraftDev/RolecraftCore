@@ -31,24 +31,25 @@ import com.github.rolecraftdev.chat.channel.ChatChannel;
 import com.github.rolecraftdev.event.RolecraftCancellable;
 import com.github.rolecraftdev.util.messages.Messages;
 
-import org.bukkit.entity.Player;
+import org.bukkit.command.CommandSender;
 import org.bukkit.event.HandlerList;
 
 import javax.annotation.Nonnull;
 
 /**
- * Called when a {@link Player} sends a message in a {@link ChatChannel}.
+ * Called when a {@link ChatChannel} is being deleted.
  *
  * @since 0.1.0
  */
-public class AsyncChannelPlayerChatEvent extends ChannelPlayerEvent
+public class ChannelDeleteEvent extends ChannelEvent
         implements RolecraftCancellable {
     private static final HandlerList handlers = new HandlerList();
 
     /**
-     * The sent chat message.
+     * The {@link CommandSender} deleting the {@link ChatChannel}.
      */
-    private String message;
+    private final CommandSender commandSender;
+
     /**
      * Whether the event is cancelled.
      */
@@ -63,37 +64,28 @@ public class AsyncChannelPlayerChatEvent extends ChannelPlayerEvent
      *
      * @param plugin the associated {@link RolecraftCore} instance
      * @param channel the involved {@link ChatChannel}
-     * @param player the involved {@link Player}
-     * @param message the chat message being sent
+     * @param commandSender the {@link CommandSender} deleting the channel
      * @since 0.1.0
      */
-    public AsyncChannelPlayerChatEvent(@Nonnull final RolecraftCore plugin,
-            @Nonnull final ChatChannel channel, @Nonnull final Player player,
-            @Nonnull final String message) {
-        super(plugin, channel, player);
+    public ChannelDeleteEvent(@Nonnull final RolecraftCore plugin,
+            @Nonnull final ChatChannel channel,
+            @Nonnull final CommandSender commandSender) {
+        super(plugin, channel);
+        this.commandSender = commandSender;
 
-        this.message = message;
         this.cancelMessage = plugin.getMessage(Messages.NOT_ALLOWED);
     }
 
     /**
-     * Gets the chat message being sent.
+     * Gets the {@link CommandSender} responsible for issuing the command which
+     * caused the deletion of the {@link ChatChannel}.
      *
-     * @return the involved chat message
+     * @return the command sender deleting the channel
      * @since 0.1.0
      */
-    public String getMessage() {
-        return message;
-    }
-
-    /**
-     * Sets the chat message being sent.
-     *
-     * @param message the new message to be sent
-     * @since 0.1.0
-     */
-    public void setMessage(final String message) {
-        this.message = message;
+    @Nonnull
+    public CommandSender getCommandSender() {
+        return commandSender;
     }
 
     /**

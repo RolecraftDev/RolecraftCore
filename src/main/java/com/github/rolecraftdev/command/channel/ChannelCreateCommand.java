@@ -29,13 +29,16 @@ package com.github.rolecraftdev.command.channel;
 import com.github.rolecraftdev.RolecraftCore;
 import com.github.rolecraftdev.chat.ChatManager;
 import com.github.rolecraftdev.chat.channel.ChatChannel;
-import com.github.rolecraftdev.command.PlayerCommandHandler;
+import com.github.rolecraftdev.command.CommandHandler;
 import com.github.rolecraftdev.command.parser.Arguments;
 import com.github.rolecraftdev.command.parser.ChatSection;
+import com.github.rolecraftdev.event.RolecraftEventFactory;
+import com.github.rolecraftdev.event.channel.ChannelCreateEvent;
 import com.github.rolecraftdev.util.messages.MessageVariable;
 import com.github.rolecraftdev.util.messages.Messages;
 
 import org.bukkit.ChatColor;
+import org.bukkit.command.CommandSender;
 import org.bukkit.entity.Player;
 
 import javax.annotation.Nonnull;
@@ -45,7 +48,7 @@ import javax.annotation.Nonnull;
  *
  * @since 0.1.0
  */
-public class ChannelCreateCommand extends PlayerCommandHandler {
+public class ChannelCreateCommand extends CommandHandler {
     /**
      * Constructor.
      *
@@ -62,9 +65,9 @@ public class ChannelCreateCommand extends PlayerCommandHandler {
      * @since 0.1.0
      */
     @Override
-    public void onCommand(final Player player, final Arguments args) {
+    public void onCommand(final CommandSender sender, final Arguments args) {
         if (args.length() < 1) {
-            player.sendMessage(plugin.getMessage(Messages.INVALID_USAGE)
+            sender.sendMessage(plugin.getMessage(Messages.INVALID_USAGE)
                     + " /channel create <name> [--a][--m][-r range][-c color]");
             return;
         }
@@ -81,20 +84,20 @@ public class ChannelCreateCommand extends PlayerCommandHandler {
 
         if (args.hasNonValueFlag("mod") || args.hasNonValueFlag("m")) {
             // only those with mod permission can create mod channels
-            if (player.hasPermission("rolecraft.channels.mod")) {
+            if (sender.hasPermission("rolecraft.channels.mod")) {
                 mod = true;
             } else {
-                player.sendMessage(plugin.getMessage(Messages.NOT_ALLOWED));
+                sender.sendMessage(plugin.getMessage(Messages.NOT_ALLOWED));
                 return;
             }
         }
 
         if (args.hasNonValueFlag("admin") || args.hasNonValueFlag("a")) {
             // only those with admin permission can create admin channels
-            if (player.hasPermission("rolecraft.channels.admin")) {
+            if (sender.hasPermission("rolecraft.channels.admin")) {
                 admin = true;
             } else {
-                player.sendMessage(plugin.getMessage(Messages.NOT_ALLOWED));
+                sender.sendMessage(plugin.getMessage(Messages.NOT_ALLOWED));
                 return;
             }
         }
@@ -103,7 +106,7 @@ public class ChannelCreateCommand extends PlayerCommandHandler {
             final ChatSection section = args.getValueFlag("r").getValue();
 
             if (!section.isInt()) {
-                player.sendMessage(plugin.getMessage(Messages.INVALID_USAGE)
+                sender.sendMessage(plugin.getMessage(Messages.INVALID_USAGE)
                         + " /channel create <name> [--a][--m][-r range][-c color]");
                 return;
             }
@@ -115,7 +118,7 @@ public class ChannelCreateCommand extends PlayerCommandHandler {
             final ChatSection section = args.getValueFlag("r").getValue();
 
             if (!section.isChatColor()) {
-                player.sendMessage(plugin.getMessage(Messages.INVALID_USAGE)
+                sender.sendMessage(plugin.getMessage(Messages.INVALID_USAGE)
                         + " /channel create <name> [--a][--m][-r range][-c color]");
                 return;
             }
@@ -126,9 +129,21 @@ public class ChannelCreateCommand extends PlayerCommandHandler {
         final ChatManager chatManager = plugin.getChatManager();
         final ChatChannel channel = new ChatChannel(chatManager.getNextId(),
                 name, def, mod, admin, null, color, range);
+
+        final ChannelCreateEvent event = RolecraftEventFactory
+                .channelCreate(channel, sender);
+        if (event.isCancelled()) {
+            sender.sendMessage(event.getCancelMessage());
+            return;
+        }
+
         chatManager.addChannel(channel);
-        chatManager.addToChannel(player.getUniqueId(), channel);
-        player.sendMessage(plugin.getMessage(Messages.CHANNEL_CREATED,
+
+        if (sender instanceof Player) {
+            chatManager.addToChannel(((Player) sender).getUniqueId(), channel);
+        }
+
+        sender.sendMessage(plugin.getMessage(Messages.CHANNEL_CREATED,
                 MessageVariable.CHANNEL.value(channel.getName())));
     }
 }

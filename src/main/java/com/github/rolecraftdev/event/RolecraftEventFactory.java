@@ -32,6 +32,11 @@ import com.github.rolecraftdev.RolecraftCore;
 import com.github.rolecraftdev.chat.channel.ChatChannel;
 import com.github.rolecraftdev.data.PlayerData;
 import com.github.rolecraftdev.event.channel.AsyncChannelPlayerChatEvent;
+import com.github.rolecraftdev.event.channel.ChannelCreateEvent;
+import com.github.rolecraftdev.event.channel.ChannelDeleteEvent;
+import com.github.rolecraftdev.event.channel.ChannelPlayerJoinEvent;
+import com.github.rolecraftdev.event.channel.ChannelPlayerLeaveEvent;
+import com.github.rolecraftdev.event.channel.ChannelPlayerSelectEvent;
 import com.github.rolecraftdev.event.data.GuildsLoadedEvent;
 import com.github.rolecraftdev.event.data.PlayerDataLoadedEvent;
 import com.github.rolecraftdev.event.experience.RCExperienceChangeEvent;
@@ -59,6 +64,7 @@ import com.github.rolecraftdev.profession.Profession;
 
 import org.bukkit.Bukkit;
 import org.bukkit.Location;
+import org.bukkit.command.CommandSender;
 import org.bukkit.entity.Entity;
 import org.bukkit.entity.Player;
 import org.bukkit.event.Event;
@@ -272,7 +278,78 @@ public class RolecraftEventFactory {
             final ChatChannel channel, final Player player,
             final String message) {
         return callEvent(
-                new AsyncChannelPlayerChatEvent(plugin, channel, player, message));
+                new AsyncChannelPlayerChatEvent(plugin, channel, player,
+                        message));
+    }
+
+    /**
+     * Calls a {@link ChannelPlayerJoinEvent} with the {@link RolecraftCore}
+     * instance and the given parameters.
+     *
+     * @param channel the {@link ChatChannel} the player is joining
+     * @param player the {@link Player} joining the channel
+     * @return the called {@link ChannelPlayerJoinEvent}
+     * @since 0.1.0
+     */
+    public static ChannelPlayerJoinEvent channelPlayerJoin(
+            final ChatChannel channel, final Player player) {
+        return callEvent(new ChannelPlayerJoinEvent(plugin, channel, player));
+    }
+
+    /**
+     * Calls a {@link ChannelPlayerSelectEvent} with the {@link RolecraftCore}
+     * instance and the given parameters.
+     *
+     * @param channel the {@link ChatChannel} the player is selecting
+     * @param player the {@link Player} selecting the channel
+     * @return the called {@link ChannelPlayerSelectEvent}
+     * @since 0.1.0
+     */
+    public static ChannelPlayerSelectEvent channelPlayerSelect(
+            final ChatChannel channel, final Player player) {
+        return callEvent(new ChannelPlayerSelectEvent(plugin, channel, player));
+    }
+
+    /**
+     * Calls a {@link ChannelPlayerLeaveEvent} with the {@link RolecraftCore}
+     * instance and the given parameters.
+     *
+     * @param channel the {@link ChatChannel} the player is leaving
+     * @param player the {@link Player} leaving the channel
+     * @return the called {@link ChannelPlayerLeaveEvent}
+     * @since 0.1.0
+     */
+    public static ChannelPlayerLeaveEvent channelPlayerLeave(
+            final ChatChannel channel, final Player player) {
+        return callEvent(new ChannelPlayerLeaveEvent(plugin, channel, player));
+    }
+
+    /**
+     * Calls a {@link ChannelCreateEvent} with the {@link RolecraftCore}
+     * instance and the given parameters.
+     *
+     * @param channel the {@link ChatChannel} being created
+     * @param creator the {@link CommandSender} creating the channel
+     * @return the called {@link ChannelCreateEvent}
+     * @since 0.1.0
+     */
+    public static ChannelCreateEvent channelCreate(
+            final ChatChannel channel, final CommandSender creator) {
+        return callEvent(new ChannelCreateEvent(plugin, channel, creator));
+    }
+
+    /**
+     * Calls a {@link ChannelDeleteEvent} with the {@link RolecraftCore}
+     * instance and the given parameters.
+     *
+     * @param channel the {@link ChatChannel} being deleted
+     * @param commandSender the {@link CommandSender} deleting the channel
+     * @return the called {@link ChannelDeleteEvent}
+     * @since 0.1.0
+     */
+    public static ChannelDeleteEvent channelDelete(
+            final ChatChannel channel, final CommandSender commandSender) {
+        return callEvent(new ChannelDeleteEvent(plugin, channel, commandSender));
     }
 
     /**

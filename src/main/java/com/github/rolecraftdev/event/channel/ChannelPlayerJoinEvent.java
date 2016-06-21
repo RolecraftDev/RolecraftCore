@@ -37,18 +37,14 @@ import org.bukkit.event.HandlerList;
 import javax.annotation.Nonnull;
 
 /**
- * Called when a {@link Player} sends a message in a {@link ChatChannel}.
+ * Called when a {@link Player} joins a {@link ChatChannel}.
  *
  * @since 0.1.0
  */
-public class AsyncChannelPlayerChatEvent extends ChannelPlayerEvent
+public class ChannelPlayerJoinEvent extends ChannelPlayerEvent
         implements RolecraftCancellable {
     private static final HandlerList handlers = new HandlerList();
 
-    /**
-     * The sent chat message.
-     */
-    private String message;
     /**
      * Whether the event is cancelled.
      */
@@ -64,36 +60,13 @@ public class AsyncChannelPlayerChatEvent extends ChannelPlayerEvent
      * @param plugin the associated {@link RolecraftCore} instance
      * @param channel the involved {@link ChatChannel}
      * @param player the involved {@link Player}
-     * @param message the chat message being sent
      * @since 0.1.0
      */
-    public AsyncChannelPlayerChatEvent(@Nonnull final RolecraftCore plugin,
-            @Nonnull final ChatChannel channel, @Nonnull final Player player,
-            @Nonnull final String message) {
+    public ChannelPlayerJoinEvent(@Nonnull final RolecraftCore plugin,
+            @Nonnull final ChatChannel channel, @Nonnull final Player player) {
         super(plugin, channel, player);
 
-        this.message = message;
         this.cancelMessage = plugin.getMessage(Messages.NOT_ALLOWED);
-    }
-
-    /**
-     * Gets the chat message being sent.
-     *
-     * @return the involved chat message
-     * @since 0.1.0
-     */
-    public String getMessage() {
-        return message;
-    }
-
-    /**
-     * Sets the chat message being sent.
-     *
-     * @param message the new message to be sent
-     * @since 0.1.0
-     */
-    public void setMessage(final String message) {
-        this.message = message;
     }
 
     /**
