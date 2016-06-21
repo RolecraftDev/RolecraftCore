@@ -558,6 +558,19 @@ public class Messages {
      * @since 0.1.0
      */
     public static final String NOT_IN_CHANNEL = "not-in-channel";
+    /**
+     * Sent when a player picks a second profession.
+     *
+     * @since 0.1.0
+     */
+    public static final String SECOND_PROFESSION_SELECTED = "second-profession-selected";
+    /**
+     * Sent when a player attempts to select a second profession despite already
+     * having one.
+     *
+     * @since 0.1.0
+     */
+    public static final String SECOND_PROFESSION_ALREADY_SELECTED = "second-profession-already-selected";
 
     /**
      * General variables such as colours and styles.

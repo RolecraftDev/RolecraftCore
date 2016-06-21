@@ -35,6 +35,7 @@ import com.github.rolecraftdev.command.other.DebugCommand;
 import com.github.rolecraftdev.command.other.GCCommand;
 import com.github.rolecraftdev.command.other.RCConfirmCommand;
 import com.github.rolecraftdev.command.profession.ProfessionCommand;
+import com.github.rolecraftdev.command.secondprofession.SecondprofessionCommand;
 import com.github.rolecraftdev.data.DataListener;
 import com.github.rolecraftdev.data.DataManager;
 import com.github.rolecraftdev.data.PlayerData;
@@ -256,6 +257,7 @@ public final class RolecraftCore extends JavaPlugin {
         register(new RCConfirmCommand(this));
         register(new DebugCommand(this));
         register(new ChannelCommand(this));
+        register(new SecondprofessionCommand(this));
     }
 
     /**

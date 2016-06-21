@@ -24,14 +24,14 @@
  * DISCLAIMER: This is a human-readable summary of (and not a substitute for) the
  * license.
  */
-package com.github.rolecraftdev.command.profession;
+package com.github.rolecraftdev.command.secondprofession;
 
 import com.github.rolecraftdev.RolecraftCore;
 import com.github.rolecraftdev.command.PlayerCommandHandler;
 import com.github.rolecraftdev.command.parser.Arguments;
 import com.github.rolecraftdev.data.PlayerData;
 import com.github.rolecraftdev.event.RolecraftEventFactory;
-import com.github.rolecraftdev.event.profession.PlayerProfessionSelectEvent;
+import com.github.rolecraftdev.event.profession.secondary.PlayerSecondProfessionSelectEvent;
 import com.github.rolecraftdev.profession.Profession;
 import com.github.rolecraftdev.profession.ProfessionManager;
 import com.github.rolecraftdev.util.messages.MessageVariable;
@@ -42,29 +42,29 @@ import org.bukkit.entity.Player;
 import java.util.UUID;
 
 /**
- * @since 0.0.5
+ * @since 0.1.0
  */
-public class ProfessionSelectCommand extends PlayerCommandHandler {
+public class SecondprofessionSelectCommand extends PlayerCommandHandler {
     private final ProfessionManager professionMgr;
 
     /**
      * Constructor.
      *
      * @param plugin the associated {@link RolecraftCore} instance
-     * @since 0.0.5
+     * @since 0.1.0
      */
-    public ProfessionSelectCommand(final RolecraftCore plugin) {
+    public SecondprofessionSelectCommand(final RolecraftCore plugin) {
         super(plugin, "select");
         professionMgr = plugin.getProfessionManager();
 
-        setUsage("/profession select <profession>");
-        setDescription("Selects a profession");
-        setPermission("rolecraft.profession.use");
+        setUsage("/secondprofession select <profession>");
+        setDescription("Selects a second profession");
+        setPermission("rolecraft.profession.secondary");
         setSubcommand(true);
     }
 
     /**
-     * @since 0.0.5
+     * @since 0.1.0
      */
     @Override
     public void onCommand(final Player player, final Arguments args) {
@@ -85,25 +85,27 @@ public class ProfessionSelectCommand extends PlayerCommandHandler {
         final PlayerData data = professionMgr.getPlugin().getDataManager()
                 .getPlayerData(playerId);
 
-        if (data.getProfession() != null) {
+        if (data.getSecondProfession() != null) {
             player.sendMessage(plugin.getMessage(
-                    Messages.PROFESSION_ALREADY_SELECTED));
+                    Messages.SECOND_PROFESSION_ALREADY_SELECTED));
             return;
         }
-        if (!player.hasPermission("rolecraft.profession." + profession
+        if (!player.hasPermission("rolecraft.profession.secondary") ||
+                !player.hasPermission("rolecraft.profession." + profession
                 .getName())) {
             player.sendMessage(plugin.getMessage(Messages.PROFESSION_NO_PERMS,
                     MessageVariable.PROFESSION.value(profession.getName())));
             return;
         }
 
-        final PlayerProfessionSelectEvent event = RolecraftEventFactory
-                .professionSelected(profession, player);
+        final PlayerSecondProfessionSelectEvent event = RolecraftEventFactory
+                .secondProfessionSelected(profession, player);
         if (event.isCancelled()) {
             player.sendMessage(event.getCancelMessage());
         } else {
-            data.setProfession(profession.getId());
-            player.sendMessage(plugin.getMessage(Messages.PROFESSION_SELECTED,
+            data.setSecondProfession(profession.getId());
+            player.sendMessage(plugin.getMessage(
+                    Messages.SECOND_PROFESSION_SELECTED,
                     MessageVariable.PROFESSION.value(profession.getName())));
         }
     }

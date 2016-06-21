@@ -20,6 +20,11 @@ commands:
         aliases: [rconfirm]
     debug:
         description: Commands used in the debugging of code, not included in release builds
+    channel:
+        description: Chat channel related commands
+    secondprofession:
+        description: Secondary profession-related functions
+        aliases: [secprof, secondprof, secprofession, sprofession, sprof]
 
 permissions:
     rolecraft.sign.place:
@@ -38,6 +43,8 @@ permissions:
         description: Allows viewing the profession list
     rolecraft.profession.use:
         description: Allows having a profession and using profession features
+    rolecraft.profession.secondary:
+        description: Allows having a secondary profession
     rolecraft.spell.*:
         description: Access to all magical spells
     rolecraft.channels.join:

@@ -24,12 +24,14 @@
  * DISCLAIMER: This is a human-readable summary of (and not a substitute for) the
  * license.
  */
-package com.github.rolecraftdev.profession;
+package com.github.rolecraftdev.profession.secondary;
 
 import com.github.rolecraftdev.RolecraftCore;
 import com.github.rolecraftdev.data.PlayerData;
 import com.github.rolecraftdev.event.RolecraftEventFactory;
-import com.github.rolecraftdev.event.profession.PlayerProfessionSelectEvent;
+import com.github.rolecraftdev.event.profession.secondary.PlayerSecondProfessionSelectEvent;
+import com.github.rolecraftdev.profession.Profession;
+import com.github.rolecraftdev.profession.ProfessionManager;
 import com.github.rolecraftdev.sign.RolecraftSign;
 import com.github.rolecraftdev.sign.SignInteractionHandler;
 import com.github.rolecraftdev.util.messages.MessageVariable;
@@ -40,84 +42,82 @@ import org.bukkit.entity.Player;
 import javax.annotation.Nonnull;
 
 /**
- * Handles right-click interactions of {@link RolecraftSign}s of profession
- * type. Can be used to select professions etc.
+ * Handles secondary profession-related {@link RolecraftSign}s.
  *
  * @since 0.1.0
  */
-public final class ProfessionSignInteractionHandler
+public final class SecondaryProfessionSignInteractionHandler
         implements SignInteractionHandler {
     /**
      * The {@link RolecraftCore} plugin instance.
      */
     private final RolecraftCore plugin;
-
     /**
-     * Constructs a new handler for profession-related {@link RolecraftSign}
-     * interactions.
-     *
-     * @param plugin the {@link RolecraftCore} plugin instance
-     * @since 0.1.0
+     * Whether secondary professions are enabled in Rolecraft's configuration.
      */
-    public ProfessionSignInteractionHandler(
+    private final boolean enabled;
+
+    public SecondaryProfessionSignInteractionHandler(
             @Nonnull final RolecraftCore plugin) {
         this.plugin = plugin;
+        this.enabled = plugin.allowSecondProfessions();
     }
 
-    /**
-     * {@inheritDoc}
-     * @since 0.1.0
-     */
     @Override
     public void handleSignInteraction(@Nonnull final Player player,
             @Nonnull final RolecraftSign sign) {
+        if (!enabled) {
+            return;
+        }
+
+        final PlayerData pData = plugin.getPlayerData(player);
         final String function = sign.getFunction().toLowerCase();
-        final PlayerData data = plugin.getDataManager()
-                .getPlayerData(player.getUniqueId());
 
         if (function.equals("select")) {
-            if (data.getProfession() != null) {
+            if (pData.getProfession() == null) {
+                player.sendMessage(plugin.getMessage(Messages.NO_PROFESSION));
+                return;
+            }
+            if (pData.getSecondProfession() != null) {
                 player.sendMessage(plugin.getMessage(
-                        Messages.PROFESSION_ALREADY_SELECTED));
+                        Messages.SECOND_PROFESSION_ALREADY_SELECTED));
                 return;
             }
 
-            final String profName = sign.getData();
-            if (!player.hasPermission("rolecraft.profession." + profName)) {
+            final String data = sign.getData();
+            final Profession profession = plugin.getProfessionManager()
+                    .getProfession(data);
+
+            if (!player.hasPermission("rolecraft.profession.secondary") ||
+                    !player.hasPermission(
+                            "rolecraft.profession." + data.toLowerCase())) {
                 player.sendMessage(plugin.getMessage(
                         Messages.PROFESSION_NO_PERMS,
-                        MessageVariable.PROFESSION.value(profName)));
+                        MessageVariable.PROFESSION.value(data)));
                 return;
             }
 
-            final Profession profession = plugin.getProfessionManager()
-                    .getProfession(profName);
             if (profession == null) {
                 player.sendMessage(plugin.getMessage(Messages.BROKEN_SIGN));
                 return;
             }
 
-            final PlayerProfessionSelectEvent event = RolecraftEventFactory
-                    .professionSelected(profession, player);
+            final PlayerSecondProfessionSelectEvent event = RolecraftEventFactory
+                    .secondProfessionSelected(profession, player);
 
             if (event.isCancelled()) {
                 player.sendMessage(event.getCancelMessage());
             } else {
-                data.setProfession(profession.getId());
+                pData.setSecondProfession(profession.getId());
                 player.sendMessage(
-                        plugin.getMessage(Messages.PROFESSION_SELECTED,
-                                MessageVariable.PROFESSION.value(profName)));
+                        plugin.getMessage(Messages.SECOND_PROFESSION_SELECTED,
+                                MessageVariable.PROFESSION.value(data)));
             }
         }
-        // TODO: add other functions e.g. abandon profession blah blah blah
     }
 
-    /**
-     * {@inheritDoc}
-     * @since 0.1.0
-     */
-    @Override @Nonnull
+    @Nonnull @Override
     public String getType() {
-        return ProfessionManager.PROFEESSION_SIGN_TYPE;
+        return ProfessionManager.SECONDPROFESSION_SIGN_TYPE;
     }
 }

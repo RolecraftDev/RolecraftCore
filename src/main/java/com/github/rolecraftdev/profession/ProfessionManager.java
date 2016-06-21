@@ -27,6 +27,8 @@
 package com.github.rolecraftdev.profession;
 
 import com.github.rolecraftdev.RolecraftCore;
+import com.github.rolecraftdev.profession.secondary.SecondaryProfessionSignInteractionHandler;
+import com.github.rolecraftdev.sign.RolecraftSignManager;
 import com.github.rolecraftdev.util.serial.ProfessionDeserializer;
 import com.github.rolecraftdev.util.serial.YamlFile;
 
@@ -53,6 +55,13 @@ public final class ProfessionManager {
      * @since 0.1.0
      */
     public static final String PROFEESSION_SIGN_TYPE = "Profession";
+    /**
+     * The type of sign associated with secondary profession-related sign
+     * functions.
+     *
+     * @since 0.1.0
+     */
+    public static final String SECONDPROFESSION_SIGN_TYPE = "SecProfession";
 
     /**
      * The associated {@link RolecraftCore} instance.
@@ -74,8 +83,12 @@ public final class ProfessionManager {
         this.plugin = plugin;
         this.professions = new HashSet<Profession>();
 
-        plugin.getSignManager()
-                .registerHandler(new ProfessionSignInteractionHandler(plugin));
+        final RolecraftSignManager signManager = plugin.getSignManager();
+
+        signManager.registerHandler(
+                new ProfessionSignInteractionHandler(plugin));
+        signManager.registerHandler(
+                new SecondaryProfessionSignInteractionHandler(plugin));
 
         plugin.getServer().getPluginManager().registerEvents(
                 new ProfessionListener(this), plugin);

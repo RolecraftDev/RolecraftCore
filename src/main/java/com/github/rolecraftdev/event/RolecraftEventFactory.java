@@ -53,6 +53,7 @@ import com.github.rolecraftdev.event.guild.GuildRankCreateEvent;
 import com.github.rolecraftdev.event.guild.GuildRankModifyEvent;
 import com.github.rolecraftdev.event.guild.GuildRankRemoveEvent;
 import com.github.rolecraftdev.event.profession.PlayerProfessionSelectEvent;
+import com.github.rolecraftdev.event.profession.secondary.PlayerSecondProfessionSelectEvent;
 import com.github.rolecraftdev.event.spell.SpellCastEvent;
 import com.github.rolecraftdev.event.spell.SpellCastEvent.SpellCastType;
 import com.github.rolecraftdev.experience.ExperienceHelper;
@@ -401,17 +402,29 @@ public class RolecraftEventFactory {
     /**
      * Calls a {@link PlayerProfessionSelectEvent} using the given data.
      *
-     * @param plugin the {@link RolecraftCore} plugin instance
      * @param profession the involved {@link Profession}
      * @param player the involved {@link Player}
      * @return the called {@link PlayerProfessionSelectEvent}
      * @since 0.1.0
      */
     public static PlayerProfessionSelectEvent professionSelected(
-            final RolecraftCore plugin, final Profession profession,
-            final Player player) {
+            final Profession profession, final Player player) {
         return callEvent(
                 new PlayerProfessionSelectEvent(plugin, profession, player));
+    }
+
+    /**
+     * Calls a {@link PlayerSecondProfessionSelectEvent} using the given data.
+     *
+     * @param profession the involved {@link Profession}
+     * @param player the involved {@link Player}
+     * @return the called {@link PlayerSecondProfessionSelectEvent}
+     * @since 0.1.0
+     */
+    public static PlayerSecondProfessionSelectEvent secondProfessionSelected(
+            final Profession profession, final Player player) {
+        return callEvent(new PlayerSecondProfessionSelectEvent(
+                plugin, profession, player));
     }
 
     /**
