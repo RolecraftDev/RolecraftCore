@@ -41,7 +41,7 @@ import javax.annotation.Nonnull;
  *
  * @since 0.1.0
  */
-public class ChannelPlayerChatEvent extends ChannelPlayerEvent
+public class AsyncChannelPlayerChatEvent extends ChannelPlayerEvent
         implements RolecraftCancellable {
     private static final HandlerList handlers = new HandlerList();
 
@@ -66,7 +66,7 @@ public class ChannelPlayerChatEvent extends ChannelPlayerEvent
      * @param player the involed {@link Player}
      * @since 0.1.0
      */
-    public ChannelPlayerChatEvent(@Nonnull final RolecraftCore plugin,
+    public AsyncChannelPlayerChatEvent(@Nonnull final RolecraftCore plugin,
             @Nonnull final ChatChannel channel, @Nonnull final Player player,
             @Nonnull final String message) {
         super(plugin, channel, player);

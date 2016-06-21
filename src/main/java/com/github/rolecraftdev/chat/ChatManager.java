@@ -31,7 +31,7 @@ import com.github.rolecraftdev.chat.channel.ChannelListener;
 import com.github.rolecraftdev.chat.channel.ChatChannel;
 import com.github.rolecraftdev.data.PlayerData;
 import com.github.rolecraftdev.event.RolecraftEventFactory;
-import com.github.rolecraftdev.event.channel.ChannelPlayerChatEvent;
+import com.github.rolecraftdev.event.channel.AsyncChannelPlayerChatEvent;
 import com.github.rolecraftdev.guild.Guild;
 import com.github.rolecraftdev.util.serial.YamlFile;
 
@@ -259,7 +259,7 @@ public final class ChatManager {
     public void sendToChannel(@Nonnull final ChatChannel channel,
             @Nonnull final Player sender, @Nonnull final String message,
             @Nullable final Location location) {
-        final ChannelPlayerChatEvent event = RolecraftEventFactory
+        final AsyncChannelPlayerChatEvent event = RolecraftEventFactory
                 .channelPlayerChat(channel, sender, message);
         if (event.isCancelled()) {
             sender.sendMessage(event.getCancelMessage());

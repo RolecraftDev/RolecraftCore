@@ -31,7 +31,7 @@ import org.apache.commons.lang.Validate;
 import com.github.rolecraftdev.RolecraftCore;
 import com.github.rolecraftdev.chat.channel.ChatChannel;
 import com.github.rolecraftdev.data.PlayerData;
-import com.github.rolecraftdev.event.channel.ChannelPlayerChatEvent;
+import com.github.rolecraftdev.event.channel.AsyncChannelPlayerChatEvent;
 import com.github.rolecraftdev.event.data.GuildsLoadedEvent;
 import com.github.rolecraftdev.event.data.PlayerDataLoadedEvent;
 import com.github.rolecraftdev.event.experience.RCExperienceChangeEvent;
@@ -259,20 +259,20 @@ public class RolecraftEventFactory {
     }
 
     /**
-     * Calls a {@link ChannelPlayerChatEvent} with the {@link RolecraftCore}
+     * Calls a {@link AsyncChannelPlayerChatEvent} with the {@link RolecraftCore}
      * instance and the given parameters.
      *
      * @param channel the involved {@link ChatChannel}
      * @param player the {@link Player} sending the message
      * @param message the contents of the message
-     * @return the called {@link ChannelPlayerChatEvent}
+     * @return the called {@link AsyncChannelPlayerChatEvent}
      * @since 0.1.0
      */
-    public static ChannelPlayerChatEvent channelPlayerChat(
+    public static AsyncChannelPlayerChatEvent channelPlayerChat(
             final ChatChannel channel, final Player player,
             final String message) {
         return callEvent(
-                new ChannelPlayerChatEvent(plugin, channel, player, message));
+                new AsyncChannelPlayerChatEvent(plugin, channel, player, message));
     }
 
     /**
