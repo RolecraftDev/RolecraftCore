@@ -76,6 +76,7 @@ public final class ChatFormatter {
         if (suffix != null && format.contains("suffix")) {
             inProg = inProg.replaceAll("suffix", suffix);
         }
+
         return inProg.replaceAll("player", sender.getDisplayName())
                 .replaceAll("channel", channel.getColor() + channel.getName())
                 .replaceAll("msg", channel.getColor() + message);
