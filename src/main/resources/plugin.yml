@@ -22,6 +22,9 @@ commands:
         description: Commands used in the debugging of code, not included in release builds
     channel:
         description: Chat channel related commands
+    mana:
+        description: View your current mana
+        aliases: [seemana, viewmana, checkmana, m]
     secondprofession:
         description: Secondary profession-related functions
         aliases: [secprof, secondprof, secprofession, sprofession, sprof]

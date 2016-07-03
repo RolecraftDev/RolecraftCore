@@ -33,6 +33,7 @@ import com.github.rolecraftdev.command.channel.ChannelCommand;
 import com.github.rolecraftdev.command.guild.GuildCommand;
 import com.github.rolecraftdev.command.other.DebugCommand;
 import com.github.rolecraftdev.command.other.GCCommand;
+import com.github.rolecraftdev.command.other.ManaCommand;
 import com.github.rolecraftdev.command.other.RCConfirmCommand;
 import com.github.rolecraftdev.command.profession.ProfessionCommand;
 import com.github.rolecraftdev.command.secondprofession.SecondprofessionCommand;
@@ -226,6 +227,7 @@ public final class RolecraftCore extends JavaPlugin {
         register(new RCConfirmCommand(this));
         register(new DebugCommand(this));
         register(new ChannelCommand(this));
+        register(new ManaCommand(this));
 
         if (this.config.allowSecondProfessions()) { // only register second profession command if second professions are enabled
             register(new SecondprofessionCommand(this));

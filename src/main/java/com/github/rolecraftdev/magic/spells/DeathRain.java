@@ -211,7 +211,7 @@ public class DeathRain implements Spell {
         meta.setDisplayName(ChatColor.AQUA + getName());
         meta.addEnchant(Enchantment.LUCK, 10, true);
         final String[] lore = {
-                "A virtual airstrike, this wand is capabale of bringing an",
+                "A virtual airstrike, this wand is capable of bringing an",
                 "army to their knees with one cast" };
         meta.setLore(Arrays.asList(lore));
         result.setItemMeta(meta);
