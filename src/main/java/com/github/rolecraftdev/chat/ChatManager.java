@@ -166,8 +166,8 @@ public final class ChatManager {
         }.runTaskTimerAsynchronously(plugin, SAVE_PERIOD, SAVE_PERIOD);
 
         final PluginManager pm = plugin.getServer().getPluginManager();
-        pm.registerEvents(new ChatListener(plugin), plugin);
-        pm.registerEvents(new ChannelListener(plugin), plugin);
+        pm.registerEvents(new ChatListener(this), plugin);
+        pm.registerEvents(new ChannelListener(this), plugin);
     }
 
     /**

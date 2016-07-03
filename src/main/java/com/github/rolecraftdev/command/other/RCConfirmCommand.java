@@ -67,7 +67,7 @@ public class RCConfirmCommand extends PlayerCommandHandler {
         }
 
         for (final MetadataValue value : values) {
-            if (!(value instanceof Runnable)) {
+            if (!(value.value() instanceof Runnable)) {
                 continue;
             }
             ((Runnable) value.value()).run();

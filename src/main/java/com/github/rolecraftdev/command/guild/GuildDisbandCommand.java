@@ -112,6 +112,8 @@ public class GuildDisbandCommand extends CommandHandler {
                     new FixedMetadataValue(plugin,
                             new GuildDisbandTask(guildManager, player,
                                     guild)));
+            player.sendMessage(ChatColor.GRAY
+                    + "Use /rcconfirm to confirm you want to disband your guild!");
         } else {
             guildManager.removeGuild(guild);
             sender.sendMessage(plugin.getMessage(Messages.GUILD_DISBANDED,

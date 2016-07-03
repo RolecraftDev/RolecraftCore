@@ -56,14 +56,14 @@ public class ChatListener implements Listener {
     private final ChatManager chatManager;
 
     /**
-     * Instantiates the Rolecraft chat listener.
+     * Constructor.
      *
-     * @param plugin the main {@link RolecraftCore} plugin instance
+     * @param chatManager the {@link RolecraftCore} {@link ChatManager} instance
      * @since 0.1.0
      */
-    public ChatListener(@Nonnull final RolecraftCore plugin) {
-        this.plugin = plugin;
-        this.chatManager = plugin.getChatManager();
+    public ChatListener(@Nonnull final ChatManager chatManager) {
+        this.chatManager = chatManager;
+        this.plugin = chatManager.getPlugin();
     }
 
     /**

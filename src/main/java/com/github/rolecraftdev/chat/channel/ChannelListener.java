@@ -62,12 +62,12 @@ public class ChannelListener implements Listener {
     /**
      * Constructor.
      *
-     * @param plugin the {@link RolecraftCore plugin instance}
+     * @param chatManager the {@link RolecraftCore} {@link ChatManager} instance
      * @since 0.1.0
      */
-    public ChannelListener(@Nonnull final RolecraftCore plugin) {
-        this.plugin = plugin;
-        this.chatManager = plugin.getChatManager();
+    public ChannelListener(@Nonnull final ChatManager chatManager) {
+        this.chatManager = chatManager;
+        this.plugin = chatManager.getPlugin();
     }
 
     /**
@@ -121,7 +121,8 @@ public class ChannelListener implements Listener {
             boolean found = false;
 
             for (final ChatChannel channel : chatManager.getAllChannels()) {
-                if (channel.getGuild().equals(name)) {
+                if (channel.getGuild() != null
+                        && channel.getGuild().equals(name)) {
                     found = true;
                     break;
                 }
