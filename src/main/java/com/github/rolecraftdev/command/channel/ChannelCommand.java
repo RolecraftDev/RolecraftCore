@@ -42,7 +42,7 @@ public class ChannelCommand extends TreeCommandHandler {
      * @since 0.1.0
      */
     public ChannelCommand(final RolecraftCore plugin) {
-        super(plugin, "guild");
+        super(plugin, "channel");
     }
 
     /**
