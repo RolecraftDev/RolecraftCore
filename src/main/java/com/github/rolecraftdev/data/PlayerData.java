@@ -548,7 +548,7 @@ public final class PlayerData {
             }
         }
 
-        return (float) (constant * 2 + getLevel() * 0.5);
+        return (float) ((constant * 2) + (getLevel() * 0.5));
     }
 
     /**

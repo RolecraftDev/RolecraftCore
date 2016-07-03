@@ -152,7 +152,11 @@ public class ProfessionDeserializer {
         for (final Entry<String, Object> pair : rulesSection.getValues(true)
                 .entrySet()) {
             final String ruleName = pair.getKey();
-            final Object value = pair.getValue();
+
+            Object value = pair.getValue();
+            if (value instanceof Number) {
+                value = ((Number) value).floatValue();
+            }
 
             // Validation is done by ProfessionRuleMap#set
             if (!ruleMap.set(ProfessionRule.getRule(ruleName), value)) {
