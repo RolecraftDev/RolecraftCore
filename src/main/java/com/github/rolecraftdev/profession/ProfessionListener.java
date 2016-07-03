@@ -26,6 +26,7 @@
  */
 package com.github.rolecraftdev.profession;
 
+import com.github.rolecraftdev.RolecraftCore;
 import com.github.rolecraftdev.util.messages.MessageVariable;
 import com.github.rolecraftdev.util.messages.Messages;
 
@@ -45,6 +46,7 @@ import org.bukkit.inventory.ItemStack;
 import java.util.List;
 import java.util.Map;
 import java.util.Map.Entry;
+import java.util.UUID;
 
 /**
  * Listens for and manipulates various {@link Event}s affecting
@@ -54,6 +56,7 @@ import java.util.Map.Entry;
  */
 public class ProfessionListener implements Listener {
     private final ProfessionManager professionManager;
+    private final RolecraftCore plugin;
 
     /**
      * Constructor.
@@ -64,6 +67,7 @@ public class ProfessionListener implements Listener {
      */
     public ProfessionListener(final ProfessionManager professionManager) {
         this.professionManager = professionManager;
+        this.plugin = professionManager.getPlugin();
     }
 
     /**
@@ -84,31 +88,39 @@ public class ProfessionListener implements Listener {
             return;
         }
 
-        // TODO implement for secondary professions
-
         if (event.getSlotType() == SlotType.ARMOR
-                && !isMaterialEquipable(current, profession)) {
+                && !isMaterialEquippable(clicker, current)) {
             clicker.sendMessage(professionManager.getPlugin().getMessage(
                     Messages.PROFESSION_DENY_ARMOR,
                     MessageVariable.PROFESSION.value(profession.getName())));
             event.setCancelled(true);
-        } else if (event.getSlotType() == SlotType.QUICKBAR
-                && !isMaterialUsable(current, profession)) {
+            return;
+        }
+
+        if (event.getSlotType() == SlotType.QUICKBAR
+                && !isMaterialUsable(clicker, current)) {
             clicker.sendMessage(professionManager.getPlugin().getMessage(
                     Messages.PROFESSION_DENY_ITEM,
                     MessageVariable.PROFESSION.value(profession.getName())));
             event.setCancelled(true);
-        } else if (event instanceof CraftItemEvent
-                && !isMaterialUsable(current, profession)) {
+            return;
+        }
+
+        if (event instanceof CraftItemEvent && !isMaterialUsable(clicker,
+                current)) {
             clicker.sendMessage(professionManager.getPlugin().getMessage(
                     Messages.PROFESSION_DENY_ITEM,
                     MessageVariable.PROFESSION.value(profession.getName())));
             event.setCancelled(true);
-        } else if (!isEnchantable(current, profession)) {
+            return;
+        }
+
+        if (!canEnchant(clicker, current.getEnchantments())) {
             clicker.sendMessage(professionManager.getPlugin().getMessage(
                     Messages.PROFESSION_DENY_ENCHANTMENT,
                     MessageVariable.PROFESSION.value(profession.getName())));
             event.setCancelled(true);
+            return;
         }
     }
 
@@ -118,16 +130,15 @@ public class ProfessionListener implements Listener {
     @EventHandler(priority = EventPriority.LOW)
     public void onEnchantItem(final EnchantItemEvent event) {
         final ItemStack enchanted = event.getItem();
+        if (enchanted == null) {
+            return;
+        }
+
         final Player enchanter = event.getEnchanter();
         final Profession profession = professionManager
                 .getPlayerProfession(enchanter.getUniqueId());
 
-        if (enchanted == null || profession == null) {
-            return;
-        }
-
-        // TODO implement for secondary professions
-        if (!isEnchantable(event.getEnchantsToAdd(), profession)) {
+        if (!canEnchant(enchanter, event.getEnchantsToAdd())) {
             enchanter.sendMessage(professionManager.getPlugin().getMessage(
                     Messages.PROFESSION_DENY_ENCHANTMENT,
                     MessageVariable.PROFESSION.value(profession.getName())));
@@ -135,9 +146,29 @@ public class ProfessionListener implements Listener {
         }
     }
 
-    private boolean isEnchantable(final ItemStack stack,
-            final Profession profession) {
-        return isEnchantable(stack.getEnchantments(), profession);
+    private boolean canEnchant(final Player player,
+            final Map<Enchantment, Integer> enchantments) {
+        final UUID playerId = player.getUniqueId();
+
+        final Profession profession = professionManager
+                .getPlayerProfession(playerId);
+        if (profession == null) {
+            return false; // rolecraft is not intended to handle players without professions
+        }
+
+        if (isEnchantable(enchantments, profession)) {
+            return true;
+        }
+
+        if (!plugin.getConfigValues().allowSecondProfessions() || !plugin
+                .getConfigValues().allowSecondProfessionEnchantments()) {
+            return false;
+        }
+
+        final Profession secondProfession = professionManager
+                .getPlayerSecondProfession(playerId);
+        return secondProfession != null && isEnchantable(enchantments,
+                secondProfession);
     }
 
     private boolean isEnchantable(final Map<Enchantment, Integer> enchantments,
@@ -161,6 +192,7 @@ public class ProfessionListener implements Listener {
             return true;
         }
         if (rules == null || rules.isEmpty()) {
+            // use config default value
             return professionManager.getPlugin().getConfig().getBoolean(
                     "professiondefaults.enchantments", true);
         }
@@ -179,16 +211,56 @@ public class ProfessionListener implements Listener {
         return true;
     }
 
-    private boolean isMaterialUsable(final ItemStack stack,
-            final Profession profession) {
-        return isMaterialAllowed(stack.getType(), profession
-                .getRuleValue(ProfessionRule.USABLE_ITEMS));
+    private boolean isMaterialUsable(final Player player,
+            final ItemStack stack) {
+        final UUID playerId = player.getUniqueId();
+
+        final Profession profession = professionManager
+                .getPlayerProfession(playerId);
+        if (profession == null) {
+            return false; // rolecraft is not intended to handle players without professions
+        }
+
+        if (isMaterialAllowed(stack.getType(), profession
+                .getRuleValue(ProfessionRule.USABLE_ITEMS))) {
+            return true;
+        }
+
+        if (!plugin.getConfigValues().allowSecondProfessions() || !plugin
+                .getConfigValues().allowSecondProfessionArmor()) {
+            return false;
+        }
+
+        final Profession secondProfession = professionManager
+                .getPlayerSecondProfession(playerId);
+        return secondProfession != null && isMaterialAllowed(stack.getType(),
+                secondProfession.getRuleValue(ProfessionRule.USABLE_ITEMS));
     }
 
-    private boolean isMaterialEquipable(final ItemStack stack,
-            final Profession profession) {
-        return isMaterialAllowed(stack.getType(), profession
-                .getRuleValue(ProfessionRule.USABLE_ARMOR));
+    private boolean isMaterialEquippable(final Player player,
+            final ItemStack stack) {
+        final UUID playerId = player.getUniqueId();
+
+        final Profession profession = professionManager
+                .getPlayerProfession(playerId);
+        if (profession == null) {
+            return false; // rolecraft is not intended to handle players without professions
+        }
+
+        if (isMaterialAllowed(stack.getType(), profession
+                .getRuleValue(ProfessionRule.USABLE_ARMOR))) {
+            return true;
+        }
+
+        if (!plugin.getConfigValues().allowSecondProfessions() || !plugin
+                .getConfigValues().allowSecondProfessionArmor()) {
+            return false;
+        }
+
+        final Profession secondProfession = professionManager
+                .getPlayerSecondProfession(playerId);
+        return secondProfession != null && isMaterialAllowed(stack.getType(),
+                secondProfession.getRuleValue(ProfessionRule.USABLE_ARMOR));
     }
 
     /**
@@ -206,7 +278,7 @@ public class ProfessionListener implements Listener {
             return true;
         }
         if (rules == null || rules.isEmpty()) {
-            // Default to true
+            // use config default value
             return professionManager.getPlugin().getConfig().getBoolean(
                     "professiondefaults.armor", true);
         }
