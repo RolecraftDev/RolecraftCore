@@ -58,9 +58,9 @@ public final class RolecraftConfig {
      */
     private final float maximumMana;
     /**
-     * The rate, per 2 seconds, at which mana regenerates.
+     * The constant value used for mana regen calculation.
      */
-    private final float manaRegen;
+    private final float manaRegenConstant;
 
     // second profession configuration
 
@@ -110,7 +110,7 @@ public final class RolecraftConfig {
 
         // load mana-related settings
         this.maximumMana = (float) yamlConfig.getDouble("maximummana", 2000.0);
-        this.manaRegen = (float) yamlConfig.getDouble("manaregen", 5.0);
+        this.manaRegenConstant = (float) yamlConfig.getDouble("manaregenconstant", 5.0);
 
         // load second profession settings
         this.secondProfessions = yamlConfig
@@ -170,13 +170,13 @@ public final class RolecraftConfig {
     }
 
     /**
-     * Get the regeneration rate of mana per 2 seconds.
+     * Get the constant for mana regeneration.
      *
-     * @return the mana regeneration rate
+     * @return the mana regeneration rate constant
      * @since 0.1.0
      */
-    public float getManaRegenRate() {
-        return manaRegen;
+    public float getManaRegenConstant() {
+        return manaRegenConstant;
     }
 
     /**

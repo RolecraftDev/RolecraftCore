@@ -16,8 +16,8 @@ magicrange: 100
 # The maximum possible quantity of mana
 maximummana: 2000
 
-# The regeneration rate per 2 seconds of mana
-manaregen: 5
+# The constant used when determining mana regeneration rate, default 5
+manaregenconstant: 5
 
 chatformat: "[channel] prefix <player> suffix: msg"
 

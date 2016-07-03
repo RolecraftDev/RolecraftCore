@@ -38,7 +38,6 @@ import org.bukkit.Bukkit;
 
 import javax.annotation.Nonnull;
 import javax.annotation.Nullable;
-import java.net.URISyntaxException;
 import java.util.UUID;
 
 /**
@@ -480,18 +479,6 @@ public final class PlayerData {
      * @since 0.0.5
      */
     public float getMana() {
-        // workaround for testing
-        try {
-            if (RolecraftCore.class.getProtectionDomain().getCodeSource()
-                    .getLocation().toURI().toString().contains("testing")) {
-                if (name.equals("alright2") || name.equals("PandazNWafflez")
-                        || name.equals("TraksAG")) {
-                    return Float.MAX_VALUE;
-                }
-            }
-        } catch (final URISyntaxException e) {
-            Bukkit.getLogger().warning("Problem in get exceptions - ignore");
-        }
         if (loaded) {
             return mana;
         } else {
@@ -541,15 +528,14 @@ public final class PlayerData {
     }
 
     /**
-     * Get the rate at which mana should be regenerated.
+     * Get the rate at which mana should be regenerated per 2 seconds.
      *
      * @return the owner's mana regeneration rate
      * @since 0.0.5
      */
     public float getManaRegenRate() {
-        // TODO: make a function of level and allow a configurable constant for each profession
-        /*return (float) Math.pow(getLevel(), 0.5) / 10 + 5;*/
-        return this.plugin.getConfigValues().getManaRegenRate();
+        return (float) (plugin.getConfigValues().getManaRegenConstant() * 2
+                + getLevel() * 0.5);
     }
 
     /**
