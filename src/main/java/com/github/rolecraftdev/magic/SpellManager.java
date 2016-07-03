@@ -182,7 +182,7 @@ public class SpellManager {
      */
     @Nullable
     public String getConfiguredName(@Nonnull final String spellName) {
-        final String configKey = spellName.trim()
+        final String configKey = spellName.trim().toLowerCase()
                 .replaceAll(" ", "-"); // convert name to config key
 
         if (this.names.containsKey(configKey)) {
