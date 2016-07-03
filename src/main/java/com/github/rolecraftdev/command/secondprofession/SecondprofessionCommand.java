@@ -45,6 +45,8 @@ public class SecondprofessionCommand extends TreeCommandHandler {
 
     @Override
     public void setupSubcommands() {
+        addSubcommand("abandon", new SecondprofessionAbandonCommand(plugin));
         addSubcommand("select", new SecondprofessionSelectCommand(plugin));
+        addSubcommand("show", new SecondprofessionShowCommand(plugin));
     }
 }

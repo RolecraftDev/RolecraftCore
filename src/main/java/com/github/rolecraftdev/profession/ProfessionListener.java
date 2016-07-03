@@ -83,6 +83,9 @@ public class ProfessionListener implements Listener {
         if (current == null || profession == null) {
             return;
         }
+
+        // TODO implement for secondary professions
+
         if (event.getSlotType() == SlotType.ARMOR
                 && !isMaterialEquipable(current, profession)) {
             clicker.sendMessage(professionManager.getPlugin().getMessage(
@@ -122,6 +125,8 @@ public class ProfessionListener implements Listener {
         if (enchanted == null || profession == null) {
             return;
         }
+
+        // TODO implement for secondary professions
         if (!isEnchantable(event.getEnchantsToAdd(), profession)) {
             enchanter.sendMessage(professionManager.getPlugin().getMessage(
                     Messages.PROFESSION_DENY_ENCHANTMENT,

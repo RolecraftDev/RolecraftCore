@@ -87,8 +87,11 @@ public final class ProfessionManager {
 
         signManager.registerHandler(
                 new ProfessionSignInteractionHandler(plugin));
-        signManager.registerHandler(
-                new SecondaryProfessionSignInteractionHandler(plugin));
+
+        if (plugin.allowSecondProfessions()) {
+            signManager.registerHandler(
+                    new SecondaryProfessionSignInteractionHandler(plugin));
+        }
 
         plugin.getServer().getPluginManager().registerEvents(
                 new ProfessionListener(this), plugin);
@@ -160,8 +163,24 @@ public final class ProfessionManager {
      */
     @Nullable
     public Profession getPlayerProfession(final UUID player) {
+        return getProfession(
+                plugin.getDataManager().getPlayerData(player).getProfession());
+    }
+
+    /**
+     * Retrieve the registered {@link Profession} which the player has selected
+     * as their secondary profession, or {@code null} if they do not have a
+     * secondary profession.
+     *
+     * @param player the {@link UUID} of the player for which to return the
+     *        secondary profession
+     * @return the second profession of the player with the given id
+     * @since 0.1.0
+     */
+    @Nullable
+    public Profession getPlayerSecondProfession(final UUID player) {
         return getProfession(plugin.getDataManager().getPlayerData(player)
-                .getProfession());
+                .getSecondProfession());
     }
 
     /**

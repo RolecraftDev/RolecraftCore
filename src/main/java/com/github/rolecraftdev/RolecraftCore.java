@@ -157,13 +157,31 @@ public final class RolecraftCore extends JavaPlugin {
      */
     private float manaRegen;
     /**
+     * The configured chat format for the plugin.
+     */
+    private String chatFormat;
+
+    // second profession configuration
+    /**
      * Whether second professions are enabled on this server.
      */
     private boolean secondProfessions;
     /**
-     * The configured chat format for the plugin.
+     * Whether people can use spells usable by their second profession.
      */
-    private String chatFormat;
+    private boolean secondProfessionSpells;
+    /**
+     * Whether people can use armor usable by their second profession.
+     */
+    private boolean secondProfessionArmor;
+    /**
+     * Whether people can use items usable by their second profession.
+     */
+    private boolean secondProfessionItems;
+    /**
+     * Whether people can use enchantments usable by their second profession.
+     */
+    private boolean secondProfessionEnchantments;
 
     /**
      * @since 0.0.5
@@ -197,7 +215,16 @@ public final class RolecraftCore extends JavaPlugin {
         originalSin = (float) config.getDouble("originalsin");
         maximumMana = (float) config.getDouble("maximummana", 2000.0);
         manaRegen = (float) config.getDouble("manaregen", 5.0);
-        secondProfessions = config.getBoolean("secondprofessions", false);
+        secondProfessions = config
+                .getBoolean("secondprofessions.enabled", false);
+        secondProfessionSpells = config
+                .getBoolean("secondprofessions.spells", true);
+        secondProfessionArmor = config
+                .getBoolean("secondprofessions.armor", false);
+        secondProfessionItems = config
+                .getBoolean("secondprofessions.items", true);
+        secondProfessionEnchantments = config
+                .getBoolean("secondprofessions.enchantments", true);
         chatFormat = config.getString("chatformat",
                 "[channel] prefix <player> suffix: msg");
 
@@ -257,7 +284,10 @@ public final class RolecraftCore extends JavaPlugin {
         register(new RCConfirmCommand(this));
         register(new DebugCommand(this));
         register(new ChannelCommand(this));
-        register(new SecondprofessionCommand(this));
+
+        if (this.secondProfessions) { // only register second profession command if second professions are enabled
+            register(new SecondprofessionCommand(this));
+        }
     }
 
     /**

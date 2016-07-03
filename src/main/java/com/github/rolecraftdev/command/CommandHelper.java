@@ -35,6 +35,9 @@ import com.github.rolecraftdev.guild.Guild;
 import com.github.rolecraftdev.guild.GuildAction;
 import com.github.rolecraftdev.guild.GuildManager;
 import com.github.rolecraftdev.guild.GuildRank;
+import com.github.rolecraftdev.profession.Profession;
+import com.github.rolecraftdev.profession.ProfessionRule;
+import com.github.rolecraftdev.profession.ProfessionRuleMap;
 import com.github.rolecraftdev.util.messages.MessageVariable;
 import com.github.rolecraftdev.util.messages.Messages;
 
@@ -46,6 +49,7 @@ import org.bukkit.plugin.java.JavaPlugin;
 
 import javax.annotation.Nonnull;
 import javax.annotation.Nullable;
+import java.util.ArrayList;
 import java.util.List;
 
 /**
@@ -256,6 +260,71 @@ public final class CommandHelper {
         permitted.setLength(permitted.length() - separator.length());
         sender.sendMessage(ChatColor.GRAY + "Permitted Actions: "
                 + permitted.toString());
+    }
+
+    /**
+     * Shows information for the given {@link Profession} to the given
+     * {@link Player}.
+     *
+     * @param plugin the {@link RolecraftCore} plugin instance
+     * @param player the {@link Player} to send information to
+     * @param profession the {@link Profession} to send information about
+     * @since 0.1.0
+     */
+    public static void showProfessionInformation(
+            @Nonnull final RolecraftCore plugin, @Nonnull final Player player,
+            @Nonnull final Profession profession) {
+        final ProfessionRuleMap ruleMap = profession.getRuleMap();
+        final List<String> lines = new ArrayList<String>();
+
+        for (final ProfessionRule<?> rule : ruleMap.getRuleKeys()) {
+            final String name = rule.getName();
+            final StringBuilder line = new StringBuilder();
+            final Object value = ruleMap.get(rule);
+
+            if (name.equals("usable-spells")) {
+                final List list = (List) value;
+                line.append(plugin.getMessage(Messages.USABLE_SPELLS));
+
+                for (final Object obj : list) {
+                    line.append(obj.toString()).append(", ");
+                }
+
+                line.setLength(line.length() - 2); // remove final ", "
+            } else if (name.equals("usable-armor")) {
+                final List list = (List) value;
+                line.append(plugin.getMessage(Messages.USABLE_ARMOR));
+
+                for (final Object obj : list) {
+                    line.append(obj.toString()).append(", ");
+                }
+
+                line.setLength(line.length() - 2); // remove final ", "
+            } else if (name.equals("usable-enchantments")) {
+                final List list = (List) value;
+                line.append(plugin.getMessage(Messages.USABLE_ENCHANTMENTS));
+
+                for (final Object obj : list) {
+                    line.append(obj.toString()).append(", ");
+                }
+
+                line.setLength(line.length() - 2); // remove final ", "
+            } else if (name.equals("usable-items")) {
+                final List list = (List) value;
+                line.append(plugin.getMessage(Messages.USABLE_ITEMS));
+
+                for (final Object obj : list) {
+                    line.append(obj.toString()).append(", ");
+                }
+
+                line.setLength(line.length() - 2); // remove final ", "
+            }
+
+            lines.add(line.toString());
+        }
+
+        sendBanner(player, "Profession: " + profession.getName(),
+                lines.toArray());
     }
 
     /**

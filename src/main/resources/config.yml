@@ -19,11 +19,6 @@ maximummana: 2000
 # The regeneration rate per 2 seconds of mana
 manaregen: 5
 
-# Whether to enable second professions on this server
-# TODO: make individual aspect of second professions configurable
-# Currently not implemented
-secondprofessions: false
-
 chatformat: [channel] prefix <player> suffix: msg
 
 # Leaving this to true will enforce area protection and block protection
@@ -38,6 +33,17 @@ extraevents: true
 professiondefaults:
     spells: true
     armor: true
+    enchantments: true
+
+# Whether to enable secondary professions, as well as options as to
+# Which benefits of a profession should be granted to players who have
+# selected the profession only as a secondary profession
+# Secondary professions are disabled by default
+secondprofessions:
+    enabled: false
+    spells: true
+    armor: false
+    items: true
     enchantments: true
 
 # Teleport delay before teleporting to guild home, in seconds

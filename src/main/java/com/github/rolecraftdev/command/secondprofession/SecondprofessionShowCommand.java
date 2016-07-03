@@ -24,7 +24,7 @@
  * DISCLAIMER: This is a human-readable summary of (and not a substitute for) the
  * license.
  */
-package com.github.rolecraftdev.command.profession;
+package com.github.rolecraftdev.command.secondprofession;
 
 import com.github.rolecraftdev.RolecraftCore;
 import com.github.rolecraftdev.command.CommandHelper;
@@ -40,21 +40,20 @@ import javax.annotation.Nonnull;
 import java.util.UUID;
 
 /**
- * @since 0.0.5
+ * @since 0.1.0
  */
-public final class ProfessionShowCommand extends PlayerCommandHandler {
+public final class SecondprofessionShowCommand extends PlayerCommandHandler {
     private final ProfessionManager professionManager;
 
     /**
-     * @since 0.0.5
+     * @since 0.1.0
      */
-    public ProfessionShowCommand(@Nonnull final RolecraftCore plugin) {
+    public SecondprofessionShowCommand(@Nonnull final RolecraftCore plugin) {
         super(plugin, "show");
         professionManager = plugin.getProfessionManager();
 
-        setUsage("/profession show [profession]");
-        setDescription(
-                "View information about the given profession, or your profession if no profession is specified");
+        setUsage("/secondprofession show");
+        setDescription("View information about your second profession");
         setSubcommand(true);
     }
 
@@ -63,31 +62,16 @@ public final class ProfessionShowCommand extends PlayerCommandHandler {
      */
     @Override
     public void onCommand(final Player player, final Arguments args) {
-        if (args.length() == 0) {
-            // show information for the player's current profession if they have one
-            final UUID playerId = player.getUniqueId();
-            final Profession profession = professionManager
-                    .getPlayerProfession(playerId);
+        // show information for the player's current profession if they have one
+        final UUID playerId = player.getUniqueId();
+        final Profession profession = professionManager
+                .getPlayerSecondProfession(playerId);
 
-            if (profession == null) {
-                player.sendMessage(plugin.getMessage(Messages.NO_PROFESSION));
-                return;
-            }
-
-            CommandHelper.showProfessionInformation(plugin, player, profession);
-        } else {
-            // show information for the given profession
-            final String professionName = args.getRaw(0);
-            final Profession profession = professionManager
-                    .getProfession(professionName);
-
-            if (profession == null) {
-                player.sendMessage(plugin.getMessage(
-                        Messages.PROFESSION_NOT_EXISTS));
-                return;
-            }
-
-            CommandHelper.showProfessionInformation(plugin, player, profession);
+        if (profession == null) {
+            player.sendMessage(plugin.getMessage(Messages.NO_SECOND_PROFESSION));
+            return;
         }
+
+        CommandHelper.showProfessionInformation(plugin, player, profession);
     }
 }
