@@ -177,7 +177,7 @@ public class MiningHammer implements Spell {
         }
 
         for (final Block toBreak : blocks) {
-            if (spellManager.getPlugin().isExtraEvents()) {
+            if (spellManager.getPlugin().getConfigValues().isExtraEvents()) {
                 final BlockBreakEvent event = new BlockBreakEvent(toBreak, ply);
                 Bukkit.getPluginManager().callEvent(event);
                 if (event.isCancelled()) {

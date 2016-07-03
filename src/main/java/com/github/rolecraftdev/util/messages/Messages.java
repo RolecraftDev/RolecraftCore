@@ -699,8 +699,8 @@ public class Messages {
      * @since 0.0.5
      */
     public void load() {
-        final String langName = "/messages/" + plugin.getDefaultLocale()
-                + ".properties";
+        final String langName = "/messages/" + plugin.getConfigValues()
+                .getDefaultLocale() + ".properties";
         // Get the file configured by the user
         final File configuredFile = new File(plugin.getDataFolder(),
                 "messages.properties");
@@ -719,8 +719,8 @@ public class Messages {
                 e.printStackTrace();
             } catch (final NullPointerException e) {
                 plugin.getLogger().warning(
-                        "Messages locale " + plugin.getDefaultLocale()
-                                + " is not available");
+                        "Messages locale " + plugin.getConfigValues()
+                                .getDefaultLocale() + " is not available");
                 return;
             }
         }

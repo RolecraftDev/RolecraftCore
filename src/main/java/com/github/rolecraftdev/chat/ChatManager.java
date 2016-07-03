@@ -121,7 +121,8 @@ public final class ChatManager {
      */
     public ChatManager(@Nonnull final RolecraftCore plugin) {
         this.plugin = plugin;
-        this.formatter = new ChatFormatter(plugin.getChatFormat());
+        this.formatter = new ChatFormatter(
+                plugin.getConfigValues().getChatFormat());
         this.channels = new HashSet<ChatChannel>();
         this.playerChannels = new HashMap<UUID, Set<ChatChannel>>();
         this.currentPlayerChannels = new HashMap<UUID, ChatChannel>();

@@ -88,7 +88,7 @@ public final class ProfessionManager {
         signManager.registerHandler(
                 new ProfessionSignInteractionHandler(plugin));
 
-        if (plugin.allowSecondProfessions()) {
+        if (plugin.getConfigValues().allowSecondProfessions()) {
             signManager.registerHandler(
                     new SecondaryProfessionSignInteractionHandler(plugin));
         }

@@ -547,9 +547,9 @@ public final class PlayerData {
      * @since 0.0.5
      */
     public float getManaRegenRate() {
-        // TODO: this is probably wayyyy too fast
+        // TODO: make a function of level and allow a configurable constant for each profession
         /*return (float) Math.pow(getLevel(), 0.5) / 10 + 5;*/
-        return this.plugin.getManaRegenRate();
+        return this.plugin.getConfigValues().getManaRegenRate();
     }
 
     /**

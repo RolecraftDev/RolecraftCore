@@ -675,7 +675,7 @@ public abstract class DataStore {
             final boolean recursive) {
         final String uuid = callback.getPlayerId().toString();
         final String name = callback.getPlayerName();
-        final float originalSin = plugin.getOriginalSin();
+        final float originalSin = plugin.getConfigValues().getOriginalSin();
         if (recursive) {
             final Connection connection = getConnection();
             PreparedStatement ps = null;
@@ -713,7 +713,8 @@ public abstract class DataStore {
                     ps.setString(2, name);
                     ps.execute();
                     callback.initialise(null, null, null, 0, 0f, -originalSin,
-                            plugin.getMaximumMana(), PlayerSettings.defaults());
+                            plugin.getConfigValues().getMaximumMana(),
+                            PlayerSettings.defaults());
                 }
 
             } catch (final SQLException ex) {
@@ -787,7 +788,8 @@ public abstract class DataStore {
                             ps.setString(2, name);
                             ps.execute();
                             callback.initialise(null, null, null, 0, 0f,
-                                    -originalSin, plugin.getMaximumMana(),
+                                    -originalSin,
+                                    plugin.getConfigValues().getMaximumMana(),
                                     PlayerSettings.defaults());
                         }
                     } catch (final SQLException ex) {

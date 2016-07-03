@@ -45,7 +45,7 @@ public class ManaRegenTask extends BukkitRunnable {
      */
     public ManaRegenTask(final RolecraftCore plugin) {
         this.plugin = plugin;
-        this.maximumMana = plugin.getMaximumMana();
+        this.maximumMana = plugin.getConfigValues().getMaximumMana();
     }
 
     /**

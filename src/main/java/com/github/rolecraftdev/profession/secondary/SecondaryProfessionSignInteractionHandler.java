@@ -57,12 +57,22 @@ public final class SecondaryProfessionSignInteractionHandler
      */
     private final boolean enabled;
 
+    /**
+     * Constructor.
+     *
+     * @param plugin the {@link RolecraftCore} plugin instance
+     * @since 0.1.0
+     */
     public SecondaryProfessionSignInteractionHandler(
             @Nonnull final RolecraftCore plugin) {
         this.plugin = plugin;
-        this.enabled = plugin.allowSecondProfessions();
+        this.enabled = plugin.getConfigValues().allowSecondProfessions();
     }
 
+    /**
+     * {@inheritDoc}
+     * @since 0.1.0
+     */
     @Override
     public void handleSignInteraction(@Nonnull final Player player,
             @Nonnull final RolecraftSign sign) {
@@ -126,6 +136,10 @@ public final class SecondaryProfessionSignInteractionHandler
         }
     }
 
+    /**
+     * {@inheritDoc}
+     * @since 0.1.0
+     */
     @Nonnull @Override
     public String getType() {
         return ProfessionManager.SECONDPROFESSION_SIGN_TYPE;

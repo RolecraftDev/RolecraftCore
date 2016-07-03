@@ -84,6 +84,11 @@ public final class RolecraftCore extends JavaPlugin {
     private volatile boolean sqlLoaded;
 
     /**
+     * Configuration value holder.
+     */
+    @Nonnull
+    private RolecraftConfig config;
+    /**
      * All the messages used by Rolecraft.
      */
     @Nonnull
@@ -134,55 +139,6 @@ public final class RolecraftCore extends JavaPlugin {
     @Nullable
     private Chat chat;
 
-    // Configuration options
-
-    /**
-     * The default messages locale, used when there are unspecified values.
-     */
-    private String defaultLocale;
-    /**
-     * The amount of negative karma a player starts with.
-     */
-    private float originalSin;
-    /**
-     * Whether to call extra events.
-     */
-    private boolean extraEvents;
-    /**
-     * The maximum mana a player is allowed to have.
-     */
-    private float maximumMana;
-    /**
-     * The rate, per 2 seconds, at which mana regenerates.
-     */
-    private float manaRegen;
-    /**
-     * The configured chat format for the plugin.
-     */
-    private String chatFormat;
-
-    // second profession configuration
-    /**
-     * Whether second professions are enabled on this server.
-     */
-    private boolean secondProfessions;
-    /**
-     * Whether people can use spells usable by their second profession.
-     */
-    private boolean secondProfessionSpells;
-    /**
-     * Whether people can use armor usable by their second profession.
-     */
-    private boolean secondProfessionArmor;
-    /**
-     * Whether people can use items usable by their second profession.
-     */
-    private boolean secondProfessionItems;
-    /**
-     * Whether people can use enchantments usable by their second profession.
-     */
-    private boolean secondProfessionEnchantments;
-
     /**
      * @since 0.0.5
      */
@@ -208,25 +164,11 @@ public final class RolecraftCore extends JavaPlugin {
 
         // Create default configuration file if it doesn't exist already
         final YamlFile config = new YamlFile(this, "config.yml", false);
+
         // Get options from the config
+        this.config = new RolecraftConfig(this, config);
+
         final String dbType = config.getString("sqlserver").toLowerCase();
-        defaultLocale = config.getString("default-locale");
-        extraEvents = config.getBoolean("extraevents");
-        originalSin = (float) config.getDouble("originalsin");
-        maximumMana = (float) config.getDouble("maximummana", 2000.0);
-        manaRegen = (float) config.getDouble("manaregen", 5.0);
-        secondProfessions = config
-                .getBoolean("secondprofessions.enabled", false);
-        secondProfessionSpells = config
-                .getBoolean("secondprofessions.spells", true);
-        secondProfessionArmor = config
-                .getBoolean("secondprofessions.armor", false);
-        secondProfessionItems = config
-                .getBoolean("secondprofessions.items", true);
-        secondProfessionEnchantments = config
-                .getBoolean("secondprofessions.enchantments", true);
-        chatFormat = config.getString("chatformat",
-                "[channel] prefix <player> suffix: msg");
 
         // Set the plugin object for event construction in RolecraftEventFactory
         RolecraftEventFactory.setPlugin(this);
@@ -285,7 +227,7 @@ public final class RolecraftCore extends JavaPlugin {
         register(new DebugCommand(this));
         register(new ChannelCommand(this));
 
-        if (this.secondProfessions) { // only register second profession command if second professions are enabled
+        if (this.config.allowSecondProfessions()) { // only register second profession command if second professions are enabled
             register(new SecondprofessionCommand(this));
         }
     }
@@ -298,6 +240,16 @@ public final class RolecraftCore extends JavaPlugin {
         dataManager.cleanup();
         signManager.saveSigns();
         chatManager.saveChannels();
+    }
+
+    /**
+     * Get the Rolecraft configuration value holder object.
+     *
+     * @return Rolecraft's config value holder
+     * @since 0.1.0
+     */
+    public RolecraftConfig getConfigValues() {
+        return config;
     }
 
     /**
@@ -577,78 +529,6 @@ public final class RolecraftCore extends JavaPlugin {
      */
     public boolean vaultChatHooked() {
         return getVaultChat() != null;
-    }
-
-    /**
-     * Gets the default messages locale, used for unspecified values.
-     *
-     * @return the default messages locale
-     * @since 0.0.5
-     */
-    public String getDefaultLocale() {
-        return defaultLocale;
-    }
-
-    /**
-     * Check if the use of extra events is enabled.
-     *
-     * @return {@code true} if extra events are enabled
-     * @since 0.0.5
-     */
-    public boolean isExtraEvents() {
-        return extraEvents;
-    }
-
-    /**
-     * Get the amount of negative karma a player should start with when he joins
-     * for the first time or respawns.
-     *
-     * @return the negative karma level a player begins with
-     * @since 0.0.5
-     */
-    public float getOriginalSin() {
-        return originalSin;
-    }
-
-    /**
-     * Get the maximum amount of mana players are permitted to have. This is
-     * also the amount of mana a player will start with.
-     *
-     * @return the maximum mana on the server
-     * @since 0.0.5
-     */
-    public float getMaximumMana() {
-        return maximumMana;
-    }
-
-    /**
-     * Get the regeneration rate of mana per 2 seconds.
-     *
-     * @return the mana regeneration rate
-     * @since 0.0.5
-     */
-    public float getManaRegenRate() {
-        return manaRegen;
-    }
-
-    /**
-     * Whether the use of secondary professions is allowed on this server.
-     *
-     * @return whether second professions are allowed
-     * @since 0.1.0
-     */
-    public boolean allowSecondProfessions() {
-        return secondProfessions;
-    }
-
-    /**
-     * Gets the configured chat format for the plugin.
-     *
-     * @return the plugin's configured chat format
-     * @since 0.1.0
-     */
-    public String getChatFormat() {
-        return chatFormat;
     }
 
     /**
