@@ -28,6 +28,7 @@ package com.github.rolecraftdev.magic.listener;
 
 import org.bukkit.Effect;
 import org.bukkit.Sound;
+import org.bukkit.block.BlockFace;
 import org.bukkit.entity.Arrow;
 import org.bukkit.entity.Entity;
 import org.bukkit.event.Event;
@@ -76,7 +77,7 @@ public class ProjectileListener implements Listener {
 
         if (entity.hasMetadata("Explosion")) {
             entity.getWorld().playEffect(e.getEntity().getLocation(),
-                    Effect.SMOKE, null);
+                    Effect.SMOKE, BlockFace.UP);
             entity.getWorld().playSound(e.getEntity().getLocation(),
                     Sound.EXPLODE, 1.0f, 0.0f);
         }
