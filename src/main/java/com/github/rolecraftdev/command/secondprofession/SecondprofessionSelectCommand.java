@@ -92,7 +92,7 @@ public class SecondprofessionSelectCommand extends PlayerCommandHandler {
         }
         if (!player.hasPermission("rolecraft.profession.secondary") ||
                 !player.hasPermission("rolecraft.profession." + profession
-                .getName())) {
+                        .getName())) {
             player.sendMessage(plugin.getMessage(Messages.PROFESSION_NO_PERMS,
                     MessageVariable.PROFESSION.value(profession.getName())));
             return;

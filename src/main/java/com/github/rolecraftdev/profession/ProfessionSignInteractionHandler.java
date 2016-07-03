@@ -115,7 +115,8 @@ public final class ProfessionSignInteractionHandler
             }
 
             data.setProfession(null);
-            player.sendMessage(plugin.getMessage(Messages.PROFESSION_ABANDONED));
+            player.sendMessage(
+                    plugin.getMessage(Messages.PROFESSION_ABANDONED));
         }
     }
 

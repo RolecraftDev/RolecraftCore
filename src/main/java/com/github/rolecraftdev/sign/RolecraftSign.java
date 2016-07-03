@@ -29,7 +29,6 @@ package com.github.rolecraftdev.sign;
 import com.github.rolecraftdev.util.SimpleLocation;
 
 import javax.annotation.Nonnull;
-import java.util.regex.Pattern;
 
 /**
  * Represents a Rolecraft sign. RolecraftSigns are represented in the Minecraft

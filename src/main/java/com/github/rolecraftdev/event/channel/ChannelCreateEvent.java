@@ -31,7 +31,6 @@ import com.github.rolecraftdev.chat.channel.ChatChannel;
 import com.github.rolecraftdev.event.RolecraftCancellable;
 import com.github.rolecraftdev.util.messages.Messages;
 
-import org.bukkit.command.Command;
 import org.bukkit.command.CommandSender;
 import org.bukkit.event.HandlerList;
 

@@ -57,6 +57,5 @@ public interface SignInteractionHandler {
      * @return this handler's type
      * @since 0.1.0
      */
-    @Nonnull
-    String getType();
+    @Nonnull String getType();
 }

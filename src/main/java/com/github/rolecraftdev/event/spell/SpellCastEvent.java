@@ -32,7 +32,6 @@ import com.github.rolecraftdev.magic.Spell;
 import com.github.rolecraftdev.util.SoundWrapper;
 import com.github.rolecraftdev.util.messages.Messages;
 
-import org.bukkit.ChatColor;
 import org.bukkit.entity.Entity;
 import org.bukkit.event.HandlerList;
 

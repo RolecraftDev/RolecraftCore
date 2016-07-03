@@ -108,7 +108,8 @@ public final class SignListener implements Listener {
 
         if (this.signManager.isSignAt(location)) {
             if (!event.getPlayer().hasPermission("rolecraft.sign.place")) {
-                event.setCancelled(true); // players who don't have permission to place these signs are also assumed not to have permission to break them
+                event.setCancelled(
+                        true); // players who don't have permission to place these signs are also assumed not to have permission to break them
                 event.getPlayer().sendMessage(signManager.getPlugin()
                         .getMessage(Messages.NO_PERMISSION));
                 return;

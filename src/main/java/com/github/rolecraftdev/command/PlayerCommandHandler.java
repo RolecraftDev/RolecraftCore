@@ -30,7 +30,6 @@ import com.github.rolecraftdev.RolecraftCore;
 import com.github.rolecraftdev.command.parser.Arguments;
 import com.github.rolecraftdev.util.messages.Messages;
 
-import org.bukkit.ChatColor;
 import org.bukkit.command.CommandSender;
 import org.bukkit.entity.Player;
 

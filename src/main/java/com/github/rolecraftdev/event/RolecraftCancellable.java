@@ -44,8 +44,7 @@ public interface RolecraftCancellable extends Cancellable {
      * @return the cancellation message
      * @since 0.1.0
      */
-    @Nonnull
-    String getCancelMessage();
+    @Nonnull String getCancelMessage();
 
     /**
      * Sets the message which is to be sent to involved parties if

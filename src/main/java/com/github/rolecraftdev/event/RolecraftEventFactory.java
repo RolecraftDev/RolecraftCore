@@ -350,7 +350,8 @@ public class RolecraftEventFactory {
      */
     public static ChannelDeleteEvent channelDelete(
             final ChatChannel channel, final CommandSender commandSender) {
-        return callEvent(new ChannelDeleteEvent(plugin, channel, commandSender));
+        return callEvent(
+                new ChannelDeleteEvent(plugin, channel, commandSender));
     }
 
     /**
