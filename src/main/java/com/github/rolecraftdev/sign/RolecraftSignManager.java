@@ -328,11 +328,13 @@ public final class RolecraftSignManager {
             hashCodes.add(hashCode);
         }
 
-        // remove any deleted signs from the configuration
-        for (final String key : yamlFile.getConfigurationSection("signs")
-                .getKeys(false)) {
-            if (!hashCodes.contains(Integer.parseInt(key))) {
-                yamlFile.getConfigurationSection("signs").set(key, null);
+        if (yamlFile.contains("signs")) {
+            // remove any deleted signs from the configuration
+            for (final String key : yamlFile.getConfigurationSection("signs")
+                    .getKeys(false)) {
+                if (!hashCodes.contains(Integer.parseInt(key))) {
+                    yamlFile.getConfigurationSection("signs").set(key, null);
+                }
             }
         }
 

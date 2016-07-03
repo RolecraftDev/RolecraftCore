@@ -117,6 +117,15 @@
                     <include>config.yml</include>
                     <include>plugin.yml</include>
                     <include>guilds.yml</include>
+                    <include>spells.properties</include>
+                </includes>
+            </resource>
+            <resource>
+                <targetPath>./channels</targetPath>
+                <filtering>true</filtering>
+                <directory>${basedir}/src/main/resources/channels/</directory>
+                <includes>
+                    <include>channels.yml</include>
                 </includes>
             </resource>
             <resource>

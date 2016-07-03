@@ -19,7 +19,7 @@ maximummana: 2000
 # The regeneration rate per 2 seconds of mana
 manaregen: 5
 
-chatformat: [channel] prefix <player> suffix: msg
+chatformat: "[channel] prefix <player> suffix: msg"
 
 # Leaving this to true will enforce area protection and block protection
 # plugins when players are casting spells, however this may cause problems

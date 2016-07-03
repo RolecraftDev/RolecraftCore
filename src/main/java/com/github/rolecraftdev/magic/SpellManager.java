@@ -97,24 +97,11 @@ public class SpellManager {
         emptyMap = new HashMap<String, Boolean>();
         names = new HashMap<String, String>();
 
-        final String filePath = "spells" + File.separator + "spells.properties";
+        final String filePath = "spells.properties";
         final File dataFolder = plugin.getDataFolder();
         final File spellsFile = new File(dataFolder, filePath);
 
-        // load spell names from configuration
-        if (!spellsFile.isFile()) {
-            spellsFile.delete();
-        }
-
-        if (!spellsFile
-                .exists()) { // load default spell name config from plugin JAR
-            try {
-                GeneralUtil.copyInputStreamToFile(plugin.getClass()
-                        .getResourceAsStream(filePath), spellsFile);
-            } catch (final IOException e) {
-                e.printStackTrace();
-            }
-        }
+        plugin.saveResource(filePath, false);
 
         for (final Map.Entry<Object, Object> line : new PropertiesFile(
                 spellsFile).entrySet()) {
