@@ -75,6 +75,13 @@ public final class ProfessionRule<T> {
      */
     public static final ProfessionRule<List> USABLE_ITEMS = new ProfessionRule<List>(
             "usable-weapons", List.class);
+    /**
+     * The constant value used to calculate mana regen rate.
+     *
+     * @since 0.1.0
+     */
+    public static final ProfessionRule<Float> MANA_REGEN_CONSTANT = new ProfessionRule<Float>(
+            "mana-regen-constant", Float.class);
 
     /**
      * The name of this {@link ProfessionRule}.

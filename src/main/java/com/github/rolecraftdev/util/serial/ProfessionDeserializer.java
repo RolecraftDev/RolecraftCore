@@ -156,10 +156,8 @@ public class ProfessionDeserializer {
 
             // Validation is done by ProfessionRuleMap#set
             if (!ruleMap.set(ProfessionRule.getRule(ruleName), value)) {
-                Bukkit.getLogger()
-                        .warning("[WARNING] [Rolecraft] Couldn't set rule "
-                                + ruleName + " for profession "
-                                + getProfessionName());
+                Bukkit.getLogger().warning("[Rolecraft] Couldn't set rule "
+                        + ruleName + " for profession " + getProfessionName());
             }
         }
         return ruleMap;

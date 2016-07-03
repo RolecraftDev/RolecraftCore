@@ -16,7 +16,9 @@ magicrange: 100
 # The maximum possible quantity of mana
 maximummana: 2000
 
-# The constant used when determining mana regeneration rate, default 5
+# The default constant used when determining mana regeneration rate, default 5
+# Note that this is ignored if a specific constant is specified for a player's
+# profession
 manaregenconstant: 5
 
 chatformat: "[channel] prefix <player> suffix: msg"

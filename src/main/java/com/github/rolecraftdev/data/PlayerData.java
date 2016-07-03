@@ -33,6 +33,7 @@ import com.github.rolecraftdev.event.experience.RCExperienceEvent.ChangeReason;
 import com.github.rolecraftdev.experience.ExperienceHelper;
 import com.github.rolecraftdev.guild.Guild;
 import com.github.rolecraftdev.profession.Profession;
+import com.github.rolecraftdev.profession.ProfessionRule;
 
 import org.bukkit.Bukkit;
 
@@ -534,8 +535,20 @@ public final class PlayerData {
      * @since 0.0.5
      */
     public float getManaRegenRate() {
-        return (float) (plugin.getConfigValues().getManaRegenConstant() * 2
-                + getLevel() * 0.5);
+        float constant = plugin.getConfigValues().getManaRegenConstant();
+
+        if (this.profession != null) {
+            final Profession profession = plugin.getProfessionManager()
+                    .getProfession(this.profession);
+            final Float temp = profession
+                    .getRuleValue(ProfessionRule.MANA_REGEN_CONSTANT);
+
+            if (temp != null) {
+                constant = temp;
+            }
+        }
+
+        return (float) (constant * 2 + getLevel() * 0.5);
     }
 
     /**
