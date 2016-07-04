@@ -39,6 +39,7 @@ import java.io.IOException;
 import java.io.InputStream;
 import java.util.List;
 import java.util.Random;
+import java.util.regex.Pattern;
 
 /**
  * A utility class for general use.
@@ -52,6 +53,18 @@ public final class GeneralUtil {
      * @since 0.0.5
      */
     public static final Random random = new Random();
+    /**
+     * The colon ":" character quoted for use in regex.
+     *
+     * @since 0.1.0
+     */
+    public static final String QUOTED_COLON = Pattern.quote(":");
+    /**
+     * The comma "," character quoted for use in regex.
+     *
+     * @since 0.1.0
+     */
+    public static final String QUOTED_COMMA = Pattern.quote(",");
 
     private static final float VELOCITY_FACTOR = 0.2f;
     private static final float SMALL_VELOCITY_FACTOR = 0.05f;

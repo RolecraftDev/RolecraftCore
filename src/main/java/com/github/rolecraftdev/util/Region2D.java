@@ -146,7 +146,8 @@ public class Region2D {
             return null;
         }
 
-        final String[] split = string.split(":")[1].split(";");
+        final String[] split = string.split(GeneralUtil.QUOTED_COLON)[1]
+                .split(GeneralUtil.QUOTED_COMMA);
         return new Region2D(Integer.parseInt(split[0]),
                 Integer.parseInt(split[1]), Integer.parseInt(split[2]),
                 Integer.parseInt(split[3]));

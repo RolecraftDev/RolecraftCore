@@ -239,6 +239,8 @@ public final class RolecraftCore extends JavaPlugin {
      */
     @Override
     public void onDisable() {
+        guildManager.getTerritoryManager().saveTerritory();
+
         dataManager.cleanup();
         signManager.saveSigns();
         chatManager.saveChannels();

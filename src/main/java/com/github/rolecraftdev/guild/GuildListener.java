@@ -26,6 +26,8 @@
  */
 package com.github.rolecraftdev.guild;
 
+import com.github.rolecraftdev.util.ChunkLocation;
+
 import org.bukkit.Location;
 import org.bukkit.Material;
 import org.bukkit.block.Block;
@@ -525,15 +527,13 @@ public final class GuildListener implements Listener {
     private boolean inGuildLand(final Location loc) {
         final Set<Guild> guilds = guildManager.getGuilds();
 
-        // Not loaded yet
+        // Not loaded yet, assume this is guild land just to be safe
         if (guilds == null) {
             return true;
         }
 
-        for (final Guild guild : guilds) {
-            // TODO: check if location is in guild land
-        }
-        return false;
+        return guildManager.getTerritoryManager()
+                .hasOwner(new ChunkLocation(loc));
     }
 
     /**
@@ -553,10 +553,9 @@ public final class GuildListener implements Listener {
         if (guilds == null) {
             return nullGuild;
         }
-        for (final Guild guild : guilds) {
-            // TODO: check if guild owns land in region
-        }
-        return null;
+
+        return guildManager.getTerritoryManager()
+                .getTerritoryOwner(new ChunkLocation(loc));
     }
 
     /**

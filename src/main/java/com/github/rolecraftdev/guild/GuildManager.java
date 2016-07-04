@@ -33,6 +33,7 @@ import com.github.rolecraftdev.data.storage.DataStore;
 import com.github.rolecraftdev.event.RolecraftEventFactory;
 import com.github.rolecraftdev.event.guild.GuildCreateEvent;
 import com.github.rolecraftdev.event.guild.GuildDisbandEvent;
+import com.github.rolecraftdev.guild.territory.GuildTerritoryManager;
 import com.github.rolecraftdev.util.serial.YamlFile;
 
 import org.bukkit.Bukkit;
@@ -88,6 +89,10 @@ public final class GuildManager {
      * All available {@link Guild}s.
      */
     private final Set<Guild> guilds;
+    /**
+     * The guild territory manager object used for this GuildManager.
+     */
+    private final GuildTerritoryManager territoryManager;
 
     /**
      * Whether the data is wholly loaded.
@@ -142,6 +147,7 @@ public final class GuildManager {
         this.plugin = plugin;
 
         guilds = new HashSet<Guild>();
+        this.territoryManager = new GuildTerritoryManager(this);
 
         // Get guild configuration options
         guildConfig = new YamlFile(plugin, "guilds.yml", false);
@@ -192,6 +198,17 @@ public final class GuildManager {
      */
     public YamlFile getGuildConfig() {
         return guildConfig;
+    }
+
+    /**
+     * Gets the {@link GuildTerritoryManager} object used to manage all guild
+     * land ownership in Rolecraft.
+     *
+     * @return this GuildManager's {@link GuildTerritoryManager}
+     * @since 0.1.0
+     */
+    public GuildTerritoryManager getTerritoryManager() {
+        return territoryManager;
     }
 
     /**
