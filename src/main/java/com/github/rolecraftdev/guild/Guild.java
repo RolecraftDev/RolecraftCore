@@ -95,11 +95,6 @@ public final class Guild {
      */
     private int influence;
     /**
-     * The guild hall of this {@link Guild}. This may be {@code null} during
-     * normal execution if this {@link Guild} doesn't have a guild hall.
-     */
-    private Region2D hallRegion;
-    /**
      * Whether or not this {@link Guild} is open. If this is {@code true}, the
      * {@link Guild} is open, and can be joined <em>without invitation</em>. If
      * {@code false}, invitation is required to join the {@link Guild}.
@@ -150,15 +145,13 @@ public final class Guild {
      * @param ranks the {@link Guild}'s ranks
      * @param home the {@link Guild}'s home {@link Location}
      * @param influence the members' combined influence
-     * @param hallRegion the {@link Guild}'s hall
      * @param open whether this {@link Guild} is joinable
      * @since 0.0.5
      */
     public Guild(final GuildManager guildManager, final UUID guildId,
             final String name, final UUID leader, final Set<UUID> members,
             final Set<GuildRank> ranks, final Location home,
-            final int influence, final Region2D hallRegion,
-            final boolean open) {
+            final int influence, final boolean open) {
         plugin = guildManager.getPlugin();
         this.guildManager = guildManager;
         this.guildId = guildId;
@@ -168,7 +161,6 @@ public final class Guild {
         this.ranks = ranks;
         this.home = home;
         this.influence = influence;
-        this.hallRegion = hallRegion;
         this.open = open;
     }
 
@@ -357,18 +349,6 @@ public final class Guild {
             }
         }
         return null;
-    }
-
-    /**
-     * Get the hall of this {@link Guild}, which could also be {@code null} when
-     * it remains unregistered.
-     *
-     * @return the guild-hall
-     * @since 0.0.5
-     */
-    @Nullable
-    public Region2D getGuildHallRegion() {
-        return hallRegion;
     }
 
     /**
@@ -654,18 +634,5 @@ public final class Guild {
     @Override
     public int hashCode() {
         return guildId == null ? -1 : guildId.hashCode();
-    }
-
-    /**
-     * Set the given {@link Region2D} as the hall of this {@link Guild}. This
-     * method should only ever be called from its {@link GuildManager} when the
-     * hall is claimed, hence the package-private access modifier is utilised.
-     *
-     * @param hallRegion the new guild-hall
-     * @since 0.0.5
-     */
-    void claimAsGuildHall(@Nullable final Region2D hallRegion) {
-        this.hallRegion = hallRegion;
-        plugin.getDataStore().updateGuildData(this);
     }
 }

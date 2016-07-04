@@ -99,7 +99,7 @@ public final class GuildListener implements Listener {
             return;
         }
         if (guildManager.disallowHallPvp()
-                && inGuildHall(damagee.getLocation())) {
+                && inGuildLand(damagee.getLocation())) {
             event.setCancelled(true);
             return;
         }
@@ -219,7 +219,7 @@ public final class GuildListener implements Listener {
         if (!guildManager.protectFromEnvironment()) {
             return;
         }
-        if (inGuildHall(event.getBlock().getLocation())) {
+        if (inGuildLand(event.getBlock().getLocation())) {
             event.setCancelled(true);
         }
     }
@@ -235,7 +235,7 @@ public final class GuildListener implements Listener {
         if (!guildManager.protectFromEnvironment()) {
             return;
         }
-        if (inGuildHall(event.getBlock().getLocation())) {
+        if (inGuildLand(event.getBlock().getLocation())) {
             event.setCancelled(true);
         }
     }
@@ -248,7 +248,7 @@ public final class GuildListener implements Listener {
         if (!guildManager.protectFromEnvironment()) {
             return;
         }
-        if (inGuildHall(event.getBlock().getLocation())) {
+        if (inGuildLand(event.getBlock().getLocation())) {
             event.setCancelled(true);
         }
     }
@@ -261,7 +261,7 @@ public final class GuildListener implements Listener {
         if (!guildManager.protectFromEnvironment()) {
             return;
         }
-        if (inGuildHall(event.getBlock().getLocation())) {
+        if (inGuildLand(event.getBlock().getLocation())) {
             event.setCancelled(true);
         }
     }
@@ -274,7 +274,7 @@ public final class GuildListener implements Listener {
         if (!guildManager.protectFromEnvironment()) {
             return;
         }
-        if (inGuildHall(event.getToBlock().getLocation())) {
+        if (inGuildLand(event.getToBlock().getLocation())) {
             event.setCancelled(true);
         }
     }
@@ -286,7 +286,7 @@ public final class GuildListener implements Listener {
     public void onBlockPistonExtend(final BlockPistonExtendEvent event) {
         if (guildManager.disallowHallPistons()) {
             for (final Block block : event.getBlocks()) {
-                if (inGuildHall(block.getLocation())) {
+                if (inGuildLand(block.getLocation())) {
                     event.setCancelled(true);
                 }
             }
@@ -303,11 +303,11 @@ public final class GuildListener implements Listener {
 
         // Check all blocks that are being pushed
         final Block first = event.getBlocks().get(0);
-        Guild previous = getGuildFromHall(first);
+        Guild previous = getGuildFromLocation(first);
 
         for (int i = 0; event.getLength() > i; i++) {
             // Use the positions of the blocks after they moved
-            final Guild current = getGuildFromHall(first.getRelative(event
+            final Guild current = getGuildFromLocation(first.getRelative(event
                     .getDirection(), i + 1));
 
             if (!areGuildsEqual(previous, current)) {
@@ -325,7 +325,7 @@ public final class GuildListener implements Listener {
     @EventHandler(priority = EventPriority.HIGHEST)
     public void onBlockPistonRetract(final BlockPistonRetractEvent event) {
         if (guildManager.disallowHallPistons()) {
-            if (inGuildHall(event.getBlock().getLocation())) {
+            if (inGuildLand(event.getBlock().getLocation())) {
                 event.setCancelled(true);
             }
             return;
@@ -342,8 +342,8 @@ public final class GuildListener implements Listener {
             return;
         }
 
-        final Guild from = getGuildFromHall(retractee.getLocation());
-        final Guild to = getGuildFromHall(event.getBlock().getRelative(
+        final Guild from = getGuildFromLocation(retractee.getLocation());
+        final Guild to = getGuildFromLocation(event.getBlock().getRelative(
                 event.getDirection()));
 
         if (!areGuildsEqual(from, to)) {
@@ -381,7 +381,7 @@ public final class GuildListener implements Listener {
             }
         } else if (guildManager.protectFromEnvironment()) {
             for (final BlockState block : event.getBlocks()) {
-                if (getGuildFromHall(block) != null) {
+                if (getGuildFromLocation(block) != null) {
                     event.setCancelled(true);
                     // We don't need to check any more blocks
                     return;
@@ -398,7 +398,7 @@ public final class GuildListener implements Listener {
         if (!guildManager.protectFromEnvironment()) {
             return;
         }
-        if (inGuildHall(event.getLocation())) {
+        if (inGuildLand(event.getLocation())) {
             event.setCancelled(true);
         }
     }
@@ -418,7 +418,7 @@ public final class GuildListener implements Listener {
         if (!guildManager.protectFromEnvironment()) {
             return;
         }
-        if (inGuildHall(event.getBlock().getLocation())) {
+        if (inGuildLand(event.getBlock().getLocation())) {
             event.setCancelled(true);
         }
     }
@@ -453,7 +453,7 @@ public final class GuildListener implements Listener {
         if (!guildManager.protectFromEnvironment()) {
             return;
         }
-        if (inGuildHall(event.getEntity().getLocation())) {
+        if (inGuildLand(event.getEntity().getLocation())) {
             event.setCancelled(true);
         }
     }
@@ -467,7 +467,7 @@ public final class GuildListener implements Listener {
         if (!guildManager.protectFromEnvironment()) {
             return;
         }
-        if (!inGuildHall(event.getLocation())) {
+        if (!inGuildLand(event.getLocation())) {
             return;
         }
         if (!guildManager.isLoaded()) {
@@ -505,7 +505,7 @@ public final class GuildListener implements Listener {
     private boolean cancel(final Location loc, final UUID player,
             final GuildAction action) {
         final Guild guild;
-        guild = getGuildFromHall(loc);
+        guild = getGuildFromLocation(loc);
 
         if (guild == nullGuild) {
             return true;
@@ -522,7 +522,7 @@ public final class GuildListener implements Listener {
      * @return {@code true} if the specified location lies in a guild-hall or if
      *         the {@link GuildManager} hasn't been fully loaded yet
      */
-    private boolean inGuildHall(final Location loc) {
+    private boolean inGuildLand(final Location loc) {
         final Set<Guild> guilds = guildManager.getGuilds();
 
         // Not loaded yet
@@ -531,16 +531,13 @@ public final class GuildListener implements Listener {
         }
 
         for (final Guild guild : guilds) {
-            if (guild.getGuildHallRegion() != null
-                    && guild.getGuildHallRegion().containsLocation(loc)) {
-                return true;
-            }
+            // TODO: check if location is in guild land
         }
         return false;
     }
 
     /**
-     * Retrieve the {@link Guild} from the location of its hall. A special
+     * Retrieve the {@link Guild} from the location of its land. A special
      * constant instance of {@link Guild} is returned when the
      * {@link GuildManager} registered to this {@link Listener} is not yet
      * wholly loaded, that is, when {@link GuildManager#isLoaded()} returns
@@ -551,23 +548,19 @@ public final class GuildListener implements Listener {
      *         {@link Location} or a special constant {@link Guild} instance.
      * @see {@link #nullGuild}
      */
-    private Guild getGuildFromHall(final Location loc) {
+    private Guild getGuildFromLocation(final Location loc) {
         final Set<Guild> guilds = guildManager.getGuilds();
         if (guilds == null) {
             return nullGuild;
         }
         for (final Guild guild : guilds) {
-            if (guild.getGuildHallRegion() != null) {
-                if (guild.getGuildHallRegion().containsLocation(loc)) {
-                    return guild;
-                }
-            }
+            // TODO: check if guild owns land in region
         }
         return null;
     }
 
     /**
-     * Retrieve the {@link Guild} from the location of its hall. A special
+     * Retrieve the {@link Guild} from the location of its land. A special
      * constant instance of {@link Guild} is returned when the
      * {@link GuildManager} registered to this {@link Listener} is not yet
      * wholly loaded, that is, when {@link GuildManager#isLoaded()} returns
@@ -579,12 +572,12 @@ public final class GuildListener implements Listener {
      *         {@link Location} or a special constant {@link Guild} instance.
      * @see {@link #nullGuild}
      */
-    private Guild getGuildFromHall(final Block block) {
-        return getGuildFromHall(block.getLocation());
+    private Guild getGuildFromLocation(final Block block) {
+        return getGuildFromLocation(block.getLocation());
     }
 
     /**
-     * Retrieve the {@link Guild} from the location of its hall. A special
+     * Retrieve the {@link Guild} from the location of its land. A special
      * constant instance of {@link Guild} is returned when the
      * {@link GuildManager} registered to this {@link Listener} is not yet
      * wholly loaded, that is, when {@link GuildManager#isLoaded()} returns
@@ -596,7 +589,7 @@ public final class GuildListener implements Listener {
      *         {@link Location} or a special constant {@link Guild} instance.
      * @see {@link #nullGuild}
      */
-    private Guild getGuildFromHall(final BlockState block) {
-        return getGuildFromHall(block.getLocation());
+    private Guild getGuildFromLocation(final BlockState block) {
+        return getGuildFromLocation(block.getLocation());
     }
 }

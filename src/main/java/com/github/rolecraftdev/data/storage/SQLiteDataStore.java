@@ -84,7 +84,6 @@ public final class SQLiteDataStore extends DataStore {
             + "members TEXT,"
             + "ranks TEXT,"
             + "home VARCHAR,"
-            + "hall VARCHAR,"
             + "influence INTEGER DEFAULT 0," +
             "open BOOLEAN DEFAULT FALSE" + ")";
     /**

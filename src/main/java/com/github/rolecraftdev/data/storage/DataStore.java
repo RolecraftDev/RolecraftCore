@@ -235,14 +235,6 @@ public abstract class DataStore {
             sb.append(",");
         }
         final String ranks = sb.substring(0, sb.length() - 1);
-        final Region2D ghr = guild.getGuildHallRegion();
-
-        final String hall;
-        if (ghr == null) {
-            hall = null;
-        } else {
-            hall = ghr.toString();
-        }
 
         final String id = guild.getId().toString();
 
@@ -258,8 +250,7 @@ public abstract class DataStore {
                             + "leader = ?,"
                             + "members = ?,"
                             + "ranks = ?,"
-                            + "home = ?,"
-                            + "hall = ?, " +
+                            + "home = ?," +
                             "influence = ?," +
                             "open = ?"
                             + "WHERE uuid = ?");
@@ -268,10 +259,9 @@ public abstract class DataStore {
                     ps.setString(3, members);
                     ps.setString(4, ranks);
                     ps.setString(5, home);
-                    ps.setString(6, hall);
-                    ps.setString(7, id);
-                    ps.setInt(8, guild.getInfluence());
-                    ps.setBoolean(9, guild.isOpen());
+                    ps.setString(6, id);
+                    ps.setInt(7, guild.getInfluence());
+                    ps.setBoolean(8, guild.isOpen());
                     ps.execute();
                 } catch (final SQLException ex) {
                     ex.printStackTrace();
@@ -426,14 +416,11 @@ public abstract class DataStore {
                         }
                         final Location home = LocationSerializer
                                 .deserialize(rs.getString("home"));
-                        final Region2D hall = Region2D
-                                .fromString(rs.getString("hall"));
                         final int influence = rs.getInt("influence");
                         final boolean open = rs.getBoolean("open");
 
                         final Guild guild = new Guild(callback, id, name,
-                                leader, members, ranks, home, influence, hall,
-                                open);
+                                leader, members, ranks, home, influence, open);
                         callback.addGuild(guild, true);
                     }
 

@@ -79,7 +79,6 @@ public final class MySQLDataStore extends DataStore {
                     + "members MEDIUMTEXT,"
                     + "ranks MEDIUMTEXT,"
                     + "home VARCHAR(150),"
-                    + "hall VARCHAR(100),"
                     + "influence INTEGER DEFAULT 0," +
                     "open BOOLEAN DEFAULT FALSE" + ")";
     /**
