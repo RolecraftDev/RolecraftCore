@@ -50,6 +50,11 @@ public final class TerritoryData {
      */
     @Nullable
     private UUID guildId;
+    /**
+     * Whether this territory is a 'safe zone'. Safe zones cannot be claimed by
+     * guilds and PvP is disabled.
+     */
+    private boolean safeZone;
 
     /**
      * Constructor.
@@ -62,6 +67,22 @@ public final class TerritoryData {
             @Nullable final UUID guildId) {
         this.location = location;
         this.guildId = guildId;
+        this.safeZone = false;
+    }
+
+    /**
+     * Constructor.
+     *
+     * @param location the chunk location of the territory
+     * @param guildId the id of the guild which owns the territory
+     * @param safeZone whether this territory is a 'safe zone'
+     * @since 0.1.0
+     */
+    public TerritoryData(@Nonnull final ChunkLocation location,
+            @Nullable final UUID guildId, final boolean safeZone) {
+        this.location = location;
+        this.guildId = guildId;
+        this.safeZone = safeZone;
     }
 
     /**
@@ -105,5 +126,15 @@ public final class TerritoryData {
      */
     public boolean isOwned() {
         return guildId != null;
+    }
+
+    /**
+     * Check whether this territory is a safe zone.
+     *
+     * @return whether this territory is a safezone
+     * @since 0.1.0
+     */
+    public boolean isSafeZone() {
+        return safeZone;
     }
 }

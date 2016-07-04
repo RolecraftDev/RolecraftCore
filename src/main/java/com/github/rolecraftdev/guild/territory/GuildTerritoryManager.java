@@ -183,4 +183,17 @@ public final class GuildTerritoryManager {
         return territoryData != null && territoryData.getGuildId() != null
                 && guildManager.getGuild(territoryData.getGuildId()) != null;
     }
+
+    /**
+     * Checks whether the chunk with the given {@link ChunkLocation} is a safe
+     * zone.
+     *
+     * @param location the location of the chunk to check status of
+     * @return whether the given chunk is a safe zone
+     * @since 0.1.0
+     */
+    public boolean isSafeZone(@Nonnull final ChunkLocation location) {
+        final TerritoryData territoryData = territory.get(location);
+        return territoryData != null && territoryData.isSafeZone();
+    }
 }

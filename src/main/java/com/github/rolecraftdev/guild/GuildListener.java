@@ -76,6 +76,10 @@ public final class GuildListener implements Listener {
      * {@link GuildManager} hasn't finished loading.
      */
     private final Guild nullGuild = new Guild(null);
+    /**
+     * The special constant {@link Guild} instance used to indicate a safezone.
+     */
+    private final Guild safeZone = new Guild(null);
 
     /**
      * Constructor.
@@ -512,6 +516,9 @@ public final class GuildListener implements Listener {
         if (guild == nullGuild) {
             return true;
         } else if (guild != null) {
+            if (guild == safeZone) {
+                return true;
+            }
             return !(guild.isMember(player) && guild.can(player, action));
         }
         return false;
@@ -532,8 +539,9 @@ public final class GuildListener implements Listener {
             return true;
         }
 
-        return guildManager.getTerritoryManager()
-                .hasOwner(new ChunkLocation(loc));
+        final ChunkLocation cLoc = new ChunkLocation(loc);
+        return guildManager.getTerritoryManager().hasOwner(cLoc)
+                || guildManager.getTerritoryManager().isSafeZone(cLoc);
     }
 
     /**
@@ -552,6 +560,11 @@ public final class GuildListener implements Listener {
         final Set<Guild> guilds = guildManager.getGuilds();
         if (guilds == null) {
             return nullGuild;
+        }
+
+        final ChunkLocation cLoc = new ChunkLocation(loc);
+        if (guildManager.getTerritoryManager().isSafeZone(cLoc)) {
+            return safeZone;
         }
 
         return guildManager.getTerritoryManager()
