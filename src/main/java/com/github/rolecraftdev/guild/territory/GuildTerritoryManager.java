@@ -80,6 +80,13 @@ public final class GuildTerritoryManager {
                         // TODO: load territory
                     }
                 }, plugin);
+
+        new BukkitRunnable() {
+            @Override
+            public void run() {
+                GuildTerritoryManager.this.asyncSaveTerritory();
+            }
+        }.runTaskTimer(plugin, 6000L, 6000L);
     }
 
     /**

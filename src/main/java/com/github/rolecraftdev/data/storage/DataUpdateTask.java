@@ -58,7 +58,6 @@ public final class DataUpdateTask extends BukkitRunnable {
     @Override
     public void run() {
         final DataManager dataManager = this.plugin.getDataManager();
-        dataManager.saveAllPlayerData(
-                true); // sync param = true as task should be on a separate thread to the main thread
+        dataManager.saveAllPlayerData(true);
     }
 }
