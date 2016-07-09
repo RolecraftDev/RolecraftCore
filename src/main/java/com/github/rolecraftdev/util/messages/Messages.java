@@ -590,6 +590,18 @@ public class Messages {
      * @since 0.1.0
      */
     public static final String NO_SECOND_PROFESSION = "no-second-profession";
+    /**
+     * Sent when a guild is not permitted to claim land for an unknown reason.
+     *
+     * @since 0.1.0
+     */
+    public static final String GUILD_CANNOT_CLAIM = "guild-cannot-claim";
+    /**
+     * Send when a guild successfully claims new territory.
+     *
+     * @since 0.1.0
+     */
+    public static final String GUILD_LAND_CLAIMED = "guild-land-claimed";
 
     /**
      * General variables such as colours and styles.

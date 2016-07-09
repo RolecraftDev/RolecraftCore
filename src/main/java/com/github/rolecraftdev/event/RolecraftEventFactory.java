@@ -52,6 +52,8 @@ import com.github.rolecraftdev.event.guild.GuildPlayerLeaveEvent;
 import com.github.rolecraftdev.event.guild.GuildRankCreateEvent;
 import com.github.rolecraftdev.event.guild.GuildRankModifyEvent;
 import com.github.rolecraftdev.event.guild.GuildRankRemoveEvent;
+import com.github.rolecraftdev.event.guild.GuildTerritoryClaimEvent;
+import com.github.rolecraftdev.event.guild.GuildTerritoryLostEvent;
 import com.github.rolecraftdev.event.profession.PlayerProfessionSelectEvent;
 import com.github.rolecraftdev.event.profession.secondary.PlayerSecondProfessionSelectEvent;
 import com.github.rolecraftdev.event.spell.SpellCastEvent;
@@ -64,6 +66,7 @@ import com.github.rolecraftdev.magic.Spell;
 import com.github.rolecraftdev.profession.Profession;
 
 import org.bukkit.Bukkit;
+import org.bukkit.Chunk;
 import org.bukkit.Location;
 import org.bukkit.command.CommandSender;
 import org.bukkit.entity.Entity;
@@ -240,6 +243,34 @@ public class RolecraftEventFactory {
             final Player teleporter, final Location location) {
         return callEvent(new GuildHomeTeleportEvent(plugin, guild, teleporter,
                 location));
+    }
+
+    /**
+     * Calls a {@link GuildTerritoryClaimEvent} with the {@link RolecraftCore}
+     * plugin instance and the given parameters.
+     *
+     * @param guild the {@link Guild} claiming the territory
+     * @param chunk the {@link Chunk} being claimed
+     * @return the called {@link GuildTerritoryClaimEvent}
+     * @since 0.1.0
+     */
+    public static GuildTerritoryClaimEvent guildTerritoryClaim(
+            final Guild guild, final Chunk chunk) {
+        return callEvent(new GuildTerritoryClaimEvent(plugin, guild, chunk));
+    }
+
+    /**
+     * Calls a {@link GuildTerritoryLostEvent} with the {@link RolecraftCore}
+     * plugin instance and the given parameters.
+     *
+     * @param guild the {@link Guild} losing the territory
+     * @param chunk the {@link Chunk} being lost
+     * @return the called {@link GuildTerritoryLostEvent}
+     * @since 0.1.0
+     */
+    public static GuildTerritoryLostEvent guildTerritoryLost(final Guild guild,
+            final Chunk chunk) {
+        return callEvent(new GuildTerritoryLostEvent(plugin, guild, chunk));
     }
 
     /**
