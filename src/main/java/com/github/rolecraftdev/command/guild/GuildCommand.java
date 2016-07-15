@@ -61,5 +61,6 @@ public class GuildCommand extends TreeCommandHandler {
         addSubcommand("rank", new GuildRankCommand(plugin));
         addSubcommand("reject", new GuildRejectCommand(plugin));
         addSubcommand("show", new GuildShowCommand(plugin));
+        addSubcommand("territory", new GuildTerritoryCommand(plugin));
     }
 }
