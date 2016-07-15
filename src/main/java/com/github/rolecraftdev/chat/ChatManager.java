@@ -128,9 +128,8 @@ public final class ChatManager {
         this.currentPlayerChannels = new HashMap<UUID, ChatChannel>();
         this.usedIds = new HashSet<Integer>();
 
-        plugin.saveResource("channels" + separator + "channels.yml", false);
-        this.channelsFile = new File(plugin.getDataFolder(),
-                "channels" + separator + "channels.yml");
+        plugin.saveResource("/channels.yml", false);
+        this.channelsFile = new File(plugin.getDataFolder(), "channels.yml");
         this.yamlFile = new YamlFile(channelsFile);
 
         for (final String key : yamlFile.getKeys(false)) {
