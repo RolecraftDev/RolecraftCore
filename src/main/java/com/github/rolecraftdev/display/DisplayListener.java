@@ -55,8 +55,7 @@ public class DisplayListener implements Listener {
     /**
      * @since 0.0.5
      */
-    // priority set as this MUST happen after DataListener.onPlayerJoin
-    @EventHandler(priority = EventPriority.MONITOR, ignoreCancelled = true)
+    @EventHandler(priority = EventPriority.LOWEST)
     public void onPlayerDataLoaded(final PlayerDataLoadedEvent event) {
         plugin.getDisplayUpdater().createDisplayFor(
                 plugin.getServer().getPlayer(
