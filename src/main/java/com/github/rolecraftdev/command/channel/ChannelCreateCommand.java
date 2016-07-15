@@ -29,7 +29,7 @@ package com.github.rolecraftdev.command.channel;
 import com.github.rolecraftdev.RolecraftCore;
 import com.github.rolecraftdev.chat.ChatManager;
 import com.github.rolecraftdev.chat.channel.ChatChannel;
-import com.github.rolecraftdev.command.CommandHandler;
+import com.github.rolecraftdev.command.BaseCommandHandler;
 import com.github.rolecraftdev.command.parser.Arguments;
 import com.github.rolecraftdev.command.parser.ChatSection;
 import com.github.rolecraftdev.event.RolecraftEventFactory;
@@ -48,7 +48,7 @@ import javax.annotation.Nonnull;
  *
  * @since 0.1.0
  */
-public class ChannelCreateCommand extends CommandHandler {
+public class ChannelCreateCommand extends BaseCommandHandler {
     /**
      * Constructor.
      *

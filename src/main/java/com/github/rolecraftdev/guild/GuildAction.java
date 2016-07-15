@@ -69,17 +69,23 @@ public enum GuildAction {
      */
     IGNITE_BLOCK("ignite-hall-block"),
     /**
-     * Modify {@link GuildRank} permissions.
+     * Assign a member a {@link GuildRank}.
      *
-     * @since 0.0.5
+     * @since 0.1.0
      */
-    MODIFY_RANKS("modify-ranks"),
+    ASSIGN_RANKS("assign-ranks"),
     /**
      * Send messages to all members of his {@link Guild}.
      *
      * @since 0.0.5
      */
-    BROADCAST_MESSAGE("broadcast-message");
+    BROADCAST_MESSAGE("broadcast-message"),
+    /**
+     * Set whether or not the guild is an open guild.
+     *
+     * @since 0.1.0
+     */
+    SET_OPEN("set-open");
 
     /**
      * The human-readable version of the name of this {@link GuildAction}.

@@ -47,7 +47,7 @@ import javax.annotation.Nullable;
  * @see {@link TreeCommandHandler} for commands with several subcommands
  * @since 0.0.5
  */
-public abstract class CommandHandler implements CommandExecutor {
+public abstract class BaseCommandHandler implements CommandExecutor {
     /**
      * The {@link RolecraftCore} plugin instance.
      *
@@ -118,7 +118,7 @@ public abstract class CommandHandler implements CommandExecutor {
     /**
      * @since 0.0.5
      */
-    public CommandHandler(@Nonnull final RolecraftCore plugin,
+    public BaseCommandHandler(@Nonnull final RolecraftCore plugin,
             @Nonnull final String name) {
         this.plugin = plugin;
         this.name = name;
@@ -318,7 +318,7 @@ public abstract class CommandHandler implements CommandExecutor {
         (new BukkitRunnable() {
             @Override
             public void run() {
-                CommandHandler.this.onCommand(sender, args);
+                BaseCommandHandler.this.onCommand(sender, args);
             }
         }).runTaskAsynchronously(plugin);
     }

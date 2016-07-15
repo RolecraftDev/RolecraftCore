@@ -27,7 +27,7 @@
 package com.github.rolecraftdev.command.guild;
 
 import com.github.rolecraftdev.RolecraftCore;
-import com.github.rolecraftdev.command.CommandHandler;
+import com.github.rolecraftdev.command.BaseCommandHandler;
 import com.github.rolecraftdev.command.parser.Arguments;
 import com.github.rolecraftdev.data.DataManager;
 import com.github.rolecraftdev.guild.Guild;
@@ -45,7 +45,7 @@ import java.util.UUID;
 /**
  * @since 0.0.5
  */
-public class GuildDisbandCommand extends CommandHandler {
+public class GuildDisbandCommand extends BaseCommandHandler {
     private final GuildManager guildManager;
 
     /**

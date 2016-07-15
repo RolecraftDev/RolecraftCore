@@ -155,7 +155,7 @@ public class GuildMemberCommand extends PlayerCommandHandler {
                                 .value(targetData.getPlayerName())));
             } else if (command.equalsIgnoreCase("rank")) {
                 if (!guild.can(
-                        player.getUniqueId(), GuildAction.MODIFY_RANKS)) {
+                        player.getUniqueId(), GuildAction.ASSIGN_RANKS)) {
                     player.sendMessage(plugin.getMessage(
                             Messages.NO_PERMISSION));
                     return;

@@ -27,7 +27,7 @@
 package com.github.rolecraftdev.command.profession;
 
 import com.github.rolecraftdev.RolecraftCore;
-import com.github.rolecraftdev.command.CommandHandler;
+import com.github.rolecraftdev.command.BaseCommandHandler;
 import com.github.rolecraftdev.command.CommandHelper;
 import com.github.rolecraftdev.command.parser.Arguments;
 import com.github.rolecraftdev.profession.Profession;
@@ -43,7 +43,7 @@ import java.util.Set;
 /**
  * @since 0.0.5
  */
-public final class ProfessionListCommand extends CommandHandler {
+public final class ProfessionListCommand extends BaseCommandHandler {
     private static final int PROFESSIONS_PER_PAGE = 7;
 
     private final ProfessionManager professionManager;

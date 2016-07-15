@@ -27,7 +27,7 @@
 package com.github.rolecraftdev.command.guild;
 
 import com.github.rolecraftdev.RolecraftCore;
-import com.github.rolecraftdev.command.CommandHandler;
+import com.github.rolecraftdev.command.BaseCommandHandler;
 import com.github.rolecraftdev.command.CommandHelper;
 import com.github.rolecraftdev.command.parser.Arguments;
 import com.github.rolecraftdev.guild.Guild;
@@ -44,7 +44,7 @@ import java.util.Set;
 /**
  * @since 0.0.5
  */
-public class GuildListCommand extends CommandHandler {
+public class GuildListCommand extends BaseCommandHandler {
     /**
      * The amount of guilds to display on each page
      */

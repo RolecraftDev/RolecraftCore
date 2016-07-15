@@ -40,7 +40,7 @@ import javax.annotation.Nonnull;
  *
  * @since 0.0.5
  */
-public abstract class PlayerCommandHandler extends CommandHandler {
+public abstract class PlayerCommandHandler extends BaseCommandHandler {
     /**
      * The message sent to someone who tries to execute the command but is not a
      * player. Loaded from messages config.

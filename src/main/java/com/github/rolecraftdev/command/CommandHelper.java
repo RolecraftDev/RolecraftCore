@@ -82,7 +82,7 @@ public final class CommandHelper {
      * @since 0.0.5
      */
     public static void registerCommand(@Nonnull final JavaPlugin plugin,
-            @Nullable String name, @Nonnull final CommandHandler handler) {
+            @Nullable String name, @Nonnull final BaseCommandHandler handler) {
         if (name == null) {
             name = handler.getName();
         }
@@ -108,16 +108,16 @@ public final class CommandHelper {
      */
     public static void displayCommandList(@Nonnull final RolecraftCore plugin,
             @Nonnull final CommandSender sender,
-            @Nonnull final List<CommandHandler> commands,
+            @Nonnull final List<BaseCommandHandler> commands,
             @Nullable final ChatSection pageArg) {
-        final List<CommandHandler> list = getPageFromArgs(plugin, sender,
+        final List<BaseCommandHandler> list = getPageFromArgs(plugin, sender,
                 commands, pageArg, COMMANDS_PER_PAGE);
         if (list == null) {
             return;
         }
 
         sender.sendMessage(ChatColor.GOLD + "[Commands]");
-        for (final CommandHandler sub : list) {
+        for (final BaseCommandHandler sub : list) {
             if (sender.hasPermission(sub.getPermission())) {
                 sender.sendMessage(ChatColor.GOLD + sub.getUsage() + " - "
                         + sub.getDescription());

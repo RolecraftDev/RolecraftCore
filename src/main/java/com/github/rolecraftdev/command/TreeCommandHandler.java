@@ -45,8 +45,8 @@ import java.util.Map;
 /**
  * @since 0.0.5
  */
-public abstract class TreeCommandHandler extends CommandHandler {
-    private final Map<String, CommandHandler> subcommands = new HashMap<String, CommandHandler>();
+public abstract class TreeCommandHandler extends BaseCommandHandler {
+    private final Map<String, BaseCommandHandler> subcommands = new HashMap<String, BaseCommandHandler>();
 
     /**
      * @since 0.0.5
@@ -79,18 +79,18 @@ public abstract class TreeCommandHandler extends CommandHandler {
      * @since 0.0.5
      */
     public void sendHelpMenu(@Nonnull final CommandSender sender) {
-        List<CommandHandler> cmds = new ArrayList<CommandHandler>(
+        List<BaseCommandHandler> cmds = new ArrayList<BaseCommandHandler>(
                 subcommands.values());
-        Collections.sort(cmds, new Comparator<CommandHandler>() {
+        Collections.sort(cmds, new Comparator<BaseCommandHandler>() {
             @Override
-            public int compare(CommandHandler t, CommandHandler t1) {
+            public int compare(BaseCommandHandler t, BaseCommandHandler t1) {
                 return t.getName().compareToIgnoreCase(t1.getName());
             }
         });
 
         List<String> msgs = new ArrayList<String>();
 
-        for (CommandHandler handler : cmds) {
+        for (BaseCommandHandler handler : cmds) {
             if (handler.getPermission() == null
                     || sender.hasPermission(handler.getPermission())) {
                 msgs.add(ChatColor.GREEN + "/" + getName() + " " + handler
@@ -105,7 +105,7 @@ public abstract class TreeCommandHandler extends CommandHandler {
     /**
      * @since 0.0.5
      */
-    protected void addSubcommand(@Nonnull final CommandHandler handler) {
+    protected void addSubcommand(@Nonnull final BaseCommandHandler handler) {
         addSubcommand(handler.getName(), handler);
     }
 
@@ -113,7 +113,7 @@ public abstract class TreeCommandHandler extends CommandHandler {
      * @since 0.0.5
      */
     protected void addSubcommand(@Nullable String name,
-            @Nonnull final CommandHandler handler) {
+            @Nonnull final BaseCommandHandler handler) {
         if (name == null) {
             name = handler.getName();
         }
@@ -131,7 +131,7 @@ public abstract class TreeCommandHandler extends CommandHandler {
             return;
         }
 
-        final CommandHandler handler = subcommands.get(args.getRaw(0));
+        final BaseCommandHandler handler = subcommands.get(args.getRaw(0));
         if (handler != null) {
             Arguments newArgs = new Arguments(Arrays.copyOfRange
                     (args.toStringArray(), 1, args.length()));
@@ -160,7 +160,7 @@ public abstract class TreeCommandHandler extends CommandHandler {
             return;
         }
 
-        CommandHandler handler = subcommands.get(args[0]);
+        BaseCommandHandler handler = subcommands.get(args[0]);
         if (handler != null) {
             handler.onCommand(sender, Arrays.copyOfRange(args, 1, args.length));
             return;

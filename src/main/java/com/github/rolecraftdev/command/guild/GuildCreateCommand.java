@@ -80,9 +80,7 @@ public class GuildCreateCommand extends PlayerCommandHandler {
             return;
         }
         if (plugin.doesUseEconomy()) {
-            final EconomyResponse response = plugin.getVaultEcon().bankHas(
-                    player.getName(), guildManager.getCreationCost());
-            if (!response.transactionSuccess()) {
+            if (!plugin.getVaultEcon().has(player.getName(), guildManager.getCreationCost())) {
                 player.sendMessage(plugin.getMessage(Messages.CANNOT_AFFORD));
                 return;
             }

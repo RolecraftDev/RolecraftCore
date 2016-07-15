@@ -90,8 +90,30 @@ public class MessageVariable {
      */
     public static final MessageVariable VALUE = new MessageVariable("$value",
             "");
+    /**
+     * The base for {@link MessageVariable} objects representing the relevant
+     * value in a configurable message.
+     *
+     * @since 0.1.0
+     */
     public static final MessageVariable CHANNEL = new MessageVariable(
             "$channel", "");
+    /**
+     * The base for {@link MessageVariable} objects representing the relevant
+     * value in a configurable message.
+     *
+     * @since 0.1.0
+     */
+    public static final MessageVariable FLAG_NAME = new MessageVariable(
+            "$flagname", "");
+    /**
+     * The base for {@link MessageVariable} objects representing the relevant
+     * value in a configurable message.
+     *
+     * @since 0.1.0
+     */
+    public static final MessageVariable FLAG_VALUE = new MessageVariable(
+            "$flagval", "");
 
     /**
      * The key of this {@link MessageVariable}.

@@ -27,7 +27,7 @@
 package com.github.rolecraftdev;
 
 import com.github.rolecraftdev.chat.ChatManager;
-import com.github.rolecraftdev.command.CommandHandler;
+import com.github.rolecraftdev.command.BaseCommandHandler;
 import com.github.rolecraftdev.command.CommandHelper;
 import com.github.rolecraftdev.command.channel.ChannelCommand;
 import com.github.rolecraftdev.command.guild.GuildCommand;
@@ -562,7 +562,7 @@ public final class RolecraftCore extends JavaPlugin {
     /**
      * @since 0.0.5
      */
-    private void register(CommandHandler handler) {
+    private void register(BaseCommandHandler handler) {
         CommandHelper.registerCommand(this, handler.getName(), handler);
     }
 }

@@ -597,11 +597,30 @@ public class Messages {
      */
     public static final String GUILD_CANNOT_CLAIM = "guild-cannot-claim";
     /**
-     * Send when a guild successfully claims new territory.
+     * Sent when a guild successfully claims new territory.
      *
      * @since 0.1.0
      */
     public static final String GUILD_LAND_CLAIMED = "guild-land-claimed";
+    /**
+     * Sent when a player successfully sets the value of a guild flag.
+     *
+     * @since 0.1.0
+     */
+    public static final String GUILD_FLAG_SET = "guild-flag-set";
+    /**
+     * Sent to a player viewing the value of a guild flag.
+     *
+     * @since 0.1.0
+     */
+    public static final String GUILD_FLAG_INFO = "guild-flag-info";
+    /**
+     * Sent to a player who attempts to view or set the value of a non-existent
+     * guild flag.
+     *
+     * @since 0.1.0
+     */
+    public static final String GUILD_FLAG_NOT_EXISTS = "guild-flag-not-exists";
 
     /**
      * General variables such as colours and styles.
